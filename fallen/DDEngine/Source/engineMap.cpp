@@ -393,127 +393,127 @@ void MAP_sprite(
         }
 
         switch (shadow) {
-            case 0:
-                ASSERT(0); // We shouldn't be doing any of this in this case.
-                break;
+        case 0:
+            ASSERT(0); // We shouldn't be doing any of this in this case.
+            break;
 
-            case 1:
+        case 1:
 
-                tri[0] = &ps[0];
-                tri[1] = quad[1];
-                tri[2] = &ps[2];
+            tri[0] = &ps[0];
+            tri[1] = quad[1];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = quad[3];
-                tri[2] = quad[2];
+            tri[0] = quad[1];
+            tri[1] = quad[3];
+            tri[2] = quad[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            case 2:
+        case 2:
 
-                tri[0] = &ps[0];
-                tri[1] = quad[1];
-                tri[2] = &ps[2];
+            tri[0] = &ps[0];
+            tri[1] = quad[1];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = quad[3];
-                tri[2] = &ps[2];
+            tri[0] = quad[1];
+            tri[1] = quad[3];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            case 3:
+        case 3:
 
-                // ps[2].colour += 0x00101010;
+            // ps[2].colour += 0x00101010;
 
-                tri[0] = quad[0];
-                tri[1] = quad[1];
-                tri[2] = &ps[2];
+            tri[0] = quad[0];
+            tri[1] = quad[1];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = quad[3];
-                tri[2] = &ps[2];
+            tri[0] = quad[1];
+            tri[1] = quad[3];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            case 4:
+        case 4:
 
-                tri[0] = quad[0];
-                tri[1] = quad[1];
-                tri[2] = &ps[2];
+            tri[0] = quad[0];
+            tri[1] = quad[1];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = &ps[3];
-                tri[2] = &ps[2];
+            tri[0] = quad[1];
+            tri[1] = &ps[3];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            case 5:
+        case 5:
 
-                tri[0] = &ps[0];
-                tri[1] = quad[1];
-                tri[2] = &ps[2];
+            tri[0] = &ps[0];
+            tri[1] = quad[1];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = &ps[3];
-                tri[2] = &ps[2];
+            tri[0] = quad[1];
+            tri[1] = &ps[3];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            case 6:
+        case 6:
 
-                tri[0] = &ps[0];
-                tri[1] = quad[1];
-                tri[2] = &ps[2];
+            tri[0] = &ps[0];
+            tri[1] = quad[1];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = quad[3];
-                tri[2] = &ps[2];
+            tri[0] = quad[1];
+            tri[1] = quad[3];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            case 7:
+        case 7:
 
-                tri[0] = quad[0];
-                tri[1] = quad[1];
-                tri[2] = quad[2];
+            tri[0] = quad[0];
+            tri[1] = quad[1];
+            tri[2] = quad[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                tri[0] = quad[1];
-                tri[1] = &ps[3];
-                tri[2] = &ps[2];
+            tri[0] = quad[1];
+            tri[1] = &ps[3];
+            tri[2] = &ps[2];
 
-                POLY_add_triangle(tri, page, false, true);
+            POLY_add_triangle(tri, page, false, true);
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     } else {
         POLY_add_quad(quad, page, false, true);
@@ -1516,33 +1516,33 @@ void MAP_draw() {
 
                 if (colour) {
                     switch (i) {
-                        case MAV_DIR_XS:
-                            x1 = MAP_SCREEN_X(mx);
-                            y1 = MAP_SCREEN_Y(mz);
-                            x2 = MAP_SCREEN_X(mx);
-                            y2 = MAP_SCREEN_Y(mz + 1);
-                            break;
+                    case MAV_DIR_XS:
+                        x1 = MAP_SCREEN_X(mx);
+                        y1 = MAP_SCREEN_Y(mz);
+                        x2 = MAP_SCREEN_X(mx);
+                        y2 = MAP_SCREEN_Y(mz + 1);
+                        break;
 
-                        case MAV_DIR_XL:
-                            x1 = MAP_SCREEN_X(mx + 1);
-                            y1 = MAP_SCREEN_Y(mz);
-                            x2 = MAP_SCREEN_X(mx + 1);
-                            y2 = MAP_SCREEN_Y(mz + 1);
-                            break;
+                    case MAV_DIR_XL:
+                        x1 = MAP_SCREEN_X(mx + 1);
+                        y1 = MAP_SCREEN_Y(mz);
+                        x2 = MAP_SCREEN_X(mx + 1);
+                        y2 = MAP_SCREEN_Y(mz + 1);
+                        break;
 
-                        case MAV_DIR_ZS:
-                            x1 = MAP_SCREEN_X(mx);
-                            y1 = MAP_SCREEN_Y(mz);
-                            x2 = MAP_SCREEN_X(mx + 1);
-                            y2 = MAP_SCREEN_Y(mz);
-                            break;
+                    case MAV_DIR_ZS:
+                        x1 = MAP_SCREEN_X(mx);
+                        y1 = MAP_SCREEN_Y(mz);
+                        x2 = MAP_SCREEN_X(mx + 1);
+                        y2 = MAP_SCREEN_Y(mz);
+                        break;
 
-                        case MAV_DIR_ZL:
-                            x1 = MAP_SCREEN_X(mx);
-                            y1 = MAP_SCREEN_Y(mz + 1);
-                            x2 = MAP_SCREEN_X(mx + 1);
-                            y2 = MAP_SCREEN_Y(mz + 1);
-                            break;
+                    case MAV_DIR_ZL:
+                        x1 = MAP_SCREEN_X(mx);
+                        y1 = MAP_SCREEN_Y(mz + 1);
+                        x2 = MAP_SCREEN_X(mx + 1);
+                        y2 = MAP_SCREEN_Y(mz + 1);
+                        break;
                     }
 
                     MAP_draw_line(
@@ -1570,90 +1570,90 @@ void MAP_draw() {
                 p_thing = TO_THING(index);
 
                 switch (p_thing->Class) {
-                    case CLASS_PERSON:
+                case CLASS_PERSON:
 
-                        switch (p_thing->Genus.Person->PersonType) {
-                            case PERSON_DARCI:
-                            case PERSON_ROPER:
-                                scale = float(GetTickCount());
-                                scale *= 0.02F;
-                                scale = sin(scale);
-                                scale *= 0.2F;
-                                scale += 1.0F;
-                                scale *= MAP_scale_x;
-                                colour = 0xffffffff;
-                                break;
-
-                            case PERSON_COP:
-
-                                red = ((GetTickCount() >> 3)) & 0x1ff;
-                                blue = ((GetTickCount() >> 3) + 0xff) & 0x1ff;
-
-                                if (red > 0xff) {
-                                    red = 0x1ff - red;
-                                }
-                                if (blue > 0xff) {
-                                    blue = 0x1ff - blue;
-                                }
-
-                                colour = 0xff000000;
-                                colour |= red << 16;
-                                colour |= blue;
-                                scale = MAP_scale_x * 0.5F;
-                                break;
-
-                            case PERSON_THUG_RASTA:
-                            case PERSON_THUG_GREY:
-                            case PERSON_THUG_RED:
-                                scale = MAP_scale_x * 0.5F;
-                                colour = 0xffff0000;
-                                break;
-
-                            case PERSON_SLAG_TART:
-                            case PERSON_SLAG_FATUGLY:
-                                scale = MAP_scale_x * 0.5F;
-                                colour = 0xffffff00;
-                                break;
-
-                            case PERSON_CIV:
-                            case PERSON_MECHANIC:
-                                scale = MAP_scale_x * 0.5F;
-                                colour = 0xff00ff00;
-                                break;
-
-                            case PERSON_HOSTAGE:
-                                scale = MAP_scale_x * 0.5F;
-                                colour = 0xffff00ff;
-                                break;
-
-                            default:
-                                scale = MAP_scale_x * 0.5F;
-                                colour = 0xff888888;
-                                break;
-                        }
-
-                        MAP_draw_dot(
-                            MAP_SCREEN_X(float(p_thing->WorldPos.X) * (1.0F / 65536.0F)),
-                            MAP_SCREEN_Y(float(p_thing->WorldPos.Z) * (1.0F / 65536.0F)),
-                            scale,
-                            float(p_thing->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F),
-                            colour);
-
+                    switch (p_thing->Genus.Person->PersonType) {
+                    case PERSON_DARCI:
+                    case PERSON_ROPER:
+                        scale = float(GetTickCount());
+                        scale *= 0.02F;
+                        scale = sin(scale);
+                        scale *= 0.2F;
+                        scale += 1.0F;
+                        scale *= MAP_scale_x;
+                        colour = 0xffffffff;
                         break;
 
-                    case CLASS_VEHICLE:
+                    case PERSON_COP:
 
-                        MAP_draw_dot(
-                            MAP_SCREEN_X(float(p_thing->WorldPos.X) * (1.0F / 65536.0F)),
-                            MAP_SCREEN_Y(float(p_thing->WorldPos.Z) * (1.0F / 65536.0F)),
-                            MAP_scale_x * 2.0F,
-                            float(p_thing->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
-                            0xff0000ff);
+                        red = ((GetTickCount() >> 3)) & 0x1ff;
+                        blue = ((GetTickCount() >> 3) + 0xff) & 0x1ff;
 
+                        if (red > 0xff) {
+                            red = 0x1ff - red;
+                        }
+                        if (blue > 0xff) {
+                            blue = 0x1ff - blue;
+                        }
+
+                        colour = 0xff000000;
+                        colour |= red << 16;
+                        colour |= blue;
+                        scale = MAP_scale_x * 0.5F;
+                        break;
+
+                    case PERSON_THUG_RASTA:
+                    case PERSON_THUG_GREY:
+                    case PERSON_THUG_RED:
+                        scale = MAP_scale_x * 0.5F;
+                        colour = 0xffff0000;
+                        break;
+
+                    case PERSON_SLAG_TART:
+                    case PERSON_SLAG_FATUGLY:
+                        scale = MAP_scale_x * 0.5F;
+                        colour = 0xffffff00;
+                        break;
+
+                    case PERSON_CIV:
+                    case PERSON_MECHANIC:
+                        scale = MAP_scale_x * 0.5F;
+                        colour = 0xff00ff00;
+                        break;
+
+                    case PERSON_HOSTAGE:
+                        scale = MAP_scale_x * 0.5F;
+                        colour = 0xffff00ff;
                         break;
 
                     default:
+                        scale = MAP_scale_x * 0.5F;
+                        colour = 0xff888888;
                         break;
+                    }
+
+                    MAP_draw_dot(
+                        MAP_SCREEN_X(float(p_thing->WorldPos.X) * (1.0F / 65536.0F)),
+                        MAP_SCREEN_Y(float(p_thing->WorldPos.Z) * (1.0F / 65536.0F)),
+                        scale,
+                        float(p_thing->Draw.Tweened->Angle) * (2.0F * PI / 2048.0F),
+                        colour);
+
+                    break;
+
+                case CLASS_VEHICLE:
+
+                    MAP_draw_dot(
+                        MAP_SCREEN_X(float(p_thing->WorldPos.X) * (1.0F / 65536.0F)),
+                        MAP_SCREEN_Y(float(p_thing->WorldPos.Z) * (1.0F / 65536.0F)),
+                        MAP_scale_x * 2.0F,
+                        float(p_thing->Genus.Vehicle->Angle) * (2.0F * PI / 2048.0F),
+                        0xff0000ff);
+
+                    break;
+
+                default:
+                    break;
                 }
 
                 index = p_thing->Child;

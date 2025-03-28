@@ -112,7 +112,8 @@ ControlDef colour_def[] =
 ControlDef style_def[] =
     {
         {V_SLIDER, 0, "", 1, 30, 50, 300},
-        {0}};
+        {0}
+};
 
 #define CTRL_TEX_PAGE_TEXT 1
 #define CTRL_TEX_PAGE_MENU 2
@@ -176,7 +177,8 @@ ControlDef texture_def[] =
         {BUTTON, 0, "Show Tex Info", 100, 350, 0, 0},
         {BUTTON, 0, "ClearTex", 150, 470, 0, 0},
 
-        {0}};
+        {0}
+};
 
 extern void sync_animtmaps(void);
 
@@ -369,35 +371,35 @@ void PaintTab::DrawTabContent(void) {
     }
 
     switch (PaintMode) {
-        case PALETTE_PAINT:
-            UpdatePaletteInfo();
-            DrawPalette();
-            //			DrawControlSet();
-            //			PaintRect.HiliteRect(LOLITE_COL,HILITE_COL);
-            PaintRect.HiliteRect(LOLITE_COL, HILITE_COL);
-            break;
-        case INSTYLE_DEFINE:
-        case STYLE_DEFINE:
-        case PSX_TEX_DEFINE:
-        case ANIM_TMAP_PAINT:
-        case FLOOR_PAINT:
-        case TEXTURE_PAINT:
-        case PLANAR_PAINT:
-            UpdateTextureInfo();
-            DrawTexture();
-            //			bounds_rect.SetRect(ContentLeft(),ContentTop(),ContentWidth(),ContentHeight());
-            //			TextureSet.ControlSetBounds(&bounds_rect);
-            //			TextureSet.DrawControlSet();
-            //			PaintRect.HiliteRect(LOLITE_COL,HILITE_COL);
-            break;
-        case STYLE_PAINT:
-            DrawStyleTexture();
-            bounds_rect.SetRect(ContentLeft(), ContentTop(), ContentWidth(), ContentHeight());
-            StyleSet.ControlSetBounds(&bounds_rect);
-            StyleSet.DrawControlSet();
-            break;
-        default:
-            break;
+    case PALETTE_PAINT:
+        UpdatePaletteInfo();
+        DrawPalette();
+        //			DrawControlSet();
+        //			PaintRect.HiliteRect(LOLITE_COL,HILITE_COL);
+        PaintRect.HiliteRect(LOLITE_COL, HILITE_COL);
+        break;
+    case INSTYLE_DEFINE:
+    case STYLE_DEFINE:
+    case PSX_TEX_DEFINE:
+    case ANIM_TMAP_PAINT:
+    case FLOOR_PAINT:
+    case TEXTURE_PAINT:
+    case PLANAR_PAINT:
+        UpdateTextureInfo();
+        DrawTexture();
+        //			bounds_rect.SetRect(ContentLeft(),ContentTop(),ContentWidth(),ContentHeight());
+        //			TextureSet.ControlSetBounds(&bounds_rect);
+        //			TextureSet.DrawControlSet();
+        //			PaintRect.HiliteRect(LOLITE_COL,HILITE_COL);
+        break;
+    case STYLE_PAINT:
+        DrawStyleTexture();
+        bounds_rect.SetRect(ContentLeft(), ContentTop(), ContentWidth(), ContentHeight());
+        StyleSet.ControlSetBounds(&bounds_rect);
+        StyleSet.DrawControlSet();
+        break;
+    default:
+        break;
     }
 
     //
@@ -507,46 +509,46 @@ void PaintTab::SelectStyle(MFPoint *clicked_point) {
             CurrentTexturePage = textures_xy[CurrentStyleEdit][0].Page;
 
             switch (textures_xy[CurrentStyleEdit][0].Flip) {
-                case 0:
-                    UV[0][0] = tx;
-                    UV[0][1] = ty;
-                    UV[1][0] = tx + 31;
-                    UV[1][1] = ty;
-                    UV[2][0] = tx;
-                    UV[2][1] = ty + 31;
-                    UV[3][0] = tx + 31;
-                    UV[3][1] = ty + 31;
-                    break;
-                case 1: // flip x
-                    UV[0][0] = tx + 31;
-                    UV[0][1] = ty;
-                    UV[1][0] = tx;
-                    UV[1][1] = ty;
-                    UV[2][0] = tx + 31;
-                    UV[2][1] = ty + 31;
-                    UV[3][0] = tx;
-                    UV[3][1] = ty + 31;
-                    break;
-                case 2: // flip y
-                    UV[0][0] = tx;
-                    UV[0][1] = ty + 31;
-                    UV[1][0] = tx + 31;
-                    UV[1][1] = ty + 31;
-                    UV[2][0] = tx;
-                    UV[2][1] = ty;
-                    UV[3][0] = tx + 31;
-                    UV[3][1] = ty;
-                    break;
-                case 3: // flip x+y
-                    UV[0][0] = tx + 31;
-                    UV[0][1] = ty + 31;
-                    UV[1][0] = tx;
-                    UV[1][1] = ty + 31;
-                    UV[2][0] = tx + 31;
-                    UV[2][1] = ty;
-                    UV[3][0] = tx;
-                    UV[3][1] = ty;
-                    break;
+            case 0:
+                UV[0][0] = tx;
+                UV[0][1] = ty;
+                UV[1][0] = tx + 31;
+                UV[1][1] = ty;
+                UV[2][0] = tx;
+                UV[2][1] = ty + 31;
+                UV[3][0] = tx + 31;
+                UV[3][1] = ty + 31;
+                break;
+            case 1: // flip x
+                UV[0][0] = tx + 31;
+                UV[0][1] = ty;
+                UV[1][0] = tx;
+                UV[1][1] = ty;
+                UV[2][0] = tx + 31;
+                UV[2][1] = ty + 31;
+                UV[3][0] = tx;
+                UV[3][1] = ty + 31;
+                break;
+            case 2: // flip y
+                UV[0][0] = tx;
+                UV[0][1] = ty + 31;
+                UV[1][0] = tx + 31;
+                UV[1][1] = ty + 31;
+                UV[2][0] = tx;
+                UV[2][1] = ty;
+                UV[3][0] = tx + 31;
+                UV[3][1] = ty;
+                break;
+            case 3: // flip x+y
+                UV[0][0] = tx + 31;
+                UV[0][1] = ty + 31;
+                UV[1][0] = tx;
+                UV[1][1] = ty + 31;
+                UV[2][0] = tx + 31;
+                UV[2][1] = ty;
+                UV[3][0] = tx;
+                UV[3][1] = ty;
+                break;
             }
 
             for (c1 = 0; c1 < 4; c1++) {
@@ -595,135 +597,177 @@ void PaintTab::DrawTexture(void) {
     DrawAnimTmapSelector();
     if (CurrentTexturePage >= 0) {
         switch (WorkScreenDepth) {
-            case 1: {
-                /*
-                                                std::uint8_t		*texture_ptr;
-                                                std::uint8_t		*rect_ptr;
-                                                std::uint8_t		*buffer_ptr;
-                                                std::uint8_t		texture_buffer[256];
+        case 1: {
+            /*
+                                            std::uint8_t		*texture_ptr;
+                                            std::uint8_t		*rect_ptr;
+                                            std::uint8_t		*buffer_ptr;
+                                            std::uint8_t		texture_buffer[256];
 
 
-                                                SET_TEXTURE_COORDS
+                                            SET_TEXTURE_COORDS
 
-                                                rect_ptr	=	WorkWindow+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenWidth);
-                                                if(Keys[KB_9])
-                                                        texture_ptr	=	tmap2+texture_x+(texture_y*256);
-                                                else
-                                                        texture_ptr	=	game_textures[CurrentTexturePage].TexturePtr+texture_x+(texture_y*256);
-                                                c0	=	256;
+                                            rect_ptr	=	WorkWindow+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenWidth);
+                                            if(Keys[KB_9])
+                                                    texture_ptr	=	tmap2+texture_x+(texture_y*256);
+                                            else
+                                                    texture_ptr	=	game_textures[CurrentTexturePage].TexturePtr+texture_x+(texture_y*256);
+                                            c0	=	256;
 
-                                                while(c0)
-                                                {
-                                                        buffer_ptr	=	&texture_buffer[255];
-                                                        c1			=	1<<TextureZoom;
-                                                        while(c1)
-                                                        {
-                                                                pixel	=	texture_ptr[c1-1];
-                                                                zoom	=	256>>TextureZoom;
-                                                                while(zoom--)
-                                                                {
-                                                                        *(buffer_ptr--)	=	pixel;
-                                                                }
-                                                                c1--;
-                                                        }
+                                            while(c0)
+                                            {
+                                                    buffer_ptr	=	&texture_buffer[255];
+                                                    c1			=	1<<TextureZoom;
+                                                    while(c1)
+                                                    {
+                                                            pixel	=	texture_ptr[c1-1];
+                                                            zoom	=	256>>TextureZoom;
+                                                            while(zoom--)
+                                                            {
+                                                                    *(buffer_ptr--)	=	pixel;
+                                                            }
+                                                            c1--;
+                                                    }
 
-                                                        zoom	=	256>>TextureZoom;
-                                                        c0		-=	zoom;
-                                                        while(zoom)
-                                                        {
-                                                                memcpy(rect_ptr,texture_buffer,256);
-                                                                rect_ptr	+=	WorkScreenWidth;
-                                                                zoom--;
-                                                        }
-                                                        texture_ptr	+=	256;
-                                                }
-                */
-            } break;
+                                                    zoom	=	256>>TextureZoom;
+                                                    c0		-=	zoom;
+                                                    while(zoom)
+                                                    {
+                                                            memcpy(rect_ptr,texture_buffer,256);
+                                                            rect_ptr	+=	WorkScreenWidth;
+                                                            zoom--;
+                                                    }
+                                                    texture_ptr	+=	256;
+                                            }
+            */
+        } break;
 
-            case 2:
-                /*
-                                                if (Keys[KB_8])
-                                                {
-                                                        std::uint8_t		*texture_ptr;
-                                                        std::uint16_t		*rect_ptr;
-                                                        std::uint16_t		*buffer_ptr;
-                                                        std::uint16_t		texture_buffer[256];
+        case 2:
+            /*
+                                            if (Keys[KB_8])
+                                            {
+                                                    std::uint8_t		*texture_ptr;
+                                                    std::uint16_t		*rect_ptr;
+                                                    std::uint16_t		*buffer_ptr;
+                                                    std::uint16_t		texture_buffer[256];
 
 
-                                                        SET_TEXTURE_COORDS
+                                                    SET_TEXTURE_COORDS
 
-                                                        rect_ptr	=	((std::uint16_t*)WorkWindow)+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenPixelWidth);
-                                                        if(Keys[KB_9])
-                                                                texture_ptr	=	tmap2+texture_x+(texture_y*256);
-                                                        else
-                                                                texture_ptr	=	game_textures[CurrentTexturePage].TexturePtr+texture_x+(texture_y*256);
-                                                        c0	=	256;
+                                                    rect_ptr	=	((std::uint16_t*)WorkWindow)+PaintRect.GetLeft()+1+((PaintRect.GetTop()+1)*WorkScreenPixelWidth);
+                                                    if(Keys[KB_9])
+                                                            texture_ptr	=	tmap2+texture_x+(texture_y*256);
+                                                    else
+                                                            texture_ptr	=	game_textures[CurrentTexturePage].TexturePtr+texture_x+(texture_y*256);
+                                                    c0	=	256;
 
-                                                        while(c0)
-                                                        {
-                                                                buffer_ptr	=	&texture_buffer[255];
-                                                                c1			=	1<<TextureZoom;
-                                                                while(c1)
-                                                                {
-                        extern std::uint16_t	pal_to_16[];
-                        extern std::uint16_t	yc_to_555[8][256*64];
-                                                                        pixel	=	yc_to_555[CurrentTexturePage][texture_ptr[c1-1]+(256*32)];
-                                                                        zoom	=	256>>TextureZoom;
-                                                                        while(zoom--)
-                                                                        {
-                                                                                *(buffer_ptr--)	=	pixel;
-                                                                        }
-                                                                        c1--;
-                                                                }
+                                                    while(c0)
+                                                    {
+                                                            buffer_ptr	=	&texture_buffer[255];
+                                                            c1			=	1<<TextureZoom;
+                                                            while(c1)
+                                                            {
+                    extern std::uint16_t	pal_to_16[];
+                    extern std::uint16_t	yc_to_555[8][256*64];
+                                                                    pixel	=	yc_to_555[CurrentTexturePage][texture_ptr[c1-1]+(256*32)];
+                                                                    zoom	=	256>>TextureZoom;
+                                                                    while(zoom--)
+                                                                    {
+                                                                            *(buffer_ptr--)	=	pixel;
+                                                                    }
+                                                                    c1--;
+                                                            }
 
-                                                                zoom	=	256>>TextureZoom;
-                                                                c0		-=	zoom;
-                                                                while(zoom)
-                                                                {
-                                                                        memcpy(rect_ptr,texture_buffer,256*2);
-                                                                        rect_ptr	+=	WorkScreenPixelWidth;
-                                                                        zoom--;
-                                                                }
-                                                                texture_ptr	+=	256;
-                                                        }
-                                                }
-                                                else
-                */
-                {
-                    //
-                    // Ugh! Whats this!!!
-                    //
+                                                            zoom	=	256>>TextureZoom;
+                                                            c0		-=	zoom;
+                                                            while(zoom)
+                                                            {
+                                                                    memcpy(rect_ptr,texture_buffer,256*2);
+                                                                    rect_ptr	+=	WorkScreenPixelWidth;
+                                                                    zoom--;
+                                                            }
+                                                            texture_ptr	+=	256;
+                                                    }
+                                            }
+                                            else
+            */
+            {
+                //
+                // Ugh! Whats this!!!
+                //
 
-                    SET_TEXTURE_COORDS
+                SET_TEXTURE_COORDS
 
-                    std::uint16_t *rect_ptr = ((std::uint16_t *) WorkWindow) + PaintRect.GetLeft() + 1 + ((PaintRect.GetTop() + 1) * WorkScreenPixelWidth);
-                    std::uint16_t *text_ptr = game_textures[CurrentTexturePage].TexturePtr;
+                std::uint16_t *rect_ptr = ((std::uint16_t *) WorkWindow) + PaintRect.GetLeft() + 1 + ((PaintRect.GetTop() + 1) * WorkScreenPixelWidth);
+                std::uint16_t *text_ptr = game_textures[CurrentTexturePage].TexturePtr;
 
-                    std::int32_t i;
-                    std::int32_t j;
+                std::int32_t i;
+                std::int32_t j;
 
-                    std::int32_t zoom = 256 >> TextureZoom;
-                    std::int32_t unzoom = 8 - TextureZoom;
+                std::int32_t zoom = 256 >> TextureZoom;
+                std::int32_t unzoom = 8 - TextureZoom;
 
-                    if (zoom == 1) {
-                        for (i = 0; i < 256; i++) {
-                            memcpy(rect_ptr, text_ptr, 512);
+                if (zoom == 1) {
+                    for (i = 0; i < 256; i++) {
+                        memcpy(rect_ptr, text_ptr, 512);
 
-                            text_ptr += 256;
-                            rect_ptr += WorkScreenPixelWidth;
+                        text_ptr += 256;
+                        rect_ptr += WorkScreenPixelWidth;
+                    }
+                    if (show_info)
+                        if (CurrentTexturePage < 8) {
+                            char str[100];
+                            std::int32_t x, y, page;
+                            page = CurrentTexturePage * 64;
+                            extern std::uint16_t page_count[];
+                            for (y = 0; y < 8; y++)
+                                for (x = 0; x < 8; x++) {
+                                    // sprintf(str,"%d",page_count[page]);
+                                    sprintf(str, "%d(%d)", page_count[page], page);
+                                    QuickText(PaintRect.GetLeft() + x * 32, PaintRect.GetTop() + y * 32, str, 0);
+                                    QuickText(PaintRect.GetLeft() + x * 32 + 1, PaintRect.GetTop() + y * 32 + 1, str, WHITE_COL);
+                                    if (page_remap[page]) {
+                                        std::int32_t u, v, flip = 0;
+                                        std::uint16_t rpage;
+
+                                        rpage = page_remap[page] - 1;
+
+                                        u = (rpage & 7) << 5;
+                                        v = ((rpage >> 3) & 7) << 5;
+                                        if (rpage & (1 << 14))
+                                            flip = 1;
+                                        if (rpage & (1 << 15))
+                                            flip |= 2;
+
+                                        draw_quad_now(PaintRect.GetLeft() + x * 32 + 16, PaintRect.GetTop() + y * 32 + 16, 16, 16, u, v, ((rpage >> 6) & 7) + 25, flip, POLY_T);
+                                    }
+                                    page++;
+                                }
                         }
-                        if (show_info)
-                            if (CurrentTexturePage < 8) {
-                                char str[100];
-                                std::int32_t x, y, page;
-                                page = CurrentTexturePage * 64;
-                                extern std::uint16_t page_count[];
-                                for (y = 0; y < 8; y++)
-                                    for (x = 0; x < 8; x++) {
-                                        // sprintf(str,"%d",page_count[page]);
+
+                } else {
+                    for (i = 0; i < 256; i++)
+                        for (j = 0; j < 256; j++) {
+                            rect_ptr[i + j * WorkScreenPixelWidth] = text_ptr[((i >> unzoom) + texture_x) + ((j >> unzoom) + texture_y) * 256];
+                        }
+                    if (show_info)
+                        if (CurrentTexturePage < 8) {
+                            char str[100];
+                            std::int32_t x, y, page;
+                            page = CurrentTexturePage * 64;
+                            extern std::uint16_t page_count[];
+                            for (y = 0; y < 8; y++)
+                                for (x = 0; x < 8; x++) {
+                                    std::int32_t zoom_x, zoom_y;
+
+                                    zoom_x = ((x * 32) << unzoom) - (texture_x << unzoom);
+                                    zoom_y = ((y * 32) << unzoom) - (texture_y << unzoom);
+
+                                    if (zoom_x >= 0 && zoom_x < 246 && zoom_y >= 0 && zoom_y < 246) {
                                         sprintf(str, "%d(%d)", page_count[page], page);
-                                        QuickText(PaintRect.GetLeft() + x * 32, PaintRect.GetTop() + y * 32, str, 0);
-                                        QuickText(PaintRect.GetLeft() + x * 32 + 1, PaintRect.GetTop() + y * 32 + 1, str, WHITE_COL);
+                                        QuickText(PaintRect.GetLeft() + zoom_x, PaintRect.GetTop() + zoom_y, str, 0);
+                                        QuickText(PaintRect.GetLeft() + zoom_x + 1, PaintRect.GetTop() + zoom_y + 1, str, WHITE_COL);
+
                                         if (page_remap[page]) {
                                             std::int32_t u, v, flip = 0;
                                             std::uint16_t rpage;
@@ -737,58 +781,16 @@ void PaintTab::DrawTexture(void) {
                                             if (rpage & (1 << 15))
                                                 flip |= 2;
 
-                                            draw_quad_now(PaintRect.GetLeft() + x * 32 + 16, PaintRect.GetTop() + y * 32 + 16, 16, 16, u, v, ((rpage >> 6) & 7) + 25, flip, POLY_T);
+                                            draw_quad_now(PaintRect.GetLeft() + zoom_x + (16 << unzoom), PaintRect.GetTop() + zoom_y + (16 << unzoom), 16 << unzoom, 16 << unzoom, u, v, ((rpage >> 6) & 7) + 25, flip, POLY_T);
                                         }
-                                        page++;
                                     }
-                            }
-
-                    } else {
-                        for (i = 0; i < 256; i++)
-                            for (j = 0; j < 256; j++) {
-                                rect_ptr[i + j * WorkScreenPixelWidth] = text_ptr[((i >> unzoom) + texture_x) + ((j >> unzoom) + texture_y) * 256];
-                            }
-                        if (show_info)
-                            if (CurrentTexturePage < 8) {
-                                char str[100];
-                                std::int32_t x, y, page;
-                                page = CurrentTexturePage * 64;
-                                extern std::uint16_t page_count[];
-                                for (y = 0; y < 8; y++)
-                                    for (x = 0; x < 8; x++) {
-                                        std::int32_t zoom_x, zoom_y;
-
-                                        zoom_x = ((x * 32) << unzoom) - (texture_x << unzoom);
-                                        zoom_y = ((y * 32) << unzoom) - (texture_y << unzoom);
-
-                                        if (zoom_x >= 0 && zoom_x < 246 && zoom_y >= 0 && zoom_y < 246) {
-                                            sprintf(str, "%d(%d)", page_count[page], page);
-                                            QuickText(PaintRect.GetLeft() + zoom_x, PaintRect.GetTop() + zoom_y, str, 0);
-                                            QuickText(PaintRect.GetLeft() + zoom_x + 1, PaintRect.GetTop() + zoom_y + 1, str, WHITE_COL);
-
-                                            if (page_remap[page]) {
-                                                std::int32_t u, v, flip = 0;
-                                                std::uint16_t rpage;
-
-                                                rpage = page_remap[page] - 1;
-
-                                                u = (rpage & 7) << 5;
-                                                v = ((rpage >> 3) & 7) << 5;
-                                                if (rpage & (1 << 14))
-                                                    flip = 1;
-                                                if (rpage & (1 << 15))
-                                                    flip |= 2;
-
-                                                draw_quad_now(PaintRect.GetLeft() + zoom_x + (16 << unzoom), PaintRect.GetTop() + zoom_y + (16 << unzoom), 16 << unzoom, 16 << unzoom, u, v, ((rpage >> 6) & 7) + 25, flip, POLY_T);
-                                            }
-                                        }
-                                        page++;
-                                    }
-                            }
-                    }
+                                    page++;
+                                }
+                        }
                 }
+            }
 
-                break;
+            break;
         }
         // show fade table
         /*
@@ -962,45 +964,45 @@ void PaintTab::do_undo_me_bloody_self_then(std::int32_t index) {
         p_u = &MyUndo.undo_info[index];
 
     switch (p_u->Type) {
-        case UNDO_MOVE_TEXTURE:
-            p_u->Type = 0;
-            MyUndo.MoveTexture(index < 0 ? 0 : 1, CurrentTexturePage, 0, CurrentTexture.U[0], CurrentTexture.V[0], CurrentTexture.U[1], CurrentTexture.V[1],
-                               CurrentTexture.U[2], CurrentTexture.V[2], CurrentTexture.U[3], CurrentTexture.V[3]);
+    case UNDO_MOVE_TEXTURE:
+        p_u->Type = 0;
+        MyUndo.MoveTexture(index < 0 ? 0 : 1, CurrentTexturePage, 0, CurrentTexture.U[0], CurrentTexture.V[0], CurrentTexture.U[1], CurrentTexture.V[1],
+                           CurrentTexture.U[2], CurrentTexture.V[2], CurrentTexture.U[3], CurrentTexture.V[3]);
 
-            CurrentTexturePage = p_u->Texture.Page;
-            CurrentTexture.U[0] = p_u->Texture.U[0];
-            CurrentTexture.U[1] = p_u->Texture.U[1];
-            CurrentTexture.U[2] = p_u->Texture.U[2];
-            CurrentTexture.U[3] = p_u->Texture.U[3];
-            CurrentTexture.V[0] = p_u->Texture.V[0];
-            CurrentTexture.V[1] = p_u->Texture.V[1];
-            CurrentTexture.V[2] = p_u->Texture.V[2];
-            CurrentTexture.V[3] = p_u->Texture.V[3];
-            //				if(selected_face.Face)
-            if (selected_face.PEle) {
-                if (selected_face.PEle == (struct EditMapElement *) -2) {
-                } else if (selected_face.PEle == (struct EditMapElement *) -1) {
-                    if (selected_face.Face < 0) {
-                        prim_faces3[-selected_face.Face].TexturePage = (std::uint16_t) CurrentTexturePage;
-                        for (c0 = 0; c0 < 3; c0++) {
-                            prim_faces3[-selected_face.Face].UV[c0][0] = CurrentTexture.U[c0];
-                            prim_faces3[-selected_face.Face].UV[c0][1] = CurrentTexture.V[c0];
-                        }
-                    } else {
-                        prim_faces4[selected_face.Face].TexturePage = (std::uint16_t) CurrentTexturePage;
-                        for (c0 = 0; c0 < 4; c0++) {
-                            prim_faces4[selected_face.Face].UV[c0][0] = CurrentTexture.U[c0];
-                            prim_faces4[selected_face.Face].UV[c0][1] = CurrentTexture.V[c0];
-                        }
+        CurrentTexturePage = p_u->Texture.Page;
+        CurrentTexture.U[0] = p_u->Texture.U[0];
+        CurrentTexture.U[1] = p_u->Texture.U[1];
+        CurrentTexture.U[2] = p_u->Texture.U[2];
+        CurrentTexture.U[3] = p_u->Texture.U[3];
+        CurrentTexture.V[0] = p_u->Texture.V[0];
+        CurrentTexture.V[1] = p_u->Texture.V[1];
+        CurrentTexture.V[2] = p_u->Texture.V[2];
+        CurrentTexture.V[3] = p_u->Texture.V[3];
+        //				if(selected_face.Face)
+        if (selected_face.PEle) {
+            if (selected_face.PEle == (struct EditMapElement *) -2) {
+            } else if (selected_face.PEle == (struct EditMapElement *) -1) {
+                if (selected_face.Face < 0) {
+                    prim_faces3[-selected_face.Face].TexturePage = (std::uint16_t) CurrentTexturePage;
+                    for (c0 = 0; c0 < 3; c0++) {
+                        prim_faces3[-selected_face.Face].UV[c0][0] = CurrentTexture.U[c0];
+                        prim_faces3[-selected_face.Face].UV[c0][1] = CurrentTexture.V[c0];
+                    }
+                } else {
+                    prim_faces4[selected_face.Face].TexturePage = (std::uint16_t) CurrentTexturePage;
+                    for (c0 = 0; c0 < 4; c0++) {
+                        prim_faces4[selected_face.Face].UV[c0][0] = CurrentTexture.U[c0];
+                        prim_faces4[selected_face.Face].UV[c0][1] = CurrentTexture.V[c0];
                     }
                 }
-                if (LockWorkScreen()) {
-                    Parent->DrawContent();
-                    UnlockWorkScreen();
-                    ShowWorkWindow(0);
-                }
             }
-            break;
+            if (LockWorkScreen()) {
+                Parent->DrawContent();
+                UnlockWorkScreen();
+                ShowWorkWindow(0);
+            }
+        }
+        break;
     }
 }
 
@@ -1314,7 +1316,8 @@ std::uint32_t hooks[4][2] =
         {2, 1},
         {3, 0},
         {0, 3},
-        {1, 2}};
+        {1, 2}
+};
 
 void PaintTab::SelectAnimTexture(MFPoint *clicked_point) {
     std::int32_t x, y;
@@ -1355,120 +1358,120 @@ std::uint16_t PaintTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
         local_point;
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            if (AnimRect.PointInRect(&local_point) && RightButton == 0 && PaintMode != STYLE_PAINT) {
-                SelectAnimTexture(&local_point);
-                UpdateTexture();
-            } else if ((PaintRect.PointInRect(&local_point)) && (RightButton == 0) && (PaintMode != STYLE_PAINT)) {
-                if (PaintMode == FLOOR_PAINT || PaintMode == TEXTURE_PAINT || PaintMode == ANIM_TMAP_PAINT || PaintMode == STYLE_DEFINE || PaintMode == PSX_TEX_DEFINE || PaintMode == INSTYLE_DEFINE) {
-                    SelectTexture(clicked_point);
-                    SubMode = 0;
-                } else if (PaintMode == PALETTE_PAINT)
-                    SelectColour(clicked_point);
-                else if (PaintMode == PLANAR_PAINT)
-                    PlanarMapping(clicked_point);
-
-            } else {
-                if (PaintMode == STYLE_PAINT) {
-                    SelectStyle(clicked_point);
-                }
-
-                local_point = *clicked_point;
-                GlobalToLocal(&local_point);
-                /*
-                                                control_id	=	HandleControlSetClick(flags,&local_point);
-                                                HandleControl(control_id);
-                */
-
-                current_control = GetControlList(); // ts
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        control_id = current_control->TrackControl(&local_point);
-                        HandleControl(control_id);
-
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        return control_id;
-                    }
-                    current_control = current_control->GetNextControl();
-                }
-
-                /*
-                                                if(control_id)
-                                                {
-                                                        return	control_id;
-                                                }
-                                                else
-                */
-                {
-                    if (PaintMode == PALETTE_PAINT) {
-                        control_id = PaletteSet.HandleControlSetClick(flags, clicked_point);
-                        HandlePaletteControl(control_id);
-                    } else if (PaintMode == STYLE_PAINT) {
-                        control_id = StyleSet.HandleControlSetClick(flags, clicked_point);
-                        HandleStyleControl(control_id);
-                    } else {
-                        control_id = HandleControlSetClick(flags, clicked_point); // ts
-                        HandleTextureControl(control_id);
-                    }
-                }
-            }
-            break;
-        case RIGHT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            if (PaintMode == STYLE_PAINT) {
-            } else if (AnimRect.PointInRect(&local_point)) {
-                SetEditAnimTexture(&local_point);
-                UpdateTexture();
-            } else if (PaintRect.PointInRect(&local_point)) {
-                zoom = 0;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        if (AnimRect.PointInRect(&local_point) && RightButton == 0 && PaintMode != STYLE_PAINT) {
+            SelectAnimTexture(&local_point);
+            UpdateTexture();
+        } else if ((PaintRect.PointInRect(&local_point)) && (RightButton == 0) && (PaintMode != STYLE_PAINT)) {
+            if (PaintMode == FLOOR_PAINT || PaintMode == TEXTURE_PAINT || PaintMode == ANIM_TMAP_PAINT || PaintMode == STYLE_DEFINE || PaintMode == PSX_TEX_DEFINE || PaintMode == INSTYLE_DEFINE) {
+                SelectTexture(clicked_point);
                 SubMode = 0;
-                while (SHELL_ACTIVE && RightButton) {
-                    current_point.X = MouseX;
-                    current_point.Y = MouseY;
-                    GlobalToLocal(&current_point);
-                    if (current_point.X != local_point.X || current_point.Y != local_point.Y) {
-                        if (LeftButton) {
-                            zoom += local_point.Y - current_point.Y;
-                            if ((zoom / 4)) {
-                                TextureZoom += zoom / 4;
-                                zoom = 0;
-                            }
-                            if (TextureZoom < 0)
-                                TextureZoom = 0;
-                            else if (TextureZoom > 8)
-                                TextureZoom = 8;
-                        } else {
-                            TextureX += local_point.X - current_point.X;
-                            TextureY += local_point.Y - current_point.Y;
-                            if (TextureX < 0)
-                                TextureX = 0;
-                            else if (TextureX > (256 - (1 << TextureZoom)))
-                                TextureX = (256 - (1 << TextureZoom));
-                            if (TextureY < 0)
-                                TextureY = 0;
-                            else if (TextureY > (256 - (1 << TextureZoom)))
-                                TextureY = (256 - (1 << TextureZoom));
-                        }
-                        UpdateTexture();
-                        local_point = current_point;
+            } else if (PaintMode == PALETTE_PAINT)
+                SelectColour(clicked_point);
+            else if (PaintMode == PLANAR_PAINT)
+                PlanarMapping(clicked_point);
+
+        } else {
+            if (PaintMode == STYLE_PAINT) {
+                SelectStyle(clicked_point);
+            }
+
+            local_point = *clicked_point;
+            GlobalToLocal(&local_point);
+            /*
+                                            control_id	=	HandleControlSetClick(flags,&local_point);
+                                            HandleControl(control_id);
+            */
+
+            current_control = GetControlList(); // ts
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    control_id = current_control->TrackControl(&local_point);
+                    HandleControl(control_id);
+
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        DrawTab();
+                        UnlockWorkScreen();
                     }
+                    ShowWorkWindow(0);
+
+                    return control_id;
+                }
+                current_control = current_control->GetNextControl();
+            }
+
+            /*
+                                            if(control_id)
+                                            {
+                                                    return	control_id;
+                                            }
+                                            else
+            */
+            {
+                if (PaintMode == PALETTE_PAINT) {
+                    control_id = PaletteSet.HandleControlSetClick(flags, clicked_point);
+                    HandlePaletteControl(control_id);
+                } else if (PaintMode == STYLE_PAINT) {
+                    control_id = StyleSet.HandleControlSetClick(flags, clicked_point);
+                    HandleStyleControl(control_id);
+                } else {
+                    control_id = HandleControlSetClick(flags, clicked_point); // ts
+                    HandleTextureControl(control_id);
                 }
             }
-            break;
+        }
+        break;
+    case RIGHT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        if (PaintMode == STYLE_PAINT) {
+        } else if (AnimRect.PointInRect(&local_point)) {
+            SetEditAnimTexture(&local_point);
+            UpdateTexture();
+        } else if (PaintRect.PointInRect(&local_point)) {
+            zoom = 0;
+            SubMode = 0;
+            while (SHELL_ACTIVE && RightButton) {
+                current_point.X = MouseX;
+                current_point.Y = MouseY;
+                GlobalToLocal(&current_point);
+                if (current_point.X != local_point.X || current_point.Y != local_point.Y) {
+                    if (LeftButton) {
+                        zoom += local_point.Y - current_point.Y;
+                        if ((zoom / 4)) {
+                            TextureZoom += zoom / 4;
+                            zoom = 0;
+                        }
+                        if (TextureZoom < 0)
+                            TextureZoom = 0;
+                        else if (TextureZoom > 8)
+                            TextureZoom = 8;
+                    } else {
+                        TextureX += local_point.X - current_point.X;
+                        TextureY += local_point.Y - current_point.Y;
+                        if (TextureX < 0)
+                            TextureX = 0;
+                        else if (TextureX > (256 - (1 << TextureZoom)))
+                            TextureX = (256 - (1 << TextureZoom));
+                        if (TextureY < 0)
+                            TextureY = 0;
+                        else if (TextureY > (256 - (1 << TextureZoom)))
+                            TextureY = (256 - (1 << TextureZoom));
+                    }
+                    UpdateTexture();
+                    local_point = current_point;
+                }
+            }
+        }
+        break;
     }
     return 0;
 }
@@ -1477,159 +1480,159 @@ std::uint16_t PaintTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
 
 void PaintTab::HandleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        case CTRL_TEX_TILE_SIZE:
-            edit_info.TileScale = ((CHSlider *) GetControlPtr(CTRL_TEX_TILE_SIZE))->GetCurrentValue(); // ts
+    case CTRL_TEX_TILE_SIZE:
+        edit_info.TileScale = ((CHSlider *) GetControlPtr(CTRL_TEX_TILE_SIZE))->GetCurrentValue(); // ts
 
+        RequestUpdate();
+        break;
+
+    case CTRL_PAINT_MENU:
+        PaintMode = (control_id >> 8) - 1;
+        RequestUpdate();
+        break;
+    case CTRL_PAINT_TEXT:
+        break;
+    case CTRL_TEX_PAGE_TEXT:
+        break;
+    case CTRL_TEX_PAGE_MENU:
+        CurrentTexturePage = (control_id >> 8) - 1;
+        if (CurrentTexturePage > max_textures) {
+            CurrentTexturePage = max_textures;
+        }
+        break;
+    case CTRL_TEX_HIDE_L:
+        if (edit_info.HideMap & 1) {
+            edit_info.HideMap &= ~1;
+            SetControlState(CTRL_TEX_HIDE_L, CTRL_DESELECTED);
+        } else {
+            SetControlState(CTRL_TEX_HIDE_L, CTRL_SELECTED);
+            edit_info.HideMap |= 1;
+        }
+
+        break;
+    case CTRL_TEX_HIDE_R:
+        if (edit_info.HideMap & 2) {
+            edit_info.HideMap &= ~2;
+            SetControlState(CTRL_TEX_HIDE_R, CTRL_DESELECTED);
+        } else {
+            SetControlState(CTRL_TEX_HIDE_R, CTRL_SELECTED);
+            edit_info.HideMap |= 2;
+        }
+        break;
+    case CTRL_TEX_INFO:
+        show_info ^= 1;
+        break;
+    case CTRL_TEX_CLEAR: {
+        Alert rus;
+        if (rus.HandleAlert("Remove painted textures?", nullptr) == 1) {
+            remove_painted_textures();
+        }
+        if (rus.HandleAlert("Remove style textures?", nullptr) == 1) {
+            remove_style_textures();
+        }
+    } break;
+
+    case CTRL_BUILD_OTHER:
+        extern std::int32_t build_psx;
+        build_psx ^= 1;
+        create_city(BUILD_MODE_EDITOR);
+        break;
+    case CTRL_TEX_HIDE_ROOF:
+        if (edit_info.HideMap & 4) {
+            edit_info.HideMap &= ~4;
+            SetControlState(CTRL_TEX_HIDE_ROOF, CTRL_DESELECTED);
+        } else {
+            SetControlState(CTRL_TEX_HIDE_ROOF, CTRL_SELECTED);
+            edit_info.HideMap |= 4;
+        }
+        break;
+
+    case CTRL_TEX_QUAD_BOX:
+        //			ToggleControlSelectedState(CTRL_TEX_QUAD_BOX);
+        TextureFlags ^= FLAGS_QUADS;
+        break;
+    case CTRL_TEX_FIXED_BOX:
+        //			ToggleControlSelectedState(CTRL_TEX_FIXED_BOX);
+        TextureFlags ^= FLAGS_FIXED;
+        //			ToggleControlActiveState(CTRL_TEX_SIZE_MENU);
+        break;
+        /*
+                        case	CTRL_TEX_SIZE_MENUW:
+        //			TextureWidth	=	1<<((control_id>>8)+2);
+                                TextureWidth	=	32; //texture_sizes[(control_id>>8)-1];
+                                break;
+                        case	CTRL_TEX_SIZE_MENUH:
+        //			TextureHeight	=	1<<((control_id>>8)+2);
+                                TextureHeight	=	32;//texture_sizes[(control_id>>8)-1];
+                                break;
+        */
+    case CTRL_TEX_SIZE_TEXT:
+        break;
+    case CTRL_TEX_IMPORT_TEX: {
+        FileRequester *fr;
+        char fname[100];
+        fr = new FileRequester("data\\", "*.tex", "Save A Prim", "temp.tex");
+        if (fr->Draw()) {
+            strcpy(fname, fr->Path);
+            strcat(fname, fr->FileName);
+            import_tex(fname);
+        }
+        delete fr;
+        RequestUpdate();
+    } break;
+    case CTRL_TEX_LOAD_ANIMTMAP:
+        load_animtmaps();
+        break;
+    case CTRL_TEX_SAVE_ANIMTMAP:
+        save_animtmaps();
+        break;
+    case CTRL_TEX_ANIMTMAP_UP:
+        if (ShowAnimTmap > 1) {
+            ShowAnimTmap--;
             RequestUpdate();
-            break;
-
-        case CTRL_PAINT_MENU:
-            PaintMode = (control_id >> 8) - 1;
+        }
+        break;
+    case CTRL_TEX_ANIMTMAP_DOWN:
+        if (ShowAnimTmap < 64) {
+            ShowAnimTmap++;
             RequestUpdate();
-            break;
-        case CTRL_PAINT_TEXT:
-            break;
-        case CTRL_TEX_PAGE_TEXT:
-            break;
-        case CTRL_TEX_PAGE_MENU:
-            CurrentTexturePage = (control_id >> 8) - 1;
-            if (CurrentTexturePage > max_textures) {
-                CurrentTexturePage = max_textures;
-            }
-            break;
-        case CTRL_TEX_HIDE_L:
-            if (edit_info.HideMap & 1) {
-                edit_info.HideMap &= ~1;
-                SetControlState(CTRL_TEX_HIDE_L, CTRL_DESELECTED);
-            } else {
-                SetControlState(CTRL_TEX_HIDE_L, CTRL_SELECTED);
-                edit_info.HideMap |= 1;
-            }
+        }
+        break;
+    case CTRL_TEX_PLANAR_MAP:
+        DoPlanarMap();
+        break;
+    case CTRL_TEX_PLANAR_MAPF:
+        DoPlanarMapF();
+        break;
+    case CTRL_TEX_SELECT_DRAWN:
+        SelectDrawn ^= 1;
+        break;
+        //		case	CTRL_TEX_NO_LIGHT:
+        //			edit_info.FlatShade^=1;
+        //			break;
+    case CTRL_TEX_NO_HIDDEN:
+        edit_info.NoHidden ^= 1;
+        break;
+    case CTRL_TEX_ROOF_TEX:
+        edit_info.RoofTex ^= 1;
+        break;
+    case CTRL_TEX_USE_CLIPPED:
+        edit_info.Clipped ^= 2;
+        break;
+    case CTRL_TEX_SET_CLIPPED:
+        extern void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz);
+        {
+            std::int32_t minx, maxx, minz, maxz;
 
-            break;
-        case CTRL_TEX_HIDE_R:
-            if (edit_info.HideMap & 2) {
-                edit_info.HideMap &= ~2;
-                SetControlState(CTRL_TEX_HIDE_R, CTRL_DESELECTED);
-            } else {
-                SetControlState(CTRL_TEX_HIDE_R, CTRL_SELECTED);
-                edit_info.HideMap |= 2;
-            }
-            break;
-        case CTRL_TEX_INFO:
-            show_info ^= 1;
-            break;
-        case CTRL_TEX_CLEAR: {
-            Alert rus;
-            if (rus.HandleAlert("Remove painted textures?", nullptr) == 1) {
-                remove_painted_textures();
-            }
-            if (rus.HandleAlert("Remove style textures?", nullptr) == 1) {
-                remove_style_textures();
-            }
-        } break;
+            find_map_clip(&minx, &maxx, &minz, &maxz);
+            edit_info.MinX = minx;
+            edit_info.MinZ = minz;
+            edit_info.MaxX = maxx;
+            edit_info.MaxZ = maxz;
+            edit_info.Clipped = 2;
+        }
 
-        case CTRL_BUILD_OTHER:
-            extern std::int32_t build_psx;
-            build_psx ^= 1;
-            create_city(BUILD_MODE_EDITOR);
-            break;
-        case CTRL_TEX_HIDE_ROOF:
-            if (edit_info.HideMap & 4) {
-                edit_info.HideMap &= ~4;
-                SetControlState(CTRL_TEX_HIDE_ROOF, CTRL_DESELECTED);
-            } else {
-                SetControlState(CTRL_TEX_HIDE_ROOF, CTRL_SELECTED);
-                edit_info.HideMap |= 4;
-            }
-            break;
-
-        case CTRL_TEX_QUAD_BOX:
-            //			ToggleControlSelectedState(CTRL_TEX_QUAD_BOX);
-            TextureFlags ^= FLAGS_QUADS;
-            break;
-        case CTRL_TEX_FIXED_BOX:
-            //			ToggleControlSelectedState(CTRL_TEX_FIXED_BOX);
-            TextureFlags ^= FLAGS_FIXED;
-            //			ToggleControlActiveState(CTRL_TEX_SIZE_MENU);
-            break;
-            /*
-                            case	CTRL_TEX_SIZE_MENUW:
-            //			TextureWidth	=	1<<((control_id>>8)+2);
-                                    TextureWidth	=	32; //texture_sizes[(control_id>>8)-1];
-                                    break;
-                            case	CTRL_TEX_SIZE_MENUH:
-            //			TextureHeight	=	1<<((control_id>>8)+2);
-                                    TextureHeight	=	32;//texture_sizes[(control_id>>8)-1];
-                                    break;
-            */
-        case CTRL_TEX_SIZE_TEXT:
-            break;
-        case CTRL_TEX_IMPORT_TEX: {
-            FileRequester *fr;
-            char fname[100];
-            fr = new FileRequester("data\\", "*.tex", "Save A Prim", "temp.tex");
-            if (fr->Draw()) {
-                strcpy(fname, fr->Path);
-                strcat(fname, fr->FileName);
-                import_tex(fname);
-            }
-            delete fr;
-            RequestUpdate();
-        } break;
-        case CTRL_TEX_LOAD_ANIMTMAP:
-            load_animtmaps();
-            break;
-        case CTRL_TEX_SAVE_ANIMTMAP:
-            save_animtmaps();
-            break;
-        case CTRL_TEX_ANIMTMAP_UP:
-            if (ShowAnimTmap > 1) {
-                ShowAnimTmap--;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_TEX_ANIMTMAP_DOWN:
-            if (ShowAnimTmap < 64) {
-                ShowAnimTmap++;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_TEX_PLANAR_MAP:
-            DoPlanarMap();
-            break;
-        case CTRL_TEX_PLANAR_MAPF:
-            DoPlanarMapF();
-            break;
-        case CTRL_TEX_SELECT_DRAWN:
-            SelectDrawn ^= 1;
-            break;
-            //		case	CTRL_TEX_NO_LIGHT:
-            //			edit_info.FlatShade^=1;
-            //			break;
-        case CTRL_TEX_NO_HIDDEN:
-            edit_info.NoHidden ^= 1;
-            break;
-        case CTRL_TEX_ROOF_TEX:
-            edit_info.RoofTex ^= 1;
-            break;
-        case CTRL_TEX_USE_CLIPPED:
-            edit_info.Clipped ^= 2;
-            break;
-        case CTRL_TEX_SET_CLIPPED:
-            extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
-            {
-                std::int32_t minx, maxx, minz, maxz;
-
-                find_map_clip(&minx, &maxx, &minz, &maxz);
-                edit_info.MinX = minx;
-                edit_info.MinZ = minz;
-                edit_info.MaxX = maxx;
-                edit_info.MaxZ = maxz;
-                edit_info.Clipped = 2;
-            }
-
-            break;
+        break;
     }
 
     UpdateTextureInfo();
@@ -1658,10 +1661,10 @@ void PaintTab::HandlePaletteControl(std::uint16_t control_id) {
 
 void PaintTab::HandleStyleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        case CTRL_STYLE_PAINT_SLIDER:
-            new_scroll_pos();
-            //			RequestUpdate();
-            break;
+    case CTRL_STYLE_PAINT_SLIDER:
+        new_scroll_pos();
+        //			RequestUpdate();
+        break;
     }
 
     // Tidy up display.
@@ -1721,100 +1724,100 @@ void PaintTab::DoPlanarMapF(void) {
 
 void PaintTab::HandleTextureControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        case CTRL_TEX_PAGE_TEXT:
-            break;
-        case CTRL_TEX_PAGE_MENU:
-            CurrentTexturePage = (control_id >> 8) - 1;
-            if (CurrentTexturePage > max_textures) {
-                CurrentTexturePage = max_textures;
-            }
-            break;
-        case CTRL_TEX_QUAD_BOX:
-            //			ToggleControlSelectedState(CTRL_TEX_QUAD_BOX);
-            TextureFlags ^= FLAGS_QUADS;
-            break;
-        case CTRL_TEX_FIXED_BOX:
-            //			ToggleControlSelectedState(CTRL_TEX_FIXED_BOX);
-            TextureFlags ^= FLAGS_FIXED;
-            //			ToggleControlActiveState(CTRL_TEX_SIZE_MENU);
-            break;
-            /*
-                            case	CTRL_TEX_SIZE_MENUW:
-            //			TextureWidth	=	1<<((control_id>>8)+2);
-                                    TextureWidth	=	32; //texture_sizes[(control_id>>8)-1];
-                                    break;
-                            case	CTRL_TEX_SIZE_MENUH:
-            //			TextureHeight	=	1<<((control_id>>8)+2);
-                                    TextureHeight	=	32;//texture_sizes[(control_id>>8)-1];
-                                    break;
-            */
-        case CTRL_TEX_SIZE_TEXT:
-            break;
-        case CTRL_TEX_IMPORT_TEX: {
-            FileRequester *fr;
-            char fname[100];
-            fr = new FileRequester("data\\", "*.tex", "Save A Prim", "temp.tex");
-            if (fr->Draw()) {
-                strcpy(fname, fr->Path);
-                strcat(fname, fr->FileName);
-                import_tex(fname);
-            }
-            delete fr;
+    case CTRL_TEX_PAGE_TEXT:
+        break;
+    case CTRL_TEX_PAGE_MENU:
+        CurrentTexturePage = (control_id >> 8) - 1;
+        if (CurrentTexturePage > max_textures) {
+            CurrentTexturePage = max_textures;
+        }
+        break;
+    case CTRL_TEX_QUAD_BOX:
+        //			ToggleControlSelectedState(CTRL_TEX_QUAD_BOX);
+        TextureFlags ^= FLAGS_QUADS;
+        break;
+    case CTRL_TEX_FIXED_BOX:
+        //			ToggleControlSelectedState(CTRL_TEX_FIXED_BOX);
+        TextureFlags ^= FLAGS_FIXED;
+        //			ToggleControlActiveState(CTRL_TEX_SIZE_MENU);
+        break;
+        /*
+                        case	CTRL_TEX_SIZE_MENUW:
+        //			TextureWidth	=	1<<((control_id>>8)+2);
+                                TextureWidth	=	32; //texture_sizes[(control_id>>8)-1];
+                                break;
+                        case	CTRL_TEX_SIZE_MENUH:
+        //			TextureHeight	=	1<<((control_id>>8)+2);
+                                TextureHeight	=	32;//texture_sizes[(control_id>>8)-1];
+                                break;
+        */
+    case CTRL_TEX_SIZE_TEXT:
+        break;
+    case CTRL_TEX_IMPORT_TEX: {
+        FileRequester *fr;
+        char fname[100];
+        fr = new FileRequester("data\\", "*.tex", "Save A Prim", "temp.tex");
+        if (fr->Draw()) {
+            strcpy(fname, fr->Path);
+            strcat(fname, fr->FileName);
+            import_tex(fname);
+        }
+        delete fr;
+        RequestUpdate();
+    } break;
+    case CTRL_TEX_LOAD_ANIMTMAP:
+        load_animtmaps();
+        break;
+    case CTRL_TEX_SAVE_ANIMTMAP:
+        save_animtmaps();
+        break;
+    case CTRL_TEX_ANIMTMAP_UP:
+        if (ShowAnimTmap > 1) {
+            ShowAnimTmap--;
             RequestUpdate();
-        } break;
-        case CTRL_TEX_LOAD_ANIMTMAP:
-            load_animtmaps();
-            break;
-        case CTRL_TEX_SAVE_ANIMTMAP:
-            save_animtmaps();
-            break;
-        case CTRL_TEX_ANIMTMAP_UP:
-            if (ShowAnimTmap > 1) {
-                ShowAnimTmap--;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_TEX_ANIMTMAP_DOWN:
-            if (ShowAnimTmap < 64) {
-                ShowAnimTmap++;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_TEX_PLANAR_MAP:
-            DoPlanarMap();
-            break;
-        case CTRL_TEX_PLANAR_MAPF:
-            DoPlanarMapF();
-            break;
-        case CTRL_TEX_SELECT_DRAWN:
-            SelectDrawn ^= 1;
-            break;
-            //		case	CTRL_TEX_NO_LIGHT:
-            //			edit_info.FlatShade^=1;
-            //			break;
-        case CTRL_TEX_NO_HIDDEN:
-            edit_info.NoHidden ^= 1;
-            break;
-        case CTRL_TEX_ROOF_TEX:
-            edit_info.RoofTex ^= 1;
-            break;
-        case CTRL_TEX_USE_CLIPPED:
-            edit_info.Clipped ^= 2;
-            break;
-        case CTRL_TEX_SET_CLIPPED:
-            extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
-            {
-                std::int32_t minx, maxx, minz, maxz;
+        }
+        break;
+    case CTRL_TEX_ANIMTMAP_DOWN:
+        if (ShowAnimTmap < 64) {
+            ShowAnimTmap++;
+            RequestUpdate();
+        }
+        break;
+    case CTRL_TEX_PLANAR_MAP:
+        DoPlanarMap();
+        break;
+    case CTRL_TEX_PLANAR_MAPF:
+        DoPlanarMapF();
+        break;
+    case CTRL_TEX_SELECT_DRAWN:
+        SelectDrawn ^= 1;
+        break;
+        //		case	CTRL_TEX_NO_LIGHT:
+        //			edit_info.FlatShade^=1;
+        //			break;
+    case CTRL_TEX_NO_HIDDEN:
+        edit_info.NoHidden ^= 1;
+        break;
+    case CTRL_TEX_ROOF_TEX:
+        edit_info.RoofTex ^= 1;
+        break;
+    case CTRL_TEX_USE_CLIPPED:
+        edit_info.Clipped ^= 2;
+        break;
+    case CTRL_TEX_SET_CLIPPED:
+        extern void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz);
+        {
+            std::int32_t minx, maxx, minz, maxz;
 
-                find_map_clip(&minx, &maxx, &minz, &maxz);
-                edit_info.MinX = minx;
-                edit_info.MinZ = minz;
-                edit_info.MaxX = maxx;
-                edit_info.MaxZ = maxz;
-                edit_info.Clipped = 2;
-            }
+            find_map_clip(&minx, &maxx, &minz, &maxz);
+            edit_info.MinX = minx;
+            edit_info.MinZ = minz;
+            edit_info.MaxX = maxx;
+            edit_info.MaxZ = maxz;
+            edit_info.Clipped = 2;
+        }
 
-            break;
+        break;
     }
     UpdateTextureInfo();
     //	DrawTabContent();
@@ -2221,30 +2224,30 @@ void PaintTab::SelectTexture(MFPoint *clicked_point) {
                                 CurrentTexture.V[c0] -= y_offset;
 
                                 switch (c0) {
-                                    case 0:
-                                        if (CurrentTexture.U[0] >= CurrentTexture.U[1] - 1)
-                                            CurrentTexture.U[0] = CurrentTexture.U[1] - 1;
-                                        if (CurrentTexture.V[0] >= CurrentTexture.V[2] - 1)
-                                            CurrentTexture.V[0] = CurrentTexture.V[2] - 1;
-                                        break;
-                                    case 1:
-                                        if (CurrentTexture.U[1] <= CurrentTexture.U[0] + 1)
-                                            CurrentTexture.U[1] = CurrentTexture.U[0] + 1;
-                                        if (CurrentTexture.V[1] >= CurrentTexture.V[2] - 1)
-                                            CurrentTexture.V[1] = CurrentTexture.V[2] - 1;
-                                        break;
-                                    case 2:
-                                        if (CurrentTexture.U[2] >= CurrentTexture.U[1] - 1)
-                                            CurrentTexture.U[2] = CurrentTexture.U[1] - 1;
-                                        if (CurrentTexture.V[2] <= CurrentTexture.V[0] + 1)
-                                            CurrentTexture.V[2] = CurrentTexture.V[0] + 1;
-                                        break;
-                                    case 3:
-                                        if (CurrentTexture.U[3] <= CurrentTexture.U[0] + 1)
-                                            CurrentTexture.U[3] = CurrentTexture.U[0] + 1;
-                                        if (CurrentTexture.V[3] <= CurrentTexture.V[0] + 1)
-                                            CurrentTexture.V[3] = CurrentTexture.V[0] + 1;
-                                        break;
+                                case 0:
+                                    if (CurrentTexture.U[0] >= CurrentTexture.U[1] - 1)
+                                        CurrentTexture.U[0] = CurrentTexture.U[1] - 1;
+                                    if (CurrentTexture.V[0] >= CurrentTexture.V[2] - 1)
+                                        CurrentTexture.V[0] = CurrentTexture.V[2] - 1;
+                                    break;
+                                case 1:
+                                    if (CurrentTexture.U[1] <= CurrentTexture.U[0] + 1)
+                                        CurrentTexture.U[1] = CurrentTexture.U[0] + 1;
+                                    if (CurrentTexture.V[1] >= CurrentTexture.V[2] - 1)
+                                        CurrentTexture.V[1] = CurrentTexture.V[2] - 1;
+                                    break;
+                                case 2:
+                                    if (CurrentTexture.U[2] >= CurrentTexture.U[1] - 1)
+                                        CurrentTexture.U[2] = CurrentTexture.U[1] - 1;
+                                    if (CurrentTexture.V[2] <= CurrentTexture.V[0] + 1)
+                                        CurrentTexture.V[2] = CurrentTexture.V[0] + 1;
+                                    break;
+                                case 3:
+                                    if (CurrentTexture.U[3] <= CurrentTexture.U[0] + 1)
+                                        CurrentTexture.U[3] = CurrentTexture.U[0] + 1;
+                                    if (CurrentTexture.V[3] <= CurrentTexture.V[0] + 1)
+                                        CurrentTexture.V[3] = CurrentTexture.V[0] + 1;
+                                    break;
                                 }
                             }
 
@@ -2413,50 +2416,50 @@ void PaintTab::SelectTexture(MFPoint *clicked_point) {
                             }
                         } else if (TextureFlags & FLAGS_QUADS) {
                             switch (drag_flags) {
-                                case DRAG_NORMAL:
-                                    CurrentTexture.U[c0] -= x_offset;
-                                    CurrentTexture.V[c0] -= y_offset;
-                                    break;
-                                case DRAG_SHIFT:
-                                    if (abs(MouseX - clicked_point->X) >= abs(MouseY - clicked_point->Y))
-                                        drag_flags = DRAG_SHIFT_H;
-                                    else
-                                        drag_flags = DRAG_SHIFT_V;
-                                    x_offset = 0;
-                                    y_offset = 0;
-                                    break;
-                                case DRAG_SHIFT_H:
-                                    CurrentTexture.U[c0] -= x_offset;
-                                    y_offset = 0;
-                                    break;
-                                case DRAG_SHIFT_V:
-                                    CurrentTexture.V[c0] -= y_offset;
-                                    x_offset = 0;
-                                    break;
-                                case DRAG_CONTROL:
-                                    CurrentTexture.U[c0] -= x_offset;
-                                    CurrentTexture.V[c0] -= y_offset;
-                                    CurrentTexture.U[hooks[c0][0]] -= x_offset;
-                                    CurrentTexture.V[hooks[c0][1]] -= y_offset;
-                                    break;
+                            case DRAG_NORMAL:
+                                CurrentTexture.U[c0] -= x_offset;
+                                CurrentTexture.V[c0] -= y_offset;
+                                break;
+                            case DRAG_SHIFT:
+                                if (abs(MouseX - clicked_point->X) >= abs(MouseY - clicked_point->Y))
+                                    drag_flags = DRAG_SHIFT_H;
+                                else
+                                    drag_flags = DRAG_SHIFT_V;
+                                x_offset = 0;
+                                y_offset = 0;
+                                break;
+                            case DRAG_SHIFT_H:
+                                CurrentTexture.U[c0] -= x_offset;
+                                y_offset = 0;
+                                break;
+                            case DRAG_SHIFT_V:
+                                CurrentTexture.V[c0] -= y_offset;
+                                x_offset = 0;
+                                break;
+                            case DRAG_CONTROL:
+                                CurrentTexture.U[c0] -= x_offset;
+                                CurrentTexture.V[c0] -= y_offset;
+                                CurrentTexture.U[hooks[c0][0]] -= x_offset;
+                                CurrentTexture.V[hooks[c0][1]] -= y_offset;
+                                break;
                             }
 
                         } else {
                             switch (drag_flags) {
-                                case DRAG_NORMAL:
-                                    CurrentTexture.U[c0] -= x_offset;
-                                    CurrentTexture.V[c0] -= y_offset;
-                                    break;
-                                case DRAG_SHIFT_H:
-                                    CurrentTexture.U[c0] -= x_offset;
-                                    break;
-                                case DRAG_SHIFT_V:
-                                    CurrentTexture.V[c0] -= y_offset;
-                                    break;
-                                case DRAG_CONTROL:
-                                    CurrentTexture.U[c0] -= x_offset;
-                                    CurrentTexture.V[c0] -= y_offset;
-                                    break;
+                            case DRAG_NORMAL:
+                                CurrentTexture.U[c0] -= x_offset;
+                                CurrentTexture.V[c0] -= y_offset;
+                                break;
+                            case DRAG_SHIFT_H:
+                                CurrentTexture.U[c0] -= x_offset;
+                                break;
+                            case DRAG_SHIFT_V:
+                                CurrentTexture.V[c0] -= y_offset;
+                                break;
+                            case DRAG_CONTROL:
+                                CurrentTexture.U[c0] -= x_offset;
+                                CurrentTexture.V[c0] -= y_offset;
+                                break;
                             }
                         }
 
@@ -2528,22 +2531,22 @@ void PaintTab::SelectTexture(MFPoint *clicked_point) {
 
                     if (current_point.X != local_point.X || current_point.Y != local_point.Y) {
                         switch (drag_flags) {
-                            case DRAG_NORMAL:
-                                x_offset -= local_point.X - current_point.X;
-                                y_offset -= local_point.Y - current_point.Y;
-                                break;
-                            case DRAG_SHIFT:
-                                if (abs(MouseX - clicked_point->X) >= abs(MouseY - clicked_point->Y))
-                                    drag_flags = DRAG_SHIFT_H;
-                                else
-                                    drag_flags = DRAG_SHIFT_V;
-                                break;
-                            case DRAG_SHIFT_H:
-                                x_offset -= local_point.X - current_point.X;
-                                break;
-                            case DRAG_SHIFT_V:
-                                y_offset -= local_point.Y - current_point.Y;
-                                break;
+                        case DRAG_NORMAL:
+                            x_offset -= local_point.X - current_point.X;
+                            y_offset -= local_point.Y - current_point.Y;
+                            break;
+                        case DRAG_SHIFT:
+                            if (abs(MouseX - clicked_point->X) >= abs(MouseY - clicked_point->Y))
+                                drag_flags = DRAG_SHIFT_H;
+                            else
+                                drag_flags = DRAG_SHIFT_V;
+                            break;
+                        case DRAG_SHIFT_H:
+                            x_offset -= local_point.X - current_point.X;
+                            break;
+                        case DRAG_SHIFT_V:
+                            y_offset -= local_point.Y - current_point.Y;
+                            break;
                         }
 
                         update = 1;
@@ -2597,59 +2600,59 @@ std::uint16_t PaintTab::ConvertFreeToFixedEle(struct TextureBits *t, std::int32_
 
     t->Page = CurrentTexturePage;
     switch (TextureWidth) {
-        case 8:
-            size = 0;
-            break;
-        case 16:
-            size = 1;
-            break;
-        case 32:
-            size = 2;
-            break;
-        case 64:
-            size = 3;
-            break;
-        case 96:
-            size = 4;
-            break;
-        case 128:
-            size = 5;
-            break;
-        case 160:
-            size = 6;
-            break;
-        case 192:
-            size = 7;
-            break;
+    case 8:
+        size = 0;
+        break;
+    case 16:
+        size = 1;
+        break;
+    case 32:
+        size = 2;
+        break;
+    case 64:
+        size = 3;
+        break;
+    case 96:
+        size = 4;
+        break;
+    case 128:
+        size = 5;
+        break;
+    case 160:
+        size = 6;
+        break;
+    case 192:
+        size = 7;
+        break;
     }
     size = 32;
     t->Width = size;
 
     switch (TextureHeight) {
-        case 8:
-            size = 0;
-            break;
-        case 16:
-            size = 1;
-            break;
-        case 32:
-            size = 2;
-            break;
-        case 64:
-            size = 3;
-            break;
-        case 96:
-            size = 4;
-            break;
-        case 128:
-            size = 5;
-            break;
-        case 160:
-            size = 6;
-            break;
-        case 192:
-            size = 7;
-            break;
+    case 8:
+        size = 0;
+        break;
+    case 16:
+        size = 1;
+        break;
+    case 32:
+        size = 2;
+        break;
+    case 64:
+        size = 3;
+        break;
+    case 96:
+        size = 4;
+        break;
+    case 128:
+        size = 5;
+        break;
+    case 160:
+        size = 6;
+        break;
+    case 192:
+        size = 7;
+        break;
     }
     size = 32;
     t->Height = size;
@@ -2769,7 +2772,7 @@ bool PaintTab::ApplyTexture(struct EditFace *edit_face) {
                     prim_faces4[edit_face->Face].UV[c0][1] = CurrentTexture.V[c0];
                 }
                 if (prim_faces4[edit_face->Face].ThingIndex < 0) {
-                    extern void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture * current_texture, std::uint8_t type, std::uint8_t side);
+                    extern void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture *current_texture, std::uint8_t type, std::uint8_t side);
                     std::uint8_t type = 0;
                     if (PaintMode == STYLE_PAINT) {
                         type = CurrentStyleEdit;

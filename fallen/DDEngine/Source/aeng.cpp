@@ -108,7 +108,7 @@
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
 
-static void ScribbleCheck ( void )
+static void ScribbleCheck()
 {
 	ASSERT ( prim_faces4[1].Points[0] >= 48 );
 	ASSERT ( prim_faces4[1].Points[0] < 62 );
@@ -135,7 +135,7 @@ static void ScribbleCheck ( void )
 
 #endif
 
-void AENG_draw_far_facets(void);
+void AENG_draw_far_facets();
 void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out);
 void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen);
 void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_room, std::uint8_t fade);
@@ -176,7 +176,7 @@ std::int32_t AENG_cur_fc_cam;
 #ifndef TARGET_DC
 // Clouds?!?!?!?!?!?!? Madness.
 
-void move_clouds(void) {
+void move_clouds() {
     cloud_x += 10;
     cloud_z += 5;
 }
@@ -5889,7 +5889,7 @@ int m_iDrawThingCount = 0;
 // Look Mike, when I say "don't put stuff on the stack", I mean
 // DONT PUT STUFF ON THE STACK. And it's "indices" - only two "i"s.
 std::uint8_t m_vert_mem_block32[sizeof(D3DLVERTEX) * KERB_VERTS + sizeof(D3DLVERTEX) * MAX_VERTS_FOR_STRIPS * IPRIM_COUNT + 32]; // used to 32 byte align the vertex memory
-std::uint16_t m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1];                                                                // data for verts, on stack or not?
+std::uint16_t m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1];                                                               // data for verts, on stack or not?
 
 struct GroupInfo {
     LPDIRECT3DTEXTURE2 page; // ptr to actual page to use for drawing
@@ -8478,9 +8478,9 @@ void AENG_draw_city() {
         if (!INDOORS_INDEX || outside)
             for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
                 for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
-                    //if (DebugVars::getInstance().GetDisableFloorsRender()) {
-                    //    continue;
-                    //}
+                    // if (DebugVars::getInstance().GetDisableFloorsRender()) {
+                    //     continue;
+                    // }
                     ASSERT(WITHIN(x, 0, PAP_SIZE_HI - 2));
                     ASSERT(WITHIN(z, 0, PAP_SIZE_HI - 2));
 
@@ -9260,11 +9260,11 @@ void AENG_draw_city() {
 
         for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
             for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
-                //if (DebugVars::getInstance().GetDisableThingsRender()) {
-                //    continue;
-                //}
+                // if (DebugVars::getInstance().GetDisableThingsRender()) {
+                //     continue;
+                // }
                 //
-                // The cached lighting for this low-res mapsquare.
+                //  The cached lighting for this low-res mapsquare.
                 //
 
                 ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
@@ -13196,7 +13196,7 @@ void AENG_draw_FPS() {
     static std::int32_t fps = 0;            // current FPS
     static std::int32_t avfps = 0;          // average FPS
     static std::int32_t last_game_turn = 0; // game turn when FPS was sampled
-    static clock_t last_time = 0;    // time when FPS was sampled
+    static clock_t last_time = 0;           // time when FPS was sampled
     static std::int32_t total_frames = 0;
     static float total_time = 0;
     static std::int32_t ups = 0; // us per frame

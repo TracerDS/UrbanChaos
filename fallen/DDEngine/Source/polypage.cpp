@@ -374,29 +374,29 @@ void PolyPage::MassageVertices() {
         D3DTLVERTEX* vptr = m_VertexBuffer->GetPtr();
 
         switch (RS.GetEffect()) {
-            case RS_AlphaPremult:
-                for (ii = 0; ii < m_VBUsed; ii++) {
-                    AlphaPremult((std::uint8_t*) &vptr[ii].color);
-                }
-                break;
+        case RS_AlphaPremult:
+            for (ii = 0; ii < m_VBUsed; ii++) {
+                AlphaPremult((std::uint8_t*) &vptr[ii].color);
+            }
+            break;
 
-            case RS_BlackWithAlpha:
-                for (ii = 0; ii < m_VBUsed; ii++) {
-                    vptr[ii].color &= 0xFF000000;
-                }
-                break;
+        case RS_BlackWithAlpha:
+            for (ii = 0; ii < m_VBUsed; ii++) {
+                vptr[ii].color &= 0xFF000000;
+            }
+            break;
 
-            case RS_InvAlphaPremult:
-                for (ii = 0; ii < m_VBUsed; ii++) {
-                    InvAlphaPremult((std::uint8_t*) &vptr[ii].color);
-                }
-                break;
+        case RS_InvAlphaPremult:
+            for (ii = 0; ii < m_VBUsed; ii++) {
+                InvAlphaPremult((std::uint8_t*) &vptr[ii].color);
+            }
+            break;
 
-            case RS_DecalMode:
-                for (ii = 0; ii < m_VBUsed; ii++) {
-                    vptr[ii].color = 0xFFFFFFFF;
-                }
-                break;
+        case RS_DecalMode:
+            for (ii = 0; ii < m_VBUsed; ii++) {
+                vptr[ii].color = 0xFFFFFFFF;
+            }
+            break;
         }
     }
 }

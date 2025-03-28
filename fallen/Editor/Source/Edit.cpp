@@ -292,8 +292,7 @@ void save_game_map(char *name) {
 
     strcpy(gamename, name);
 
-    for (ch = gamename; *ch; ch++)
-        ;
+    for (ch = gamename; *ch; ch++);
     while (*ch != '.') {
         ch--;
     }
@@ -439,9 +438,9 @@ void save_game_map(char *name) {
             t_mthing = &map_things[c0];
 
             switch (t_mthing->Type) {
-                case MAP_THING_TYPE_ANIM_PRIM:
-                    temp++;
-                    break;
+            case MAP_THING_TYPE_ANIM_PRIM:
+                temp++;
+                break;
             }
         }
 
@@ -451,15 +450,15 @@ void save_game_map(char *name) {
             t_mthing = &map_things[c0];
 
             switch (t_mthing->Type) {
-                case MAP_THING_TYPE_ANIM_PRIM:
-                    io_thing.Type = t_mthing->Type;
-                    io_thing.X = t_mthing->X;
-                    io_thing.Y = t_mthing->Y;
-                    io_thing.Z = t_mthing->Z;
-                    io_thing.AngleY = t_mthing->AngleY;
-                    io_thing.IndexOther = t_mthing->IndexOther;
-                    FileWrite(handle, (std::uint8_t *) &io_thing, sizeof(struct LoadGameThing));
-                    break;
+            case MAP_THING_TYPE_ANIM_PRIM:
+                io_thing.Type = t_mthing->Type;
+                io_thing.X = t_mthing->X;
+                io_thing.Y = t_mthing->Y;
+                io_thing.Z = t_mthing->Z;
+                io_thing.AngleY = t_mthing->AngleY;
+                io_thing.IndexOther = t_mthing->IndexOther;
+                FileWrite(handle, (std::uint8_t *) &io_thing, sizeof(struct LoadGameThing));
+                break;
             }
         }
 
@@ -1801,16 +1800,16 @@ struct DisplayTypes {
 
 struct DisplayTypes display_types[] =
     {
-        {320, 200, 8},
-        {640, 480, 8},
-        {800, 600, 8},
-        {1024, 768, 8},
+        {320,  200,  8},
+        {640,  480,  8},
+        {800,  600,  8},
+        {1024, 768,  8},
         {1280, 1024, 8},
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0},
-        {0, 0, 0},
+        {0,    0,    0},
+        {0,    0,    0},
+        {0,    0,    0},
+        {0,    0,    0},
+        {0,    0,    0},
 };
 
 void gamut_fiddle() {
@@ -2138,22 +2137,22 @@ std::uint32_t editor_user_interface(std::uint8_t type) {
             }
     */
     switch (type) {
-        case 0:
-            update |= engine_keys_scroll();
-            update |= engine_keys_spin();
-            update |= engine_keys_zoom();
-            break;
+    case 0:
+        update |= engine_keys_scroll();
+        update |= engine_keys_spin();
+        update |= engine_keys_zoom();
+        break;
 
-        case 1:
-            update |= engine_keys_scroll_game();
-            update |= engine_keys_spin();
-            update |= engine_keys_zoom();
-            break;
-        case 2:
-            update |= engine_keys_scroll_plan();
-            update |= engine_keys_spin();
-            //				update|=engine_keys_zoom();
-            break;
+    case 1:
+        update |= engine_keys_scroll_game();
+        update |= engine_keys_spin();
+        update |= engine_keys_zoom();
+        break;
+    case 2:
+        update |= engine_keys_scroll_plan();
+        update |= engine_keys_spin();
+        //				update|=engine_keys_zoom();
+        break;
     }
     return update;
 }
@@ -2480,23 +2479,23 @@ void calc_things_screen_box(std::int32_t map_thing, EdRect *rect) {
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
-        case MAP_THING_TYPE_ANIM_PRIM:
-            set_screen_box(p_mthing->X, p_mthing->Y, p_mthing->Z, rect, 20, 20);
-            break;
-        case MAP_THING_TYPE_PRIM:
-            // 3ds Prim Mesh
-            set_camera_angledy(p_mthing->AngleY);
-            calc_prims_screen_box(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, rect);
-            set_camera_angledy(0);
+    case MAP_THING_TYPE_ANIM_PRIM:
+        set_screen_box(p_mthing->X, p_mthing->Y, p_mthing->Z, rect, 20, 20);
+        break;
+    case MAP_THING_TYPE_PRIM:
+        // 3ds Prim Mesh
+        set_camera_angledy(p_mthing->AngleY);
+        calc_prims_screen_box(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, rect);
+        set_camera_angledy(0);
 
-            break;
-        case MAP_THING_TYPE_LIGHT:
-            set_screen_box(p_mthing->X, p_mthing->Y, p_mthing->Z, rect, 10, 10);
-            break;
+        break;
+    case MAP_THING_TYPE_LIGHT:
+        set_screen_box(p_mthing->X, p_mthing->Y, p_mthing->Z, rect, 10, 10);
+        break;
 
-        case MAP_THING_TYPE_SPRITE:
-        case MAP_THING_TYPE_AGENT:
-            break;
+    case MAP_THING_TYPE_SPRITE:
+    case MAP_THING_TYPE_AGENT:
+        break;
     }
 }
 
@@ -2626,114 +2625,114 @@ void draw_map_thing(std::int32_t map_thing) {
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
-        case MAP_THING_TYPE_ANIM_PRIM:
-            extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement * anim_info, struct GameKeyFrameElement * anim_info_next, struct Matrix33 * rot_mat);
-            //			break;
-            rotate_obj(
-                p_mthing->AngleX,
-                p_mthing->AngleY,
-                p_mthing->AngleZ,
-                &r_matrix);
-            {
-                the_chunk = &anim_chunk[p_mthing->IndexOther];
-                for (c1 = 0, c0 = prim_multi_objects[the_chunk->MultiObject[0]].StartObject; c0 < prim_multi_objects[the_chunk->MultiObject[0]].EndObject; c0++, c1++) {
-                    draw_anim_prim_tween(
-                        c0,
-                        p_mthing->X, p_mthing->Y, p_mthing->Z,
-                        0,
-                        &the_chunk->AnimList[1]->FirstElement[c1],
-                        &the_chunk->AnimList[1]->FirstElement[c1],
-                        //&p_mthing->AnimElements[c1],
-                        //&p_mthing->NextAnimElements[c1],
-                        &r_matrix);
-                }
+    case MAP_THING_TYPE_ANIM_PRIM:
+        extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat);
+        //			break;
+        rotate_obj(
+            p_mthing->AngleX,
+            p_mthing->AngleY,
+            p_mthing->AngleZ,
+            &r_matrix);
+        {
+            the_chunk = &anim_chunk[p_mthing->IndexOther];
+            for (c1 = 0, c0 = prim_multi_objects[the_chunk->MultiObject[0]].StartObject; c0 < prim_multi_objects[the_chunk->MultiObject[0]].EndObject; c0++, c1++) {
+                draw_anim_prim_tween(
+                    c0,
+                    p_mthing->X, p_mthing->Y, p_mthing->Z,
+                    0,
+                    &the_chunk->AnimList[1]->FirstElement[c1],
+                    &the_chunk->AnimList[1]->FirstElement[c1],
+                    //&p_mthing->AnimElements[c1],
+                    //&p_mthing->NextAnimElements[c1],
+                    &r_matrix);
             }
+        }
 
-            break;
-        case MAP_THING_TYPE_PRIM:
-            // 3ds Prim Mesh
-            //			engine.AngleDY=p_mthing->AngleY;
-            set_camera_angledy(p_mthing->AngleY);
+        break;
+    case MAP_THING_TYPE_PRIM:
+        // 3ds Prim Mesh
+        //			engine.AngleDY=p_mthing->AngleY;
+        set_camera_angledy(p_mthing->AngleY);
 
-            //			if(p_mthing->Flags&FLAG_EDIT_PRIM_ON_FLOOR || (prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
+        //			if(p_mthing->Flags&FLAG_EDIT_PRIM_ON_FLOOR || (prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
 
-            /*
+        /*
 
-            if((prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
-            {
+        if((prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
+        {
 
-                    std::int32_t	px,py,pz,y;
+                std::int32_t	px,py,pz,y;
 
 extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz);
 
-                    find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
+                find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
 extern std::int32_t find_alt_for_this_pos(std::int32_t  x,std::int32_t  z);
-                    y=find_alt_for_this_pos(p_mthing->X,p_mthing->Z);
+                y=find_alt_for_this_pos(p_mthing->X,p_mthing->Z);
 //				y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
-                    y-=py;
-                    p_mthing->Y=y;
-            }
-            else
-            if(prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR)
-            {
+                y-=py;
+                p_mthing->Y=y;
+        }
+        else
+        if(prim_objects[p_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR)
+        {
 
-                    std::int32_t	px,py,pz,y;
+                std::int32_t	px,py,pz,y;
 
 extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_t *py,std::int32_t *pz);
 
-                    find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
+                find_things_min_point(p_mthing->IndexOther,&px,&py,&pz);
 
-                    y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
-                    y-=py;
-                    p_mthing->Y=y;
-            }
-            */
+                y=calc_edit_height_at(p_mthing->X,p_mthing->Z);
+                y-=py;
+                p_mthing->Y=y;
+        }
+        */
 
-            draw_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, 1);
-            set_camera_angledy(0);
-            // engine.AngleDY=0;
-            break;
-        case MAP_THING_TYPE_BUILDING:
-            draw_a_building_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
-            break;
-        case MAP_THING_TYPE_MULTI_PRIM:
-            draw_a_multi_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
-            break;
+        draw_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, 1);
+        set_camera_angledy(0);
+        // engine.AngleDY=0;
+        break;
+    case MAP_THING_TYPE_BUILDING:
+        draw_a_building_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+        break;
+    case MAP_THING_TYPE_MULTI_PRIM:
+        draw_a_multi_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+        break;
 
-        case MAP_THING_TYPE_ROT_MULTI:
+    case MAP_THING_TYPE_ROT_MULTI:
 #ifdef DOGPOO
-            //			break;
-            rotate_obj(
-                p_mthing->AngleX,
-                p_mthing->AngleY,
-                p_mthing->AngleZ,
-                &r_matrix);
-            // if(p_mthing->AnimElements&&p_mthing->NextAnimElements)
-            if (p_mthing->CurrentFrame && p_mthing->NextFrame) {
-                for (c1 = 0, c0 = prim_multi_objects[test_chunk->MultiObject].StartObject; c0 < prim_multi_objects[test_chunk->MultiObject].EndObject; c0++, c1++) {
-                    /*					if(c1==1)
-                                                            {
-                    extern std::uint8_t	store_pos;
-                                                                    store_pos	=	1;
-                                                            }
-                    */
-                    draw_prim_tween(
-                        c0,
-                        p_mthing->X, p_mthing->Y, p_mthing->Z,
-                        p_mthing->TweenStage,
-                        &p_mthing->CurrentFrame->FirstElement[c1],
-                        &p_mthing->NextFrame->FirstElement[c1],
-                        //&p_mthing->AnimElements[c1],
-                        //&p_mthing->NextAnimElements[c1],
-                        &r_matrix);
-                }
+        //			break;
+        rotate_obj(
+            p_mthing->AngleX,
+            p_mthing->AngleY,
+            p_mthing->AngleZ,
+            &r_matrix);
+        // if(p_mthing->AnimElements&&p_mthing->NextAnimElements)
+        if (p_mthing->CurrentFrame && p_mthing->NextFrame) {
+            for (c1 = 0, c0 = prim_multi_objects[test_chunk->MultiObject].StartObject; c0 < prim_multi_objects[test_chunk->MultiObject].EndObject; c0++, c1++) {
+                /*					if(c1==1)
+                                                        {
+                extern std::uint8_t	store_pos;
+                                                                store_pos	=	1;
+                                                        }
+                */
+                draw_prim_tween(
+                    c0,
+                    p_mthing->X, p_mthing->Y, p_mthing->Z,
+                    p_mthing->TweenStage,
+                    &p_mthing->CurrentFrame->FirstElement[c1],
+                    &p_mthing->NextFrame->FirstElement[c1],
+                    //&p_mthing->AnimElements[c1],
+                    //&p_mthing->NextAnimElements[c1],
+                    &r_matrix);
             }
+        }
 #endif
-            break;
-        case MAP_THING_TYPE_SPRITE:
-        case MAP_THING_TYPE_AGENT:
-            break;
+        break;
+    case MAP_THING_TYPE_SPRITE:
+    case MAP_THING_TYPE_AGENT:
+        break;
     }
 }
 
@@ -2934,18 +2933,18 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
         page = ((struct MiniTextureBits *) (&tex))->Page;
         tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&tex))->Size]-1;
         switch (((struct MiniTextureBits *) (&tex))->Rot) {
-            case 0:
-                SET_TX_TY(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
-                break;
-            case 1:
-                SET_TX_TY(, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
-                break;
-            case 2:
-                SET_TX_TY(, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
-                break;
-            case 3:
-                SET_TX_TY(, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
-                break;
+        case 0:
+            SET_TX_TY(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
+            break;
+        case 1:
+            SET_TX_TY(, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
+            break;
+        case 2:
+            SET_TX_TY(, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
+            break;
+        case 3:
+            SET_TX_TY(, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
+            break;
         }
     }
 
@@ -2953,44 +2952,44 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
 
     if (shadow) {
         switch (shadow) {
-            case 1: // all shadow
-                s1 -= SHADOW_SIZE;
-                s2 -= SHADOW_SIZE;
-                s3 -= SHADOW_SIZE;
-                s4 -= SHADOW_SIZE;
-                CLIPNEG(s1);
-                CLIPNEG(s2);
-                CLIPNEG(s3);
-                CLIPNEG(s4);
-                break;
-            case 2:
-                //   .
-                //  ..
-                // ...
-                add_floor_tri_to_bucket(x2, y2, z2, x4, y4, z4, x3, y3, z3, p_map, s2, s4, s3, 1, tx2, ty2, tx4, ty4, tx3, ty3, page);
-                add_floor_tri_to_bucket(x2, y2, z2, x3, y3, z3, x1, y1, z1, p_map, s2, s3, s1, 0, tx2, ty2, tx3, ty3, tx1, ty1, page);
-                return (ret);
-            case 3:
-                // .
-                // ..
-                // ...
-                add_floor_tri_to_bucket(x1, y1, z1, x4, y4, z4, x3, y3, z3, p_map, s1, s4, s3, 1, tx1, ty1, tx4, ty4, tx3, ty3, page);
-                add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x4, y4, z4, p_map, s1, s2, s4, 0, tx1, ty1, tx2, ty2, tx4, ty4, page);
-                return (ret);
-            case 4:
-                // ...
-                // ..
-                // .
-                add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x3, y3, z3, p_map, s1, s2, s3, 1, tx1, ty1, tx2, ty2, tx3, ty3, page);
-                add_floor_tri_to_bucket(x2, y2, z2, x4, y4, z4, x3, y3, z3, p_map, s2, s4, s3, 0, tx2, ty2, tx4, ty4, tx3, ty3, page);
-                return (ret);
-            case 5:
-                // ...
-                //  ..
-                //   .
-                add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x4, y4, z4, p_map, s1, s2, s4, 1, tx1, ty1, tx2, ty2, tx4, ty4, page);
-                add_floor_tri_to_bucket(x1, y1, z1, x4, y4, z4, x3, y3, z3, p_map, s1, s4, s3, 0, tx1, ty1, tx4, ty4, tx3, ty3, page);
-                return (ret);
+        case 1: // all shadow
+            s1 -= SHADOW_SIZE;
+            s2 -= SHADOW_SIZE;
+            s3 -= SHADOW_SIZE;
+            s4 -= SHADOW_SIZE;
+            CLIPNEG(s1);
+            CLIPNEG(s2);
+            CLIPNEG(s3);
+            CLIPNEG(s4);
+            break;
+        case 2:
+            //   .
+            //  ..
+            // ...
+            add_floor_tri_to_bucket(x2, y2, z2, x4, y4, z4, x3, y3, z3, p_map, s2, s4, s3, 1, tx2, ty2, tx4, ty4, tx3, ty3, page);
+            add_floor_tri_to_bucket(x2, y2, z2, x3, y3, z3, x1, y1, z1, p_map, s2, s3, s1, 0, tx2, ty2, tx3, ty3, tx1, ty1, page);
+            return (ret);
+        case 3:
+            // .
+            // ..
+            // ...
+            add_floor_tri_to_bucket(x1, y1, z1, x4, y4, z4, x3, y3, z3, p_map, s1, s4, s3, 1, tx1, ty1, tx4, ty4, tx3, ty3, page);
+            add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x4, y4, z4, p_map, s1, s2, s4, 0, tx1, ty1, tx2, ty2, tx4, ty4, page);
+            return (ret);
+        case 4:
+            // ...
+            // ..
+            // .
+            add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x3, y3, z3, p_map, s1, s2, s3, 1, tx1, ty1, tx2, ty2, tx3, ty3, page);
+            add_floor_tri_to_bucket(x2, y2, z2, x4, y4, z4, x3, y3, z3, p_map, s2, s4, s3, 0, tx2, ty2, tx4, ty4, tx3, ty3, page);
+            return (ret);
+        case 5:
+            // ...
+            //  ..
+            //   .
+            add_floor_tri_to_bucket(x1, y1, z1, x2, y2, z2, x4, y4, z4, p_map, s1, s2, s4, 1, tx1, ty1, tx2, ty2, tx4, ty4, page);
+            add_floor_tri_to_bucket(x1, y1, z1, x4, y4, z4, x3, y3, z3, p_map, s1, s4, s3, 0, tx1, ty1, tx4, ty4, tx3, ty3, page);
+            return (ret);
         }
     }
 
@@ -3826,57 +3825,57 @@ struct {
     const char *name;
     void (*func)(FILE *f, int ind, long p);
 } ChunkNames[] = {
-    {CHUNK_RGBF, "RGB float", RGBFReader},
-    {CHUNK_RGBB, "RGB byte", RGBBReader},
+    {CHUNK_RGBF,         "RGB float",               RGBFReader        },
+    {CHUNK_RGBB,         "RGB byte",                RGBBReader        },
 
-    {CHUNK_PRJ, "Project", nullptr},
-    {CHUNK_MLI, "Material Library", nullptr},
+    {CHUNK_PRJ,          "Project",                 nullptr           },
+    {CHUNK_MLI,          "Material Library",        nullptr           },
 
-    {CHUNK_MAIN, "Main", nullptr},
-    {CHUNK_OBJMESH, "Object Mesh", nullptr},
-    {CHUNK_BKGCOLOR, "Background color", nullptr},
-    {CHUNK_AMBCOLOR, "Ambient color", nullptr},
-    {CHUNK_OBJBLOCK, "Object Block", ObjBlockReader},
-    {CHUNK_TRIMESH, "Tri-Mesh", nullptr},
-    {CHUNK_VERTLIST, "Vertex list", VertListReader},
-    {CHUNK_FACELIST, "Face list", FaceListReader},
-    {CHUNK_FACEMAT, "Face material", FaceMatReader},
-    {CHUNK_MAPLIST, "Mappings list", MapListReader},
-    {CHUNK_SMOOLIST, "Smoothings", SmooListReader},
-    {CHUNK_TRMATRIX, "Matrix", TrMatrixReader},
-    {CHUNK_LIGHT, "Light", LightReader},
-    {CHUNK_SPOTLIGHT, "Spotlight", SpotLightReader},
-    {CHUNK_CAMERA, "Camera", CameraReader},
-    {CHUNK_HIERARCHY, "Hierarchy", nullptr},
+    {CHUNK_MAIN,         "Main",                    nullptr           },
+    {CHUNK_OBJMESH,      "Object Mesh",             nullptr           },
+    {CHUNK_BKGCOLOR,     "Background color",        nullptr           },
+    {CHUNK_AMBCOLOR,     "Ambient color",           nullptr           },
+    {CHUNK_OBJBLOCK,     "Object Block",            ObjBlockReader    },
+    {CHUNK_TRIMESH,      "Tri-Mesh",                nullptr           },
+    {CHUNK_VERTLIST,     "Vertex list",             VertListReader    },
+    {CHUNK_FACELIST,     "Face list",               FaceListReader    },
+    {CHUNK_FACEMAT,      "Face material",           FaceMatReader     },
+    {CHUNK_MAPLIST,      "Mappings list",           MapListReader     },
+    {CHUNK_SMOOLIST,     "Smoothings",              SmooListReader    },
+    {CHUNK_TRMATRIX,     "Matrix",                  TrMatrixReader    },
+    {CHUNK_LIGHT,        "Light",                   LightReader       },
+    {CHUNK_SPOTLIGHT,    "Spotlight",               SpotLightReader   },
+    {CHUNK_CAMERA,       "Camera",                  CameraReader      },
+    {CHUNK_HIERARCHY,    "Hierarchy",               nullptr           },
 
-    {CHUNK_VIEWPORT, "Viewport info", nullptr},
-    {CHUNK_MATERIAL, "Material", nullptr},
-    {CHUNK_MATNAME, "Material name", MatNameReader},
-    {CHUNK_AMBIENT, "Ambient color", nullptr},
-    {CHUNK_DIFFUSE, "Diffuse color", nullptr},
-    {CHUNK_SPECULAR, "Specular color", nullptr},
-    {CHUNK_TEXTURE, "Texture map", nullptr},
-    {CHUNK_BUMPMAP, "Bump map", nullptr},
-    {CHUNK_MAPFILE, "Map filename", MapFileReader},
+    {CHUNK_VIEWPORT,     "Viewport info",           nullptr           },
+    {CHUNK_MATERIAL,     "Material",                nullptr           },
+    {CHUNK_MATNAME,      "Material name",           MatNameReader     },
+    {CHUNK_AMBIENT,      "Ambient color",           nullptr           },
+    {CHUNK_DIFFUSE,      "Diffuse color",           nullptr           },
+    {CHUNK_SPECULAR,     "Specular color",          nullptr           },
+    {CHUNK_TEXTURE,      "Texture map",             nullptr           },
+    {CHUNK_BUMPMAP,      "Bump map",                nullptr           },
+    {CHUNK_MAPFILE,      "Map filename",            MapFileReader     },
 
-    {CHUNK_KEYFRAMER, "Keyframer data", nullptr},
-    {CHUNK_AMBIENTKEY, "Ambient key", nullptr},
-    {CHUNK_TRACKINFO, "Track info", nullptr},
-    {CHUNK_FRAMES, "Frames", FramesReader},
-    {CHUNK_TRACKOBJNAME, "Track Obj. Name", TrackObjNameReader},
-    {CHUNK_TRACKPIVOT, "Pivot point", PivotPointReader},
-    {CHUNK_TRACKPOS, "Position keys", TrackPosReader},
-    {CHUNK_TRACKROTATE, "Rotation keys", TrackRotReader},
-    {CHUNK_TRACKSCALE, "Scale keys", TrackScaleReader},
-    {CHUNK_OBJNUMBER, "Object number", ObjNumberReader},
+    {CHUNK_KEYFRAMER,    "Keyframer data",          nullptr           },
+    {CHUNK_AMBIENTKEY,   "Ambient key",             nullptr           },
+    {CHUNK_TRACKINFO,    "Track info",              nullptr           },
+    {CHUNK_FRAMES,       "Frames",                  FramesReader      },
+    {CHUNK_TRACKOBJNAME, "Track Obj. Name",         TrackObjNameReader},
+    {CHUNK_TRACKPIVOT,   "Pivot point",             PivotPointReader  },
+    {CHUNK_TRACKPOS,     "Position keys",           TrackPosReader    },
+    {CHUNK_TRACKROTATE,  "Rotation keys",           TrackRotReader    },
+    {CHUNK_TRACKSCALE,   "Scale keys",              TrackScaleReader  },
+    {CHUNK_OBJNUMBER,    "Object number",           ObjNumberReader   },
 
-    {CHUNK_TRACKCAMERA, "Camera track", nullptr},
-    {CHUNK_TRACKCAMTGT, "Camera target track", nullptr},
-    {CHUNK_TRACKLIGHT, "Pointlight track", nullptr},
-    {CHUNK_TRACKLIGTGT, "Pointlight target track", nullptr},
-    {CHUNK_TRACKSPOTL, "Spotlight track", nullptr},
-    {CHUNK_TRACKFOV, "FOV track", nullptr},
-    {CHUNK_TRACKROLL, "Roll track", nullptr},
+    {CHUNK_TRACKCAMERA,  "Camera track",            nullptr           },
+    {CHUNK_TRACKCAMTGT,  "Camera target track",     nullptr           },
+    {CHUNK_TRACKLIGHT,   "Pointlight track",        nullptr           },
+    {CHUNK_TRACKLIGTGT,  "Pointlight target track", nullptr           },
+    {CHUNK_TRACKSPOTL,   "Spotlight track",         nullptr           },
+    {CHUNK_TRACKFOV,     "FOV track",               nullptr           },
+    {CHUNK_TRACKROLL,    "Roll track",              nullptr           },
 };
 
 int FindChunk(word id) {

@@ -80,10 +80,11 @@ std::int32_t NAV_wall_in_way(std::int32_t x, std::int32_t z, std::int32_t dirn) 
 
     } offset[4] =
         {
-            {0, -1},
-            {1, 0},
-            {0, 1},
-            {-1, 0}};
+            {0,  -1},
+            {1,  0 },
+            {0,  1 },
+            {-1, 0 }
+    };
 
     ASSERT(WITHIN(dirn, 0, 3));
 

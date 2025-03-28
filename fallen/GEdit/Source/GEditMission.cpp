@@ -373,22 +373,22 @@ void free_eventpoint(EventPoint *the_ep) {
                 free((void *) the_ep->Radius);
         }
         switch (the_ep->WaypointType) {
-            case WPT_MESSAGE:
-            case WPT_CREATE_MAP_EXIT:
-            case WPT_SHOUT:
-            case WPT_NAV_BEACON:
-            case WPT_BONUS_POINTS:
-            case WPT_CONVERSATION:
-                if (the_ep->Data[0]) {
-                    free((void *) the_ep->Data[0]);
-                    the_ep->Data[0] = 0;
-                }
-                break;
-            case WPT_CUT_SCENE:
-                if (the_ep->Data[0])
-                    CUTSCENE_data_free((CSData *) the_ep->Data[0]);
+        case WPT_MESSAGE:
+        case WPT_CREATE_MAP_EXIT:
+        case WPT_SHOUT:
+        case WPT_NAV_BEACON:
+        case WPT_BONUS_POINTS:
+        case WPT_CONVERSATION:
+            if (the_ep->Data[0]) {
+                free((void *) the_ep->Data[0]);
                 the_ep->Data[0] = 0;
-                break;
+            }
+            break;
+        case WPT_CUT_SCENE:
+            if (the_ep->Data[0])
+                CUTSCENE_data_free((CSData *) the_ep->Data[0]);
+            the_ep->Data[0] = 0;
+            break;
         }
         ep_base = current_mission->EventPoints;
 
@@ -431,43 +431,43 @@ void write_event_extra(FILE *file_handle, EventPoint *ep) {
 
     if (ep->Used) {
         switch (ep->WaypointType) {
-            case WPT_MESSAGE:
-            case WPT_CREATE_MAP_EXIT:
-            case WPT_SHOUT:
-            case WPT_NAV_BEACON:
-            case WPT_CONVERSATION:
-            case WPT_BONUS_POINTS:
-                u = 1;
-                fwrite(&u, 1, 1, file_handle);
-                if (!ep->Data[0]) {
-                    l = 0;
-                    fwrite(&l, 4, 1, file_handle);
-                } else {
-                    l = strlen((char *) ep->Data[0]);
-                    fwrite(&l, 4, 1, file_handle);
-                    fwrite((void *) ep->Data[0], l, 1, file_handle);
-                }
-                break;
-            case WPT_CUT_SCENE:
-                u = 2;
-                fwrite(&u, 1, 1, file_handle);
-                CUTSCENE_write(file_handle, (CSData *) ep->Data[0]);
-                break;
+        case WPT_MESSAGE:
+        case WPT_CREATE_MAP_EXIT:
+        case WPT_SHOUT:
+        case WPT_NAV_BEACON:
+        case WPT_CONVERSATION:
+        case WPT_BONUS_POINTS:
+            u = 1;
+            fwrite(&u, 1, 1, file_handle);
+            if (!ep->Data[0]) {
+                l = 0;
+                fwrite(&l, 4, 1, file_handle);
+            } else {
+                l = strlen((char *) ep->Data[0]);
+                fwrite(&l, 4, 1, file_handle);
+                fwrite((void *) ep->Data[0], l, 1, file_handle);
+            }
+            break;
+        case WPT_CUT_SCENE:
+            u = 2;
+            fwrite(&u, 1, 1, file_handle);
+            CUTSCENE_write(file_handle, (CSData *) ep->Data[0]);
+            break;
         }
         switch (ep->TriggeredBy) {
-            case TT_SHOUT_ALL:
-            case TT_SHOUT_ANY:
-                u = 1;
-                fwrite(&u, 1, 1, file_handle);
-                if (!ep->Radius) {
-                    l = 0;
-                    fwrite(&l, 4, 1, file_handle);
-                } else {
-                    l = strlen((char *) ep->Radius);
-                    fwrite(&l, 4, 1, file_handle);
-                    fwrite((void *) ep->Radius, l, 1, file_handle);
-                }
-                break;
+        case TT_SHOUT_ALL:
+        case TT_SHOUT_ANY:
+            u = 1;
+            fwrite(&u, 1, 1, file_handle);
+            if (!ep->Radius) {
+                l = 0;
+                fwrite(&l, 4, 1, file_handle);
+            } else {
+                l = strlen((char *) ep->Radius);
+                fwrite(&l, 4, 1, file_handle);
+                fwrite((void *) ep->Radius, l, 1, file_handle);
+            }
+            break;
         }
     }
 }
@@ -481,58 +481,58 @@ void read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, std::
 
     if (ep->Used) {
         switch (ep->WaypointType) {
-            case WPT_NAV_BEACON:
-                // a strange little thing cropped up.
-                if (!ep->Data[9])
-                    ep->Data[9] = 1000 + (ep - base); // unique :}
-                                                      // FALL THRU
-            case WPT_MESSAGE:
-            case WPT_BONUS_POINTS:
-            case WPT_CONVERSATION:
-                // these will need translations done
-                if (ver < 7) {
-                    // generate fresh ID
-                    ep->Data[9] = ep - base;
-                }
-                // FALL THRU
-            case WPT_CREATE_MAP_EXIT:
-            case WPT_SHOUT:
-                if (ver > 7) // has a byte-code indicating what it is
-                    fread(&u, 1, 1, file_handle);
-                // these don't have translations, they're internal codes or filenames
-                if (ver > 4)
-                    fread(&l, 4, 1, file_handle);
-                else
-                    l = _MAX_PATH;
-                if (l) {
-                    ep->Data[0] = (std::int32_t) malloc(l + 1);
-                    ZeroMemory((char *) ep->Data[0], l + 1);
-                    fread((void *) ep->Data[0], l, 1, file_handle);
-                } else
-                    ep->Data[0] = 0;
-                break;
-            case WPT_CUT_SCENE:
-                if (ver > 7) // has a byte-code indicating what it is
-                    fread(&u, 1, 1, file_handle);
-                CUTSCENE_read(file_handle, (CSData **) &ep->Data[0]);
-                break;
+        case WPT_NAV_BEACON:
+            // a strange little thing cropped up.
+            if (!ep->Data[9])
+                ep->Data[9] = 1000 + (ep - base); // unique :}
+                                                  // FALL THRU
+        case WPT_MESSAGE:
+        case WPT_BONUS_POINTS:
+        case WPT_CONVERSATION:
+            // these will need translations done
+            if (ver < 7) {
+                // generate fresh ID
+                ep->Data[9] = ep - base;
+            }
+            // FALL THRU
+        case WPT_CREATE_MAP_EXIT:
+        case WPT_SHOUT:
+            if (ver > 7) // has a byte-code indicating what it is
+                fread(&u, 1, 1, file_handle);
+            // these don't have translations, they're internal codes or filenames
+            if (ver > 4)
+                fread(&l, 4, 1, file_handle);
+            else
+                l = _MAX_PATH;
+            if (l) {
+                ep->Data[0] = (std::int32_t) malloc(l + 1);
+                ZeroMemory((char *) ep->Data[0], l + 1);
+                fread((void *) ep->Data[0], l, 1, file_handle);
+            } else
+                ep->Data[0] = 0;
+            break;
+        case WPT_CUT_SCENE:
+            if (ver > 7) // has a byte-code indicating what it is
+                fread(&u, 1, 1, file_handle);
+            CUTSCENE_read(file_handle, (CSData **) &ep->Data[0]);
+            break;
         }
         switch (ep->TriggeredBy) {
-            case TT_SHOUT_ANY:
-            case TT_SHOUT_ALL:
-                if (ver > 7) // has a byte-code indicating what it is
-                    fread(&u, 1, 1, file_handle);
-                if (ver > 4)
-                    fread(&l, 4, 1, file_handle);
-                else
-                    l = _MAX_PATH;
-                if (l) {
-                    ep->Radius = (std::int32_t) malloc(l + 1);
-                    ZeroMemory((char *) ep->Radius, l + 1);
-                    fread((void *) ep->Radius, l, 1, file_handle);
-                } else
-                    ep->Radius = 0;
-                break;
+        case TT_SHOUT_ANY:
+        case TT_SHOUT_ALL:
+            if (ver > 7) // has a byte-code indicating what it is
+                fread(&u, 1, 1, file_handle);
+            if (ver > 4)
+                fread(&l, 4, 1, file_handle);
+            else
+                l = _MAX_PATH;
+            if (l) {
+                ep->Radius = (std::int32_t) malloc(l + 1);
+                ZeroMemory((char *) ep->Radius, l + 1);
+                fread((void *) ep->Radius, l, 1, file_handle);
+            } else
+                ep->Radius = 0;
+            break;
         }
     }
 }
@@ -640,230 +640,230 @@ bool export_mission() {
                         ep = &temp_mission->EventPoints[i];
 
                         switch (ep->WaypointType) {
-                            case WPT_NONE:
-                            case WPT_SIMPLE:
-                            case WPT_CREATE_PLAYER:
-                                break;
+                        case WPT_NONE:
+                        case WPT_SIMPLE:
+                        case WPT_CREATE_PLAYER:
+                            break;
 
-                            case WPT_ADJUST_ENEMY:
-                                MARK_REFERENCED(ep->Data[6]);
-                                break;
+                        case WPT_ADJUST_ENEMY:
+                            MARK_REFERENCED(ep->Data[6]);
+                            break;
 
-                            case WPT_CREATE_ENEMIES:
+                        case WPT_CREATE_ENEMIES:
 
-                                if (ep->Data[5] == 8) // Bodyguard
-                                {
-                                    MARK_REFERENCED(ep->Data[7]);
-                                }
+                            if (ep->Data[5] == 8) // Bodyguard
+                            {
+                                MARK_REFERENCED(ep->Data[7]);
+                            }
 
-                                if (ep->Data[3] == 4) // Follow
-                                {
-                                    MARK_REFERENCED(ep->Data[1]);
-                                }
-
-                                break;
-
-                            case WPT_CREATE_VEHICLE:
-                            case WPT_CREATE_ITEM:
-                            case WPT_CREATE_CREATURE:
-                            case WPT_CREATE_CAMERA:
-                            case WPT_CAMERA_WAYPOINT:
-                            case WPT_CREATE_TARGET:
-                            case WPT_TARGET_WAYPOINT:
-                            case WPT_CREATE_MAP_EXIT:
-                            case WPT_MESSAGE:
-                            case WPT_WAREFX:
-                                break;
-
-                            case WPT_CONVERSATION:
+                            if (ep->Data[3] == 4) // Follow
+                            {
                                 MARK_REFERENCED(ep->Data[1]);
-                                MARK_REFERENCED(ep->Data[2]);
-                                break;
+                            }
 
-                            case WPT_SOUND_EFFECT:
-                            case WPT_VISUAL_EFFECT:
-                            case WPT_SPOT_EFFECT:
-                            case WPT_CUT_SCENE:
-                            case WPT_TELEPORT:
-                            case WPT_TELEPORT_TARGET:
-                            case WPT_END_GAME_LOSE:
-                            case WPT_END_GAME_WIN:
-                            case WPT_SHOUT:
-                            case WPT_ACTIVATE_PRIM:
-                            case WPT_CREATE_TRAP:
-                            case WPT_LINK_PLATFORM:
-                            case WPT_CREATE_BOMB:
-                            case WPT_BURN_PRIM:
-                            case WPT_NAV_BEACON:
-                            case WPT_CREATE_BARREL:
-                            case WPT_CONE_PENALTIES:
-                            case WPT_NO_FLOOR:
-                            case WPT_SHAKE_CAMERA:
-                                break;
+                            break;
 
-                            case WPT_KILL_WAYPOINT:
-                                MARK_REFERENCED(ep->Data[0]);
-                                break;
+                        case WPT_CREATE_VEHICLE:
+                        case WPT_CREATE_ITEM:
+                        case WPT_CREATE_CREATURE:
+                        case WPT_CREATE_CAMERA:
+                        case WPT_CAMERA_WAYPOINT:
+                        case WPT_CREATE_TARGET:
+                        case WPT_TARGET_WAYPOINT:
+                        case WPT_CREATE_MAP_EXIT:
+                        case WPT_MESSAGE:
+                        case WPT_WAREFX:
+                            break;
 
-                            case WPT_CREATE_TREASURE:
-                            case WPT_BONUS_POINTS:
-                            case WPT_GROUP_LIFE:
-                            case WPT_GROUP_DEATH:
-                            case WPT_INTERESTING:
-                            case WPT_INCREMENT:
-                            case WPT_DYNAMIC_LIGHT:
-                            case WPT_GOTHERE_DOTHIS:
-                            case WPT_GROUP_RESET:
-                            case WPT_COUNT_UP_TIMER:
-                            case WPT_RESET_COUNTER:
-                            case WPT_CREATE_MIST:
-                                break;
+                        case WPT_CONVERSATION:
+                            MARK_REFERENCED(ep->Data[1]);
+                            MARK_REFERENCED(ep->Data[2]);
+                            break;
 
-                            case WPT_TRANSFER_PLAYER:
-                                MARK_REFERENCED(ep->Data[0]);
-                                break;
+                        case WPT_SOUND_EFFECT:
+                        case WPT_VISUAL_EFFECT:
+                        case WPT_SPOT_EFFECT:
+                        case WPT_CUT_SCENE:
+                        case WPT_TELEPORT:
+                        case WPT_TELEPORT_TARGET:
+                        case WPT_END_GAME_LOSE:
+                        case WPT_END_GAME_WIN:
+                        case WPT_SHOUT:
+                        case WPT_ACTIVATE_PRIM:
+                        case WPT_CREATE_TRAP:
+                        case WPT_LINK_PLATFORM:
+                        case WPT_CREATE_BOMB:
+                        case WPT_BURN_PRIM:
+                        case WPT_NAV_BEACON:
+                        case WPT_CREATE_BARREL:
+                        case WPT_CONE_PENALTIES:
+                        case WPT_NO_FLOOR:
+                        case WPT_SHAKE_CAMERA:
+                            break;
 
-                            case WPT_AUTOSAVE:
-                            case WPT_MAKE_SEARCHABLE:
-                                break;
+                        case WPT_KILL_WAYPOINT:
+                            MARK_REFERENCED(ep->Data[0]);
+                            break;
 
-                            case WPT_LOCK_VEHICLE:
-                                MARK_REFERENCED(ep->Data[0]);
-                                break;
+                        case WPT_CREATE_TREASURE:
+                        case WPT_BONUS_POINTS:
+                        case WPT_GROUP_LIFE:
+                        case WPT_GROUP_DEATH:
+                        case WPT_INTERESTING:
+                        case WPT_INCREMENT:
+                        case WPT_DYNAMIC_LIGHT:
+                        case WPT_GOTHERE_DOTHIS:
+                        case WPT_GROUP_RESET:
+                        case WPT_COUNT_UP_TIMER:
+                        case WPT_RESET_COUNTER:
+                        case WPT_CREATE_MIST:
+                            break;
 
-                            case WPT_STALL_CAR:
-                                MARK_REFERENCED(ep->Data[0]);
-                                break;
+                        case WPT_TRANSFER_PLAYER:
+                            MARK_REFERENCED(ep->Data[0]);
+                            break;
 
-                            case WPT_EXTEND:
-                            case WPT_MOVE_THING:
-                            case WPT_MAKE_PERSON_PEE:
-                                MARK_REFERENCED(ep->Data[0]);
-                                break;
+                        case WPT_AUTOSAVE:
+                        case WPT_MAKE_SEARCHABLE:
+                            break;
 
-                            case WPT_SIGN:
-                                break;
+                        case WPT_LOCK_VEHICLE:
+                            MARK_REFERENCED(ep->Data[0]);
+                            break;
 
-                            default: // arg. yet another bloody assert that goes off when you add a new wpt type
-                                     // Got me too- like the validate one did!
+                        case WPT_STALL_CAR:
+                            MARK_REFERENCED(ep->Data[0]);
+                            break;
 
-                                ASSERT(0);
-                                return false;
+                        case WPT_EXTEND:
+                        case WPT_MOVE_THING:
+                        case WPT_MAKE_PERSON_PEE:
+                            MARK_REFERENCED(ep->Data[0]);
+                            break;
+
+                        case WPT_SIGN:
+                            break;
+
+                        default: // arg. yet another bloody assert that goes off when you add a new wpt type
+                                 // Got me too- like the validate one did!
+
+                            ASSERT(0);
+                            return false;
                         }
 
                         switch (ep->TriggeredBy) {
-                            case TT_NONE:
-                                break;
+                        case TT_NONE:
+                            break;
 
-                            case TT_DEPENDENCY:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_DEPENDENCY:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_RADIUS:
-                            case TT_DOOR:
-                            case TT_TRIPWIRE:
-                            case TT_PRESSURE_PAD:
-                            case TT_ELECTRIC_FENCE:
-                            case TT_WATER_LEVEL:
-                            case TT_SECURITY_CAMERA:
-                            case TT_SWITCH:
-                            case TT_ANIM_PRIM:
-                            case TT_TIMER:
-                            case TT_SHOUT_ALL:
-                                break;
+                        case TT_RADIUS:
+                        case TT_DOOR:
+                        case TT_TRIPWIRE:
+                        case TT_PRESSURE_PAD:
+                        case TT_ELECTRIC_FENCE:
+                        case TT_WATER_LEVEL:
+                        case TT_SECURITY_CAMERA:
+                        case TT_SWITCH:
+                        case TT_ANIM_PRIM:
+                        case TT_TIMER:
+                        case TT_SHOUT_ALL:
+                            break;
 
-                            case TT_BOOLEANAND:
-                            case TT_BOOLEANOR:
-                                MARK_REFERENCED(ep->EPRef);
-                                MARK_REFERENCED(ep->EPRefBool);
-                                break;
+                        case TT_BOOLEANAND:
+                        case TT_BOOLEANOR:
+                            MARK_REFERENCED(ep->EPRef);
+                            MARK_REFERENCED(ep->EPRefBool);
+                            break;
 
-                            case TT_ITEM_HELD:
-                            case TT_SPECIFIC_ITEM_HELD:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_ITEM_HELD:
+                        case TT_SPECIFIC_ITEM_HELD:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_ITEM_SEEN:
-                                break;
+                        case TT_ITEM_SEEN:
+                            break;
 
-                            case TT_KILLED:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_KILLED:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_SHOUT_ANY:
-                                break;
+                        case TT_SHOUT_ANY:
+                            break;
 
-                            case TT_COUNTDOWN:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_COUNTDOWN:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_ENEMYRADIUS:
-                            case TT_THING_RADIUS_DIR:
-                            case TT_MOVE_RADIUS_DIR:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_ENEMYRADIUS:
+                        case TT_THING_RADIUS_DIR:
+                        case TT_MOVE_RADIUS_DIR:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_VISIBLECOUNTDOWN:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_VISIBLECOUNTDOWN:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_CUBOID:
-                                break;
+                        case TT_CUBOID:
+                            break;
 
-                            case TT_HALFDEAD:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_HALFDEAD:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_PERSON_SEEN:
-                            case TT_PERSON_IN_VEHICLE:
-                                MARK_REFERENCED(ep->EPRef);
-                                MARK_REFERENCED(ep->EPRefBool);
-                                break;
+                        case TT_PERSON_SEEN:
+                        case TT_PERSON_IN_VEHICLE:
+                            MARK_REFERENCED(ep->EPRef);
+                            MARK_REFERENCED(ep->EPRefBool);
+                            break;
 
-                            case TT_PERSON_USED:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_PERSON_USED:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_PLAYER_USES_RADIUS:
-                            case TT_GROUPDEAD:
-                            case TT_PRIM_DAMAGED:
-                                break;
+                        case TT_PLAYER_USES_RADIUS:
+                        case TT_GROUPDEAD:
+                        case TT_PRIM_DAMAGED:
+                            break;
 
-                            case TT_PERSON_ARRESTED:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_PERSON_ARRESTED:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_CONVERSATION_OVER:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_CONVERSATION_OVER:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_COUNTER:
-                                break;
+                        case TT_COUNTER:
+                            break;
 
-                            case TT_KILLED_NOT_ARRESTED:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_KILLED_NOT_ARRESTED:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_CRIME_RATE_ABOVE:
-                            case TT_CRIME_RATE_BELOW:
-                                break;
+                        case TT_CRIME_RATE_ABOVE:
+                        case TT_CRIME_RATE_BELOW:
+                            break;
 
-                            case TT_PERSON_IS_MURDERER:
-                            case TT_RANDOM:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_PERSON_IS_MURDERER:
+                        case TT_RANDOM:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            case TT_PLAYER_FIRES_GUN:
-                            case TT_DARCI_GRABBED:
-                                break;
+                        case TT_PLAYER_FIRES_GUN:
+                        case TT_DARCI_GRABBED:
+                            break;
 
-                            case TT_PUNCHED_AND_KICKED:
-                                MARK_REFERENCED(ep->EPRef);
-                                break;
+                        case TT_PUNCHED_AND_KICKED:
+                            MARK_REFERENCED(ep->EPRef);
+                            break;
 
-                            default:
-                                ASSERT(0);
-                                break;
+                        default:
+                            ASSERT(0);
+                            break;
                         }
                     }
                 }
@@ -1121,15 +1121,15 @@ bool NoWaypointsFor(EventPoint *ep) {
 
 bool HasText(EventPoint *ep) {
     switch (ep->WaypointType) {
-        case WPT_MESSAGE:
-        case WPT_CREATE_MAP_EXIT:
-        case WPT_SHOUT:
-        case WPT_NAV_BEACON:
-        case WPT_BONUS_POINTS:
-        case WPT_CONVERSATION:
-            return (ep->Data[0]) ? 1 : 0;
-        default:
-            return 0;
+    case WPT_MESSAGE:
+    case WPT_CREATE_MAP_EXIT:
+    case WPT_SHOUT:
+    case WPT_NAV_BEACON:
+    case WPT_BONUS_POINTS:
+    case WPT_CONVERSATION:
+        return (ep->Data[0]) ? 1 : 0;
+    default:
+        return 0;
     }
 }
 
@@ -1272,275 +1272,275 @@ bool valid_ep(EventPoint *ep) {
     if ((ep->TriggeredBy == TT_CONVERSATION_OVER) && (current_mission->EventPoints[ep->EPRef].WaypointType != WPT_CONVERSATION)) return false;
 
     switch (ep->WaypointType) {
-        case WPT_NONE:
-            return false; // these don't exist
+    case WPT_NONE:
+        return false; // these don't exist
 
-        case WPT_SIMPLE:
-            return true; // these are simple
+    case WPT_SIMPLE:
+        return true; // these are simple
 
-        case WPT_CREATE_PLAYER:
-            return true; // these too
+    case WPT_CREATE_PLAYER:
+        return true; // these too
 
-        case WPT_ADJUST_ENEMY:
-            // same as create but extra check... (so, falling thru to next case)
-            if (!ep->Data[6]) return false;
-            if (current_mission->EventPoints[ep->Data[6]].WaypointType != WPT_CREATE_ENEMIES &&
-                current_mission->EventPoints[ep->Data[6]].WaypointType != WPT_CREATE_PLAYER) {
+    case WPT_ADJUST_ENEMY:
+        // same as create but extra check... (so, falling thru to next case)
+        if (!ep->Data[6]) return false;
+        if (current_mission->EventPoints[ep->Data[6]].WaypointType != WPT_CREATE_ENEMIES &&
+            current_mission->EventPoints[ep->Data[6]].WaypointType != WPT_CREATE_PLAYER) {
+            return false;
+        }
+        return true;
+
+    case WPT_CREATE_ENEMIES:
+        //		if ((!ep->Data[0])||(!ep->Data[1]))
+        if ((!HIWORD(ep->Data[0])) || (!LOWORD(ep->Data[0])))
+            return false;
+        // ai
+        switch (ep->Data[5] & 0xffff) {
+            //		if ((ep->Data[5]==3)||(ep->Data[5]==8)||(ep->Data[5]==17)) { // assassin/bodyguard/genocide
+        case 3:
+        case 8:
+        case 17:
+            std::int32_t targ;
+            if (!ep->Data[7]) return false;
+            targ = current_mission->EventPoints[ep->Data[7]].WaypointType;
+            if ((targ != WPT_CREATE_ENEMIES) && (targ != WPT_CREATE_PLAYER))
                 return false;
-            }
-            return true;
-
-        case WPT_CREATE_ENEMIES:
-            //		if ((!ep->Data[0])||(!ep->Data[1]))
-            if ((!HIWORD(ep->Data[0])) || (!LOWORD(ep->Data[0])))
-                return false;
-            // ai
-            switch (ep->Data[5] & 0xffff) {
-                    //		if ((ep->Data[5]==3)||(ep->Data[5]==8)||(ep->Data[5]==17)) { // assassin/bodyguard/genocide
-                case 3:
-                case 8:
-                case 17:
-                    std::int32_t targ;
-                    if (!ep->Data[7]) return false;
-                    targ = current_mission->EventPoints[ep->Data[7]].WaypointType;
-                    if ((targ != WPT_CREATE_ENEMIES) && (targ != WPT_CREATE_PLAYER))
-                        return false;
-                default:; // moo
-            }
-            // move
-            if ((ep->Data[3] == 1) || (ep->Data[3] == 2)) {
-                if (NoWaypointsFor(ep)) return false;
-            }
-            if (ep->Data[3] == 4) { // follow
-                std::int32_t targ;
-                if (!ep->Data[1]) return false;
-                targ = current_mission->EventPoints[ep->Data[1]].WaypointType;
-                if ((targ != WPT_CREATE_ENEMIES) && (targ != WPT_CREATE_PLAYER))
-                    return false;
-            }
-            return true;
-
-        case WPT_ENEMY_FLAGS:
-            if (!ep->Data[0]) return false;
-            if (current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_ENEMIES)
-                return false;
-            return true;
-
-        case WPT_CREATE_VEHICLE:
-            if (!ep->Data[0]) return false;
-            if ((ep->Data[1] == 3) && (!ep->Data[2])) return false;
-            return true;
-
-        case WPT_CREATE_ITEM:
-            if ((!ep->Data[0]) || (!ep->Data[1]))
-                return false;
-            return true;
-
-        case WPT_CREATE_CREATURE:
-            if ((!ep->Data[0]) || (!ep->Data[1]))
-                return false;
-            return true;
-
-        case WPT_CREATE_CAMERA:
-        case WPT_CAMERA_WAYPOINT:
-            return true; // need to find out what makes cameras invalid
-
-        case WPT_CREATE_TARGET:
-        case WPT_TARGET_WAYPOINT:
-            if ((!ep->Data[0]) || (!ep->Data[1]))
-                return false;
-            return true;
-
-        case WPT_CREATE_MAP_EXIT:
-            if (!ep->Data[0]) return false;
-            return true;
-
-        case WPT_MESSAGE:
-            if (!ep->Data[0]) return false;
-            return true;
-
-        case WPT_CONVERSATION:
-            if (!ep->Data[0]) return false;
+        default:; // moo
+        }
+        // move
+        if ((ep->Data[3] == 1) || (ep->Data[3] == 2)) {
+            if (NoWaypointsFor(ep)) return false;
+        }
+        if (ep->Data[3] == 4) { // follow
+            std::int32_t targ;
             if (!ep->Data[1]) return false;
-            if (!ep->Data[2]) return false;
+            targ = current_mission->EventPoints[ep->Data[1]].WaypointType;
+            if ((targ != WPT_CREATE_ENEMIES) && (targ != WPT_CREATE_PLAYER))
+                return false;
+        }
+        return true;
+
+    case WPT_ENEMY_FLAGS:
+        if (!ep->Data[0]) return false;
+        if (current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_ENEMIES)
+            return false;
+        return true;
+
+    case WPT_CREATE_VEHICLE:
+        if (!ep->Data[0]) return false;
+        if ((ep->Data[1] == 3) && (!ep->Data[2])) return false;
+        return true;
+
+    case WPT_CREATE_ITEM:
+        if ((!ep->Data[0]) || (!ep->Data[1]))
+            return false;
+        return true;
+
+    case WPT_CREATE_CREATURE:
+        if ((!ep->Data[0]) || (!ep->Data[1]))
+            return false;
+        return true;
+
+    case WPT_CREATE_CAMERA:
+    case WPT_CAMERA_WAYPOINT:
+        return true; // need to find out what makes cameras invalid
+
+    case WPT_CREATE_TARGET:
+    case WPT_TARGET_WAYPOINT:
+        if ((!ep->Data[0]) || (!ep->Data[1]))
+            return false;
+        return true;
+
+    case WPT_CREATE_MAP_EXIT:
+        if (!ep->Data[0]) return false;
+        return true;
+
+    case WPT_MESSAGE:
+        if (!ep->Data[0]) return false;
+        return true;
+
+    case WPT_CONVERSATION:
+        if (!ep->Data[0]) return false;
+        if (!ep->Data[1]) return false;
+        if (!ep->Data[2]) return false;
+        return true;
+
+    case WPT_SOUND_EFFECT:
+    case WPT_VISUAL_EFFECT:
+    case WPT_SPOT_EFFECT:
+    case WPT_CUT_SCENE:
+    case WPT_TELEPORT:
+    case WPT_TELEPORT_TARGET:
+    case WPT_END_GAME_LOSE:
+    case WPT_END_GAME_WIN:
+    case WPT_CONE_PENALTIES:
+    case WPT_NO_FLOOR:
+    case WPT_SHAKE_CAMERA:
+        return true;
+
+    case WPT_SHOUT:
+        if (!ep->Data[0]) return false;
+        return true;
+
+    case WPT_ACTIVATE_PRIM:
+    case WPT_CREATE_TRAP:
+    case WPT_LINK_PLATFORM:
+        return true;
+
+    case WPT_CREATE_BOMB:
+        // default is legit; it'll just be a dud...
+        return true;
+
+    case WPT_BURN_PRIM:
+        return true;
+
+    case WPT_NAV_BEACON:
+        return (ep->Data[0]) ? true : false;
+
+    case WPT_CREATE_BARREL:
+        return true;
+
+    case WPT_KILL_WAYPOINT:
+        return (ep->Data[0]) ? true : false;
+
+    case WPT_CREATE_TREASURE:
+        treasure_counter++;
+        return (ep->Data[0]) ? true : false;
+
+    case WPT_BONUS_POINTS:
+        return (ep->Data[0]) ? true : false;
+
+    case WPT_GROUP_LIFE:
+        return true;
+
+    case WPT_GROUP_DEATH:
+        return true;
+
+    case WPT_INTERESTING:
+        return true;
+
+    case WPT_DYNAMIC_LIGHT:
+        // might even not be a lie...
+        return true;
+
+    case WPT_INCREMENT:
+
+        //
+        // Make sure the counter is in range.
+        //
+
+        if (WITHIN(ep->Data[0], 1, 10)) {
             return true;
+        }
 
-        case WPT_SOUND_EFFECT:
-        case WPT_VISUAL_EFFECT:
-        case WPT_SPOT_EFFECT:
-        case WPT_CUT_SCENE:
-        case WPT_TELEPORT:
-        case WPT_TELEPORT_TARGET:
-        case WPT_END_GAME_LOSE:
-        case WPT_END_GAME_WIN:
-        case WPT_CONE_PENALTIES:
-        case WPT_NO_FLOOR:
-        case WPT_SHAKE_CAMERA:
-            return true;
+        return false;
 
-        case WPT_SHOUT:
-            if (!ep->Data[0]) return false;
-            return true;
+    case WPT_GOTHERE_DOTHIS:
+        return true;
 
-        case WPT_ACTIVATE_PRIM:
-        case WPT_CREATE_TRAP:
-        case WPT_LINK_PLATFORM:
-            return true;
+    case WPT_TRANSFER_PLAYER:
 
-        case WPT_CREATE_BOMB:
-            // default is legit; it'll just be a dud...
-            return true;
+        if (!WITHIN(ep->Data[0], 1, MAX_EVENTPOINTS - 1)) {
+            return false;
+        }
 
-        case WPT_BURN_PRIM:
-            return true;
+        if (current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_ENEMIES &&
+            current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_PLAYER) {
+            return false;
+        }
 
-        case WPT_NAV_BEACON:
-            return (ep->Data[0]) ? true : false;
+        return true;
 
-        case WPT_CREATE_BARREL:
-            return true;
+    case WPT_AUTOSAVE:
+    case WPT_MAKE_SEARCHABLE:
+        return true;
 
-        case WPT_KILL_WAYPOINT:
-            return (ep->Data[0]) ? true : false;
+    case WPT_LOCK_VEHICLE:
 
-        case WPT_CREATE_TREASURE:
-            treasure_counter++;
-            return (ep->Data[0]) ? true : false;
-
-        case WPT_BONUS_POINTS:
-            return (ep->Data[0]) ? true : false;
-
-        case WPT_GROUP_LIFE:
-            return true;
-
-        case WPT_GROUP_DEATH:
-            return true;
-
-        case WPT_INTERESTING:
-            return true;
-
-        case WPT_DYNAMIC_LIGHT:
-            // might even not be a lie...
-            return true;
-
-        case WPT_INCREMENT:
-
-            //
-            // Make sure the counter is in range.
-            //
-
-            if (WITHIN(ep->Data[0], 1, 10)) {
+    {
+        if (ep->Data[0]) {
+            if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE) {
                 return true;
             }
+        }
+    }
 
-            return false;
+        return false;
 
-        case WPT_GOTHERE_DOTHIS:
-            return true;
+        break;
 
-        case WPT_TRANSFER_PLAYER:
+    case WPT_GROUP_RESET:
+        return true;
 
-            if (!WITHIN(ep->Data[0], 1, MAX_EVENTPOINTS - 1)) {
-                return false;
+    case WPT_COUNT_UP_TIMER:
+        return true;
+
+    case WPT_RESET_COUNTER:
+        return WITHIN(ep->Data[0], 0, 9);
+
+    case WPT_CREATE_MIST:
+        return true;
+
+    case WPT_WAREFX:
+        return true;
+
+    case WPT_STALL_CAR:
+
+    {
+        if (ep->Data[0]) {
+            if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE) {
+                return true;
             }
+        }
+    }
 
-            if (current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_ENEMIES &&
-                current_mission->EventPoints[ep->Data[0]].WaypointType != WPT_CREATE_PLAYER) {
-                return false;
-            }
+        return false;
 
-            return true;
+    case WPT_EXTEND:
 
-        case WPT_AUTOSAVE:
-        case WPT_MAKE_SEARCHABLE:
-            return true;
-
-        case WPT_LOCK_VEHICLE:
-
-        {
-            if (ep->Data[0]) {
-                if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE) {
+    {
+        if (ep->Data[0]) {
+            if (current_mission->EventPoints[ep->Data[0]].TriggeredBy == TT_VISIBLECOUNTDOWN) {
+                if (ep->Data[1]) {
                     return true;
                 }
             }
         }
+    }
 
-            return false;
+        return false;
 
-            break;
+    case WPT_MOVE_THING:
 
-        case WPT_GROUP_RESET:
-            return true;
-
-        case WPT_COUNT_UP_TIMER:
-            return true;
-
-        case WPT_RESET_COUNTER:
-            return WITHIN(ep->Data[0], 0, 9);
-
-        case WPT_CREATE_MIST:
-            return true;
-
-        case WPT_WAREFX:
-            return true;
-
-        case WPT_STALL_CAR:
-
-        {
-            if (ep->Data[0]) {
-                if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE) {
-                    return true;
-                }
+        if (ep->Data[0]) {
+            if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE ||
+                current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_PLAYER ||
+                current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ENEMIES ||
+                current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ITEM ||
+                current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_CREATURE) {
+                return true;
             }
         }
 
-            return false;
+        return false;
 
-        case WPT_EXTEND:
+    case WPT_MAKE_PERSON_PEE:
 
-        {
-            if (ep->Data[0]) {
-                if (current_mission->EventPoints[ep->Data[0]].TriggeredBy == TT_VISIBLECOUNTDOWN) {
-                    if (ep->Data[1]) {
-                        return true;
-                    }
-                }
+        if (ep->Data[0]) {
+            if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_PLAYER ||
+                current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ENEMIES) {
+                return true;
             }
         }
 
-            return false;
+        return false;
 
-        case WPT_MOVE_THING:
+    case WPT_SIGN:
+        return true;
 
-            if (ep->Data[0]) {
-                if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_VEHICLE ||
-                    current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_PLAYER ||
-                    current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ENEMIES ||
-                    current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ITEM ||
-                    current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_CREATURE) {
-                    return true;
-                }
-            }
-
-            return false;
-
-        case WPT_MAKE_PERSON_PEE:
-
-            if (ep->Data[0]) {
-                if (current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_PLAYER ||
-                    current_mission->EventPoints[ep->Data[0]].WaypointType == WPT_CREATE_ENEMIES) {
-                    return true;
-                }
-            }
-
-            return false;
-
-        case WPT_SIGN:
-            return true;
-
-        default:
-            ASSERT(0);
-            return false;
+    default:
+        ASSERT(0);
+        return false;
     }
 }
 

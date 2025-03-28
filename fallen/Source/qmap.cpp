@@ -620,12 +620,12 @@ std::uint16_t QMAP_get_style_texture(
 
     if (qs->flag & QMAP_STYLE_WRAP_X) {
         switch (qs->size_x) {
-            case 1: cx = 0; break;
-            case 2: cx = x & 1; break;
-            case 4: cx = x & 3; break;
-            default:
-                cx = x % qs->size_x;
-                break;
+        case 1: cx = 0; break;
+        case 2: cx = x & 1; break;
+        case 4: cx = x & 3; break;
+        default:
+            cx = x % qs->size_x;
+            break;
         }
     } else {
         if (x == 0) {
@@ -636,24 +636,24 @@ std::uint16_t QMAP_get_style_texture(
             mid = qs->size_x - 2;
 
             switch (mid) {
-                case 0: cx = 0;
-                case 1: cx = 1;
-                default:
-                    cx = rand() % mid;
-                    cx += 1;
-                    break;
+            case 0: cx = 0;
+            case 1: cx = 1;
+            default:
+                cx = rand() % mid;
+                cx += 1;
+                break;
             }
         }
     }
 
     if (qs->flag & QMAP_STYLE_WRAP_Y) {
         switch (qs->size_y) {
-            case 1: cy = 0; break;
-            case 2: cy = y & 1; break;
-            case 4: cy = y & 3; break;
-            default:
-                cy = y % qs->size_y;
-                break;
+        case 1: cy = 0; break;
+        case 2: cy = y & 1; break;
+        case 4: cy = y & 3; break;
+        default:
+            cy = y % qs->size_y;
+            break;
         }
     } else {
         if (y == 0) {
@@ -664,13 +664,13 @@ std::uint16_t QMAP_get_style_texture(
             mid = qs->size_y - 2;
 
             switch (mid) {
-                case -1:
-                case 0: cy = 0; break;
-                case 1: cy = 1; break;
-                default:
-                    cy = rand() % mid;
-                    cy += 1;
-                    break;
+            case -1:
+            case 0: cy = 0; break;
+            case 1: cy = 1; break;
+            default:
+                cy = rand() % mid;
+                cy += 1;
+                break;
             }
         }
     }

@@ -36,13 +36,13 @@ void LEAD_create(
     //
 
     switch (len) {
-        case LEAD_LEN_SHORT: p_num = 8; break;
-        case LEAD_LEN_MEDIUM: p_num = 16; break;
-        case LEAD_LEN_LONG: p_num = 32; break;
+    case LEAD_LEN_SHORT: p_num = 8; break;
+    case LEAD_LEN_MEDIUM: p_num = 16; break;
+    case LEAD_LEN_LONG: p_num = 32; break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     //
@@ -94,33 +94,33 @@ void LEAD_find_end(
         p_thing = TO_THING(ll->attach_thing);
 
         switch (p_thing->Class) {
-            case CLASS_PERSON:
+        case CLASS_PERSON:
 
-                calc_sub_objects_position(
-                    p_thing,
-                    p_thing->Draw.Tweened->AnimTween,
-                    SUB_OBJECT_HEAD,
-                    &pos_x,
-                    &pos_y,
-                    &pos_z);
+            calc_sub_objects_position(
+                p_thing,
+                p_thing->Draw.Tweened->AnimTween,
+                SUB_OBJECT_HEAD,
+                &pos_x,
+                &pos_y,
+                &pos_z);
 
-                pos_x += p_thing->WorldPos.X >> 8;
-                pos_y += p_thing->WorldPos.Y >> 8;
-                pos_z += p_thing->WorldPos.Z >> 8;
+            pos_x += p_thing->WorldPos.X >> 8;
+            pos_y += p_thing->WorldPos.Y >> 8;
+            pos_z += p_thing->WorldPos.Z >> 8;
 
-                break;
+            break;
 
-            case CLASS_ANIMAL:
+        case CLASS_ANIMAL:
 
-                pos_x = (p_thing->WorldPos.X >> 8);
-                pos_y = (p_thing->WorldPos.Y >> 8) + 0x80;
-                pos_z = (p_thing->WorldPos.Z >> 8);
+            pos_x = (p_thing->WorldPos.X >> 8);
+            pos_y = (p_thing->WorldPos.Y >> 8) + 0x80;
+            pos_z = (p_thing->WorldPos.Z >> 8);
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     } else {
         //

@@ -1342,26 +1342,26 @@ void ROAD_calc_mapsquare_type() {
                 }
 
                 switch (look) {
-                    case TEXTURE_LOOK_ROAD:
-                        look = ROAD_TYPE_TARMAC;
-                        break;
+                case TEXTURE_LOOK_ROAD:
+                    look = ROAD_TYPE_TARMAC;
+                    break;
 
-                    case TEXTURE_LOOK_GRASS:
-                        look = ROAD_TYPE_GRASS;
-                        break;
+                case TEXTURE_LOOK_GRASS:
+                    look = ROAD_TYPE_GRASS;
+                    break;
 
-                    case TEXTURE_LOOK_DIRT:
-                        look = ROAD_TYPE_DIRT;
-                        break;
+                case TEXTURE_LOOK_DIRT:
+                    look = ROAD_TYPE_DIRT;
+                    break;
 
-                    case TEXTURE_LOOK_SLIPPERY:
-                        look = ROAD_TYPE_SLIPPERY;
-                        break;
+                case TEXTURE_LOOK_SLIPPERY:
+                    look = ROAD_TYPE_SLIPPERY;
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        look = ROAD_TYPE_TARMAC;
-                        break;
+                default:
+                    ASSERT(0);
+                    look = ROAD_TYPE_TARMAC;
+                    break;
                 }
 
                 offset = (page & 0x3) << 1;

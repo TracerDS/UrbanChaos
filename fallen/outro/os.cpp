@@ -757,32 +757,32 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
     const char *err;
 
     switch (res) {
-        case DDERR_INCOMPATIBLEPRIMARY: err = "DDERR_INCOMPATIBLEPRIMARY			"; break;
-        case DDERR_INVALIDCAPS: err = "DDERR_INVALIDCAPS					"; break;
-        case DDERR_INVALIDOBJECT: err = "DDERR_INVALIDOBJECT  				"; break;
-        case DDERR_INVALIDPARAMS: err = "DDERR_INVALIDPARAMS  				"; break;
-        case DDERR_INVALIDPIXELFORMAT: err = "DDERR_INVALIDPIXELFORMAT  			"; break;
-        case DDERR_NOALPHAHW: err = "DDERR_NOALPHAHW  					"; break;
-        case DDERR_NOCOOPERATIVELEVELSET: err = "DDERR_NOCOOPERATIVELEVELSET  		"; break;
-        case DDERR_NODIRECTDRAWHW: err = "DDERR_NODIRECTDRAWHW  				"; break;
-        case DDERR_NOEMULATION: err = "DDERR_NOEMULATION  				"; break;
-        case DDERR_NOEXCLUSIVEMODE: err = "DDERR_NOEXCLUSIVEMODE  			"; break;
-        case DDERR_NOFLIPHW: err = "DDERR_NOFLIPHW  					"; break;
-        case DDERR_NOMIPMAPHW: err = "DDERR_NOMIPMAPHW  					"; break;
-        case DDERR_NOOVERLAYHW: err = "DDERR_NOOVERLAYHW  				"; break;
-        case DDERR_NOZBUFFERHW: err = "DDERR_NOZBUFFERHW  				"; break;
-        case DDERR_OUTOFMEMORY: err = "DDERR_OUTOFMEMORY  				"; break;
-        case DDERR_OUTOFVIDEOMEMORY: err = "DDERR_OUTOFVIDEOMEMORY  			"; break;
-        case DDERR_PRIMARYSURFACEALREADYEXISTS: err = "DDERR_PRIMARYSURFACEALREADYEXISTS  "; break;
-        case DDERR_UNSUPPORTEDMODE: err = "DDERR_UNSUPPORTEDMODE  			"; break;
+    case DDERR_INCOMPATIBLEPRIMARY: err = "DDERR_INCOMPATIBLEPRIMARY			"; break;
+    case DDERR_INVALIDCAPS: err = "DDERR_INVALIDCAPS					"; break;
+    case DDERR_INVALIDOBJECT: err = "DDERR_INVALIDOBJECT  				"; break;
+    case DDERR_INVALIDPARAMS: err = "DDERR_INVALIDPARAMS  				"; break;
+    case DDERR_INVALIDPIXELFORMAT: err = "DDERR_INVALIDPIXELFORMAT  			"; break;
+    case DDERR_NOALPHAHW: err = "DDERR_NOALPHAHW  					"; break;
+    case DDERR_NOCOOPERATIVELEVELSET: err = "DDERR_NOCOOPERATIVELEVELSET  		"; break;
+    case DDERR_NODIRECTDRAWHW: err = "DDERR_NODIRECTDRAWHW  				"; break;
+    case DDERR_NOEMULATION: err = "DDERR_NOEMULATION  				"; break;
+    case DDERR_NOEXCLUSIVEMODE: err = "DDERR_NOEXCLUSIVEMODE  			"; break;
+    case DDERR_NOFLIPHW: err = "DDERR_NOFLIPHW  					"; break;
+    case DDERR_NOMIPMAPHW: err = "DDERR_NOMIPMAPHW  					"; break;
+    case DDERR_NOOVERLAYHW: err = "DDERR_NOOVERLAYHW  				"; break;
+    case DDERR_NOZBUFFERHW: err = "DDERR_NOZBUFFERHW  				"; break;
+    case DDERR_OUTOFMEMORY: err = "DDERR_OUTOFMEMORY  				"; break;
+    case DDERR_OUTOFVIDEOMEMORY: err = "DDERR_OUTOFVIDEOMEMORY  			"; break;
+    case DDERR_PRIMARYSURFACEALREADYEXISTS: err = "DDERR_PRIMARYSURFACEALREADYEXISTS  "; break;
+    case DDERR_UNSUPPORTEDMODE: err = "DDERR_UNSUPPORTEDMODE  			"; break;
 
-        case DD_OK:
-            err = "No error";
-            break;
+    case DD_OK:
+        err = "No error";
+        break;
 
-        default:
-            err = "Unknown error";
-            break;
+    default:
+        err = "Unknown error";
+        break;
     }
 
     ASSERT(res == DD_OK);
@@ -938,9 +938,9 @@ OS_Texture *OS_texture_create(std::int32_t size, std::int32_t format) {
         //
 
         switch (format) {
-            case OS_TEXTURE_FORMAT_8: format = OS_TEXTURE_FORMAT_RGB; break;
-            case OS_TEXTURE_FORMAT_1555: format = OS_TEXTURE_FORMAT_4444; break;
-            case OS_TEXTURE_FORMAT_4444: format = OS_TEXTURE_FORMAT_1555; break;
+        case OS_TEXTURE_FORMAT_8: format = OS_TEXTURE_FORMAT_RGB; break;
+        case OS_TEXTURE_FORMAT_1555: format = OS_TEXTURE_FORMAT_4444; break;
+        case OS_TEXTURE_FORMAT_4444: format = OS_TEXTURE_FORMAT_1555; break;
         }
 
         if (!OS_tformat[format].valid) {
@@ -1252,41 +1252,41 @@ void OS_pipeline_calculate() {
         d3d->SetTexture(1, ot2->ddtx);
 
         switch (OS_pipeline_method_mul) {
-            case 1:
+        case 1:
 
-                d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+            d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                break;
+            break;
 
-            case 0:
+        case 0:
 
-                d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-                d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+            d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                break;
+            break;
 
-            default:
+        default:
 
-                //
-                // Didn't find any way to do mulitexturing!
-                //
+            //
+            // Didn't find any way to do mulitexturing!
+            //
 
-                break;
+            break;
         }
 
         if (OS_pipeline_method_mul == OS_METHOD_NUMBER_MUL) {
@@ -1399,52 +1399,52 @@ void OS_change_renderstate_for_type(std::uint32_t draw) {
 
     if (draw & OS_DRAW_TEX_MUL) {
         switch (OS_pipeline_method_mul) {
-            case 1:
+        case 1:
 
-                if (draw & OS_DRAW_DECAL) {
-                    //
-                    // Don't multiply by diffuse colour...
-                    //
-
-                    d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-                } else {
-                    d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-                }
-
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
-
-                break;
-
-            case 0:
+            if (draw & OS_DRAW_DECAL) {
+                //
+                // Don't multiply by diffuse colour...
+                //
 
                 d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
                 d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
                 d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            } else {
+                d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+                d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+                d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+            }
 
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                if (draw & OS_DRAW_DECAL) {
-                    //
-                    // Don't multiply by diffuse colour...
-                    //
-                } else {
-                    d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                    d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-                    d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
-                }
+            break;
 
-                break;
+        case 0:
 
-            default:
-                break;
+            d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+
+            if (draw & OS_DRAW_DECAL) {
+                //
+                // Don't multiply by diffuse colour...
+                //
+            } else {
+                d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
+                d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+                d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            }
+
+            break;
+
+        default:
+            break;
         }
     }
 
@@ -2688,17 +2688,17 @@ void OS_fps() {
 
     for (i = 0; i < fps; i++) {
         switch ((i + 1) % 10) {
-            case 0:
-                tick = 8.0F;
-                break;
+        case 0:
+            tick = 8.0F;
+            break;
 
-            case 5:
-                tick = 5.0F;
-                break;
+        case 5:
+            tick = 5.0F;
+            break;
 
-            default:
-                tick = 3.0F;
-                break;
+        default:
+            tick = 3.0F;
+            break;
         }
 
         x1 = 5.0F + i * 4.0F;
@@ -3200,37 +3200,37 @@ void OS_buffer_add_sprite_arbitrary(
         of = &ob->flert[ob->num_flerts + i];
 
         switch (i) {
-            case 0:
-                x = x1;
-                y = y1;
-                u = u1;
-                v = v1;
-                break;
+        case 0:
+            x = x1;
+            y = y1;
+            u = u1;
+            v = v1;
+            break;
 
-            case 1:
-                x = x2;
-                y = y2;
-                u = u2;
-                v = v2;
-                break;
+        case 1:
+            x = x2;
+            y = y2;
+            u = u2;
+            v = v2;
+            break;
 
-            case 2:
-                x = x3;
-                y = y3;
-                u = u3;
-                v = v3;
-                break;
+        case 2:
+            x = x3;
+            y = y3;
+            u = u3;
+            v = v3;
+            break;
 
-            case 3:
-                x = x4;
-                y = y4;
-                u = u4;
-                v = v4;
-                break;
+        case 3:
+            x = x4;
+            y = y4;
+            u = u4;
+            v = v4;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         x *= OS_screen_width;
@@ -3607,11 +3607,11 @@ void OS_hack() {
     MUSIC_mode_process();
 
     switch (rand() % 5) {
-        case 0: sound = S_TUNE_COMBAT_TRAINING; break;
-        case 1: sound = S_TUNE_DRIVING_TRAINING; break;
-        case 2: sound = S_TUNE_CLUB_START; break;
-        case 3: sound = S_TUNE_CLUB_END; break;
-        case 4: sound = S_TUNE_ASSAULT_TRAINING; break;
+    case 0: sound = S_TUNE_COMBAT_TRAINING; break;
+    case 1: sound = S_TUNE_DRIVING_TRAINING; break;
+    case 2: sound = S_TUNE_CLUB_START; break;
+    case 3: sound = S_TUNE_CLUB_END; break;
+    case 4: sound = S_TUNE_ASSAULT_TRAINING; break;
     }
 
     sound = S_CREDITS_LOOP;

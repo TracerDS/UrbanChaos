@@ -47,68 +47,68 @@ bool CALLBACK bonus_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the edit text.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                EM_SETLIMITTEXT,
-                2550, 0);
+    case WM_INITDIALOG:
+        //	Set up the edit text.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            EM_SETLIMITTEXT,
+            2550, 0);
 
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                WM_SETTEXT,
-                0, (LPARAM) bonus_text);
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            WM_SETTEXT,
+            0, (LPARAM) bonus_text);
 
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0, MAKELONG(0, 1000));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0, MAKELONG(bonus_pts, 0));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0, MAKELONG(0, 1000));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0, MAKELONG(bonus_pts, 0));
 
-            INIT_COMBO_BOX(IDC_COMBO1, bstrings, bonus_type);
+        INIT_COMBO_BOX(IDC_COMBO1, bstrings, bonus_type);
 
-            if (bonus_gender)
-                c0 = IDC_RADIO2;
-            else
-                c0 = IDC_RADIO1;
-            SendMessage(GetDlgItem(hWnd, c0), BM_SETCHECK, BST_CHECKED, 0);
+        if (bonus_gender)
+            c0 = IDC_RADIO2;
+        else
+            c0 = IDC_RADIO1;
+        SendMessage(GetDlgItem(hWnd, c0), BM_SETCHECK, BST_CHECKED, 0);
 
-            SetFocus(GetDlgItem(hWnd, IDC_EDIT1));
-            return false;
+        SetFocus(GetDlgItem(hWnd, IDC_EDIT1));
+        return false;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            len = SendMessage(
-                      GetDlgItem(hWnd, IDC_EDIT1),
-                      WM_GETTEXTLENGTH,
-                      0, 0) +
-                  1;
-            if (bonus_text) free(bonus_text);
-            bonus_text = (char *) malloc(len);
-            ZeroMemory(bonus_text, len);
-
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                WM_GETTEXT,
-                len,
-                (LPARAM) bonus_text);
-            bonus_pts = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-            bonus_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-
-            bonus_gender = SendMessage(GetDlgItem(hWnd, IDC_RADIO2), BM_GETCHECK, 0, 0) == BST_CHECKED;
-
-            EndDialog(hWnd, 0);
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        len = SendMessage(
+                  GetDlgItem(hWnd, IDC_EDIT1),
+                  WM_GETTEXTLENGTH,
+                  0, 0) +
+              1;
+        if (bonus_text) free(bonus_text);
+        bonus_text = (char *) malloc(len);
+        ZeroMemory(bonus_text, len);
+
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            WM_GETTEXT,
+            len,
+            (LPARAM) bonus_text);
+        bonus_pts = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+        bonus_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+
+        bonus_gender = SendMessage(GetDlgItem(hWnd, IDC_RADIO2), BM_GETCHECK, 0, 0) == BST_CHECKED;
+
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

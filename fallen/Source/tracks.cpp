@@ -164,105 +164,105 @@ std::uint16_t TRACKS_Add(std::int32_t x, std::int32_t y, std::int32_t z, std::in
     char msg[20];
 
     switch (type) {
-        case TRACK_TYPE_TYRE_SKID:
-            //		TRACKS_AddQuad(x, y, z, dx, dy, dz, POLY_PAGE_TYRESKID, 0x00ffffff, 10, 0, TRACK_FLAGS_INVALPHA);
-            TRACKS_AddQuad(x, y, z, dx, dy, dz, POLY_PAGE_TYRESKID, 0x00ffffff, 10, 0, 0);
-            break;
-        case TRACK_TYPE_TYRE: // muddy tyres (not skidmarks)
-            if ((!dx) && (!dy) && (!dz)) return last;
-            if (SDIST2(dx, dz) > 25) {
-                code = TRACKS_GroundAtXZ(x, z);
-                switch (code) {
-                    case PERSON_ON_WATER:
-                        kind = TRACK_SURFACE_WATER;
-                        break;
-                    case PERSON_ON_GRAVEL:
-                    case PERSON_ON_GRASS:
-                        kind = TRACK_SURFACE_MUDDY;
-                        break;
-                    default:
-                        kind = TRACK_SURFACE_NONE;
-                }
-                if (lastkind != TRACK_SURFACE_NONE) {
-                    page = POLY_PAGE_TYRETRACK;
-                    switch (lastkind) {
-                        case TRACK_SURFACE_MUDDY:
-                            colour = TRACK_MUDDY_COLOUR;
-                            break;
-                        case TRACK_SURFACE_WATER:
-                            colour = TRACK_WATER_COLOUR;
-                            break;
-                    }
-                    colour += ((255 - age) << 24);
-                    TRACKS_AddQuad(x, y, z, dx, dy, dz, page, colour, 10, 0, 0);
-                }
+    case TRACK_TYPE_TYRE_SKID:
+        //		TRACKS_AddQuad(x, y, z, dx, dy, dz, POLY_PAGE_TYRESKID, 0x00ffffff, 10, 0, TRACK_FLAGS_INVALPHA);
+        TRACKS_AddQuad(x, y, z, dx, dy, dz, POLY_PAGE_TYRESKID, 0x00ffffff, 10, 0, 0);
+        break;
+    case TRACK_TYPE_TYRE: // muddy tyres (not skidmarks)
+        if ((!dx) && (!dy) && (!dz)) return last;
+        if (SDIST2(dx, dz) > 25) {
+            code = TRACKS_GroundAtXZ(x, z);
+            switch (code) {
+            case PERSON_ON_WATER:
+                kind = TRACK_SURFACE_WATER;
+                break;
+            case PERSON_ON_GRAVEL:
+            case PERSON_ON_GRASS:
+                kind = TRACK_SURFACE_MUDDY;
+                break;
+            default:
+                kind = TRACK_SURFACE_NONE;
             }
-            // fade or renew tracks
-            //
-            if (kind == TRACK_SURFACE_NONE) {
-                if (age > 8) {
-                    age -= 8;
-                } else {
-                    lastkind = TRACK_SURFACE_NONE;
-                    age = 0;
-                }
-            } else {
-                age = 255;
-                lastkind = kind;
-            }
-            break;
-        case TRACK_TYPE_LEFT_PRINT:
-        case TRACK_TYPE_RIGHT_PRINT:
-            if (world_type == WORLD_TYPE_SNOW)
-                kind = TRACK_SURFACE_ONSNOW;
-            else {
-                code = TRACKS_GroundAtXZ(x, z);
-                switch (code) {
-                    case PERSON_ON_WATER:
-                        kind = TRACK_SURFACE_WATER;
-                        break;
-                    case PERSON_ON_GRAVEL:
-                    case PERSON_ON_GRASS:
-                        kind = TRACK_SURFACE_MUDDY;
-                        break;
-                    default:
-                        kind = TRACK_SURFACE_NONE;
-                }
-            }
-
-            //
-            // do combination of kind/lastkind;
-            //
             if (lastkind != TRACK_SURFACE_NONE) {
-                //			page=POLY_PAGE_FLAMES;
-                page = POLY_PAGE_FOOTPRINT;
+                page = POLY_PAGE_TYRETRACK;
                 switch (lastkind) {
-                    case TRACK_SURFACE_MUDDY:
-                        colour = TRACK_MUDDY_COLOUR;
-                        break;
-                    case TRACK_SURFACE_WATER:
-                        colour = TRACK_WATER_COLOUR;
-                        break;
-                    case TRACK_SURFACE_ONSNOW:
-                        colour = TRACK_ONSNOW_COLOUR;
+                case TRACK_SURFACE_MUDDY:
+                    colour = TRACK_MUDDY_COLOUR;
+                    break;
+                case TRACK_SURFACE_WATER:
+                    colour = TRACK_WATER_COLOUR;
+                    break;
                 }
                 colour += ((255 - age) << 24);
-                TRACKS_AddQuad(x, y, z, dx, dy, dz, page, colour, 10, (type == TRACK_TYPE_RIGHT_PRINT), TRACK_FLAGS_FLIPABLE);
+                TRACKS_AddQuad(x, y, z, dx, dy, dz, page, colour, 10, 0, 0);
             }
-            // fade or renew tracks
-            //
-            if (kind == TRACK_SURFACE_NONE) {
-                if (age > 8) {
-                    age -= 8;
-                } else {
-                    lastkind = TRACK_SURFACE_NONE;
-                    age = 0;
-                }
+        }
+        // fade or renew tracks
+        //
+        if (kind == TRACK_SURFACE_NONE) {
+            if (age > 8) {
+                age -= 8;
             } else {
-                age = 255;
-                lastkind = kind;
+                lastkind = TRACK_SURFACE_NONE;
+                age = 0;
             }
-            break;
+        } else {
+            age = 255;
+            lastkind = kind;
+        }
+        break;
+    case TRACK_TYPE_LEFT_PRINT:
+    case TRACK_TYPE_RIGHT_PRINT:
+        if (world_type == WORLD_TYPE_SNOW)
+            kind = TRACK_SURFACE_ONSNOW;
+        else {
+            code = TRACKS_GroundAtXZ(x, z);
+            switch (code) {
+            case PERSON_ON_WATER:
+                kind = TRACK_SURFACE_WATER;
+                break;
+            case PERSON_ON_GRAVEL:
+            case PERSON_ON_GRASS:
+                kind = TRACK_SURFACE_MUDDY;
+                break;
+            default:
+                kind = TRACK_SURFACE_NONE;
+            }
+        }
+
+        //
+        // do combination of kind/lastkind;
+        //
+        if (lastkind != TRACK_SURFACE_NONE) {
+            //			page=POLY_PAGE_FLAMES;
+            page = POLY_PAGE_FOOTPRINT;
+            switch (lastkind) {
+            case TRACK_SURFACE_MUDDY:
+                colour = TRACK_MUDDY_COLOUR;
+                break;
+            case TRACK_SURFACE_WATER:
+                colour = TRACK_WATER_COLOUR;
+                break;
+            case TRACK_SURFACE_ONSNOW:
+                colour = TRACK_ONSNOW_COLOUR;
+            }
+            colour += ((255 - age) << 24);
+            TRACKS_AddQuad(x, y, z, dx, dy, dz, page, colour, 10, (type == TRACK_TYPE_RIGHT_PRINT), TRACK_FLAGS_FLIPABLE);
+        }
+        // fade or renew tracks
+        //
+        if (kind == TRACK_SURFACE_NONE) {
+            if (age > 8) {
+                age -= 8;
+            } else {
+                lastkind = TRACK_SURFACE_NONE;
+                age = 0;
+            }
+        } else {
+            age = 255;
+            lastkind = kind;
+        }
+        break;
     }
 
     last = (age << 8) + lastkind;

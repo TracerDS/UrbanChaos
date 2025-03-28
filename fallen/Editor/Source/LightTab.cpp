@@ -74,7 +74,8 @@ ControlDef light_tab_def[] =
         {CHECK_BOX, 0, "Broken", 20, 310, 0, 0},
         {CHECK_BOX, 0, "Flash", 20, 325, 0, 0},
         {H_SLIDER, 0, "", 90, 310, 150, 0},
-        {0}};
+        {0}
+};
 
 LightTab *the_lighttab;
 static light_x, light_y, light_z, light_bright;
@@ -152,11 +153,11 @@ void LightTab::DrawTabContent(void) {
         map_things[CurrentLight].IndexOrig = ((CHSlider *) GetControlPtr(CTRL_LIGHT_PARAM))->GetCurrentValue();
 
         switch (map_things[CurrentLight].IndexOrig) {
-            case LIGHT_TYPE_NORMAL:
-            case LIGHT_TYPE_BROKEN:
-            case LIGHT_TYPE_PULSE:
-                map_things[CurrentLight].IndexOrig >>= 1;
-                break;
+        case LIGHT_TYPE_NORMAL:
+        case LIGHT_TYPE_BROKEN:
+        case LIGHT_TYPE_PULSE:
+            map_things[CurrentLight].IndexOrig >>= 1;
+            break;
         }
     }
 
@@ -307,37 +308,37 @@ void LightTab::RecalcAllLights(void) {
 
 void redraw_tab(void) {
     switch (the_lighttab->Mode) {
-        case LIGHT_TAB_MODE_PLACE_AMBIENT:
+    case LIGHT_TAB_MODE_PLACE_AMBIENT:
 
-            scan_function = scan_undo_ambient;
-            scan_map();
-            remove_ambient_from_floor();
+        scan_function = scan_undo_ambient;
+        scan_map();
+        remove_ambient_from_floor();
 
-            edit_info.amb_bright = ((CHSlider *) the_lighttab->GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
-            //			link_all_lights();
-            scan_function = scan_apply_ambient;
-            scan_map();
-            apply_ambient_to_floor();
-            the_lighttab->DrawTabContent();
-            the_lighttab->Parent->DrawContent();
-            //			the_lighttab->DrawTabContent();
+        edit_info.amb_bright = ((CHSlider *) the_lighttab->GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+        //			link_all_lights();
+        scan_function = scan_apply_ambient;
+        scan_map();
+        apply_ambient_to_floor();
+        the_lighttab->DrawTabContent();
+        the_lighttab->Parent->DrawContent();
+        //			the_lighttab->DrawTabContent();
 
-            SetWorkWindowBounds(the_lighttab->Parent->GetLeft(),
-                                the_lighttab->Parent->GetTop(),
-                                the_lighttab->Parent->GetWidth(),
-                                the_lighttab->Parent->GetHeight());
+        SetWorkWindowBounds(the_lighttab->Parent->GetLeft(),
+                            the_lighttab->Parent->GetTop(),
+                            the_lighttab->Parent->GetWidth(),
+                            the_lighttab->Parent->GetHeight());
 
-            break;
+        break;
 
-        default:
+    default:
 
-            the_lighttab->DrawTabContent();
-            the_lighttab->Parent->DrawContent();
-            SetWorkWindowBounds(the_lighttab->Parent->GetLeft(),
-                                the_lighttab->Parent->GetTop(),
-                                the_lighttab->Parent->GetWidth(),
-                                the_lighttab->Parent->GetHeight());
-            break;
+        the_lighttab->DrawTabContent();
+        the_lighttab->Parent->DrawContent();
+        SetWorkWindowBounds(the_lighttab->Parent->GetLeft(),
+                            the_lighttab->Parent->GetTop(),
+                            the_lighttab->Parent->GetWidth(),
+                            the_lighttab->Parent->GetHeight());
+        break;
     }
 }
 
@@ -412,30 +413,30 @@ std::int32_t LightTab::KeyboardInterface(void) {
         if (AxisMode > 3)
             AxisMode = 0;
         switch (AxisMode) {
-            case 0:
-                SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = X_AXIS;
-                break;
-            case 1:
-                SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = Y_AXIS;
-                break;
-            case 2:
-                SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = Z_AXIS;
-                break;
-            case 3:
-                SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = X_AXIS | Y_AXIS | Z_AXIS;
-                break;
+        case 0:
+            SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = X_AXIS;
+            break;
+        case 1:
+            SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = Y_AXIS;
+            break;
+        case 2:
+            SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = Z_AXIS;
+            break;
+        case 3:
+            SetControlState(CTRL_LIGHT_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = X_AXIS | Y_AXIS | Z_AXIS;
+            break;
         }
 
         SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
@@ -1106,57 +1107,57 @@ std::int32_t LightTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
     std::int16_t thing;
     std::int16_t bright;
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (Mode != LIGHT_TAB_MODE_PLACE_AMBIENT)
-                if (ClickOnLight(clicked_point))
-                    Mode = LIGHT_TAB_MODE_WAIT;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (Mode != LIGHT_TAB_MODE_PLACE_AMBIENT)
+            if (ClickOnLight(clicked_point))
+                Mode = LIGHT_TAB_MODE_WAIT;
 
-            switch (Mode) {
-                case LIGHT_TAB_MODE_PLACE_AMBIENT:
-                    SetAmbientAngle();
-                    break;
-                case LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT:
-                    Mode = LIGHT_TAB_MODE_WAIT;
+        switch (Mode) {
+        case LIGHT_TAB_MODE_PLACE_AMBIENT:
+            SetAmbientAngle();
+            break;
+        case LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT:
+            Mode = LIGHT_TAB_MODE_WAIT;
 
-                case LIGHT_TAB_MODE_WAIT:
-                    DragALight(flags, clicked_point, 0);
-                    break;
-                case LIGHT_TAB_MODE_PLACE_LIGHT:
-                    if (SetWorldMouse(1)) {
-                        bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
-                        CurrentLight = CreateLightThing(engine.MousePosX, engine.MousePosY, engine.MousePosZ, bright);
-                        Mode = 0;
-                    }
-                    return (1);
+        case LIGHT_TAB_MODE_WAIT:
+            DragALight(flags, clicked_point, 0);
+            break;
+        case LIGHT_TAB_MODE_PLACE_LIGHT:
+            if (SetWorldMouse(1)) {
+                bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+                CurrentLight = CreateLightThing(engine.MousePosX, engine.MousePosY, engine.MousePosZ, bright);
+                Mode = 0;
             }
+            return (1);
+        }
+        break;
+    case RIGHT_CLICK:
+        if (Mode != LIGHT_TAB_MODE_PLACE_AMBIENT)
+            if (ClickOnLight(clicked_point))
+                Mode = LIGHT_TAB_MODE_WAIT; // if you have clicked on a light you must want to drag it
+        switch (Mode) {
+        case LIGHT_TAB_MODE_PLACE_AMBIENT:
+            SetAmbientAngle();
             break;
-        case RIGHT_CLICK:
-            if (Mode != LIGHT_TAB_MODE_PLACE_AMBIENT)
-                if (ClickOnLight(clicked_point))
-                    Mode = LIGHT_TAB_MODE_WAIT; // if you have clicked on a light you must want to drag it
-            switch (Mode) {
-                case LIGHT_TAB_MODE_PLACE_AMBIENT:
-                    SetAmbientAngle();
-                    break;
-                case LIGHT_TAB_MODE_WAIT:
-                    DragALight(flags, clicked_point, 1);
-                    break;
-                case LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT:
-                case LIGHT_TAB_MODE_PLACE_LIGHT:
-                    if (SetWorldMouse(1)) {
-                        bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
-                        CurrentLight = CreateLightThing(engine.MousePosX, engine.MousePosY, engine.MousePosZ, bright);
-                        Mode = LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT;
-                    }
-                    return (1);
+        case LIGHT_TAB_MODE_WAIT:
+            DragALight(flags, clicked_point, 1);
+            break;
+        case LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT:
+        case LIGHT_TAB_MODE_PLACE_LIGHT:
+            if (SetWorldMouse(1)) {
+                bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+                CurrentLight = CreateLightThing(engine.MousePosX, engine.MousePosY, engine.MousePosZ, bright);
+                Mode = LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT;
             }
-            // Right click in content.
-            break;
-        case MIDDLE_CLICK:
-            DragEngine(flags, clicked_point);
-            break;
+            return (1);
+        }
+        // Right click in content.
+        break;
+    case MIDDLE_CLICK:
+        DragEngine(flags, clicked_point);
+        break;
     }
     return (0);
 }
@@ -1170,39 +1171,39 @@ std::uint16_t LightTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
     ShowWorkScreen(0);
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            {
-                current_control = GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        control_id = current_control->TrackControl(&local_point);
-                        HandleControl(control_id);
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        {
+            current_control = GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    control_id = current_control->TrackControl(&local_point);
+                    HandleControl(control_id);
 
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        return control_id;
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        DrawTab();
+                        UnlockWorkScreen();
                     }
-                    current_control = current_control->GetNextControl();
-                }
-            }
+                    ShowWorkWindow(0);
 
-            break;
-        case RIGHT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            break;
+                    return control_id;
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+
+        break;
+    case RIGHT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        break;
     }
     return 0;
 }
@@ -1264,129 +1265,129 @@ void delete_all_lights(void) {
 
 void LightTab::HandleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        case CTRL_LIGHT_FINISH_AMBIENT:
-            RecalcAllLights();
-            break;
-        case CTRL_LIGHT_X_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_LIGHT_X_AXIS_FREE);
-            if (Axis & X_AXIS)
-                Axis &= ~X_AXIS;
-            else
-                Axis |= X_AXIS;
-            break;
-        case CTRL_LIGHT_Y_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_LIGHT_Y_AXIS_FREE);
-            if (Axis & Y_AXIS)
-                Axis &= ~Y_AXIS;
-            else
-                Axis |= Y_AXIS;
-            break;
-        case CTRL_LIGHT_Z_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_LIGHT_Z_AXIS_FREE);
-            if (Axis & Z_AXIS)
-                Axis &= ~Z_AXIS;
-            else
-                Axis |= Z_AXIS;
-            break;
-        case CTRL_LIGHT_PLACE:
-            Mode = LIGHT_TAB_MODE_PLACE_LIGHT;
-            break;
+    case CTRL_LIGHT_FINISH_AMBIENT:
+        RecalcAllLights();
+        break;
+    case CTRL_LIGHT_X_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_LIGHT_X_AXIS_FREE);
+        if (Axis & X_AXIS)
+            Axis &= ~X_AXIS;
+        else
+            Axis |= X_AXIS;
+        break;
+    case CTRL_LIGHT_Y_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_LIGHT_Y_AXIS_FREE);
+        if (Axis & Y_AXIS)
+            Axis &= ~Y_AXIS;
+        else
+            Axis |= Y_AXIS;
+        break;
+    case CTRL_LIGHT_Z_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_LIGHT_Z_AXIS_FREE);
+        if (Axis & Z_AXIS)
+            Axis &= ~Z_AXIS;
+        else
+            Axis |= Z_AXIS;
+        break;
+    case CTRL_LIGHT_PLACE:
+        Mode = LIGHT_TAB_MODE_PLACE_LIGHT;
+        break;
 
-        case CTRL_LIGHT_SMOOTH_LOTS:
-            SmoothGroup();
-            RequestUpdate();
-            break;
-        case CTRL_LIGHT_PLACE_AMBIENT:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetCurrentValue(256);
-            CurrentLight = 0;
-            Mode = LIGHT_TAB_MODE_PLACE_AMBIENT;
-            break;
-        case CTRL_LIGHT_SHADOW:
-            ToggleControlSelectedState(CTRL_LIGHT_SHADOW);
-            break;
-        case CTRL_LIGHT_DELETE:
-            delete_all_lights();
-            RequestUpdate();
-            Mode = 0;
-            break;
+    case CTRL_LIGHT_SMOOTH_LOTS:
+        SmoothGroup();
+        RequestUpdate();
+        break;
+    case CTRL_LIGHT_PLACE_AMBIENT:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetCurrentValue(256);
+        CurrentLight = 0;
+        Mode = LIGHT_TAB_MODE_PLACE_AMBIENT;
+        break;
+    case CTRL_LIGHT_SHADOW:
+        ToggleControlSelectedState(CTRL_LIGHT_SHADOW);
+        break;
+    case CTRL_LIGHT_DELETE:
+        delete_all_lights();
+        RequestUpdate();
+        Mode = 0;
+        break;
 
-        case CTRL_LIGHT_WHITE:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
-            RequestUpdate();
-            break;
+    case CTRL_LIGHT_WHITE:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
+        RequestUpdate();
+        break;
 
-        case CTRL_LIGHT_PALE_BLUE:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(225);
-            RequestUpdate();
-            break;
+    case CTRL_LIGHT_PALE_BLUE:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(225);
+        RequestUpdate();
+        break;
 
-        case CTRL_LIGHT_ORANGE:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(85);
-            RequestUpdate();
-            break;
+    case CTRL_LIGHT_ORANGE:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(85);
+        RequestUpdate();
+        break;
 
-        case CTRL_LIGHT_YELLOW:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(105);
-            RequestUpdate();
-            break;
+    case CTRL_LIGHT_YELLOW:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(105);
+        RequestUpdate();
+        break;
 
-        case CTRL_LIGHT_RED:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(55);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(55);
-            RequestUpdate();
-            break;
+    case CTRL_LIGHT_RED:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(55);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(55);
+        RequestUpdate();
+        break;
 
-        case CTRL_LIGHT_BLUE:
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(75);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(75);
-            ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
-            RequestUpdate();
-            break;
+    case CTRL_LIGHT_BLUE:
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(75);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(75);
+        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
+        RequestUpdate();
+        break;
 
-        case CTRL_LIGHT_NORMAL:
-            SetControlState(CTRL_LIGHT_NORMAL, CTRL_SELECTED);
-            SetControlState(CTRL_LIGHT_BROKEN, CTRL_DESELECTED);
-            SetControlState(CTRL_LIGHT_FLASH, CTRL_DESELECTED);
-            RequestUpdate();
+    case CTRL_LIGHT_NORMAL:
+        SetControlState(CTRL_LIGHT_NORMAL, CTRL_SELECTED);
+        SetControlState(CTRL_LIGHT_BROKEN, CTRL_DESELECTED);
+        SetControlState(CTRL_LIGHT_FLASH, CTRL_DESELECTED);
+        RequestUpdate();
 
-            if (CurrentLight) {
-                map_things[CurrentLight].SubType = LIGHT_TYPE_NORMAL;
-            }
+        if (CurrentLight) {
+            map_things[CurrentLight].SubType = LIGHT_TYPE_NORMAL;
+        }
 
-            break;
+        break;
 
-        case CTRL_LIGHT_BROKEN:
-            SetControlState(CTRL_LIGHT_NORMAL, CTRL_DESELECTED);
-            SetControlState(CTRL_LIGHT_BROKEN, CTRL_SELECTED);
-            SetControlState(CTRL_LIGHT_FLASH, CTRL_DESELECTED);
-            RequestUpdate();
+    case CTRL_LIGHT_BROKEN:
+        SetControlState(CTRL_LIGHT_NORMAL, CTRL_DESELECTED);
+        SetControlState(CTRL_LIGHT_BROKEN, CTRL_SELECTED);
+        SetControlState(CTRL_LIGHT_FLASH, CTRL_DESELECTED);
+        RequestUpdate();
 
-            if (CurrentLight) {
-                map_things[CurrentLight].SubType = LIGHT_TYPE_BROKEN;
-            }
+        if (CurrentLight) {
+            map_things[CurrentLight].SubType = LIGHT_TYPE_BROKEN;
+        }
 
-            break;
+        break;
 
-        case CTRL_LIGHT_FLASH:
-            SetControlState(CTRL_LIGHT_NORMAL, CTRL_DESELECTED);
-            SetControlState(CTRL_LIGHT_BROKEN, CTRL_DESELECTED);
-            SetControlState(CTRL_LIGHT_FLASH, CTRL_SELECTED);
-            RequestUpdate();
+    case CTRL_LIGHT_FLASH:
+        SetControlState(CTRL_LIGHT_NORMAL, CTRL_DESELECTED);
+        SetControlState(CTRL_LIGHT_BROKEN, CTRL_DESELECTED);
+        SetControlState(CTRL_LIGHT_FLASH, CTRL_SELECTED);
+        RequestUpdate();
 
-            if (CurrentLight) {
-                map_things[CurrentLight].SubType = LIGHT_TYPE_PULSE;
-            }
+        if (CurrentLight) {
+            map_things[CurrentLight].SubType = LIGHT_TYPE_PULSE;
+        }
 
-            break;
+        break;
     }
 }
 

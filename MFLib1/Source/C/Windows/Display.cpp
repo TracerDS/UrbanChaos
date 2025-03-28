@@ -384,12 +384,12 @@ void ClearDisplay() {
     dd_bltfx.dwFillColor = 0;
     dd_result = lp_DD_FrontSurface->Blt(nullptr, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_WAIT, &dd_bltfx);
     switch (dd_result) {
-        case DD_OK:
-            break;
-        case DDERR_SURFACELOST:
-            RestoreSurfaces();
-            lp_DD_FrontSurface->Blt(nullptr, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_WAIT, &dd_bltfx);
-            break;
+    case DD_OK:
+        break;
+    case DDERR_SURFACELOST:
+        RestoreSurfaces();
+        lp_DD_FrontSurface->Blt(nullptr, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_WAIT, &dd_bltfx);
+        break;
     }
 }
 
@@ -397,10 +397,10 @@ void ClearDisplay() {
 
 void FadeDisplay(std::uint8_t mode) {
     switch (mode) {
-        case FADE_IN:
-            break;
-        case FADE_OUT:
-            break;
+    case FADE_IN:
+        break;
+    case FADE_OUT:
+        break;
     }
 }
 
@@ -414,15 +414,15 @@ void *LockWorkScreen() {
         dd_sd.dwSize = sizeof(dd_sd);
         dd_result = lp_DD_WorkSurface->Lock(nullptr, &dd_sd, DDLOCK_WAIT, nullptr);
         switch (dd_result) {
-            case DD_OK:
-                WorkScreenWidth = dd_sd.lPitch;
-                WorkScreen = (std::uint8_t *) dd_sd.lpSurface;
-                SetWorkWindow();
-                DisplayState |= DS_SCREEN_LOCKED;
-                return dd_sd.lpSurface;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                return 0;
+        case DD_OK:
+            WorkScreenWidth = dd_sd.lPitch;
+            WorkScreen = (std::uint8_t *) dd_sd.lpSurface;
+            SetWorkWindow();
+            DisplayState |= DS_SCREEN_LOCKED;
+            return dd_sd.lpSurface;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            return 0;
         }
     }
     return 0;
@@ -436,12 +436,12 @@ void UnlockWorkScreen() {
     if (lp_DD_WorkSurface) {
         dd_result = lp_DD_WorkSurface->Unlock(nullptr);
         switch (dd_result) {
-            case DD_OK:
-                DisplayState &= ~(DS_SCREEN_LOCKED);
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
+        case DD_OK:
+            DisplayState &= ~(DS_SCREEN_LOCKED);
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
         }
     }
 }
@@ -463,16 +463,16 @@ void ShowWorkScreen(std::uint32_t flags) {
         dd_result = lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
 #endif
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
 #ifdef MF_DD2
-                lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+            lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
 #else
-                lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+            lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
 #endif
-                break;
+            break;
         }
     }
 
@@ -485,13 +485,13 @@ void ShowWorkScreen(std::uint32_t flags) {
             DDBLT_WAIT,
             nullptr);
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
-            default:
-                LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
+        default:
+            LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
         }
 /*
                 dd_result	=	lp_DD_FrontSurface->Blt	(
@@ -520,13 +520,13 @@ void ShowWorkScreen(std::uint32_t flags) {
             DDBLT_WAIT,
             nullptr);
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
-            default:
-                LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
+        default:
+            LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
         }
 /*
                 dd_result	=	lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
@@ -559,13 +559,13 @@ void ShowWorkScreen(std::uint32_t flags) {
             nullptr);
 #endif
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
-            default:
-                LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
+        default:
+            LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
         }
     }
 }
@@ -598,18 +598,18 @@ void ShowWorkWindow(std::uint32_t flags) {
         dd_result = lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
 #endif
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_WASSTILLDRAWING:
-                while (lp_DD_WorkSurface->GetBltStatus(DDGBS_ISBLTDONE) == DDERR_WASSTILLDRAWING);
-                while (lp_DD_BackSurface->GetBltStatus(DDGBS_ISBLTDONE) == DDERR_WASSTILLDRAWING);
-                while (lp_DD_FrontSurface->GetBltStatus(DDGBS_ISBLTDONE) == DDERR_WASSTILLDRAWING);
+        case DD_OK:
+            break;
+        case DDERR_WASSTILLDRAWING:
+            while (lp_DD_WorkSurface->GetBltStatus(DDGBS_ISBLTDONE) == DDERR_WASSTILLDRAWING);
+            while (lp_DD_BackSurface->GetBltStatus(DDGBS_ISBLTDONE) == DDERR_WASSTILLDRAWING);
+            while (lp_DD_FrontSurface->GetBltStatus(DDGBS_ISBLTDONE) == DDERR_WASSTILLDRAWING);
 #ifdef MF_DD2
-                lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+            lp_DD_2->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
 #else
-                lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
+            lp_DD->WaitForVerticalBlank(DDWAITVB_BLOCKBEGIN, nullptr);
 #endif
-                break;
+            break;
         }
     }
 
@@ -629,13 +629,13 @@ void ShowWorkWindow(std::uint32_t flags) {
             DDBLT_WAIT,
             nullptr);
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
-            default:
-                LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
+        default:
+            LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
         }
 /*
                 dd_result	=	lp_DD_FrontSurface->Blt	(
@@ -664,13 +664,13 @@ void ShowWorkWindow(std::uint32_t flags) {
             DDBLT_WAIT,
             nullptr);
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
-            default:
-                LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
+        default:
+            LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
         }
 /*
                 dd_result	=	lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
@@ -710,13 +710,13 @@ void ShowWorkWindow(std::uint32_t flags) {
             nullptr);
 #endif
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                break;
-            default:
-                LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            break;
+        default:
+            LogText("Blt failed in ShowWorkScreen. Error: %ld\n", dd_result & 0xffff);
         }
     }
 }
@@ -732,12 +732,12 @@ void ClearWorkScreen(std::uint8_t colour) {
         dd_bltfx.dwFillColor = colour;
         dd_result = lp_DD_WorkSurface->Blt(nullptr, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_WAIT, &dd_bltfx);
         switch (dd_result) {
-            case DD_OK:
-                break;
-            case DDERR_SURFACELOST:
-                RestoreSurfaces();
-                lp_DD_WorkSurface->Blt(nullptr, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_WAIT, &dd_bltfx);
-                break;
+        case DD_OK:
+            break;
+        case DDERR_SURFACELOST:
+            RestoreSurfaces();
+            lp_DD_WorkSurface->Blt(nullptr, nullptr, nullptr, DDBLT_COLORFILL | DDBLT_WAIT, &dd_bltfx);
+            break;
         }
     }
 }

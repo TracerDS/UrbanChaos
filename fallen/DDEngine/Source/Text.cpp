@@ -111,90 +111,90 @@ void draw_text_at(float x, float y, char *message, std::int32_t font_id) {
 
     while (*message) {
         switch (*message) {
-            case 10:
-            case 13:
-                offset_x = (float) x;
-                offset_y += (float) the_font->CharSet['y' - 33].Height + 2;
-                break;
-            case 32:
-                offset_x += 5.0f;
-                break;
+        case 10:
+        case 13:
+            offset_x = (float) x;
+            offset_y += (float) the_font->CharSet['y' - 33].Height + 2;
+            break;
+        case 32:
+            offset_x += 5.0f;
+            break;
 
-            default:
-                if (WITHIN(*message, 33, 127)) {
-                    the_char = &the_font->CharSet[*message - 33];
-                    if (the_char) {
-                        if (text_fudge) {
-                            if (offset_y < TEXT_TOP) {
-                                t_colour = (((std::int32_t) offset_y - TEXT_TOP) * 20) + 255;
-                                if (t_colour < 0)
-                                    t_colour = 0;
-                                t_colour *= 0x00010101; //(t_colour<<24)|0x00ffffff;
+        default:
+            if (WITHIN(*message, 33, 127)) {
+                the_char = &the_font->CharSet[*message - 33];
+                if (the_char) {
+                    if (text_fudge) {
+                        if (offset_y < TEXT_TOP) {
+                            t_colour = (((std::int32_t) offset_y - TEXT_TOP) * 20) + 255;
+                            if (t_colour < 0)
+                                t_colour = 0;
+                            t_colour *= 0x00010101; //(t_colour<<24)|0x00ffffff;
 
-                                b_colour = ((((std::int32_t) offset_y + the_char->Height) - TEXT_TOP) * 20) + 255;
-                                if (b_colour > 255)
-                                    b_colour = 255;
-                                else if (b_colour < 0)
-                                    b_colour = 0;
-                                b_colour *= 0x00010101; //(b_colour<<24)|0x00ffffff;
-                            } else if ((offset_y + the_char->Height) > TEXT_BOT) {
-                                b_colour = ((TEXT_BOT - ((std::int32_t) offset_y + the_char->Height)) * 20) + 255;
-                                if (b_colour < 0)
-                                    b_colour = 0;
-                                b_colour *= 0x00010101; //(b_colour<<24)|0x00ffffff;
+                            b_colour = ((((std::int32_t) offset_y + the_char->Height) - TEXT_TOP) * 20) + 255;
+                            if (b_colour > 255)
+                                b_colour = 255;
+                            else if (b_colour < 0)
+                                b_colour = 0;
+                            b_colour *= 0x00010101; //(b_colour<<24)|0x00ffffff;
+                        } else if ((offset_y + the_char->Height) > TEXT_BOT) {
+                            b_colour = ((TEXT_BOT - ((std::int32_t) offset_y + the_char->Height)) * 20) + 255;
+                            if (b_colour < 0)
+                                b_colour = 0;
+                            b_colour *= 0x00010101; //(b_colour<<24)|0x00ffffff;
 
-                                t_colour = ((TEXT_BOT - (std::int32_t) offset_y) * 20) + 255;
-                                if (t_colour > 255)
-                                    t_colour = 255;
-                                else if (t_colour < 0)
-                                    t_colour = 0;
-                                t_colour *= 0x00010101; //(t_colour<<24)|0x00ffffff;
-                            } else {
-                                t_colour = b_colour = 0x00ffffff;
-                            }
+                            t_colour = ((TEXT_BOT - (std::int32_t) offset_y) * 20) + 255;
+                            if (t_colour > 255)
+                                t_colour = 255;
+                            else if (t_colour < 0)
+                                t_colour = 0;
+                            t_colour *= 0x00010101; //(t_colour<<24)|0x00ffffff;
                         } else {
-                            t_colour = b_colour = text_colour;
+                            t_colour = b_colour = 0x00ffffff;
                         }
-
-                        pp[0].X = offset_x;
-                        pp[0].Y = offset_y;
-                        pp[0].Z = 0.5f;
-                        pp[0].u = the_char->X * TEXTURE_STEP;
-                        pp[0].v = the_char->Y * TEXTURE_STEP;
-                        pp[0].colour = t_colour;
-                        pp[0].specular = 0;
-
-                        pp[1].X = offset_x + the_char->Width + 1;
-                        pp[1].Y = offset_y;
-                        pp[1].Z = 0.5f;
-                        pp[1].u = (the_char->X + the_char->Width + 1) * TEXTURE_STEP;
-                        pp[1].v = the_char->Y * TEXTURE_STEP;
-                        pp[1].colour = t_colour;
-                        pp[1].specular = 0;
-
-                        pp[2].X = offset_x;
-                        pp[2].Y = offset_y + the_char->Height + 1;
-                        pp[2].Z = 0.5f;
-                        pp[2].u = the_char->X * TEXTURE_STEP;
-                        pp[2].v = (the_char->Y + the_char->Height + 1) * TEXTURE_STEP;
-                        pp[2].colour = b_colour;
-                        pp[2].specular = 0;
-
-                        pp[3].X = offset_x + the_char->Width + 1;
-                        pp[3].Y = offset_y + the_char->Height + 1;
-                        pp[3].Z = 0.5f;
-                        pp[3].u = (the_char->X + the_char->Width + 1) * TEXTURE_STEP;
-                        pp[3].v = (the_char->Y + the_char->Height + 1) * TEXTURE_STEP;
-                        pp[3].colour = b_colour;
-                        pp[3].specular = 0;
-
-                        POLY_add_quad(quad, POLY_PAGE_TEXT, false, true);
-
-                        offset_x += the_char->Width + 1.0f;
+                    } else {
+                        t_colour = b_colour = text_colour;
                     }
-                }
 
-                break;
+                    pp[0].X = offset_x;
+                    pp[0].Y = offset_y;
+                    pp[0].Z = 0.5f;
+                    pp[0].u = the_char->X * TEXTURE_STEP;
+                    pp[0].v = the_char->Y * TEXTURE_STEP;
+                    pp[0].colour = t_colour;
+                    pp[0].specular = 0;
+
+                    pp[1].X = offset_x + the_char->Width + 1;
+                    pp[1].Y = offset_y;
+                    pp[1].Z = 0.5f;
+                    pp[1].u = (the_char->X + the_char->Width + 1) * TEXTURE_STEP;
+                    pp[1].v = the_char->Y * TEXTURE_STEP;
+                    pp[1].colour = t_colour;
+                    pp[1].specular = 0;
+
+                    pp[2].X = offset_x;
+                    pp[2].Y = offset_y + the_char->Height + 1;
+                    pp[2].Z = 0.5f;
+                    pp[2].u = the_char->X * TEXTURE_STEP;
+                    pp[2].v = (the_char->Y + the_char->Height + 1) * TEXTURE_STEP;
+                    pp[2].colour = b_colour;
+                    pp[2].specular = 0;
+
+                    pp[3].X = offset_x + the_char->Width + 1;
+                    pp[3].Y = offset_y + the_char->Height + 1;
+                    pp[3].Z = 0.5f;
+                    pp[3].u = (the_char->X + the_char->Width + 1) * TEXTURE_STEP;
+                    pp[3].v = (the_char->Y + the_char->Height + 1) * TEXTURE_STEP;
+                    pp[3].colour = b_colour;
+                    pp[3].specular = 0;
+
+                    POLY_add_quad(quad, POLY_PAGE_TEXT, false, true);
+
+                    offset_x += the_char->Width + 1.0f;
+                }
+            }
+
+            break;
         }
 
         message++;

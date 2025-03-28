@@ -9,41 +9,41 @@ void set_state_function(Thing *t_thing, std::uint8_t state) {
     StateFunction *functions = NULL;
 
     switch (t_thing->Class) {
-        case CLASS_NONE:
+    case CLASS_NONE:
+        break;
+    case CLASS_PLAYER:
+        functions = player_functions[t_thing->Genus.Player->PlayerType].StateFunctions;
+        break;
+    case CLASS_CAMERA:
+        break;
+    case CLASS_PROJECTILE:
+        break;
+    case CLASS_BUILDING:
+        break;
+    case CLASS_PERSON:
+        functions = people_functions[t_thing->Genus.Person->PersonType].StateFunctions;
+        break;
+    /*
+    case	CLASS_FURNITURE:
+            functions	=	FURN_statefunctions;
             break;
-        case CLASS_PLAYER:
-            functions = player_functions[t_thing->Genus.Player->PlayerType].StateFunctions;
-            break;
-        case CLASS_CAMERA:
-            break;
-        case CLASS_PROJECTILE:
-            break;
-        case CLASS_BUILDING:
-            break;
-        case CLASS_PERSON:
-            functions = people_functions[t_thing->Genus.Person->PersonType].StateFunctions;
-            break;
-        /*
-        case	CLASS_FURNITURE:
-                functions	=	FURN_statefunctions;
-                break;
-        */
-        case CLASS_VEHICLE:
-            functions = VEH_statefunctions;
-            break;
-        case CLASS_ANIMAL:
+    */
+    case CLASS_VEHICLE:
+        functions = VEH_statefunctions;
+        break;
+    case CLASS_ANIMAL:
 #if !defined(PSX) && !defined(TARGET_DC)
-            functions = ANIMAL_functions[t_thing->Genus.Animal->AnimalType].StateFunctions;
+        functions = ANIMAL_functions[t_thing->Genus.Animal->AnimalType].StateFunctions;
 #endif
-            break;
-        case CLASS_CHOPPER:
-            functions = CHOPPER_functions[t_thing->Genus.Chopper->ChopperType].StateFunctions;
-            break;
-        case CLASS_PYRO:
-            functions = PYRO_functions[t_thing->Genus.Pyro->PyroType].StateFunctions;
-            break;
-        default:
-            ASSERT(0);
+        break;
+    case CLASS_CHOPPER:
+        functions = CHOPPER_functions[t_thing->Genus.Chopper->ChopperType].StateFunctions;
+        break;
+    case CLASS_PYRO:
+        functions = PYRO_functions[t_thing->Genus.Pyro->PyroType].StateFunctions;
+        break;
+    default:
+        ASSERT(0);
     }
 
     if (functions) {

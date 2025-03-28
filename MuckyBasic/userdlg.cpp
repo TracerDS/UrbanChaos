@@ -303,29 +303,29 @@ bool CALLBACK _DriverSelectProc(HWND hDlg, UINT uiMsg, WPARAM wParam,
             // Handle the case where one of these may have changed. The
             // combo boxes will need to be updated to reflect the changes.
             switch (LOWORD(wParam)) {
-                case IDC_DRIVER_COMBO:
-                    if (pNewObject && pNewObject != (LONG) pNewDriver) {
-                        pNewDriver = (D3DEnum_DriverInfo*) pNewObject;
-                        pNewDevice = pNewDriver->pCurrentDevice;
-                        ;
-                        pNewMode = pNewDevice->pCurrentMode;
-                        bNewWindowed = pNewDevice->bWindowed;
-                    }
-                    break;
-                case IDC_DEVICE_COMBO:
-                    if (pNewObject && pNewObject != (LONG) pNewDevice) {
-                        pNewDevice = (D3DEnum_DeviceInfo*) pNewObject;
-                        pNewMode = pNewDevice->pCurrentMode;
-                        bNewWindowed = pNewDevice->bWindowed;
-                    }
-                    break;
-                case IDC_MODE_COMBO:
-                    if (pNewObject) {
-                        pNewMode = (D3DEnum_ModeInfo*) pNewObject;
-                        bNewWindowed = false;
-                    } else
-                        bNewWindowed = true;
-                    break;
+            case IDC_DRIVER_COMBO:
+                if (pNewObject && pNewObject != (LONG) pNewDriver) {
+                    pNewDriver = (D3DEnum_DriverInfo*) pNewObject;
+                    pNewDevice = pNewDriver->pCurrentDevice;
+                    ;
+                    pNewMode = pNewDevice->pCurrentMode;
+                    bNewWindowed = pNewDevice->bWindowed;
+                }
+                break;
+            case IDC_DEVICE_COMBO:
+                if (pNewObject && pNewObject != (LONG) pNewDevice) {
+                    pNewDevice = (D3DEnum_DeviceInfo*) pNewObject;
+                    pNewMode = pNewDevice->pCurrentMode;
+                    bNewWindowed = pNewDevice->bWindowed;
+                }
+                break;
+            case IDC_MODE_COMBO:
+                if (pNewObject) {
+                    pNewMode = (D3DEnum_ModeInfo*) pNewObject;
+                    bNewWindowed = false;
+                } else
+                    bNewWindowed = true;
+                break;
             }
 
             UpdateComboBoxesContent(hDlg, &pNewDriver, &pNewDevice,

@@ -5914,7 +5914,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
 
 #if 1
                                 FIGURE_draw_prim_tween(
-                                    255+(p_person->Draw.Tweened->PersonID>>5),
+                                    255 + (p_person->Draw.Tweened->PersonID >> 5),
                                     FIGURE_dhpr_data.world_pos->M[0],
                                     FIGURE_dhpr_data.world_pos->M[1],
                                     FIGURE_dhpr_data.world_pos->M[2],
@@ -7531,15 +7531,15 @@ void FIGURE_draw(Thing *p_thing) {
         std::int32_t y,
         std::int32_t z,
         std::int32_t tween,
-        struct GameKeyFrameElement * anim_info,
-        struct GameKeyFrameElement * anim_info_next,
-        struct Matrix33 * rot_mat,
+        struct GameKeyFrameElement *anim_info,
+        struct GameKeyFrameElement *anim_info_next,
+        struct Matrix33 *rot_mat,
         std::int32_t off_dx,
         std::int32_t off_dy,
         std::int32_t off_dz,
         std::uint32_t colour,
         std::uint32_t specular,
-        Thing * p_thing) {
+        Thing *p_thing) {
         std::int32_t i;
         std::int32_t j;
 
@@ -8545,7 +8545,7 @@ void FIGURE_draw(Thing *p_thing) {
         // std::int32_t tween,
         // struct GameKeyFrameElement *anim_info,
         // struct GameKeyFrameElement *anim_info_next,
-        struct Matrix33 * rot_mat,
+        struct Matrix33 *rot_mat,
         std::int32_t off_dx,
         std::int32_t off_dy,
         std::int32_t off_dz,
@@ -8558,7 +8558,7 @@ void FIGURE_draw(Thing *p_thing) {
         // Matrix31 *parent_curr_pos,
         // Matrix33 *end_mat,
         // Matrix31 *end_pos,
-        Thing * p_thing
+        Thing *p_thing
         // std::int32_t     part_number = 0xffffffff,
         // std::uint32_t     colour_and  = 0xffffffff
     ) {

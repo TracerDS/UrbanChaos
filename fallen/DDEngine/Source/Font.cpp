@@ -337,7 +337,8 @@ FONT_Char FONT_upper[26] =
           xxxx_,
           _____,
           _____},
-         4}};
+         4}
+};
 
 //
 // Lowercase
@@ -629,7 +630,8 @@ FONT_Char FONT_lower[26] =
           xxxx_,
           _____,
           _____},
-         4}};
+         4}
+};
 
 //
 // The numbers...
@@ -746,7 +748,8 @@ FONT_Char FONT_number[10] =
           _xx__,
           _____,
           _____},
-         4}};
+         4}
+};
 
 //
 // Various punctuation...
@@ -1054,7 +1057,8 @@ FONT_Char FONT_punct[FONT_PUNCT_NUMBER] =
           _____,
           xxxx_,
           _____},
-         4}};
+         4}
+};
 
 /*
         {
@@ -1102,33 +1106,33 @@ std::int32_t FONT_draw_coloured_char(
         fc = &FONT_number[ch - '0'];
     } else {
         switch (ch) {
-            case '.': fc = &FONT_punct[FONT_PUNCT_DOT]; break;
-            case ',': fc = &FONT_punct[FONT_PUNCT_COMMA]; break;
-            case '?': fc = &FONT_punct[FONT_PUNCT_QMARK]; break;
-            case '!': fc = &FONT_punct[FONT_PUNCT_PLING]; break;
-            case '"': fc = &FONT_punct[FONT_PUNCT_QUOTES]; break;
-            case '(': fc = &FONT_punct[FONT_PUNCT_OPEN]; break;
-            case ')': fc = &FONT_punct[FONT_PUNCT_CLOSE]; break;
-            case '+': fc = &FONT_punct[FONT_PUNCT_PLUS]; break;
-            case '-': fc = &FONT_punct[FONT_PUNCT_MINUS]; break;
-            case '=': fc = &FONT_punct[FONT_PUNCT_EQUAL]; break;
-            case '#': fc = &FONT_punct[FONT_PUNCT_HASH]; break;
-            case '%': fc = &FONT_punct[FONT_PUNCT_PCENT]; break;
-            case '*': fc = &FONT_punct[FONT_PUNCT_STAR]; break;
-            case '\\': fc = &FONT_punct[FONT_PUNCT_BSLASH]; break;
-            case '/': fc = &FONT_punct[FONT_PUNCT_FSLASH]; break;
-            case ':': fc = &FONT_punct[FONT_PUNCT_COLON]; break;
-            case ';': fc = &FONT_punct[FONT_PUNCT_SCOLON]; break;
-            case '\'': fc = &FONT_punct[FONT_PUNCT_APOST]; break;
-            case '&': fc = &FONT_punct[FONT_PUNCT_AMPER]; break;
-            case '�': fc = &FONT_punct[FONT_PUNCT_POUND]; break;
-            case '$': fc = &FONT_punct[FONT_PUNCT_DOLLAR]; break;
-            case '<': fc = &FONT_punct[FONT_PUNCT_LT]; break;
-            case '>': fc = &FONT_punct[FONT_PUNCT_GT]; break;
-            case '@': fc = &FONT_punct[FONT_PUNCT_AT]; break;
-            case '_': fc = &FONT_punct[FONT_PUNCT_UNDER]; break;
+        case '.': fc = &FONT_punct[FONT_PUNCT_DOT]; break;
+        case ',': fc = &FONT_punct[FONT_PUNCT_COMMA]; break;
+        case '?': fc = &FONT_punct[FONT_PUNCT_QMARK]; break;
+        case '!': fc = &FONT_punct[FONT_PUNCT_PLING]; break;
+        case '"': fc = &FONT_punct[FONT_PUNCT_QUOTES]; break;
+        case '(': fc = &FONT_punct[FONT_PUNCT_OPEN]; break;
+        case ')': fc = &FONT_punct[FONT_PUNCT_CLOSE]; break;
+        case '+': fc = &FONT_punct[FONT_PUNCT_PLUS]; break;
+        case '-': fc = &FONT_punct[FONT_PUNCT_MINUS]; break;
+        case '=': fc = &FONT_punct[FONT_PUNCT_EQUAL]; break;
+        case '#': fc = &FONT_punct[FONT_PUNCT_HASH]; break;
+        case '%': fc = &FONT_punct[FONT_PUNCT_PCENT]; break;
+        case '*': fc = &FONT_punct[FONT_PUNCT_STAR]; break;
+        case '\\': fc = &FONT_punct[FONT_PUNCT_BSLASH]; break;
+        case '/': fc = &FONT_punct[FONT_PUNCT_FSLASH]; break;
+        case ':': fc = &FONT_punct[FONT_PUNCT_COLON]; break;
+        case ';': fc = &FONT_punct[FONT_PUNCT_SCOLON]; break;
+        case '\'': fc = &FONT_punct[FONT_PUNCT_APOST]; break;
+        case '&': fc = &FONT_punct[FONT_PUNCT_AMPER]; break;
+        case '�': fc = &FONT_punct[FONT_PUNCT_POUND]; break;
+        case '$': fc = &FONT_punct[FONT_PUNCT_DOLLAR]; break;
+        case '<': fc = &FONT_punct[FONT_PUNCT_LT]; break;
+        case '>': fc = &FONT_punct[FONT_PUNCT_GT]; break;
+        case '@': fc = &FONT_punct[FONT_PUNCT_AT]; break;
+        case '_': fc = &FONT_punct[FONT_PUNCT_UNDER]; break;
 
-            default: fc = &FONT_punct[FONT_PUNCT_QMARK]; break;
+        default: fc = &FONT_punct[FONT_PUNCT_QMARK]; break;
         }
     }
 

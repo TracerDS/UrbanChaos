@@ -422,244 +422,244 @@ void ELEV_load_level(char* fname_level) {
                     //
 
                     switch (event_point.TriggeredBy) {
-                        case TT_NONE:
-                            break;
+                    case TT_NONE:
+                        break;
 
-                        case TT_DEPENDENCY:
-                            ecd.type = EWAY_COND_DEPENDENT;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_DEPENDENCY:
+                        ecd.type = EWAY_COND_DEPENDENT;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_RADIUS:
-                            ecd.type = EWAY_COND_PROXIMITY;
-                            ecd.arg1 = event_point.Radius;
-                            break;
+                    case TT_RADIUS:
+                        ecd.type = EWAY_COND_PROXIMITY;
+                        ecd.arg1 = event_point.Radius;
+                        break;
 
-                        case TT_DOOR:
-                            break;
+                    case TT_DOOR:
+                        break;
 
-                        case TT_TRIPWIRE:
-                            ecd.type = EWAY_COND_TRIPWIRE;
-                            break;
+                    case TT_TRIPWIRE:
+                        ecd.type = EWAY_COND_TRIPWIRE;
+                        break;
 
-                        case TT_PRESSURE_PAD:
-                            ecd.type = EWAY_COND_PRESSURE;
-                            break;
+                    case TT_PRESSURE_PAD:
+                        ecd.type = EWAY_COND_PRESSURE;
+                        break;
 
-                        case TT_ELECTRIC_FENCE:
-                            break;
+                    case TT_ELECTRIC_FENCE:
+                        break;
 
-                        case TT_WATER_LEVEL:
-                            break;
+                    case TT_WATER_LEVEL:
+                        break;
 
-                        case TT_SECURITY_CAMERA:
-                            ecd.type = EWAY_COND_CAMERA;
-                            break;
+                    case TT_SECURITY_CAMERA:
+                        ecd.type = EWAY_COND_CAMERA;
+                        break;
 
-                        case TT_SWITCH:
-                            ecd.type = EWAY_COND_SWITCH;
-                            break;
+                    case TT_SWITCH:
+                        ecd.type = EWAY_COND_SWITCH;
+                        break;
 
-                        case TT_ANIM_PRIM:
-                            break;
+                    case TT_ANIM_PRIM:
+                        break;
 
-                        case TT_TIMER:
-                            ecd.type = EWAY_COND_TIME;
-                            ecd.arg1 = event_point.Radius; // Radius is the time for time triggers.
-                            break;
+                    case TT_TIMER:
+                        ecd.type = EWAY_COND_TIME;
+                        ecd.arg1 = event_point.Radius; // Radius is the time for time triggers.
+                        break;
 
-                        case TT_SHOUT_ALL:
-                            break;
+                    case TT_SHOUT_ALL:
+                        break;
 
-                        case TT_BOOLEANAND:
+                    case TT_BOOLEANAND:
 
-                            //
-                            // Booleans are always dependencies.
-                            //
+                        //
+                        // Booleans are always dependencies.
+                        //
 
-                            ecd1.type = EWAY_COND_DEPENDENT;
-                            ecd1.arg1 = event_point.EPRef;
-                            ecd1.negate = false;
+                        ecd1.type = EWAY_COND_DEPENDENT;
+                        ecd1.arg1 = event_point.EPRef;
+                        ecd1.negate = false;
 
-                            ecd2.type = EWAY_COND_DEPENDENT;
-                            ecd2.arg1 = event_point.EPRefBool;
-                            ecd2.negate = false;
+                        ecd2.type = EWAY_COND_DEPENDENT;
+                        ecd2.arg1 = event_point.EPRefBool;
+                        ecd2.negate = false;
 
-                            ecd.type = EWAY_COND_BOOL_AND;
-                            ecd.bool_arg1 = &ecd1;
-                            ecd.bool_arg2 = &ecd2;
+                        ecd.type = EWAY_COND_BOOL_AND;
+                        ecd.bool_arg1 = &ecd1;
+                        ecd.bool_arg2 = &ecd2;
 
-                            break;
+                        break;
 
-                        case TT_BOOLEANOR:
+                    case TT_BOOLEANOR:
 
-                            //
-                            // Booleans are always dependencies.
-                            //
+                        //
+                        // Booleans are always dependencies.
+                        //
 
-                            ecd1.type = EWAY_COND_DEPENDENT;
-                            ecd1.arg1 = event_point.EPRef;
-                            ecd1.negate = false;
+                        ecd1.type = EWAY_COND_DEPENDENT;
+                        ecd1.arg1 = event_point.EPRef;
+                        ecd1.negate = false;
 
-                            ecd2.type = EWAY_COND_DEPENDENT;
-                            ecd2.arg1 = event_point.EPRefBool;
-                            ecd2.negate = false;
+                        ecd2.type = EWAY_COND_DEPENDENT;
+                        ecd2.arg1 = event_point.EPRefBool;
+                        ecd2.negate = false;
 
-                            ecd.type = EWAY_COND_BOOL_OR;
-                            ecd.bool_arg1 = &ecd1;
-                            ecd.bool_arg2 = &ecd2;
+                        ecd.type = EWAY_COND_BOOL_OR;
+                        ecd.bool_arg1 = &ecd1;
+                        ecd.bool_arg2 = &ecd2;
 
-                            break;
+                        break;
 
-                        case TT_ITEM_HELD:
-                            ecd.type = EWAY_COND_ITEM_HELD;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_ITEM_HELD:
+                        ecd.type = EWAY_COND_ITEM_HELD;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_ITEM_SEEN:
-                            break;
+                    case TT_ITEM_SEEN:
+                        break;
 
-                        case TT_KILLED:
-                            ecd.type = EWAY_COND_PERSON_DEAD;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_KILLED:
+                        ecd.type = EWAY_COND_PERSON_DEAD;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_SHOUT_ANY:
-                            break;
+                    case TT_SHOUT_ANY:
+                        break;
 
-                        case TT_COUNTDOWN:
-                            ecd.type = EWAY_COND_COUNTDOWN;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.Radius;
-                            break;
+                    case TT_COUNTDOWN:
+                        ecd.type = EWAY_COND_COUNTDOWN;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.Radius;
+                        break;
 
-                        case TT_ENEMYRADIUS:
-                            ecd.type = EWAY_COND_PERSON_NEAR;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.Radius / 64;
-                            break;
+                    case TT_ENEMYRADIUS:
+                        ecd.type = EWAY_COND_PERSON_NEAR;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.Radius / 64;
+                        break;
 
-                        case TT_VISIBLECOUNTDOWN:
-                            ecd.type = EWAY_COND_COUNTDOWN_SEE;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.Radius;
-                            break;
+                    case TT_VISIBLECOUNTDOWN:
+                        ecd.type = EWAY_COND_COUNTDOWN_SEE;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.Radius;
+                        break;
 
-                        case TT_CUBOID:
-                            ecd.type = EWAY_COND_PLAYER_CUBOID;
-                            ecd.arg1 = event_point.Radius & 0xffff;
-                            ecd.arg2 = event_point.Radius >> 16;
-                            break;
+                    case TT_CUBOID:
+                        ecd.type = EWAY_COND_PLAYER_CUBOID;
+                        ecd.arg1 = event_point.Radius & 0xffff;
+                        ecd.arg2 = event_point.Radius >> 16;
+                        break;
 
-                        case TT_HALFDEAD:
-                            ecd.type = EWAY_COND_HALF_DEAD;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_HALFDEAD:
+                        ecd.type = EWAY_COND_HALF_DEAD;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_PERSON_SEEN:
-                            ecd.type = EWAY_COND_A_SEE_B;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.EPRefBool;
-                            break;
+                    case TT_PERSON_SEEN:
+                        ecd.type = EWAY_COND_A_SEE_B;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.EPRefBool;
+                        break;
 
-                        case TT_PERSON_USED:
-                            ecd.type = EWAY_COND_PERSON_USED;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_PERSON_USED:
+                        ecd.type = EWAY_COND_PERSON_USED;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_PLAYER_USES_RADIUS:
-                            ecd.type = EWAY_COND_RADIUS_USED;
-                            ecd.arg1 = event_point.Radius;
-                            break;
+                    case TT_PLAYER_USES_RADIUS:
+                        ecd.type = EWAY_COND_RADIUS_USED;
+                        ecd.arg1 = event_point.Radius;
+                        break;
 
-                        case TT_GROUPDEAD:
-                            ecd.type = EWAY_COND_GROUP_DEAD;
-                            break;
+                    case TT_GROUPDEAD:
+                        ecd.type = EWAY_COND_GROUP_DEAD;
+                        break;
 
-                        case TT_PRIM_DAMAGED:
-                            ecd.type = EWAY_COND_PRIM_DAMAGED;
-                            break;
+                    case TT_PRIM_DAMAGED:
+                        ecd.type = EWAY_COND_PRIM_DAMAGED;
+                        break;
 
-                        case TT_PERSON_ARRESTED:
-                            ecd.type = EWAY_COND_PERSON_ARRESTED;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_PERSON_ARRESTED:
+                        ecd.type = EWAY_COND_PERSON_ARRESTED;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_CONVERSATION_OVER:
-                            ecd.type = EWAY_COND_CONVERSE_END;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_CONVERSATION_OVER:
+                        ecd.type = EWAY_COND_CONVERSE_END;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_COUNTER:
-                            ecd.type = EWAY_COND_COUNTER_GTEQ;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.Radius;
-                            break;
+                    case TT_COUNTER:
+                        ecd.type = EWAY_COND_COUNTER_GTEQ;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.Radius;
+                        break;
 
-                        case TT_KILLED_NOT_ARRESTED:
-                            ecd.type = EWAY_COND_KILLED_NOT_ARRESTED;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_KILLED_NOT_ARRESTED:
+                        ecd.type = EWAY_COND_KILLED_NOT_ARRESTED;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_CRIME_RATE_ABOVE:
-                            ecd.type = EWAY_COND_CRIME_RATE_GTEQ;
-                            ecd.arg1 = event_point.Radius / 100;
-                            break;
+                    case TT_CRIME_RATE_ABOVE:
+                        ecd.type = EWAY_COND_CRIME_RATE_GTEQ;
+                        ecd.arg1 = event_point.Radius / 100;
+                        break;
 
-                        case TT_CRIME_RATE_BELOW:
-                            ecd.type = EWAY_COND_CRIME_RATE_LTEQ;
-                            ecd.arg1 = event_point.Radius / 100;
-                            break;
+                    case TT_CRIME_RATE_BELOW:
+                        ecd.type = EWAY_COND_CRIME_RATE_LTEQ;
+                        ecd.arg1 = event_point.Radius / 100;
+                        break;
 
-                        case TT_PERSON_IS_MURDERER:
-                            ecd.type = EWAY_COND_IS_MURDERER;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_PERSON_IS_MURDERER:
+                        ecd.type = EWAY_COND_IS_MURDERER;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_PERSON_IN_VEHICLE:
-                            ecd.type = EWAY_COND_PERSON_IN_VEHICLE;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.EPRefBool;
-                            break;
+                    case TT_PERSON_IN_VEHICLE:
+                        ecd.type = EWAY_COND_PERSON_IN_VEHICLE;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.EPRefBool;
+                        break;
 
-                        case TT_THING_RADIUS_DIR:
-                            ecd.type = EWAY_COND_THING_RADIUS_DIR;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.Radius / 64;
-                            break;
+                    case TT_THING_RADIUS_DIR:
+                        ecd.type = EWAY_COND_THING_RADIUS_DIR;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.Radius / 64;
+                        break;
 
-                        case TT_SPECIFIC_ITEM_HELD:
-                            ecd.type = EWAY_COND_SPECIFIC_ITEM_HELD;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_SPECIFIC_ITEM_HELD:
+                        ecd.type = EWAY_COND_SPECIFIC_ITEM_HELD;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_RANDOM:
-                            ecd.type = EWAY_COND_RANDOM;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_RANDOM:
+                        ecd.type = EWAY_COND_RANDOM;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_PLAYER_FIRES_GUN:
-                            ecd.type = EWAY_COND_PLAYER_FIRED_GUN;
-                            break;
+                    case TT_PLAYER_FIRES_GUN:
+                        ecd.type = EWAY_COND_PLAYER_FIRED_GUN;
+                        break;
 
-                        case TT_DARCI_GRABBED:
-                            ecd.type = EWAY_COND_DARCI_GRABBED;
-                            break;
+                    case TT_DARCI_GRABBED:
+                        ecd.type = EWAY_COND_DARCI_GRABBED;
+                        break;
 
-                        case TT_PUNCHED_AND_KICKED:
-                            ecd.type = EWAY_COND_PUNCHED_AND_KICKED;
-                            ecd.arg1 = event_point.EPRef;
-                            break;
+                    case TT_PUNCHED_AND_KICKED:
+                        ecd.type = EWAY_COND_PUNCHED_AND_KICKED;
+                        ecd.arg1 = event_point.EPRef;
+                        break;
 
-                        case TT_MOVE_RADIUS_DIR:
-                            ecd.type = EWAY_COND_MOVE_RADIUS_DIR;
-                            ecd.arg1 = event_point.EPRef;
-                            ecd.arg2 = event_point.Radius / 64;
-                            break;
+                    case TT_MOVE_RADIUS_DIR:
+                        ecd.type = EWAY_COND_MOVE_RADIUS_DIR;
+                        ecd.arg1 = event_point.EPRef;
+                        ecd.arg2 = event_point.Radius / 64;
+                        break;
 
-                        default:
-                            ASSERT(0);
-                            break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
 
                     //
@@ -667,906 +667,906 @@ void ELEV_load_level(char* fname_level) {
                     //
 
                     switch (event_point.WaypointType) {
-                        case WPT_NONE:
+                    case WPT_NONE:
+                        break;
+
+                    case WPT_SIMPLE:
+                        ed.type = EWAY_DO_NOTHING;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_CREATE_PLAYER:
+
+                        ed.type = EWAY_DO_CREATE_PLAYER;
+
+                        switch (event_point.Data[0]) {
+                        default:
+                        case PT_DARCI:
+                            ed.subtype = PLAYER_DARCI;
+                            break;
+                        case PT_ROPER:
+                            ed.subtype = PLAYER_ROPER;
+                            break;
+                        case PT_COP:
+                            ed.subtype = PLAYER_COP;
+                            break;
+                        case PT_GANG:
+                            ed.subtype = PLAYER_THUG;
+                            break;
+                        }
+
+                        ed.subtype |= (event_point.Data[1] ? 8 : 0);
+
+                        break;
+
+                    case WPT_CREATE_ENEMIES:
+
+                        ed.type = EWAY_DO_CREATE_ENEMY;
+
+                        if (version >= 3) {
+                            enemy_type = event_point.Data[0] & 0xffff;
+                            enemy_count = event_point.Data[0] >> 16;
+                            follow = event_point.Data[1];
+                        } else {
+                            enemy_type = event_point.Data[0];
+                            enemy_count = event_point.Data[1];
+                            follow = 0;
+                        }
+
+                        //
+                        // The HIWORD of Data[2] contains the HAS_* flags.
+                        //
+
+                        ee.pcom_has = 0;
+
+                        if ((event_point.Data[2] >> 16) & HAS_PISTOL) {
+                            ee.pcom_has |= PCOM_HAS_GUN;
+                        }
+                        if ((event_point.Data[2] >> 16) & HAS_SHOTGUN) {
+                            ee.pcom_has |= PCOM_HAS_SHOTGUN;
+                        }
+                        if ((event_point.Data[2] >> 16) & HAS_AK47) {
+                            ee.pcom_has |= PCOM_HAS_AK47;
+                        }
+                        if ((event_point.Data[2] >> 16) & HAS_GRENADE) {
+                            ee.pcom_has |= PCOM_HAS_GRENADE;
+                        }
+                        if ((event_point.Data[2] >> 16) & HAS_BALLOON) {
+                            ee.pcom_has |= PCOM_HAS_BALLOON;
+                        }
+                        if ((event_point.Data[2] >> 16) & HAS_KNIFE) {
+                            ee.pcom_has |= PCOM_HAS_KNIFE;
+                        }
+                        if ((event_point.Data[2] >> 16) & HAS_BAT) {
+                            ee.pcom_has |= PCOM_HAS_BASEBALLBAT;
+                        }
+
+                        switch (enemy_type) {
+                        case ET_CIV:
+                            ed.subtype = PERSON_CIV;
                             break;
 
-                        case WPT_SIMPLE:
-                            ed.type = EWAY_DO_NOTHING;
-                            ed.arg1 = event_point.Data[0];
+                        case ET_CIV_BALLOON:
+                            ed.subtype = PERSON_CIV;
+                            ee.pcom_has |= PCOM_HAS_BALLOON;
                             break;
 
-                        case WPT_CREATE_PLAYER:
-
-                            ed.type = EWAY_DO_CREATE_PLAYER;
-
-                            switch (event_point.Data[0]) {
-                                default:
-                                case PT_DARCI:
-                                    ed.subtype = PLAYER_DARCI;
-                                    break;
-                                case PT_ROPER:
-                                    ed.subtype = PLAYER_ROPER;
-                                    break;
-                                case PT_COP:
-                                    ed.subtype = PLAYER_COP;
-                                    break;
-                                case PT_GANG:
-                                    ed.subtype = PLAYER_THUG;
-                                    break;
-                            }
-
-                            ed.subtype |= (event_point.Data[1] ? 8 : 0);
-
+                        case ET_SLAG:
+                            ed.subtype = PERSON_SLAG_TART;
                             break;
 
-                        case WPT_CREATE_ENEMIES:
+                        case ET_UGLY_FAT_SLAG:
+                            ed.subtype = PERSON_SLAG_FATUGLY;
+                            break;
 
-                            ed.type = EWAY_DO_CREATE_ENEMY;
+                        case ET_WORKMAN:
+                            ed.subtype = PERSON_MECHANIC;
+                            break;
 
-                            if (version >= 3) {
-                                enemy_type = event_point.Data[0] & 0xffff;
-                                enemy_count = event_point.Data[0] >> 16;
-                                follow = event_point.Data[1];
-                            } else {
-                                enemy_type = event_point.Data[0];
-                                enemy_count = event_point.Data[1];
-                                follow = 0;
-                            }
+                        case ET_GANG_RASTA:
+                            ed.subtype = PERSON_THUG_RASTA;
+                            break;
 
+                        case ET_GANG_RED:
+                            ed.subtype = PERSON_THUG_RED;
+                            break;
+
+                        case ET_GANG_GREY:
+                            ed.subtype = PERSON_THUG_GREY;
+                            break;
+
+                        case ET_GANG_RASTA_PISTOL:
+                            ed.subtype = PERSON_THUG_RASTA;
+                            ee.pcom_has |= PCOM_HAS_GUN;
+                            break;
+
+                        case ET_GANG_RED_SHOTGUN:
+                            ed.subtype = PERSON_THUG_RED;
+                            ee.pcom_has |= PCOM_HAS_SHOTGUN;
+                            break;
+
+                        case ET_GANG_GREY_AK47:
+                            ed.subtype = PERSON_THUG_GREY;
+                            ee.pcom_has |= PCOM_HAS_AK47;
+                            break;
+
+                        case ET_COP:
+                            ed.subtype = PERSON_COP;
+                            break;
+
+                        case ET_COP_PISTOL:
+                            ed.subtype = PERSON_COP;
+                            ee.pcom_has |= PCOM_HAS_GUN;
+                            break;
+
+                        case ET_COP_SHOTGUN:
+                            ed.subtype = PERSON_COP;
+                            ee.pcom_has |= PCOM_HAS_SHOTGUN;
+                            break;
+
+                        case ET_COP_AK47:
+                            ed.subtype = PERSON_COP;
+                            ee.pcom_has |= PCOM_HAS_AK47;
+                            break;
+
+                        case ET_HOSTAGE:
+                            ed.subtype = PERSON_HOSTAGE;
+                            break;
+
+                        case ET_WORKMAN_GRENADE:
+                            ed.subtype = PERSON_MECHANIC;
+                            ee.pcom_has |= PCOM_HAS_GRENADE;
+                            break;
+                        case ET_TRAMP:
+                            ed.subtype = PERSON_TRAMP;
+                            break;
+
+                        case ET_MIB1:
+                            ed.subtype = PERSON_MIB1;
+                            break;
+                        case ET_MIB2:
+                            ed.subtype = PERSON_MIB2;
+                            break;
+                        case ET_MIB3:
+                            ed.subtype = PERSON_MIB3;
+                            break;
+
+                        case ET_NONE:
+                            ed.subtype = PERSON_CIV;
+                            break;
+
+                        case ET_DARCI:
+                            ed.subtype = PERSON_DARCI;
+                            break;
+
+                        case ET_ROPER:
+                            ed.subtype = PERSON_ROPER;
+                            break;
+
+                        default:
+                            ASSERT(0);
+                            break;
+                        }
+
+                        ee.pcom_ai = LOWORD(event_point.Data[5]);
+                        ee.ai_skill = HIWORD(event_point.Data[5]);
+                        ee.pcom_bent = event_point.Data[4];
+                        ee.pcom_move = event_point.Data[3] + 1;
+                        ee.ai_other = event_point.Data[7] & 0xffff; // For PCOM_AI_BODYGUARD and PCOM_AI_ASSASIN, the ID of the waypoint that creates the person you guard/kill
+                        ee.follow = follow;                         // For PCOM_MOVE_FOLLOW
+                        ee.zone = event_point.Data[4] >> 8;
+
+                        extern std::int16_t people_types[50];
+
+                        people_types[ed.subtype]++;
+
+                        if (ed.subtype == PERSON_MIB1 ||
+                            ed.subtype == PERSON_MIB2 ||
+                            ed.subtype == PERSON_MIB3) {
                             //
-                            // The HIWORD of Data[2] contains the HAS_* flags.
-                            //
-
-                            ee.pcom_has = 0;
-
-                            if ((event_point.Data[2] >> 16) & HAS_PISTOL) {
-                                ee.pcom_has |= PCOM_HAS_GUN;
-                            }
-                            if ((event_point.Data[2] >> 16) & HAS_SHOTGUN) {
-                                ee.pcom_has |= PCOM_HAS_SHOTGUN;
-                            }
-                            if ((event_point.Data[2] >> 16) & HAS_AK47) {
-                                ee.pcom_has |= PCOM_HAS_AK47;
-                            }
-                            if ((event_point.Data[2] >> 16) & HAS_GRENADE) {
-                                ee.pcom_has |= PCOM_HAS_GRENADE;
-                            }
-                            if ((event_point.Data[2] >> 16) & HAS_BALLOON) {
-                                ee.pcom_has |= PCOM_HAS_BALLOON;
-                            }
-                            if ((event_point.Data[2] >> 16) & HAS_KNIFE) {
-                                ee.pcom_has |= PCOM_HAS_KNIFE;
-                            }
-                            if ((event_point.Data[2] >> 16) & HAS_BAT) {
-                                ee.pcom_has |= PCOM_HAS_BASEBALLBAT;
-                            }
-
-                            switch (enemy_type) {
-                                case ET_CIV:
-                                    ed.subtype = PERSON_CIV;
-                                    break;
-
-                                case ET_CIV_BALLOON:
-                                    ed.subtype = PERSON_CIV;
-                                    ee.pcom_has |= PCOM_HAS_BALLOON;
-                                    break;
-
-                                case ET_SLAG:
-                                    ed.subtype = PERSON_SLAG_TART;
-                                    break;
-
-                                case ET_UGLY_FAT_SLAG:
-                                    ed.subtype = PERSON_SLAG_FATUGLY;
-                                    break;
-
-                                case ET_WORKMAN:
-                                    ed.subtype = PERSON_MECHANIC;
-                                    break;
-
-                                case ET_GANG_RASTA:
-                                    ed.subtype = PERSON_THUG_RASTA;
-                                    break;
-
-                                case ET_GANG_RED:
-                                    ed.subtype = PERSON_THUG_RED;
-                                    break;
-
-                                case ET_GANG_GREY:
-                                    ed.subtype = PERSON_THUG_GREY;
-                                    break;
-
-                                case ET_GANG_RASTA_PISTOL:
-                                    ed.subtype = PERSON_THUG_RASTA;
-                                    ee.pcom_has |= PCOM_HAS_GUN;
-                                    break;
-
-                                case ET_GANG_RED_SHOTGUN:
-                                    ed.subtype = PERSON_THUG_RED;
-                                    ee.pcom_has |= PCOM_HAS_SHOTGUN;
-                                    break;
-
-                                case ET_GANG_GREY_AK47:
-                                    ed.subtype = PERSON_THUG_GREY;
-                                    ee.pcom_has |= PCOM_HAS_AK47;
-                                    break;
-
-                                case ET_COP:
-                                    ed.subtype = PERSON_COP;
-                                    break;
-
-                                case ET_COP_PISTOL:
-                                    ed.subtype = PERSON_COP;
-                                    ee.pcom_has |= PCOM_HAS_GUN;
-                                    break;
-
-                                case ET_COP_SHOTGUN:
-                                    ed.subtype = PERSON_COP;
-                                    ee.pcom_has |= PCOM_HAS_SHOTGUN;
-                                    break;
-
-                                case ET_COP_AK47:
-                                    ed.subtype = PERSON_COP;
-                                    ee.pcom_has |= PCOM_HAS_AK47;
-                                    break;
-
-                                case ET_HOSTAGE:
-                                    ed.subtype = PERSON_HOSTAGE;
-                                    break;
-
-                                case ET_WORKMAN_GRENADE:
-                                    ed.subtype = PERSON_MECHANIC;
-                                    ee.pcom_has |= PCOM_HAS_GRENADE;
-                                    break;
-                                case ET_TRAMP:
-                                    ed.subtype = PERSON_TRAMP;
-                                    break;
-
-                                case ET_MIB1:
-                                    ed.subtype = PERSON_MIB1;
-                                    break;
-                                case ET_MIB2:
-                                    ed.subtype = PERSON_MIB2;
-                                    break;
-                                case ET_MIB3:
-                                    ed.subtype = PERSON_MIB3;
-                                    break;
-
-                                case ET_NONE:
-                                    ed.subtype = PERSON_CIV;
-                                    break;
-
-                                case ET_DARCI:
-                                    ed.subtype = PERSON_DARCI;
-                                    break;
-
-                                case ET_ROPER:
-                                    ed.subtype = PERSON_ROPER;
-                                    break;
-
-                                default:
-                                    ASSERT(0);
-                                    break;
-                            }
-
-                            ee.pcom_ai = LOWORD(event_point.Data[5]);
-                            ee.ai_skill = HIWORD(event_point.Data[5]);
-                            ee.pcom_bent = event_point.Data[4];
-                            ee.pcom_move = event_point.Data[3] + 1;
-                            ee.ai_other = event_point.Data[7] & 0xffff; // For PCOM_AI_BODYGUARD and PCOM_AI_ASSASIN, the ID of the waypoint that creates the person you guard/kill
-                            ee.follow = follow;                         // For PCOM_MOVE_FOLLOW
-                            ee.zone = event_point.Data[4] >> 8;
-
-                            extern std::int16_t people_types[50];
-
-                            people_types[ed.subtype]++;
-
-                            if (ed.subtype == PERSON_MIB1 ||
-                                ed.subtype == PERSON_MIB2 ||
-                                ed.subtype == PERSON_MIB3) {
-                                //
-                                // MIB never have a low skill...
-                                //
-
-                                ee.ai_skill = 8 + (ee.ai_skill >> 1);
-                            }
-
-                            if (ee.pcom_ai == PCOM_AI_FIGHT_TEST) {
-                                //
-                                // The other is the combat move that knocks out this person.
-                                //
-
-                                ee.ai_other = event_point.Data[7] >> 16;
-
-                                //
-                                // Fight test dummies are always invulnerable.
-                                //
-
-                                ee.zone |= 1 << 4; // ugh!
-                            }
-
-                            //
-                            // What does this person drop when he dies?
+                            // MIB never have a low skill...
                             //
 
-                            ee.drop = 0;
+                            ee.ai_skill = 8 + (ee.ai_skill >> 1);
+                        }
 
-                            for (j = 0; j < 32; j++) {
-                                if (event_point.Data[8] & (1 << j)) {
-                                    ee.drop = j + 1;
-                                }
-                            }
-
-                            break;
-
-                        case WPT_CREATE_VEHICLE:
-
-                            ed.type = EWAY_DO_CREATE_VEHICLE;
-                            ed.arg1 = 0;
-
+                        if (ee.pcom_ai == PCOM_AI_FIGHT_TEST) {
                             //
-                            // What key to unlock the vehicle?
+                            // The other is the combat move that knocks out this person.
                             //
 
-                            switch (event_point.Data[3]) {
-                                case VK_UNLOCKED: ed.arg1 = SPECIAL_NONE; break;
-                                case VK_RED: ed.arg1 = SPECIAL_KEY; break;
-                                case VK_BLUE: ed.arg1 = SPECIAL_KEY; break;
-                                case VK_GREEN: ed.arg1 = SPECIAL_KEY; break;
-                                case VK_BLACK: ed.arg1 = SPECIAL_KEY; break;
-                                case VK_WHITE: ed.arg1 = SPECIAL_KEY; break;
-                                case VK_LOCKED: ed.arg1 = SPECIAL_NUM_TYPES; break; // A special that doesn't exist
-
-                                default:
-                                    ASSERT(0);
-                                    break;
-                            }
-
-                            switch (event_point.Data[0]) {
-                                case VT_NONE:
-                                case VT_CAR:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_CAR;
-                                    break;
-
-                                case VT_VAN:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_VAN;
-                                    break;
-
-                                case VT_TAXI:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_TAXI;
-                                    break;
-
-                                case VT_HELICOPTER:
-
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_HELICOPTER;
-
-                                    if (event_point.Data[1] == VMT_TRACK_TARGET) {
-                                        //
-                                        // arg2 is who to track... for a helicopter.
-                                        //
-
-                                        ed.arg2 = event_point.Data[2];
-                                    }
-
-                                    break;
-
-                                case VT_BIKE:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_BIKE;
-                                    break;
-
-                                case VT_POLICE:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_POLICE;
-                                    break;
-
-                                case VT_AMBULANCE:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_AMBULANCE;
-                                    break;
-
-                                case VT_JEEP:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_JEEP;
-                                    break;
-
-                                case VT_MEATWAGON:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_MEATWAGON;
-                                    break;
-
-                                case VT_SEDAN:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_SEDAN;
-                                    break;
-
-                                case VT_WILDCATVAN:
-                                    ed.subtype = EWAY_SUBTYPE_VEHICLE_WILDCATVAN;
-                                    break;
-
-                                default:
-                                    ASSERT(0);
-                                    break;
-                            }
-
-                            break;
-
-                        case WPT_CREATE_ITEM:
-
-                            if (version < 4) {
-                                //
-                                // This is using the old list of hundreds of items.
-                                //
-
-                                event_point.Data[0] = IT_PISTOL;
-                            }
-
-                            ed.type = EWAY_DO_CREATE_ITEM;
-                            ed.arg1 = event_point.Data[2]; // flags
-
-#ifdef MIKE
-                            if (!(ed.arg1 & EWAY_ARG_ITEM_FOLLOW_PERSON)) {
-                                switch (event_point.Data[0]) {
-                                    case IT_BARREL:
-                                        break;
-                                    case 0:
-                                        break;
-
-                                    default:
-                                        TesterText("(WP)%d item %s at %d,%d,%d \n", i, witem_strings[event_point.Data[0] - 1], event_point.X >> 8, event_point.Y >> 8, event_point.Z >> 8);
-                                        break;
-                                }
-                            }
-#endif
-
-                            switch (event_point.Data[0]) {
-                                default:
-                                case IT_NONE:
-
-                                case IT_KEY: ed.subtype = SPECIAL_KEY; break;
-                                case IT_PISTOL: ed.subtype = SPECIAL_GUN; break;
-                                case IT_HEALTH: ed.subtype = SPECIAL_HEALTH; break;
-                                case IT_SHOTGUN: ed.subtype = SPECIAL_SHOTGUN; break;
-                                case IT_KNIFE: ed.subtype = SPECIAL_KNIFE; break;
-                                case IT_AK47: ed.subtype = SPECIAL_AK47; break;
-                                case IT_MINE: ed.subtype = SPECIAL_MINE; break;
-                                case IT_BASEBALLBAT: ed.subtype = SPECIAL_BASEBALLBAT; break;
-                                case IT_AMMO_SHOTGUN: ed.subtype = SPECIAL_AMMO_SHOTGUN; break;
-                                case IT_AMMO_AK47: ed.subtype = SPECIAL_AMMO_AK47; break;
-                                case IT_AMMO_PISTOL: ed.subtype = SPECIAL_AMMO_PISTOL; break;
-                                case IT_KEYCARD: ed.subtype = SPECIAL_KEYCARD; break;
-                                case IT_FILE: ed.subtype = SPECIAL_FILE; break;
-                                case IT_FLOPPY_DISK: ed.subtype = SPECIAL_FLOPPY_DISK; break;
-                                case IT_CROWBAR: ed.subtype = SPECIAL_CROWBAR; break;
-                                case IT_VIDEO: ed.subtype = SPECIAL_VIDEO; break;
-                                case IT_GLOVES: ed.subtype = SPECIAL_GLOVES; break;
-                                case IT_WEEDAWAY: ed.subtype = SPECIAL_WEEDAWAY; break;
-                                case IT_GRENADE: ed.subtype = SPECIAL_GRENADE; break;
-                                case IT_EXPLOSIVES: ed.subtype = SPECIAL_EXPLOSIVES; break;
-                                case IT_WIRE_CUTTER:
-                                    ed.type = EWAY_DO_END_OF_WORLD;
-                                    break;
-
-                                case IT_BARREL:
-
-                                    //
-                                    // Don't create a waypoint- just put down some barrels.
-                                    //
-
-                                    for (j = 0; j < event_point.Data[1]; j++) {
-                                        BARREL_alloc(
-                                            BARREL_TYPE_NORMAL,
-                                            PRIM_OBJ_BARREL,
-                                            ew_world_x + (Random() & 0xf) - 0x7,
-                                            ew_world_z + (Random() & 0xf) - 0x7,
-                                            0);
-                                    }
-
-                                    goto dont_create_a_waypoint;
-                            }
-
-                            break;
-
-                        case WPT_CREATE_CREATURE:
-                            ed.type = EWAY_DO_CREATE_ANIMAL;
-                            ed.subtype = event_point.Data[0];
-                            break;
-
-                        case WPT_CREATE_CAMERA:
-
-                            ed.type = EWAY_DO_CAMERA_CREATE;
-
-                            ew_speed = event_point.Data[2] >> 2;
-                            ew_delay = event_point.Data[3];
-
-                            SATURATE(ew_speed, 4, 255);
-
-                            ed.arg1 = ew_speed;
-                            ed.arg2 = ew_delay;
-
-                            ed.subtype = 0;
-
-                            if (event_point.Data[4]) {
-                                ed.subtype |= EWAY_SUBTYPE_CAMERA_LOCK_PLAYER;
-                            }
-                            if (event_point.Data[5]) {
-                                ed.subtype |= EWAY_SUBTYPE_CAMERA_LOCK_DIRECTION;
-                            }
-                            if (event_point.Data[6]) {
-                                ed.subtype |= EWAY_SUBTYPE_CAMERA_CANT_INTERRUPT;
-                            }
-
-                            break;
-
-                        case WPT_CREATE_TARGET:
-
-                            ed.type = EWAY_DO_CAMERA_TARGET;
-
-                            switch (event_point.Data[1]) {
-                                case 0:
-                                case CT_NORMAL:
-                                    ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_PLACE;
-                                    break;
-
-                                case CT_ATTACHED:
-                                    ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_THING;
-                                    break;
-
-                                case CT_NEAREST_LIVING:
-                                    ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_NEAR;
-                                    break;
-
-                                default:
-                                    ASSERT(0);
-                                    break;
-                            }
-
-                            break;
-
-                        case WPT_CREATE_MAP_EXIT:
-                            break;
-
-                        case WPT_CAMERA_WAYPOINT:
-
-                            ed.type = EWAY_DO_CAMERA_WAYPOINT;
-
-                            ew_speed = event_point.Data[2] >> 2;
-                            ew_delay = event_point.Data[3];
-
-                            if (ew_speed < 4) {
-                                ew_speed = 4;
-                            }
-
-                            ed.arg1 = ew_speed;
-                            ed.arg2 = ew_delay;
+                            ee.ai_other = event_point.Data[7] >> 16;
 
                             //
-                            // 'Camera waypoint' waypoints must have this condition.
+                            // Fight test dummies are always invulnerable.
                             //
 
-                            ecd.type = EWAY_COND_CAMERA_AT;
-                            ecd.arg1 = 0;
-                            ecd.arg2 = 0;
-                            ecd.negate = false;
+                            ee.zone |= 1 << 4; // ugh!
+                        }
 
-                            break;
+                        //
+                        // What does this person drop when he dies?
+                        //
 
-                        case WPT_TARGET_WAYPOINT:
-                            break;
+                        ee.drop = 0;
 
-                        case WPT_MESSAGE:
-                            ed.type = EWAY_DO_MESSAGE;
-                            ed.arg1 = mess_count++;
-                            ed.arg2 = event_point.Data[2];
-                            ed.subtype = event_point.Data[1]; // The time the message lasts for.
-                            break;
-
-                        case WPT_NAV_BEACON:
-                            ed.type = EWAY_DO_NAV_BEACON;
-                            ed.arg1 = mess_count++;
-                            ed.arg2 = event_point.Data[1];
-                            break;
-
-                        case WPT_SOUND_EFFECT:
-                            ed.type = EWAY_DO_SOUND_EFFECT;
-                            ed.subtype = event_point.Data[0];
-                            ed.arg1 = event_point.Data[1];
-                            break;
-
-                        case WPT_VISUAL_EFFECT:
-                            ed.type = EWAY_DO_EXPLODE;
-                            ed.subtype = event_point.Data[0];
-                            ed.arg1 = event_point.Data[1];
-                            break;
-
-                        case WPT_SPOT_EFFECT:
-
-                            goto dont_create_a_waypoint;
-
-                            /*
-
-                            //
-                            // These are automatically generated nowadays...
-                            //
-
-                            ed.type	   = EWAY_DO_SPOT_FX;
-                            ed.subtype = event_point.Data[0];
-                            ed.arg1    = event_point.Data[1];
-
-                            */
-
-                            break;
-
-                        case WPT_TELEPORT:
-                            break;
-
-                        case WPT_TELEPORT_TARGET:
-                            break;
-
-                        case WPT_END_GAME_LOSE:
-                            ed.type = EWAY_DO_MISSION_FAIL;
-                            break;
-
-                        case WPT_END_GAME_WIN:
-                            ed.type = EWAY_DO_MISSION_COMPLETE;
-                            break;
-
-                        case WPT_SHOUT:
-                            break;
-
-                        case WPT_ACTIVATE_PRIM:
-
-                            switch (event_point.Data[0]) {
-                                case AP_DOOR:
-                                    ed.type = EWAY_DO_CONTROL_DOOR;
-                                    break;
-
-                                case AP_ELECTRIC_FENCE:
-                                    ed.type = EWAY_DO_ELECTRIFY_FENCE;
-                                    break;
-
-                                case AP_SECURITY_CAMERA:
-                                    break;
-
-                                default:
-                                    ASSERT(0);
-                                    break;
-                            }
-
-                            break;
-
-                        case WPT_CREATE_TRAP:
-
-                            ed.type = EWAY_DO_EMIT_STEAM;
-                            ed.subtype = event_point.Data[4];
-                            ed.arg1 = event_point.Data[3];
-                            ed.arg2 = 0;
-                            ed.arg2 |= (event_point.Data[1] & 0x3f) << 10;
-                            ed.arg2 |= (event_point.Data[2] & 0x0f) << 6;
-                            ed.arg2 |= (event_point.Data[5] & 0x3f) << 0;
-
-                            break;
-
-                        case WPT_ADJUST_ENEMY:
-
-                            ed.type = EWAY_DO_CHANGE_ENEMY;
-                            ed.arg1 = event_point.Data[6]; // ID of waypoint that creates the person to adjust
-                            ee.pcom_ai = event_point.Data[5];
-                            ee.pcom_bent = event_point.Data[4];
-                            ee.pcom_move = event_point.Data[3] + 1;
-                            ee.ai_other = event_point.Data[7]; // For PCOM_AI_BODYGUARD/PCOM_AI_ASSASIN, the ID of the waypoint that creates the person you guard.
-
-                            if (ee.pcom_ai == PCOM_AI_FIGHT_TEST) {
-                                //
-                                // The other is the combat move that knocks out this person.
-                                //
-
-                                ee.ai_other = event_point.Data[7] >> 16;
-
-                                //
-                                // Fight test dummies are always invulnerable.
-                                //
-
-                                ee.zone |= 1 << 4; // ugh!
-                            }
-
-                            if (version >= 3) {
-                                ee.follow = event_point.Data[1];
-                            } else {
-                                ee.follow = 0;
-                            }
-
-                            break;
-
-                        case WPT_ENEMY_FLAGS:
-                            ed.type = EWAY_DO_CHANGE_ENEMY_FLG;
-                            ed.arg1 = event_point.Data[0]; // ID of waypoint that creates the person to adjust
-                            ed.arg2 = event_point.Data[4];
-                            break;
-
-                        case WPT_LINK_PLATFORM:
-
-                            ed.type = EWAY_DO_CREATE_PLATFORM;
-
-                            if (event_point.Data[0] == 0) {
-                                //
-                                // Use default speed.
-                                //
-
-                                ed.arg1 = 50;
-                            } else {
-                                ed.arg1 = event_point.Data[0];
-                            }
-
-                            if (event_point.Data[1] & LP_LOCK_TO_AXIS) {
-                                ed.arg2 = PLAT_FLAG_LOCK_MOVE;
-                            }
-                            if (event_point.Data[1] & LP_LOCK_ROTATION) {
-                                ed.arg2 = PLAT_FLAG_LOCK_ROT;
-                            }
-                            if (event_point.Data[1] & LP_BODGE_ROCKET) {
-                                ed.arg2 = PLAT_FLAG_BODGE_ROCKET;
-                            }
-
-                            break;
-
-                        case WPT_CREATE_BOMB:
-                            ed.type = EWAY_DO_CREATE_BOMB;
-                            break;
-
-                        case WPT_CREATE_BARREL:
-
-                        {
-                            std::uint16_t barrel_type;
-                            std::uint16_t prim;
-
-                            switch (event_point.Data[0]) {
-                                case BT_OIL_DRUM:
-
-                                    extern std::int32_t playing_level(const char* name);
-
-                                    if (playing_level("Semtex.ucm")) {
-                                        barrel_type = BARREL_TYPE_NORMAL;
-                                        prim = 145;
-
-                                        break;
-                                    } else {
-                                        //
-                                        // Fallthrough!
-                                        //
-                                    }
-
-                                case BT_BARREL:
-                                case BT_LOX_DRUM:
-                                    barrel_type = BARREL_TYPE_NORMAL;
-                                    prim = PRIM_OBJ_BARREL;
-                                    break;
-
-                                case BT_TRAFFIC_CONE:
-                                    barrel_type = BARREL_TYPE_CONE;
-                                    prim = PRIM_OBJ_TRAFFIC_CONE;
-                                    break;
-
-                                case BT_BURNING_BARREL:
-                                    barrel_type = BARREL_TYPE_BURNING;
-                                    prim = PRIM_OBJ_BARREL;
-                                    break;
-
-                                case BT_BURNING_BIN:
-                                case BT_BIN:
-                                    barrel_type = BARREL_TYPE_BIN;
-                                    prim = PRIM_OBJ_BIN;
-                                    break;
-
-                                default:
-                                    ASSERT(0);
-                                    break;
-                            }
-
-                            if (!(event_point.Flags & WPT_FLAGS_REFERENCED) && ecd.type == EWAY_COND_TRUE) {
-                                BARREL_alloc(
-                                    barrel_type,
-                                    prim,
-                                    ew_world_x,
-                                    ew_world_z,
-                                    0);
-
-                                goto dont_create_a_waypoint;
-                            } else {
-                                ed.type = EWAY_DO_CREATE_BARREL;
-                                ed.subtype = barrel_type;
-                                ed.arg2 = prim;
+                        for (j = 0; j < 32; j++) {
+                            if (event_point.Data[8] & (1 << j)) {
+                                ee.drop = j + 1;
                             }
                         }
 
                         break;
 
-                        case WPT_KILL_WAYPOINT:
-                            ed.type = EWAY_DO_KILL_WAYPOINT;
-                            ed.arg1 = event_point.Data[0];
+                    case WPT_CREATE_VEHICLE:
+
+                        ed.type = EWAY_DO_CREATE_VEHICLE;
+                        ed.arg1 = 0;
+
+                        //
+                        // What key to unlock the vehicle?
+                        //
+
+                        switch (event_point.Data[3]) {
+                        case VK_UNLOCKED: ed.arg1 = SPECIAL_NONE; break;
+                        case VK_RED: ed.arg1 = SPECIAL_KEY; break;
+                        case VK_BLUE: ed.arg1 = SPECIAL_KEY; break;
+                        case VK_GREEN: ed.arg1 = SPECIAL_KEY; break;
+                        case VK_BLACK: ed.arg1 = SPECIAL_KEY; break;
+                        case VK_WHITE: ed.arg1 = SPECIAL_KEY; break;
+                        case VK_LOCKED: ed.arg1 = SPECIAL_NUM_TYPES; break; // A special that doesn't exist
+
+                        default:
+                            ASSERT(0);
+                            break;
+                        }
+
+                        switch (event_point.Data[0]) {
+                        case VT_NONE:
+                        case VT_CAR:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_CAR;
                             break;
 
-                        case WPT_CREATE_TREASURE:
-                            ed.type = EWAY_DO_CREATE_ITEM;
-                            ed.subtype = SPECIAL_TREASURE;
+                        case VT_VAN:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_VAN;
+                            break;
+
+                        case VT_TAXI:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_TAXI;
+                            break;
+
+                        case VT_HELICOPTER:
+
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_HELICOPTER;
+
+                            if (event_point.Data[1] == VMT_TRACK_TARGET) {
+                                //
+                                // arg2 is who to track... for a helicopter.
+                                //
+
+                                ed.arg2 = event_point.Data[2];
+                            }
+
+                            break;
+
+                        case VT_BIKE:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_BIKE;
+                            break;
+
+                        case VT_POLICE:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_POLICE;
+                            break;
+
+                        case VT_AMBULANCE:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_AMBULANCE;
+                            break;
+
+                        case VT_JEEP:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_JEEP;
+                            break;
+
+                        case VT_MEATWAGON:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_MEATWAGON;
+                            break;
+
+                        case VT_SEDAN:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_SEDAN;
+                            break;
+
+                        case VT_WILDCATVAN:
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_WILDCATVAN;
+                            break;
+
+                        default:
+                            ASSERT(0);
+                            break;
+                        }
+
+                        break;
+
+                    case WPT_CREATE_ITEM:
+
+                        if (version < 4) {
+                            //
+                            // This is using the old list of hundreds of items.
+                            //
+
+                            event_point.Data[0] = IT_PISTOL;
+                        }
+
+                        ed.type = EWAY_DO_CREATE_ITEM;
+                        ed.arg1 = event_point.Data[2]; // flags
+
 #ifdef MIKE
-                            TesterText(" POWERUP at %d,%d,%d \n", event_point.X >> 8, event_point.Y >> 8, event_point.Z >> 8);
+                        if (!(ed.arg1 & EWAY_ARG_ITEM_FOLLOW_PERSON)) {
+                            switch (event_point.Data[0]) {
+                            case IT_BARREL:
+                                break;
+                            case 0:
+                                break;
+
+                            default:
+                                TesterText("(WP)%d item %s at %d,%d,%d \n", i, witem_strings[event_point.Data[0] - 1], event_point.X >> 8, event_point.Y >> 8, event_point.Z >> 8);
+                                break;
+                            }
+                        }
 #endif
+
+                        switch (event_point.Data[0]) {
+                        default:
+                        case IT_NONE:
+
+                        case IT_KEY: ed.subtype = SPECIAL_KEY; break;
+                        case IT_PISTOL: ed.subtype = SPECIAL_GUN; break;
+                        case IT_HEALTH: ed.subtype = SPECIAL_HEALTH; break;
+                        case IT_SHOTGUN: ed.subtype = SPECIAL_SHOTGUN; break;
+                        case IT_KNIFE: ed.subtype = SPECIAL_KNIFE; break;
+                        case IT_AK47: ed.subtype = SPECIAL_AK47; break;
+                        case IT_MINE: ed.subtype = SPECIAL_MINE; break;
+                        case IT_BASEBALLBAT: ed.subtype = SPECIAL_BASEBALLBAT; break;
+                        case IT_AMMO_SHOTGUN: ed.subtype = SPECIAL_AMMO_SHOTGUN; break;
+                        case IT_AMMO_AK47: ed.subtype = SPECIAL_AMMO_AK47; break;
+                        case IT_AMMO_PISTOL: ed.subtype = SPECIAL_AMMO_PISTOL; break;
+                        case IT_KEYCARD: ed.subtype = SPECIAL_KEYCARD; break;
+                        case IT_FILE: ed.subtype = SPECIAL_FILE; break;
+                        case IT_FLOPPY_DISK: ed.subtype = SPECIAL_FLOPPY_DISK; break;
+                        case IT_CROWBAR: ed.subtype = SPECIAL_CROWBAR; break;
+                        case IT_VIDEO: ed.subtype = SPECIAL_VIDEO; break;
+                        case IT_GLOVES: ed.subtype = SPECIAL_GLOVES; break;
+                        case IT_WEEDAWAY: ed.subtype = SPECIAL_WEEDAWAY; break;
+                        case IT_GRENADE: ed.subtype = SPECIAL_GRENADE; break;
+                        case IT_EXPLOSIVES: ed.subtype = SPECIAL_EXPLOSIVES; break;
+                        case IT_WIRE_CUTTER:
+                            ed.type = EWAY_DO_END_OF_WORLD;
                             break;
 
-                        case WPT_BONUS_POINTS:
-
-                            if (0) {
-                                //
-                                // Bonus points are just messages nowadays.
-                                //
-
-                                ed.type = EWAY_DO_OBJECTIVE;
-                                ed.subtype = EWAY_SUBTYPE_OBJECTIVE_SUB;
-                                ed.arg1 = mess_count++;
-                                ed.arg2 = event_point.Data[1] / 10;
-                            } else {
-                                ed.type = EWAY_DO_MESSAGE;
-                                ed.arg1 = mess_count++;
-                                ed.arg2 = 0;    // Who says the message
-                                ed.subtype = 0; // The time the message lasts for.
-                            }
-
-                            break;
-
-                        case WPT_GROUP_LIFE:
-                            ed.type = EWAY_DO_GROUP_LIFE;
-                            break;
-
-                        case WPT_GROUP_DEATH:
-                            ed.type = EWAY_DO_GROUP_DEATH;
-                            break;
-
-                        case WPT_CONVERSATION:
-
-                            if (event_point.Data[3]) {
-                                ed.type = EWAY_DO_AMBIENT_CONV;
-                            } else {
-                                ed.type = EWAY_DO_CONVERSATION;
-                            }
-
-                            ed.subtype = mess_count++;
-                            ed.arg1 = event_point.Data[1];
-                            ed.arg2 = event_point.Data[2];
-                            break;
-
-                        case WPT_INCREMENT:
-                            ed.type = EWAY_DO_INCREASE_COUNTER;
-                            ed.subtype = event_point.Data[1];
-                            break;
-
-                        case WPT_TRANSFER_PLAYER:
-                            ed.type = EWAY_DO_TRANSFER_PLAYER;
-                            ed.arg1 = event_point.Data[0];
-                            break;
-
-                        case WPT_AUTOSAVE:
-                            ed.type = EWAY_DO_AUTOSAVE;
-                            break;
-
-                        case WPT_MAKE_SEARCHABLE:
+                        case IT_BARREL:
 
                             //
-                            // Look for the nearest ob and flag it as searchable.
+                            // Don't create a waypoint- just put down some barrels.
                             //
 
-                            {
-                                OB_Info* oi = OB_find_index(
-                                    ew_world_x,
-                                    ew_world_y,
-                                    ew_world_z,
-                                    0x100,
-                                    false);
-
-                                if (oi) {
-                                    OB_ob[oi->index].flags |= OB_FLAG_SEARCHABLE;
-                                }
+                            for (j = 0; j < event_point.Data[1]; j++) {
+                                BARREL_alloc(
+                                    BARREL_TYPE_NORMAL,
+                                    PRIM_OBJ_BARREL,
+                                    ew_world_x + (Random() & 0xf) - 0x7,
+                                    ew_world_z + (Random() & 0xf) - 0x7,
+                                    0);
                             }
 
                             goto dont_create_a_waypoint;
+                        }
 
-                        case WPT_LOCK_VEHICLE:
-                            ed.type = EWAY_DO_LOCK_VEHICLE;
-                            ed.arg1 = event_point.Data[0];
+                        break;
 
-                            if (event_point.Data[1]) {
-                                ed.subtype = EWAY_SUBTYPE_VEHICLE_LOCK;
-                            } else {
-                                ed.subtype = EWAY_SUBTYPE_VEHICLE_UNLOCK;
-                            }
+                    case WPT_CREATE_CREATURE:
+                        ed.type = EWAY_DO_CREATE_ANIMAL;
+                        ed.subtype = event_point.Data[0];
+                        break;
 
+                    case WPT_CREATE_CAMERA:
+
+                        ed.type = EWAY_DO_CAMERA_CREATE;
+
+                        ew_speed = event_point.Data[2] >> 2;
+                        ew_delay = event_point.Data[3];
+
+                        SATURATE(ew_speed, 4, 255);
+
+                        ed.arg1 = ew_speed;
+                        ed.arg2 = ew_delay;
+
+                        ed.subtype = 0;
+
+                        if (event_point.Data[4]) {
+                            ed.subtype |= EWAY_SUBTYPE_CAMERA_LOCK_PLAYER;
+                        }
+                        if (event_point.Data[5]) {
+                            ed.subtype |= EWAY_SUBTYPE_CAMERA_LOCK_DIRECTION;
+                        }
+                        if (event_point.Data[6]) {
+                            ed.subtype |= EWAY_SUBTYPE_CAMERA_CANT_INTERRUPT;
+                        }
+
+                        break;
+
+                    case WPT_CREATE_TARGET:
+
+                        ed.type = EWAY_DO_CAMERA_TARGET;
+
+                        switch (event_point.Data[1]) {
+                        case 0:
+                        case CT_NORMAL:
+                            ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_PLACE;
                             break;
 
-                        case WPT_CUT_SCENE: {
-                            ed.type = EWAY_DO_CUTSCENE;
-                            ed.arg1 = cutscene_count++;
-                        } break;
-                        case WPT_GROUP_RESET:
-                            ed.type = EWAY_DO_GROUP_RESET;
+                        case CT_ATTACHED:
+                            ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_THING;
                             break;
 
-                        case WPT_COUNT_UP_TIMER:
-                            ed.type = EWAY_DO_VISIBLE_COUNT_UP;
-                            break;
-
-                        case WPT_RESET_COUNTER:
-                            ed.type = EWAY_DO_RESET_COUNTER;
-                            ed.subtype = event_point.Data[0];
-                            break;
-
-                        case WPT_CREATE_MIST:
-                            ed.type = EWAY_DO_CREATE_MIST;
-                            break;
-
-                        case WPT_STALL_CAR:
-                            ed.type = EWAY_DO_STALL_CAR;
-                            ed.arg1 = event_point.Data[0];
-                            break;
-
-                        case WPT_EXTEND:
-                            ed.type = EWAY_DO_EXTEND_COUNTDOWN;
-                            ed.arg1 = event_point.Data[0];
-                            ed.arg2 = event_point.Data[1];
-                            break;
-
-                        case WPT_MOVE_THING:
-                            ed.type = EWAY_DO_MOVE_THING;
-                            ed.arg1 = event_point.Data[0];
-                            break;
-
-                        case WPT_MAKE_PERSON_PEE:
-                            ed.type = EWAY_DO_MAKE_PERSON_PEE;
-                            ed.arg1 = event_point.Data[0];
-                            break;
-
-                        case WPT_CONE_PENALTIES:
-                            ed.type = EWAY_DO_CONE_PENALTIES;
-                            break;
-
-                        case WPT_SIGN:
-                            ed.type = EWAY_DO_SIGN;
-                            ed.arg1 = event_point.Data[0];
-                            ed.arg2 = event_point.Data[1];
-                            break;
-
-                        case WPT_WAREFX:
-                            ed.type = EWAY_DO_WAREFX;
-                            ed.arg1 = event_point.Data[0];
-                            break;
-
-                        case WPT_NO_FLOOR:
-                            ed.type = EWAY_DO_NO_FLOOR;
-                            break;
-
-                        case WPT_SHAKE_CAMERA:
-                            ed.type = EWAY_DO_SHAKE_CAMERA;
+                        case CT_NEAREST_LIVING:
+                            ed.subtype = EWAY_SUBTYPE_CAMERA_TARGET_NEAR;
                             break;
 
                         default:
                             ASSERT(0);
                             break;
+                        }
+
+                        break;
+
+                    case WPT_CREATE_MAP_EXIT:
+                        break;
+
+                    case WPT_CAMERA_WAYPOINT:
+
+                        ed.type = EWAY_DO_CAMERA_WAYPOINT;
+
+                        ew_speed = event_point.Data[2] >> 2;
+                        ew_delay = event_point.Data[3];
+
+                        if (ew_speed < 4) {
+                            ew_speed = 4;
+                        }
+
+                        ed.arg1 = ew_speed;
+                        ed.arg2 = ew_delay;
+
+                        //
+                        // 'Camera waypoint' waypoints must have this condition.
+                        //
+
+                        ecd.type = EWAY_COND_CAMERA_AT;
+                        ecd.arg1 = 0;
+                        ecd.arg2 = 0;
+                        ecd.negate = false;
+
+                        break;
+
+                    case WPT_TARGET_WAYPOINT:
+                        break;
+
+                    case WPT_MESSAGE:
+                        ed.type = EWAY_DO_MESSAGE;
+                        ed.arg1 = mess_count++;
+                        ed.arg2 = event_point.Data[2];
+                        ed.subtype = event_point.Data[1]; // The time the message lasts for.
+                        break;
+
+                    case WPT_NAV_BEACON:
+                        ed.type = EWAY_DO_NAV_BEACON;
+                        ed.arg1 = mess_count++;
+                        ed.arg2 = event_point.Data[1];
+                        break;
+
+                    case WPT_SOUND_EFFECT:
+                        ed.type = EWAY_DO_SOUND_EFFECT;
+                        ed.subtype = event_point.Data[0];
+                        ed.arg1 = event_point.Data[1];
+                        break;
+
+                    case WPT_VISUAL_EFFECT:
+                        ed.type = EWAY_DO_EXPLODE;
+                        ed.subtype = event_point.Data[0];
+                        ed.arg1 = event_point.Data[1];
+                        break;
+
+                    case WPT_SPOT_EFFECT:
+
+                        goto dont_create_a_waypoint;
+
+                        /*
+
+                        //
+                        // These are automatically generated nowadays...
+                        //
+
+                        ed.type	   = EWAY_DO_SPOT_FX;
+                        ed.subtype = event_point.Data[0];
+                        ed.arg1    = event_point.Data[1];
+
+                        */
+
+                        break;
+
+                    case WPT_TELEPORT:
+                        break;
+
+                    case WPT_TELEPORT_TARGET:
+                        break;
+
+                    case WPT_END_GAME_LOSE:
+                        ed.type = EWAY_DO_MISSION_FAIL;
+                        break;
+
+                    case WPT_END_GAME_WIN:
+                        ed.type = EWAY_DO_MISSION_COMPLETE;
+                        break;
+
+                    case WPT_SHOUT:
+                        break;
+
+                    case WPT_ACTIVATE_PRIM:
+
+                        switch (event_point.Data[0]) {
+                        case AP_DOOR:
+                            ed.type = EWAY_DO_CONTROL_DOOR;
+                            break;
+
+                        case AP_ELECTRIC_FENCE:
+                            ed.type = EWAY_DO_ELECTRIFY_FENCE;
+                            break;
+
+                        case AP_SECURITY_CAMERA:
+                            break;
+
+                        default:
+                            ASSERT(0);
+                            break;
+                        }
+
+                        break;
+
+                    case WPT_CREATE_TRAP:
+
+                        ed.type = EWAY_DO_EMIT_STEAM;
+                        ed.subtype = event_point.Data[4];
+                        ed.arg1 = event_point.Data[3];
+                        ed.arg2 = 0;
+                        ed.arg2 |= (event_point.Data[1] & 0x3f) << 10;
+                        ed.arg2 |= (event_point.Data[2] & 0x0f) << 6;
+                        ed.arg2 |= (event_point.Data[5] & 0x3f) << 0;
+
+                        break;
+
+                    case WPT_ADJUST_ENEMY:
+
+                        ed.type = EWAY_DO_CHANGE_ENEMY;
+                        ed.arg1 = event_point.Data[6]; // ID of waypoint that creates the person to adjust
+                        ee.pcom_ai = event_point.Data[5];
+                        ee.pcom_bent = event_point.Data[4];
+                        ee.pcom_move = event_point.Data[3] + 1;
+                        ee.ai_other = event_point.Data[7]; // For PCOM_AI_BODYGUARD/PCOM_AI_ASSASIN, the ID of the waypoint that creates the person you guard.
+
+                        if (ee.pcom_ai == PCOM_AI_FIGHT_TEST) {
+                            //
+                            // The other is the combat move that knocks out this person.
+                            //
+
+                            ee.ai_other = event_point.Data[7] >> 16;
+
+                            //
+                            // Fight test dummies are always invulnerable.
+                            //
+
+                            ee.zone |= 1 << 4; // ugh!
+                        }
+
+                        if (version >= 3) {
+                            ee.follow = event_point.Data[1];
+                        } else {
+                            ee.follow = 0;
+                        }
+
+                        break;
+
+                    case WPT_ENEMY_FLAGS:
+                        ed.type = EWAY_DO_CHANGE_ENEMY_FLG;
+                        ed.arg1 = event_point.Data[0]; // ID of waypoint that creates the person to adjust
+                        ed.arg2 = event_point.Data[4];
+                        break;
+
+                    case WPT_LINK_PLATFORM:
+
+                        ed.type = EWAY_DO_CREATE_PLATFORM;
+
+                        if (event_point.Data[0] == 0) {
+                            //
+                            // Use default speed.
+                            //
+
+                            ed.arg1 = 50;
+                        } else {
+                            ed.arg1 = event_point.Data[0];
+                        }
+
+                        if (event_point.Data[1] & LP_LOCK_TO_AXIS) {
+                            ed.arg2 = PLAT_FLAG_LOCK_MOVE;
+                        }
+                        if (event_point.Data[1] & LP_LOCK_ROTATION) {
+                            ed.arg2 = PLAT_FLAG_LOCK_ROT;
+                        }
+                        if (event_point.Data[1] & LP_BODGE_ROCKET) {
+                            ed.arg2 = PLAT_FLAG_BODGE_ROCKET;
+                        }
+
+                        break;
+
+                    case WPT_CREATE_BOMB:
+                        ed.type = EWAY_DO_CREATE_BOMB;
+                        break;
+
+                    case WPT_CREATE_BARREL:
+
+                    {
+                        std::uint16_t barrel_type;
+                        std::uint16_t prim;
+
+                        switch (event_point.Data[0]) {
+                        case BT_OIL_DRUM:
+
+                            extern std::int32_t playing_level(const char* name);
+
+                            if (playing_level("Semtex.ucm")) {
+                                barrel_type = BARREL_TYPE_NORMAL;
+                                prim = 145;
+
+                                break;
+                            } else {
+                                //
+                                // Fallthrough!
+                                //
+                            }
+
+                        case BT_BARREL:
+                        case BT_LOX_DRUM:
+                            barrel_type = BARREL_TYPE_NORMAL;
+                            prim = PRIM_OBJ_BARREL;
+                            break;
+
+                        case BT_TRAFFIC_CONE:
+                            barrel_type = BARREL_TYPE_CONE;
+                            prim = PRIM_OBJ_TRAFFIC_CONE;
+                            break;
+
+                        case BT_BURNING_BARREL:
+                            barrel_type = BARREL_TYPE_BURNING;
+                            prim = PRIM_OBJ_BARREL;
+                            break;
+
+                        case BT_BURNING_BIN:
+                        case BT_BIN:
+                            barrel_type = BARREL_TYPE_BIN;
+                            prim = PRIM_OBJ_BIN;
+                            break;
+
+                        default:
+                            ASSERT(0);
+                            break;
+                        }
+
+                        if (!(event_point.Flags & WPT_FLAGS_REFERENCED) && ecd.type == EWAY_COND_TRUE) {
+                            BARREL_alloc(
+                                barrel_type,
+                                prim,
+                                ew_world_x,
+                                ew_world_z,
+                                0);
+
+                            goto dont_create_a_waypoint;
+                        } else {
+                            ed.type = EWAY_DO_CREATE_BARREL;
+                            ed.subtype = barrel_type;
+                            ed.arg2 = prim;
+                        }
+                    }
+
+                    break;
+
+                    case WPT_KILL_WAYPOINT:
+                        ed.type = EWAY_DO_KILL_WAYPOINT;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_CREATE_TREASURE:
+                        ed.type = EWAY_DO_CREATE_ITEM;
+                        ed.subtype = SPECIAL_TREASURE;
+#ifdef MIKE
+                        TesterText(" POWERUP at %d,%d,%d \n", event_point.X >> 8, event_point.Y >> 8, event_point.Z >> 8);
+#endif
+                        break;
+
+                    case WPT_BONUS_POINTS:
+
+                        if (0) {
+                            //
+                            // Bonus points are just messages nowadays.
+                            //
+
+                            ed.type = EWAY_DO_OBJECTIVE;
+                            ed.subtype = EWAY_SUBTYPE_OBJECTIVE_SUB;
+                            ed.arg1 = mess_count++;
+                            ed.arg2 = event_point.Data[1] / 10;
+                        } else {
+                            ed.type = EWAY_DO_MESSAGE;
+                            ed.arg1 = mess_count++;
+                            ed.arg2 = 0;    // Who says the message
+                            ed.subtype = 0; // The time the message lasts for.
+                        }
+
+                        break;
+
+                    case WPT_GROUP_LIFE:
+                        ed.type = EWAY_DO_GROUP_LIFE;
+                        break;
+
+                    case WPT_GROUP_DEATH:
+                        ed.type = EWAY_DO_GROUP_DEATH;
+                        break;
+
+                    case WPT_CONVERSATION:
+
+                        if (event_point.Data[3]) {
+                            ed.type = EWAY_DO_AMBIENT_CONV;
+                        } else {
+                            ed.type = EWAY_DO_CONVERSATION;
+                        }
+
+                        ed.subtype = mess_count++;
+                        ed.arg1 = event_point.Data[1];
+                        ed.arg2 = event_point.Data[2];
+                        break;
+
+                    case WPT_INCREMENT:
+                        ed.type = EWAY_DO_INCREASE_COUNTER;
+                        ed.subtype = event_point.Data[1];
+                        break;
+
+                    case WPT_TRANSFER_PLAYER:
+                        ed.type = EWAY_DO_TRANSFER_PLAYER;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_AUTOSAVE:
+                        ed.type = EWAY_DO_AUTOSAVE;
+                        break;
+
+                    case WPT_MAKE_SEARCHABLE:
+
+                        //
+                        // Look for the nearest ob and flag it as searchable.
+                        //
+
+                        {
+                            OB_Info* oi = OB_find_index(
+                                ew_world_x,
+                                ew_world_y,
+                                ew_world_z,
+                                0x100,
+                                false);
+
+                            if (oi) {
+                                OB_ob[oi->index].flags |= OB_FLAG_SEARCHABLE;
+                            }
+                        }
+
+                        goto dont_create_a_waypoint;
+
+                    case WPT_LOCK_VEHICLE:
+                        ed.type = EWAY_DO_LOCK_VEHICLE;
+                        ed.arg1 = event_point.Data[0];
+
+                        if (event_point.Data[1]) {
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_LOCK;
+                        } else {
+                            ed.subtype = EWAY_SUBTYPE_VEHICLE_UNLOCK;
+                        }
+
+                        break;
+
+                    case WPT_CUT_SCENE: {
+                        ed.type = EWAY_DO_CUTSCENE;
+                        ed.arg1 = cutscene_count++;
+                    } break;
+                    case WPT_GROUP_RESET:
+                        ed.type = EWAY_DO_GROUP_RESET;
+                        break;
+
+                    case WPT_COUNT_UP_TIMER:
+                        ed.type = EWAY_DO_VISIBLE_COUNT_UP;
+                        break;
+
+                    case WPT_RESET_COUNTER:
+                        ed.type = EWAY_DO_RESET_COUNTER;
+                        ed.subtype = event_point.Data[0];
+                        break;
+
+                    case WPT_CREATE_MIST:
+                        ed.type = EWAY_DO_CREATE_MIST;
+                        break;
+
+                    case WPT_STALL_CAR:
+                        ed.type = EWAY_DO_STALL_CAR;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_EXTEND:
+                        ed.type = EWAY_DO_EXTEND_COUNTDOWN;
+                        ed.arg1 = event_point.Data[0];
+                        ed.arg2 = event_point.Data[1];
+                        break;
+
+                    case WPT_MOVE_THING:
+                        ed.type = EWAY_DO_MOVE_THING;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_MAKE_PERSON_PEE:
+                        ed.type = EWAY_DO_MAKE_PERSON_PEE;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_CONE_PENALTIES:
+                        ed.type = EWAY_DO_CONE_PENALTIES;
+                        break;
+
+                    case WPT_SIGN:
+                        ed.type = EWAY_DO_SIGN;
+                        ed.arg1 = event_point.Data[0];
+                        ed.arg2 = event_point.Data[1];
+                        break;
+
+                    case WPT_WAREFX:
+                        ed.type = EWAY_DO_WAREFX;
+                        ed.arg1 = event_point.Data[0];
+                        break;
+
+                    case WPT_NO_FLOOR:
+                        ed.type = EWAY_DO_NO_FLOOR;
+                        break;
+
+                    case WPT_SHAKE_CAMERA:
+                        ed.type = EWAY_DO_SHAKE_CAMERA;
+                        break;
+
+                    default:
+                        ASSERT(0);
+                        break;
                     }
 
                     switch (event_point.OnTrigger) {
-                        case OT_NONE:
-                        case OT_ACTIVE:
-                            es.type = EWAY_STAY_ALWAYS;
-                            break;
+                    case OT_NONE:
+                    case OT_ACTIVE:
+                        es.type = EWAY_STAY_ALWAYS;
+                        break;
 
-                        case OT_ACTIVE_WHILE:
-                            es.type = EWAY_STAY_WHILE;
-                            break;
+                    case OT_ACTIVE_WHILE:
+                        es.type = EWAY_STAY_WHILE;
+                        break;
 
-                        case OT_ACTIVE_TIME:
-                            es.type = EWAY_STAY_TIME;
-                            es.arg = event_point.AfterTimer;
-                            break;
+                    case OT_ACTIVE_TIME:
+                        es.type = EWAY_STAY_TIME;
+                        es.arg = event_point.AfterTimer;
+                        break;
 
-                        case OT_ACTIVE_DIE:
-                            es.type = EWAY_STAY_DIE;
-                            break;
+                    case OT_ACTIVE_DIE:
+                        es.type = EWAY_STAY_DIE;
+                        break;
 
-                        default:
-                            ASSERT(0);
-                            break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
 
                     //
@@ -1692,20 +1692,20 @@ void ELEV_load_level(char* fname_level) {
                 FileRead(handle, &what, 1);
 
                 switch (what) {
-                    case 1: // message
-                        ZeroMemory(junk, sizeof(junk));
-                        FileRead(handle, &l, 4);
-                        if (FileRead(handle, junk, l) == FILE_READ_ERROR)
-                            goto file_error;
-                        //
-                        // Tell the EWAY module what each message is.
-                        //
-                        EWAY_set_message(i, junk);
-                        break;
-                    case 2: // cutscene
-                        // PLAYCUTS_cutscenes[PLAYCUTS_cutscene_ctr++]=PLAYCUTS_Read(handle);
-                        PLAYCUTS_Read(handle); // don't care bout result -- static alloc
-                        break;
+                case 1: // message
+                    ZeroMemory(junk, sizeof(junk));
+                    FileRead(handle, &l, 4);
+                    if (FileRead(handle, junk, l) == FILE_READ_ERROR)
+                        goto file_error;
+                    //
+                    // Tell the EWAY module what each message is.
+                    //
+                    EWAY_set_message(i, junk);
+                    break;
+                case 2: // cutscene
+                    // PLAYCUTS_cutscenes[PLAYCUTS_cutscene_ctr++]=PLAYCUTS_Read(handle);
+                    PLAYCUTS_Read(handle); // don't care bout result -- static alloc
+                    break;
                 }
             }
         }
@@ -2039,17 +2039,17 @@ std::int32_t ELEV_game_init(
     ASSERT(fname_level[6] == '\\');
 
     switch (ENV_get_value_number("lang_num", 0, "")) {
-        case 0:
-            // English.
-            strcpy(cTempName, "levels\\");
-            break;
-        case 1:
-            // French.
-            strcpy(cTempName, "levels_french\\");
-            break;
-        default:
-            ASSERT(false);
-            break;
+    case 0:
+        // English.
+        strcpy(cTempName, "levels\\");
+        break;
+    case 1:
+        // French.
+        strcpy(cTempName, "levels_french\\");
+        break;
+    default:
+        ASSERT(false);
+        break;
     }
 
     ASSERT(strlen(cTempName) + strlen(&(fname_level[7])) < 45);
@@ -2844,259 +2844,259 @@ try_again:;
         MB_YESNOCANCEL | MB_APPLMODAL | MB_ICONQUESTION);
 
     switch (ans) {
-        case IDYES:
+    case IDYES:
 
-            //
-            // Get a level filename.
-            //
+        //
+        // Get a level filename.
+        //
 
-            ELEV_fname_level[0] = 0;
+        ELEV_fname_level[0] = 0;
 
-            ofn.lStructSize = sizeof(OPENFILENAME);
-            ofn.hwndOwner = hDDLibWindow;
-            ofn.hInstance = nullptr;
-            ofn.lpstrFilter = "Level files\0*.ucm\0Wad files\0*.wad\0\0";
-            ofn.lpstrCustomFilter = nullptr;
-            ofn.nMaxCustFilter = 0;
-            ofn.nFilterIndex = 0;
-            ofn.lpstrFile = ELEV_fname_level;
-            ofn.nMaxFile = _MAX_PATH;
-            ofn.lpstrFileTitle = nullptr;
-            ofn.nMaxFileTitle = 0;
-            ofn.lpstrInitialDir = "Levels";
-            ofn.lpstrTitle = "Load a level";
-            ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-            ofn.nFileOffset = 0;
-            ofn.nFileExtension = 0;
-            ofn.lpstrDefExt = "ucm";
-            ofn.lCustData = 0;
-            ofn.lpfnHook = nullptr;
-            ofn.lpTemplateName = nullptr;
+        ofn.lStructSize = sizeof(OPENFILENAME);
+        ofn.hwndOwner = hDDLibWindow;
+        ofn.hInstance = nullptr;
+        ofn.lpstrFilter = "Level files\0*.ucm\0Wad files\0*.wad\0\0";
+        ofn.lpstrCustomFilter = nullptr;
+        ofn.nMaxCustFilter = 0;
+        ofn.nFilterIndex = 0;
+        ofn.lpstrFile = ELEV_fname_level;
+        ofn.nMaxFile = _MAX_PATH;
+        ofn.lpstrFileTitle = nullptr;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "Levels";
+        ofn.lpstrTitle = "Load a level";
+        ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
+        ofn.nFileOffset = 0;
+        ofn.nFileExtension = 0;
+        ofn.lpstrDefExt = "ucm";
+        ofn.lCustData = 0;
+        ofn.lpfnHook = nullptr;
+        ofn.lpTemplateName = nullptr;
 
-            if (!GetOpenFileName(&ofn)) {
-                return false;
+        if (!GetOpenFileName(&ofn)) {
+            return false;
+        }
+
+        //
+        // Restore our current directory.
+        //
+
+        SetCurrentDirectory(curr_directory);
+
+        if (GAME_STATE & GS_RECORD) {
+            std::uint16_t c = 1;
+            char fname[_MAX_PATH], *cname;
+
+            // marker to indicate level name is included
+            FileWrite(playback_file, &c, 2);
+            // store string
+            strcpy(fname, ELEV_fname_level);
+            cname = fname;
+            if (strnicmp(fname, curr_directory, strlen(curr_directory)) == 0) {
+                cname += strlen(curr_directory);
+                if (*cname = '\\') cname++;
             }
+            c = strlen(cname) + 1; // +1 is to include terminating zero
+            FileWrite(playback_file, &c, 2);
+            FileWrite(playback_file, cname, c);
+        }
 
-            //
-            // Restore our current directory.
-            //
+        /*
 
-            SetCurrentDirectory(curr_directory);
+        //
+        // Load the level.
+        //
 
-            if (GAME_STATE & GS_RECORD) {
-                std::uint16_t c = 1;
-                char fname[_MAX_PATH], *cname;
+        {
+                std::int32_t	c0;
+                strcpy(tab_map_name,ELEV_fname_level);
+                for(c0=0;c0<strlen(tab_map_name);c0++)
+                {
+                        if(tab_map_name[c0]=='.')
+                        {
+                                tab_map_name[c0+1]='t';
+                                tab_map_name[c0+2]='g';
+                                tab_map_name[c0+3]='a';
 
-                // marker to indicate level name is included
-                FileWrite(playback_file, &c, 2);
-                // store string
-                strcpy(fname, ELEV_fname_level);
-                cname = fname;
-                if (strnicmp(fname, curr_directory, strlen(curr_directory)) == 0) {
-                    cname += strlen(curr_directory);
-                    if (*cname = '\\') cname++;
+                                break;
+                        }
                 }
-                c = strlen(cname) + 1; // +1 is to include terminating zero
-                FileWrite(playback_file, &c, 2);
-                FileWrite(playback_file, cname, c);
-            }
+        }
 
-            /*
+        */
 
+        if (ELEV_fname_level[strlen(ELEV_fname_level) - 3] == 'w') {
             //
-            // Load the level.
+            // oh my god, crazy shit, it's a long shot but it just might work
             //
+            extern void load_whole_game(char* gamename);
 
-            {
-                    std::int32_t	c0;
-                    strcpy(tab_map_name,ELEV_fname_level);
-                    for(c0=0;c0<strlen(tab_map_name);c0++)
-                    {
-                            if(tab_map_name[c0]=='.')
-                            {
-                                    tab_map_name[c0+1]='t';
-                                    tab_map_name[c0+2]='g';
-                                    tab_map_name[c0+3]='a';
+            load_whole_game(ELEV_fname_level);
+            return (4);
+        } else {
+            if (ELEV_load_name(ELEV_fname_level))
+                return (5);
+            else
+                return (0);
+        }
 
-                                    break;
-                            }
-                    }
-            }
+        return (ELEV_load_name(ELEV_fname_level) ? 5 : 0);
 
-            */
+    case IDNO:
 
-            if (ELEV_fname_level[strlen(ELEV_fname_level) - 3] == 'w') {
-                //
-                // oh my god, crazy shit, it's a long shot but it just might work
-                //
-                extern void load_whole_game(char* gamename);
+        //
+        // We have to get the map/lighting/and citsez files separately.
+        //
 
-                load_whole_game(ELEV_fname_level);
-                return (4);
-            } else {
-                if (ELEV_load_name(ELEV_fname_level))
-                    return (5);
-                else
-                    return (0);
-            }
+        ELEV_fname_map[0] = 0;
 
-            return (ELEV_load_name(ELEV_fname_level) ? 5 : 0);
+        ofn.lStructSize = sizeof(OPENFILENAME);
+        ofn.hwndOwner = hDDLibWindow;
+        ofn.hInstance = nullptr;
+        ofn.lpstrFilter = "Game map files\0*.iam\0\0";
+        ofn.lpstrCustomFilter = nullptr;
+        ofn.nMaxCustFilter = 0;
+        ofn.nFilterIndex = 0;
+        ofn.lpstrFile = ELEV_fname_map;
+        ofn.nMaxFile = _MAX_PATH;
+        ofn.lpstrFileTitle = nullptr;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "data";
+        ofn.lpstrTitle = "Load a game map";
+        ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
+        ofn.nFileOffset = 0;
+        ofn.nFileExtension = 0;
+        ofn.lpstrDefExt = "iam";
+        ofn.lCustData = 0;
+        ofn.lpfnHook = nullptr;
+        ofn.lpTemplateName = nullptr;
 
-        case IDNO:
+        if (!GetOpenFileName(&ofn)) {
+            goto try_again;
+            //				return false;
+        } else {
+            fname_map = ELEV_fname_map;
+        }
 
-            //
-            // We have to get the map/lighting/and citsez files separately.
-            //
+        //
+        // Create the default lighting filename.
+        //
 
-            ELEV_fname_map[0] = 0;
+        ELEV_create_similar_name(
+            ELEV_fname_lighting,
+            ELEV_fname_map,
+            "lgt");
 
-            ofn.lStructSize = sizeof(OPENFILENAME);
-            ofn.hwndOwner = hDDLibWindow;
-            ofn.hInstance = nullptr;
-            ofn.lpstrFilter = "Game map files\0*.iam\0\0";
-            ofn.lpstrCustomFilter = nullptr;
-            ofn.nMaxCustFilter = 0;
-            ofn.nFilterIndex = 0;
-            ofn.lpstrFile = ELEV_fname_map;
-            ofn.nMaxFile = _MAX_PATH;
-            ofn.lpstrFileTitle = nullptr;
-            ofn.nMaxFileTitle = 0;
-            ofn.lpstrInitialDir = "data";
-            ofn.lpstrTitle = "Load a game map";
-            ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-            ofn.nFileOffset = 0;
-            ofn.nFileExtension = 0;
-            ofn.lpstrDefExt = "iam";
-            ofn.lCustData = 0;
-            ofn.lpfnHook = nullptr;
-            ofn.lpTemplateName = nullptr;
+        //
+        // Restore our current directory.
+        //
 
-            if (!GetOpenFileName(&ofn)) {
-                goto try_again;
-                //				return false;
-            } else {
-                fname_map = ELEV_fname_map;
-            }
+        SetCurrentDirectory(curr_directory);
 
-            //
-            // Create the default lighting filename.
-            //
+        //
+        // Get the lighting filename.
+        //
 
-            ELEV_create_similar_name(
-                ELEV_fname_lighting,
-                ELEV_fname_map,
-                "lgt");
+        ofn.lStructSize = sizeof(OPENFILENAME);
+        ofn.hwndOwner = hDDLibWindow;
+        ofn.hInstance = nullptr;
+        ofn.lpstrFilter = "Lighting files\0*.lgt\0\0";
+        ofn.lpstrCustomFilter = nullptr;
+        ofn.nMaxCustFilter = 0;
+        ofn.nFilterIndex = 0;
+        ofn.lpstrFile = ELEV_fname_lighting;
+        ofn.nMaxFile = _MAX_PATH;
+        ofn.lpstrFileTitle = nullptr;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "data\\lighting";
+        ofn.lpstrTitle = "Load a lighting file";
+        ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
+        ofn.nFileOffset = 0;
+        ofn.nFileExtension = 0;
+        ofn.lpstrDefExt = "lgt";
+        ofn.lCustData = 0;
+        ofn.lpfnHook = nullptr;
+        ofn.lpTemplateName = nullptr;
 
-            //
-            // Restore our current directory.
-            //
+        if (!GetOpenFileName(&ofn)) {
+            fname_lighting = nullptr;
+        } else {
+            fname_lighting = ELEV_fname_lighting;
+        }
 
-            SetCurrentDirectory(curr_directory);
+        //
+        // Create the default citsez filename.
+        //
 
-            //
-            // Get the lighting filename.
-            //
+        ELEV_create_similar_name(
+            ELEV_fname_citsez,
+            ELEV_fname_map,
+            "txt");
 
-            ofn.lStructSize = sizeof(OPENFILENAME);
-            ofn.hwndOwner = hDDLibWindow;
-            ofn.hInstance = nullptr;
-            ofn.lpstrFilter = "Lighting files\0*.lgt\0\0";
-            ofn.lpstrCustomFilter = nullptr;
-            ofn.nMaxCustFilter = 0;
-            ofn.nFilterIndex = 0;
-            ofn.lpstrFile = ELEV_fname_lighting;
-            ofn.nMaxFile = _MAX_PATH;
-            ofn.lpstrFileTitle = nullptr;
-            ofn.nMaxFileTitle = 0;
-            ofn.lpstrInitialDir = "data\\lighting";
-            ofn.lpstrTitle = "Load a lighting file";
-            ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-            ofn.nFileOffset = 0;
-            ofn.nFileExtension = 0;
-            ofn.lpstrDefExt = "lgt";
-            ofn.lCustData = 0;
-            ofn.lpfnHook = nullptr;
-            ofn.lpTemplateName = nullptr;
+        //
+        // Restore our current directory.
+        //
 
-            if (!GetOpenFileName(&ofn)) {
-                fname_lighting = nullptr;
-            } else {
-                fname_lighting = ELEV_fname_lighting;
-            }
+        SetCurrentDirectory(curr_directory);
 
-            //
-            // Create the default citsez filename.
-            //
+        //
+        //  Get the sewer filename.
+        //
 
-            ELEV_create_similar_name(
-                ELEV_fname_citsez,
-                ELEV_fname_map,
-                "txt");
+        ofn.lStructSize = sizeof(OPENFILENAME);
+        ofn.hwndOwner = hDDLibWindow;
+        ofn.hInstance = nullptr;
+        ofn.lpstrFilter = "Text files\0*.txt\0\0";
+        ofn.lpstrCustomFilter = nullptr;
+        ofn.nMaxCustFilter = 0;
+        ofn.nFilterIndex = 0;
+        ofn.lpstrFile = ELEV_fname_citsez;
+        ofn.nMaxFile = _MAX_PATH;
+        ofn.lpstrFileTitle = nullptr;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "\\text";
+        ofn.lpstrTitle = "Load a Citizen-sez text file";
+        ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
+        ofn.nFileOffset = 0;
+        ofn.nFileExtension = 0;
+        ofn.lpstrDefExt = "txt";
+        ofn.lCustData = 0;
+        ofn.lpfnHook = nullptr;
+        ofn.lpTemplateName = nullptr;
 
-            //
-            // Restore our current directory.
-            //
+        if (!GetOpenFileName(&ofn)) {
+            fname_citsez = nullptr;
+        } else {
+            fname_citsez = ELEV_fname_citsez;
+        }
 
-            SetCurrentDirectory(curr_directory);
+        //
+        // We don't have a level.
+        //
 
-            //
-            //  Get the sewer filename.
-            //
+        fname_level = nullptr;
 
-            ofn.lStructSize = sizeof(OPENFILENAME);
-            ofn.hwndOwner = hDDLibWindow;
-            ofn.hInstance = nullptr;
-            ofn.lpstrFilter = "Text files\0*.txt\0\0";
-            ofn.lpstrCustomFilter = nullptr;
-            ofn.nMaxCustFilter = 0;
-            ofn.nFilterIndex = 0;
-            ofn.lpstrFile = ELEV_fname_citsez;
-            ofn.nMaxFile = _MAX_PATH;
-            ofn.lpstrFileTitle = nullptr;
-            ofn.nMaxFileTitle = 0;
-            ofn.lpstrInitialDir = "\\text";
-            ofn.lpstrTitle = "Load a Citizen-sez text file";
-            ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY;
-            ofn.nFileOffset = 0;
-            ofn.nFileExtension = 0;
-            ofn.lpstrDefExt = "txt";
-            ofn.lCustData = 0;
-            ofn.lpfnHook = nullptr;
-            ofn.lpTemplateName = nullptr;
+        //
+        // Restore our current directory.
+        //
 
-            if (!GetOpenFileName(&ofn)) {
-                fname_citsez = nullptr;
-            } else {
-                fname_citsez = ELEV_fname_citsez;
-            }
+        SetCurrentDirectory(curr_directory);
 
-            //
-            // We don't have a level.
-            //
+        //
+        // Do the load.
+        //
 
-            fname_level = nullptr;
+        return ELEV_game_init(
+            fname_map,
+            fname_lighting,
+            fname_citsez,
+            fname_level);
 
-            //
-            // Restore our current directory.
-            //
+    case IDCANCEL:
+        return false;
 
-            SetCurrentDirectory(curr_directory);
-
-            //
-            // Do the load.
-            //
-
-            return ELEV_game_init(
-                fname_map,
-                fname_lighting,
-                fname_citsez,
-                fname_level);
-
-        case IDCANCEL:
-            return false;
-
-        default:
-            return false;
+    default:
+        return false;
     }
 
 #endif // #else //#ifdef TARGET_DC

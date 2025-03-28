@@ -36,30 +36,30 @@ bool CALLBACK burn_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     //	LPTSTR		lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            ticklist_init(hWnd, IDC_LIST1, wfire_strings, burn_type);
+    case WM_INITDIALOG:
+        ticklist_init(hWnd, IDC_LIST1, wfire_strings, burn_type);
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            burn_type = ticklist_bitmask(hWnd, IDC_LIST1);
+
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    burn_type = ticklist_bitmask(hWnd, IDC_LIST1);
+    case WM_CLOSE:
+        ticklist_close(hWnd, IDC_LIST1);
+        EndDialog(hWnd, 0);
+        return true;
 
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            ticklist_close(hWnd, IDC_LIST1);
-            EndDialog(hWnd, 0);
-            return true;
-
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
     }
     return false;
 }

@@ -51,29 +51,29 @@ void BALLOON_get_attached_point(
     Thing *p_thing = TO_THING(thing);
 
     switch (p_thing->Class) {
-        case CLASS_PERSON:
+    case CLASS_PERSON:
 
-            calc_sub_objects_position(
-                p_thing,
-                p_thing->Draw.Tweened->AnimTween,
-                SUB_OBJECT_LEFT_HAND,
-                &px,
-                &py,
-                &pz);
+        calc_sub_objects_position(
+            p_thing,
+            p_thing->Draw.Tweened->AnimTween,
+            SUB_OBJECT_LEFT_HAND,
+            &px,
+            &py,
+            &pz);
 
-            px <<= 8;
-            py <<= 8;
-            pz <<= 8;
+        px <<= 8;
+        py <<= 8;
+        pz <<= 8;
 
-            px += p_thing->WorldPos.X;
-            py += p_thing->WorldPos.Y;
-            pz += p_thing->WorldPos.Z;
+        px += p_thing->WorldPos.X;
+        py += p_thing->WorldPos.Y;
+        pz += p_thing->WorldPos.Z;
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     *ax = px;
@@ -139,14 +139,14 @@ std::uint8_t BALLOON_create(std::uint16_t thing, std::uint8_t type) {
     //
 
     switch (p_thing->Class) {
-        case CLASS_PERSON:
-            bb->next = p_thing->Genus.Person->Balloon;
-            p_thing->Genus.Person->Balloon = BALLOON_balloon_upto;
-            break;
+    case CLASS_PERSON:
+        bb->next = p_thing->Genus.Person->Balloon;
+        p_thing->Genus.Person->Balloon = BALLOON_balloon_upto;
+        break;
 
-        default:
-            //			ASSERT(0);
-            break;
+    default:
+        //			ASSERT(0);
+        break;
     }
 
     return BALLOON_balloon_upto++;
@@ -455,13 +455,13 @@ void BALLOON_release(std::uint8_t balloon) {
     Thing *p_thing = TO_THING(bb->thing);
 
     switch (p_thing->Class) {
-        case CLASS_PERSON:
-            p_thing->Genus.Person->Balloon = 0;
-            break;
+    case CLASS_PERSON:
+        p_thing->Genus.Person->Balloon = 0;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     while (balloon) {

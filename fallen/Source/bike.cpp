@@ -62,18 +62,18 @@ std::int32_t BIKE_get_ground_friction(std::int32_t x, std::int32_t z) {
     std::int32_t mz = z >> 8;
 
     switch (ROAD_get_mapsquare_type(mx, mz)) {
-        default:
-        case ROAD_TYPE_TARMAC:
-            return 200;
+    default:
+    case ROAD_TYPE_TARMAC:
+        return 200;
 
-        case ROAD_TYPE_GRASS:
-            return 80;
+    case ROAD_TYPE_GRASS:
+        return 80;
 
-        case ROAD_TYPE_DIRT:
-            return 80;
+    case ROAD_TYPE_DIRT:
+        return 80;
 
-        case ROAD_TYPE_SLIPPERY:
-            return 32;
+    case ROAD_TYPE_SLIPPERY:
+        return 32;
     }
 }
 
@@ -509,54 +509,54 @@ std::int32_t BIKE_collide_sphere(
         vc = &VEH_col[i];
 
         switch (vc->type) {
-            case VEH_COL_TYPE_BBOX:
+        case VEH_COL_TYPE_BBOX:
 
-                lx = sx >> 8;
-                lz = sz >> 8;
+            lx = sx >> 8;
+            lz = sz >> 8;
 
-                if (slide_around_box(
-                        vc->mid_x,
-                        vc->mid_z,
-                        vc->min_x,
-                        vc->min_z,
-                        vc->max_x,
-                        vc->max_z,
-                        vc->radius_or_yaw,
-                        BIKE_WHEEL_COL,
-                        lx,
-                        lz,
-                        &lx,
-                        &lz)) {
-                    collided += 1;
+            if (slide_around_box(
+                    vc->mid_x,
+                    vc->mid_z,
+                    vc->min_x,
+                    vc->min_z,
+                    vc->max_x,
+                    vc->max_z,
+                    vc->radius_or_yaw,
+                    BIKE_WHEEL_COL,
+                    lx,
+                    lz,
+                    &lx,
+                    &lz)) {
+                collided += 1;
 
-                    sx = lx << 8;
-                    sz = lz << 8;
-                }
+                sx = lx << 8;
+                sz = lz << 8;
+            }
 
-                break;
+            break;
 
-            case VEH_COL_TYPE_CYLINDER:
+        case VEH_COL_TYPE_CYLINDER:
 
-                dx = vc->mid_x - (sx >> 8);
-                dz = vc->mid_z - (sz >> 8);
+            dx = vc->mid_x - (sx >> 8);
+            dz = vc->mid_z - (sz >> 8);
 
-                dist = QDIST2(abs(dx), abs(dz)) + 1;
+            dist = QDIST2(abs(dx), abs(dz)) + 1;
 
-                if (dist < BIKE_WHEEL_COL + vc->radius_or_yaw) {
-                    dx = dx * (BIKE_WHEEL_COL + vc->radius_or_yaw) / dist;
-                    dz = dz * (BIKE_WHEEL_COL + vc->radius_or_yaw) / dist;
+            if (dist < BIKE_WHEEL_COL + vc->radius_or_yaw) {
+                dx = dx * (BIKE_WHEEL_COL + vc->radius_or_yaw) / dist;
+                dz = dz * (BIKE_WHEEL_COL + vc->radius_or_yaw) / dist;
 
-                    sx = vc->mid_x - dx << 8;
-                    sz = vc->mid_z - dz << 8;
+                sx = vc->mid_x - dx << 8;
+                sz = vc->mid_z - dz << 8;
 
-                    collided += 1;
-                }
+                collided += 1;
+            }
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -1229,107 +1229,107 @@ again:;
     //
 
     switch (bb->mode) {
-        case BIKE_MODE_PARKED:
+    case BIKE_MODE_PARKED:
 
-        {
-            DrawTween *dt = p_bike->Draw.Tweened;
+    {
+        DrawTween *dt = p_bike->Draw.Tweened;
 
-            //
-            // Should already be setup... we hope!
-            //
+        //
+        // Should already be setup... we hope!
+        //
 
-            dt->Angle = bb->yaw;
-            dt->Tilt = bb->pitch;
+        dt->Angle = bb->yaw;
+        dt->Tilt = bb->pitch;
+    }
+
+    break;
+
+    case BIKE_MODE_MOUNTING:
+    case BIKE_MODE_DISMOUNTING:
+
+    {
+        std::int32_t tween_step;
+
+        DrawTween *dt = p_bike->Draw.Tweened;
+
+        //
+        // Animate the bike.
+        //
+
+        tween_step = dt->CurrentFrame->TweenStep << 1;
+        tween_step = tween_step * TICK_RATIO >> TICK_SHIFT;
+
+        if (tween_step <= 0) {
+            tween_step = 1;
         }
 
-        break;
+        dt->AnimTween += tween_step;
 
-        case BIKE_MODE_MOUNTING:
-        case BIKE_MODE_DISMOUNTING:
+        while (dt->AnimTween >= 256) {
+            dt->AnimTween -= 256;
 
-        {
-            std::int32_t tween_step;
-
-            DrawTween *dt = p_bike->Draw.Tweened;
-
-            //
-            // Animate the bike.
-            //
-
-            tween_step = dt->CurrentFrame->TweenStep << 1;
-            tween_step = tween_step * TICK_RATIO >> TICK_SHIFT;
-
-            if (tween_step <= 0) {
-                tween_step = 1;
+            if (dt->NextFrame) {
+                dt->AnimTween = (dt->AnimTween * dt->NextFrame->TweenStep) / dt->CurrentFrame->TweenStep;
             }
 
-            dt->AnimTween += tween_step;
+            dt->FrameIndex++;
 
-            while (dt->AnimTween >= 256) {
-                dt->AnimTween -= 256;
+            if (dt->FrameIndex == 12) {
+                MFX_play_thing(THING_NUMBER(p_bike), S_BIKE_IDLE, MFX_REPLACE | MFX_LOOPED | MFX_MOVING, p_bike);
+            }
 
-                if (dt->NextFrame) {
-                    dt->AnimTween = (dt->AnimTween * dt->NextFrame->TweenStep) / dt->CurrentFrame->TweenStep;
-                }
+            std::int32_t advance_keyframe(DrawTween * draw_info);
 
-                dt->FrameIndex++;
+            if (advance_keyframe(dt)) {
+                //
+                // Anim over.
+                //
 
-                if (dt->FrameIndex == 12) {
-                    MFX_play_thing(THING_NUMBER(p_bike), S_BIKE_IDLE, MFX_REPLACE | MFX_LOOPED | MFX_MOVING, p_bike);
-                }
-
-                std::int32_t advance_keyframe(DrawTween * draw_info);
-
-                if (advance_keyframe(dt)) {
-                    //
-                    // Anim over.
-                    //
-
-                    if (bb->mode == BIKE_MODE_MOUNTING) {
-                        bb->mode = BIKE_MODE_DRIVING;
-                    } else {
-                        bb->mode = BIKE_MODE_PARKED;
-                    }
+                if (bb->mode == BIKE_MODE_MOUNTING) {
+                    bb->mode = BIKE_MODE_DRIVING;
+                } else {
+                    bb->mode = BIKE_MODE_PARKED;
                 }
             }
         }
+    }
 
-        break;
+    break;
 
-        case BIKE_MODE_DRIVING:
+    case BIKE_MODE_DRIVING:
 
-        {
-            DrawTween *dt = p_bike->Draw.Tweened;
+    {
+        DrawTween *dt = p_bike->Draw.Tweened;
 
-            dt->Angle = bb->yaw;
-            dt->Tilt = -bb->pitch & 2047;
-            dt->Roll = BIKE_get_roll(p_bike);
+        dt->Angle = bb->yaw;
+        dt->Tilt = -bb->pitch & 2047;
+        dt->Roll = BIKE_get_roll(p_bike);
+        dt->AnimTween = 0;
+        dt->TweenStage = 0;
+        dt->QueuedFrame = 0;
+        dt->TheChunk = &anim_chunk[12];
+        dt->CurrentAnim = 1;
+
+        if (bb->steer == 0) {
+            dt->CurrentFrame = anim_chunk[12].AnimList[1];
+            dt->NextFrame = anim_chunk[12].AnimList[1];
             dt->AnimTween = 0;
-            dt->TweenStage = 0;
-            dt->QueuedFrame = 0;
-            dt->TheChunk = &anim_chunk[12];
-            dt->CurrentAnim = 1;
-
-            if (bb->steer == 0) {
-                dt->CurrentFrame = anim_chunk[12].AnimList[1];
-                dt->NextFrame = anim_chunk[12].AnimList[1];
-                dt->AnimTween = 0;
-            } else if (bb->steer < 0) {
-                dt->CurrentFrame = anim_chunk[12].AnimList[1];
-                dt->NextFrame = anim_chunk[12].AnimList[4];
-                dt->AnimTween = -bb->steer << 3;
-            } else {
-                dt->CurrentFrame = anim_chunk[12].AnimList[1];
-                dt->NextFrame = anim_chunk[12].AnimList[6];
-                dt->AnimTween = bb->steer << 3;
-            }
+        } else if (bb->steer < 0) {
+            dt->CurrentFrame = anim_chunk[12].AnimList[1];
+            dt->NextFrame = anim_chunk[12].AnimList[4];
+            dt->AnimTween = -bb->steer << 3;
+        } else {
+            dt->CurrentFrame = anim_chunk[12].AnimList[1];
+            dt->NextFrame = anim_chunk[12].AnimList[6];
+            dt->AnimTween = bb->steer << 3;
         }
+    }
 
+    break;
+
+    default:
+        ASSERT(0);
         break;
-
-        default:
-            ASSERT(0);
-            break;
     }
 
     /*

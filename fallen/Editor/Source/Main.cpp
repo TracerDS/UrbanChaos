@@ -140,66 +140,66 @@ void load_game_textures(std::uint8_t flags) {
 
     for (i = 0; i < 21; i++) {
         switch (i) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                if (!(flags & LOAD_UNSHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\world%d\\", textures, editor_texture_set);
-                page = i * 64;
-                break;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\", textures);
-                page = i * 64;
-                break;
-            case 8: // 1 for insides
-                //				if(!(flags&LOAD_UNSHARED_TEXTURES))
-                //					continue;
-                sprintf(dir, "%s\\world%d\\insides\\", textures, editor_texture_set);
-                page = 0;
-                break;
-            case 9:
-            case 10: // 2 for pepole
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\people\\", textures);
-                page = (i - 9) * 64;
-                break;
-            case 11:
-            case 12: // 3 for prims
-            case 13:
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\prims\\", textures);
-                page = (i - 11) * 64;
-                ASSERT(page != 93);
-                break;
-            case 14:
-            case 15: // 3 more for prims
-            case 16:
-            case 17:
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\prims\\", textures);
-                page = (i - 11) * 64;
-                ASSERT(page != 93);
-                break;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            if (!(flags & LOAD_UNSHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\world%d\\", textures, editor_texture_set);
+            page = i * 64;
+            break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\", textures);
+            page = i * 64;
+            break;
+        case 8: // 1 for insides
+            //				if(!(flags&LOAD_UNSHARED_TEXTURES))
+            //					continue;
+            sprintf(dir, "%s\\world%d\\insides\\", textures, editor_texture_set);
+            page = 0;
+            break;
+        case 9:
+        case 10: // 2 for pepole
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\people\\", textures);
+            page = (i - 9) * 64;
+            break;
+        case 11:
+        case 12: // 3 for prims
+        case 13:
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\prims\\", textures);
+            page = (i - 11) * 64;
+            ASSERT(page != 93);
+            break;
+        case 14:
+        case 15: // 3 more for prims
+        case 16:
+        case 17:
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\prims\\", textures);
+            page = (i - 11) * 64;
+            ASSERT(page != 93);
+            break;
 
-            case 18: // people 2 continued
-            case 19: // people 2 continued
-            case 20: // people 2 continued
-            case 21: // people 2 continued
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\people2\\", textures);
-                page = (i - 18) * 64;
-                break;
+        case 18: // people 2 continued
+        case 19: // people 2 continued
+        case 20: // people 2 continued
+        case 21: // people 2 continued
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\people2\\", textures);
+            page = (i - 18) * 64;
+            break;
         }
         the_texture = &game_textures[i];
         the_texture->TexturePtr = (std::uint16_t *) MemAlloc(TEXTURE_PAGE_SIZE);
@@ -270,52 +270,52 @@ void load_game_textures_psx(std::uint8_t flags) {
 
     for (i = 0; i < 8; i++) {
         switch (i) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                if (!(flags & LOAD_UNSHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\world%d\\", textures, editor_texture_set);
-                page = i * 16;
-                break;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\", textures);
-                page = i * 64;
-                break;
-            case 8: // 1 for insides
-                //				if(!(flags&LOAD_UNSHARED_TEXTURES))
-                //					continue;
-                sprintf(dir, "%s\\world%d\\insides\\", textures, editor_texture_set);
-                page = 0;
-                break;
-            case 9:
-            case 10: // 2 for pepole
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\people\\", textures);
-                page = (i - 9) * 64;
-                break;
-            case 11:
-            case 12: // 3 for prims
-            case 13:
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\prims\\", textures);
-                page = (i - 11) * 64;
-                ASSERT(page != 93);
-                break;
-            case 14: // special people2
-                if (!(flags & LOAD_SHARED_TEXTURES))
-                    continue;
-                sprintf(dir, "%s\\shared\\people2\\", textures);
-                page -= 14;
-                break;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            if (!(flags & LOAD_UNSHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\world%d\\", textures, editor_texture_set);
+            page = i * 16;
+            break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\", textures);
+            page = i * 64;
+            break;
+        case 8: // 1 for insides
+            //				if(!(flags&LOAD_UNSHARED_TEXTURES))
+            //					continue;
+            sprintf(dir, "%s\\world%d\\insides\\", textures, editor_texture_set);
+            page = 0;
+            break;
+        case 9:
+        case 10: // 2 for pepole
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\people\\", textures);
+            page = (i - 9) * 64;
+            break;
+        case 11:
+        case 12: // 3 for prims
+        case 13:
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\prims\\", textures);
+            page = (i - 11) * 64;
+            ASSERT(page != 93);
+            break;
+        case 14: // special people2
+            if (!(flags & LOAD_SHARED_TEXTURES))
+                continue;
+            sprintf(dir, "%s\\shared\\people2\\", textures);
+            page -= 14;
+            break;
         }
         the_texture = &game_textures[i + 25];
         the_texture->TexturePtr = (std::uint16_t *) MemAlloc(TEXTURE_PAGE_SIZE);
@@ -443,77 +443,77 @@ void free_game_textures(std::uint8_t flags) {
 
     for (i = 0; i < NUM_GAME_TEXTURES; i++) {
         switch (i) {
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-                if (!(flags & FREE_UNSHARED_TEXTURES))
-                    continue;
-                break;
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 8: // 1 for insides
-                if (!(flags & FREE_UNSHARED_TEXTURES))
-                    continue;
-                break;
-            case 9:
-            case 10: // 2 for pepole
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 11:
-            case 12: // 3 for prims
-            case 13:
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 14: // special people2
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 15: // special people2
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            if (!(flags & FREE_UNSHARED_TEXTURES))
+                continue;
+            break;
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 8: // 1 for insides
+            if (!(flags & FREE_UNSHARED_TEXTURES))
+                continue;
+            break;
+        case 9:
+        case 10: // 2 for pepole
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 11:
+        case 12: // 3 for prims
+        case 13:
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 14: // special people2
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 15: // special people2
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
 
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 24: // 1 for insides
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 25:
-            case 26: // 2 for pepole
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 27:
-            case 28: // 3 for prims
-            case 29:
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
-            case 30: // special people2
-                if (!(flags & FREE_SHARED_TEXTURES))
-                    continue;
-                break;
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 24: // 1 for insides
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 25:
+        case 26: // 2 for pepole
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 27:
+        case 28: // 3 for prims
+        case 29:
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
+        case 30: // special people2
+            if (!(flags & FREE_SHARED_TEXTURES))
+                continue;
+            break;
         }
 
         the_texture = &game_textures[i];

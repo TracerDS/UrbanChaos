@@ -50,7 +50,8 @@ ControlDef map_tab_def[] =
         {BUTTON, 0, "Zoom Close", 200, 300 - 10, 0, 10},
         {BUTTON, 0, "Zoom Medium", 200, 313 - 10, 0, 10},
         {BUTTON, 0, "Zoom Far", 200, 326 - 10, 0, 10},
-        {0}};
+        {0}
+};
 
 MapTab *the_maptab;
 
@@ -127,15 +128,15 @@ void MapTab::DrawTabContent(void) {
 
 void redraw_map_tab(void) {
     switch (the_maptab->Mode) {
-        default:
+    default:
 
-            the_maptab->DrawTabContent();
-            the_maptab->Parent->DrawContent();
-            SetWorkWindowBounds(the_maptab->Parent->GetLeft(),
-                                the_maptab->Parent->GetTop(),
-                                the_maptab->Parent->GetWidth(),
-                                the_maptab->Parent->GetHeight());
-            break;
+        the_maptab->DrawTabContent();
+        the_maptab->Parent->DrawContent();
+        SetWorkWindowBounds(the_maptab->Parent->GetLeft(),
+                            the_maptab->Parent->GetTop(),
+                            the_maptab->Parent->GetWidth(),
+                            the_maptab->Parent->GetHeight());
+        break;
     }
 }
 
@@ -217,30 +218,30 @@ std::int32_t MapTab::KeyboardInterface(void) {
         if (AxisMode > 3)
             AxisMode = 0;
         switch (AxisMode) {
-            case 0:
-                SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = X_AXIS;
-                break;
-            case 1:
-                SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = Y_AXIS;
-                break;
-            case 2:
-                SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = Z_AXIS;
-                break;
-            case 3:
-                SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = X_AXIS | Y_AXIS | Z_AXIS;
-                break;
+        case 0:
+            SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = X_AXIS;
+            break;
+        case 1:
+            SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = Y_AXIS;
+            break;
+        case 2:
+            SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = Z_AXIS;
+            break;
+        case 3:
+            SetControlState(CTRL_MAP_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = X_AXIS | Y_AXIS | Z_AXIS;
+            break;
         }
 
         SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
@@ -434,16 +435,16 @@ void calc_things_world_box(std::int32_t map_thing, EdRect *rect) {
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
-        case MAP_THING_TYPE_PRIM:
-            // 3ds Prim Mesh
-            calc_prims_world_box(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, rect);
-            break;
-        case MAP_THING_TYPE_LIGHT:
-            break;
+    case MAP_THING_TYPE_PRIM:
+        // 3ds Prim Mesh
+        calc_prims_world_box(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, rect);
+        break;
+    case MAP_THING_TYPE_LIGHT:
+        break;
 
-        case MAP_THING_TYPE_SPRITE:
-        case MAP_THING_TYPE_AGENT:
-            break;
+    case MAP_THING_TYPE_SPRITE:
+    case MAP_THING_TYPE_AGENT:
+        break;
     }
 }
 
@@ -552,34 +553,34 @@ std::int32_t MapTab::DragAMapDef(std::uint8_t flags, MFPoint *clicked_point, std
 
             if (last_world_mouse) {
                 switch (side) {
-                    case 1: // top
-                        map_info[CurrentMap].Top = engine.MousePosY;
-                        break;
-                    case 3: // bot
-                        map_info[CurrentMap].Bottom = engine.MousePosY;
-                        break;
-                    case 2: // right
-                        map_info[CurrentMap].Right = engine.MousePosX;
-                        break;
-                    case 4: // left
-                        map_info[CurrentMap].Left = engine.MousePosX;
-                        break;
-                    case 5: // topleft
-                        map_info[CurrentMap].Top = engine.MousePosY;
-                        map_info[CurrentMap].Left = engine.MousePosX;
-                        break;
-                    case 6: // topright
-                        map_info[CurrentMap].Right = engine.MousePosX;
-                        map_info[CurrentMap].Top = engine.MousePosY;
-                        break;
-                    case 7: // botright
-                        map_info[CurrentMap].Right = engine.MousePosX;
-                        map_info[CurrentMap].Bottom = engine.MousePosY;
-                        break;
-                    case 8: // botleft
-                        map_info[CurrentMap].Left = engine.MousePosX;
-                        map_info[CurrentMap].Bottom = engine.MousePosY;
-                        break;
+                case 1: // top
+                    map_info[CurrentMap].Top = engine.MousePosY;
+                    break;
+                case 3: // bot
+                    map_info[CurrentMap].Bottom = engine.MousePosY;
+                    break;
+                case 2: // right
+                    map_info[CurrentMap].Right = engine.MousePosX;
+                    break;
+                case 4: // left
+                    map_info[CurrentMap].Left = engine.MousePosX;
+                    break;
+                case 5: // topleft
+                    map_info[CurrentMap].Top = engine.MousePosY;
+                    map_info[CurrentMap].Left = engine.MousePosX;
+                    break;
+                case 6: // topright
+                    map_info[CurrentMap].Right = engine.MousePosX;
+                    map_info[CurrentMap].Top = engine.MousePosY;
+                    break;
+                case 7: // botright
+                    map_info[CurrentMap].Right = engine.MousePosX;
+                    map_info[CurrentMap].Bottom = engine.MousePosY;
+                    break;
+                case 8: // botleft
+                    map_info[CurrentMap].Left = engine.MousePosX;
+                    map_info[CurrentMap].Bottom = engine.MousePosY;
+                    break;
                 }
             }
 
@@ -793,57 +794,57 @@ std::int32_t MapTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8
     w = w;
     h = h;
     switch (flags) {
-        case NO_CLICK:
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+
+        switch (Mode) {
+        case MAP_MODE_DEFINE_MAP:
+            if (SetWorldMouse(1)) {
+                CurrentMap = CreateMapPlane(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
+                strcpy(map_info[CurrentMap].Name, ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetEditString());
+
+                Mode = 0;
+            }
+            return (1);
+
+        case MAP_MODE_WAIT:
+            if (DefMode)
+                DragAMapDef(flags, clicked_point, 0);
+            else
+                DragAMapDefXYZ(flags, clicked_point, 0);
+
             break;
-        case LEFT_CLICK:
-
-            switch (Mode) {
-                case MAP_MODE_DEFINE_MAP:
-                    if (SetWorldMouse(1)) {
-                        CurrentMap = CreateMapPlane(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                        strcpy(map_info[CurrentMap].Name, ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetEditString());
-
-                        Mode = 0;
-                    }
-                    return (1);
-
-                case MAP_MODE_WAIT:
-                    if (DefMode)
-                        DragAMapDef(flags, clicked_point, 0);
-                    else
-                        DragAMapDefXYZ(flags, clicked_point, 0);
-
-                    break;
-                case MAP_MODE_SELECT_AND_PLACE: {
-                    std::int32_t side;
-                    CurrentMap = select_map_info(clicked_point, &side);
-                    DefMode = 0;
-                    SetControlState(CTRL_MAP_DEF_MODE, CTRL_DESELECTED);
-                    Mode = MAP_MODE_PLACE_CURRENT_MAP;
-                    RequestUpdate();
-                }
-                    return (1);
-                case MAP_MODE_PLACE_CURRENT_MAP:
-                    if (SetWorldMouse(1)) {
-                        SetMapPos(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                        RequestUpdate();
-                        Mode = 0;
-                    }
-                    break;
+        case MAP_MODE_SELECT_AND_PLACE: {
+            std::int32_t side;
+            CurrentMap = select_map_info(clicked_point, &side);
+            DefMode = 0;
+            SetControlState(CTRL_MAP_DEF_MODE, CTRL_DESELECTED);
+            Mode = MAP_MODE_PLACE_CURRENT_MAP;
+            RequestUpdate();
+        }
+            return (1);
+        case MAP_MODE_PLACE_CURRENT_MAP:
+            if (SetWorldMouse(1)) {
+                SetMapPos(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
+                RequestUpdate();
+                Mode = 0;
             }
             break;
-        case RIGHT_CLICK:
-            switch (Mode) {
-                case MAP_MODE_WAIT:
-                    if (!DefMode)
-                        DragAMapDefXYZ(flags, clicked_point, 0);
-                    break;
-            }
-            // Right click in content.
+        }
+        break;
+    case RIGHT_CLICK:
+        switch (Mode) {
+        case MAP_MODE_WAIT:
+            if (!DefMode)
+                DragAMapDefXYZ(flags, clicked_point, 0);
             break;
-        case MIDDLE_CLICK:
-            DragEngine(flags, clicked_point);
-            break;
+        }
+        // Right click in content.
+        break;
+    case MIDDLE_CLICK:
+        DragEngine(flags, clicked_point);
+        break;
     }
     return (0);
 }
@@ -857,39 +858,39 @@ std::uint16_t MapTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point)
     ShowWorkScreen(0);
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            {
-                current_control = GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        control_id = current_control->TrackControl(&local_point);
-                        HandleControl(control_id);
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        {
+            current_control = GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    control_id = current_control->TrackControl(&local_point);
+                    HandleControl(control_id);
 
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        return control_id;
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        DrawTab();
+                        UnlockWorkScreen();
                     }
-                    current_control = current_control->GetNextControl();
-                }
-            }
+                    ShowWorkWindow(0);
 
-            break;
-        case RIGHT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            break;
+                    return control_id;
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+
+        break;
+    case RIGHT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        break;
     }
     return 0;
 }
@@ -949,73 +950,73 @@ std::int32_t MapTab::SetWorldMouse(std::uint32_t flag) {
 
 void MapTab::HandleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        case CTRL_MAP_X_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_MAP_X_AXIS_FREE);
-            if (Axis & X_AXIS)
-                Axis &= ~X_AXIS;
-            else
-                Axis |= X_AXIS;
-            break;
-        case CTRL_MAP_Y_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_MAP_Y_AXIS_FREE);
-            if (Axis & Y_AXIS)
-                Axis &= ~Y_AXIS;
-            else
-                Axis |= Y_AXIS;
-            break;
-        case CTRL_MAP_Z_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_MAP_Z_AXIS_FREE);
-            if (Axis & Z_AXIS)
-                Axis &= ~Z_AXIS;
-            else
-                Axis |= Z_AXIS;
-            break;
-        case CTRL_MAP_DEFINE_MAP:
-            DefMode = 1;
-            SetControlState(CTRL_MAP_DEF_MODE, CTRL_SELECTED);
-            Mode = MAP_MODE_DEFINE_MAP;
-            ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetFlags(((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetFlags() & ~CONTROL_INACTIVE);
-            ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetEditString("No Name");
-            RequestUpdate();
-            break;
-        case CTRL_MAP_DEF_MODE:
-            ToggleControlSelectedState(CTRL_MAP_DEF_MODE);
-            DefMode ^= 1;
-            RequestUpdate();
-            break;
-            /*
-                            case	CTRL_ANIM_NAME_EDIT:
-                                    if(CurrentMap)
-                                            strcpy(map_info[CurrentMap].Name,((CEditText*)GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetEditString());
-                                    RequestUpdate();
-                                    break;
-            */
-        case CTRL_MAP_SELECT_AND_PLACE:
-            Mode = MAP_MODE_SELECT_AND_PLACE;
-            DefMode = 1;
-            SetControlState(CTRL_MAP_DEF_MODE, CTRL_SELECTED);
-            RequestUpdate();
-            break;
-        case CTRL_MAP_ZOOM_1:
-            engine.Scale = 896;
-            RequestUpdate();
-            break;
+    case CTRL_MAP_X_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_MAP_X_AXIS_FREE);
+        if (Axis & X_AXIS)
+            Axis &= ~X_AXIS;
+        else
+            Axis |= X_AXIS;
+        break;
+    case CTRL_MAP_Y_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_MAP_Y_AXIS_FREE);
+        if (Axis & Y_AXIS)
+            Axis &= ~Y_AXIS;
+        else
+            Axis |= Y_AXIS;
+        break;
+    case CTRL_MAP_Z_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_MAP_Z_AXIS_FREE);
+        if (Axis & Z_AXIS)
+            Axis &= ~Z_AXIS;
+        else
+            Axis |= Z_AXIS;
+        break;
+    case CTRL_MAP_DEFINE_MAP:
+        DefMode = 1;
+        SetControlState(CTRL_MAP_DEF_MODE, CTRL_SELECTED);
+        Mode = MAP_MODE_DEFINE_MAP;
+        ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetFlags(((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetFlags() & ~CONTROL_INACTIVE);
+        ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetEditString("No Name");
+        RequestUpdate();
+        break;
+    case CTRL_MAP_DEF_MODE:
+        ToggleControlSelectedState(CTRL_MAP_DEF_MODE);
+        DefMode ^= 1;
+        RequestUpdate();
+        break;
+        /*
+                        case	CTRL_ANIM_NAME_EDIT:
+                                if(CurrentMap)
+                                        strcpy(map_info[CurrentMap].Name,((CEditText*)GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetEditString());
+                                RequestUpdate();
+                                break;
+        */
+    case CTRL_MAP_SELECT_AND_PLACE:
+        Mode = MAP_MODE_SELECT_AND_PLACE;
+        DefMode = 1;
+        SetControlState(CTRL_MAP_DEF_MODE, CTRL_SELECTED);
+        RequestUpdate();
+        break;
+    case CTRL_MAP_ZOOM_1:
+        engine.Scale = 896;
+        RequestUpdate();
+        break;
 
-        case CTRL_MAP_ZOOM_2:
-            engine.Scale = 200;
-            RequestUpdate();
-            break;
-        case CTRL_MAP_ZOOM_3:
-            engine.Scale = 60;
-            RequestUpdate();
-            break;
-            /*
-                            case	CTRL_MAP_DELETE:
-                                    delete_all_lights();
-                                    RequestUpdate();
-                                    Mode=0;
-                                    break;
-            */
+    case CTRL_MAP_ZOOM_2:
+        engine.Scale = 200;
+        RequestUpdate();
+        break;
+    case CTRL_MAP_ZOOM_3:
+        engine.Scale = 60;
+        RequestUpdate();
+        break;
+        /*
+                        case	CTRL_MAP_DELETE:
+                                delete_all_lights();
+                                RequestUpdate();
+                                Mode=0;
+                                break;
+        */
     }
 }
 

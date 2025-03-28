@@ -193,108 +193,108 @@ void Flamengine::AddParticles() {
             pt += pos.ofs;
             *pt = (std::uint8_t) pp->pulse;
             switch (pp->pmode) {
-                case 0: // Ramp up
-                    pp->pulse += pp->prate;
-                    if ((std::uint32_t) pp->pulse >= pp->pend) pp->pulse = (std::int16_t) pp->pstart;
-                    break;
-                case 1: // Ramp down
-                    pp->pulse -= pp->prate;
-                    if ((std::uint32_t) pp->pulse <= pp->pstart) pp->pulse = (std::int16_t) pp->pend;
-                    break;
-                case 2: // Cycle (up phase)
-                    si = pp->pulse + pp->prate;
-                    if (si > (std::int16_t) pp->pend) {
-                        si = (std::int16_t) pp->pend;
-                        pp->pmode = 3;
-                    }
-                    pp->pulse = si;
-                    break;
-                case 3: // Cycle (down phase)
-                    si = pp->pulse - pp->prate;
-                    if (si < (std::int16_t) pp->pstart) {
-                        si = (std::int16_t) pp->pstart;
-                        pp->pmode = 2;
-                    }
-                    pp->pulse = si;
-                    break;
+            case 0: // Ramp up
+                pp->pulse += pp->prate;
+                if ((std::uint32_t) pp->pulse >= pp->pend) pp->pulse = (std::int16_t) pp->pstart;
+                break;
+            case 1: // Ramp down
+                pp->pulse -= pp->prate;
+                if ((std::uint32_t) pp->pulse <= pp->pstart) pp->pulse = (std::int16_t) pp->pend;
+                break;
+            case 2: // Cycle (up phase)
+                si = pp->pulse + pp->prate;
+                if (si > (std::int16_t) pp->pend) {
+                    si = (std::int16_t) pp->pend;
+                    pp->pmode = 3;
+                }
+                pp->pulse = si;
+                break;
+            case 3: // Cycle (down phase)
+                si = pp->pulse - pp->prate;
+                if (si < (std::int16_t) pp->pstart) {
+                    si = (std::int16_t) pp->pstart;
+                    pp->pmode = 2;
+                }
+                pp->pulse = si;
+                break;
             }
 
             switch (pp->wmode) {
-                case 1: // fountain
-                    switch (i & 3) {
-                        case 0:
-                            if (pp->pos.loc.x > 1) pp->pos.loc.x -= 2;
-                            break;
-                        case 1:
-                            if (pp->pos.loc.x > 0) pp->pos.loc.x--;
-                            break;
-                        case 2:
-                            if (pp->pos.loc.x < 254) pp->pos.loc.x += 2;
-                            break;
-                        case 3:
-                            if (pp->pos.loc.x < 255) pp->pos.loc.x++;
-                            break;
-                    }
-                    pp->pos.loc.y += pp->life - 10;
-                    pp->life++;
-                    if (pp->life > 50) {
-                        pp->life = 1;
-                        pp->pos.loc.x = pp->ex;
-                        pp->pos.loc.y = pp->ey;
-                    }
+            case 1: // fountain
+                switch (i & 3) {
+                case 0:
+                    if (pp->pos.loc.x > 1) pp->pos.loc.x -= 2;
                     break;
-                case 2: // cascade
-                    pp->pos.loc.y += 1 + (i & 3);
-                    if ((pp->pos.loc.y == 255) || (pp->pos.loc.y < pp->ey)) pp->pos.loc.y = pp->ey;
+                case 1:
+                    if (pp->pos.loc.x > 0) pp->pos.loc.x--;
                     break;
-                case 3: // gravity
-                    pp->pos.loc.y++;
-                    if ((pp->pos.loc.y == 255) || (pp->pos.loc.y < pp->ey)) pp->pos.loc.y = pp->ey;
+                case 2:
+                    if (pp->pos.loc.x < 254) pp->pos.loc.x += 2;
                     break;
-                case 4: // sparks
-                    switch (i & 3) {
-                        case 0:
-                            if (pp->pos.loc.x > 1) pp->pos.loc.x -= 2;
-                            break;
-                        case 1:
-                            if (pp->pos.loc.x > 0) pp->pos.loc.x--;
-                            break;
-                        case 2:
-                            if (pp->pos.loc.x < 254) pp->pos.loc.x += 2;
-                            break;
-                        case 3:
-                            if (pp->pos.loc.x < 255) pp->pos.loc.x++;
-                            break;
-                    }
-                    switch ((i >> 1) & 3) {
-                        case 0:
-                            if (pp->pos.loc.y > 1) pp->pos.loc.y -= 2;
-                            break;
-                        case 1:
-                            if (pp->pos.loc.y > 0) pp->pos.loc.y--;
-                            break;
-                        case 2:
-                            if (pp->pos.loc.y < 254) pp->pos.loc.y += 2;
-                            break;
-                        case 3:
-                            if (pp->pos.loc.y < 255) pp->pos.loc.y++;
-                            break;
-                    }
-                    pp->life++;
-                    if (pp->life > 50) {
-                        pp->life = 1;
-                        pp->pos.loc.x = pp->ex;
-                        pp->pos.loc.y = pp->ey;
-                    }
+                case 3:
+                    if (pp->pos.loc.x < 255) pp->pos.loc.x++;
                     break;
-                case 5: // wander
-                    pp->pos.loc.x += FlameRand(11) - 5;
-                    pp->pos.loc.y += FlameRand(11) - 5;
+                }
+                pp->pos.loc.y += pp->life - 10;
+                pp->life++;
+                if (pp->life > 50) {
+                    pp->life = 1;
+                    pp->pos.loc.x = pp->ex;
+                    pp->pos.loc.y = pp->ey;
+                }
+                break;
+            case 2: // cascade
+                pp->pos.loc.y += 1 + (i & 3);
+                if ((pp->pos.loc.y == 255) || (pp->pos.loc.y < pp->ey)) pp->pos.loc.y = pp->ey;
+                break;
+            case 3: // gravity
+                pp->pos.loc.y++;
+                if ((pp->pos.loc.y == 255) || (pp->pos.loc.y < pp->ey)) pp->pos.loc.y = pp->ey;
+                break;
+            case 4: // sparks
+                switch (i & 3) {
+                case 0:
+                    if (pp->pos.loc.x > 1) pp->pos.loc.x -= 2;
                     break;
-                case 6: // jump
-                    pp->pos.loc.x = FlameRand(256);
-                    pp->pos.loc.y = FlameRand(256);
+                case 1:
+                    if (pp->pos.loc.x > 0) pp->pos.loc.x--;
                     break;
+                case 2:
+                    if (pp->pos.loc.x < 254) pp->pos.loc.x += 2;
+                    break;
+                case 3:
+                    if (pp->pos.loc.x < 255) pp->pos.loc.x++;
+                    break;
+                }
+                switch ((i >> 1) & 3) {
+                case 0:
+                    if (pp->pos.loc.y > 1) pp->pos.loc.y -= 2;
+                    break;
+                case 1:
+                    if (pp->pos.loc.y > 0) pp->pos.loc.y--;
+                    break;
+                case 2:
+                    if (pp->pos.loc.y < 254) pp->pos.loc.y += 2;
+                    break;
+                case 3:
+                    if (pp->pos.loc.y < 255) pp->pos.loc.y++;
+                    break;
+                }
+                pp->life++;
+                if (pp->life > 50) {
+                    pp->life = 1;
+                    pp->pos.loc.x = pp->ex;
+                    pp->pos.loc.y = pp->ey;
+                }
+                break;
+            case 5: // wander
+                pp->pos.loc.x += FlameRand(11) - 5;
+                pp->pos.loc.y += FlameRand(11) - 5;
+                break;
+            case 6: // jump
+                pp->pos.loc.x = FlameRand(256);
+                pp->pos.loc.y = FlameRand(256);
+                break;
             }
         }
 }

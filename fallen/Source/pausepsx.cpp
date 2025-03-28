@@ -222,38 +222,38 @@ std::int32_t PAUSE_handler() {
 
     if (input & PAUSED_KEY_OKAY) {
         switch (selected) {
-            case PAUSE_MENU_RESUME:
-                GAME_FLAGS ^= GF_PAUSED;
-                delay = 10;
-                MFX_Mute(0);
-                CdControl(CdlReadS, 0, 0);
-                break;
+        case PAUSE_MENU_RESUME:
+            GAME_FLAGS ^= GF_PAUSED;
+            delay = 10;
+            MFX_Mute(0);
+            CdControl(CdlReadS, 0, 0);
+            break;
 #ifndef VERSION_DEMO
-            case PAUSE_MENU_RESTART:
-                // extern std::int32_t draw_3d;
-                // draw_3d ^= 1;
-                GAME_FLAGS &= ~GF_PAUSED;
-                GAME_STATE = GS_REPLAY;
-                ans = true;
-                delay = 10;
-                MFX_Mute(0);
-                break;
+        case PAUSE_MENU_RESTART:
+            // extern std::int32_t draw_3d;
+            // draw_3d ^= 1;
+            GAME_FLAGS &= ~GF_PAUSED;
+            GAME_STATE = GS_REPLAY;
+            ans = true;
+            delay = 10;
+            MFX_Mute(0);
+            break;
 #endif
-            case PAUSE_MENU_EXIT:
-                selected = PAUSE_MENU_YORN;
-                break;
+        case PAUSE_MENU_EXIT:
+            selected = PAUSE_MENU_YORN;
+            break;
 
-            case PAUSE_MENU_YORN:
-                GAME_FLAGS &= ~GF_PAUSED;
+        case PAUSE_MENU_YORN:
+            GAME_FLAGS &= ~GF_PAUSED;
 #ifndef VERSION_DEMO
-                GAME_STATE = GS_LEVEL_LOST;
+            GAME_STATE = GS_LEVEL_LOST;
 #else
-                GAME_STATE = 0;
+            GAME_STATE = 0;
 #endif
-                delay = 10;
-                ans = true;
-                Wadmenu_MuckyTime = 0;
-                MFX_Mute(0);
+            delay = 10;
+            ans = true;
+            Wadmenu_MuckyTime = 0;
+            MFX_Mute(0);
         }
     }
     if (input & PAUSED_KEY_CANCEL) {
@@ -277,16 +277,16 @@ std::int32_t PAUSE_handler() {
     extern std::uint8_t PAD_Type;
 
     switch (PAD_Type) {
-        case 0:
-            FONT2D_DrawStringCentred(CTRL_REMOVED, DISPLAYCENTRE, 160, 0x00ff00, 256);
-            selected = 0;
-        case 4:
-        case 7:
-            break;
-        default:
-            FONT2D_DrawStringCentred(CTRL_NOTSUPP, DISPLAYCENTRE, 160, 0x00ff00, 256);
-            selected = 0;
-            break;
+    case 0:
+        FONT2D_DrawStringCentred(CTRL_REMOVED, DISPLAYCENTRE, 160, 0x00ff00, 256);
+        selected = 0;
+    case 4:
+    case 7:
+        break;
+    default:
+        FONT2D_DrawStringCentred(CTRL_NOTSUPP, DISPLAYCENTRE, 160, 0x00ff00, 256);
+        selected = 0;
+        break;
     }
 
     if (selected != PAUSE_MENU_YORN) {

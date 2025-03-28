@@ -451,7 +451,7 @@ void set_cut_blocks_z(std::int32_t x, std::int32_t z) // x is in blocks z is in 
 {
     LogText(" cut block [%d][%d] left   z %d z %x\n", x, z >> ELE_SHIFT, z, z);
     LogText(" cut block [%d][%d] right  z %d z %x\n", x - 1, z >> ELE_SHIFT, z, z);
-    cut_blocks[(x) *4 + (((z >> ELE_SHIFT) - 0) * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT)] = z;
+    cut_blocks[(x) * 4 + (((z >> ELE_SHIFT) - 0) * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT)] = z;
     cut_blocks[(x - 1) * 4 + (((z >> ELE_SHIFT) - 0) * MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT)] = z;
 }
 
@@ -746,7 +746,7 @@ void dump_edge_list(std::uint16_t size) {
 }
 
 #define MYX(x) (((x - min_x) * box_width) + 10)
-#define MYY(x) (((x) *box_depth) + 10)
+#define MYY(x) (((x) * box_depth) + 10)
 
 #define MYFX(x) ((((x - (min_x << ELE_SHIFT)) * (box_width >> 3)) >> (ELE_SHIFT - 3)) + 10)
 #define MYFY(x) ((((x) * (box_depth >> 3)) >> (ELE_SHIFT - 3)) + 10)
@@ -771,10 +771,10 @@ void show_grid(std::int32_t width, std::int32_t depth, std::int32_t min_x) {
             x1 = ((x - min_x) * box_width) + 10;
             z1 = (z * box_depth) + 10;
 
-            xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-            xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-            zl = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-            zr = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+            xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+            xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+            zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+            zr = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
 
             DrawLineC(x1, z1, x1 + box_width, z1, 0x8);
             DrawLineC(x1 + box_width, z1, x1 + box_width, z1 + box_depth, 0x8);
@@ -820,8 +820,7 @@ void show_grid(std::int32_t width, std::int32_t depth, std::int32_t min_x) {
     ShowWorkScreen(0);
     while (!RightButton) {
     }
-    while (RightButton)
-        ;
+    while (RightButton);
 }
 
 #define set_UV4(x0, y0, x1, y1, x2, y2, x3, y3) \
@@ -850,23 +849,23 @@ void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::i
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
     tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
     switch (rot) {
-        case 0:
-            set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
-            break;
-        case 1:
-            set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
-            break;
-        case 2:
-            set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
-            break;
-        case 3:
-            set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
-            break;
+    case 0:
+        set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
+        break;
+    case 1:
+        set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
+        break;
+    case 2:
+        set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
+        break;
+    case 3:
+        set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
+        break;
     }
 
     dtx_down = UV[3][0] - UV[0][0];
@@ -927,23 +926,23 @@ void build_free_quad_texture_info(struct PrimFace4 *p_f4, std::int32_t mx, std::
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
     tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
     switch (rot) {
-        case 0:
-            set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
-            break;
-        case 1:
-            set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
-            break;
-        case 2:
-            set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
-            break;
-        case 3:
-            set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
-            break;
+    case 0:
+        set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
+        break;
+    case 1:
+        set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
+        break;
+    case 2:
+        set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
+        break;
+    case 3:
+        set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
+        break;
     }
 
     dtx_down = UV[3][0] - UV[0][0];
@@ -1025,34 +1024,34 @@ void scan_45(std::int32_t x1, std::int32_t z1, std::int32_t dx, std::int32_t dz)
         p2 = flag_blocks[(x1 - dx) + z1 * MAX_BOUND_SIZE];
         p3 = flag_blocks[(x1) + (z1 - dz) * MAX_BOUND_SIZE];
         switch (type) { //(vector goes from pp to p1)
-            case 0:     // SE
-                //  pp 	   p3
-                //
-                //	p2     p1
-                p_f3 = create_a_tri(p2, p1, pp, 0, 0);
-                build_free_tri_texture_info(p_f3, x1 - dx, z1 - dz + (edge_min_z >> ELE_SHIFT));
-                break;
-            case 1: // SW
-                //  p3 	   pp
-                //
-                //	p1     p2
-                p_f3 = create_a_tri(p1, pp, p3, 0, 0);
-                build_free_tri_texture_info(p_f3, x1, z1 - dz + (edge_min_z >> ELE_SHIFT));
-                break;
-            case 2: // NE
-                //  p2 	   p1
-                //
-                //	pp     p3
-                p_f3 = create_a_tri(pp, p3, p1, 0, 0);
-                build_free_tri_texture_info(p_f3, x1 - dx, z1 + (edge_min_z >> ELE_SHIFT));
-                break;
-            case 3: // NW
-                //  p1 	   p2
-                //
-                //	p3     pp
-                p_f3 = create_a_tri(p1, pp, p2, 0, 0);
-                build_free_tri_texture_info(p_f3, x1, z1 + (edge_min_z >> ELE_SHIFT));
-                break;
+        case 0:         // SE
+            //  pp 	   p3
+            //
+            //	p2     p1
+            p_f3 = create_a_tri(p2, p1, pp, 0, 0);
+            build_free_tri_texture_info(p_f3, x1 - dx, z1 - dz + (edge_min_z >> ELE_SHIFT));
+            break;
+        case 1: // SW
+            //  p3 	   pp
+            //
+            //	p1     p2
+            p_f3 = create_a_tri(p1, pp, p3, 0, 0);
+            build_free_tri_texture_info(p_f3, x1, z1 - dz + (edge_min_z >> ELE_SHIFT));
+            break;
+        case 2: // NE
+            //  p2 	   p1
+            //
+            //	pp     p3
+            p_f3 = create_a_tri(pp, p3, p1, 0, 0);
+            build_free_tri_texture_info(p_f3, x1 - dx, z1 + (edge_min_z >> ELE_SHIFT));
+            break;
+        case 3: // NW
+            //  p1 	   p2
+            //
+            //	p3     pp
+            p_f3 = create_a_tri(p1, pp, p2, 0, 0);
+            build_free_tri_texture_info(p_f3, x1, z1 + (edge_min_z >> ELE_SHIFT));
+            break;
         }
 
         pp = p1;
@@ -1227,466 +1226,466 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                     std::int32_t zl, zr;
                     std::int32_t pa, pb;
 
-                    case (TR + BR):
-                        xt = cut_blocks[x * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        xb = cut_blocks[x * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                case (TR + BR):
+                    xt = cut_blocks[x * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    xb = cut_blocks[x * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
 
-                        if (xt && xb) {
-                            //  pa  p1
-                            //
-                            //	pb	p2
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                    if (xt && xb) {
+                        //  pa  p1
+                        //
+                        //	pb	p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f4 = create_a_quad(pa, pb, p1, p2, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tr+br 1 at [%d][%d]\n", x, z);
+                    } else if (xt) {
+                        //   pa p1
+                        //
+                        //		p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p2, p1, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tr+br 2 at [%d][%d]\n", x, z);
+                    } else if (xb) {
+                        //   	 p1
+                        //
+                        //	  pa p2
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p2, p1, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tr+br 3 at [%d][%d]\n", x, z);
+                    } else
+                        LogText(" pooerror1\n");
+
+                    break;
+                case (BL + BR):
+                    zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText(" zl %x zr %x \n", zl, zr);
+
+                    if (zl && zr) {
+                        //  pa  pb
+                        //
+                        //	p3	p2
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f4 = create_a_quad(pa, p3, pb, p2, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done bl+br 1 at [%d][%d]\n", x, z);
+                    } else if (zl) {
+                        //
+                        //	pa
+                        //	p3	 p2
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        p_f3 = create_a_tri(p3, p2, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done bl+br 2 at [%d][%d]\n", x, z);
+                    } else if (zr) {
+                        //
+                        //		 pa
+                        //	p3	 p2
+                        pa = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f3 = create_a_tri(p3, p2, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done bl+br 3 at [%d][%d]\n", x, z);
+                    } else
+                        LogText(" pooerror2\n");
+                    break;
+                case (TL + BL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    xb = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+
+                    if (xt && xb) {
+                        //  p0  pa
+                        //
+                        //	p3	pb
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f4 = create_a_quad(p0, p3, pa, pb, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+bl 1 at [%d][%d]\n", x, z);
+                    } else if (xt) {
+                        //  p0 pa
+                        //
+                        //	p3
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p3, pa, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+bl 2 at [%d][%d]\n", x, z);
+                    } else if (xb) {
+                        //  p0
+                        //
+                        //	p3 pa
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p3, pa, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+bl 3 at [%d][%d]\n", x, z);
+                    }
+                    /* can not be surely
+                                                                    else
+                                                                    {
+                                                                            zr=cut_blocks[(x)*4+(z)*MAX_BOUND_SIZE*4+CUT_BLOCK_RIGHT];
+                                                                            if(zr)
+                                                                            {
+                                                                                    //  p0
+                                                                                    //	    pa
+                                                                                    //	p3
+                                                                                    pa=next_prim_point;
+                                                                                    add_point((x+1)<<ELE_SHIFT,y,zr+edge_min_z);
+                                                                                    create_a_tri(p3,pa,p0,0,0);
+
+                                                                            }
+
+                                                                    }
+                    */
+                    // LogText(" pooerror3\n");
+                    break;
+                case (TL + TR):
+                    zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText(" zl %x zr %x \n", zl, zr);
+
+                    if (zl && zr) {
+                        //  p0  p1
+                        //
+                        //	pa	pb
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f4 = create_a_quad(p0, pa, p1, pb, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr 1 at [%d][%d]\n", x, z);
+                    } else if (zl) {
+                        //  p0   p1
+                        //	pa
+                        //
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        p_f3 = create_a_tri(pa, p1, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr 2 at [%d][%d]\n", x, z);
+                    } else if (zr) {
+                        //  p0   p1
+                        //		 pa
+                        //
+                        pa = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f3 = create_a_tri(pa, p1, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr 3 at [%d][%d]\n", x, z);
+                    } else
+                        LogText(" pooerror4\n");
+                    break;
+
+                case (TR + BR + BL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    LogText("POO1 xt %x zl %x \n", xt, zl);
+                    LogText(" [%d][%d] \n", x, z);
+                    if (xt && zl) {
+                        //   pa p1
+                        //	pb
+                        //	p3	p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+
+                        p_f4 = create_a_quad(pa, pb, p1, p3, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p3, p2, p1, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tr+br+bl 1 at [%d][%d]\n", x, z);
+                    } else if (xt || zl) {
+                        if (xt == (x + 1) << ELE_SHIFT || xt == 0) {
+                            //      pa
+                            //	pb
+                            //	p3	p2
+                            LogText("special 1b \n");
                             pb = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f4 = create_a_quad(pa, pb, p1, p2, 0, 0);
+                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                            p_f4 = create_a_quad(pb, p3, p1, p2, 0, 0);
                             p_f4->ThingIndex = face_wall;
                             build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tr+br 1 at [%d][%d]\n", x, z);
-                        } else if (xt) {
+                            LogText(" done tr+br+bl 2 at [%d][%d]\n", x, z);
+
+                        } else if (zl == (z + 1) << ELE_SHIFT || zl == 0) {
                             //   pa p1
                             //
-                            //		p2
+                            //	p3	p2
+                            LogText("special 1b \n");
                             pa = next_prim_point;
                             add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p2, p1, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tr+br 2 at [%d][%d]\n", x, z);
-                        } else if (xb) {
-                            //   	 p1
+                            p_f4 = create_a_quad(pa, p3, p1, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tr+br+bl 3 at [%d][%d]\n", x, z);
+                        }
+                    }
+                    //						else
+                    //							create_a_tri(p3,p2,p1,0,0);
+
+                    break;
+                case (TL + BR + BL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText("POO2 xt %x zr %x \n", xt, zr);
+                    LogText(" [%d][%d] \n", x, z);
+                    LogText(" p0 (%d,%d,%d) p2 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
+
+                    if (xt && zr) {
+                        //  p0 pa
+                        //		 pb
+                        //	p3	 p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+
+                        p_f4 = create_a_quad(pb, pa, p2, p0, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p3, p2, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+br+bl 1 at [%d][%d]\n", x, z);
+                    } else if (xt || zr) {
+                        if (xt == x << ELE_SHIFT || xt == 0) {
+                            //  pa
+                            //		pb
+                            //	p3	p2
+                            LogText("special 2 \n");
+                            pb = next_prim_point;
+                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, pb, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+br+bl 2 at [%d][%d]\n", x, z);
+
+                        } else if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
+                            //  p0 pa
+                            //
+                            //	p3	p2
+                            LogText("special 2b \n");
+                            pb = next_prim_point;
+                            add_point((xt), y, (z << ELE_SHIFT) + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, pa, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+br+bl 3 at [%d][%d]\n", x, z);
+                        }
+                    }
+                    //						else
+                    //							create_a_tri(p3,p2,p0,0,0);
+
+                    break;
+                case (TL + TR + BL):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText("POO3 xb %x zr %x \n", xb, zr);
+                    LogText(" [%d][%d] \n", x, z);
+                    LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
+
+                    if (xb && zr) {
+                        //  p0   p1
+                        //		 pb
+                        //	p3 pa
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+
+                        p_f4 = create_a_quad(pa, pb, p3, p1, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p3, p1, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr+bl 1 at [%d][%d]\n", x, z);
+                    } else if (xb || zr) {
+                        if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
+                            //  p0  p1
+                            //
+                            //	p3 pa
+                            LogText("special 3 \n");
+                            pa = next_prim_point;
+                            add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, p1, pa, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+tr+bl 2 at [%d][%d]\n", x, z);
+
+                        } else if (xb == (x << ELE_SHIFT) || xb == 0) {
+                            //  p0  p1
+                            //		pb
+                            //	pa3
+                            LogText("special 3b \n");
+                            pb = next_prim_point;
+                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, p1, pb, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+tr+bl 3 at [%d][%d]\n", x, z);
+                        }
+                    }
+                    //						else
+                    //							create_a_tri(p3,p1,p0,0,0);
+
+                    break;
+
+                case (TL + TR + BR):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    LogText("POO444 xb %x zl %x \n", xb, zl);
+                    LogText(" [%d][%d] \n", x, z);
+
+                    if (xb && zl) {
+                        //  p0  p1
+                        //	pb
+                        //	 pa	p2
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                        LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p2 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z);
+                        LogText(" pa (%d,%d,%d) pb (%d,%d,%d) \n", prim_points[pa].X, prim_points[pa].Y, prim_points[pa].Z, prim_points[pb].X, prim_points[pb].Y, prim_points[pb].Z);
+
+                        p_f4 = create_a_quad(pb, pa, p0, p2, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p0, p2, p1, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr+br 1 at [%d][%d]\n", x, z);
+                    } else if (xb || zl) {
+                        if (xb == (x + 1) << ELE_SHIFT || xb == 0) {
+                            //  p0  p1
+                            //	pb
+                            //		p2a
+                            LogText("special 4 \n");
+                            pb = next_prim_point;
+                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                            p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+tr+br 2 at [%d][%d]\n", x, z);
+
+                        } else if (zl == (z) << ELE_SHIFT || zl == 0) {
+                            //  pb   p1
                             //
                             //	  pa p2
+                            LogText("special 4b \n");
                             pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p2, p1, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tr+br 3 at [%d][%d]\n", x, z);
-                        } else
-                            LogText(" pooerror1\n");
-
-                        break;
-                    case (BL + BR):
-                        zl = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText(" zl %x zr %x \n", zl, zr);
-
-                        if (zl && zr) {
-                            //  pa  pb
-                            //
-                            //	p3	p2
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f4 = create_a_quad(pa, p3, pb, p2, 0, 0);
+                            add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                            p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
                             p_f4->ThingIndex = face_wall;
                             build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done bl+br 1 at [%d][%d]\n", x, z);
-                        } else if (zl) {
-                            //
-                            //	pa
-                            //	p3	 p2
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            p_f3 = create_a_tri(p3, p2, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done bl+br 2 at [%d][%d]\n", x, z);
-                        } else if (zr) {
-                            //
-                            //		 pa
-                            //	p3	 p2
-                            pa = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f3 = create_a_tri(p3, p2, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done bl+br 3 at [%d][%d]\n", x, z);
-                        } else
-                            LogText(" pooerror2\n");
-                        break;
-                    case (TL + BL):
-                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        xb = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-
-                        if (xt && xb) {
-                            //  p0  pa
-                            //
-                            //	p3	pb
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f4 = create_a_quad(p0, p3, pa, pb, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+bl 1 at [%d][%d]\n", x, z);
-                        } else if (xt) {
-                            //  p0 pa
-                            //
-                            //	p3
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p3, pa, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+bl 2 at [%d][%d]\n", x, z);
-                        } else if (xb) {
-                            //  p0
-                            //
-                            //	p3 pa
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p3, pa, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+bl 3 at [%d][%d]\n", x, z);
+                            LogText(" done tl+tr+br 3 at [%d][%d]\n", x, z);
                         }
-                        /* can not be surely
-                                                                        else
-                                                                        {
-                                                                                zr=cut_blocks[(x)*4+(z)*MAX_BOUND_SIZE*4+CUT_BLOCK_RIGHT];
-                                                                                if(zr)
-                                                                                {
-                                                                                        //  p0
-                                                                                        //	    pa
-                                                                                        //	p3
-                                                                                        pa=next_prim_point;
-                                                                                        add_point((x+1)<<ELE_SHIFT,y,zr+edge_min_z);
-                                                                                        create_a_tri(p3,pa,p0,0,0);
+                    }
+                    //						else
+                    //							create_a_tri(p2,p1,p0,0,0);
+                    break;
+                case (TL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    LogText("SINGLE1 xt %x zl %x \n", xt, zl);
+                    LogText(" [%d][%d] \n", x, z);
 
-                                                                                }
+                    if (xt && zl) {
+                        //  p0  pa
+                        //	pb
 
-                                                                        }
-                        */
-                        // LogText(" pooerror3\n");
-                        break;
-                    case (TL + TR):
-                        zl = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText(" zl %x zr %x \n", zl, zr);
+                        pa = next_prim_point;
+                        add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
 
-                        if (zl && zr) {
-                            //  p0  p1
-                            //
-                            //	pa	pb
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f4 = create_a_quad(p0, pa, p1, pb, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr 1 at [%d][%d]\n", x, z);
-                        } else if (zl) {
-                            //  p0   p1
-                            //	pa
-                            //
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            p_f3 = create_a_tri(pa, p1, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr 2 at [%d][%d]\n", x, z);
-                        } else if (zr) {
-                            //  p0   p1
-                            //		 pa
-                            //
-                            pa = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f3 = create_a_tri(pa, p1, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr 3 at [%d][%d]\n", x, z);
-                        } else
-                            LogText(" pooerror4\n");
-                        break;
+                        p_f3 = create_a_tri(pb, pa, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl 1 at [%d][%d]\n", x, z);
+                    }
+                    break;
+                case (TR):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText("SINGLE2 xt %x zr %x \n", xt, zr);
+                    LogText(" [%d][%d] \n", x, z);
 
-                    case (TR + BR + BL):
-                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        LogText("POO1 xt %x zl %x \n", xt, zl);
-                        LogText(" [%d][%d] \n", x, z);
-                        if (xt && zl) {
-                            //   pa p1
-                            //	pb
-                            //	p3	p2
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                    if (xt && zr) {
+                        //  pa  p1
+                        //		pb
 
-                            p_f4 = create_a_quad(pa, pb, p1, p3, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p3, p2, p1, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tr+br+bl 1 at [%d][%d]\n", x, z);
-                        } else if (xt || zl) {
-                            if (xt == (x + 1) << ELE_SHIFT || xt == 0) {
-                                //      pa
-                                //	pb
-                                //	p3	p2
-                                LogText("special 1b \n");
-                                pb = next_prim_point;
-                                add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-                                p_f4 = create_a_quad(pb, p3, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tr+br+bl 2 at [%d][%d]\n", x, z);
+                        pa = next_prim_point;
+                        add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
 
-                            } else if (zl == (z + 1) << ELE_SHIFT || zl == 0) {
-                                //   pa p1
-                                //
-                                //	p3	p2
-                                LogText("special 1b \n");
-                                pa = next_prim_point;
-                                add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(pa, p3, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tr+br+bl 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p3,p2,p1,0,0);
+                        p_f3 = create_a_tri(pa, pb, p1, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tr 1 at [%d][%d]\n", x, z);
+                    }
+                    break;
+                case (BR):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText("SINGLE3 xb %x zr %x \n", xb, zr);
+                    LogText(" [%d][%d] \n", x, z);
 
-                        break;
-                    case (TL + BR + BL):
-                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText("POO2 xt %x zr %x \n", xt, zr);
-                        LogText(" [%d][%d] \n", x, z);
-                        LogText(" p0 (%d,%d,%d) p2 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
+                    if (xb && zr) {
+                        //      pb
+                        //	 pa	p2
 
-                        if (xt && zr) {
-                            //  p0 pa
-                            //		 pb
-                            //	p3	 p2
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
 
-                            p_f4 = create_a_quad(pb, pa, p2, p0, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p3, p2, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+br+bl 1 at [%d][%d]\n", x, z);
-                        } else if (xt || zr) {
-                            if (xt == x << ELE_SHIFT || xt == 0) {
-                                //  pa
-                                //		pb
-                                //	p3	p2
-                                LogText("special 2 \n");
-                                pb = next_prim_point;
-                                add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, pb, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+br+bl 2 at [%d][%d]\n", x, z);
+                        p_f3 = create_a_tri(pb, pa, p2, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done br 1 at [%d][%d]\n", x, z);
+                    }
+                    break;
+                case (BL):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    LogText("SINGLE4 xb %x zl %x \n", xb, zl);
+                    LogText(" [%d][%d] \n", x, z);
 
-                            } else if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
-                                //  p0 pa
-                                //
-                                //	p3	p2
-                                LogText("special 2b \n");
-                                pb = next_prim_point;
-                                add_point((xt), y, (z << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, pa, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+br+bl 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p3,p2,p0,0,0);
+                    if (xb && zl) {
+                        //  pb
+                        //	p3 pa
 
-                        break;
-                    case (TL + TR + BL):
-                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText("POO3 xb %x zr %x \n", xb, zr);
-                        LogText(" [%d][%d] \n", x, z);
-                        LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
 
-                        if (xb && zr) {
-                            //  p0   p1
-                            //		 pb
-                            //	p3 pa
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f3 = create_a_tri(p3, pa, pb, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done bl 1 at [%d][%d]\n", x, z);
+                    }
+                    break;
 
-                            p_f4 = create_a_quad(pa, pb, p3, p1, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p3, p1, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr+bl 1 at [%d][%d]\n", x, z);
-                        } else if (xb || zr) {
-                            if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
-                                //  p0  p1
-                                //
-                                //	p3 pa
-                                LogText("special 3 \n");
-                                pa = next_prim_point;
-                                add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, p1, pa, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+bl 2 at [%d][%d]\n", x, z);
-
-                            } else if (xb == (x << ELE_SHIFT) || xb == 0) {
-                                //  p0  p1
-                                //		pb
-                                //	pa3
-                                LogText("special 3b \n");
-                                pb = next_prim_point;
-                                add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, p1, pb, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+bl 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p3,p1,p0,0,0);
-
-                        break;
-
-                    case (TL + TR + BR):
-                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        LogText("POO444 xb %x zl %x \n", xb, zl);
-                        LogText(" [%d][%d] \n", x, z);
-
-                        if (xb && zl) {
-                            //  p0  p1
-                            //	pb
-                            //	 pa	p2
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-                            LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p2 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z);
-                            LogText(" pa (%d,%d,%d) pb (%d,%d,%d) \n", prim_points[pa].X, prim_points[pa].Y, prim_points[pa].Z, prim_points[pb].X, prim_points[pb].Y, prim_points[pb].Z);
-
-                            p_f4 = create_a_quad(pb, pa, p0, p2, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p0, p2, p1, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr+br 1 at [%d][%d]\n", x, z);
-                        } else if (xb || zl) {
-                            if (xb == (x + 1) << ELE_SHIFT || xb == 0) {
-                                //  p0  p1
-                                //	pb
-                                //		p2a
-                                LogText("special 4 \n");
-                                pb = next_prim_point;
-                                add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-                                p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+br 2 at [%d][%d]\n", x, z);
-
-                            } else if (zl == (z) << ELE_SHIFT || zl == 0) {
-                                //  pb   p1
-                                //
-                                //	  pa p2
-                                LogText("special 4b \n");
-                                pa = next_prim_point;
-                                add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+br 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p2,p1,p0,0,0);
-                        break;
-                    case (TL):
-                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        LogText("SINGLE1 xt %x zl %x \n", xt, zl);
-                        LogText(" [%d][%d] \n", x, z);
-
-                        if (xt && zl) {
-                            //  p0  pa
-                            //	pb
-
-                            pa = next_prim_point;
-                            add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-
-                            p_f3 = create_a_tri(pb, pa, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl 1 at [%d][%d]\n", x, z);
-                        }
-                        break;
-                    case (TR):
-                        xt = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText("SINGLE2 xt %x zr %x \n", xt, zr);
-                        LogText(" [%d][%d] \n", x, z);
-
-                        if (xt && zr) {
-                            //  pa  p1
-                            //		pb
-
-                            pa = next_prim_point;
-                            add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-
-                            p_f3 = create_a_tri(pa, pb, p1, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tr 1 at [%d][%d]\n", x, z);
-                        }
-                        break;
-                    case (BR):
-                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zr = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText("SINGLE3 xb %x zr %x \n", xb, zr);
-                        LogText(" [%d][%d] \n", x, z);
-
-                        if (xb && zr) {
-                            //      pb
-                            //	 pa	p2
-
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-
-                            p_f3 = create_a_tri(pb, pa, p2, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done br 1 at [%d][%d]\n", x, z);
-                        }
-                        break;
-                    case (BL):
-                        xb = cut_blocks[(x) *4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zl = cut_blocks[(x) *4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        LogText("SINGLE4 xb %x zl %x \n", xb, zl);
-                        LogText(" [%d][%d] \n", x, z);
-
-                        if (xb && zl) {
-                            //  pb
-                            //	p3 pa
-
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-
-                            p_f3 = create_a_tri(p3, pa, pb, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done bl 1 at [%d][%d]\n", x, z);
-                        }
-                        break;
-
-                    default:
-                        LogText(" un supported p0...  (%d,%d,%d,%d)\n", p0, p1, p2, p3);
-                        break;
+                default:
+                    LogText(" un supported p0...  (%d,%d,%d,%d)\n", p0, p1, p2, p3);
+                    break;
                 }
             }
         }
@@ -1850,37 +1849,36 @@ void build_fire_escape_points(std::uint16_t storey, std::int32_t y, std::int32_t
 
 struct TXTY texture_xy2[] =
     {
-        {0, 0, 0},           // 0
-        {0, 32, 0},          // 1
-        {0, 64, 0},          // 2
-        {0, 0, 32},          // 3
-        {0, 32, 32},         // 4
-        {0, 64, 32},         // 5
-        {0, 96, 32},         // 6
-        {0, 128, 32},        // 7
-        {0, 0, 64},          // 8
-        {0, 32, 64},         // 9
-        {0, 64, 64},         // 10
-        {0, 96, 64},         // 11
-        {0, 128, 64},        // 12
-        {0, 0, 96},          // 13
-        {0, 32, 96},         // 14
-        {0, 64, 96},         // 15
-        {0, 96, 96},         // 16
-        {0, 128, 96},        // 17
-        {0, 0, 128},         // 18
-        {0, 32, 128},        // 19
-        {0, 64, 128},        // 20
-        {0, 96, 128},        // 21
-        {0, 128, 128},       // 22
-        {0, 0, 160},         // 23
-        {0, 32, 160},        // 24
-        {0, 64, 160},        // 25
-        {0, 96, 160},        // 26
-        {0, 128, 160},       // 27
+        {0, 0, 0}, // 0
+        {0, 32, 0}, // 1
+        {0, 64, 0}, // 2
+        {0, 0, 32}, // 3
+        {0, 32, 32}, // 4
+        {0, 64, 32}, // 5
+        {0, 96, 32}, // 6
+        {0, 128, 32}, // 7
+        {0, 0, 64}, // 8
+        {0, 32, 64}, // 9
+        {0, 64, 64}, // 10
+        {0, 96, 64}, // 11
+        {0, 128, 64}, // 12
+        {0, 0, 96}, // 13
+        {0, 32, 96}, // 14
+        {0, 64, 96}, // 15
+        {0, 96, 96}, // 16
+        {0, 128, 96}, // 17
+        {0, 0, 128}, // 18
+        {0, 32, 128}, // 19
+        {0, 64, 128}, // 20
+        {0, 96, 128}, // 21
+        {0, 128, 128}, // 22
+        {0, 0, 160}, // 23
+        {0, 32, 160}, // 24
+        {0, 64, 160}, // 25
+        {0, 96, 160}, // 26
+        {0, 128, 160}, // 27
         {3, 4 * 32, 6 * 32}, // 28
         {0, 0}
-
 };
 
 // textures[piece][style]
@@ -1900,598 +1898,597 @@ struct TXTY textures_xy[200][8] =
         {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, // HOTEL_SIGN1
         {{0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 0}}, // HOTEL_SIGN2
         {{0, 5, 5, 0}, {0, 5, 5, 0}, {0, 5, 5, 0}, {0, 5, 5, 0}, {0, 5, 5, 0}, {0, 5, 5, 0}, {0, 5, 5, 0}, {0, 5, 5, 0}}, // Fence
-
 };
 
 std::uint8_t textures_flags[200][8];
 
 struct TextureInfo texture_info[] =
-    { //  0     1     2     3     4     5     6     7
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0}, // 0
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0},
-        {1, 0}, // 1
-        {2, 0},
-        {2, 0},
-        {2, 0},
-        {2, 0},
-        {2, 0},
-        {0, 0},
-        {9, 0},
-        {9, 0}, // 2
-        {2, 0},
-        {2, 0},
-        {2, 0},
-        {2, 0},
-        {2, 0},
-        {0, 0},
-        {9, 0},
-        {9, 0}, // 3
-        {4, 0},
-        {4, 0},
-        {4, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+    {
+  //  0     1     2     3     4     5     6     7
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0}, // 0
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0},
+        {1,  0}, // 1
+        {2,  0},
+        {2,  0},
+        {2,  0},
+        {2,  0},
+        {2,  0},
+        {0,  0},
+        {9,  0},
+        {9,  0}, // 2
+        {2,  0},
+        {2,  0},
+        {2,  0},
+        {2,  0},
+        {2,  0},
+        {0,  0},
+        {9,  0},
+        {9,  0}, // 3
+        {4,  0},
+        {4,  0},
+        {4,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
         {10, 0},
         {10, 0}, // 4
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
         {11, 0},
-        {3, 0},
-        {8, 0}, // 5
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {8, 0},
-        {8, 0},
-        {8, 0},
-        {8, 0},
-        {8, 0}, // 6
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {5, 0},
-        {6, 0},
-        {6, 0},
-        {6, 0},
-        {7, 0}, // 7
+        {3,  0},
+        {8,  0}, // 5
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {8,  0},
+        {8,  0},
+        {8,  0},
+        {8,  0},
+        {8,  0}, // 6
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {5,  0},
+        {6,  0},
+        {6,  0},
+        {6,  0},
+        {7,  0}, // 7
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
 
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0},
-        {0, 0}
-
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0},
+        {0,  0}
 };
 
 #define PsetUV4(p_f4, x0, y0, x1, y1, x2, y2, x3, y3, page) \
@@ -2512,24 +2509,24 @@ void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture) {
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
     tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     rot = (rot + 3) & 3;
     switch (rot) {
-        case 0:
+    case 0:
 
-            PsetUV4(p_f4, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
-            break;
-        case 1:
-            PsetUV4(p_f4, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
-            break;
-        case 2:
-            PsetUV4(p_f4, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
-            break;
-        case 3:
-            PsetUV4(p_f4, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
-            break;
+        PsetUV4(p_f4, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
+        break;
+    case 1:
+        PsetUV4(p_f4, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
+        break;
+    case 2:
+        PsetUV4(p_f4, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
+        break;
+    case 3:
+        PsetUV4(p_f4, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
+        break;
     }
 }
 
@@ -2574,46 +2571,46 @@ struct PrimFace4 *create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_
     }
 
     switch (textures_xy[texture_style][texture_piece].Flip) {
-        case 0:
-            p4->UV[0][0] = tx;
-            p4->UV[0][1] = ty;
-            p4->UV[1][0] = tx + 31;
-            p4->UV[1][1] = ty;
-            p4->UV[2][0] = tx;
-            p4->UV[2][1] = ty + 31;
-            p4->UV[3][0] = tx + 31;
-            p4->UV[3][1] = ty + 31;
-            break;
-        case 1: // flip x
-            p4->UV[0][0] = tx + 31;
-            p4->UV[0][1] = ty;
-            p4->UV[1][0] = tx;
-            p4->UV[1][1] = ty;
-            p4->UV[2][0] = tx + 31;
-            p4->UV[2][1] = ty + 31;
-            p4->UV[3][0] = tx;
-            p4->UV[3][1] = ty + 31;
-            break;
-        case 2: // flip y
-            p4->UV[0][0] = tx;
-            p4->UV[0][1] = ty + 31;
-            p4->UV[1][0] = tx + 31;
-            p4->UV[1][1] = ty + 31;
-            p4->UV[2][0] = tx;
-            p4->UV[2][1] = ty;
-            p4->UV[3][0] = tx + 31;
-            p4->UV[3][1] = ty;
-            break;
-        case 3: // flip x+y
-            p4->UV[0][0] = tx + 31;
-            p4->UV[0][1] = ty + 31;
-            p4->UV[1][0] = tx;
-            p4->UV[1][1] = ty + 31;
-            p4->UV[2][0] = tx + 31;
-            p4->UV[2][1] = ty;
-            p4->UV[3][0] = tx;
-            p4->UV[3][1] = ty;
-            break;
+    case 0:
+        p4->UV[0][0] = tx;
+        p4->UV[0][1] = ty;
+        p4->UV[1][0] = tx + 31;
+        p4->UV[1][1] = ty;
+        p4->UV[2][0] = tx;
+        p4->UV[2][1] = ty + 31;
+        p4->UV[3][0] = tx + 31;
+        p4->UV[3][1] = ty + 31;
+        break;
+    case 1: // flip x
+        p4->UV[0][0] = tx + 31;
+        p4->UV[0][1] = ty;
+        p4->UV[1][0] = tx;
+        p4->UV[1][1] = ty;
+        p4->UV[2][0] = tx + 31;
+        p4->UV[2][1] = ty + 31;
+        p4->UV[3][0] = tx;
+        p4->UV[3][1] = ty + 31;
+        break;
+    case 2: // flip y
+        p4->UV[0][0] = tx;
+        p4->UV[0][1] = ty + 31;
+        p4->UV[1][0] = tx + 31;
+        p4->UV[1][1] = ty + 31;
+        p4->UV[2][0] = tx;
+        p4->UV[2][1] = ty;
+        p4->UV[3][0] = tx + 31;
+        p4->UV[3][1] = ty;
+        break;
+    case 3: // flip x+y
+        p4->UV[0][0] = tx + 31;
+        p4->UV[0][1] = ty + 31;
+        p4->UV[1][0] = tx;
+        p4->UV[1][1] = ty + 31;
+        p4->UV[2][0] = tx + 31;
+        p4->UV[2][1] = ty;
+        p4->UV[3][0] = tx;
+        p4->UV[3][1] = ty;
+        break;
     }
 
     /*
@@ -2663,14 +2660,14 @@ struct PrimFace3 *create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t
 void set_texture_fe(struct PrimFace4 *p4, std::int32_t xw, std::int32_t xh, std::int32_t type) {
     std::int32_t tx, ty;
     switch (type) {
-        case 0:
-            tx = 0;
-            ty = 6 * 32;
-            break;
-        case 1:
-            tx = 5 * 32;
-            ty = 4 * 32;
-            break;
+    case 0:
+        tx = 0;
+        ty = 6 * 32;
+        break;
+    case 1:
+        tx = 5 * 32;
+        ty = 4 * 32;
+        break;
     }
 
     xw = 1;
@@ -2776,13 +2773,13 @@ std::uint16_t id_offset[] =
 
 std::int32_t next_connected_face(std::int32_t type, std::int32_t id, std::int32_t count) {
     switch (type) {
-        case FACE_TYPE_FIRE_ESCAPE:
-            std::int32_t start;
+    case FACE_TYPE_FIRE_ESCAPE:
+        std::int32_t start;
 
-            start = id_offset[id];
-            //			LogText(" id %d start %d count %d \n",id,start,count);
-            return (face_offsets[start + count]);
-            break;
+        start = id_offset[id];
+        //			LogText(" id %d start %d count %d \n",id,start,count);
+        return (face_offsets[start + count]);
+        break;
     }
     return (0);
 }
@@ -4349,9 +4346,9 @@ std::int32_t process_external_pieces(std::uint16_t building) {
     while (storey && c0 < 200) {
         //		LogText(" pass %d storey %d \n",c0,storey);
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_CABLE:
-                prev_facet = build_cables(storey, prev_facet);
-                break;
+        case STOREY_TYPE_CABLE:
+            prev_facet = build_cables(storey, prev_facet);
+            break;
         }
         storey = storey_list[storey].Next;
         c0++;
@@ -4405,15 +4402,15 @@ void clear_storey_flags(std::uint16_t building) {
         storey_list[storey].StoreyFlags &= ~FLAG_STOREY_FACET_LINKED;
 
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-            case STOREY_TYPE_FENCE:
-                wall = storey_list[storey].WallHead;
-                while (wall) {
-                    wall_list[wall].WallFlags &= ~FLAG_WALL_FACET_LINKED;
-                    wall = wall_list[wall].Next;
-                }
+        case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_FENCE:
+            wall = storey_list[storey].WallHead;
+            while (wall) {
+                wall_list[wall].WallFlags &= ~FLAG_WALL_FACET_LINKED;
+                wall = wall_list[wall].Next;
+            }
 
-                break;
+            break;
         }
         storey = storey_list[storey].Next;
     }
@@ -4428,12 +4425,12 @@ std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2
 
     while (storey && !found) {
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-            case STOREY_TYPE_FENCE:
-                found = 1;
-                break;
-            default:
-                storey = storey_list[storey].Next;
+        case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_FENCE:
+            found = 1;
+            break;
+        default:
+            storey = storey_list[storey].Next;
         }
     }
     if (found) {
@@ -4503,72 +4500,72 @@ std::int32_t create_building_prim(std::uint16_t building, std::int32_t *small_y)
         std::int32_t x1, z1, x2, z2;
 
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-            case STOREY_TYPE_FENCE:
-                if (first == 0) {
-                    set_floor_hidden(storey);
-                    first = 1;
-                }
+        case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_FENCE:
+            if (first == 0) {
+                set_floor_hidden(storey);
+                first = 1;
+            }
 
-                x1 = storey_list[storey].DX;
-                z1 = storey_list[storey].DZ;
+            x1 = storey_list[storey].DX;
+            z1 = storey_list[storey].DZ;
 
-                wall_count = 0;
-                wall = storey_list[storey].WallHead;
-                while (wall) {
-                    std::int32_t connect_wall, connect_storey;
+            wall_count = 0;
+            wall = storey_list[storey].WallHead;
+            while (wall) {
+                std::int32_t connect_wall, connect_storey;
 
-                    x2 = wall_list[wall].DX;
-                    z2 = wall_list[wall].DZ;
-                    if (!(wall_list[wall].WallFlags & FLAG_WALL_FACET_LINKED)) {
-                        y = storey_list[storey].DY;
+                x2 = wall_list[wall].DX;
+                z2 = wall_list[wall].DZ;
+                if (!(wall_list[wall].WallFlags & FLAG_WALL_FACET_LINKED)) {
+                    y = storey_list[storey].DY;
 
-                        if (y == 0) {
-                            std::int32_t temp_y;
-                            temp_y = calc_height_at(x1, z1);
-                            if (temp_y < *small_y)
-                                *small_y = temp_y;
-                        }
-
-                        wall_list[wall].WallFlags |= FLAG_WALL_FACET_LINKED;
-                        append_wall_prim(x1, y + offset_y, z1, wall, storey, BLOCK_SIZE * 4);
-
-                        connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, storey);
-                        while (connect_wall) {
-                            y = storey_list[connect_storey].DY;
-                            wall_list[connect_wall].WallFlags |= FLAG_WALL_FACET_LINKED;
-                            append_wall_prim(x1, y + offset_y, z1, connect_wall, connect_storey, BLOCK_SIZE * 4);
-                            connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, connect_storey);
-                        }
-                        mid_point = next_prim_point;
-                        //					LogText(" create building prim3  next prim_point %d \n",next_prim_point);
-                        mid_face4 = next_prim_face4;
-                        if (wall_for_fe[wall_count] && pass2 == 0) {
-                            build_firescape(wall_for_fe[wall_count]);
-                        }
-                        prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0);
-
-                        //	LogText(" create building prim4  next prim_point %d \n",next_prim_point);
-                        start_point = next_prim_point;
-                        start_face3 = next_prim_face3;
-                        start_face4 = next_prim_face4;
+                    if (y == 0) {
+                        std::int32_t temp_y;
+                        temp_y = calc_height_at(x1, z1);
+                        if (temp_y < *small_y)
+                            *small_y = temp_y;
                     }
-                    x1 = x2;
-                    z1 = z2;
-                    wall = wall_list[wall].Next;
-                    wall_count++;
+
+                    wall_list[wall].WallFlags |= FLAG_WALL_FACET_LINKED;
+                    append_wall_prim(x1, y + offset_y, z1, wall, storey, BLOCK_SIZE * 4);
+
+                    connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, storey);
+                    while (connect_wall) {
+                        y = storey_list[connect_storey].DY;
+                        wall_list[connect_wall].WallFlags |= FLAG_WALL_FACET_LINKED;
+                        append_wall_prim(x1, y + offset_y, z1, connect_wall, connect_storey, BLOCK_SIZE * 4);
+                        connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, connect_storey);
+                    }
+                    mid_point = next_prim_point;
+                    //					LogText(" create building prim3  next prim_point %d \n",next_prim_point);
+                    mid_face4 = next_prim_face4;
+                    if (wall_for_fe[wall_count] && pass2 == 0) {
+                        build_firescape(wall_for_fe[wall_count]);
+                    }
+                    prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0);
+
+                    //	LogText(" create building prim4  next prim_point %d \n",next_prim_point);
+                    start_point = next_prim_point;
+                    start_face3 = next_prim_face3;
+                    start_face4 = next_prim_face4;
                 }
-                pass2 = 1;
+                x1 = x2;
+                z1 = z2;
+                wall = wall_list[wall].Next;
+                wall_count++;
+            }
+            pass2 = 1;
 
-                break;
-            case STOREY_TYPE_FIRE_ESCAPE:
-                wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
-                if (wall >= 0)
-                    wall_for_fe[wall] = storey;
-                fire_escape_count++;
+            break;
+        case STOREY_TYPE_FIRE_ESCAPE:
+            wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
+            if (wall >= 0)
+                wall_for_fe[wall] = storey;
+            fire_escape_count++;
 
-            default:
-                break;
+        default:
+            break;
         }
         storey = storey_list[storey].Next;
     }
@@ -4584,11 +4581,11 @@ std::int32_t create_building_prim(std::uint16_t building, std::int32_t *small_y)
 
         if (storey_list[storey].Roof) {
             switch (storey_list[storey_list[storey].Roof].StoreyType) {
-                case STOREY_TYPE_ROOF:
-                    build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
-                    break;
-                case STOREY_TYPE_ROOF_QUAD:
-                    build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
+            case STOREY_TYPE_ROOF:
+                build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
+                break;
+            case STOREY_TYPE_ROOF_QUAD:
+                build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
             }
         }
         storey = storey_list[storey].Next;
@@ -4650,57 +4647,57 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
     while (storey && c0 < 200) {
         //		LogText(" pass %d storey %d \n",c0,storey);
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-                x = storey_list[storey].DX;
-                y = storey_list[storey].DY;
-                z = storey_list[storey].DZ;
-                storey_index[c0] = storey;
-                prev_x[c0] = x;
-                prev_z[c0] = z;
-                wall = storey_list[storey].WallHead;
-                wall_index[c0] = wall;
+        case STOREY_TYPE_NORMAL:
+            x = storey_list[storey].DX;
+            y = storey_list[storey].DY;
+            z = storey_list[storey].DZ;
+            storey_index[c0] = storey;
+            prev_x[c0] = x;
+            prev_z[c0] = z;
+            wall = storey_list[storey].WallHead;
+            wall_index[c0] = wall;
 
-                if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
-                    struct LedgeInfo *p_ledge;
-                    p_ledge = &ledge_info[ledge_count];
-                    p_ledge->Storey = storey;
-                    p_ledge->Wall = 0;
-                    p_ledge->Y = y + offset_y;
-                    p_ledge->X2 = x;
-                    p_ledge->Z2 = z;
-                    p_ledge->X3 = wall_list[wall].DX;
-                    p_ledge->Z3 = wall_list[wall].DZ;
-                    next_wall = wall_list[wall].Next;
-                    p_ledge->X4 = wall_list[next_wall].DX;
-                    p_ledge->Z4 = wall_list[next_wall].DZ;
-                    find_next_last_coord(wall, &(p_ledge->X1), &(p_ledge->Z1));
-                    ledge_count++;
-                    offset_y += BLOCK_SIZE >> 1;
-                }
-                if (wall) {
-                    //						LogText(" HELLO2 append wall %d\n",wall);
-                    LogText(" append wall_start for building %d wall %d storey %d \n", building, wall, storey);
-                    append_wall_prim(x, y + offset_y, z, wall, storey, BLOCK_SIZE * 4);
-                }
+            if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
+                struct LedgeInfo *p_ledge;
+                p_ledge = &ledge_info[ledge_count];
+                p_ledge->Storey = storey;
+                p_ledge->Wall = 0;
+                p_ledge->Y = y + offset_y;
+                p_ledge->X2 = x;
+                p_ledge->Z2 = z;
+                p_ledge->X3 = wall_list[wall].DX;
+                p_ledge->Z3 = wall_list[wall].DZ;
+                next_wall = wall_list[wall].Next;
+                p_ledge->X4 = wall_list[next_wall].DX;
+                p_ledge->Z4 = wall_list[next_wall].DZ;
+                find_next_last_coord(wall, &(p_ledge->X1), &(p_ledge->Z1));
+                ledge_count++;
+                offset_y += BLOCK_SIZE >> 1;
+            }
+            if (wall) {
+                //						LogText(" HELLO2 append wall %d\n",wall);
+                LogText(" append wall_start for building %d wall %d storey %d \n", building, wall, storey);
+                append_wall_prim(x, y + offset_y, z, wall, storey, BLOCK_SIZE * 4);
+            }
 
-                break;
+            break;
 
-            case STOREY_TYPE_FIRE_ESCAPE:
-                wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
-                LogText(" find_wall_for_fe=%d \n", wall);
-                if (wall >= 0)
-                    wall_for_fe[wall] = storey;
-                fire_escape_count++;
+        case STOREY_TYPE_FIRE_ESCAPE:
+            wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
+            LogText(" find_wall_for_fe=%d \n", wall);
+            if (wall >= 0)
+                wall_for_fe[wall] = storey;
+            fire_escape_count++;
 
-                break;
-            case STOREY_TYPE_STAIRCASE:
-                wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
-                LogText(" find_wall_for_SC=%d \n", wall);
-                if (wall >= 0)
-                    wall_for_fe[wall] = storey;
-                fire_escape_count++;
+            break;
+        case STOREY_TYPE_STAIRCASE:
+            wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
+            LogText(" find_wall_for_SC=%d \n", wall);
+            if (wall >= 0)
+                wall_for_fe[wall] = storey;
+            fire_escape_count++;
 
-                break;
+            break;
         }
         prev_storey = storey;
         storey = storey_list[storey].Next;
@@ -4714,12 +4711,12 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
 
     if (wall_for_fe[facet_count]) {
         switch (storey_list[wall_for_fe[facet_count]].StoreyType) {
-            case STOREY_TYPE_FIRE_ESCAPE:
-                build_firescape(wall_for_fe[facet_count]);
-                break;
-            case STOREY_TYPE_STAIRCASE:
-                build_staircase(wall_for_fe[facet_count]);
-                break;
+        case STOREY_TYPE_FIRE_ESCAPE:
+            build_firescape(wall_for_fe[facet_count]);
+            break;
+        case STOREY_TYPE_STAIRCASE:
+            build_staircase(wall_for_fe[facet_count]);
+            break;
         }
     }
     //		LogText("build facet \n");
@@ -4809,12 +4806,12 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
         if (walls_left) {
             if (wall_for_fe[facet_count]) {
                 switch (storey_list[wall_for_fe[facet_count]].StoreyType) {
-                    case STOREY_TYPE_FIRE_ESCAPE:
-                        build_firescape(wall_for_fe[facet_count]);
-                        break;
-                    case STOREY_TYPE_STAIRCASE:
-                        build_staircase(wall_for_fe[facet_count]);
-                        break;
+                case STOREY_TYPE_FIRE_ESCAPE:
+                    build_firescape(wall_for_fe[facet_count]);
+                    break;
+                case STOREY_TYPE_STAIRCASE:
+                    build_staircase(wall_for_fe[facet_count]);
+                    break;
                 }
             }
         }
@@ -4831,11 +4828,11 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
     while (storey) {
         if (storey_list[storey].Roof) {
             switch (storey_list[storey_list[storey].Roof].StoreyType) {
-                case STOREY_TYPE_ROOF:
-                    build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
-                    break;
-                case STOREY_TYPE_ROOF_QUAD:
-                    build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
+            case STOREY_TYPE_ROOF:
+                build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
+                break;
+            case STOREY_TYPE_ROOF_QUAD:
+                build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
             }
         }
         storey = storey_list[storey].Next;
@@ -4852,40 +4849,40 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
 #ifdef OLD_STUFF
     while (storey) {
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_NORMAL:
 
-                x = storey_list[storey].DX;
-                z = storey_list[storey].DZ;
-                y = storey_list[storey].DY;
-                wall = storey_list[storey].WallHead;
+            x = storey_list[storey].DX;
+            z = storey_list[storey].DZ;
+            y = storey_list[storey].DY;
+            wall = storey_list[storey].WallHead;
 
-                if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
-                    build_ledge(x, y, z, wall, storey, BLOCK_SIZE >> 1);
-                    //					y-=BLOCK_SIZE>>1;
-                    offset_y += BLOCK_SIZE >> 1;
-                }
+            if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
+                build_ledge(x, y, z, wall, storey, BLOCK_SIZE >> 1);
+                //					y-=BLOCK_SIZE>>1;
+                offset_y += BLOCK_SIZE >> 1;
+            }
 
-                while (wall) {
-                    append_wall_prim(x, y + offset_y, z, wall, storey, BLOCK_SIZE * 4);
-                    x = wall_list[wall].DX;
-                    z = wall_list[wall].DZ;
-                    wall = wall_list[wall].Next;
+            while (wall) {
+                append_wall_prim(x, y + offset_y, z, wall, storey, BLOCK_SIZE * 4);
+                x = wall_list[wall].DX;
+                z = wall_list[wall].DZ;
+                wall = wall_list[wall].Next;
+            }
+            prev_storey = storey;
+            if (storey_list[storey].Roof) {
+                switch (storey_list[storey_list[storey].Roof].StoreyType) {
+                case STOREY_TYPE_ROOF:
+                    build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
+                    break;
+                case STOREY_TYPE_ROOF_QUAD:
+                    build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
                 }
-                prev_storey = storey;
-                if (storey_list[storey].Roof) {
-                    switch (storey_list[storey_list[storey].Roof].StoreyType) {
-                        case STOREY_TYPE_ROOF:
-                            build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
-                            break;
-                        case STOREY_TYPE_ROOF_QUAD:
-                            build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
-                    }
-                }
-                //			LogText(" built a floor  next face 4 %d \n",next_prim_face4);
-                break;
-            case STOREY_TYPE_FIRE_ESCAPE:
-                build_firescape(storey);
-                break;
+            }
+            //			LogText(" built a floor  next face 4 %d \n",next_prim_face4);
+            break;
+        case STOREY_TYPE_FIRE_ESCAPE:
+            build_firescape(storey);
+            break;
         }
         storey = storey_list[storey].Next;
         //		y-=BLOCK_SIZE*5;
@@ -4911,40 +4908,40 @@ void create_building_prim_old2(std::uint16_t building) {
     storey = building_list[building].StoreyHead;
     while (storey) {
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_NORMAL:
 
-                x = storey_list[storey].DX;
-                z = storey_list[storey].DZ;
-                y = storey_list[storey].DY;
-                wall = storey_list[storey].WallHead;
+            x = storey_list[storey].DX;
+            z = storey_list[storey].DZ;
+            y = storey_list[storey].DY;
+            wall = storey_list[storey].WallHead;
 
-                if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
-                    build_ledge(x, y, z, wall, storey, BLOCK_SIZE >> 1);
-                    //					y-=BLOCK_SIZE>>1;
-                    offset_y += -BLOCK_SIZE >> 1;
-                }
+            if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
+                build_ledge(x, y, z, wall, storey, BLOCK_SIZE >> 1);
+                //					y-=BLOCK_SIZE>>1;
+                offset_y += -BLOCK_SIZE >> 1;
+            }
 
-                while (wall) {
-                    append_wall_prim(x, y + offset_y, z, wall, storey, BLOCK_SIZE * 4);
-                    x = wall_list[wall].DX;
-                    z = wall_list[wall].DZ;
-                    wall = wall_list[wall].Next;
+            while (wall) {
+                append_wall_prim(x, y + offset_y, z, wall, storey, BLOCK_SIZE * 4);
+                x = wall_list[wall].DX;
+                z = wall_list[wall].DZ;
+                wall = wall_list[wall].Next;
+            }
+            prev_storey = storey;
+            if (storey_list[storey].Roof) {
+                switch (storey_list[storey_list[storey].Roof].StoreyType) {
+                case STOREY_TYPE_ROOF:
+                    build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
+                    break;
+                case STOREY_TYPE_ROOF_QUAD:
+                    build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
                 }
-                prev_storey = storey;
-                if (storey_list[storey].Roof) {
-                    switch (storey_list[storey_list[storey].Roof].StoreyType) {
-                        case STOREY_TYPE_ROOF:
-                            build_roof(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
-                            break;
-                        case STOREY_TYPE_ROOF_QUAD:
-                            build_roof_quad(storey, storey_list[storey_list[storey].Roof].DY + offset_y);
-                    }
-                }
-                LogText(" built a floor  next face 4 %d \n", next_prim_face4);
-                break;
-            case STOREY_TYPE_FIRE_ESCAPE:
-                build_firescape(storey);
-                break;
+            }
+            LogText(" built a floor  next face 4 %d \n", next_prim_face4);
+            break;
+        case STOREY_TYPE_FIRE_ESCAPE:
+            build_firescape(storey);
+            break;
         }
         storey = storey_list[storey].Next;
         //		y-=BLOCK_SIZE*4;
@@ -4960,13 +4957,13 @@ void clear_map2() {
             std::int32_t index;
             index = edit_map[x][z].MapThingIndex;
             switch (map_things[index].Type) {
-                case MAP_THING_TYPE_PRIM:
-                case MAP_THING_TYPE_LIGHT:
-                    map_things[index].MapChild = 0;
-                    break;
-                default:
-                    edit_map[x][z].MapThingIndex = 0;
-                    break;
+            case MAP_THING_TYPE_PRIM:
+            case MAP_THING_TYPE_LIGHT:
+                map_things[index].MapChild = 0;
+                break;
+            default:
+                edit_map[x][z].MapThingIndex = 0;
+                break;
             }
 
             edit_map[x][z].ColVectHead = 0;
@@ -4978,12 +4975,12 @@ void clear_map2() {
     // memset((std::uint8_t*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
     for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
         switch (map_things[c0].Type) {
-            case MAP_THING_TYPE_PRIM:
-            case MAP_THING_TYPE_LIGHT:
-                break;
-            default:
-                memset((std::uint8_t *) &map_things[c0], 0, sizeof(struct MapThing));
-                break;
+        case MAP_THING_TYPE_PRIM:
+        case MAP_THING_TYPE_LIGHT:
+            break;
+        default:
+            memset((std::uint8_t *) &map_things[c0], 0, sizeof(struct MapThing));
+            break;
         }
     }
 

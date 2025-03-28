@@ -517,20 +517,20 @@ void load_level_anim_prims() {
             std::int32_t anim;
             anim = 0;
             switch (ew->ed.subtype) {
-                case EWAY_SUBTYPE_ANIMAL_BAT:
-                    if (save_psx)
-                        continue;
-                    anim = 1;
-                    break;
-                case EWAY_SUBTYPE_ANIMAL_GARGOYLE:
-                    anim = 2;
-                    break;
-                case EWAY_SUBTYPE_ANIMAL_BALROG:
-                    anim = 3;
-                    break;
-                case EWAY_SUBTYPE_ANIMAL_BANE:
-                    anim = 4;
-                    break;
+            case EWAY_SUBTYPE_ANIMAL_BAT:
+                if (save_psx)
+                    continue;
+                anim = 1;
+                break;
+            case EWAY_SUBTYPE_ANIMAL_GARGOYLE:
+                anim = 2;
+                break;
+            case EWAY_SUBTYPE_ANIMAL_BALROG:
+                anim = 3;
+                break;
+            case EWAY_SUBTYPE_ANIMAL_BANE:
+                anim = 4;
+                break;
             }
             if (anim_chunk[anim].AnimList == 0)
                 load_anim_prim_object(anim);
@@ -607,16 +607,16 @@ void load_game_map(char *name) {
                 FileRead(handle, (std::uint8_t *) &map_thing, sizeof(struct MapThingPSX));
 
                 switch (t_mthing->Type) {
-                    case MAP_THING_TYPE_ANIM_PRIM:
-                        //
-                        // Now add an animating prim to the universe
-                        //
+                case MAP_THING_TYPE_ANIM_PRIM:
+                    //
+                    // Now add an animating prim to the universe
+                    //
 
-                        extern void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw);
+                    extern void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw);
 
-                        load_anim_prim_object(t_mthing->IndexOther);
-                        create_anim_prim(t_mthing->X, t_mthing->Y, t_mthing->Z, t_mthing->IndexOther, t_mthing->AngleY);
-                        break;
+                    load_anim_prim_object(t_mthing->IndexOther);
+                    create_anim_prim(t_mthing->X, t_mthing->Y, t_mthing->Z, t_mthing->IndexOther, t_mthing->AngleY);
+                    break;
                 }
             }
         } else if (save_type > 18) {
@@ -626,16 +626,16 @@ void load_game_map(char *name) {
                 FileRead(handle, (std::uint8_t *) &map_thing, sizeof(struct LoadGameThing));
 
                 switch (map_thing.Type) {
-                    case MAP_THING_TYPE_ANIM_PRIM:
-                        //
-                        // Now add an animating prim to the universe
-                        //
+                case MAP_THING_TYPE_ANIM_PRIM:
+                    //
+                    // Now add an animating prim to the universe
+                    //
 
-                        extern void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw);
+                    extern void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw);
 
-                        load_anim_prim_object(map_thing.IndexOther);
-                        create_anim_prim(map_thing.X, map_thing.Y, map_thing.Z, map_thing.IndexOther, map_thing.AngleY);
-                        break;
+                    load_anim_prim_object(map_thing.IndexOther);
+                    create_anim_prim(map_thing.X, map_thing.Y, map_thing.Z, map_thing.IndexOther, map_thing.AngleY);
+                    break;
                 }
             }
         }
@@ -968,11 +968,11 @@ std::int32_t load_prim_object(std::int32_t prim) {
     //
 
     switch (prim) {
-        case PRIM_OBJ_ITEM_HEALTH:
-        case PRIM_OBJ_ITEM_GUN:
-        case PRIM_OBJ_ITEM_KEY:
-            po->flag |= PRIM_FLAG_ITEM;
-            break;
+    case PRIM_OBJ_ITEM_HEALTH:
+    case PRIM_OBJ_ITEM_GUN:
+    case PRIM_OBJ_ITEM_KEY:
+        po->flag |= PRIM_FLAG_ITEM;
+        break;
     }
 
     //
@@ -2312,66 +2312,66 @@ std::int32_t load_anim_system(struct GameKeyFrameChunk *p_chunk, char *name, std
 
             for (c0 = 0; c0 < count; c0++) {
                 switch (type) {
-                    case 0:
+                case 0:
+                    p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
+                    break;
+                case 1:
+                    // darci
+                    switch (c0) {
+                    case 0: // darci
+                        load = 1;
+                        break;
+                    case 1: // slag
+                        load = !(DONT_load & (1 << PERSON_SLAG_TART));
+                        break;
+                    case 2: // fat slag
+                        load = !(DONT_load & (1 << PERSON_SLAG_FATUGLY));
+                        break;
+                    case 3: // hostage
+                        load = !(DONT_load & (1 << PERSON_HOSTAGE));
+                        break;
+                    default:
+                        load = 1;
+                        break;
+                    }
+                    if (load)
                         p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
-                        break;
-                    case 1:
-                        // darci
-                        switch (c0) {
-                            case 0: // darci
-                                load = 1;
-                                break;
-                            case 1: // slag
-                                load = !(DONT_load & (1 << PERSON_SLAG_TART));
-                                break;
-                            case 2: // fat slag
-                                load = !(DONT_load & (1 << PERSON_SLAG_FATUGLY));
-                                break;
-                            case 3: // hostage
-                                load = !(DONT_load & (1 << PERSON_HOSTAGE));
-                                break;
-                            default:
-                                load = 1;
-                                break;
-                        }
-                        if (load)
-                            p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
-                        else {
-                            skip_load_a_multi_prim(handle);
-                            p_chunk->MultiObject[c0] = 1;
-                        }
-                        break;
-                    case 2:
-                        // thug   // 0 rasta 1 grey 2 red 3 miller 4 cop 5 mib 6 tramp 7 civ variety
+                    else {
+                        skip_load_a_multi_prim(handle);
+                        p_chunk->MultiObject[c0] = 1;
+                    }
+                    break;
+                case 2:
+                    // thug   // 0 rasta 1 grey 2 red 3 miller 4 cop 5 mib 6 tramp 7 civ variety
 
-                        switch (c0) {
-                            case 0: // rasta
-                            case 1: // grey
-                            case 2: // red
-                            case 4: // cop
-                            case 7: // civ variety
-                                load = 1;
-                                break;
-                            case 3: // miller (mechanic)
-                                load = !(DONT_load & (1 << PERSON_MECHANIC));
-                                break;
-                            case 5: // MIB
-                                load = !(DONT_load & (1 << PERSON_MIB1));
-                                break;
-                            case 6: // tramp
-                                load = !(DONT_load & (1 << PERSON_TRAMP));
-                                break;
-                            default:
-                                load = 1;
-                                break;
-                        }
-                        if (load)
-                            p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
-                        else {
-                            skip_load_a_multi_prim(handle);
-                            p_chunk->MultiObject[c0] = 1;
-                        }
+                    switch (c0) {
+                    case 0: // rasta
+                    case 1: // grey
+                    case 2: // red
+                    case 4: // cop
+                    case 7: // civ variety
+                        load = 1;
                         break;
+                    case 3: // miller (mechanic)
+                        load = !(DONT_load & (1 << PERSON_MECHANIC));
+                        break;
+                    case 5: // MIB
+                        load = !(DONT_load & (1 << PERSON_MIB1));
+                        break;
+                    case 6: // tramp
+                        load = !(DONT_load & (1 << PERSON_TRAMP));
+                        break;
+                    default:
+                        load = 1;
+                        break;
+                    }
+                    if (load)
+                        p_chunk->MultiObject[c0] = load_insert_a_multi_prim(handle);
+                    else {
+                        skip_load_a_multi_prim(handle);
+                        p_chunk->MultiObject[c0] = 1;
+                    }
+                    break;
                 }
                 DebugText(" next_prim_point %d primface3 %d primface4 %d   load ANIMSYSTEM part %d \n", next_prim_point, next_prim_face3, next_prim_face4, c0);
             }

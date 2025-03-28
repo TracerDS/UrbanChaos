@@ -1062,29 +1062,29 @@ inline bool is_class_primary(std::int8_t classification) {
     //	return(true);
 
     switch (classification) {
-        // Secondaries.
-        case CLASS_NONE:
-        case CLASS_CAMERA:
-        case CLASS_SWITCH:
-        case CLASS_TRACK:
-            return false;
-        // Primaries.
-        case CLASS_PLAYER:
-        case CLASS_PROJECTILE:
-        case CLASS_BUILDING:
-        case CLASS_PERSON:
-        case CLASS_FURNITURE:
-        case CLASS_VEHICLE:
-        case CLASS_SPECIAL:
-        case CLASS_PYRO:
-        case CLASS_PLAT:
-        case CLASS_BARREL:
-        case CLASS_BIKE:
-        case CLASS_BAT:
-            return true;
-        default:
-            ASSERT(0);
-            return false;
+    // Secondaries.
+    case CLASS_NONE:
+    case CLASS_CAMERA:
+    case CLASS_SWITCH:
+    case CLASS_TRACK:
+        return false;
+    // Primaries.
+    case CLASS_PLAYER:
+    case CLASS_PROJECTILE:
+    case CLASS_BUILDING:
+    case CLASS_PERSON:
+    case CLASS_FURNITURE:
+    case CLASS_VEHICLE:
+    case CLASS_SPECIAL:
+    case CLASS_PYRO:
+    case CLASS_PLAT:
+    case CLASS_BARREL:
+    case CLASS_BIKE:
+    case CLASS_BAT:
+        return true;
+    default:
+        ASSERT(0);
+        return false;
     }
 }
 
@@ -1195,32 +1195,32 @@ void THING_kill(Thing *p_thing) {
     remove_thing_from_map(p_thing);
 
     switch (p_thing->Class) {
-        case CLASS_NONE:
-            break;
-        case CLASS_PLAYER:
-            free_person(p_thing);
-            break;
-        case CLASS_PROJECTILE:
-            free_projectile(p_thing);
-            break;
-        case CLASS_BUILDING:
-            ASSERT(0);
-            break;
-        case CLASS_PERSON:
-            free_person(p_thing);
-            break;
-        case CLASS_FURNITURE:
-        case CLASS_VEHICLE:
-            //			free_furniture(p_thing);
-            break;
-        case CLASS_ANIMAL:
+    case CLASS_NONE:
+        break;
+    case CLASS_PLAYER:
+        free_person(p_thing);
+        break;
+    case CLASS_PROJECTILE:
+        free_projectile(p_thing);
+        break;
+    case CLASS_BUILDING:
+        ASSERT(0);
+        break;
+    case CLASS_PERSON:
+        free_person(p_thing);
+        break;
+    case CLASS_FURNITURE:
+    case CLASS_VEHICLE:
+        //			free_furniture(p_thing);
+        break;
+    case CLASS_ANIMAL:
 #if !defined(PSX) && !defined(TARGET_DC)
-            free_animal(p_thing);
+        free_animal(p_thing);
 #endif
-            break;
-        default:
-            ASSERT(0);
-            break;
+        break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 

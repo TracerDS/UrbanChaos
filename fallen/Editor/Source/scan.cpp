@@ -49,24 +49,24 @@ void scan_map_thing(std::int32_t map_thing) {
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
-        case MAP_THING_TYPE_PRIM:
-            // 3ds Prim Mesh
-            if (p_mthing->IndexOther < 1000)
-                if (!prim_done[p_mthing->IndexOther]) {
-                    prim_done[p_mthing->IndexOther] = 1;
-                    scan_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
-                }
-            break;
-        case MAP_THING_TYPE_MULTI_PRIM:
-            //			scan_a_multi_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
-            break;
-        case MAP_THING_TYPE_ROT_MULTI:
-        case MAP_THING_TYPE_SPRITE:
-        case MAP_THING_TYPE_AGENT:
-            break;
-        case MAP_THING_TYPE_BUILDING:
-            scan_a_building(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
-            break;
+    case MAP_THING_TYPE_PRIM:
+        // 3ds Prim Mesh
+        if (p_mthing->IndexOther < 1000)
+            if (!prim_done[p_mthing->IndexOther]) {
+                prim_done[p_mthing->IndexOther] = 1;
+                scan_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+            }
+        break;
+    case MAP_THING_TYPE_MULTI_PRIM:
+        //			scan_a_multi_prim_at(p_mthing->IndexOther,p_mthing->X,p_mthing->Y,p_mthing->Z);
+        break;
+    case MAP_THING_TYPE_ROT_MULTI:
+    case MAP_THING_TYPE_SPRITE:
+    case MAP_THING_TYPE_AGENT:
+        break;
+    case MAP_THING_TYPE_BUILDING:
+        scan_a_building(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z);
+        break;
     }
 }
 
@@ -80,18 +80,18 @@ void scan_game_map_thing(std::int32_t map_thing) {
 
     p_thing = TO_THING(map_thing);
     switch (p_thing->DrawType) {
-        // case	MAP_THING_TYPE_PRIM:
-        case DT_PRIM:
-            // 3ds Prim Mesh
-            if (p_thing->Index < 1000)
-                if (!prim_done[p_thing->Index]) {
-                    prim_done[p_thing->Index] = 1;
-                    scan_a_prim_at(p_thing->Index, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
-                }
-            break;
-        case DT_BUILDING:
-            scan_a_building(p_thing->Index, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
-            break;
+    // case	MAP_THING_TYPE_PRIM:
+    case DT_PRIM:
+        // 3ds Prim Mesh
+        if (p_thing->Index < 1000)
+            if (!prim_done[p_thing->Index]) {
+                prim_done[p_thing->Index] = 1;
+                scan_a_prim_at(p_thing->Index, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+            }
+        break;
+    case DT_BUILDING:
+        scan_a_building(p_thing->Index, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+        break;
     }
 }
 

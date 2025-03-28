@@ -274,13 +274,13 @@ void add_facet_to_map(std::int32_t facet) {
         return;
 
     switch (p_f->FacetType) {
-        case STOREY_TYPE_LADDER: {
-            std::int32_t y, extra_height;
+    case STOREY_TYPE_LADDER: {
+        std::int32_t y, extra_height;
 
-            calc_ladder_ends(&x1, &z1, &x2, &z2);
-        }
+        calc_ladder_ends(&x1, &z1, &x2, &z2);
+    }
 
-        break;
+    break;
     }
 
     {
@@ -770,21 +770,21 @@ static void mark_naughty_facets() {
             if (!facet_is_solid(pf2)) continue;
 
             switch (compare_facets(pf1, pf2)) {
-                case 1:
-                    pf1->FacetFlags |= FACET_FLAG_INVISIBLE;
-                    cnt++;
-                    break;
+            case 1:
+                pf1->FacetFlags |= FACET_FLAG_INVISIBLE;
+                cnt++;
+                break;
 
-                case 2:
-                    pf2->FacetFlags |= FACET_FLAG_INVISIBLE;
-                    cnt++;
-                    break;
+            case 2:
+                pf2->FacetFlags |= FACET_FLAG_INVISIBLE;
+                cnt++;
+                break;
 
-                case 3:
-                    pf1->FacetFlags |= FACET_FLAG_INVISIBLE;
-                    pf2->FacetFlags |= FACET_FLAG_INVISIBLE;
-                    cnt += 2;
-                    break;
+            case 3:
+                pf1->FacetFlags |= FACET_FLAG_INVISIBLE;
+                pf2->FacetFlags |= FACET_FLAG_INVISIBLE;
+                cnt += 2;
+                break;
             }
         }
     }

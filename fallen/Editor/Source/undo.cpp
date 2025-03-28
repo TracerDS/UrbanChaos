@@ -238,67 +238,67 @@ std::int32_t Undo::DoUndo(std::uint8_t undo_mode) {
     }
 
     switch (p_u->Type) {
-        case UNDO_APPLY_TEXTURE_PRIM4:
-            prim_faces4[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
-            prim_faces4[p_u->Texture.Face].UV[0][0] = p_u->Texture.U[0];
-            prim_faces4[p_u->Texture.Face].UV[1][0] = p_u->Texture.U[1];
-            prim_faces4[p_u->Texture.Face].UV[2][0] = p_u->Texture.U[2];
-            prim_faces4[p_u->Texture.Face].UV[3][0] = p_u->Texture.U[3];
+    case UNDO_APPLY_TEXTURE_PRIM4:
+        prim_faces4[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
+        prim_faces4[p_u->Texture.Face].UV[0][0] = p_u->Texture.U[0];
+        prim_faces4[p_u->Texture.Face].UV[1][0] = p_u->Texture.U[1];
+        prim_faces4[p_u->Texture.Face].UV[2][0] = p_u->Texture.U[2];
+        prim_faces4[p_u->Texture.Face].UV[3][0] = p_u->Texture.U[3];
 
-            prim_faces4[p_u->Texture.Face].UV[0][1] = p_u->Texture.V[0];
-            prim_faces4[p_u->Texture.Face].UV[1][1] = p_u->Texture.V[1];
-            prim_faces4[p_u->Texture.Face].UV[2][1] = p_u->Texture.V[2];
-            prim_faces4[p_u->Texture.Face].UV[3][1] = p_u->Texture.V[3];
-            break;
-        case UNDO_APPLY_TEXTURE_PRIM3:
-            prim_faces3[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
-            prim_faces3[p_u->Texture.Face].UV[0][0] = p_u->Texture.U[0];
-            prim_faces3[p_u->Texture.Face].UV[1][0] = p_u->Texture.U[1];
-            prim_faces3[p_u->Texture.Face].UV[2][0] = p_u->Texture.U[2];
+        prim_faces4[p_u->Texture.Face].UV[0][1] = p_u->Texture.V[0];
+        prim_faces4[p_u->Texture.Face].UV[1][1] = p_u->Texture.V[1];
+        prim_faces4[p_u->Texture.Face].UV[2][1] = p_u->Texture.V[2];
+        prim_faces4[p_u->Texture.Face].UV[3][1] = p_u->Texture.V[3];
+        break;
+    case UNDO_APPLY_TEXTURE_PRIM3:
+        prim_faces3[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
+        prim_faces3[p_u->Texture.Face].UV[0][0] = p_u->Texture.U[0];
+        prim_faces3[p_u->Texture.Face].UV[1][0] = p_u->Texture.U[1];
+        prim_faces3[p_u->Texture.Face].UV[2][0] = p_u->Texture.U[2];
 
-            prim_faces3[p_u->Texture.Face].UV[0][1] = p_u->Texture.V[0];
-            prim_faces3[p_u->Texture.Face].UV[1][1] = p_u->Texture.V[1];
-            prim_faces3[p_u->Texture.Face].UV[2][1] = p_u->Texture.V[2];
-            break;
-        case UNDO_APPLY_TEXTURE_CUBE:
-            break;
-        case UNDO_PLACE_OBJECT:
-            map_things[p_u->Object.Thing].Type = 0;
-            delete_thing_from_edit_map(p_u->Object.X, p_u->Object.Y, p_u->Object.Thing);
-            break;
-        case UNDO_DEL_OBJECT:
-            break;
-        case UNDO_MOVE_OBJECT:
+        prim_faces3[p_u->Texture.Face].UV[0][1] = p_u->Texture.V[0];
+        prim_faces3[p_u->Texture.Face].UV[1][1] = p_u->Texture.V[1];
+        prim_faces3[p_u->Texture.Face].UV[2][1] = p_u->Texture.V[2];
+        break;
+    case UNDO_APPLY_TEXTURE_CUBE:
+        break;
+    case UNDO_PLACE_OBJECT:
+        map_things[p_u->Object.Thing].Type = 0;
+        delete_thing_from_edit_map(p_u->Object.X, p_u->Object.Y, p_u->Object.Thing);
+        break;
+    case UNDO_DEL_OBJECT:
+        break;
+    case UNDO_MOVE_OBJECT:
 
-            MoveObject(undo_mode ? 0 : 1, p_u->Object.Thing, map_things[p_u->Object.Thing].X, map_things[p_u->Object.Thing].Y, map_things[p_u->Object.Thing].Z);
-            map_things[p_u->Object.Thing].X = p_u->Object.X;
-            map_things[p_u->Object.Thing].Y = p_u->Object.Y;
-            map_things[p_u->Object.Thing].Z = p_u->Object.Z;
+        MoveObject(undo_mode ? 0 : 1, p_u->Object.Thing, map_things[p_u->Object.Thing].X, map_things[p_u->Object.Thing].Y, map_things[p_u->Object.Thing].Z);
+        map_things[p_u->Object.Thing].X = p_u->Object.X;
+        map_things[p_u->Object.Thing].Y = p_u->Object.Y;
+        map_things[p_u->Object.Thing].Z = p_u->Object.Z;
 
-            break;
-        case UNDO_PLACE_CUBE:
-            break;
-        case UNDO_MOVE_TEXTURE:
-            return (undo_mode ? -i : i);
-            break;
-        case UNDO_APPLY_PRIM4:
-            prim_faces4[p_u->Texture.Face].DrawFlags = p_u->Texture.DrawFlags;
-            prim_faces4[p_u->Texture.Face].Col2 = p_u->Texture.Color;
-            prim_faces4[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
-            for (c0 = 0; c0 < 4; c0++) {
-                prim_faces4[p_u->Texture.Face].UV[c0][0] = p_u->Texture.U[c0];
-                prim_faces4[p_u->Texture.Face].UV[c0][1] = p_u->Texture.V[c0];
-            }
-            break;
-        case UNDO_APPLY_PRIM3:
-            prim_faces3[p_u->Texture.Face].DrawFlags = p_u->Texture.DrawFlags;
-            prim_faces3[p_u->Texture.Face].Col2 = p_u->Texture.Color;
-            prim_faces3[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
-            for (c0 = 0; c0 < 3; c0++) {
-                prim_faces3[p_u->Texture.Face].UV[c0][0] = p_u->Texture.U[c0];
-                prim_faces3[p_u->Texture.Face].UV[c0][1] = p_u->Texture.V[c0];
-            }
-            break;
+        break;
+    case UNDO_PLACE_CUBE:
+        break;
+    case UNDO_MOVE_TEXTURE:
+        return (undo_mode ? -i : i);
+        break;
+    case UNDO_APPLY_PRIM4:
+        prim_faces4[p_u->Texture.Face].DrawFlags = p_u->Texture.DrawFlags;
+        prim_faces4[p_u->Texture.Face].Col2 = p_u->Texture.Color;
+        prim_faces4[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
+        for (c0 = 0; c0 < 4; c0++) {
+            prim_faces4[p_u->Texture.Face].UV[c0][0] = p_u->Texture.U[c0];
+            prim_faces4[p_u->Texture.Face].UV[c0][1] = p_u->Texture.V[c0];
+        }
+        break;
+    case UNDO_APPLY_PRIM3:
+        prim_faces3[p_u->Texture.Face].DrawFlags = p_u->Texture.DrawFlags;
+        prim_faces3[p_u->Texture.Face].Col2 = p_u->Texture.Color;
+        prim_faces3[p_u->Texture.Face].TexturePage = p_u->Texture.Page;
+        for (c0 = 0; c0 < 3; c0++) {
+            prim_faces3[p_u->Texture.Face].UV[c0][0] = p_u->Texture.U[c0];
+            prim_faces3[p_u->Texture.Face].UV[c0][1] = p_u->Texture.V[c0];
+        }
+        break;
     }
     p_u->Type = 0;
     return (0);

@@ -68,18 +68,18 @@ std::int32_t FC_alter_for_pos(FC_Cam *fc, std::int32_t *dheight, std::int32_t *d
 #endif
     if (fc->focus->Genus.Person->InCar) {
         switch (TO_THING(fc->focus->Genus.Person->InCar)->Genus.Vehicle->Type) {
-            case 0:
-            case 4:
-            case 5:
-            case 6:
-            case 8:
-                *dheight = 0;
-                *ddist = 356;
-                break;
-            default:
-                *dheight = 0;
-                *ddist = 356;
-                break;
+        case 0:
+        case 4:
+        case 5:
+        case 6:
+        case 8:
+            *dheight = 0;
+            *ddist = 356;
+            break;
+        default:
+            *dheight = 0;
+            *ddist = 356;
+            break;
         }
         return (0);
     }
@@ -178,30 +178,30 @@ void FC_init() {
 
 void FC_change_camera_type(std::int32_t cam, std::int32_t cam_type) {
     switch (cam_type) {
-        case 0:
+    case 0:
 #ifdef PSX
-            FC_cam[cam].cam_dist = 0x300;
-            FC_cam[cam].cam_height = 0x18000;
+        FC_cam[cam].cam_dist = 0x300;
+        FC_cam[cam].cam_height = 0x18000;
 #else
-            FC_cam[cam].cam_dist = 0x280 * CAM_MORE_IN;
-            FC_cam[cam].cam_height = 0x16000;
+        FC_cam[cam].cam_dist = 0x280 * CAM_MORE_IN;
+        FC_cam[cam].cam_height = 0x16000;
 #endif
-            break;
-        case 1:
-            FC_cam[cam].cam_dist = 0x280;
-            FC_cam[cam].cam_height = 0x20000;
-            break;
-        case 2:
-            FC_cam[cam].cam_dist = 0x380;
-            FC_cam[cam].cam_height = 0x25000;
-            break;
-        case 3:
-            FC_cam[cam].cam_dist = 0x300;
-            FC_cam[cam].cam_height = 0x8000;
-            break;
-        default:
-            ASSERT(0);
-            break;
+        break;
+    case 1:
+        FC_cam[cam].cam_dist = 0x280;
+        FC_cam[cam].cam_height = 0x20000;
+        break;
+    case 2:
+        FC_cam[cam].cam_dist = 0x380;
+        FC_cam[cam].cam_height = 0x25000;
+        break;
+    case 3:
+        FC_cam[cam].cam_dist = 0x300;
+        FC_cam[cam].cam_height = 0x8000;
+        break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -278,19 +278,19 @@ std::int32_t FC_focus_above(FC_Cam *fc) {
 
     if (fc->focus->Genus.Person->InCar) {
         switch (TO_THING(fc->focus->Genus.Person->InCar)->Genus.Vehicle->Type) {
-            case 4:
-                lower = -(0x3000) * CAM_MORE_IN;
-                break;
+        case 4:
+            lower = -(0x3000) * CAM_MORE_IN;
+            break;
 
-            case 0:
-            case 5:
-            case 6:
-            case 8:
-                lower = -(0x1000) * CAM_MORE_IN;
-                break;
-            default:
-                lower = 0xa000 * CAM_MORE_IN;
-                break;
+        case 0:
+        case 5:
+        case 6:
+        case 8:
+            lower = -(0x1000) * CAM_MORE_IN;
+            break;
+        default:
+            lower = 0xa000 * CAM_MORE_IN;
+            break;
         }
     }
 
@@ -327,33 +327,33 @@ std::int32_t FC_focus_above(FC_Cam *fc) {
 
 std::int32_t FC_get_person_body_part_target(Thing *p_thing) {
     switch (p_thing->Genus.Person->Action) {
-        case ACTION_DANGLING:
-        case ACTION_PULL_UP:
-        case ACTION_CLIMBING:
+    case ACTION_DANGLING:
+    case ACTION_PULL_UP:
+    case ACTION_CLIMBING:
+        return (CAM_AT_FEET);
+
+    case ACTION_HOP_BACK:
+    case ACTION_SIDE_STEP:
+    case ACTION_FLIP_LEFT:
+    case ACTION_FLIP_RIGHT:
+    case ACTION_DEAD:
+    case ACTION_DYING:
+    case ACTION_ENTER_VEHICLE:
+
+        return (CAM_AT_HEAD);
+
+    default:
+        switch (p_thing->SubState) {
+        case SUB_STATE_RUNNING_VAULT:
+        case SUB_STATE_RUNNING_HALF_BLOCK:
             return (CAM_AT_FEET);
 
-        case ACTION_HOP_BACK:
-        case ACTION_SIDE_STEP:
-        case ACTION_FLIP_LEFT:
-        case ACTION_FLIP_RIGHT:
-        case ACTION_DEAD:
-        case ACTION_DYING:
-        case ACTION_ENTER_VEHICLE:
-
-            return (CAM_AT_HEAD);
-
-        default:
-            switch (p_thing->SubState) {
-                case SUB_STATE_RUNNING_VAULT:
-                case SUB_STATE_RUNNING_HALF_BLOCK:
-                    return (CAM_AT_FEET);
-
-                    break;
-                default:
-                    return (CAM_AT_WORLD_POS);
-            }
-
             break;
+        default:
+            return (CAM_AT_WORLD_POS);
+        }
+
+        break;
     }
     return (CAM_AT_WORLD_POS);
 }
@@ -371,141 +371,141 @@ void FC_calc_focus(FC_Cam *fc) {
     //
 
     switch (fc->focus->Class) {
-        case CLASS_PERSON:
+    case CLASS_PERSON:
 
-            if (fc->focus->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-                Thing *p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
+        if (fc->focus->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
+            Thing *p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
 
-                std::int32_t yaw_car;
+            std::int32_t yaw_car;
 
-                yaw_car = p_vehicle->Genus.Vehicle->Angle;
+            yaw_car = p_vehicle->Genus.Vehicle->Angle;
 #ifndef VERSION_NTSC
-                yaw_car -= p_vehicle->Genus.Vehicle->WheelAngle * p_vehicle->Velocity >> 10;
+            yaw_car -= p_vehicle->Genus.Vehicle->WheelAngle * p_vehicle->Velocity >> 10;
 #endif
 
-                if (p_vehicle->Velocity < 0) {
-                    yaw_car += 1024;
-                }
-
-                fc->focus_yaw = yaw_car & 2047;
-
-                /*
-
-                std::int32_t yaw_car;
-                std::int32_t yaw_cam;
-                std::int32_t dyaw;
-
-                yaw_car = TO_THING(fc->focus->Genus.Person->InCar)->Genus.Vehicle->Angle;
-                yaw_cam = fc->yaw >> 8;
-
-                dyaw = yaw_car - yaw_cam;
-
-                if (dyaw > +1024) {dyaw -= 2048;}
-                if (dyaw < -1024) {dyaw += 2048;}
-
-                fc->focus_yaw  = yaw_car + dyaw * 4;
-                fc->focus_yaw &= 2047;
-
-                */
-            } else {
-                std::int32_t dyaw;
-                fc->focus_yaw = fc->focus->Draw.Tweened->Angle;
-
-                //				fc->focus_yaw>>=7;
-                //				fc->focus_yaw<<=7;
-
-                if (fc->focus->SubState == SUB_STATE_ENTERING_VEHICLE) {
-                    if (fc->focus->Draw.Tweened->CurrentAnim == ANIM_ENTER_TAXI) {
-                        fc->focus_yaw -= 712;
-                        fc->focus_yaw &= 2047;
-                    } else {
-                        fc->focus_yaw += 712;
-                        fc->focus_yaw &= 2047;
-                    }
-                } else if (fc->focus->Genus.Person->Action == ACTION_SIDE_STEP ||
-                           fc->focus->Genus.Person->Action == ACTION_SIT_BENCH ||
-                           fc->focus->SubState == SUB_STATE_ENTERING_VEHICLE ||
-                           fc->focus->Genus.Person->Action == ACTION_HUG_WALL) {
-                    fc->focus_yaw += 1024;
-                    fc->focus_yaw &= 2047;
-                }
+            if (p_vehicle->Velocity < 0) {
+                yaw_car += 1024;
             }
 
-            if (fc->focus->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
-                fc->focus_in_warehouse = fc->focus->Genus.Person->Ware;
-            }
+            fc->focus_yaw = yaw_car & 2047;
 
-            if (GAME_FLAGS & GF_SIDE_ON_COMBAT) {
-                fc->focus_yaw -= 512;
-            }
+            /*
 
-            if (fc->focus->State == STATE_DANGLING) {
-                if (fc->focus->SubState == SUB_STATE_DANGLING_CABLE_FORWARD ||
-                    fc->focus->SubState == SUB_STATE_DANGLING_CABLE_BACKWARD ||
-                    fc->focus->SubState == SUB_STATE_DEATH_SLIDE ||
-                    fc->focus->SubState == SUB_STATE_TRAVERSE_LEFT ||
-                    fc->focus->SubState == SUB_STATE_TRAVERSE_RIGHT ||
-                    fc->focus->Genus.Person->Mode == PERSON_MODE_FIGHT ||
-                    fc->focus->SubState == SUB_STATE_DANGLING_CABLE) {
-                    //
-                    // Look from the side!
-                    //
-
-                    std::int32_t a1;
-                    std::int32_t a2;
-
-                    std::int32_t dangle;
-
-                    a1 = fc->focus_yaw;
-                    a2 = fc->yaw >> 8;
-
-                    dangle = a2 - a1;
-                    dangle &= 2047;
-
-                    if (dangle > 1024) {
-                        dangle -= 2048;
-                    }
-
-                    if (dangle < 0) {
-                        fc->focus_yaw -= 550;
-                    } else {
-                        fc->focus_yaw += 550;
-                    }
-
-                    fc->focus_yaw &= 2047;
-                }
-            }
-
-            break;
-
-        case CLASS_VEHICLE:
-
-        {
             std::int32_t yaw_car;
             std::int32_t yaw_cam;
             std::int32_t dyaw;
 
-            yaw_car = fc->focus->Genus.Vehicle->Angle;
+            yaw_car = TO_THING(fc->focus->Genus.Person->InCar)->Genus.Vehicle->Angle;
             yaw_cam = fc->yaw >> 8;
 
             dyaw = yaw_car - yaw_cam;
 
-            if (dyaw > +1024) {
-                dyaw -= 2048;
-            }
-            if (dyaw < -1024) {
-                dyaw += 2048;
-            }
+            if (dyaw > +1024) {dyaw -= 2048;}
+            if (dyaw < -1024) {dyaw += 2048;}
 
-            fc->focus_yaw = yaw_car + dyaw * 4;
+            fc->focus_yaw  = yaw_car + dyaw * 4;
             fc->focus_yaw &= 2047;
+
+            */
+        } else {
+            std::int32_t dyaw;
+            fc->focus_yaw = fc->focus->Draw.Tweened->Angle;
+
+            //				fc->focus_yaw>>=7;
+            //				fc->focus_yaw<<=7;
+
+            if (fc->focus->SubState == SUB_STATE_ENTERING_VEHICLE) {
+                if (fc->focus->Draw.Tweened->CurrentAnim == ANIM_ENTER_TAXI) {
+                    fc->focus_yaw -= 712;
+                    fc->focus_yaw &= 2047;
+                } else {
+                    fc->focus_yaw += 712;
+                    fc->focus_yaw &= 2047;
+                }
+            } else if (fc->focus->Genus.Person->Action == ACTION_SIDE_STEP ||
+                       fc->focus->Genus.Person->Action == ACTION_SIT_BENCH ||
+                       fc->focus->SubState == SUB_STATE_ENTERING_VEHICLE ||
+                       fc->focus->Genus.Person->Action == ACTION_HUG_WALL) {
+                fc->focus_yaw += 1024;
+                fc->focus_yaw &= 2047;
+            }
+        }
+
+        if (fc->focus->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
+            fc->focus_in_warehouse = fc->focus->Genus.Person->Ware;
+        }
+
+        if (GAME_FLAGS & GF_SIDE_ON_COMBAT) {
+            fc->focus_yaw -= 512;
+        }
+
+        if (fc->focus->State == STATE_DANGLING) {
+            if (fc->focus->SubState == SUB_STATE_DANGLING_CABLE_FORWARD ||
+                fc->focus->SubState == SUB_STATE_DANGLING_CABLE_BACKWARD ||
+                fc->focus->SubState == SUB_STATE_DEATH_SLIDE ||
+                fc->focus->SubState == SUB_STATE_TRAVERSE_LEFT ||
+                fc->focus->SubState == SUB_STATE_TRAVERSE_RIGHT ||
+                fc->focus->Genus.Person->Mode == PERSON_MODE_FIGHT ||
+                fc->focus->SubState == SUB_STATE_DANGLING_CABLE) {
+                //
+                // Look from the side!
+                //
+
+                std::int32_t a1;
+                std::int32_t a2;
+
+                std::int32_t dangle;
+
+                a1 = fc->focus_yaw;
+                a2 = fc->yaw >> 8;
+
+                dangle = a2 - a1;
+                dangle &= 2047;
+
+                if (dangle > 1024) {
+                    dangle -= 2048;
+                }
+
+                if (dangle < 0) {
+                    fc->focus_yaw -= 550;
+                } else {
+                    fc->focus_yaw += 550;
+                }
+
+                fc->focus_yaw &= 2047;
+            }
         }
 
         break;
 
-        default:
-            ASSERT(0);
-            break;
+    case CLASS_VEHICLE:
+
+    {
+        std::int32_t yaw_car;
+        std::int32_t yaw_cam;
+        std::int32_t dyaw;
+
+        yaw_car = fc->focus->Genus.Vehicle->Angle;
+        yaw_cam = fc->yaw >> 8;
+
+        dyaw = yaw_car - yaw_cam;
+
+        if (dyaw > +1024) {
+            dyaw -= 2048;
+        }
+        if (dyaw < -1024) {
+            dyaw += 2048;
+        }
+
+        fc->focus_yaw = yaw_car + dyaw * 4;
+        fc->focus_yaw &= 2047;
+    }
+
+    break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 
     //
@@ -521,89 +521,89 @@ void FC_calc_focus(FC_Cam *fc) {
         std::int32_t *z);
 
     switch (fc->focus->Class) {
-        case CLASS_PERSON:
+    case CLASS_PERSON:
 
-            body_part = FC_get_person_body_part_target(fc->focus);
+        body_part = FC_get_person_body_part_target(fc->focus);
 
-            switch (body_part) {
-                case CAM_AT_HEAD:
-                    //
-                    // Take (x,z) from the position of the head.
-                    //
+        switch (body_part) {
+        case CAM_AT_HEAD:
+            //
+            // Take (x,z) from the position of the head.
+            //
 
-                    calc_sub_objects_position(
-                        fc->focus,
-                        fc->focus->Draw.Tweened->AnimTween,
-                        SUB_OBJECT_HEAD,
-                        &fc->focus_x,
-                        &fc->focus_y,
-                        &fc->focus_z);
+            calc_sub_objects_position(
+                fc->focus,
+                fc->focus->Draw.Tweened->AnimTween,
+                SUB_OBJECT_HEAD,
+                &fc->focus_x,
+                &fc->focus_y,
+                &fc->focus_z);
 
-                    fc->focus_x <<= 8;
-                    fc->focus_z <<= 8;
+            fc->focus_x <<= 8;
+            fc->focus_z <<= 8;
 
-                    fc->focus_x += fc->focus->WorldPos.X;
-                    fc->focus_y = fc->focus->WorldPos.Y;
-                    fc->focus_z += fc->focus->WorldPos.Z;
-
-                    break;
-
-                case CAM_AT_FEET: {
-                    std::int32_t lfx;
-                    std::int32_t lfy;
-                    std::int32_t lfz;
-
-                    std::int32_t rfx;
-                    std::int32_t rfy;
-                    std::int32_t rfz;
-
-                    //
-                    // Focus on the average y of the two feet.
-                    //
-
-                    calc_sub_objects_position(
-                        fc->focus,
-                        fc->focus->Draw.Tweened->AnimTween,
-                        SUB_OBJECT_LEFT_FOOT,
-                        &lfx,
-                        &lfy,
-                        &lfz);
-
-                    calc_sub_objects_position(
-                        fc->focus,
-                        fc->focus->Draw.Tweened->AnimTween,
-                        SUB_OBJECT_RIGHT_FOOT,
-                        &rfx,
-                        &rfy,
-                        &rfz);
-
-                    fc->focus_x = lfx + rfx << 7;
-                    fc->focus_y = lfy + rfy << 7;
-                    fc->focus_z = lfz + rfz << 7;
-
-                    fc->focus_x += fc->focus->WorldPos.X;
-                    fc->focus_y += fc->focus->WorldPos.Y;
-                    fc->focus_z += fc->focus->WorldPos.Z;
-                }
-
-                break;
-
-                case CAM_AT_WORLD_POS:
-                    fc->focus_x = fc->focus->WorldPos.X;
-                    fc->focus_y = fc->focus->WorldPos.Y;
-                    fc->focus_z = fc->focus->WorldPos.Z;
-                    break;
-            }
+            fc->focus_x += fc->focus->WorldPos.X;
+            fc->focus_y = fc->focus->WorldPos.Y;
+            fc->focus_z += fc->focus->WorldPos.Z;
 
             break;
 
-        default:
+        case CAM_AT_FEET: {
+            std::int32_t lfx;
+            std::int32_t lfy;
+            std::int32_t lfz;
 
+            std::int32_t rfx;
+            std::int32_t rfy;
+            std::int32_t rfz;
+
+            //
+            // Focus on the average y of the two feet.
+            //
+
+            calc_sub_objects_position(
+                fc->focus,
+                fc->focus->Draw.Tweened->AnimTween,
+                SUB_OBJECT_LEFT_FOOT,
+                &lfx,
+                &lfy,
+                &lfz);
+
+            calc_sub_objects_position(
+                fc->focus,
+                fc->focus->Draw.Tweened->AnimTween,
+                SUB_OBJECT_RIGHT_FOOT,
+                &rfx,
+                &rfy,
+                &rfz);
+
+            fc->focus_x = lfx + rfx << 7;
+            fc->focus_y = lfy + rfy << 7;
+            fc->focus_z = lfz + rfz << 7;
+
+            fc->focus_x += fc->focus->WorldPos.X;
+            fc->focus_y += fc->focus->WorldPos.Y;
+            fc->focus_z += fc->focus->WorldPos.Z;
+        }
+
+        break;
+
+        case CAM_AT_WORLD_POS:
             fc->focus_x = fc->focus->WorldPos.X;
             fc->focus_y = fc->focus->WorldPos.Y;
             fc->focus_z = fc->focus->WorldPos.Z;
-
             break;
+        }
+
+        break;
+
+    default:
+
+        fc->focus_x = fc->focus->WorldPos.X;
+        fc->focus_y = fc->focus->WorldPos.Y;
+        fc->focus_z = fc->focus->WorldPos.Z;
+
+        break;
     }
 
     if (fc->focus->SubState == SUB_STATE_HUG_WALL_LOOK_L) {
@@ -745,10 +745,10 @@ void FC_force_camera_behind(std::int32_t cam) {
 
         for (i = 0; i < 4; i++) {
             switch (i) {
-                case 0: dangle = +100; break;
-                case 1: dangle = -100; break;
-                case 2: dangle = +200; break;
-                case 3: dangle = -200; break;
+            case 0: dangle = +100; break;
+            case 1: dangle = -100; break;
+            case 2: dangle = +200; break;
+            case 3: dangle = -200; break;
             }
 
             gox = fc->focus_x + (SIN((fc->focus_yaw + dangle) & 2047) * fc->cam_dist >> 8);
@@ -879,21 +879,21 @@ std::int32_t FC_allowed_to_rotate(FC_Cam *fc, std::int32_t rotate_dir) {
     dz = fc->focus_z - fc->want_z >> 2;
 
     switch (rotate_dir) {
-        case FC_ROTATE_DIR_LEFT:
-            mx = fc->x - (-dz) >> 8;
-            my = fc->y >> 8;
-            mz = fc->z - (+dx) >> 8;
-            break;
+    case FC_ROTATE_DIR_LEFT:
+        mx = fc->x - (-dz) >> 8;
+        my = fc->y >> 8;
+        mz = fc->z - (+dx) >> 8;
+        break;
 
-        case FC_ROTATE_DIR_RIGHT:
-            mx = fc->x + (-dz) >> 8;
-            my = fc->y >> 8;
-            mz = fc->z + (+dx) >> 8;
-            break;
+    case FC_ROTATE_DIR_RIGHT:
+        mx = fc->x + (-dz) >> 8;
+        my = fc->y >> 8;
+        mz = fc->z + (+dx) >> 8;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
 #define FC_ROTATE_NEAR (0x40)
@@ -903,10 +903,10 @@ std::int32_t FC_allowed_to_rotate(FC_Cam *fc, std::int32_t rotate_dir) {
         dz = 0;
 
         switch (i) {
-            case 0: dx = +FC_ROTATE_NEAR; break;
-            case 1: dx = -FC_ROTATE_NEAR; break;
-            case 2: dz = +FC_ROTATE_NEAR; break;
-            case 3: dz = -FC_ROTATE_NEAR; break;
+        case 0: dx = +FC_ROTATE_NEAR; break;
+        case 1: dx = -FC_ROTATE_NEAR; break;
+        case 2: dz = +FC_ROTATE_NEAR; break;
+        case 3: dz = -FC_ROTATE_NEAR; break;
         }
 
         cx = mx + dx;

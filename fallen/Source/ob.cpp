@@ -248,10 +248,10 @@ void OB_process() {
                 yaw = oo->yaw << 3;
 
                 switch (oo->flags >> 6) {
-                    case 0: yaw += 1024 + 256; break;
-                    case 1: yaw += 1024 - 256; break;
-                    case 2: yaw += +256; break;
-                    case 3: yaw += -256; break;
+                case 0: yaw += 1024 + 256; break;
+                case 1: yaw += 1024 - 256; break;
+                case 2: yaw += +256; break;
+                case 3: yaw += -256; break;
                 }
 
                 yaw &= 2047;
@@ -464,21 +464,21 @@ std::int32_t OB_avoid(
 #define OB_AVOID_LOOK_EXTRA 0x40
 
     switch (prim_get_collision_model(ob_prim)) {
-        case PRIM_COLLIDE_BOX:
-            ob_radius = pi->radius + OB_AVOID_LOOK_EXTRA;
-            break;
+    case PRIM_COLLIDE_BOX:
+        ob_radius = pi->radius + OB_AVOID_LOOK_EXTRA;
+        break;
 
-        case PRIM_COLLIDE_CYLINDER:
-            ob_radius = 0x40 + OB_AVOID_LOOK_EXTRA;
-            break;
+    case PRIM_COLLIDE_CYLINDER:
+        ob_radius = 0x40 + OB_AVOID_LOOK_EXTRA;
+        break;
 
-        case PRIM_COLLIDE_NONE:
-            return 0;
-            break;
+    case PRIM_COLLIDE_NONE:
+        return 0;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     dx = ob_x - x1;

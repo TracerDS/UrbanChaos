@@ -131,15 +131,15 @@ std::int32_t FileSeek(MFFileHandle file_handle, const int mode, std::int32_t off
     DWORD method;
 
     switch (mode) {
-        case SEEK_MODE_BEGINNING:
-            method = FILE_BEGIN;
-            break;
-        case SEEK_MODE_CURRENT:
-            method = FILE_CURRENT;
-            break;
-        case SEEK_MODE_END:
-            method = FILE_END;
-            break;
+    case SEEK_MODE_BEGINNING:
+        method = FILE_BEGIN;
+        break;
+    case SEEK_MODE_CURRENT:
+        method = FILE_CURRENT;
+        break;
+    case SEEK_MODE_END:
+        method = FILE_END;
+        break;
     }
     if (SetFilePointer(file_handle, offset, nullptr, method) == 0xffffffff)
         return FILE_SEEK_ERROR;

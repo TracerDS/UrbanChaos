@@ -58,24 +58,24 @@ void BACK_draw() {
     }
 
     switch ((now >> 14) % 3) {
-        case 0:
-            ot1 = BACK_ot_roper;
-            ot2 = BACK_ot_darci;
-            break;
+    case 0:
+        ot1 = BACK_ot_roper;
+        ot2 = BACK_ot_darci;
+        break;
 
-        case 1:
-            ot1 = BACK_ot_darci;
-            ot2 = BACK_ot_mib;
-            break;
+    case 1:
+        ot1 = BACK_ot_darci;
+        ot2 = BACK_ot_mib;
+        break;
 
-        case 2:
-            ot1 = BACK_ot_mib;
-            ot2 = BACK_ot_roper;
-            break;
+    case 2:
+        ot1 = BACK_ot_mib;
+        ot2 = BACK_ot_roper;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     now &= 0x3fff;

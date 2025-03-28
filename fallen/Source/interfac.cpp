@@ -193,91 +193,91 @@ void INTERFAC_SetUpJoyPadButtons(int iMode) {
     ASSERT(iMode <= NUM_OF_JOYPAD_MODES);
 
     switch (iMode) {
-        case 0:
-            // Custom mode.
-            joypad_button_use[JOYPAD_BUTTON_KICK] = ENV_get_value_number("joypad_kick", DI_DC_BUTTON_LTRIGGER, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_PUNCH] = ENV_get_value_number("joypad_punch", DI_DC_BUTTON_RTRIGGER, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_JUMP] = ENV_get_value_number("joypad_jump", DI_DC_BUTTON_Y, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_ACTION] = ENV_get_value_number("joypad_action", DI_DC_BUTTON_A, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_MOVE] = ENV_get_value_number("joypad_move", DI_DC_BUTTON_UP, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_START] = ENV_get_value_number("joypad_start", DI_DC_BUTTON_START, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_SELECT] = ENV_get_value_number("joypad_select", DI_DC_BUTTON_B, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_CAMERA] = ENV_get_value_number("joypad_camera", DI_DC_BUTTON_DOWN, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = ENV_get_value_number("joypad_cam_left", DI_DC_BUTTON_LEFT, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = ENV_get_value_number("joypad_cam_right", DI_DC_BUTTON_RIGHT, "Joypad");
-            joypad_button_use[JOYPAD_BUTTON_1STPERSON] = ENV_get_value_number("joypad_1stperson", DI_DC_BUTTON_X, "Joypad");
-            break;
-        case 1:
-            // Tom's defaults.
-            joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
-            joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_A;
-            joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-            joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-            joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
-            joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-            joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-            joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-            joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-            break;
-        case 2:
-            // Swap jump & action to match PSX version.
-            joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_A;
-            joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_Y;
-            joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-            joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-            joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
-            joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-            joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-            joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-            joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-            break;
-        case 3:
-            // Kick & punch on buttons, jump & action on triggers.
-            joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_B;
-            joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_A;
-            joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_RTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_LTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-            joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-            joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_Y;
-            joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-            joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-            joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-            joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-            break;
-        case 4:
-            // For 6-button pads - exciting things on ABXY, boring things on ZC.
-            joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_B;
-            joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_A;
-            joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
-            joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_X;
-            joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-            joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-            joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_LTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-            joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-            joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-            joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_RTRIGGER;
-            break;
-        default:
-            ASSERT(false);
-            // Not good. Set up something sensible anyway.
-            joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
-            joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
-            joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_A;
-            joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
-            joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
-            joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
-            joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
-            joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
-            joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
-            joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
-            break;
+    case 0:
+        // Custom mode.
+        joypad_button_use[JOYPAD_BUTTON_KICK] = ENV_get_value_number("joypad_kick", DI_DC_BUTTON_LTRIGGER, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_PUNCH] = ENV_get_value_number("joypad_punch", DI_DC_BUTTON_RTRIGGER, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_JUMP] = ENV_get_value_number("joypad_jump", DI_DC_BUTTON_Y, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_ACTION] = ENV_get_value_number("joypad_action", DI_DC_BUTTON_A, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_MOVE] = ENV_get_value_number("joypad_move", DI_DC_BUTTON_UP, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_START] = ENV_get_value_number("joypad_start", DI_DC_BUTTON_START, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_SELECT] = ENV_get_value_number("joypad_select", DI_DC_BUTTON_B, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_CAMERA] = ENV_get_value_number("joypad_camera", DI_DC_BUTTON_DOWN, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = ENV_get_value_number("joypad_cam_left", DI_DC_BUTTON_LEFT, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = ENV_get_value_number("joypad_cam_right", DI_DC_BUTTON_RIGHT, "Joypad");
+        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = ENV_get_value_number("joypad_1stperson", DI_DC_BUTTON_X, "Joypad");
+        break;
+    case 1:
+        // Tom's defaults.
+        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
+        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_A;
+        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
+        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
+        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
+        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
+        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
+        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
+        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
+        break;
+    case 2:
+        // Swap jump & action to match PSX version.
+        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_A;
+        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_Y;
+        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
+        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
+        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
+        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
+        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
+        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
+        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
+        break;
+    case 3:
+        // Kick & punch on buttons, jump & action on triggers.
+        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_B;
+        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_A;
+        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_RTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_LTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
+        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
+        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_Y;
+        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
+        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
+        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
+        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
+        break;
+    case 4:
+        // For 6-button pads - exciting things on ABXY, boring things on ZC.
+        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_B;
+        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_A;
+        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
+        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_X;
+        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
+        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
+        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_LTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
+        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
+        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
+        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_RTRIGGER;
+        break;
+    default:
+        ASSERT(false);
+        // Not good. Set up something sensible anyway.
+        joypad_button_use[JOYPAD_BUTTON_KICK] = DI_DC_BUTTON_LTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_PUNCH] = DI_DC_BUTTON_RTRIGGER;
+        joypad_button_use[JOYPAD_BUTTON_JUMP] = DI_DC_BUTTON_Y;
+        joypad_button_use[JOYPAD_BUTTON_ACTION] = DI_DC_BUTTON_A;
+        joypad_button_use[JOYPAD_BUTTON_MOVE] = DI_DC_BUTTON_UP;
+        joypad_button_use[JOYPAD_BUTTON_START] = DI_DC_BUTTON_START;
+        joypad_button_use[JOYPAD_BUTTON_SELECT] = DI_DC_BUTTON_B;
+        joypad_button_use[JOYPAD_BUTTON_CAMERA] = DI_DC_BUTTON_DOWN;
+        joypad_button_use[JOYPAD_BUTTON_CAM_LEFT] = DI_DC_BUTTON_LEFT;
+        joypad_button_use[JOYPAD_BUTTON_CAM_RIGHT] = DI_DC_BUTTON_RIGHT;
+        joypad_button_use[JOYPAD_BUTTON_1STPERSON] = DI_DC_BUTTON_X;
+        break;
     }
 }
 
@@ -376,7 +376,8 @@ struct ActionInfo action_idle[] =
 
         //	{ACTION_STEP_LEFT,INPUT_MASK_STEP_LEFT},
         //	{ACTION_STEP_RIGHT,INPUT_MASK_STEP_RIGHT},
-        {0}};
+        {0}
+};
 
 struct ActionInfo action_walk[] =
     {
@@ -384,13 +385,15 @@ struct ActionInfo action_walk[] =
         {ACTION_FIGHT_PUNCH, 0, INPUT_MASK_PUNCH},
         {ACTION_FIGHT_KICK, 0, INPUT_MASK_KICK},
         {ACTION_STANDING_JUMP, 0, INPUT_MASK_JUMP},
-        {0}};
+        {0}
+};
 struct ActionInfo action_walk_back[] =
     {
         {ACTION_FIGHT_PUNCH, 0, INPUT_MASK_PUNCH},
         {ACTION_FIGHT_KICK, 0, INPUT_MASK_KICK},
         {ACTION_STANDING_JUMP, 0, INPUT_MASK_JUMP},
-        {0}};
+        {0}
+};
 
 struct ActionInfo action_run[] =
     {
@@ -398,133 +401,156 @@ struct ActionInfo action_run[] =
         {ACTION_RUNNING_JUMP, 0, INPUT_MASK_JUMP},
         {ACTION_SKID, 0, INPUT_MASK_KICK},
         {ACTION_SHOOT, 0, INPUT_MASK_PUNCH},
-        {0}};
+        {0}
+};
 
 struct ActionInfo action_standing_jump[] =
     {
-        {ACTION_FLIP_LEFT, 1, INPUT_MASK_LEFT},
+        {ACTION_FLIP_LEFT,  1, INPUT_MASK_LEFT },
         {ACTION_FLIP_RIGHT, 1, INPUT_MASK_RIGHT},
-        {ACTION_FIGHT_KICK, 0, INPUT_MASK_KICK},
-        {0, 0, 0}};
+        {ACTION_FIGHT_KICK, 0, INPUT_MASK_KICK },
+        {0,                 0, 0               }
+};
 
 struct ActionInfo action_standing_jump_grab[] =
     {
-        {0, 0, 0}};
+        {0, 0, 0}
+};
 
 struct ActionInfo action_running_jump[] =
     {
-        {0, 0, 0}};
+        {0, 0, 0}
+};
 
 struct ActionInfo action_dangling[] =
     {
-        {ACTION_PULL_UP, 0, INPUT_MASK_FORWARDS},
-        {ACTION_PULL_UP, 0, INPUT_MASK_MOVE},
-        {ACTION_DROP_DOWN, 0, INPUT_MASK_BACKWARDS},
-        {ACTION_TRAVERSE_LEFT, 0, INPUT_MASK_LEFT},
-        {ACTION_TRAVERSE_RIGHT, 0, INPUT_MASK_RIGHT},
-        {0, 0, 0}};
+        {ACTION_PULL_UP,        0, INPUT_MASK_FORWARDS },
+        {ACTION_PULL_UP,        0, INPUT_MASK_MOVE     },
+        {ACTION_DROP_DOWN,      0, INPUT_MASK_BACKWARDS},
+        {ACTION_TRAVERSE_LEFT,  0, INPUT_MASK_LEFT     },
+        {ACTION_TRAVERSE_RIGHT, 0, INPUT_MASK_RIGHT    },
+        {0,                     0, 0                   }
+};
 
 struct ActionInfo action_climbing[] =
     {
         {ACTION_DROP_DOWN, 0, INPUT_MASK_JUMP},
-        {0, 0, 0}};
+        {0,                0, 0              }
+};
 
 struct ActionInfo action_cable[] =
     {
         {ACTION_DROP_DOWN, 0, INPUT_MASK_JUMP},
-        {0, 0, 0}};
+        {0,                0, 0              }
+};
 
 struct ActionInfo action_aim_gun[] =
     {
-        {ACTION_SHOOT, 0, INPUT_MASK_PUNCH},
-        {ACTION_STANDING_JUMP, 0, INPUT_MASK_JUMP},
+        {ACTION_SHOOT,         0, INPUT_MASK_PUNCH},
+        {ACTION_STANDING_JUMP, 0, INPUT_MASK_JUMP },
         //	{ACTION_GUN_AWAY,0,INPUT_MASK_SELECT},
-        {0, 0, 0}};
+        {0,                    0, 0               }
+};
 
 struct ActionInfo action_shoot[] =
     {
         {ACTION_SHOOT, 0, INPUT_MASK_PUNCH},
-        {0, 0, 0}};
+        {0,            0, 0               }
+};
 
 struct ActionInfo action_pull_up[] =
     {
-        {0, 0, 0}};
+        {0, 0, 0}
+};
 
 struct ActionInfo action_grabbing_ledge[] =
     {
-        {0, 0, 0}};
+        {0, 0, 0}
+};
 
 struct ActionInfo action_death_slide[] =
     {
         {ACTION_DROP_DOWN, 0, INPUT_MASK_JUMP},
-        {0, 0, 0}};
+        {0,                0, 0              }
+};
 struct ActionInfo action_run_jump[] =
     {
         {ACTION_KICK_FLAG, 0, INPUT_MASK_KICK},
-        {0, 0, 0}};
+        {0,                0, 0              }
+};
 
 struct ActionInfo action_fight[] =
     {
-        {ACTION_KICK_FLAG, 0, INPUT_MASK_KICK},
-        {ACTION_PUNCH_FLAG, 0, INPUT_MASK_PUNCH},
+        {ACTION_KICK_FLAG,  0, INPUT_MASK_KICK  },
+        {ACTION_PUNCH_FLAG, 0, INPUT_MASK_PUNCH },
         {ACTION_BLOCK_FLAG, 0, INPUT_MASK_ACTION},
-        {0, 0, 0}};
+        {0,                 0, 0                }
+};
 struct ActionInfo action_dying[] =
     {
-        {ACTION_BLOCK_FLAG, 0, INPUT_MASK_ACTION} // BLOCK}
+        {ACTION_BLOCK_FLAG, 0, INPUT_MASK_ACTION}  // BLOCK}
 };
 
 struct ActionInfo action_grapple[] =
     {
-        {ACTION_KICK_FLAG, 0, INPUT_MASK_KICK},
+        {ACTION_KICK_FLAG,  0, INPUT_MASK_KICK },
         {ACTION_PUNCH_FLAG, 0, INPUT_MASK_PUNCH},
-        {0, 0, 0}};
+        {0,                 0, 0               }
+};
 
 struct ActionInfo action_grapplee[] =
     {
         {ACTION_BLOCK_FLAG, 0, INPUT_MASK_ACTION},
-        {0, 0, 0}};
+        {0,                 0, 0                }
+};
 
 struct ActionInfo action_stand_relax[] =
     {
         //	{ACTION_WALK,0,INPUT_MASK_FORWARDS},
-        {ACTION_STANDING_JUMP, 0, INPUT_MASK_JUMP},
-        {ACTION_STANDING_JUMP_GRAB, 0, INPUT_MASK_JUMP},
-        {ACTION_WALK_BACK, 0, INPUT_MASK_BACKWARDS},
-        {0, 0, 0}};
+        {ACTION_STANDING_JUMP,      0, INPUT_MASK_JUMP     },
+        {ACTION_STANDING_JUMP_GRAB, 0, INPUT_MASK_JUMP     },
+        {ACTION_WALK_BACK,          0, INPUT_MASK_BACKWARDS},
+        {0,                         0, 0                   }
+};
 
 struct ActionInfo action_ladder[] =
     {
         {ACTION_DROP_DOWN, 0, INPUT_MASK_JUMP},
-        {0, 0, 0}};
+        {0,                0, 0              }
+};
 
 struct ActionInfo action_dead[] =
     {
         //	{ACTION_RESPAWN,0,INPUT_MASK_JUMP},
         {ACTION_BLOCK_FLAG, 0, INPUT_MASK_ACTION},
-        {0, 0, 0}};
+        {0,                 0, 0                }
+};
 
 struct ActionInfo action_flip_left[] =
     {
         {ACTION_FLIP_LEFT, 1, INPUT_MASK_LEFT},
-        {0, 0, 0}};
+        {0,                0, 0              }
+};
 
 struct ActionInfo action_flip_right[] =
     {
         {ACTION_FLIP_RIGHT, 1, INPUT_MASK_RIGHT},
-        {0, 0, 0}};
+        {0,                 0, 0               }
+};
 
 struct ActionInfo action_hug_wall[] =
     {
         {ACTION_HUG_RIGHT, 1, INPUT_MASK_RIGHT},
-        {ACTION_HUG_LEFT, 1, INPUT_MASK_LEFT},
-        {0, 0, 0}};
+        {ACTION_HUG_LEFT,  1, INPUT_MASK_LEFT },
+        {0,                0, 0               }
+};
 
 struct ActionInfo action_sit[] =
     {
         {ACTION_UNSIT, 0, INPUT_MASK_FORWARDS},
-        {ACTION_UNSIT, 0, INPUT_MASK_MOVE},
-        {0, 0, 0}};
+        {ACTION_UNSIT, 0, INPUT_MASK_MOVE    },
+        {0,            0, 0                  }
+};
 
 struct ActionInfo *action_tree[] =
     {
@@ -1901,45 +1927,45 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             // failed to do any of the other stuff (pickup/flick switch/enter car/...), so croutch
             //
             switch (p_thing->SubState) {
-                case 0:
-                    /*
-                                                            if(p_thing->Draw.Tweened->DRoll	==	-1)
-                                                            {
-                                                                    set_person_flip(p_thing,0);
-                                                            }
-                                                            else
-                                                            if(p_thing->Draw.Tweened->DRoll	==	1)
-                                                            {
-                                                                    set_person_flip(p_thing,1);
-                                                            }
-                    */
-                    /*
-                                                            if(p_thing->Draw.Tweened->CurrentAnim	==	ANIM_ROTATE_L)
-                                                            {
-                                                                    set_person_flip(p_thing,0);
-                                                            }
-                                                            else
-                                                            if(p_thing->Draw.Tweened->CurrentAnim	==	ANIM_ROTATE_R)
-                                                            {
-                                                                    set_person_flip(p_thing,1);
-                                                            }
-                                                            else
-                    */
-                    set_person_croutch(p_thing);
-                    // PANEL_new_text(NULL,4000,"ACTION croutch");
-                    return 0; //  we need to hold this down so dont use up the action button //INPUT_MASK_ACTION;
-                    break;
-                case SUB_STATE_IDLE_CROUTCH:
-                case SUB_STATE_IDLE_CROUTCHING:
-                    // PANEL_new_text(NULL,4000,"ACTION ALLREADY croutch");
-                    return (0);
-                    break;
-                    /*
-                                                    case	SUB_STATE_IDLE_CROUTCHING:
-                                                            set_person_idle(p_thing);
-                                                            return INPUT_MASK_ACTION;
-                                                            break;
-                    */
+            case 0:
+                /*
+                                                        if(p_thing->Draw.Tweened->DRoll	==	-1)
+                                                        {
+                                                                set_person_flip(p_thing,0);
+                                                        }
+                                                        else
+                                                        if(p_thing->Draw.Tweened->DRoll	==	1)
+                                                        {
+                                                                set_person_flip(p_thing,1);
+                                                        }
+                */
+                /*
+                                                        if(p_thing->Draw.Tweened->CurrentAnim	==	ANIM_ROTATE_L)
+                                                        {
+                                                                set_person_flip(p_thing,0);
+                                                        }
+                                                        else
+                                                        if(p_thing->Draw.Tweened->CurrentAnim	==	ANIM_ROTATE_R)
+                                                        {
+                                                                set_person_flip(p_thing,1);
+                                                        }
+                                                        else
+                */
+                set_person_croutch(p_thing);
+                // PANEL_new_text(NULL,4000,"ACTION croutch");
+                return 0; //  we need to hold this down so dont use up the action button //INPUT_MASK_ACTION;
+                break;
+            case SUB_STATE_IDLE_CROUTCH:
+            case SUB_STATE_IDLE_CROUTCHING:
+                // PANEL_new_text(NULL,4000,"ACTION ALLREADY croutch");
+                return (0);
+                break;
+                /*
+                                                case	SUB_STATE_IDLE_CROUTCHING:
+                                                        set_person_idle(p_thing);
+                                                        return INPUT_MASK_ACTION;
+                                                        break;
+                */
             }
         }
 
@@ -1948,16 +1974,16 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             // failed to do any of the other stuff (pickup/flick switch/enter car/...), so croutch
             //
             switch (p_thing->SubState) {
-                case SUB_STATE_RUNNING:
-                    if ((p_thing->Genus.Person->Stamina > 3) && (p_thing->Genus.Person->PersonType != PERSON_ROPER)) {
-                        p_thing->Genus.Person->Mode = PERSON_MODE_SPRINT;
-                        // PANEL_new_text(NULL,4000,"ACTION ALLREADY SPRINT");
-                        return (0);
-                    }
-                    break;
-                case SUB_STATE_WALKING:
-                    p_thing->Genus.Person->Mode = PERSON_MODE_RUN;
-                    break;
+            case SUB_STATE_RUNNING:
+                if ((p_thing->Genus.Person->Stamina > 3) && (p_thing->Genus.Person->PersonType != PERSON_ROPER)) {
+                    p_thing->Genus.Person->Mode = PERSON_MODE_SPRINT;
+                    // PANEL_new_text(NULL,4000,"ACTION ALLREADY SPRINT");
+                    return (0);
+                }
+                break;
+            case SUB_STATE_WALKING:
+                p_thing->Genus.Person->Mode = PERSON_MODE_RUN;
+                break;
             }
         }
     } else if (p_thing->State == STATE_GUN) {
@@ -2282,20 +2308,20 @@ void player_interface_move(Thing *p_thing, std::uint32_t input) {
         input &= ~(INPUT_MASK_LEFT | INPUT_MASK_RIGHT);
 
     switch (USER_INTERFACE) {
-        case 0:
-            //
-            // actual mode used (unless you do the keypress to use the other 'odd' mode
-            //
-            if (!CONTROLS_inventory_mode)
-                player_apply_move(p_thing, input);
+    case 0:
+        //
+        // actual mode used (unless you do the keypress to use the other 'odd' mode
+        //
+        if (!CONTROLS_inventory_mode)
+            player_apply_move(p_thing, input);
 
-            break;
-        case 1:
-            //
-            // old test mode for moveing in direction pressed
-            //
-            // player_apply_move_analogue(p_thing,input);
-            break;
+        break;
+    case 1:
+        //
+        // old test mode for moveing in direction pressed
+        //
+        // player_apply_move_analogue(p_thing,input);
+        break;
     }
 }
 
@@ -2576,140 +2602,140 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
 
     if (velocity > ANALOGUE_MIN_VELOCITY) {
         switch (p_thing->State) {
-            case STATE_CARRY:
-                if (p_thing->SubState != SUB_STATE_STAND_CARRY)
+        case STATE_CARRY:
+            if (p_thing->SubState != SUB_STATE_STAND_CARRY)
+                return;
+        case STATE_IDLE:
+        case STATE_HUG_WALL:
+            if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
+                return;
+
+        case STATE_HIT_RECOIL:
+        case STATE_GUN:
+            switch (p_thing->SubState) {
+            case 0:
+            case SUB_STATE_SIDLE:
+            default:
+                set_person_running(p_thing);
+                break;
+            case SUB_STATE_IDLE_CROUTCHING:
+                set_person_crawling(p_thing);
+                break;
+            case SUB_STATE_IDLE_CROUTCH:
+                if (p_thing->Draw.Tweened->FrameIndex > 3)
                     return;
-            case STATE_IDLE:
-            case STATE_HUG_WALL:
-                if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
-                    return;
+                else
+                    set_person_running(p_thing);
+                break;
+            }
+            break;
 
-            case STATE_HIT_RECOIL:
-            case STATE_GUN:
+            break;
+
+        case STATE_MOVEING:
+            switch (p_thing->SubState) {
+            case SUB_STATE_RUNNING:
+                if (p_thing->Genus.Person->Mode != PERSON_MODE_SPRINT) {
+                    if (p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER) {
+                        //
+                        // 60 is   1/(128/(40*15/20))*256	//40 is darci yomp speed
+                        //
+                        p_thing->Velocity = (velocity * 60) >> 8;
+                    } else {
+                        // 60 is   1/(128/(34*15/20))*256 //34 is roper yomp speed
+                        p_thing->Velocity = (velocity * 51) >> 8;
+                    }
+
+                    //							if (input & INPUT_MASK_FORWARDS)
+
+                    if ((p_thing->Velocity < 20 || m_bForceWalk) && p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER) // dont let roper walk
+                    {
+                        if (!(p_thing->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING)) {
+                            if (p_thing->Velocity > 20)
+                                p_thing->Velocity = 20;
+
+                            set_person_walking(p_thing);
+                            p_thing->Genus.Person->Mode = PERSON_MODE_WALK;
+                        }
+                    }
+                }
+                break;
+            case SUB_STATE_STOP_CRAWL:
+                p_thing->SubState = SUB_STATE_CRAWLING;
+                break;
+            case SUB_STATE_CRAWLING:
+                break;
+            case SUB_STATE_WALKING:
+                if (p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER) {
+                    //
+                    // 60 is   1/(128/(40*15/20))*256	//40 is darci yomp speed
+                    //
+                    p_thing->Velocity = (velocity * 60) >> 8;
+                } else {
+                    // 60 is   1/(128/(34*15/20))*256 //34 is roper yomp speed
+                    p_thing->Velocity = (velocity * 51) >> 8;
+                }
+                if ((p_thing->Velocity > 24 || p_thing->Genus.Person->AnimType == ANIM_TYPE_ROPER) && !m_bForceWalk) {
+                    set_person_running(p_thing);
+                    p_thing->Genus.Person->Mode = PERSON_MODE_RUN;
+                } else {
+                    if (p_thing->Velocity > 24)
+                        p_thing->Velocity = 24;
+                }
+                break;
+            case SUB_STATE_STEP_LEFT:
+            case SUB_STATE_STEP_RIGHT:
+                set_person_running(p_thing);
+                break;
+            }
+            // need to continue moveing
+            break;
+        case STATE_CLIMB_LADDER:
+            if (dz < -MAX(abs(dx), 8)) {
                 switch (p_thing->SubState) {
-                    case 0:
-                    case SUB_STATE_SIDLE:
-                    default:
-                        set_person_running(p_thing);
-                        break;
-                    case SUB_STATE_IDLE_CROUTCHING:
-                        set_person_crawling(p_thing);
-                        break;
-                    case SUB_STATE_IDLE_CROUTCH:
-                        if (p_thing->Draw.Tweened->FrameIndex > 3)
-                            return;
-                        else
-                            set_person_running(p_thing);
-                        break;
+                case SUB_STATE_MOUNT_LADDER:
+                    break;
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_ON_LADDER:
+                    p_thing->SubState = SUB_STATE_CLIMB_UP_LADDER;
+                    break;
                 }
-                break;
-
-                break;
-
-            case STATE_MOVEING:
+            }
+            break;
+        case STATE_CLIMBING:
+            if (dz < 0 - MAX(abs(dx), 8)) {
                 switch (p_thing->SubState) {
-                    case SUB_STATE_RUNNING:
-                        if (p_thing->Genus.Person->Mode != PERSON_MODE_SPRINT) {
-                            if (p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER) {
-                                //
-                                // 60 is   1/(128/(40*15/20))*256	//40 is darci yomp speed
-                                //
-                                p_thing->Velocity = (velocity * 60) >> 8;
-                            } else {
-                                // 60 is   1/(128/(34*15/20))*256 //34 is roper yomp speed
-                                p_thing->Velocity = (velocity * 51) >> 8;
-                            }
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_CLIMB_AROUND_WALL:
 
-                            //							if (input & INPUT_MASK_FORWARDS)
-
-                            if ((p_thing->Velocity < 20 || m_bForceWalk) && p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER) // dont let roper walk
-                            {
-                                if (!(p_thing->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING)) {
-                                    if (p_thing->Velocity > 20)
-                                        p_thing->Velocity = 20;
-
-                                    set_person_walking(p_thing);
-                                    p_thing->Genus.Person->Mode = PERSON_MODE_WALK;
-                                }
-                            }
-                        }
-                        break;
-                    case SUB_STATE_STOP_CRAWL:
-                        p_thing->SubState = SUB_STATE_CRAWLING;
-                        break;
-                    case SUB_STATE_CRAWLING:
-                        break;
-                    case SUB_STATE_WALKING:
-                        if (p_thing->Genus.Person->AnimType != ANIM_TYPE_ROPER) {
-                            //
-                            // 60 is   1/(128/(40*15/20))*256	//40 is darci yomp speed
-                            //
-                            p_thing->Velocity = (velocity * 60) >> 8;
-                        } else {
-                            // 60 is   1/(128/(34*15/20))*256 //34 is roper yomp speed
-                            p_thing->Velocity = (velocity * 51) >> 8;
-                        }
-                        if ((p_thing->Velocity > 24 || p_thing->Genus.Person->AnimType == ANIM_TYPE_ROPER) && !m_bForceWalk) {
-                            set_person_running(p_thing);
-                            p_thing->Genus.Person->Mode = PERSON_MODE_RUN;
-                        } else {
-                            if (p_thing->Velocity > 24)
-                                p_thing->Velocity = 24;
-                        }
-                        break;
-                    case SUB_STATE_STEP_LEFT:
-                    case SUB_STATE_STEP_RIGHT:
-                        set_person_running(p_thing);
-                        break;
-                }
-                // need to continue moveing
-                break;
-            case STATE_CLIMB_LADDER:
-                if (dz < -MAX(abs(dx), 8)) {
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_MOUNT_LADDER:
-                            break;
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_ON_LADDER:
-                            p_thing->SubState = SUB_STATE_CLIMB_UP_LADDER;
-                            break;
+                    if (facing_camera) {
+                        p_thing->SubState = SUB_STATE_CLIMB_DOWN_WALL;
+                    } else {
+                        p_thing->SubState = SUB_STATE_CLIMB_UP_WALL;
                     }
-                }
-                break;
-            case STATE_CLIMBING:
-                if (dz < 0 - MAX(abs(dx), 8)) {
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_CLIMB_AROUND_WALL:
 
-                            if (facing_camera) {
-                                p_thing->SubState = SUB_STATE_CLIMB_DOWN_WALL;
-                            } else {
-                                p_thing->SubState = SUB_STATE_CLIMB_UP_WALL;
-                            }
-
-                            break;
-                    }
+                    break;
                 }
-                break;
-            case STATE_DANGLING:
-                if (dz < -MAX(abs(dx), 8)) {
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_DANGLING_CABLE_FORWARD:
-                        case SUB_STATE_DANGLING_CABLE_BACKWARD:
-                        case SUB_STATE_DANGLING_CABLE:
-                            if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
-                                p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
-                            else
-                                ASSERT(0);
-                            break;
-                    }
+            }
+            break;
+        case STATE_DANGLING:
+            if (dz < -MAX(abs(dx), 8)) {
+                switch (p_thing->SubState) {
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_DANGLING_CABLE_FORWARD:
+                case SUB_STATE_DANGLING_CABLE_BACKWARD:
+                case SUB_STATE_DANGLING_CABLE:
+                    if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
+                        p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
+                    else
+                        ASSERT(0);
+                    break;
                 }
-                break;
+            }
+            break;
 
-            case STATE_CANNING:
-                break;
+        case STATE_CANNING:
+            break;
         }
     } else {
         //
@@ -2717,83 +2743,83 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
         //
 
         switch (p_thing->State) {
-            case STATE_MOVEING:
-                switch (p_thing->SubState) {
-                    case SUB_STATE_CRAWLING:
-                        set_person_idle_croutch(p_thing);
-                        //		     			p_thing->SubState=SUB_STATE_STOP_CRAWL;
-                        //						player_stop_crawl(p_thing,input);
-                        break;
-                    case SUB_STATE_RUNNING:
-                    case SUB_STATE_WALKING:
-                    case SUB_STATE_SIDLE:
-                        player_stop_move(p_thing, input);
-                        break;
-                }
+        case STATE_MOVEING:
+            switch (p_thing->SubState) {
+            case SUB_STATE_CRAWLING:
+                set_person_idle_croutch(p_thing);
+                //		     			p_thing->SubState=SUB_STATE_STOP_CRAWL;
+                //						player_stop_crawl(p_thing,input);
                 break;
+            case SUB_STATE_RUNNING:
+            case SUB_STATE_WALKING:
+            case SUB_STATE_SIDLE:
+                player_stop_move(p_thing, input);
+                break;
+            }
+            break;
         }
     }
 
     if (dz > MAX(dx, 8)) {
         //		LogText(" have movement input back state %d \n",p_thing->State);
         switch (p_thing->State) {
-            case STATE_HUG_WALL:
-                if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
-                    return;
-                //					break;
-            case STATE_IDLE:
-            case STATE_GUN:
-                //				set_person_hop_back(p_thing);
-                // need to start moveing then
+        case STATE_HUG_WALL:
+            if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
+                return;
+            //					break;
+        case STATE_IDLE:
+        case STATE_GUN:
+            //				set_person_hop_back(p_thing);
+            // need to start moveing then
+            break;
+        case STATE_MOVEING:
+            // need to continue moveing
+            break;
+        case STATE_CLIMB_LADDER:
+            switch (p_thing->SubState) {
+            case SUB_STATE_MOUNT_LADDER:
                 break;
-            case STATE_MOVEING:
-                // need to continue moveing
+            case SUB_STATE_STOPPING:
+            case SUB_STATE_ON_LADDER:
+                //					case	SUB_STATE_CLIMB_UP_LADDER:
+                //					case	SUB_STATE_CLIMB_DOWN_LADDER:
+                //						p_thing->Draw.Tweened->FrameIndex=0;
+                p_thing->SubState = SUB_STATE_CLIMB_DOWN_LADDER;
                 break;
-            case STATE_CLIMB_LADDER:
-                switch (p_thing->SubState) {
-                    case SUB_STATE_MOUNT_LADDER:
-                        break;
-                    case SUB_STATE_STOPPING:
-                    case SUB_STATE_ON_LADDER:
-                        //					case	SUB_STATE_CLIMB_UP_LADDER:
-                        //					case	SUB_STATE_CLIMB_DOWN_LADDER:
-                        //						p_thing->Draw.Tweened->FrameIndex=0;
-                        p_thing->SubState = SUB_STATE_CLIMB_DOWN_LADDER;
-                        break;
-                }
-                break;
-            case STATE_CLIMBING:
-                switch (p_thing->SubState) {
-                    case SUB_STATE_STOPPING:
-                        //					case	SUB_STATE_CLIMB_UP_WALL:
-                    case SUB_STATE_CLIMB_AROUND_WALL:
-                        //					case	SUB_STATE_CLIMB_DOWN_WALL:
-                        //						p_thing->Genus.Person->Timer1=7;
+            }
+            break;
+        case STATE_CLIMBING:
+            switch (p_thing->SubState) {
+            case SUB_STATE_STOPPING:
+                //					case	SUB_STATE_CLIMB_UP_WALL:
+            case SUB_STATE_CLIMB_AROUND_WALL:
+                //					case	SUB_STATE_CLIMB_DOWN_WALL:
+                //						p_thing->Genus.Person->Timer1=7;
 
-                        if (facing_camera) {
-                            p_thing->SubState = SUB_STATE_CLIMB_UP_WALL;
-                        } else {
-                            p_thing->SubState = SUB_STATE_CLIMB_DOWN_WALL;
-                        }
-                        break;
-                }
-            case STATE_DANGLING:
-                switch (p_thing->SubState) {
-                    case SUB_STATE_STOPPING:
-                    case SUB_STATE_DANGLING_CABLE_FORWARD:
-                    case SUB_STATE_DANGLING_CABLE_BACKWARD:
-                    case SUB_STATE_DANGLING_CABLE:
-                        if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
-                            p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
-                        else
-                            ASSERT(0);
-                        // p_thing->SubState=SUB_STATE_DANGLING_CABLE_BACKWARD;
-                        break;
+                if (facing_camera) {
+                    p_thing->SubState = SUB_STATE_CLIMB_UP_WALL;
+                } else {
+                    p_thing->SubState = SUB_STATE_CLIMB_DOWN_WALL;
                 }
                 break;
+            }
+        case STATE_DANGLING:
+            switch (p_thing->SubState) {
+            case SUB_STATE_STOPPING:
+            case SUB_STATE_DANGLING_CABLE_FORWARD:
+            case SUB_STATE_DANGLING_CABLE_BACKWARD:
+            case SUB_STATE_DANGLING_CABLE:
+                if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
+                    p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
+                else
+                    ASSERT(0);
+                // p_thing->SubState=SUB_STATE_DANGLING_CABLE_BACKWARD;
+                break;
+            }
+            break;
 
-            case STATE_CANNING:
-                break;
+        case STATE_CANNING:
+            break;
         }
     }
 }
@@ -3217,77 +3243,77 @@ void player_apply_move(Thing *p_thing, std::uint32_t input) {
     //	LogText(" player move  input %x \n",input);
 
     switch (p_thing->State) {
-        case STATE_CLIMBING:
-            switch (p_thing->SubState) {
-                case SUB_STATE_STOPPING:
-                    //				case	SUB_STATE_CLIMB_AROUND_WALL:
-                    void locked_anim_change(Thing * p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
+    case STATE_CLIMBING:
+        switch (p_thing->SubState) {
+        case SUB_STATE_STOPPING:
+            //				case	SUB_STATE_CLIMB_AROUND_WALL:
+            void locked_anim_change(Thing * p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
 #ifdef UNUSED
-                    if (input & INPUT_MASK_LEFT) {
-                        p_thing->SubState = SUB_STATE_CLIMB_LEFT_WALL;
-                        locked_anim_change(p_thing, 0, ANIM_CLIMB_LEFT_FENCE);
-                        return;
-
-                    } else if (input & INPUT_MASK_RIGHT) {
-                        p_thing->SubState = SUB_STATE_CLIMB_RIGHT_WALL;
-                        locked_anim_change(p_thing, 0, ANIM_CLIMB_RIGHT_FENCE);
-                        return;
-                    }
-#endif
-                    break;
-            }
-            break;
-
-        case STATE_CARRY:
-            if (p_thing->SubState != SUB_STATE_STAND_CARRY)
+            if (input & INPUT_MASK_LEFT) {
+                p_thing->SubState = SUB_STATE_CLIMB_LEFT_WALL;
+                locked_anim_change(p_thing, 0, ANIM_CLIMB_LEFT_FENCE);
                 return;
 
-        case STATE_IDLE:
-
-            /*
-
-            if(input&INPUT_MASK_ACTION)
-            {
-                    if(input&INPUT_MASK_LEFT)
-                            set_person_flip(p_thing,0);
-                    else
-                    if(input&INPUT_MASK_RIGHT)
-                            set_person_flip(p_thing,1);
+            } else if (input & INPUT_MASK_RIGHT) {
+                p_thing->SubState = SUB_STATE_CLIMB_RIGHT_WALL;
+                locked_anim_change(p_thing, 0, ANIM_CLIMB_RIGHT_FENCE);
+                return;
             }
-
-            */
-
-        case STATE_JUMPING:
-        case STATE_MOVEING:
-        case STATE_GUN:
-        case STATE_GRAPPLING:
-
-            if (analogue) {
-                if (player_turn_left_right_analogue(p_thing, input))
-                    return;
-            } else {
-                if (player_turn_left_right(p_thing, input))
-                    return;
-            }
-
-            //
-            // Turning left / right
-            //
-
+#endif
             break;
+        }
+        break;
 
-            //		case STATE_CLIMBING:
+    case STATE_CARRY:
+        if (p_thing->SubState != SUB_STATE_STAND_CARRY)
+            return;
 
-            //
-            // Climbing left/right
-            //
+    case STATE_IDLE:
 
-            break;
+        /*
+
+        if(input&INPUT_MASK_ACTION)
+        {
+                if(input&INPUT_MASK_LEFT)
+                        set_person_flip(p_thing,0);
+                else
+                if(input&INPUT_MASK_RIGHT)
+                        set_person_flip(p_thing,1);
+        }
+
+        */
+
+    case STATE_JUMPING:
+    case STATE_MOVEING:
+    case STATE_GUN:
+    case STATE_GRAPPLING:
+
+        if (analogue) {
+            if (player_turn_left_right_analogue(p_thing, input))
+                return;
+        } else {
+            if (player_turn_left_right(p_thing, input))
+                return;
+        }
+
+        //
+        // Turning left / right
+        //
+
+        break;
+
+        //		case STATE_CLIMBING:
+
+        //
+        // Climbing left/right
+        //
+
+        break;
     }
 
     switch (p_thing->State) {
-        case STATE_JUMPING:
-            return;
+    case STATE_JUMPING:
+        return;
     }
     /*
             if(input&INPUT_MASK_STEP_LEFT)
@@ -3320,191 +3346,191 @@ void player_apply_move(Thing *p_thing, std::uint32_t input) {
         if (input & INPUT_MASK_MOVE) {
             //		LogText(" have movement input  state %d \n",p_thing->State);
             switch (p_thing->State) {
-                case STATE_HUG_WALL:
-                    if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
-                        return;
-                    p_thing->Velocity = 40;
-                    //					p_thing->Draw.Tweened->Angle+=1024;
-                    //					p_thing->Draw.Tweened->Angle&=2047;
-                    person_normal_move(p_thing);
-                    //					p_thing->Draw.Tweened->Angle+=1024;
-                    //					p_thing->Draw.Tweened->Angle&=2047;
+            case STATE_HUG_WALL:
+                if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
+                    return;
+                p_thing->Velocity = 40;
+                //					p_thing->Draw.Tweened->Angle+=1024;
+                //					p_thing->Draw.Tweened->Angle&=2047;
+                person_normal_move(p_thing);
+                //					p_thing->Draw.Tweened->Angle+=1024;
+                //					p_thing->Draw.Tweened->Angle&=2047;
 
-                    if (p_thing->SubState != SUB_STATE_HUG_WALL_TURN)
+                if (p_thing->SubState != SUB_STATE_HUG_WALL_TURN)
+                    set_person_running(p_thing);
+                break;
+            case STATE_CARRY:
+                if (p_thing->SubState != SUB_STATE_STAND_CARRY)
+                    return;
+            case STATE_IDLE:
+            case STATE_HIT_RECOIL:
+
+            case STATE_GUN:
+                switch (p_thing->SubState) {
+                case 0:
+                case SUB_STATE_SIDLE:
+                default:
+                    set_person_running(p_thing);
+                    break;
+                case SUB_STATE_IDLE_CROUTCHING:
+                    set_person_crawling(p_thing);
+                    break;
+                case SUB_STATE_IDLE_CROUTCH:
+                    if (p_thing->Draw.Tweened->FrameIndex > 3)
+                        return;
+                    else
                         set_person_running(p_thing);
                     break;
-                case STATE_CARRY:
-                    if (p_thing->SubState != SUB_STATE_STAND_CARRY)
-                        return;
-                case STATE_IDLE:
-                case STATE_HIT_RECOIL:
+                }
+                break;
 
-                case STATE_GUN:
-                    switch (p_thing->SubState) {
-                        case 0:
-                        case SUB_STATE_SIDLE:
-                        default:
-                            set_person_running(p_thing);
-                            break;
-                        case SUB_STATE_IDLE_CROUTCHING:
-                            set_person_crawling(p_thing);
-                            break;
-                        case SUB_STATE_IDLE_CROUTCH:
-                            if (p_thing->Draw.Tweened->FrameIndex > 3)
-                                return;
-                            else
-                                set_person_running(p_thing);
-                            break;
-                    }
-                    break;
+                /*
+                                        case	STATE_GUN:
 
+                                                if (p_thing->Genus.Person->Mode == PERSON_MODE_FIGHT)
+                                                {
+                                                        set_person_fight_step(p_thing,0);
+                                                }
+                                                else
+                                                {
+                                                        if(input_mode==INPUT_JOYPAD)
+                                                        {
+                                                                if(input&(INPUT_MASK_SPRINT|INPUT_MASK_YOMP))
+                                                                {
+                                                                        if((input&(INPUT_MASK_SPRINT))&&p_thing->Genus.Person->Stamina>3)
+                                                                                p_thing->Genus.Person->Mode=PERSON_MODE_SPRINT;
+                                                                        else
+                                                                                p_thing->Genus.Person->Mode=PERSON_MODE_RUN;
+                                                                }
+                                                                else
+                                                                {
+                                                                        p_thing->Genus.Person->Mode=PERSON_MODE_WALK;
+                                                                }
+                                                        }
+
+                                                        set_person_running(p_thing);
+                                                }
+
+                */
+
+                break;
+
+            case STATE_MOVEING:
+                switch (p_thing->SubState) {
+                case SUB_STATE_RUNNING:
                     /*
-                                            case	STATE_GUN:
-
-                                                    if (p_thing->Genus.Person->Mode == PERSON_MODE_FIGHT)
-                                                    {
-                                                            set_person_fight_step(p_thing,0);
-                                                    }
-                                                    else
-                                                    {
-                                                            if(input_mode==INPUT_JOYPAD)
-                                                            {
-                                                                    if(input&(INPUT_MASK_SPRINT|INPUT_MASK_YOMP))
                                                                     {
-                                                                            if((input&(INPUT_MASK_SPRINT))&&p_thing->Genus.Person->Stamina>3)
-                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_SPRINT;
-                                                                            else
-                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_RUN;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                            p_thing->Genus.Person->Mode=PERSON_MODE_WALK;
-                                                                    }
-                                                            }
+                                                                            if(input_mode==INPUT_JOYPAD)
+                                                                            {
+                                                                                    if(input&(INPUT_MASK_SPRINT|INPUT_MASK_YOMP))
+                                                                                    {
+                                                                                            if((input&(INPUT_MASK_SPRINT))&&p_thing->Genus.Person->Stamina>3)
+                                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_SPRINT;
+                                                                                            else
+                                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_RUN;
 
-                                                            set_person_running(p_thing);
-                                                    }
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                            p_thing->Genus.Person->Mode=PERSON_MODE_WALK;
+                                                                                            set_person_running(p_thing);
+                                                                                    }
+                                                                            }
 
+                                                                    }
                     */
+                    break;
+                case SUB_STATE_STOP_CRAWL:
+                    p_thing->SubState = SUB_STATE_CRAWLING;
+                    break;
+                case SUB_STATE_CRAWLING:
+                    break;
+                case SUB_STATE_WALKING_BACKWARDS:
+                    player_stop_move(p_thing, input);
 
                     break;
-
-                case STATE_MOVEING:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_RUNNING:
-                            /*
+                case SUB_STATE_WALKING:
+                    set_person_running(p_thing);
+                    /*
+                                                                    {
+                                                                            if(input_mode==INPUT_JOYPAD)
                                                                             {
-                                                                                    if(input_mode==INPUT_JOYPAD)
+                                                                                    if(input&(INPUT_MASK_SPRINT|INPUT_MASK_YOMP))
                                                                                     {
-                                                                                            if(input&(INPUT_MASK_SPRINT|INPUT_MASK_YOMP))
-                                                                                            {
-                                                                                                    if((input&(INPUT_MASK_SPRINT))&&p_thing->Genus.Person->Stamina>3)
-                                                                                                            p_thing->Genus.Person->Mode=PERSON_MODE_SPRINT;
-                                                                                                    else
-                                                                                                            p_thing->Genus.Person->Mode=PERSON_MODE_RUN;
-
-                                                                                            }
+                                                                                            if((input&(INPUT_MASK_SPRINT))&&p_thing->Genus.Person->Stamina>3)
+                                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_SPRINT;
                                                                                             else
-                                                                                            {
-                                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_WALK;
-                                                                                                    set_person_running(p_thing);
-                                                                                            }
+                                                                                                    p_thing->Genus.Person->Mode=PERSON_MODE_RUN;
+                                                                                            set_person_running(p_thing);
                                                                                     }
-
-                                                                            }
-                            */
-                            break;
-                        case SUB_STATE_STOP_CRAWL:
-                            p_thing->SubState = SUB_STATE_CRAWLING;
-                            break;
-                        case SUB_STATE_CRAWLING:
-                            break;
-                        case SUB_STATE_WALKING_BACKWARDS:
-                            player_stop_move(p_thing, input);
-
-                            break;
-                        case SUB_STATE_WALKING:
-                            set_person_running(p_thing);
-                            /*
-                                                                            {
-                                                                                    if(input_mode==INPUT_JOYPAD)
+                                                                                    else
                                                                                     {
-                                                                                            if(input&(INPUT_MASK_SPRINT|INPUT_MASK_YOMP))
-                                                                                            {
-                                                                                                    if((input&(INPUT_MASK_SPRINT))&&p_thing->Genus.Person->Stamina>3)
-                                                                                                            p_thing->Genus.Person->Mode=PERSON_MODE_SPRINT;
-                                                                                                    else
-                                                                                                            p_thing->Genus.Person->Mode=PERSON_MODE_RUN;
-                                                                                                    set_person_running(p_thing);
-                                                                                            }
-                                                                                            else
-                                                                                            {
-                                                                                            //	p_thing->Genus.Person->Mode=PERSON_MODE_WALK;
-                                                                                            }
+                                                                                    //	p_thing->Genus.Person->Mode=PERSON_MODE_WALK;
                                                                                     }
-
                                                                             }
-                            */
-                            break;
-                        case SUB_STATE_STEP_LEFT:
-                        case SUB_STATE_STEP_RIGHT:
-                            set_person_running(p_thing);
-                            break;
-                    }
-                    // need to continue moveing
-                    break;
-                case STATE_CLIMB_LADDER:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_MOUNT_LADDER:
-                            break;
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_ON_LADDER:
-                            //					case	SUB_STATE_CLIMB_UP_LADDER:
-                            //					case	SUB_STATE_CLIMB_DOWN_LADDER:
-                            p_thing->SubState = SUB_STATE_CLIMB_UP_LADDER;
-                            //						p_thing->Genus.Person->Timer1=12;
-                            break;
-                    }
-                    break;
-                case STATE_CLIMBING:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_CLIMB_AROUND_WALL:
-                            //					case	SUB_STATE_CLIMB_UP_WALL:
-                            //					case	SUB_STATE_CLIMB_DOWN_WALL:
-                            //						p_thing->Genus.Person->Timer1=7;
-                            p_thing->SubState = SUB_STATE_CLIMB_UP_WALL;
-                            break;
-                    }
-                    break;
-                case STATE_DANGLING:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_DANGLING_CABLE_FORWARD:
-                        case SUB_STATE_DANGLING_CABLE_BACKWARD:
-                        case SUB_STATE_DANGLING_CABLE:
-                            if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
-                                p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
-                            else
-                                ASSERT(0);
-                            break;
-                    }
-                    break;
 
-                case STATE_GRAPPLING:
-
-                    //
-                    // We can't move while picking up or releasing the grappling hook.
-                    //
-
-                    if (p_thing->SubState == SUB_STATE_GRAPPLING_WINDUP) {
-                        set_person_running(p_thing);
-                    }
-
+                                                                    }
+                    */
                     break;
-
-                case STATE_CANNING:
+                case SUB_STATE_STEP_LEFT:
+                case SUB_STATE_STEP_RIGHT:
+                    set_person_running(p_thing);
                     break;
+                }
+                // need to continue moveing
+                break;
+            case STATE_CLIMB_LADDER:
+                switch (p_thing->SubState) {
+                case SUB_STATE_MOUNT_LADDER:
+                    break;
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_ON_LADDER:
+                    //					case	SUB_STATE_CLIMB_UP_LADDER:
+                    //					case	SUB_STATE_CLIMB_DOWN_LADDER:
+                    p_thing->SubState = SUB_STATE_CLIMB_UP_LADDER;
+                    //						p_thing->Genus.Person->Timer1=12;
+                    break;
+                }
+                break;
+            case STATE_CLIMBING:
+                switch (p_thing->SubState) {
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_CLIMB_AROUND_WALL:
+                    //					case	SUB_STATE_CLIMB_UP_WALL:
+                    //					case	SUB_STATE_CLIMB_DOWN_WALL:
+                    //						p_thing->Genus.Person->Timer1=7;
+                    p_thing->SubState = SUB_STATE_CLIMB_UP_WALL;
+                    break;
+                }
+                break;
+            case STATE_DANGLING:
+                switch (p_thing->SubState) {
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_DANGLING_CABLE_FORWARD:
+                case SUB_STATE_DANGLING_CABLE_BACKWARD:
+                case SUB_STATE_DANGLING_CABLE:
+                    if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
+                        p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
+                    else
+                        ASSERT(0);
+                    break;
+                }
+                break;
+
+            case STATE_GRAPPLING:
+
+                //
+                // We can't move while picking up or releasing the grappling hook.
+                //
+
+                if (p_thing->SubState == SUB_STATE_GRAPPLING_WINDUP) {
+                    set_person_running(p_thing);
+                }
+
+                break;
+
+            case STATE_CANNING:
+                break;
             }
         } else {
             //
@@ -3512,32 +3538,32 @@ void player_apply_move(Thing *p_thing, std::uint32_t input) {
             //
 
             switch (p_thing->State) {
-                case STATE_MOVEING:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_CRAWLING:
-                            set_person_idle_croutch(p_thing);
-                            //		     			p_thing->SubState=SUB_STATE_STOP_CRAWL;
-                            //						player_stop_crawl(p_thing,input);
-                            break;
-                        case SUB_STATE_WALKING:
-                            if (!(input & INPUT_MASK_FORWARDS))
-                                player_stop_move(p_thing, input);
-                            break;
-
-                        case SUB_STATE_RUNNING:
-                            if (input & INPUT_MASK_FORWARDS) {
-                                set_person_walking(p_thing);
-                            } else {
-                                player_stop_move(p_thing, input);
-                            }
-
-                            break;
-
-                        case SUB_STATE_SIDLE:
-                            player_stop_move(p_thing, input);
-                            break;
-                    }
+            case STATE_MOVEING:
+                switch (p_thing->SubState) {
+                case SUB_STATE_CRAWLING:
+                    set_person_idle_croutch(p_thing);
+                    //		     			p_thing->SubState=SUB_STATE_STOP_CRAWL;
+                    //						player_stop_crawl(p_thing,input);
                     break;
+                case SUB_STATE_WALKING:
+                    if (!(input & INPUT_MASK_FORWARDS))
+                        player_stop_move(p_thing, input);
+                    break;
+
+                case SUB_STATE_RUNNING:
+                    if (input & INPUT_MASK_FORWARDS) {
+                        set_person_walking(p_thing);
+                    } else {
+                        player_stop_move(p_thing, input);
+                    }
+
+                    break;
+
+                case SUB_STATE_SIDLE:
+                    player_stop_move(p_thing, input);
+                    break;
+                }
+                break;
             }
         }
 
@@ -3546,80 +3572,80 @@ void player_apply_move(Thing *p_thing, std::uint32_t input) {
         //
         if ((input & INPUT_MASK_FORWARDS) && !(input & INPUT_MASK_MOVE)) {
             switch (p_thing->State) {
-                case STATE_IDLE:
-                case STATE_GUN:
-                    set_person_walking(p_thing);
-                    break;
+            case STATE_IDLE:
+            case STATE_GUN:
+                set_person_walking(p_thing);
+                break;
             }
         }
 
         if (input & INPUT_MASK_BACKWARDS) {
             //		LogText(" have movement input back state %d \n",p_thing->State);
             switch (p_thing->State) {
-                case STATE_HUG_WALL:
-                    if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
-                        break;
-                case STATE_IDLE:
-                case STATE_GUN:
-                    //				set_person_hop_back(p_thing);
+            case STATE_HUG_WALL:
+                if (p_thing->SubState == SUB_STATE_HUG_WALL_TURN)
+                    break;
+            case STATE_IDLE:
+            case STATE_GUN:
+                //				set_person_hop_back(p_thing);
+                set_person_walk_backwards(p_thing);
+                // need to start moveing then
+                break;
+            case STATE_MOVEING:
+                // need to continue moveing
+                break;
+            case STATE_CLIMB_LADDER:
+                switch (p_thing->SubState) {
+                case SUB_STATE_MOUNT_LADDER:
+                    break;
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_ON_LADDER:
+                    //					case	SUB_STATE_CLIMB_UP_LADDER:
+                    //					case	SUB_STATE_CLIMB_DOWN_LADDER:
+                    //						p_thing->Draw.Tweened->FrameIndex=0;
+                    p_thing->SubState = SUB_STATE_CLIMB_DOWN_LADDER;
+                    break;
+                }
+                break;
+            case STATE_CLIMBING:
+                switch (p_thing->SubState) {
+                case SUB_STATE_STOPPING:
+                    //					case	SUB_STATE_CLIMB_UP_WALL:
+                case SUB_STATE_CLIMB_AROUND_WALL:
+                    //					case	SUB_STATE_CLIMB_DOWN_WALL:
+                    //						p_thing->Genus.Person->Timer1=7;
+                    p_thing->SubState = SUB_STATE_CLIMB_DOWN_WALL;
+                    break;
+                }
+            case STATE_DANGLING:
+                switch (p_thing->SubState) {
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_DANGLING_CABLE_FORWARD:
+                case SUB_STATE_DANGLING_CABLE_BACKWARD:
+                case SUB_STATE_DANGLING_CABLE:
+                    if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
+                        p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
+                    else
+                        ASSERT(0);
+                    // p_thing->SubState=SUB_STATE_DANGLING_CABLE_BACKWARD;
+                    break;
+                }
+                break;
+
+            case STATE_GRAPPLING:
+
+                //
+                // We can't move while picking up or releasing the grappling hook.
+                //
+
+                if (p_thing->SubState == SUB_STATE_GRAPPLING_WINDUP) {
                     set_person_walk_backwards(p_thing);
-                    // need to start moveing then
-                    break;
-                case STATE_MOVEING:
-                    // need to continue moveing
-                    break;
-                case STATE_CLIMB_LADDER:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_MOUNT_LADDER:
-                            break;
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_ON_LADDER:
-                            //					case	SUB_STATE_CLIMB_UP_LADDER:
-                            //					case	SUB_STATE_CLIMB_DOWN_LADDER:
-                            //						p_thing->Draw.Tweened->FrameIndex=0;
-                            p_thing->SubState = SUB_STATE_CLIMB_DOWN_LADDER;
-                            break;
-                    }
-                    break;
-                case STATE_CLIMBING:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_STOPPING:
-                            //					case	SUB_STATE_CLIMB_UP_WALL:
-                        case SUB_STATE_CLIMB_AROUND_WALL:
-                            //					case	SUB_STATE_CLIMB_DOWN_WALL:
-                            //						p_thing->Genus.Person->Timer1=7;
-                            p_thing->SubState = SUB_STATE_CLIMB_DOWN_WALL;
-                            break;
-                    }
-                case STATE_DANGLING:
-                    switch (p_thing->SubState) {
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_DANGLING_CABLE_FORWARD:
-                        case SUB_STATE_DANGLING_CABLE_BACKWARD:
-                        case SUB_STATE_DANGLING_CABLE:
-                            if (p_thing->Flags & FLAG_PERSON_ON_CABLE)
-                                p_thing->SubState = SUB_STATE_DANGLING_CABLE_FORWARD; // cable errors
-                            else
-                                ASSERT(0);
-                            // p_thing->SubState=SUB_STATE_DANGLING_CABLE_BACKWARD;
-                            break;
-                    }
-                    break;
+                }
 
-                case STATE_GRAPPLING:
+                break;
 
-                    //
-                    // We can't move while picking up or releasing the grappling hook.
-                    //
-
-                    if (p_thing->SubState == SUB_STATE_GRAPPLING_WINDUP) {
-                        set_person_walk_backwards(p_thing);
-                    }
-
-                    break;
-
-                case STATE_CANNING:
-                    break;
+            case STATE_CANNING:
+                break;
             }
         }
         //	else   //this whole thing was a load of else's
@@ -3840,225 +3866,225 @@ std::uint32_t apply_button_input(struct Thing *p_player, struct Thing *p_person,
         //			MSG_add(" new action %d old action %d input\n",new_action,p_person->Genus.Person->Action);
 
         switch (new_action) {
-            case ACTION_KICK_FLAG:
-                p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_KICK;
-                break;
-            case ACTION_PUNCH_FLAG:
-                p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_PUNCH;
-                break;
-            case ACTION_BLOCK_FLAG:
-                p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_BLOCK;
-                break;
-            case ACTION_JUMP_FLAG:
-                p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_JUMP;
-                break;
-            case ACTION_HUG_LEFT:
-                if (p_person->SubState != SUB_STATE_HUG_WALL_STEP_RIGHT && p_person->SubState != SUB_STATE_HUG_WALL_LOOK_L && p_person->SubState != SUB_STATE_HUG_WALL_TURN && p_person->SubState != SUB_STATE_HUG_WALL_LEAP_OUT)
-                    set_person_hug_wall_dir(p_person, 0);
-                input_used = 0;
-                break;
-            case ACTION_HUG_RIGHT:
-                if (p_person->SubState != SUB_STATE_HUG_WALL_STEP_LEFT && p_person->SubState != SUB_STATE_HUG_WALL_LOOK_R && p_person->SubState != SUB_STATE_HUG_WALL_TURN && p_person->SubState != SUB_STATE_HUG_WALL_LEAP_OUT)
-                    set_person_hug_wall_dir(p_person, 1);
-                input_used = 0;
-                break;
-            case ACTION_UNSIT:
-                void set_person_unsit(Thing * p_person);
-                set_person_unsit(p_person);
-                break;
+        case ACTION_KICK_FLAG:
+            p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_KICK;
+            break;
+        case ACTION_PUNCH_FLAG:
+            p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_PUNCH;
+            break;
+        case ACTION_BLOCK_FLAG:
+            p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_BLOCK;
+            break;
+        case ACTION_JUMP_FLAG:
+            p_person->Genus.Person->Flags |= FLAG_PERSON_REQUEST_JUMP;
+            break;
+        case ACTION_HUG_LEFT:
+            if (p_person->SubState != SUB_STATE_HUG_WALL_STEP_RIGHT && p_person->SubState != SUB_STATE_HUG_WALL_LOOK_L && p_person->SubState != SUB_STATE_HUG_WALL_TURN && p_person->SubState != SUB_STATE_HUG_WALL_LEAP_OUT)
+                set_person_hug_wall_dir(p_person, 0);
+            input_used = 0;
+            break;
+        case ACTION_HUG_RIGHT:
+            if (p_person->SubState != SUB_STATE_HUG_WALL_STEP_LEFT && p_person->SubState != SUB_STATE_HUG_WALL_LOOK_R && p_person->SubState != SUB_STATE_HUG_WALL_TURN && p_person->SubState != SUB_STATE_HUG_WALL_LEAP_OUT)
+                set_person_hug_wall_dir(p_person, 1);
+            input_used = 0;
+            break;
+        case ACTION_UNSIT:
+            void set_person_unsit(Thing * p_person);
+            set_person_unsit(p_person);
+            break;
 
-            case ACTION_FLIP_LEFT:
-                if (p_person->Genus.Person->Action == ACTION_STANDING_JUMP) {
-                    if (p_person->Draw.Tweened->FrameIndex < 3)
-                        set_person_flip(p_person, 0);
-                } else
+        case ACTION_FLIP_LEFT:
+            if (p_person->Genus.Person->Action == ACTION_STANDING_JUMP) {
+                if (p_person->Draw.Tweened->FrameIndex < 3)
                     set_person_flip(p_person, 0);
-                input_used = 0;
-                break;
-            case ACTION_FLIP_RIGHT:
-                //				if(p_person->Action==ACTION_STANDING_JUMP)
-                if (p_person->Genus.Person->Action == ACTION_STANDING_JUMP) {
-                    if (p_person->Draw.Tweened->FrameIndex < 3)
-                        set_person_flip(p_person, 1);
-                } else
+            } else
+                set_person_flip(p_person, 0);
+            input_used = 0;
+            break;
+        case ACTION_FLIP_RIGHT:
+            //				if(p_person->Action==ACTION_STANDING_JUMP)
+            if (p_person->Genus.Person->Action == ACTION_STANDING_JUMP) {
+                if (p_person->Draw.Tweened->FrameIndex < 3)
                     set_person_flip(p_person, 1);
-                input_used = 0;
-                break;
-            case ACTION_SHOOT:
-                if (p_person->Genus.Person->Action == ACTION_SHOOT) {
-                    /*
+            } else
+                set_person_flip(p_person, 1);
+            input_used = 0;
+            break;
+        case ACTION_SHOOT:
+            if (p_person->Genus.Person->Action == ACTION_SHOOT) {
+                /*
 
-                    //
-                    // Only the pistol animation can be interrupted so you
-                    // can shoot again.
-                    //
+                //
+                // Only the pistol animation can be interrupted so you
+                // can shoot again.
+                //
 
-                    if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
-                    {
-                            set_player_shoot(p_person,0);
-                            processed|=input_used; //needs a clear click
-                    }
-
-                    */
-                } else {
-                    //					if(person_has_gun_out(p_person))
-                    {
-                        set_player_shoot(p_person, 0);
-
-                        processed |= input_used; // needs a clear click
-                    }
+                if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
+                {
+                        set_player_shoot(p_person,0);
+                        processed|=input_used; //needs a clear click
                 }
-                break;
-            case ACTION_GUN_AWAY:
-                set_person_gun_away(p_person);
-                processed |= input_used; // nedds a clear click
-                break;
-            case ACTION_RESPAWN:
-                //				set_person_alive_alive_o(p_person);
-                processed |= input_used;
-                break;
-            case ACTION_DROP_DOWN:
-                if (p_person->Genus.Person->Action == ACTION_DEATH_SLIDE) {
-                    MFX_stop(THING_NUMBER(p_person), S_ZIPWIRE);
-                    set_person_drop_down(p_person, PERSON_DROP_DOWN_OFF_FACE);
-                    p_person->Velocity = 0;
-                } else {
-                    set_person_drop_down(p_person, PERSON_DROP_DOWN_OFF_FACE);
+
+                */
+            } else {
+                //					if(person_has_gun_out(p_person))
+                {
+                    set_player_shoot(p_person, 0);
+
+                    processed |= input_used; // needs a clear click
                 }
-                break;
+            }
+            break;
+        case ACTION_GUN_AWAY:
+            set_person_gun_away(p_person);
+            processed |= input_used; // nedds a clear click
+            break;
+        case ACTION_RESPAWN:
+            //				set_person_alive_alive_o(p_person);
+            processed |= input_used;
+            break;
+        case ACTION_DROP_DOWN:
+            if (p_person->Genus.Person->Action == ACTION_DEATH_SLIDE) {
+                MFX_stop(THING_NUMBER(p_person), S_ZIPWIRE);
+                set_person_drop_down(p_person, PERSON_DROP_DOWN_OFF_FACE);
+                p_person->Velocity = 0;
+            } else {
+                set_person_drop_down(p_person, PERSON_DROP_DOWN_OFF_FACE);
+            }
+            break;
         }
 
         if (!(p_person->Genus.Person->Flags & (FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C))) {
             switch (new_action) {
-                case ACTION_SKID:
-                    if (p_person->SubState != SUB_STATE_RUNNING_SKID_STOP)
-                        if (p_person->SubState != SUB_STATE_RUNNING_JUMP_LAND_FAST)
-                            if (p_person->Velocity > 25) {
-                                set_anim(p_person, ANIM_SLIDER_START);
-                                p_person->SubState = SUB_STATE_RUNNING_SKID_STOP;
-                                if (!(p_person->Genus.Person->Flags & FLAG_PERSON_SLIDING)) {
+            case ACTION_SKID:
+                if (p_person->SubState != SUB_STATE_RUNNING_SKID_STOP)
+                    if (p_person->SubState != SUB_STATE_RUNNING_JUMP_LAND_FAST)
+                        if (p_person->Velocity > 25) {
+                            set_anim(p_person, ANIM_SLIDER_START);
+                            p_person->SubState = SUB_STATE_RUNNING_SKID_STOP;
+                            if (!(p_person->Genus.Person->Flags & FLAG_PERSON_SLIDING)) {
 #ifndef PSX
-                                    MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED, p_person);
+                                MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED, p_person);
 #else
-                                    MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED | MFX_FLAG_SLIDER, p_person);
+                                MFX_play_thing(THING_NUMBER(p_person), S_SLIDE_START, MFX_LOOPED | MFX_FLAG_SLIDER, p_person);
 #endif
-                                    p_person->Genus.Person->Flags |= FLAG_PERSON_SLIDING;
-                                }
-                            }
-
-                    break;
-                case ACTION_STANDING_JUMP:
-
-                    if (should_i_jump(p_person)) {
-                        if (input & INPUT_MASK_FORWARDS)
-                            set_person_standing_jump_forwards(p_person);
-                        else if ((input & INPUT_MASK_BACKWARDS) && should_person_backflip(p_person))
-                            set_person_standing_jump_backwards(p_person);
-                        else if (input & INPUT_MASK_LEFT)
-                            set_person_flip(p_person, 0);
-                        else if (input & INPUT_MASK_RIGHT)
-                            set_person_flip(p_person, 1);
-                        else
-                            set_person_standing_jump(p_person);
-                    } else {
-                        //
-                        // Only flipping allowed?
-                        //
-
-                        if (input & INPUT_MASK_LEFT)
-                            set_person_flip(p_person, 0);
-                        else if (input & INPUT_MASK_RIGHT)
-                            set_person_flip(p_person, 1);
-                    }
-
-                    break;
-                case ACTION_RUNNING_JUMP:
-                    //				LogText(" start running jump \n");
-                    if (p_person->SubState == SUB_STATE_RUNNING_SKID_STOP) {
-                        p_person->Genus.Person->Flags &= ~FLAG_PERSON_SLIDING;
-                        MFX_stop(THING_NUMBER(p_person), S_SLIDE_START);
-                    }
-                    if (should_i_jump(p_person)) {
-                        set_person_running_jump(p_person);
-                    }
-                    break;
-                case ACTION_TRAVERSE_LEFT:
-                    set_person_traverse(p_person, 0);
-                    break;
-                case ACTION_TRAVERSE_RIGHT:
-                    set_person_traverse(p_person, 1);
-                    break;
-                case ACTION_PULL_UP:
-                    //				LogText(" set person pulling up \n");
-                    set_person_pulling_up(p_person);
-                    input_used = 0;
-                    break;
-                case ACTION_FIGHT_KICK:
-                    //				MSG_add(" ACTION TREE KICK");
-                    //				set_person_kick(p_person);
-                    if (input & INPUT_MASK_BACKWARDS) {
-                        if (p_person->State != STATE_JUMPING) {
-                            //
-                            // Kick Backwards
-                            //
-                            turn_to_target(
-                                p_person,
-                                FIND_DIR_BACK | FIND_DIR_DONT_TURN);
-
-                            p_person->Genus.Person->Timer1 = 6;
-
-                            set_person_kick_dir(p_person, 2);
-
-                            person_enter_fight_mode(p_person);
-
-                            processed |= INPUT_MASK_KICK | INPUT_MASK_BACKWARDS;
-                        }
-                    } else {
-                        if (p_person->State != STATE_JUMPING) {
-                            if (turn_to_target_and_kick(p_person)) {
-                                //
-                                // Enter fight mode.
-                                //
-
-                                person_enter_fight_mode(p_person);
+                                p_person->Genus.Person->Flags |= FLAG_PERSON_SLIDING;
                             }
                         }
+
+                break;
+            case ACTION_STANDING_JUMP:
+
+                if (should_i_jump(p_person)) {
+                    if (input & INPUT_MASK_FORWARDS)
+                        set_person_standing_jump_forwards(p_person);
+                    else if ((input & INPUT_MASK_BACKWARDS) && should_person_backflip(p_person))
+                        set_person_standing_jump_backwards(p_person);
+                    else if (input & INPUT_MASK_LEFT)
+                        set_person_flip(p_person, 0);
+                    else if (input & INPUT_MASK_RIGHT)
+                        set_person_flip(p_person, 1);
+                    else
+                        set_person_standing_jump(p_person);
+                } else {
+                    //
+                    // Only flipping allowed?
+                    //
+
+                    if (input & INPUT_MASK_LEFT)
+                        set_person_flip(p_person, 0);
+                    else if (input & INPUT_MASK_RIGHT)
+                        set_person_flip(p_person, 1);
+                }
+
+                break;
+            case ACTION_RUNNING_JUMP:
+                //				LogText(" start running jump \n");
+                if (p_person->SubState == SUB_STATE_RUNNING_SKID_STOP) {
+                    p_person->Genus.Person->Flags &= ~FLAG_PERSON_SLIDING;
+                    MFX_stop(THING_NUMBER(p_person), S_SLIDE_START);
+                }
+                if (should_i_jump(p_person)) {
+                    set_person_running_jump(p_person);
+                }
+                break;
+            case ACTION_TRAVERSE_LEFT:
+                set_person_traverse(p_person, 0);
+                break;
+            case ACTION_TRAVERSE_RIGHT:
+                set_person_traverse(p_person, 1);
+                break;
+            case ACTION_PULL_UP:
+                //				LogText(" set person pulling up \n");
+                set_person_pulling_up(p_person);
+                input_used = 0;
+                break;
+            case ACTION_FIGHT_KICK:
+                //				MSG_add(" ACTION TREE KICK");
+                //				set_person_kick(p_person);
+                if (input & INPUT_MASK_BACKWARDS) {
+                    if (p_person->State != STATE_JUMPING) {
+                        //
+                        // Kick Backwards
+                        //
+                        turn_to_target(
+                            p_person,
+                            FIND_DIR_BACK | FIND_DIR_DONT_TURN);
+
+                        p_person->Genus.Person->Timer1 = 6;
+
+                        set_person_kick_dir(p_person, 2);
+
+                        person_enter_fight_mode(p_person);
+
+                        processed |= INPUT_MASK_KICK | INPUT_MASK_BACKWARDS;
                     }
-
-                    // play_quick_wave(
-                    //	p_person,
-                    //	S_HIYAR,
-                    //	WAVE_PLAY_INTERUPT);
-
-                    break;
-                case ACTION_FIGHT_PUNCH:
-                    //				MSG_add(" ACTION TREE PUNCH");
-                    //				set_player_punch(p_person);
-
-                    if (person_has_gun_out(p_person)) {
-                        //						set_person_idle(p_person);
-                        set_person_shoot(p_person, 0);
-                    } else if (!player_activate_in_hand(p_person))
-                        if (turn_to_target_and_punch(p_person))
-                        //					if (p_person->Genus.Person->UnderAttack)
-                        {
+                } else {
+                    if (p_person->State != STATE_JUMPING) {
+                        if (turn_to_target_and_kick(p_person)) {
                             //
                             // Enter fight mode.
                             //
 
                             person_enter_fight_mode(p_person);
                         }
+                    }
+                }
 
-                    // play_quick_wave(
-                    //	p_person,
-                    //	S_HIYAR,
-                    //	WAVE_PLAY_INTERUPT);
+                // play_quick_wave(
+                //	p_person,
+                //	S_HIYAR,
+                //	WAVE_PLAY_INTERUPT);
 
-                    break;
-                case ACTION_DRAW_SPECIAL:
-                    set_person_draw_special(p_person);
-                    processed |= input_used; // needs a clear click
-                    break;
+                break;
+            case ACTION_FIGHT_PUNCH:
+                //				MSG_add(" ACTION TREE PUNCH");
+                //				set_player_punch(p_person);
+
+                if (person_has_gun_out(p_person)) {
+                    //						set_person_idle(p_person);
+                    set_person_shoot(p_person, 0);
+                } else if (!player_activate_in_hand(p_person))
+                    if (turn_to_target_and_punch(p_person))
+                    //					if (p_person->Genus.Person->UnderAttack)
+                    {
+                        //
+                        // Enter fight mode.
+                        //
+
+                        person_enter_fight_mode(p_person);
+                    }
+
+                // play_quick_wave(
+                //	p_person,
+                //	S_HIYAR,
+                //	WAVE_PLAY_INTERUPT);
+
+                break;
+            case ACTION_DRAW_SPECIAL:
+                set_person_draw_special(p_person);
+                processed |= input_used; // needs a clear click
+                break;
             }
         }
 
@@ -4079,33 +4105,33 @@ std::uint32_t apply_button_input(struct Thing *p_player, struct Thing *p_person,
         //		LogText(" apply button input %d  state %d\n",input,p_person->State);
         if (!(p_person->Genus.Person->Flags & FLAG_PERSON_NON_INT_M)) {
             switch (p_person->State) {
-                case STATE_HIT_RECOIL:
-                case STATE_CARRY:
-                case STATE_HUG_WALL:
-                case STATE_IDLE:
-                case STATE_MOVEING:
-                case STATE_GUN:
-                case STATE_CLIMB_LADDER:
-                case STATE_CLIMBING:
-                case STATE_DANGLING:
-                case STATE_JUMPING:
+            case STATE_HIT_RECOIL:
+            case STATE_CARRY:
+            case STATE_HUG_WALL:
+            case STATE_IDLE:
+            case STATE_MOVEING:
+            case STATE_GUN:
+            case STATE_CLIMB_LADDER:
+            case STATE_CLIMBING:
+            case STATE_DANGLING:
+            case STATE_JUMPING:
+                player_interface_move(p_person, input);
+                break;
+
+            case STATE_GRAPPLING:
+
+                if (p_person->SubState == SUB_STATE_GRAPPLING_WINDUP) {
+                    //
+                    // Only move while spinning the hook, not when throwing
+                    // or picking it up.
+                    //
+
                     player_interface_move(p_person, input);
-                    break;
+                }
 
-                case STATE_GRAPPLING:
-
-                    if (p_person->SubState == SUB_STATE_GRAPPLING_WINDUP) {
-                        //
-                        // Only move while spinning the hook, not when throwing
-                        // or picking it up.
-                        //
-
-                        player_interface_move(p_person, input);
-                    }
-
-                    break;
-                default:
-                    break;
+                break;
+            default:
+                break;
             }
         } else {
             if (p_person->Genus.Person->Action == ACTION_SIT_BENCH) {
@@ -4124,61 +4150,61 @@ std::uint32_t apply_button_input(struct Thing *p_player, struct Thing *p_person,
     } else {
         if (!(p_person->Genus.Person->Flags & FLAG_PERSON_NON_INT_M))
             switch (p_person->State) {
-                case STATE_IDLE:
-                    player_turn_left_right(p_person, 0);
+            case STATE_IDLE:
+                player_turn_left_right(p_person, 0);
+                break;
+            case STATE_MOVEING:
+                switch (p_person->SubState) {
+                case SUB_STATE_CRAWLING:
+                    set_person_idle_croutch(p_person);
                     break;
-                case STATE_MOVEING:
-                    switch (p_person->SubState) {
-                        case SUB_STATE_CRAWLING:
-                            set_person_idle_croutch(p_person);
-                            break;
-                            //					case	SUB_STATE_HOP_BACK:
-                            //						break;
-                        default:
-                            player_stop_move(p_person, input);
-                    }
-
-                    break;
-                    /*
-                                            case	STATE_CLIMB_LADDER:
-                                                    switch(p_person->SubState)
-                                                    {
-                                                            case	SUB_STATE_MOUNT_LADDER:
-                                                                    break;
-                                                            case	SUB_STATE_STOPPING:
-                                                            case	SUB_STATE_ON_LADDER:
-                                                            case	SUB_STATE_CLIMB_UP_LADDER:
-                                                            case	SUB_STATE_CLIMB_DOWN_LADDER:
-                                                                    player_stop_move(p_person,input);
-                                                                    break;
-                                                    }
-                    */
-                    /*
-                                                    case	STATE_CLIMBING:
-                                                    switch(p_person->SubState)
-                                                    {
-                                                            case	SUB_STATE_STOPPING:
-                                                            case	SUB_STATE_CLIMB_UP_WALL:
-                                                            case	SUB_STATE_CLIMB_AROUND_WALL:
-                                                            case	SUB_STATE_CLIMB_DOWN_WALL:
-                                                                    player_stop_move(p_person,input);
-                                                                    break;
-                                                    }
-                                                    break;
-                    */
-                case STATE_DANGLING:
-                    switch (p_person->SubState) {
-                        case SUB_STATE_STOPPING:
-                        case SUB_STATE_DANGLING_CABLE_FORWARD:
-                        case SUB_STATE_DANGLING_CABLE_BACKWARD:
-                        case SUB_STATE_DANGLING_CABLE:
-                            player_stop_move(p_person, input);
-                            break;
-                    }
-                    break;
+                    //					case	SUB_STATE_HOP_BACK:
+                    //						break;
                 default:
-                    p_player->Genus.Player->Input = input;
+                    player_stop_move(p_person, input);
+                }
+
+                break;
+                /*
+                                        case	STATE_CLIMB_LADDER:
+                                                switch(p_person->SubState)
+                                                {
+                                                        case	SUB_STATE_MOUNT_LADDER:
+                                                                break;
+                                                        case	SUB_STATE_STOPPING:
+                                                        case	SUB_STATE_ON_LADDER:
+                                                        case	SUB_STATE_CLIMB_UP_LADDER:
+                                                        case	SUB_STATE_CLIMB_DOWN_LADDER:
+                                                                player_stop_move(p_person,input);
+                                                                break;
+                                                }
+                */
+                /*
+                                                case	STATE_CLIMBING:
+                                                switch(p_person->SubState)
+                                                {
+                                                        case	SUB_STATE_STOPPING:
+                                                        case	SUB_STATE_CLIMB_UP_WALL:
+                                                        case	SUB_STATE_CLIMB_AROUND_WALL:
+                                                        case	SUB_STATE_CLIMB_DOWN_WALL:
+                                                                player_stop_move(p_person,input);
+                                                                break;
+                                                }
+                                                break;
+                */
+            case STATE_DANGLING:
+                switch (p_person->SubState) {
+                case SUB_STATE_STOPPING:
+                case SUB_STATE_DANGLING_CABLE_FORWARD:
+                case SUB_STATE_DANGLING_CABLE_BACKWARD:
+                case SUB_STATE_DANGLING_CABLE:
+                    player_stop_move(p_person, input);
                     break;
+                }
+                break;
+            default:
+                p_player->Genus.Player->Input = input;
+                break;
             }
     }
     return (processed | input_used);
@@ -4340,25 +4366,25 @@ std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::ui
 
         new_action = find_best_action_from_tree(p_person->Genus.Person->Action, input, &input_used);
         switch (new_action) {
-            case ACTION_RESPAWN:
-                //				set_person_alive_alive_o(p_person);
-                break;
+        case ACTION_RESPAWN:
+            //				set_person_alive_alive_o(p_person);
+            break;
         }
     }
 
     if (p_person->SubState == SUB_STATE_STEP_FORWARD) {
         if (p_player->Genus.Player->Pressed & INPUT_MASK_JUMP) {
             switch (p_person->Draw.Tweened->CurrentAnim) {
-                case ANIM_FIGHT_STEP_E:
-                    set_person_flip(p_person, 1);
-                    // PANEL_new_text(NULL,4000,"ACTION combat flip");
-                    return INPUT_MASK_JUMP;
-                    break;
-                case ANIM_FIGHT_STEP_W:
-                    set_person_flip(p_person, 0);
-                    // PANEL_new_text(NULL,4000,"ACTION combat flip");
-                    return INPUT_MASK_JUMP;
-                    break;
+            case ANIM_FIGHT_STEP_E:
+                set_person_flip(p_person, 1);
+                // PANEL_new_text(NULL,4000,"ACTION combat flip");
+                return INPUT_MASK_JUMP;
+                break;
+            case ANIM_FIGHT_STEP_W:
+                set_person_flip(p_person, 0);
+                // PANEL_new_text(NULL,4000,"ACTION combat flip");
+                return INPUT_MASK_JUMP;
+                break;
             }
         }
     }
@@ -4536,16 +4562,16 @@ std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::ui
             if (p_person->SubState == SUB_STATE_STEP_FORWARD) {
                 if (p_player->Genus.Player->Pressed & INPUT_MASK_JUMP) {
                     switch (p_person->Draw.Tweened->CurrentAnim) {
-                        case ANIM_FIGHT_STEP_E:
-                            set_person_flip(p_person, 1);
-                            // PANEL_new_text(NULL,4000,"combat flip");
-                            return INPUT_MASK_JUMP;
-                            break;
-                        case ANIM_FIGHT_STEP_W:
-                            set_person_flip(p_person, 0);
-                            // PANEL_new_text(NULL,4000,"combat flip");
-                            return INPUT_MASK_JUMP;
-                            break;
+                    case ANIM_FIGHT_STEP_E:
+                        set_person_flip(p_person, 1);
+                        // PANEL_new_text(NULL,4000,"combat flip");
+                        return INPUT_MASK_JUMP;
+                        break;
+                    case ANIM_FIGHT_STEP_W:
+                        set_person_flip(p_person, 0);
+                        // PANEL_new_text(NULL,4000,"combat flip");
+                        return INPUT_MASK_JUMP;
+                        break;
                     }
                 }
 
@@ -4694,22 +4720,22 @@ std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::ui
         std::int32_t dir = 0;
         if (p_person->SubState == SUB_STATE_STEP_FORWARD) {
             switch (p_person->Draw.Tweened->CurrentAnim) {
-                case ANIM_FIGHT_STEP_N:
-                case ANIM_FIGHT_STEP_N_BAT:
-                    dir = 1;
-                    break;
-                case ANIM_FIGHT_STEP_E:
-                case ANIM_FIGHT_STEP_E_BAT:
-                    dir = 2;
-                    break;
-                case ANIM_FIGHT_STEP_S:
-                case ANIM_FIGHT_STEP_S_BAT:
-                    dir = 3;
-                    break;
-                case ANIM_FIGHT_STEP_W:
-                case ANIM_FIGHT_STEP_W_BAT:
-                    dir = 4;
-                    break;
+            case ANIM_FIGHT_STEP_N:
+            case ANIM_FIGHT_STEP_N_BAT:
+                dir = 1;
+                break;
+            case ANIM_FIGHT_STEP_E:
+            case ANIM_FIGHT_STEP_E_BAT:
+                dir = 2;
+                break;
+            case ANIM_FIGHT_STEP_S:
+            case ANIM_FIGHT_STEP_S_BAT:
+                dir = 3;
+                break;
+            case ANIM_FIGHT_STEP_W:
+            case ANIM_FIGHT_STEP_W_BAT:
+                dir = 4;
+                break;
             }
         }
         if (pl->Pressed & INPUT_MASK_PUNCH) {
@@ -5963,123 +5989,123 @@ std::uint32_t get_hardware_input(std::uint16_t type) {
 
     PAD_Type = PadInfoMode(0, InfoModeCurID, 0);
     switch (PAD_Type) {
-        case 0:
-            GAME_FLAGS |= GF_PAUSED;
-            break;
-        case 4:
-        case 7:
-            for (c0 = 0; c0 < 14; c0++) {
-                if (PadKeyIsPressed(&PAD_Input1, PAD_Current->data[c0].pad_button)) {
-                    if (PAD_Current->data[c0].input_mask > 0) {
-                        if (PAD_Current->data[c0].pad_flags & PAD_FLAG_DEBOUNCE) {
-                            if (!(psx_pad_mask & (1 << c0))) {
-                                input |= PAD_Current->data[c0].input_mask;
-                                psx_pad_mask |= (1 << c0);
-                            }
-                        } else
+    case 0:
+        GAME_FLAGS |= GF_PAUSED;
+        break;
+    case 4:
+    case 7:
+        for (c0 = 0; c0 < 14; c0++) {
+            if (PadKeyIsPressed(&PAD_Input1, PAD_Current->data[c0].pad_button)) {
+                if (PAD_Current->data[c0].input_mask > 0) {
+                    if (PAD_Current->data[c0].pad_flags & PAD_FLAG_DEBOUNCE) {
+                        if (!(psx_pad_mask & (1 << c0))) {
                             input |= PAD_Current->data[c0].input_mask;
-                    } else {
-                        if (PAD_Current->data[c0].pad_flags & PAD_FLAG_DEBOUNCE) {
-                            if (!(psx_pad_mask & (1 << c0))) {
-                                psx_pad_mask |= (1 << c0);
-                                Keys[-PAD_Current->data[c0].input_mask] = 1;
-                            }
-                        } else
+                            psx_pad_mask |= (1 << c0);
+                        }
+                    } else
+                        input |= PAD_Current->data[c0].input_mask;
+                } else {
+                    if (PAD_Current->data[c0].pad_flags & PAD_FLAG_DEBOUNCE) {
+                        if (!(psx_pad_mask & (1 << c0))) {
+                            psx_pad_mask |= (1 << c0);
                             Keys[-PAD_Current->data[c0].input_mask] = 1;
-                    }
-                } else
-                    psx_pad_mask &= ~(1 << c0);
-            }
-            if (PAD_Type == 7) {
-                std::uint8_t joyx, joyy;
-
-                analogue = 1;
-                //		input|=INPUT_MASK_MOVE;
-                //		printf("%d,%d\n",JoystickLeftX(&PAD_Input1),JoystickLeftY(&PAD_Input1));
-
-                /*
-                                        {
-                                                std::int32_t	in_dx,in_dz;
-                                                std::int32_t	dx,dz;
-                                                std::int32_t	angle;
-
-                                                in_dx=JoystickLeftX(&PAD_Input1)-128;
-                                                in_dz=JoystickLeftY(&PAD_Input1)-128;
-
-                                                get_analogue_dxdz(in_dx,in_dz,&dx,&dz);
-                                                angle=Arctan(-dx,dz);
-                                                if(QDIST2(abs(dx),abs(dz))>32)
-                                                {
-                                                        if(angle<256 || angle>2048-256)
-                                                        {
-                                                                input|=INPUT_MASK_FORWARDS;
-                                                        }
-                                                        if(angle>512-256 && angle<512+256)
-                                                                input|=INPUT_MASK_LEFT;
-
-                                                        if(angle>1024-256 && angle<1024+256)
-                                                                input|=INPUT_MASK_BACKWARDS;
-                                                        if(angle>1024+512-256 && angle<1024+512+256)
-                                                                input|=INPUT_MASK_RIGHT;
-
-                                                }
-
-                                                joyx=dx+128;
-                                                joyy=dz+128;
-
-
-
-                                        }
-                                        input|=((joyx)>>1)<<18;
-                                        input|=((joyy)>>1)<<25;    //on PC -128 is up!
-                */
-
-                input |= ((joyx = JoystickLeftX(&PAD_Input1)) >> 1) << 18;
-                input |= ((joyy = JoystickLeftY(&PAD_Input1)) >> 1) << 25; // on PC -128 is up!
-
-                if (joyx < 96 - 32) input |= INPUT_MASK_LEFT;
-                if (joyx > 160 + 32) input |= INPUT_MASK_RIGHT;
-                if (joyy < 96 - 32) {
-                    input |= INPUT_MASK_MOVE;
-                    input |= INPUT_MASK_FORWARDS;
+                        }
+                    } else
+                        Keys[-PAD_Current->data[c0].input_mask] = 1;
                 }
-                if (joyy > 160 + 32) input |= INPUT_MASK_BACKWARDS;
-
             } else
-                analogue = 0;
+                psx_pad_mask &= ~(1 << c0);
+        }
+        if (PAD_Type == 7) {
+            std::uint8_t joyx, joyy;
+
+            analogue = 1;
+            //		input|=INPUT_MASK_MOVE;
+            //		printf("%d,%d\n",JoystickLeftX(&PAD_Input1),JoystickLeftY(&PAD_Input1));
+
+            /*
+                                    {
+                                            std::int32_t	in_dx,in_dz;
+                                            std::int32_t	dx,dz;
+                                            std::int32_t	angle;
+
+                                            in_dx=JoystickLeftX(&PAD_Input1)-128;
+                                            in_dz=JoystickLeftY(&PAD_Input1)-128;
+
+                                            get_analogue_dxdz(in_dx,in_dz,&dx,&dz);
+                                            angle=Arctan(-dx,dz);
+                                            if(QDIST2(abs(dx),abs(dz))>32)
+                                            {
+                                                    if(angle<256 || angle>2048-256)
+                                                    {
+                                                            input|=INPUT_MASK_FORWARDS;
+                                                    }
+                                                    if(angle>512-256 && angle<512+256)
+                                                            input|=INPUT_MASK_LEFT;
+
+                                                    if(angle>1024-256 && angle<1024+256)
+                                                            input|=INPUT_MASK_BACKWARDS;
+                                                    if(angle>1024+512-256 && angle<1024+512+256)
+                                                            input|=INPUT_MASK_RIGHT;
+
+                                            }
+
+                                            joyx=dx+128;
+                                            joyy=dz+128;
+
+
+
+                                    }
+                                    input|=((joyx)>>1)<<18;
+                                    input|=((joyy)>>1)<<25;    //on PC -128 is up!
+            */
+
+            input |= ((joyx = JoystickLeftX(&PAD_Input1)) >> 1) << 18;
+            input |= ((joyy = JoystickLeftY(&PAD_Input1)) >> 1) << 25; // on PC -128 is up!
+
+            if (joyx < 96 - 32) input |= INPUT_MASK_LEFT;
+            if (joyx > 160 + 32) input |= INPUT_MASK_RIGHT;
+            if (joyy < 96 - 32) {
+                input |= INPUT_MASK_MOVE;
+                input |= INPUT_MASK_FORWARDS;
+            }
+            if (joyy > 160 + 32) input |= INPUT_MASK_BACKWARDS;
+
+        } else
+            analogue = 0;
 #ifndef VERSION_DEMO
 #ifdef CHEAT_LOCATION_KEYS
-            if (input == (INPUT_MASK_PUNCH | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_JUMP | INPUT_MASK_LEFT))
-                cheat = 2;
+        if (input == (INPUT_MASK_PUNCH | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_JUMP | INPUT_MASK_LEFT))
+            cheat = 2;
 #endif
-            //		if(input==(INPUT_MASK_PUNCH|INPUT_MASK_KICK|INPUT_MASK_ACTION|INPUT_MASK_JUMP|INPUT_MASK_RUN))
-            //			PYRO_create(NET_PERSON(0)->WorldPos, PYRO_GAMEOVER);
+        //		if(input==(INPUT_MASK_PUNCH|INPUT_MASK_KICK|INPUT_MASK_ACTION|INPUT_MASK_JUMP|INPUT_MASK_RUN))
+        //			PYRO_create(NET_PERSON(0)->WorldPos, PYRO_GAMEOVER);
 
-            if (input == (INPUT_MASK_PUNCH | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_JUMP | INPUT_MASK_RIGHT)) {
-                if (NET_PERSON(0)->Genus.Person->Health != 1000) {
-                    NET_PERSON(0)->Genus.Person->Health = 1000;
+        if (input == (INPUT_MASK_PUNCH | INPUT_MASK_KICK | INPUT_MASK_ACTION | INPUT_MASK_JUMP | INPUT_MASK_RIGHT)) {
+            if (NET_PERSON(0)->Genus.Person->Health != 1000) {
+                NET_PERSON(0)->Genus.Person->Health = 1000;
 
-                    NET_PERSON(0)->Genus.Person->ammo_packs_pistol = 240;
-                    NET_PERSON(0)->Genus.Person->ammo_packs_shotgun = 240;
-                    NET_PERSON(0)->Genus.Person->ammo_packs_ak47 = 240;
+                NET_PERSON(0)->Genus.Person->ammo_packs_pistol = 240;
+                NET_PERSON(0)->Genus.Person->ammo_packs_shotgun = 240;
+                NET_PERSON(0)->Genus.Person->ammo_packs_ak47 = 240;
 
-                    alloc_special(SPECIAL_AK47, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) + 128, NET_PERSON(0)->WorldPos.Y >> 8, NET_PERSON(0)->WorldPos.Z >> 8, 0);
-                    alloc_special(SPECIAL_SHOTGUN, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) - 128, NET_PERSON(0)->WorldPos.Y >> 8, NET_PERSON(0)->WorldPos.Z >> 8, 0);
-                    //				alloc_special(SPECIAL_EXPLOSIVES, SPECIAL_SUBSTATE_NONE,(NET_PERSON(0)->WorldPos.X>>8)-128 ,NET_PERSON(0)->WorldPos.Y>>8 ,(NET_PERSON(0)->WorldPos.Z>>8)+128 , 0);
-                    alloc_special(SPECIAL_GRENADE, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) + 128, NET_PERSON(0)->WorldPos.Y >> 8, (NET_PERSON(0)->WorldPos.Z >> 8) - 128, 0);
+                alloc_special(SPECIAL_AK47, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) + 128, NET_PERSON(0)->WorldPos.Y >> 8, NET_PERSON(0)->WorldPos.Z >> 8, 0);
+                alloc_special(SPECIAL_SHOTGUN, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) - 128, NET_PERSON(0)->WorldPos.Y >> 8, NET_PERSON(0)->WorldPos.Z >> 8, 0);
+                //				alloc_special(SPECIAL_EXPLOSIVES, SPECIAL_SUBSTATE_NONE,(NET_PERSON(0)->WorldPos.X>>8)-128 ,NET_PERSON(0)->WorldPos.Y>>8 ,(NET_PERSON(0)->WorldPos.Z>>8)+128 , 0);
+                alloc_special(SPECIAL_GRENADE, SPECIAL_SUBSTATE_NONE, (NET_PERSON(0)->WorldPos.X >> 8) + 128, NET_PERSON(0)->WorldPos.Y >> 8, (NET_PERSON(0)->WorldPos.Z >> 8) - 128, 0);
 
-                    extern std::int32_t Wadmenu_MuckyTime;
+                extern std::int32_t Wadmenu_MuckyTime;
 
-                    Wadmenu_MuckyTime = 0;
-                    cheat = 1;
-                }
+                Wadmenu_MuckyTime = 0;
+                cheat = 1;
             }
+        }
 #endif
-            debug_input = input;
-            break;
-        default:
-            GAME_FLAGS |= GF_PAUSED;
-            break;
+        debug_input = input;
+        break;
+    default:
+        GAME_FLAGS |= GF_PAUSED;
+        break;
     }
 #endif // #ifdef	PSX
 
@@ -7130,16 +7156,16 @@ std::int32_t continue_action(Thing *p_person) {
         input = p_player->Genus.Player->Input;
         MSG_add(" continue action %d  input %x \n", p_person->Genus.Person->Action, input);
         switch (p_person->Genus.Person->Action) {
-            case ACTION_FLIP_LEFT:
-                new_action = find_best_action_from_tree(ACTION_IDLE, input, &input_used);
-                if (new_action == ACTION_FLIP_LEFT)
-                    return (1);
-                break;
-            case ACTION_FLIP_RIGHT:
-                new_action = find_best_action_from_tree(ACTION_IDLE, input, &input_used);
-                if (new_action == ACTION_FLIP_RIGHT)
-                    return (1);
-                break;
+        case ACTION_FLIP_LEFT:
+            new_action = find_best_action_from_tree(ACTION_IDLE, input, &input_used);
+            if (new_action == ACTION_FLIP_LEFT)
+                return (1);
+            break;
+        case ACTION_FLIP_RIGHT:
+            new_action = find_best_action_from_tree(ACTION_IDLE, input, &input_used);
+            if (new_action == ACTION_FLIP_RIGHT)
+                return (1);
+            break;
         }
     }
     return (0);

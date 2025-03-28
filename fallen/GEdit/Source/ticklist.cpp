@@ -71,32 +71,32 @@ bool CALLBACK ticklist_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     WNDPROC previous = (WNDPROC) GetWindowLong(hWnd, GWL_USERDATA);
 
     switch (message) {
-        case WM_CHAR:
-            if (wParam == 32) {
-                std::int32_t res, item;
-                RECT rc;
-                item = SendMessage(hWnd, LB_GETCURSEL, 0, 0);
-                res = 1 - SendMessage(hWnd, LB_GETITEMDATA, item, 0);
-                SendMessage(hWnd, LB_SETITEMDATA, item, res);
-                SendMessage(hWnd, LB_GETITEMRECT, item, (long) &rc);
-                InvalidateRect(hWnd, &rc, 0);
-                return false;
-            }
-            break;
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONDBLCLK:
-            if (LOWORD(lParam) < 16) {
-                std::int32_t res, item;
-                RECT rc;
-                res = SendMessage(hWnd, LB_ITEMFROMPOINT, 0, lParam);
-                item = LOWORD(res);
-                res = 1 - SendMessage(hWnd, LB_GETITEMDATA, item, 0);
-                SendMessage(hWnd, LB_SETITEMDATA, item, res);
-                SendMessage(hWnd, LB_GETITEMRECT, item, (long) &rc);
-                InvalidateRect(hWnd, &rc, 0);
-                return false;
-            }
-            break;
+    case WM_CHAR:
+        if (wParam == 32) {
+            std::int32_t res, item;
+            RECT rc;
+            item = SendMessage(hWnd, LB_GETCURSEL, 0, 0);
+            res = 1 - SendMessage(hWnd, LB_GETITEMDATA, item, 0);
+            SendMessage(hWnd, LB_SETITEMDATA, item, res);
+            SendMessage(hWnd, LB_GETITEMRECT, item, (long) &rc);
+            InvalidateRect(hWnd, &rc, 0);
+            return false;
+        }
+        break;
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONDBLCLK:
+        if (LOWORD(lParam) < 16) {
+            std::int32_t res, item;
+            RECT rc;
+            res = SendMessage(hWnd, LB_ITEMFROMPOINT, 0, lParam);
+            item = LOWORD(res);
+            res = 1 - SendMessage(hWnd, LB_GETITEMDATA, item, 0);
+            SendMessage(hWnd, LB_SETITEMDATA, item, res);
+            SendMessage(hWnd, LB_GETITEMRECT, item, (long) &rc);
+            InvalidateRect(hWnd, &rc, 0);
+            return false;
+        }
+        break;
     }
 
     return CallWindowProc(previous, hWnd, message, wParam, lParam);

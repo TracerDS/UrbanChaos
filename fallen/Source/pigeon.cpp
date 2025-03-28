@@ -18,8 +18,9 @@ void PIGEON_fn_normal(Thing *);
 
 StateFunction PIGEON_state_function[] =
     {
-        {STATE_INIT, PIGEON_fn_init},
-        {STATE_NORMAL, PIGEON_fn_normal}};
+        {STATE_INIT,   PIGEON_fn_init  },
+        {STATE_NORMAL, PIGEON_fn_normal}
+};
 
 //
 // Pigeon substates.
@@ -444,22 +445,22 @@ void PIGEON_init_land(Thing *pigeon) {
 
 void PIGEON_start_doing_something(Thing *pigeon) {
     switch (Random() & 0x3) {
-        case 0:
-        case 1:
-            PIGEON_init_peck(pigeon);
-            break;
+    case 0:
+    case 1:
+        PIGEON_init_peck(pigeon);
+        break;
 
-        case 2:
-            PIGEON_init_walk(pigeon);
-            break;
+    case 2:
+        PIGEON_init_walk(pigeon);
+        break;
 
-        case 3:
-            PIGEON_init_wait(pigeon);
-            break;
+    case 3:
+        PIGEON_init_wait(pigeon);
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -759,62 +760,62 @@ void PIGEON_process_perch(Thing *pigeon) {
 
     if (howlong == 0) {
         switch (Random() & 0x3) {
-            case 0:
-                howlong = 32 + (Random() & 31);
-                doing = PIGEON_PERCH_WAIT;
-                break;
+        case 0:
+            howlong = 32 + (Random() & 31);
+            doing = PIGEON_PERCH_WAIT;
+            break;
 
-            case 1:
-                howlong = 32 + (Random() & 31);
-                doing = PIGEON_PERCH_SHUFFLE_LEFT;
-                break;
+        case 1:
+            howlong = 32 + (Random() & 31);
+            doing = PIGEON_PERCH_SHUFFLE_LEFT;
+            break;
 
-            case 2:
-                howlong = 32 + (Random() & 31);
-                doing = PIGEON_PERCH_SHUFFLE_RIGHT;
-                break;
+        case 2:
+            howlong = 32 + (Random() & 31);
+            doing = PIGEON_PERCH_SHUFFLE_RIGHT;
+            break;
 
-            case 3:
+        case 3:
 
-                //
-                // It is too scary to return to where we were
-                // (animal->map_x, animal->map_z)?
-                //
+            //
+            // It is too scary to return to where we were
+            // (animal->map_x, animal->map_z)?
+            //
 
-                PIGEON_init_land(pigeon);
-                return;
+            PIGEON_init_land(pigeon);
+            return;
         }
     } else {
         howlong -= 1;
     }
 
     switch (doing) {
-        case PIGEON_PERCH_WAIT:
-            break;
+    case PIGEON_PERCH_WAIT:
+        break;
 
-        case PIGEON_PERCH_SHUFFLE_LEFT:
+    case PIGEON_PERCH_SHUFFLE_LEFT:
 
-            if (animal->along == 0) {
-                doing = PIGEON_PERCH_SHUFFLE_RIGHT;
-            } else {
-                animal->along -= 1;
-            }
+        if (animal->along == 0) {
+            doing = PIGEON_PERCH_SHUFFLE_RIGHT;
+        } else {
+            animal->along -= 1;
+        }
 
-            break;
+        break;
 
-        case PIGEON_PERCH_SHUFFLE_RIGHT:
+    case PIGEON_PERCH_SHUFFLE_RIGHT:
 
-            if (animal->along == 255) {
-                doing = PIGEON_PERCH_SHUFFLE_LEFT;
-            } else {
-                animal->along += 1;
-            }
+        if (animal->along == 255) {
+            doing = PIGEON_PERCH_SHUFFLE_LEFT;
+        } else {
+            animal->along += 1;
+        }
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     animal->counter = howlong;
@@ -884,22 +885,22 @@ void PIGEON_fn_normal(Thing *pigeon) {
     Animal *animal = ANIMAL_get_animal(pigeon);
 
     switch (animal->substate) {
-        case PIGEON_SUBSTATE_NONE:
-            break;
-        case PIGEON_SUBSTATE_WAIT: PIGEON_process_wait(pigeon); break;
-        case PIGEON_SUBSTATE_PECK: PIGEON_process_peck(pigeon); break;
-        case PIGEON_SUBSTATE_WALK: PIGEON_process_walk(pigeon); break;
-        case PIGEON_SUBSTATE_FLEE: PIGEON_process_flee(pigeon); break;
-        case PIGEON_SUBSTATE_FLY: PIGEON_process_fly(pigeon); break;
-        case PIGEON_SUBSTATE_PERCH: PIGEON_process_perch(pigeon); break;
-        case PIGEON_SUBSTATE_LAND:
-            PIGEON_process_land(pigeon);
-            break;
-            break;
+    case PIGEON_SUBSTATE_NONE:
+        break;
+    case PIGEON_SUBSTATE_WAIT: PIGEON_process_wait(pigeon); break;
+    case PIGEON_SUBSTATE_PECK: PIGEON_process_peck(pigeon); break;
+    case PIGEON_SUBSTATE_WALK: PIGEON_process_walk(pigeon); break;
+    case PIGEON_SUBSTATE_FLEE: PIGEON_process_flee(pigeon); break;
+    case PIGEON_SUBSTATE_FLY: PIGEON_process_fly(pigeon); break;
+    case PIGEON_SUBSTATE_PERCH: PIGEON_process_perch(pigeon); break;
+    case PIGEON_SUBSTATE_LAND:
+        PIGEON_process_land(pigeon);
+        break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     if (animal->substate == PIGEON_SUBSTATE_FLY) {
@@ -938,28 +939,28 @@ void PIGEON_fn_normal(Thing *pigeon) {
         p_scary = TO_THING(scary[i]);
 
         switch (p_scary->Class) {
-            case CLASS_ANIMAL:
+        case CLASS_ANIMAL:
 
-                scary_animal = ANIMAL_get_animal(p_scary);
+            scary_animal = ANIMAL_get_animal(p_scary);
 
-                //
-                // A pigeon is scared of any animal apart from a pigeon.
-                //
+            //
+            // A pigeon is scared of any animal apart from a pigeon.
+            //
 
-                if (scary_animal->AnimalType != ANIMAL_PIGEON) {
-                    PIGEON_init_fly(pigeon, p_scary);
-                }
-
-                break;
-
-            case CLASS_PERSON:
-            case CLASS_PROJECTILE:
+            if (scary_animal->AnimalType != ANIMAL_PIGEON) {
                 PIGEON_init_fly(pigeon, p_scary);
-                break;
+            }
 
-            default:
-                ASSERT(0);
-                break;
+            break;
+
+        case CLASS_PERSON:
+        case CLASS_PROJECTILE:
+            PIGEON_init_fly(pigeon, p_scary);
+            break;
+
+        default:
+            ASSERT(0);
+            break;
         }
     }
 }

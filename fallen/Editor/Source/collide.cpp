@@ -340,7 +340,7 @@ std::int32_t get_height_on_face_quad64(std::int32_t x, std::int32_t z, std::uint
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS(a, b) (((std::int32_t)((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
+#define SAME_SIGNS(a, b) (((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
 
 //
 // Lines that share a point count as intersecting.
@@ -683,14 +683,14 @@ static std::uint16_t done_list[116], done_count = 0;
 void add_to_done_list(std::uint16_t p1, std::uint16_t p2) {
     if (done_count > 100)
         return;
-    done_list[done_count] = (std::uint16_t)(p1 | (p2 << 4));
+    done_list[done_count] = (std::uint16_t) (p1 | (p2 << 4));
     done_count++;
 }
 
 std::uint16_t is_it_done(std::uint16_t p1, std::uint16_t p2) {
     std::uint16_t flip1, flip2, c0;
-    flip2 = (std::uint16_t)(p1 | (p2 << 4));
-    flip1 = (std::uint16_t)(p2 | (p1 << 4));
+    flip2 = (std::uint16_t) (p1 | (p2 << 4));
+    flip1 = (std::uint16_t) (p2 | (p1 << 4));
     for (c0 = 0; c0 < done_count; c0++) {
         if (done_list[c0] == flip1 || done_list[c0] == flip2)
             return (1);
@@ -792,12 +792,13 @@ inline void rotate_local_points(std::int32_t angle, struct SVECTOR *point, std::
 
 static std::uint8_t rotate_table[6][4] =
     {
-        {CUBE_FLAG_FRONT, CUBE_FLAG_LEFT, 0, CUBE_FLAG_RIGHT},
-        {CUBE_FLAG_TOP, CUBE_FLAG_TOP, CUBE_FLAG_TOP, CUBE_FLAG_TOP},
+        {CUBE_FLAG_FRONT,  CUBE_FLAG_LEFT,   0,                CUBE_FLAG_RIGHT },
+        {CUBE_FLAG_TOP,    CUBE_FLAG_TOP,    CUBE_FLAG_TOP,    CUBE_FLAG_TOP   },
         {CUBE_FLAG_BOTTOM, CUBE_FLAG_BOTTOM, CUBE_FLAG_BOTTOM, CUBE_FLAG_BOTTOM},
-        {CUBE_FLAG_LEFT, 0, CUBE_FLAG_RIGHT, CUBE_FLAG_FRONT},
-        {CUBE_FLAG_RIGHT, CUBE_FLAG_FRONT, CUBE_FLAG_LEFT, 0},
-        {0, CUBE_FLAG_RIGHT, CUBE_FLAG_FRONT, CUBE_FLAG_LEFT}};
+        {CUBE_FLAG_LEFT,   0,                CUBE_FLAG_RIGHT,  CUBE_FLAG_FRONT },
+        {CUBE_FLAG_RIGHT,  CUBE_FLAG_FRONT,  CUBE_FLAG_LEFT,   0               },
+        {0,                CUBE_FLAG_RIGHT,  CUBE_FLAG_FRONT,  CUBE_FLAG_LEFT  }
+};
 
 void col_for_cube_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement *p_ele) {
     struct SVECTOR points[8];
@@ -1781,14 +1782,14 @@ void col_for_map_thing(std::int32_t map_thing) {
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
-        case MAP_THING_TYPE_PRIM:
-            // 3ds Prim Mesh
-            clip_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, col_data.Depth);
-            break;
+    case MAP_THING_TYPE_PRIM:
+        // 3ds Prim Mesh
+        clip_a_prim_at(p_mthing->IndexOther, p_mthing->X, p_mthing->Y, p_mthing->Z, col_data.Depth);
+        break;
 
-        case MAP_THING_TYPE_SPRITE:
-        case MAP_THING_TYPE_AGENT:
-            break;
+    case MAP_THING_TYPE_SPRITE:
+    case MAP_THING_TYPE_AGENT:
+        break;
     }
 }
 
@@ -1801,13 +1802,13 @@ void col_for_backgrounds(struct ColInfo *p_col) {
         //		LogText(" Found a background index %d \n",index);
         p_thing = TO_MTHING(index);
         switch (p_col->Type) {
-            case COL_TYPE_PLANE:
-                //				clip_a_prim_at(p_thing->IndexOther,p_thing->X,p_thing->Y,p_thing->Z,col_data.Depth);
-                clip_a_prim_with_box(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, p_col);
-                break;
-            case COL_TYPE_BEZIER:
-                clip_a_prim_with_bezier(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, p_col);
-                break;
+        case COL_TYPE_PLANE:
+            //				clip_a_prim_at(p_thing->IndexOther,p_thing->X,p_thing->Y,p_thing->Z,col_data.Depth);
+            clip_a_prim_with_box(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, p_col);
+            break;
+        case COL_TYPE_BEZIER:
+            clip_a_prim_with_bezier(p_thing->IndexOther, p_thing->X, p_thing->Y, p_thing->Z, p_col);
+            break;
         }
         index = p_thing->IndexNext;
     }
@@ -1903,17 +1904,17 @@ void calc_collision_info(struct ColInfo *p_col) {
     struct EditMapElement *p_ele;
 
     switch (p_col->Type) {
-        case COL_TYPE_PLANE:
-            col_data.Left = p_col->Plane.Left;
-            col_data.Right = p_col->Plane.Right;
-            col_data.Top = p_col->Plane.Top;
-            col_data.Bottom = p_col->Plane.Bottom;
-            col_data.Depth = p_col->Plane.Depth;
-            col_data.Flag = 1;
-            break;
-        case COL_TYPE_BEZIER:
-            calc_bounding_box_for_bezier(p_col);
-            break;
+    case COL_TYPE_PLANE:
+        col_data.Left = p_col->Plane.Left;
+        col_data.Right = p_col->Plane.Right;
+        col_data.Top = p_col->Plane.Top;
+        col_data.Bottom = p_col->Plane.Bottom;
+        col_data.Depth = p_col->Plane.Depth;
+        col_data.Flag = 1;
+        break;
+    case COL_TYPE_BEZIER:
+        calc_bounding_box_for_bezier(p_col);
+        break;
     }
     /*
             for(dx=0;dx<EDIT_MAP_WIDTH;dx++)

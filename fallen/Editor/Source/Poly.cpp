@@ -989,7 +989,7 @@ void RENDER_MSC_50F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
 lp:
 		inc edi
 		mov ch,[edi]
-        //		mov [edi],cl
+               //		mov [edi],cl
 		mov dl,mix_map[ecx]
 		mov [edi],dl
 		dec eax
@@ -1112,11 +1112,11 @@ lp:
 		mov dl,cl
 		mov dx,[ebp+edx*2]
 		add edi,2
-        //		mov dh,0
-        // mov dh,bl
-        // mov dl,fade_tables[edx]
-        //		mov	ebp,ASMpal_address
-        //		mov dx,[ebp+edx*2]
+               //		mov dh,0
+               // mov dh,bl
+               // mov dl,fade_tables[edx]
+               //		mov	ebp,ASMpal_address
+               //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1180,9 +1180,9 @@ lp:
 		mov dl,cl
 		mov dx,[ebp+edx*2]
 		add edi,2
-        //		mov dh,bl
-        //		mov	ebp,ASMfade_page
-        //		mov dx,[ebp+edx*2]
+               //		mov dh,bl
+               //		mov	ebp,ASMfade_page
+               //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1241,10 +1241,10 @@ lp:
 		and	edx,0x1f1f
 		mov dx,[ebp+edx*2]
 		add edi,2
-        //		mov dh,bl
-        //		mov dx,yc_to_555[edx*2]
-        //		mov	ebp,ASMfade_page
-        //		mov dx,[ebp+edx*2]
+                   //		mov dh,bl
+                   //		mov dx,yc_to_555[edx*2]
+                   //		mov	ebp,ASMfade_page
+                   //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1669,23 +1669,23 @@ lp:
 
 		mov dx,[ebp+edx*2]
 		add edi,2
-            //		mov dh,bl
+                   //		mov dh,bl
 		or	dx,dx
 		jz	skip
-                //		mov dx,yc_to_555[edx*2]
-                //		mov	ebp,ASMfade_page
-                //		mov dx,[ebp+edx*2]
+                   //		mov dx,yc_to_555[edx*2]
+                   //		mov	ebp,ASMfade_page
+                   //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 
-            /*
-                            mov dl,[ebp+edx]
-                            add edi,2
-                            or	dl,dl
-                            jz	skip
-                            mov dh,bl
-                            mov dx,yc_to_555[edx*2]
-                            mov [edi],dx
-            */
+                   /*
+                                   mov dl,[ebp+edx]
+                                   add edi,2
+                                   or	dl,dl
+                                   jz	skip
+                                   mov dh,bl
+                                   mov dx,yc_to_555[edx*2]
+                                   mov [edi],dx
+                   */
 skip:
 		dec esi
 		jnz  lp
@@ -1832,10 +1832,10 @@ lp:
 		add edi,2
 		or	dx,dx
 		jz	skip
-                //		mov dh,0
+                   //		mov dh,0
 
-                //		mov	ebp,ASMpal_address
-                //		mov dx,[ebp+edx*2]
+                   //		mov	ebp,ASMpal_address
+                   //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 
 
@@ -1918,8 +1918,8 @@ lp:
 		mov dl,cl
 		mov dl,[ebp+edx]
 		inc edi
-            // mov dh,bl
-            // mov dl,fade_tables[edx]
+                                                                                                       // mov dh,bl
+                                                                                                       // mov dl,fade_tables[edx]
 		mov [edi],dl
 		dec esi
 		jnz  lp
@@ -2055,8 +2055,8 @@ void PSCAN_LINE_GT(struct FloatPolyParameters *poly) {
         std::uint8_t col;
         while (width) {
             std::int32_t tx, ty;
-            tx = (std::int32_t)(lpoly.FLeftTextX / lpoly.Q);
-            ty = (std::int32_t)(lpoly.FLeftTextY / lpoly.Q);
+            tx = (std::int32_t) (lpoly.FLeftTextX / lpoly.Q);
+            ty = (std::int32_t) (lpoly.FLeftTextY / lpoly.Q);
             if (tx < 0 || tx > 255 || ty < 0 || ty > 255)
                 tx = ty = 0;
 
@@ -4179,101 +4179,101 @@ void render_span8(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t draw
         //		RENDER_GO_GT();
 
         switch (draw_flags & 0x3f) {
-            case POLY_F:
+        case POLY_F:
 #ifdef _MSC_VER
-                RENDER_MSC_F(ptr_screen - 1, width);
+            RENDER_MSC_F(ptr_screen - 1, width);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_COL();
-                RENDER_GO_F();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_COL();
+            RENDER_GO_F();
 #endif
-                break;
-            case POLY_50F:
+            break;
+        case POLY_50F:
 #ifdef _MSC_VER
-                RENDER_MSC_50F(ptr_screen - 1, width);
+            RENDER_MSC_50F(ptr_screen - 1, width);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_COL();
-                RENDER_GO_50F();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_COL();
+            RENDER_GO_50F();
 #endif
-                break;
-            case POLY_G:
+            break;
+        case POLY_G:
 #ifdef _MSC_VER
-                RENDER_MSC_G(ptr_screen - 1, width, step_shade);
+            RENDER_MSC_G(ptr_screen - 1, width, step_shade);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_COL();
-                RENDER_GO_G();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_COL();
+            RENDER_GO_G();
 #endif
-                break;
-            case POLY_TGT:
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_TGT();
-                break;
-            case POLY_GT:
+            break;
+        case POLY_TGT:
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_TGT();
+            break;
+        case POLY_GT:
 #ifdef _MSC_VER
-                RENDER_MSC_GT(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_MSC_GT(ptr_screen - 1, width, step_shade, step_tx, step_ty);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_GT();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_GT();
 #endif
-                break;
-            case POLY_MGT:
+            break;
+        case POLY_MGT:
 #ifdef _MSC_VER
-                RENDER_MSC_MGT(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_MSC_MGT(ptr_screen - 1, width, step_shade, step_tx, step_ty);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_MGT();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_MGT();
 #endif
-                break;
-            case POLY_50GT:
+            break;
+        case POLY_50GT:
 #ifdef _MSC_VER
-                RENDER_MSC_50GT(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_MSC_50GT(ptr_screen - 1, width, step_shade, step_tx, step_ty);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_50GT();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_50GT();
 #endif
-                break;
-            case POLY_50T:
+            break;
+        case POLY_50T:
 #ifdef _MSC_VER
-                RENDER_MSC_50T(ptr_screen - 1, width, step_tx, step_ty);
+            RENDER_MSC_50T(ptr_screen - 1, width, step_tx, step_ty);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_50T();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_50T();
 #endif
 
-                break;
-            case POLY_50MGT:
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_50MGT();
-                break;
-            case POLY_MT:
+            break;
+        case POLY_50MGT:
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_50MGT();
+            break;
+        case POLY_MT:
 #ifdef _MSC_VER
-                RENDER_MSC_MT(ptr_screen - 1, width, step_tx, step_ty);
+            RENDER_MSC_MT(ptr_screen - 1, width, step_tx, step_ty);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_MT();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_MT();
 #endif
-                break;
-            case POLY_T:
+            break;
+        case POLY_T:
 #ifdef _MSC_VER
-                RENDER_MSC_T(ptr_screen - 1, width, step_tx, step_ty);
+            RENDER_MSC_T(ptr_screen - 1, width, step_tx, step_ty);
 #else
-                RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_T();
+            RENDER_SETUP(ptr_screen - 1, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_T();
 #endif
-                break;
+            break;
         }
     }
 
@@ -4324,52 +4324,52 @@ void render_span16(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t dra
         ptr_screen += p_b->LeftX * 2;
 
         switch (draw_flags & 0x3f) {
-            case POLY_G:
+        case POLY_G:
 #ifdef _MSC_VER
-                RENDER_MSC_G16(ptr_screen - 2, width, step_shade);
+            RENDER_MSC_G16(ptr_screen - 2, width, step_shade);
 #endif
-                break;
-            case POLY_F:
+            break;
+        case POLY_F:
 #ifdef _MSC_VER
-                RENDER_MSC_F16(ptr_screen - 2, width);
+            RENDER_MSC_F16(ptr_screen - 2, width);
 #endif
-                break;
-            case POLY_MT:
+            break;
+        case POLY_MT:
 #ifdef _MSC_VER
-                RENDER_MSC_MT16(ptr_screen - 2, width, step_tx, step_ty);
+            RENDER_MSC_MT16(ptr_screen - 2, width, step_tx, step_ty);
 #endif
-                break;
-            case POLY_T:
+            break;
+        case POLY_T:
 #ifdef _MSC_VER
-                RENDER_MSC_T16(ptr_screen - 2, width, step_tx, step_ty);
+            RENDER_MSC_T16(ptr_screen - 2, width, step_tx, step_ty);
 
 #endif
-                break;
-            case POLY_TGT:
+            break;
+        case POLY_TGT:
 #ifdef _MSC_VER
-                RENDER_MSC_TGT16(ptr_screen - 2, width, step_shade, step_tx, step_ty);
+            RENDER_MSC_TGT16(ptr_screen - 2, width, step_shade, step_tx, step_ty);
 #endif
-                break;
+            break;
 
-            case POLY_GT:
+        case POLY_GT:
 #ifdef _MSC_VER
-                if (ASMtext_page)
-                    RENDER_MSC_GT16(ptr_screen - 2, width, step_shade, step_tx, step_ty);
-                else {
-                    LogText(" weirdness\n");
-                }
+            if (ASMtext_page)
+                RENDER_MSC_GT16(ptr_screen - 2, width, step_shade, step_tx, step_ty);
+            else {
+                LogText(" weirdness\n");
+            }
 #else
-                RENDER_SETUP(ptr_screen - 2, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_GT16();
+            RENDER_SETUP(ptr_screen - 2, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_GT16();
 #endif
-                break;
-            case POLY_MGT:
+            break;
+        case POLY_MGT:
 #ifdef _MSC_VER
-                RENDER_MSC_MGT16(ptr_screen - 2, width, step_shade, step_tx, step_ty);
+            RENDER_MSC_MGT16(ptr_screen - 2, width, step_shade, step_tx, step_ty);
 #endif
-            default:
-                break;
+        default:
+            break;
         }
     }
 }
@@ -4420,11 +4420,11 @@ void render_span32(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t dra
         ptr_screen += p_b->LeftX * 4;
 
         switch (draw_flags & 0x1f) {
-            default:
-                RENDER_SETUP(ptr_screen - 4, width, step_shade, step_tx, step_ty);
-                RENDER_SETUP2();
-                RENDER_GO_GT32();
-                break;
+        default:
+            RENDER_SETUP(ptr_screen - 4, width, step_shade, step_tx, step_ty);
+            RENDER_SETUP2();
+            RENDER_GO_GT32();
+            break;
         }
     }
 }
@@ -4462,8 +4462,8 @@ inline void pers_average_points(struct MfEnginePoint *mid, struct MfEnginePoint 
 
     mid->X = (p1->X + p2->X) >> 1;
     mid->Y = (p1->Y + p2->Y) >> 1;
-    mid->TX = (std::int32_t)(as / aq);
-    mid->TY = (std::int32_t)(at / aq);
+    mid->TX = (std::int32_t) (as / aq);
+    mid->TY = (std::int32_t) (at / aq);
     mid->Shade = (p1->Shade + p2->Shade) >> 1;
     mid->Z3d = (p1->Z3d + p2->Z3d) >> 1;
 }
@@ -4488,8 +4488,8 @@ inline void pers_average_points4(struct MfEnginePoint *mid, struct MfEnginePoint
 
     mid->X = (p1->X + p2->X + p3->X + p4->X) >> 2;
     mid->Y = (p1->Y + p2->Y + p3->Y + p4->Y) >> 2;
-    mid->TX = (std::int32_t)(as / aq);
-    mid->TY = (std::int32_t)(at / aq);
+    mid->TX = (std::int32_t) (as / aq);
+    mid->TY = (std::int32_t) (at / aq);
     mid->Shade = (p1->Shade + p2->Shade + p3->Shade + p4->Shade) >> 2;
     mid->Z3d = (p1->Z3d + p2->Z3d + p3->Z3d + p4->Z3d) >> 2;
 }

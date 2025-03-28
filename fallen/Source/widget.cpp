@@ -127,12 +127,12 @@ Methods SHADE_Methods = {0, BUTTON_Free, SHADE_Draw, 0, 0, 0, 0};
 
 void WIDGET_snd(std::int32_t snd) {
     switch (snd) {
-        case WS_MOVE: snd = _WS_MOVE; break;
-        case WS_FADEOUT: snd = _WS_FADEOUT; break;
-        case WS_FADEIN: snd = _WS_FADEIN; break;
-        case WS_OK: snd = _WS_OK; break;
-        case WS_FAIL: snd = _WS_FAIL; break;
-        case WS_BLIP: snd = _WS_BLIP; break;
+    case WS_MOVE: snd = _WS_MOVE; break;
+    case WS_FADEOUT: snd = _WS_FADEOUT; break;
+    case WS_FADEIN: snd = _WS_FADEIN; break;
+    case WS_OK: snd = _WS_OK; break;
+    case WS_FAIL: snd = _WS_FAIL; break;
+    case WS_BLIP: snd = _WS_BLIP; break;
     }
     //	play_ambient_wave(snd,0,0,256,1);
     MFX_play_ambient(0, snd, MFX_REPLACE);
@@ -392,76 +392,76 @@ bool INPUT_Char(Widget *widget, char key) {
     }
     if (!(widget->data[1] & WIF_EDIT)) return 0;
     switch (key) {
-        case 8:
-            if (widget->data[2]) {
-                widget->data[2]--;
-                WIDGET_snd(WS_MOVE);
-            } else
-                WIDGET_snd(WS_FAIL);
-            break;
-        case 9:
-            if ((unsigned) (widget->data[2]) < strlen((char *) widget->data[0])) {
-                widget->data[2]++;
-                WIDGET_snd(WS_MOVE);
-            } else
-                WIDGET_snd(WS_FAIL);
-            break;
-        case 3:
-            widget->data[2] = 0;
+    case 8:
+        if (widget->data[2]) {
+            widget->data[2]--;
             WIDGET_snd(WS_MOVE);
-            break;
-        case 4:
-            widget->data[2] = strlen((char *) widget->data[0]);
+        } else
+            WIDGET_snd(WS_FAIL);
+        break;
+    case 9:
+        if ((unsigned) (widget->data[2]) < strlen((char *) widget->data[0])) {
+            widget->data[2]++;
             WIDGET_snd(WS_MOVE);
-            break;
-        case 27:
-            MemFree((char *) widget->data[0]);
-            widget->data[1] &= ~WIF_EDIT;
-            widget->data[0] = 0;
+        } else
+            WIDGET_snd(WS_FAIL);
+        break;
+    case 3:
+        widget->data[2] = 0;
+        WIDGET_snd(WS_MOVE);
+        break;
+    case 4:
+        widget->data[2] = strlen((char *) widget->data[0]);
+        WIDGET_snd(WS_MOVE);
+        break;
+    case 27:
+        MemFree((char *) widget->data[0]);
+        widget->data[1] &= ~WIF_EDIT;
+        widget->data[0] = 0;
+        WIDGET_snd(WS_FAIL);
+        break;
+    case 127: {
+        char *str = (char *) widget->data[0];
+        std::int32_t len = strlen(str);
+        if (widget->data[2] < 1) {
             WIDGET_snd(WS_FAIL);
             break;
-        case 127: {
-            char *str = (char *) widget->data[0];
-            std::int32_t len = strlen(str);
-            if (widget->data[2] < 1) {
-                WIDGET_snd(WS_FAIL);
-                break;
-            }
-            WIDGET_snd(WS_MOVE);
-            memmove(str + widget->data[2] - 1, str + widget->data[2], (len + 1) - widget->data[2]);
-            widget->data[2]--;
+        }
+        WIDGET_snd(WS_MOVE);
+        memmove(str + widget->data[2] - 1, str + widget->data[2], (len + 1) - widget->data[2]);
+        widget->data[2]--;
 
-        } break;
-        case 5: {
-            char *str = (char *) widget->data[0];
-            std::int32_t len = strlen(str);
-            if (widget->data[2] >= len) {
-                WIDGET_snd(WS_FAIL);
-                break;
-            }
-            WIDGET_snd(WS_MOVE);
-            memmove(str + widget->data[2], str + widget->data[2] + 1, (len + 1) - widget->data[2]);
-
-        } break;
-        default:
-            //		if ( ((key>='A')&&(key<='Z')) || ((key>='a')&&(key<='z')) || ((key>='0')&&(key<='9')) || (key==' '))
-            if (MENUFONT_CharWidth(key)) {
-                char *str = (char *) widget->data[0];
-                std::int32_t len;
-                len = strlen(str);
-                if (len < 255) {
-                    if (widget->data[2] == len) {
-                        *(str + widget->data[2] + 1) = 0;
-                    } else {
-                        memmove(str + widget->data[2] + 1, str + widget->data[2], (len + 1) - widget->data[2]);
-                    }
-                    *(str + widget->data[2]) = key;
-                    widget->data[2]++;
-                    WIDGET_snd(WS_BLIP);
-                } else
-                    WIDGET_snd(WS_FAIL);
-            }
+    } break;
+    case 5: {
+        char *str = (char *) widget->data[0];
+        std::int32_t len = strlen(str);
+        if (widget->data[2] >= len) {
+            WIDGET_snd(WS_FAIL);
             break;
+        }
+        WIDGET_snd(WS_MOVE);
+        memmove(str + widget->data[2], str + widget->data[2] + 1, (len + 1) - widget->data[2]);
+
+    } break;
+    default:
+        //		if ( ((key>='A')&&(key<='Z')) || ((key>='a')&&(key<='z')) || ((key>='0')&&(key<='9')) || (key==' '))
+        if (MENUFONT_CharWidth(key)) {
+            char *str = (char *) widget->data[0];
+            std::int32_t len;
+            len = strlen(str);
+            if (len < 255) {
+                if (widget->data[2] == len) {
+                    *(str + widget->data[2] + 1) = 0;
+                } else {
+                    memmove(str + widget->data[2] + 1, str + widget->data[2], (len + 1) - widget->data[2]);
+                }
+                *(str + widget->data[2]) = key;
+                widget->data[2]++;
+                WIDGET_snd(WS_BLIP);
+            } else
+                WIDGET_snd(WS_FAIL);
+        }
+        break;
     }
     if (widget->data[1] & WIF_EDIT) INPUT_caretchk(widget);
     return widget->data[1] & WIF_EDIT;
@@ -471,18 +471,18 @@ std::int32_t INPUT_Data(Widget *widget, std::int32_t code, std::int32_t data1, s
     ListEntry *item, *item2;
 
     switch (code) {
-        case WIM_SETSTRING:
-            if (widget->data[1] & WIF_EDIT)
-                strcpy((char *) widget->data[0], (char *) data2);
-            else
-                strcpy(widget->caption, (char *) data2);
-            break;
-        case WIM_SETMODE:
-            if (data1)
-                widget->data[1] |= WIF_PASS;
-            else
-                widget->data[1] &= ~WIF_PASS;
-            break;
+    case WIM_SETSTRING:
+        if (widget->data[1] & WIF_EDIT)
+            strcpy((char *) widget->data[0], (char *) data2);
+        else
+            strcpy(widget->caption, (char *) data2);
+        break;
+    case WIM_SETMODE:
+        if (data1)
+            widget->data[1] |= WIF_PASS;
+        else
+            widget->data[1] &= ~WIF_PASS;
+        break;
     }
     return 0;
 }
@@ -593,58 +593,58 @@ std::int32_t TEXTS_Data(Widget *widget, std::int32_t code, std::int32_t data1, s
     ListEntry *item, *item2;
 
     switch (code) {
-        case WTM_ADDSTRING:
-            item2 = (ListEntry *) MemAlloc(sizeof(ListEntry));
-            memset(item2, 0, sizeof(ListEntry));
-            item2->text = (char *) MemAlloc(strlen((char *) data2) + 1);
-            strcpy(item2->text, (char *) data2);
+    case WTM_ADDSTRING:
+        item2 = (ListEntry *) MemAlloc(sizeof(ListEntry));
+        memset(item2, 0, sizeof(ListEntry));
+        item2->text = (char *) MemAlloc(strlen((char *) data2) + 1);
+        strcpy(item2->text, (char *) data2);
 
-            item = (ListEntry *) widget->data[0];
-            if (item)
-                while (item->next) item = item->next;
-            if (!item) {
-                widget->data[0] = (std::int32_t) item2;
-            } else {
-                item->next = item2;
-                item2->prev = item;
+        item = (ListEntry *) widget->data[0];
+        if (item)
+            while (item->next) item = item->next;
+        if (!item) {
+            widget->data[0] = (std::int32_t) item2;
+        } else {
+            item->next = item2;
+            item2->prev = item;
+        }
+        widget->data[2]++;
+        break;
+    case WTM_ADDBLOCK:
+        // wrap string, pass back via WTM_ADDSTRING
+        {
+            std::uint32_t chrs, temp;
+            char *str, *walk;
+            char tmp[_MAX_PATH];
+            str = (char *) data2;
+            walk = str;
+            while (*walk) { // temporary thingy?
+                if ((*walk == 10) || (*walk == 13)) *walk = 32;
+                walk++;
             }
-            widget->data[2]++;
-            break;
-        case WTM_ADDBLOCK:
-            // wrap string, pass back via WTM_ADDSTRING
-            {
-                std::uint32_t chrs, temp;
-                char *str, *walk;
-                char tmp[_MAX_PATH];
-                str = (char *) data2;
-                walk = str;
-                while (*walk) { // temporary thingy?
-                    if ((*walk == 10) || (*walk == 13)) *walk = 32;
-                    walk++;
+            while (str) {
+                chrs = MENUFONT_CharFit(str, (widget->ox - widget->x) - 6, 128);
+                if (chrs == strlen(str)) {
+                    TEXTS_Data(widget, WTM_ADDSTRING, 0, (std::int32_t) str);
+                    break;
                 }
-                while (str) {
-                    chrs = MENUFONT_CharFit(str, (widget->ox - widget->x) - 6, 128);
-                    if (chrs == strlen(str)) {
-                        TEXTS_Data(widget, WTM_ADDSTRING, 0, (std::int32_t) str);
-                        break;
-                    }
-                    temp = chrs;
-                    while (chrs && (*(str + chrs) != 32)) {
-                        chrs--;
-                    }
-                    memset(tmp, 0, _MAX_PATH);
-                    if (!chrs) {
-                        strncpy(tmp, str, temp);
-                        str += temp;
-                        TEXTS_Data(widget, WTM_ADDSTRING, 0, (std::int32_t) tmp);
-                    } else {
-                        strncpy(tmp, str, chrs);
-                        TEXTS_Data(widget, WTM_ADDSTRING, 0, (std::int32_t) tmp);
-                        str += chrs + 1;
-                    }
+                temp = chrs;
+                while (chrs && (*(str + chrs) != 32)) {
+                    chrs--;
+                }
+                memset(tmp, 0, _MAX_PATH);
+                if (!chrs) {
+                    strncpy(tmp, str, temp);
+                    str += temp;
+                    TEXTS_Data(widget, WTM_ADDSTRING, 0, (std::int32_t) tmp);
+                } else {
+                    strncpy(tmp, str, chrs);
+                    TEXTS_Data(widget, WTM_ADDSTRING, 0, (std::int32_t) tmp);
+                    str += chrs + 1;
                 }
             }
-            break;
+        }
+        break;
     }
     return 0;
 }
@@ -660,31 +660,31 @@ bool TEXTS_Char(Widget *widget, char key) {
     if (!WIDGET_State(widget, WIDGET_STATE_ACTIVATED)) return 0;
 
     switch (key) {
-        case 11:
-            if (widget->data[1] > 0) {
-                widget->data[1]--;
-                WIDGET_snd(WS_BLIP);
-            } else
-                WIDGET_snd(WS_FAIL);
-            break;
-        case 10:
-            if (widget->data[1] <= widget->data[2] - widget->data[3]) {
-                widget->data[1]++;
-                WIDGET_snd(WS_BLIP);
-            } else
-                WIDGET_snd(WS_FAIL);
-            break;
-        case 3:
-            widget->data[1] = 0;
+    case 11:
+        if (widget->data[1] > 0) {
+            widget->data[1]--;
             WIDGET_snd(WS_BLIP);
-            break;
-        case 4:
-            widget->data[1] = widget->data[2];
+        } else
+            WIDGET_snd(WS_FAIL);
+        break;
+    case 10:
+        if (widget->data[1] <= widget->data[2] - widget->data[3]) {
+            widget->data[1]++;
             WIDGET_snd(WS_BLIP);
-            break;
-        default:
-            // we don't process it
-            return 0;
+        } else
+            WIDGET_snd(WS_FAIL);
+        break;
+    case 3:
+        widget->data[1] = 0;
+        WIDGET_snd(WS_BLIP);
+        break;
+    case 4:
+        widget->data[1] = widget->data[2];
+        WIDGET_snd(WS_BLIP);
+        break;
+    default:
+        // we don't process it
+        return 0;
     }
     return WIDGET_State(widget, WIDGET_STATE_ACTIVATED);
 }
@@ -770,22 +770,22 @@ std::int32_t LISTS_Data(Widget *widget, std::int32_t code, std::int32_t data1, s
     ListEntry *item, *item2;
 
     switch (code) {
-        case WLM_ADDSTRING:
-            item2 = (ListEntry *) MemAlloc(sizeof(ListEntry));
-            memset(item2, 0, sizeof(ListEntry));
-            item2->text = (char *) MemAlloc(strlen((char *) data2) + 1);
-            strcpy(item2->text, (char *) data2);
+    case WLM_ADDSTRING:
+        item2 = (ListEntry *) MemAlloc(sizeof(ListEntry));
+        memset(item2, 0, sizeof(ListEntry));
+        item2->text = (char *) MemAlloc(strlen((char *) data2) + 1);
+        strcpy(item2->text, (char *) data2);
 
-            item = (ListEntry *) widget->data[0];
-            if (item)
-                while (item->next) item = item->next;
-            if (!item) {
-                widget->data[0] = widget->data[2] = (std::int32_t) item2;
-            } else {
-                item->next = item2;
-                item2->prev = item;
-            }
-            break;
+        item = (ListEntry *) widget->data[0];
+        if (item)
+            while (item->next) item = item->next;
+        if (!item) {
+            widget->data[0] = widget->data[2] = (std::int32_t) item2;
+        } else {
+            item->next = item2;
+            item2->prev = item;
+        }
+        break;
     }
     return 0;
 }
@@ -822,38 +822,38 @@ bool LISTS_Char(Widget *widget, char key) {
     if (!item) return 0;
 
     switch (key) {
-        case 11:
-            if (item->prev) {
-                widget->data[2] = (std::int32_t) item->prev;
-                widget->data[4]--;
-                WIDGET_snd(WS_BLIP);
-            } else
-                WIDGET_snd(WS_FAIL);
-            break;
-        case 10:
-            if (item->next) {
-                widget->data[2] = (std::int32_t) item->next;
-                widget->data[4]++;
-                WIDGET_snd(WS_BLIP);
-            } else
-                WIDGET_snd(WS_FAIL);
-            break;
-        case 3:
-            widget->data[2] = widget->data[0];
-            widget->data[4] = 0;
+    case 11:
+        if (item->prev) {
+            widget->data[2] = (std::int32_t) item->prev;
+            widget->data[4]--;
             WIDGET_snd(WS_BLIP);
-            break;
-        case 4:
-            while (item->next) {
-                item = item->next;
-                widget->data[4]++;
-            }
-            widget->data[2] = (std::int32_t) item;
+        } else
+            WIDGET_snd(WS_FAIL);
+        break;
+    case 10:
+        if (item->next) {
+            widget->data[2] = (std::int32_t) item->next;
+            widget->data[4]++;
             WIDGET_snd(WS_BLIP);
-            break;
-        default:
-            // we don't process it
-            return 0;
+        } else
+            WIDGET_snd(WS_FAIL);
+        break;
+    case 3:
+        widget->data[2] = widget->data[0];
+        widget->data[4] = 0;
+        WIDGET_snd(WS_BLIP);
+        break;
+    case 4:
+        while (item->next) {
+            item = item->next;
+            widget->data[4]++;
+        }
+        widget->data[2] = (std::int32_t) item;
+        WIDGET_snd(WS_BLIP);
+        break;
+    default:
+        // we don't process it
+        return 0;
     }
     LISTS_caretchk(widget);
     return widget->data[1];
@@ -1041,20 +1041,20 @@ std::int32_t FORM_Process(Form *form) {
         if (key == 8) key = 127; // heh
         if (!key)
             switch (LastKey) {
-                case KB_UP: key = 11; break;
-                case KB_RIGHT: key = 9; break;
-                case KB_LEFT: key = 8; break;
-                case KB_DOWN: key = 10; break;
-                case KB_ESC: key = 27; break;
-                case KB_ENTER:
-                    key = 13;
-                    break;
-                    // arbitrary ones:
-                case KB_PGUP: key = 1; break;
-                case KB_PGDN: key = 2; break;
-                case KB_HOME: key = 3; break;
-                case KB_END: key = 4; break;
-                case KB_DEL: key = 5; break;
+            case KB_UP: key = 11; break;
+            case KB_RIGHT: key = 9; break;
+            case KB_LEFT: key = 8; break;
+            case KB_DOWN: key = 10; break;
+            case KB_ESC: key = 27; break;
+            case KB_ENTER:
+                key = 13;
+                break;
+                // arbitrary ones:
+            case KB_PGUP: key = 1; break;
+            case KB_PGDN: key = 2; break;
+            case KB_HOME: key = 3; break;
+            case KB_END: key = 4; break;
+            case KB_DEL: key = 5; break;
             }
     } else
         key = 0;

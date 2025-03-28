@@ -296,24 +296,24 @@ void PARTICLE_Draw() {
         } else {
             ndx = p->sprite >> 2;
             switch (p->sprite & 3) {
-                case 1: // split in half each way
-                    if (p->flags & PFLAG_SPRITELOOP) ndx &= 3;
-                    u = ndx & 1;
-                    v = ndx >> 1;
-                    u *= 0.5f;
-                    v *= 0.5f;
-                    w = 0.5f;
-                    h = 0.5f;
-                    break;
-                case 2: // split in quarters each way
-                    if (p->flags & PFLAG_SPRITELOOP) ndx &= 0xf;
-                    u = ndx & 3;
-                    v = ndx >> 2;
-                    u *= 0.25f;
-                    v *= 0.25f;
-                    w = 0.25f;
-                    h = 0.25f;
-                    break;
+            case 1: // split in half each way
+                if (p->flags & PFLAG_SPRITELOOP) ndx &= 3;
+                u = ndx & 1;
+                v = ndx >> 1;
+                u *= 0.5f;
+                v *= 0.5f;
+                w = 0.5f;
+                h = 0.5f;
+                break;
+            case 2: // split in quarters each way
+                if (p->flags & PFLAG_SPRITELOOP) ndx &= 0xf;
+                u = ndx & 3;
+                v = ndx >> 2;
+                u *= 0.25f;
+                v *= 0.25f;
+                w = 0.25f;
+                h = 0.25f;
+                break;
             }
         }
         sz = float(p->size);
@@ -518,30 +518,30 @@ void SPRITE_draw_tex2(
             pp[3].specular = specular;
 
             switch (sort) {
-                case SPRITE_SORT_NORMAL:
-                    pp[0].z = mid.z;
-                    pp[0].Z = mid.Z;
-                    pp[1].z = mid.z;
-                    pp[1].Z = mid.Z;
-                    pp[2].z = mid.z;
-                    pp[2].Z = mid.Z;
-                    pp[3].z = mid.z;
-                    pp[3].Z = mid.Z;
-                    break;
+            case SPRITE_SORT_NORMAL:
+                pp[0].z = mid.z;
+                pp[0].Z = mid.Z;
+                pp[1].z = mid.z;
+                pp[1].Z = mid.Z;
+                pp[2].z = mid.z;
+                pp[2].Z = mid.Z;
+                pp[3].z = mid.z;
+                pp[3].Z = mid.Z;
+                break;
 
-                case SPRITE_SORT_FRONT:
-                    pp[0].z = 0.01F;
-                    pp[0].Z = 1.00F;
-                    pp[1].z = 0.01F;
-                    pp[1].Z = 1.00F;
-                    pp[2].z = 0.01F;
-                    pp[2].Z = 1.00F;
-                    pp[3].z = 0.01F;
-                    pp[3].Z = 1.00F;
-                    break;
+            case SPRITE_SORT_FRONT:
+                pp[0].z = 0.01F;
+                pp[0].Z = 1.00F;
+                pp[1].z = 0.01F;
+                pp[1].Z = 1.00F;
+                pp[2].z = 0.01F;
+                pp[2].Z = 1.00F;
+                pp[3].z = 0.01F;
+                pp[3].Z = 1.00F;
+                break;
 
-                default:
-                    ASSERT(0);
+            default:
+                ASSERT(0);
             }
 
             quad[0] = &pp[0];
@@ -592,38 +592,38 @@ void draw_flame_element2(std::int32_t x, std::int32_t y, std::int32_t z, std::in
 
     if (trans >= 1) {
         switch (page) {
-            case POLY_PAGE_FLAMES:
-                palptr = (trans * 3) + fire_pal;
-                palndx = (256 - trans) * 3;
-                trans <<= 24;
-                trans += (fire_pal[palndx] << 16) + (fire_pal[palndx + 1] << 8) + fire_pal[palndx + 2];
-                scale = 150;
-                SPRITE_draw_tex2(
-                    float(dx),
-                    float(dy),
-                    float(dz),
-                    float(scale),
-                    trans,
-                    0,
-                    page,
-                    u, v, w, h,
-                    SPRITE_SORT_NORMAL);
-                break;
-            case POLY_PAGE_SMOKE:
-                trans += (trans << 8) | (trans << 16) | (trans << 24);
-                scale = ((dy - y) >> 1) + 50;
-                dy += 50;
-                SPRITE_draw_tex(
-                    float(dx),
-                    float(dy),
-                    float(dz),
-                    float(scale),
-                    trans,
-                    0,
-                    page,
-                    u, v, w, h,
-                    SPRITE_SORT_NORMAL);
-                break;
+        case POLY_PAGE_FLAMES:
+            palptr = (trans * 3) + fire_pal;
+            palndx = (256 - trans) * 3;
+            trans <<= 24;
+            trans += (fire_pal[palndx] << 16) + (fire_pal[palndx + 1] << 8) + fire_pal[palndx + 2];
+            scale = 150;
+            SPRITE_draw_tex2(
+                float(dx),
+                float(dy),
+                float(dz),
+                float(scale),
+                trans,
+                0,
+                page,
+                u, v, w, h,
+                SPRITE_SORT_NORMAL);
+            break;
+        case POLY_PAGE_SMOKE:
+            trans += (trans << 8) | (trans << 16) | (trans << 24);
+            scale = ((dy - y) >> 1) + 50;
+            dy += 50;
+            SPRITE_draw_tex(
+                float(dx),
+                float(dy),
+                float(dz),
+                float(scale),
+                trans,
+                0,
+                page,
+                u, v, w, h,
+                SPRITE_SORT_NORMAL);
+            break;
         }
     }
 }
@@ -661,8 +661,26 @@ void PYRO_draw_pyro(Thing *p_pyro) {
     std::int32_t fx, fy, fz;
     std::int32_t i, j;
     GameCoord pos;
-    float dir[8][2] = {{0.0f, 1.0f}, {0.7f, 0.7f}, {1.0f, 0.0f}, {0.7f, -0.7f}, {0.0f, -1.0f}, {-0.7f, -0.7f}, {-1.0f, 0.0f}, {-0.7f, 0.7f}};
-    float uvs[8][2] = {{0.5f, 1.0f}, {0.85f, 0.85f}, {1.0f, 0.5f}, {0.85f, 0.15f}, {0.5f, 0.0f}, {0.15f, 0.15f}, {0.0f, 0.5f}, {0.15f, 0.85f}};
+    float dir[8][2] = {
+        {0.0f,  1.0f },
+        {0.7f,  0.7f },
+        {1.0f,  0.0f },
+        {0.7f,  -0.7f},
+        {0.0f,  -1.0f},
+        {-0.7f, -0.7f},
+        {-1.0f, 0.0f },
+        {-0.7f, 0.7f }
+    };
+    float uvs[8][2] = {
+        {0.5f,  1.0f },
+        {0.85f, 0.85f},
+        {1.0f,  0.5f },
+        {0.85f, 0.15f},
+        {0.5f,  0.0f },
+        {0.15f, 0.15f},
+        {0.0f,  0.5f },
+        {0.15f, 0.85f}
+    };
 
     POLY_flush_local_rot();
 
@@ -671,310 +689,329 @@ void PYRO_draw_pyro(Thing *p_pyro) {
     fz = p_pyro->WorldPos.Z;
 
     switch (pyro->PyroType) {
-        case PYRO_EXPLODE:
-            PYRO_draw_explosion((Pyrex *) pyro);
-            break;
+    case PYRO_EXPLODE:
+        PYRO_draw_explosion((Pyrex *) pyro);
+        break;
 
-        case PYRO_FIREWALL:
-            /*
-                            for (i=0;i<pyro->counter;i++) {
-                                    pos = lerp_vector(p_pyro->WorldPos,pyro->target,i);
-                                    draw_flame_element(pos.X>>8,pos.Y>>8,pos.Z>>8,i,1);
-                                    if (!(i&3)) {
-                                            pyro_seed=54321678+(i*get_pyro_rand());
-                                            draw_flame_element2(pos.X>>8,pos.Y>>8,pos.Z>>8,get_pyro_rand());
-                                    }
-                            }*/
-            break;
-        case PYRO_FIREPOOL:
-            if (pyro->thing->Flags & FLAGS_IN_VIEW) {
-                std::int32_t radsqr, dx, dz, distsqr, radius, id;
-                GameCoord ctr, edge;
-                POLY_Point pp[3];
-                POLY_Point *tri[3];
-                POLY_Point temppnt;
+    case PYRO_FIREWALL:
+        /*
+                        for (i=0;i<pyro->counter;i++) {
+                                pos = lerp_vector(p_pyro->WorldPos,pyro->target,i);
+                                draw_flame_element(pos.X>>8,pos.Y>>8,pos.Z>>8,i,1);
+                                if (!(i&3)) {
+                                        pyro_seed=54321678+(i*get_pyro_rand());
+                                        draw_flame_element2(pos.X>>8,pos.Y>>8,pos.Z>>8,get_pyro_rand());
+                                }
+                        }*/
+        break;
+    case PYRO_FIREPOOL:
+        if (pyro->thing->Flags & FLAGS_IN_VIEW) {
+            std::int32_t radsqr, dx, dz, distsqr, radius, id;
+            GameCoord ctr, edge;
+            POLY_Point pp[3];
+            POLY_Point *tri[3];
+            POLY_Point temppnt;
 
-                ctr = p_pyro->WorldPos;
-                ctr.X >>= 8;
-                ctr.Y >>= 8;
-                ctr.Z >>= 8;
+            ctr = p_pyro->WorldPos;
+            ctr.X >>= 8;
+            ctr.Y >>= 8;
+            ctr.Z >>= 8;
 
-                POLY_transform(ctr.X, ctr.Y + 0xa, ctr.Z, pp);
+            POLY_transform(ctr.X, ctr.Y + 0xa, ctr.Z, pp);
 
-                tri[0] = &pp[0];
-                tri[1] = &pp[1];
-                tri[2] = &pp[2];
+            tri[0] = &pp[0];
+            tri[1] = &pp[1];
+            tri[2] = &pp[2];
 
-                pp[0].colour = 0xFFFFFFFF;
-                pp[1].colour = 0xFFFFFFFF;
-                pp[2].colour = 0xFFFFFFFF;
-                pp[0].specular = 0xFF000000;
-                pp[1].specular = 0xFF000000;
-                pp[2].specular = 0xFF000000;
+            pp[0].colour = 0xFFFFFFFF;
+            pp[1].colour = 0xFFFFFFFF;
+            pp[2].colour = 0xFFFFFFFF;
+            pp[0].specular = 0xFF000000;
+            pp[1].specular = 0xFF000000;
+            pp[2].specular = 0xFF000000;
 
-                pp[0].u = 0.5;
-                pp[0].v = 0.5;
+            pp[0].u = 0.5;
+            pp[0].v = 0.5;
 
-                if (pyro->Flags & PYRO_FLAGS_TOUCHPOINT) {
-                    radius = pyro->radius;
-                    distsqr = (pyro->counter * pyro->radius) >> 7; // double to get diameter
-                    distsqr *= distsqr;
-                } else {
-                    radius = (pyro->counter * pyro->radius) >> 8;
+            if (pyro->Flags & PYRO_FLAGS_TOUCHPOINT) {
+                radius = pyro->radius;
+                distsqr = (pyro->counter * pyro->radius) >> 7; // double to get diameter
+                distsqr *= distsqr;
+            } else {
+                radius = (pyro->counter * pyro->radius) >> 8;
 
+                edge = ctr;
+                edge.Y += 0xa;
+                edge.X += dir[0][0] * pyro->radii[0];
+                edge.Z += dir[0][1] * pyro->radii[0];
+                POLY_transform(edge.X, edge.Y, edge.Z, &temppnt);
+                pp[2].X = temppnt.X;
+                pp[2].Y = temppnt.Y;
+                pp[2].Z = temppnt.Z;
+                pp[2].clip = temppnt.clip;
+                pp[2].z = temppnt.z;
+                pp[2].u = uvs[0][0];
+                pp[2].v = uvs[0][1];
+
+                // Throttle
+                int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(16);
+
+                for (i = 0; i < iNumFlames; i++) {
+                    if (pyro->radii[i] < (unsigned) radius) {
+                        id = (pyro->counter << 3) + (i << 8);
+                        id &= 2047;
+                        pyro->radii[i] += abs(SIN(id) / 4095);
+                    } else {
+                        id = ((GAME_TURN << 1) + (i << 8));
+                        id &= 2047;
+                        pyro->radii[i] = radius + 256 + (SIN(id) / 256);
+                    }
+                    j = (i + 1) & 7;
+                    pp[1] = pp[2];
+
+                    pp[2].u = uvs[j][0];
+                    pp[2].v = uvs[j][1];
                     edge = ctr;
                     edge.Y += 0xa;
-                    edge.X += dir[0][0] * pyro->radii[0];
-                    edge.Z += dir[0][1] * pyro->radii[0];
+                    edge.X += dir[j][0] * pyro->radii[j];
+                    edge.Z += dir[j][1] * pyro->radii[j];
                     POLY_transform(edge.X, edge.Y, edge.Z, &temppnt);
                     pp[2].X = temppnt.X;
                     pp[2].Y = temppnt.Y;
                     pp[2].Z = temppnt.Z;
                     pp[2].clip = temppnt.clip;
                     pp[2].z = temppnt.z;
-                    pp[2].u = uvs[0][0];
-                    pp[2].v = uvs[0][1];
-
-                    // Throttle
-                    int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(16);
-
-                    for (i = 0; i < iNumFlames; i++) {
-                        if (pyro->radii[i] < (unsigned) radius) {
-                            id = (pyro->counter << 3) + (i << 8);
-                            id &= 2047;
-                            pyro->radii[i] += abs(SIN(id) / 4095);
-                        } else {
-                            id = ((GAME_TURN << 1) + (i << 8));
-                            id &= 2047;
-                            pyro->radii[i] = radius + 256 + (SIN(id) / 256);
-                        }
-                        j = (i + 1) & 7;
-                        pp[1] = pp[2];
-
-                        pp[2].u = uvs[j][0];
-                        pp[2].v = uvs[j][1];
-                        edge = ctr;
-                        edge.Y += 0xa;
-                        edge.X += dir[j][0] * pyro->radii[j];
-                        edge.Z += dir[j][1] * pyro->radii[j];
-                        POLY_transform(edge.X, edge.Y, edge.Z, &temppnt);
-                        pp[2].X = temppnt.X;
-                        pp[2].Y = temppnt.Y;
-                        pp[2].Z = temppnt.Z;
-                        pp[2].clip = temppnt.clip;
-                        pp[2].z = temppnt.z;
-                        if (pp[0].MaybeValid() && pp[1].MaybeValid() && pp[2].MaybeValid()) {
-                            POLY_add_triangle(tri, POLY_PAGE_FLAMES, false, true);
-                        }
+                    if (pp[0].MaybeValid() && pp[1].MaybeValid() && pp[2].MaybeValid()) {
+                        POLY_add_triangle(tri, POLY_PAGE_FLAMES, false, true);
                     }
                 }
-                id = 0;
-                radsqr = radius * radius;
+            }
+            id = 0;
+            radsqr = radius * radius;
 
-                // Throttle
-                int iConst = (pyro->radius * pyro->radius);
-                int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(iConst / (25 * 25));
+            // Throttle
+            int iConst = (pyro->radius * pyro->radius);
+            int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(iConst / (25 * 25));
 
-                if (iNumFlames < 10) {
-                    iNumFlames = 10;
-                }
+            if (iNumFlames < 10) {
+                iNumFlames = 10;
+            }
 
-                int iStepSize = (int) sqrtf((float) iConst / (float) iNumFlames);
+            int iStepSize = (int) sqrtf((float) iConst / (float) iNumFlames);
 
-                for (i = -pyro->radius; i < pyro->radius; i += iStepSize) {
-                    for (j = -pyro->radius; j < pyro->radius; j += iStepSize) {
-                        id *= 31415965;
-                        id += 123456789;
-                        if ((i * i + j * j) < radsqr) {
-                            pos = ctr;
-                            pos.X += i;
-                            pos.Z += j;
-                            if (pyro->Flags & PYRO_FLAGS_TOUCHPOINT) {
-                                dx = (pyro->target.X >> 8) - pos.X;
-                                dz = (pyro->target.Z >> 8) - pos.Z;
-                                if ((dx * dx + dz * dz) < distsqr)
-                                    draw_flame_element(pos.X, pos.Y, pos.Z, id, 1, 0);
-                            } else {
+            for (i = -pyro->radius; i < pyro->radius; i += iStepSize) {
+                for (j = -pyro->radius; j < pyro->radius; j += iStepSize) {
+                    id *= 31415965;
+                    id += 123456789;
+                    if ((i * i + j * j) < radsqr) {
+                        pos = ctr;
+                        pos.X += i;
+                        pos.Z += j;
+                        if (pyro->Flags & PYRO_FLAGS_TOUCHPOINT) {
+                            dx = (pyro->target.X >> 8) - pos.X;
+                            dz = (pyro->target.Z >> 8) - pos.Z;
+                            if ((dx * dx + dz * dz) < distsqr)
                                 draw_flame_element(pos.X, pos.Y, pos.Z, id, 1, 0);
-                            }
+                        } else {
+                            draw_flame_element(pos.X, pos.Y, pos.Z, id, 1, 0);
                         }
                     }
                 }
             }
-            break;
+        }
+        break;
 
-        case PYRO_BONFIRE:
-            if (pyro->thing->Flags & FLAGS_IN_VIEW) {
-                extern int AENG_detail_skyline;
+    case PYRO_BONFIRE:
+        if (pyro->thing->Flags & FLAGS_IN_VIEW) {
+            extern int AENG_detail_skyline;
 
-                int iNumFlames = 40;
-                if (!AENG_detail_skyline) //||ShiftFlag)
-                {
-                    iNumFlames *= 2;
-                } else {
-                    iNumFlames *= 5;
-                }
-
-                // Throttle
-                iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(iNumFlames);
-                // And draw.
-                draw_flames(fx >> 8, fy / 256, fz >> 8, iNumFlames, (std::int32_t) p_pyro);
-
-                if (AENG_detail_skyline)
-                    if (!(Random() & 7))
-                        PARTICLE_Add(fx + ((Random() & 0x9ff) - 0x4ff),
-                                     fy + ((Random() & 0x9ff) - 0x4ff),
-                                     fz + ((Random() & 0x9ff) - 0x4ff),
-                                     (Random() & 0xff) - 0x7f, 256 + (Random() & 0x1ff), (Random() & 0xff) - 0x7f,
-                                     POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
-                                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE,
-                                     300, 70, 1, 1, 2);
+            int iNumFlames = 40;
+            if (!AENG_detail_skyline) //||ShiftFlag)
+            {
+                iNumFlames *= 2;
+            } else {
+                iNumFlames *= 5;
             }
-            break;
 
-        case PYRO_WHOOMPH:
-            if (pyro->thing->Flags & FLAGS_IN_VIEW) {
-                std::uint8_t i, radius;
+            // Throttle
+            iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(iNumFlames);
+            // And draw.
+            draw_flames(fx >> 8, fy / 256, fz >> 8, iNumFlames, (std::int32_t) p_pyro);
+
+            if (AENG_detail_skyline)
+                if (!(Random() & 7))
+                    PARTICLE_Add(fx + ((Random() & 0x9ff) - 0x4ff),
+                                 fy + ((Random() & 0x9ff) - 0x4ff),
+                                 fz + ((Random() & 0x9ff) - 0x4ff),
+                                 (Random() & 0xff) - 0x7f, 256 + (Random() & 0x1ff), (Random() & 0xff) - 0x7f,
+                                 POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE,
+                                 300, 70, 1, 1, 2);
+        }
+        break;
+
+    case PYRO_WHOOMPH:
+        if (pyro->thing->Flags & FLAGS_IN_VIEW) {
+            std::uint8_t i, radius;
 #if 0
 			std::uint8_t steps=1+(pyro->counter>>4);
 #else
-                // Throttle
-                int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave((1 + (pyro->counter >> 4)) * 2);
-                std::uint8_t steps = iNumFlames >> 1;
-                if (steps < 3) {
-                    steps = 3;
-                }
+            // Throttle
+            int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave((1 + (pyro->counter >> 4)) * 2);
+            std::uint8_t steps = iNumFlames >> 1;
+            if (steps < 3) {
+                steps = 3;
+            }
 
 #endif
-                std::uint16_t angle = 0, step = 2048 / steps;
+            std::uint16_t angle = 0, step = 2048 / steps;
+            std::int32_t px, py, pz;
+
+            for (i = 0; i < steps; i++) {
+                radius = SIN(pyro->counter) >> 10;
+                radius += (radius >> 1);
+                px = fx + ((SIN(angle) >> 6) * radius);
+                py = fy;
+                pz = fz + ((COS(angle) >> 6) * radius);
+                PARTICLE_Add(px + ((Random() & 0x13ff) - 0x9ff),
+                             py + ((Random() & 0x13ff) - 0x9ff),
+                             pz + ((Random() & 0x13ff) - 0x9ff),
+                             0, 0, 0,
+                             POLY_PAGE_PCFLAMER, 2 + ((Random() & 3) << 2), 0xaFffffff,
+                             PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE,
+                             150, 70, 1, 8, 2);
+                PARTICLE_Add(px + ((Random() & 0x13ff) - 0x9ff),
+                             py + ((Random() & 0x13ff) - 0x9ff),
+                             pz + ((Random() & 0x13ff) - 0x9ff),
+                             0, 0, 0,
+                             POLY_PAGE_PCFLAMER, 2 + ((Random() & 3) << 2), 0xaFffffff,
+                             PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE,
+                             150, 70, 1, 8, 2);
+
+                angle += step;
+                angle &= 2047;
+            }
+
+            /*			PARTICLE_Add(fx+((Random()&0x9ff)-0x4ff),
+                                                             fy+((Random()&0x9ff)-0x4ff),
+                                                             fz+((Random()&0x9ff)-0x4ff),
+                                                             0,0,0,
+                                                             POLY_PAGE_PCFLAMER,2+((Random()&3)<<2),0xFFffffff,
+                                                             PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FIRE|PFLAG_FADE,
+                                                             300,70,1,1,2);*/
+
+            /*			draw_flames(fx>>8,fy/256,fz>>8,40,(std::int32_t)p_pyro);
+                                    if (!(Random()&3))
+                                    PARTICLE_Add(fx+((Random()&0x9ff)-0x4ff),
+                                                             fy+((Random()&0x9ff)-0x4ff),
+                                                             fz+((Random()&0x9ff)-0x4ff),
+                                            (Random()&0xff)-0x7f,256+(Random()&0x1ff),(Random()&0xff)-0x7f,
+                                            POLY_PAGE_SMOKECLOUD2,2+((Random()&3)<<2),0x7FFFFFFF,
+                                            PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FIRE|PFLAG_FADE|PFLAG_RESIZE,
+                                            300,70,1,1,2);
+                                            */
+        }
+        break;
+
+    case PYRO_IMMOLATE:
+        if (pyro->Flags & PYRO_FLAGS_SMOKE) {
+            if (pyro->victim)
+                pos = pyro->victim->WorldPos;
+            else
+                pos = pyro->thing->WorldPos;
+            if (pyro->Flags & PYRO_FLAGS_STATIC) {
+                pos.X >>= 8;
+                pos.Y >>= 8;
+                pos.Z >>= 8;
+
+                // Throttle
+                int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(40);
+
+                for (i = 0; i < iNumFlames; i++) {
+                    draw_flame_element(pos.X, pos.Y, pos.Z, 7 + (i << 4), 0, 0);
+                }
+            } else {
+                PARTICLE_Add(pos.X, pos.Y + 8192, pos.Z, 0, 1024, 0, POLY_PAGE_SMOKE, 0, 0x7FFFFFFF,
+                             PFLAGS_SMOKE, 80, 8, 1, 3, 4);
+            }
+        }
+        if (pyro->Flags & PYRO_FLAGS_FLAME) {
+            if (pyro->victim)
+                pos = pyro->victim->WorldPos;
+            else
+                pos = pyro->thing->WorldPos;
+            if (pyro->Flags & PYRO_FLAGS_STATIC) {
+                pos.X >>= 8;
+                pos.Y >>= 8;
+                pos.Z >>= 8;
+                // Throttle
+                int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(40);
+
+                for (i = 0; i < iNumFlames; i++) {
+                    draw_flame_element(pos.X, pos.Y, pos.Z, i, 0, 0);
+                }
+            } else {
+                PARTICLE_Add(pos.X, pos.Y + 8192, pos.Z, 0, 1024, 0, POLY_PAGE_FLAMES, 0, 0xffFFFFFF,
+                             PFLAG_FIRE | PFLAG_FADE | PFLAG_WANDER, 80, 60, 1, 4, -1);
+            }
+        }
+        if (pyro->victim) {
+            if (!(pyro->victim->Flags & FLAGS_IN_VIEW)) break;
+            if ((pyro->Flags & PYRO_FLAGS_FLICKER) || (pyro->Flags & PYRO_FLAGS_BONFIRE)) {
+                PrimObject *p_obj;
+                std::uint32_t sp;
+                std::uint32_t ep;
                 std::int32_t px, py, pz;
-
-                for (i = 0; i < steps; i++) {
-                    radius = SIN(pyro->counter) >> 10;
-                    radius += (radius >> 1);
-                    px = fx + ((SIN(angle) >> 6) * radius);
-                    py = fy;
-                    pz = fz + ((COS(angle) >> 6) * radius);
-                    PARTICLE_Add(px + ((Random() & 0x13ff) - 0x9ff),
-                                 py + ((Random() & 0x13ff) - 0x9ff),
-                                 pz + ((Random() & 0x13ff) - 0x9ff),
-                                 0, 0, 0,
-                                 POLY_PAGE_PCFLAMER, 2 + ((Random() & 3) << 2), 0xaFffffff,
-                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE,
-                                 150, 70, 1, 8, 2);
-                    PARTICLE_Add(px + ((Random() & 0x13ff) - 0x9ff),
-                                 py + ((Random() & 0x13ff) - 0x9ff),
-                                 pz + ((Random() & 0x13ff) - 0x9ff),
-                                 0, 0, 0,
-                                 POLY_PAGE_PCFLAMER, 2 + ((Random() & 3) << 2), 0xaFffffff,
-                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE,
-                                 150, 70, 1, 8, 2);
-
-                    angle += step;
-                    angle &= 2047;
-                }
-
-                /*			PARTICLE_Add(fx+((Random()&0x9ff)-0x4ff),
-                                                                 fy+((Random()&0x9ff)-0x4ff),
-                                                                 fz+((Random()&0x9ff)-0x4ff),
-                                                                 0,0,0,
-                                                                 POLY_PAGE_PCFLAMER,2+((Random()&3)<<2),0xFFffffff,
-                                                                 PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FIRE|PFLAG_FADE,
-                                                                 300,70,1,1,2);*/
-
-                /*			draw_flames(fx>>8,fy/256,fz>>8,40,(std::int32_t)p_pyro);
-                                        if (!(Random()&3))
-                                        PARTICLE_Add(fx+((Random()&0x9ff)-0x4ff),
-                                                                 fy+((Random()&0x9ff)-0x4ff),
-                                                                 fz+((Random()&0x9ff)-0x4ff),
-                                                (Random()&0xff)-0x7f,256+(Random()&0x1ff),(Random()&0xff)-0x7f,
-                                                POLY_PAGE_SMOKECLOUD2,2+((Random()&3)<<2),0x7FFFFFFF,
-                                                PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FIRE|PFLAG_FADE|PFLAG_RESIZE,
-                                                300,70,1,1,2);
-                                                */
-            }
-            break;
-
-        case PYRO_IMMOLATE:
-            if (pyro->Flags & PYRO_FLAGS_SMOKE) {
-                if (pyro->victim)
-                    pos = pyro->victim->WorldPos;
-                else
-                    pos = pyro->thing->WorldPos;
-                if (pyro->Flags & PYRO_FLAGS_STATIC) {
-                    pos.X >>= 8;
-                    pos.Y >>= 8;
-                    pos.Z >>= 8;
-
-                    // Throttle
-                    int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(40);
-
-                    for (i = 0; i < iNumFlames; i++) {
-                        draw_flame_element(pos.X, pos.Y, pos.Z, 7 + (i << 4), 0, 0);
+                POLY_Point *pp;
+                std::int32_t matrix[9];
+                GameCoord bob;
+                switch (pyro->victim->DrawType) {
+                case DT_MESH:
+                    switch (pyro->victim->Class) {
+                    case CLASS_BARREL: {
+                        bob = BARREL_fire_pos(pyro->victim);
+                        px = bob.X + (Random() & 0x3fff) - 0x1fff;
+                        py = bob.Y + (Random() & 0x3fff) - 0x13ff;
+                        pz = bob.Z + (Random() & 0x3fff) - 0x1fff;
+                        RIBBON_extend(pyro->radii[0], px >> 8, py >> 8, pz >> 8);
+                    } break;
                     }
-                } else {
-                    PARTICLE_Add(pos.X, pos.Y + 8192, pos.Z, 0, 1024, 0, POLY_PAGE_SMOKE, 0, 0x7FFFFFFF,
-                                 PFLAGS_SMOKE, 80, 8, 1, 3, 4);
-                }
-            }
-            if (pyro->Flags & PYRO_FLAGS_FLAME) {
-                if (pyro->victim)
-                    pos = pyro->victim->WorldPos;
-                else
-                    pos = pyro->thing->WorldPos;
-                if (pyro->Flags & PYRO_FLAGS_STATIC) {
-                    pos.X >>= 8;
-                    pos.Y >>= 8;
-                    pos.Z >>= 8;
-                    // Throttle
-                    int iNumFlames = IWouldLikeSomePyroSpritesHowManyCanIHave(40);
+                    break;
+                case DT_CHOPPER: {
+                    p_obj = &prim_objects[pyro->victim->Draw.Mesh->ObjectId];
+                    sp = p_obj->StartPoint;
+                    ep = p_obj->EndPoint;
+                    FMATRIX_calc(
+                        matrix,
+                        pyro->victim->Draw.Mesh->Angle,
+                        pyro->victim->Draw.Mesh->Tilt,
+                        pyro->victim->Draw.Mesh->Roll);
+                    pp = &POLY_buffer[POLY_buffer_upto];
 
-                    for (i = 0; i < iNumFlames; i++) {
-                        draw_flame_element(pos.X, pos.Y, pos.Z, i, 0, 0);
+                    if (pyro->Flags & PYRO_FLAGS_FLICKER) {
+                        if ((pyro->radii[7] < sp) || (pyro->radii[7] > ep)) pyro->radii[7] = sp;
+                        pp->x = AENG_dx_prim_points[pyro->radii[7]].X;
+                        pp->y = AENG_dx_prim_points[pyro->radii[7]].Y;
+                        pp->z = AENG_dx_prim_points[pyro->radii[7]].Z;
+
+                        FMATRIX_MUL(matrix, pp->x, pp->y, pp->z);
+
+                        pos.X = (pp->x) + (pyro->victim->WorldPos.X >> 8);
+                        pos.Y = (pp->y) + (pyro->victim->WorldPos.Y >> 8);
+                        pos.Z = (pp->z) + (pyro->victim->WorldPos.Z >> 8);
+
+                        RIBBON_extend(pyro->radii[0], pos.X, pos.Y, pos.Z);
+                        pyro->radii[7]++;
                     }
-                } else {
-                    PARTICLE_Add(pos.X, pos.Y + 8192, pos.Z, 0, 1024, 0, POLY_PAGE_FLAMES, 0, 0xffFFFFFF,
-                                 PFLAG_FIRE | PFLAG_FADE | PFLAG_WANDER, 80, 60, 1, 4, -1);
-                }
-            }
-            if (pyro->victim) {
-                if (!(pyro->victim->Flags & FLAGS_IN_VIEW)) break;
-                if ((pyro->Flags & PYRO_FLAGS_FLICKER) || (pyro->Flags & PYRO_FLAGS_BONFIRE)) {
-                    PrimObject *p_obj;
-                    std::uint32_t sp;
-                    std::uint32_t ep;
-                    std::int32_t px, py, pz;
-                    POLY_Point *pp;
-                    std::int32_t matrix[9];
-                    GameCoord bob;
-                    switch (pyro->victim->DrawType) {
-                        case DT_MESH:
-                            switch (pyro->victim->Class) {
-                                case CLASS_BARREL: {
-                                    bob = BARREL_fire_pos(pyro->victim);
-                                    px = bob.X + (Random() & 0x3fff) - 0x1fff;
-                                    py = bob.Y + (Random() & 0x3fff) - 0x13ff;
-                                    pz = bob.Z + (Random() & 0x3fff) - 0x1fff;
-                                    RIBBON_extend(pyro->radii[0], px >> 8, py >> 8, pz >> 8);
-                                } break;
-                            }
-                            break;
-                        case DT_CHOPPER: {
-                            p_obj = &prim_objects[pyro->victim->Draw.Mesh->ObjectId];
-                            sp = p_obj->StartPoint;
-                            ep = p_obj->EndPoint;
-                            FMATRIX_calc(
-                                matrix,
-                                pyro->victim->Draw.Mesh->Angle,
-                                pyro->victim->Draw.Mesh->Tilt,
-                                pyro->victim->Draw.Mesh->Roll);
-                            pp = &POLY_buffer[POLY_buffer_upto];
+                    if (pyro->Flags & PYRO_FLAGS_BONFIRE) {
+                        for (i = sp; i < (signed) ep; i++)
+                            if (!(i & 7)) {
+                                ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-                            if (pyro->Flags & PYRO_FLAGS_FLICKER) {
-                                if ((pyro->radii[7] < sp) || (pyro->radii[7] > ep)) pyro->radii[7] = sp;
-                                pp->x = AENG_dx_prim_points[pyro->radii[7]].X;
-                                pp->y = AENG_dx_prim_points[pyro->radii[7]].Y;
-                                pp->z = AENG_dx_prim_points[pyro->radii[7]].Z;
+                                pp = &POLY_buffer[POLY_buffer_upto];
+                                pp->x = AENG_dx_prim_points[i].X;
+                                pp->y = AENG_dx_prim_points[i].Y;
+                                pp->z = AENG_dx_prim_points[i].Z;
 
                                 FMATRIX_MUL(matrix, pp->x, pp->y, pp->z);
 
@@ -982,412 +1019,393 @@ void PYRO_draw_pyro(Thing *p_pyro) {
                                 pos.Y = (pp->y) + (pyro->victim->WorldPos.Y >> 8);
                                 pos.Z = (pp->z) + (pyro->victim->WorldPos.Z >> 8);
 
-                                RIBBON_extend(pyro->radii[0], pos.X, pos.Y, pos.Z);
-                                pyro->radii[7]++;
-                            }
-                            if (pyro->Flags & PYRO_FLAGS_BONFIRE) {
-                                for (i = sp; i < (signed) ep; i++)
-                                    if (!(i & 7)) {
-                                        ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
-
-                                        pp = &POLY_buffer[POLY_buffer_upto];
-                                        pp->x = AENG_dx_prim_points[i].X;
-                                        pp->y = AENG_dx_prim_points[i].Y;
-                                        pp->z = AENG_dx_prim_points[i].Z;
-
-                                        FMATRIX_MUL(matrix, pp->x, pp->y, pp->z);
-
-                                        pos.X = (pp->x) + (pyro->victim->WorldPos.X >> 8);
-                                        pos.Y = (pp->y) + (pyro->victim->WorldPos.Y >> 8);
-                                        pos.Z = (pp->z) + (pyro->victim->WorldPos.Z >> 8);
-
-                                        for (j = 0; j < 8; j++) {
-                                            draw_flame_element2(pos.X, pos.Y, pos.Z, i + (j * 128));
-                                            draw_flame_element2(pos.X, pos.Y, pos.Z, i + (j * 128) + 1);
-                                        }
-                                    }
-                            }
-
-                            return;
-                        } break;
-                        case DT_ROT_MULTI:
-                            if (pyro->Flags & PYRO_FLAGS_FLICKER) {
-                                std::int32_t px, py, pz;
-                                std::uint8_t i, r, p;
-
-                                if (pyro->Dummy == 2)
-                                    r = 5;
-                                else
-                                    r = 1; // r=1 was r=2 MikeD Aug 2000
-                                r = 2;
-                                for (i = 0; i < r; i++) {
-                                    switch (pyro->victim->State) {
-                                        case STATE_DYING: p = 7; break;
-                                        case STATE_DEAD: p = 3; break;
-                                        default: p = 0xf; break;
-                                    }
-                                    p = rand() & p;
-                                    calc_sub_objects_position(
-                                        pyro->victim,
-                                        pyro->victim->Draw.Tweened->AnimTween,
-                                        p,
-                                        &px,
-                                        &py,
-                                        &pz);
-                                    px += pyro->victim->WorldPos.X >> 8;
-                                    py += pyro->victim->WorldPos.Y >> 8;
-                                    pz += pyro->victim->WorldPos.Z >> 8;
-                                    RIBBON_extend(pyro->radii[i], px, py, pz);
-                                    /*for (p=0;p<5;p++) {
-                                            calc_sub_objects_position(
-                                                    pyro->victim,
-                                                    pyro->victim->Draw.Tweened->AnimTween,
-                                                    p,
-                                                    &px,
-                                                    &py,
-                                                    &pz);
-                                            px = pyro->victim->WorldPos.X >> 8;
-                                            py = pyro->victim->WorldPos.Y >> 8;
-                                            pz = pyro->victim->WorldPos.Z >> 8;
-                                            PARTICLE_Add(px,py,pz,0,512,0,POLY_PAGE_FLAMES2,2+((Random()&3)<<2),0x00FFFFFF,
-                                                    PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FADE2|PFLAG_RESIZE,
-                                                    300,50,1,1,1);
-                                    }*/
+                                for (j = 0; j < 8; j++) {
+                                    draw_flame_element2(pos.X, pos.Y, pos.Z, i + (j * 128));
+                                    draw_flame_element2(pos.X, pos.Y, pos.Z, i + (j * 128) + 1);
                                 }
                             }
-                            return;
                     }
+
+                    return;
+                } break;
+                case DT_ROT_MULTI:
+                    if (pyro->Flags & PYRO_FLAGS_FLICKER) {
+                        std::int32_t px, py, pz;
+                        std::uint8_t i, r, p;
+
+                        if (pyro->Dummy == 2)
+                            r = 5;
+                        else
+                            r = 1; // r=1 was r=2 MikeD Aug 2000
+                        r = 2;
+                        for (i = 0; i < r; i++) {
+                            switch (pyro->victim->State) {
+                            case STATE_DYING: p = 7; break;
+                            case STATE_DEAD: p = 3; break;
+                            default: p = 0xf; break;
+                            }
+                            p = rand() & p;
+                            calc_sub_objects_position(
+                                pyro->victim,
+                                pyro->victim->Draw.Tweened->AnimTween,
+                                p,
+                                &px,
+                                &py,
+                                &pz);
+                            px += pyro->victim->WorldPos.X >> 8;
+                            py += pyro->victim->WorldPos.Y >> 8;
+                            pz += pyro->victim->WorldPos.Z >> 8;
+                            RIBBON_extend(pyro->radii[i], px, py, pz);
+                            /*for (p=0;p<5;p++) {
+                                    calc_sub_objects_position(
+                                            pyro->victim,
+                                            pyro->victim->Draw.Tweened->AnimTween,
+                                            p,
+                                            &px,
+                                            &py,
+                                            &pz);
+                                    px = pyro->victim->WorldPos.X >> 8;
+                                    py = pyro->victim->WorldPos.Y >> 8;
+                                    pz = pyro->victim->WorldPos.Z >> 8;
+                                    PARTICLE_Add(px,py,pz,0,512,0,POLY_PAGE_FLAMES2,2+((Random()&3)<<2),0x00FFFFFF,
+                                            PFLAG_SPRITEANI|PFLAG_SPRITELOOP|PFLAG_FADE2|PFLAG_RESIZE,
+                                            300,50,1,1,1);
+                            }*/
+                        }
+                    }
+                    return;
                 }
-                /*			if (pyro->Flags&PYRO_FLAGS_FACES) {
-                                                PrimObject*	p_obj;
-                                                std::int32_t sp;
-                                                std::int32_t ep;
-                                                POLY_Point*	pp;
-                                                std::int32_t matrix[9];
+            }
+            /*			if (pyro->Flags&PYRO_FLAGS_FACES) {
+                                            PrimObject*	p_obj;
+                                            std::int32_t sp;
+                                            std::int32_t ep;
+                                            POLY_Point*	pp;
+                                            std::int32_t matrix[9];
 
-                                                switch (pyro->victim->DrawType) {
-                                                case DT_MESH:
-                                                case DT_CHOPPER:
-                                                        {
-                                                                p_obj=&prim_objects[pyro->victim->Draw.Mesh->ObjectId];
-                                                                sp = p_obj->StartPoint;
-                                                                ep = p_obj->EndPoint;
-                                                                FMATRIX_calc(
-                                                                        matrix,
-                                                                        pyro->victim->Draw.Mesh->Angle,
-                                                                        pyro->victim->Draw.Mesh->Tilt,
-                                                                        pyro->victim->Draw.Mesh->Roll);
-                                                                pp = &POLY_buffer[POLY_buffer_upto];
-                                                                if ((pyro->radii[7]<sp)||(pyro->radii[7]>ep)) pyro->radii[7]=sp;
-                                                                pp->x=AENG_dx_prim_points[pyro->radii[7]].X;
-                                                                pp->y=AENG_dx_prim_points[pyro->radii[7]].Y;
-                                                                pp->z=AENG_dx_prim_points[pyro->radii[7]].Z;
+                                            switch (pyro->victim->DrawType) {
+                                            case DT_MESH:
+                                            case DT_CHOPPER:
+                                                    {
+                                                            p_obj=&prim_objects[pyro->victim->Draw.Mesh->ObjectId];
+                                                            sp = p_obj->StartPoint;
+                                                            ep = p_obj->EndPoint;
+                                                            FMATRIX_calc(
+                                                                    matrix,
+                                                                    pyro->victim->Draw.Mesh->Angle,
+                                                                    pyro->victim->Draw.Mesh->Tilt,
+                                                                    pyro->victim->Draw.Mesh->Roll);
+                                                            pp = &POLY_buffer[POLY_buffer_upto];
+                                                            if ((pyro->radii[7]<sp)||(pyro->radii[7]>ep)) pyro->radii[7]=sp;
+                                                            pp->x=AENG_dx_prim_points[pyro->radii[7]].X;
+                                                            pp->y=AENG_dx_prim_points[pyro->radii[7]].Y;
+                                                            pp->z=AENG_dx_prim_points[pyro->radii[7]].Z;
 
-                                                                FMATRIX_MUL(matrix,pp->x,pp->y,pp->z);
+                                                            FMATRIX_MUL(matrix,pp->x,pp->y,pp->z);
 
-                                                                pos.X = (pp->x)+(pyro->victim->WorldPos.X>>8);
-                                                                pos.Y = (pp->y)+(pyro->victim->WorldPos.Y>>8);
-                                                                pos.Z = (pp->z)+(pyro->victim->WorldPos.Z>>8);
+                                                            pos.X = (pp->x)+(pyro->victim->WorldPos.X>>8);
+                                                            pos.Y = (pp->y)+(pyro->victim->WorldPos.Y>>8);
+                                                            pos.Z = (pp->z)+(pyro->victim->WorldPos.Z>>8);
 
-                                                                RIBBON_extend(pyro->radii[0],pos.X,pos.Y,pos.Z);
+                                                            RIBBON_extend(pyro->radii[0],pos.X,pos.Y,pos.Z);
 
-                                                                pyro->radii[7]++;
-                                                                return;
-                                                        }
-                                                        break;
-                                                case DT_ROT_MULTI:
-                                                        {
-                                                        std::int32_t px,py,pz;
-                                                        std::uint8_t i,r,p;
+                                                            pyro->radii[7]++;
+                                                            return;
+                                                    }
+                                                    break;
+                                            case DT_ROT_MULTI:
+                                                    {
+                                                    std::int32_t px,py,pz;
+                                                    std::uint8_t i,r,p;
 
-                                                        if (pyro->padding==2) r=5; else r=2;
-                                                        for (i=0;i<r;i++) {
-                                                                switch(pyro->victim->State){
-                                                                case STATE_DYING:	p=7;	break;
-                                                                case STATE_DEAD:	p=3;	break;
-                                                                default:			p=0xf;	break;
-                                                                }
-                                                                p=rand()&p;
-                                                                calc_sub_objects_position(
-                                                                        pyro->victim,
-                                                                        pyro->victim->Draw.Tweened->AnimTween,
-                                                                        p,
-                                                                        &px,
-                                                                        &py,
-                                                                        &pz);
-                                                                px += pyro->victim->WorldPos.X >> 8;
-                                                                py += pyro->victim->WorldPos.Y >> 8;
-                                                                pz += pyro->victim->WorldPos.Z >> 8;
-                                                                RIBBON_extend(pyro->radii[i],px,py,pz);
-                                                        }
-                                                        }
-                                                        return;
-                                                default:
-                                                        pos = pyro->victim->WorldPos;
-                                                        pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
-                                                        for (i=0;i<40;i++)
-                                                                draw_flame_element(pos.X,pos.Y,pos.Z,i,0);
-                                                        return;
-                                                }
-
-
-                                          for (i=sp;i<ep;i++)
-                                                  if (!(i&7))
-                                                  {
-                                                        ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
-
-                                                        pp = &POLY_buffer[POLY_buffer_upto];
-                                                        pp->x=AENG_dx_prim_points[i].X;
-                                                        pp->y=AENG_dx_prim_points[i].Y;
-                                                        pp->z=AENG_dx_prim_points[i].Z;
-
-                                                        FMATRIX_MUL(matrix,pp->x,pp->y,pp->z);
-
-                                                        pos.X = (pp->x)+(pyro->victim->WorldPos.X>>8);
-                                                        pos.Y = (pp->y)+(pyro->victim->WorldPos.Y>>8);
-                                                        pos.Z = (pp->z)+(pyro->victim->WorldPos.Z>>8);
-
-                                                        for (j=0;j<8;j++) {
-                                                                draw_flame_element2(pos.X,pos.Y,pos.Z,i+(j*128));
-                                                                draw_flame_element2(pos.X,pos.Y,pos.Z,i+(j*128)+1);
-                                                        }
-                                                  }
+                                                    if (pyro->padding==2) r=5; else r=2;
+                                                    for (i=0;i<r;i++) {
+                                                            switch(pyro->victim->State){
+                                                            case STATE_DYING:	p=7;	break;
+                                                            case STATE_DEAD:	p=3;	break;
+                                                            default:			p=0xf;	break;
+                                                            }
+                                                            p=rand()&p;
+                                                            calc_sub_objects_position(
+                                                                    pyro->victim,
+                                                                    pyro->victim->Draw.Tweened->AnimTween,
+                                                                    p,
+                                                                    &px,
+                                                                    &py,
+                                                                    &pz);
+                                                            px += pyro->victim->WorldPos.X >> 8;
+                                                            py += pyro->victim->WorldPos.Y >> 8;
+                                                            pz += pyro->victim->WorldPos.Z >> 8;
+                                                            RIBBON_extend(pyro->radii[i],px,py,pz);
+                                                    }
+                                                    }
+                                                    return;
+                                            default:
+                                                    pos = pyro->victim->WorldPos;
+                                                    pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
+                                                    for (i=0;i<40;i++)
+                                                            draw_flame_element(pos.X,pos.Y,pos.Z,i,0);
+                                                    return;
+                                            }
 
 
-                                        } else {
-                                                pos = pyro->victim->WorldPos;
-                                                pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
-                                                for (i=0;i<40;i++)
-                                                        draw_flame_element(pos.X,pos.Y,pos.Z,i,0);
-                                        }*/
+                                      for (i=sp;i<ep;i++)
+                                              if (!(i&7))
+                                              {
+                                                    ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
+
+                                                    pp = &POLY_buffer[POLY_buffer_upto];
+                                                    pp->x=AENG_dx_prim_points[i].X;
+                                                    pp->y=AENG_dx_prim_points[i].Y;
+                                                    pp->z=AENG_dx_prim_points[i].Z;
+
+                                                    FMATRIX_MUL(matrix,pp->x,pp->y,pp->z);
+
+                                                    pos.X = (pp->x)+(pyro->victim->WorldPos.X>>8);
+                                                    pos.Y = (pp->y)+(pyro->victim->WorldPos.Y>>8);
+                                                    pos.Z = (pp->z)+(pyro->victim->WorldPos.Z>>8);
+
+                                                    for (j=0;j<8;j++) {
+                                                            draw_flame_element2(pos.X,pos.Y,pos.Z,i+(j*128));
+                                                            draw_flame_element2(pos.X,pos.Y,pos.Z,i+(j*128)+1);
+                                                    }
+                                              }
+
+
+                                    } else {
+                                            pos = pyro->victim->WorldPos;
+                                            pos.X>>=8; pos.Y>>=8; pos.Z>>=8;
+                                            for (i=0;i<40;i++)
+                                                    draw_flame_element(pos.X,pos.Y,pos.Z,i,0);
+                                    }*/
+        } else {
+            if (pyro->Flags & PYRO_FLAGS_FLICKER) {
+                pos = pyro->thing->WorldPos;
+                pos.X += (rand() / 2);
+                pos.Z += (rand() / 2);
+                RIBBON_extend(pyro->radii[0], pos.X >> 8, pos.Y / 256, pos.Z >> 8);
+            }
+        }
+        break;
+
+    case PYRO_DUSTWAVE:
+        PYRO_draw_dustwave(pyro);
+        break;
+
+    case PYRO_EXPLODE2:
+        PYRO_draw_explosion2(pyro);
+        break;
+
+    case PYRO_STREAMER:
+        PYRO_draw_streamer(pyro);
+        break;
+
+    case PYRO_TWANGER:
+        PYRO_draw_twanger(pyro);
+        {
+            std::int32_t str;
+            if (pyro->counter < 30) {
+                str = pyro->counter * 5;
             } else {
-                if (pyro->Flags & PYRO_FLAGS_FLICKER) {
-                    pos = pyro->thing->WorldPos;
-                    pos.X += (rand() / 2);
-                    pos.Z += (rand() / 2);
-                    RIBBON_extend(pyro->radii[0], pos.X >> 8, pos.Y / 256, pos.Z >> 8);
-                }
+                str = (285 - pyro->counter * 2);
+                str >>= 1;
             }
-            break;
+            if (str > 0) BLOOM_flare_draw(pyro->thing->WorldPos.X >> 8, pyro->thing->WorldPos.Y >> 8, pyro->thing->WorldPos.Z >> 8, str);
+        }
+        break;
 
-        case PYRO_DUSTWAVE:
-            PYRO_draw_dustwave(pyro);
-            break;
+    case PYRO_NEWDOME:
+        PYRO_draw_newdome(pyro);
+        break;
 
-        case PYRO_EXPLODE2:
-            PYRO_draw_explosion2(pyro);
-            break;
+    case PYRO_SPLATTERY:
+        // this only creates other things so no drawing
+        break;
 
-        case PYRO_STREAMER:
-            PYRO_draw_streamer(pyro);
-            break;
+    case PYRO_FIREBOMB:
+        if (!(pyro->thing->Flags & FLAGS_IN_VIEW)) break;
+        // temp behaviour: draw a sprite
+        //		BLOOM_flare_draw(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,0x75);
+        {
+            //	std::int32_t col=(255-pyro->counter)<<24;
+            // col|=0x007f7f7f;
+            // SPRITE_draw_tex(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,50,col,0xff000000,POLY_PAGE_FLAMES, 0.0,0.0,1.0,1.0, SPRITE_SORT_NORMAL);
+            // PYRO_draw_blob(pyro);
 
-        case PYRO_TWANGER:
-            PYRO_draw_twanger(pyro);
-            {
-                std::int32_t str;
-                if (pyro->counter < 30) {
-                    str = pyro->counter * 5;
-                } else {
-                    str = (285 - pyro->counter * 2);
-                    str >>= 1;
-                }
-                if (str > 0) BLOOM_flare_draw(pyro->thing->WorldPos.X >> 8, pyro->thing->WorldPos.Y >> 8, pyro->thing->WorldPos.Z >> 8, str);
-            }
-            break;
+            std::int32_t x, y, z, d, h, i;
 
-        case PYRO_NEWDOME:
-            PYRO_draw_newdome(pyro);
-            break;
+            if (pyro->counter < 10) {
+                // Ten "clocks" of particle-creation, each particle lives for about 70 clocks.
+                int iNumSprites = IWouldLikeSomePyroSpritesHowManyCanIHave(FIREBOMB_SPRITES * 10 * 70);
+                iNumSprites /= (10 * 70);
+                int iMultiplier = (16 * (1 << 7)) / iNumSprites;
 
-        case PYRO_SPLATTERY:
-            // this only creates other things so no drawing
-            break;
-
-        case PYRO_FIREBOMB:
-            if (!(pyro->thing->Flags & FLAGS_IN_VIEW)) break;
-            // temp behaviour: draw a sprite
-            //		BLOOM_flare_draw(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,0x75);
-            {
-                //	std::int32_t col=(255-pyro->counter)<<24;
-                // col|=0x007f7f7f;
-                // SPRITE_draw_tex(pyro->thing->WorldPos.X>>8,pyro->thing->WorldPos.Y>>8,pyro->thing->WorldPos.Z>>8,50,col,0xff000000,POLY_PAGE_FLAMES, 0.0,0.0,1.0,1.0, SPRITE_SORT_NORMAL);
-                // PYRO_draw_blob(pyro);
-
-                std::int32_t x, y, z, d, h, i;
-
-                if (pyro->counter < 10) {
-                    // Ten "clocks" of particle-creation, each particle lives for about 70 clocks.
-                    int iNumSprites = IWouldLikeSomePyroSpritesHowManyCanIHave(FIREBOMB_SPRITES * 10 * 70);
-                    iNumSprites /= (10 * 70);
-                    int iMultiplier = (16 * (1 << 7)) / iNumSprites;
-
-                    for (d = 0; d < iNumSprites; d++) {
-                        int iAngle = d * iMultiplier;
-                        if ((pyro->Flags & PYRO_FLAGS_WAVE) && (pyro->counter < 6)) {
+                for (d = 0; d < iNumSprites; d++) {
+                    int iAngle = d * iMultiplier;
+                    if ((pyro->Flags & PYRO_FLAGS_WAVE) && (pyro->counter < 6)) {
 #if 0
 						x=SIN((d<<7)+(Random()&127))>>3; z=COS((d<<7)+(Random()&127))>>3;
 #else
-                            x = SIN(iAngle + (Random() & 127)) >> 3;
-                            z = COS(iAngle + (Random() & 127)) >> 3;
+                        x = SIN(iAngle + (Random() & 127)) >> 3;
+                        z = COS(iAngle + (Random() & 127)) >> 3;
 #endif
 
-                            PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
-                                         x, (Random() & 0xff), z,
-                                         POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
-                                         PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING,
-                                         55 + (Random() & 0x3f), 80, 1, 8 - (Random() & 3), 4);
-                        }
-
-                        x = SIN(iAngle) >> 4;
-                        z = COS(iAngle) >> 4;
-                        i = Random() & 0xff;
-                        if (pyro->counter > 3) {
-                            i -= pyro->counter * 15;
-                            if (i < 0) i = 0;
-                            h = i;
-                            i = SIN(h << 1) >> 7;
-                            y = COS(h << 1) >> 4;
-                        } else {
-                            y = (128 + (Random() & 0xff)) << 4;
-                        }
-                        x *= i;
-                        z *= i;
-                        x >>= 8;
-                        z >>= 8;
-                        h = (127 + (Random() & 0x7f)) << 24;
-                        h |= 0xFFFFFF;
-
                         PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
-                                     x, y, z,
-                                     POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), h,
-                                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING | PFLAG_GRAVITY,
-                                     70 + (Random() & 0x3f), 160, 1, 6, -4);
+                                     x, (Random() & 0xff), z,
+                                     POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING,
+                                     55 + (Random() & 0x3f), 80, 1, 8 - (Random() & 3), 4);
                     }
+
+                    x = SIN(iAngle) >> 4;
+                    z = COS(iAngle) >> 4;
+                    i = Random() & 0xff;
+                    if (pyro->counter > 3) {
+                        i -= pyro->counter * 15;
+                        if (i < 0) i = 0;
+                        h = i;
+                        i = SIN(h << 1) >> 7;
+                        y = COS(h << 1) >> 4;
+                    } else {
+                        y = (128 + (Random() & 0xff)) << 4;
+                    }
+                    x *= i;
+                    z *= i;
+                    x >>= 8;
+                    z >>= 8;
+                    h = (127 + (Random() & 0x7f)) << 24;
+                    h |= 0xFFFFFF;
+
+                    PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
+                                 x, y, z,
+                                 POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), h,
+                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING | PFLAG_GRAVITY,
+                                 70 + (Random() & 0x3f), 160, 1, 6, -4);
+                }
+                d = Random() & 2047;
+                x = SIN(d) >> 4;
+                z = COS(d) >> 4;
+                d = Random() & 0xff;
+                x *= d;
+                z *= d;
+                x >>= 8;
+                z >>= 8;
+                PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
+                             x, (128 + (Random() & 0xff)) << 4, z,
+                             POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                             PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING | PFLAG_GRAVITY,
+                             75 + (Random() & 0x3f), 160, 1, 5 + (Random() & 3), -(2 + (Random() & 3)));
+            }
+            if (pyro->counter < 240) {
+                if ((pyro->counter > 110) && (pyro->counter < 140)) {
+                    PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
+                                 0, 0, 0,
+                                 POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0xffFFFFFF,
+                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE,
+                                 100, 255, 1, 20, 5);
+                }
+                // if (pyro->counter>10) pyro->counter+=10;
+                if ((pyro->counter > 4) && (pyro->counter < 110)) {
                     d = Random() & 2047;
                     x = SIN(d) >> 4;
                     z = COS(d) >> 4;
-                    d = Random() & 0xff;
-                    x *= d;
-                    z *= d;
+                    // h=Random()&0xff;
+                    h = (Random() & 0x7f);
+                    i = SIN(h << 1) >> 8;
+                    y = COS(h << 1) >> 4;
+                    x *= i;
+                    z *= i;
                     x >>= 8;
                     z >>= 8;
+                    // h=(127+(Random()&0x7f))<<24;
+                    // h|=0x7003f;
+                    h = 0x7fffffff;
                     PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
-                                 x, (128 + (Random() & 0xff)) << 4, z,
-                                 POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
-                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE | PFLAG_DAMPING | PFLAG_GRAVITY,
-                                 75 + (Random() & 0x3f), 160, 1, 5 + (Random() & 3), -(2 + (Random() & 3)));
-                }
-                if (pyro->counter < 240) {
-                    if ((pyro->counter > 110) && (pyro->counter < 140)) {
-                        PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
-                                     0, 0, 0,
-                                     POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0xffFFFFFF,
-                                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE2 | PFLAG_RESIZE,
-                                     100, 255, 1, 20, 5);
-                    }
-                    // if (pyro->counter>10) pyro->counter+=10;
-                    if ((pyro->counter > 4) && (pyro->counter < 110)) {
-                        d = Random() & 2047;
-                        x = SIN(d) >> 4;
-                        z = COS(d) >> 4;
-                        // h=Random()&0xff;
-                        h = (Random() & 0x7f);
-                        i = SIN(h << 1) >> 8;
-                        y = COS(h << 1) >> 4;
-                        x *= i;
-                        z *= i;
-                        x >>= 8;
-                        z >>= 8;
-                        // h=(127+(Random()&0x7f))<<24;
-                        // h|=0x7003f;
-                        h = 0x7fffffff;
-                        PARTICLE_Add(pyro->thing->WorldPos.X, pyro->thing->WorldPos.Y, pyro->thing->WorldPos.Z,
-                                     x, y, z,
-                                     //						POLY_PAGE_FLAMES2,2+((Random()&3)<<2),h,
-                                     POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), h,
-                                     PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE | PFLAG_DAMPING,
-                                     70 + (Random() & 0x3f), 100, 1, 2, 4 + (Random() & 3));
-                    }
+                                 x, y, z,
+                                 //						POLY_PAGE_FLAMES2,2+((Random()&3)<<2),h,
+                                 POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), h,
+                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE | PFLAG_DAMPING,
+                                 70 + (Random() & 0x3f), 100, 1, 2, 4 + (Random() & 3));
                 }
             }
-            break;
+        }
+        break;
 
-        case PYRO_GAMEOVER:
-            PYRO_draw_armageddon(pyro);
-            break;
+    case PYRO_GAMEOVER:
+        PYRO_draw_armageddon(pyro);
+        break;
 
-        case PYRO_HITSPANG:
-            // in case you were wondering, a spang is a sort of ricochet/blast effect
-            // that appears when bullets hit you (or, i guess, walls, cars, etc)
+    case PYRO_HITSPANG:
+        // in case you were wondering, a spang is a sort of ricochet/blast effect
+        // that appears when bullets hit you (or, i guess, walls, cars, etc)
 
-            //		check_pyro(pyro); //debug tool to find a bug MD 30-12-99
+        //		check_pyro(pyro); //debug tool to find a bug MD 30-12-99
 
-            // make sure it is processed
+        // make sure it is processed
 
 //		if(pyro->counter)
 #ifdef PSX
-        {
-            POLY_Point pt1, pt2;
-            std::int32_t x, y, z;
+    {
+        POLY_Point pt1, pt2;
+        std::int32_t x, y, z;
 
-            //		  POLY_transform(x+pyro->target.X,y+pyro->target.Y,z+pyro->target.Z,&pt1);
+        //		  POLY_transform(x+pyro->target.X,y+pyro->target.Y,z+pyro->target.Z,&pt1);
 
-            // hardwired test
-            /*		  x=NET_PERSON(0)->WorldPos.X>>8;
-                              y=(NET_PERSON(0)->WorldPos.Y>>8)+256;
-                              z=NET_PERSON(0)->WorldPos.Z>>8;
-                              POLY_transform(x,y,z,&pt1);*/
+        // hardwired test
+        /*		  x=NET_PERSON(0)->WorldPos.X>>8;
+                          y=(NET_PERSON(0)->WorldPos.Y>>8)+256;
+                          z=NET_PERSON(0)->WorldPos.Z>>8;
+                          POLY_transform(x,y,z,&pt1);*/
 
-            x = pyro->thing->WorldPos.X >> 8;
-            y = pyro->thing->WorldPos.Y >> 8;
-            z = pyro->thing->WorldPos.Z >> 8;
+        x = pyro->thing->WorldPos.X >> 8;
+        y = pyro->thing->WorldPos.Y >> 8;
+        z = pyro->thing->WorldPos.Z >> 8;
 
-            if (pyro->counter)
-                POLY_transform(x + pyro->target.X, y + pyro->target.Y, z + pyro->target.Z, &pt1);
-            else
-                POLY_transform(x + (pyro->target.X << 1), y + (pyro->target.Y << 1), z + (pyro->target.Z << 1), &pt1);
+        if (pyro->counter)
+            POLY_transform(x + pyro->target.X, y + pyro->target.Y, z + pyro->target.Z, &pt1);
+        else
+            POLY_transform(x + (pyro->target.X << 1), y + (pyro->target.Y << 1), z + (pyro->target.Z << 1), &pt1);
 
-            POLY_transform(x, y, z, &pt2);
+        POLY_transform(x, y, z, &pt2);
 
-            pt1.colour = pt2.colour = 0xFFFFFFFF;
-            pt1.specular = pt2.specular = 0xFF000000;
+        pt1.colour = pt2.colour = 0xFFFFFFFF;
+        pt1.specular = pt2.specular = 0xFF000000;
 
-            switch (pyro->counter) {
-                case 0:
-                    pt1.u = 0;
-                    pt1.v = 0;
-                    pt2.u = 0.5;
-                    pt2.v = 0.5;
-                    break;
-                case 1:
-                    pt1.u = 0;
-                    pt1.v = 0.5;
-                    pt2.u = 0.5;
-                    pt2.v = 1.0;
-                    break;
-                case 2:
-                    pt1.u = 0.5;
-                    pt1.v = 0;
-                    pt2.u = 1.0;
-                    pt2.v = 0.5;
-                    break;
-                case 3:
-                    pt1.u = 0.5;
-                    pt1.v = 0.5;
-                    pt2.u = 1.0;
-                    pt2.v = 1.0;
-                    break;
-            }
-            if (POLY_valid_line(&pt1, &pt2)) {
-                if (pyro->counter > 1)
-                    POLY_add_line_tex_uv(&pt1, &pt2, 42, 42, POLY_PAGE_HITSPANG, 0);
-                else
-                    POLY_add_line_tex_uv(&pt1, &pt2, 22, 22, POLY_PAGE_HITSPANG, 0);
-            }
+        switch (pyro->counter) {
+        case 0:
+            pt1.u = 0;
+            pt1.v = 0;
+            pt2.u = 0.5;
+            pt2.v = 0.5;
+            break;
+        case 1:
+            pt1.u = 0;
+            pt1.v = 0.5;
+            pt2.u = 0.5;
+            pt2.v = 1.0;
+            break;
+        case 2:
+            pt1.u = 0.5;
+            pt1.v = 0;
+            pt2.u = 1.0;
+            pt2.v = 0.5;
+            break;
+        case 3:
+            pt1.u = 0.5;
+            pt1.v = 0.5;
+            pt2.u = 1.0;
+            pt2.v = 1.0;
+            break;
         }
+        if (POLY_valid_line(&pt1, &pt2)) {
+            if (pyro->counter > 1)
+                POLY_add_line_tex_uv(&pt1, &pt2, 42, 42, POLY_PAGE_HITSPANG, 0);
+            else
+                POLY_add_line_tex_uv(&pt1, &pt2, 22, 22, POLY_PAGE_HITSPANG, 0);
+        }
+    }
 #endif
-        break;
+    break;
     }
 }
 
@@ -2393,36 +2411,34 @@ void PYRO_draw_armageddon(Pyro *pyro) {
 
 #if 1
 
-extern void ANIM_obj_draw(Thing *p_thing,DrawTween *dt);
-extern void ANIM_obj_draw_warped(Thing *p_thing,DrawTween *dt);
+extern void ANIM_obj_draw(Thing *p_thing, DrawTween *dt);
+extern void ANIM_obj_draw_warped(Thing *p_thing, DrawTween *dt);
 
-void ANIMAL_draw(Thing *p_thing) 
-{
-	std::uint8_t i;
-	Animal *animal=ANIMAL_get_animal(p_thing);
-//	DrawTween *dt=ANIMAL_get_drawtween(animal);
+void ANIMAL_draw(Thing *p_thing) {
+    std::uint8_t i;
+    Animal *animal = ANIMAL_get_animal(p_thing);
+    //	DrawTween *dt=ANIMAL_get_drawtween(animal);
 
-	p_thing->WorldPos.Y=100<<8;
-	ANIM_obj_draw(p_thing,p_thing->Draw.Tweened);
+    p_thing->WorldPos.Y = 100 << 8;
+    ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
 
-/*		FIGURE_draw_prim_tween(
-			start_object + object_offset,
-			(p_thing->WorldPos.X >> 8)+xd,
-			(p_thing->WorldPos.Y >> 8)+yd,
-			(p_thing->WorldPos.Z >> 8)+zd,
-			dt->AnimTween,
-		   &ae1[i],
-		   &ae2[i],
-		   &r_matrix,
-			dx,dy,dz,
-			colour,
-			specular);
-*/
+    /*		FIGURE_draw_prim_tween(
+                            start_object + object_offset,
+                            (p_thing->WorldPos.X >> 8)+xd,
+                            (p_thing->WorldPos.Y >> 8)+yd,
+                            (p_thing->WorldPos.Z >> 8)+zd,
+                            dt->AnimTween,
+                       &ae1[i],
+                       &ae2[i],
+                       &r_matrix,
+                            dx,dy,dz,
+                            colour,
+                            specular);
+    */
 
-/*
-	for (i=0;i<ANIMAL_body_size(animal);i++)
-		ANIM_obj_draw_warped(p_thing,dt++);*/
-	
+    /*
+            for (i=0;i<ANIMAL_body_size(animal);i++)
+                    ANIM_obj_draw_warped(p_thing,dt++);*/
 }
 
 #endif
@@ -2618,42 +2634,42 @@ void SPRITE_draw_rotated(
             pp[0].specular = pp[1].specular = pp[2].specular = pp[3].specular = 0xFF000000;
 
             switch (sort) {
-                case SPRITE_SORT_NORMAL:
+            case SPRITE_SORT_NORMAL:
 
-                    mid.z -= 1.0F / 64.0F;
-                    mid.Z += 1.0F / 64.0F;
+                mid.z -= 1.0F / 64.0F;
+                mid.Z += 1.0F / 64.0F;
 
-                    if (mid.z < 0.0F) {
-                        mid.z = 0.0F;
-                    }
+                if (mid.z < 0.0F) {
+                    mid.z = 0.0F;
+                }
 
-                    if (mid.Z > 0.999F) {
-                        mid.Z = 0.999F;
-                    }
+                if (mid.Z > 0.999F) {
+                    mid.Z = 0.999F;
+                }
 
-                    pp[0].z = mid.z;
-                    pp[0].Z = mid.Z;
-                    pp[1].z = mid.z;
-                    pp[1].Z = mid.Z;
-                    pp[2].z = mid.z;
-                    pp[2].Z = mid.Z;
-                    pp[3].z = mid.z;
-                    pp[3].Z = mid.Z;
-                    break;
+                pp[0].z = mid.z;
+                pp[0].Z = mid.Z;
+                pp[1].z = mid.z;
+                pp[1].Z = mid.Z;
+                pp[2].z = mid.z;
+                pp[2].Z = mid.Z;
+                pp[3].z = mid.z;
+                pp[3].Z = mid.Z;
+                break;
 
-                case SPRITE_SORT_FRONT:
-                    pp[0].z = 0.01F;
-                    pp[0].Z = 1.00F;
-                    pp[1].z = 0.01F;
-                    pp[1].Z = 1.00F;
-                    pp[2].z = 0.01F;
-                    pp[2].Z = 1.00F;
-                    pp[3].z = 0.01F;
-                    pp[3].Z = 1.00F;
-                    break;
+            case SPRITE_SORT_FRONT:
+                pp[0].z = 0.01F;
+                pp[0].Z = 1.00F;
+                pp[1].z = 0.01F;
+                pp[1].Z = 1.00F;
+                pp[2].z = 0.01F;
+                pp[2].Z = 1.00F;
+                pp[3].z = 0.01F;
+                pp[3].Z = 1.00F;
+                break;
 
-                default:
-                    ASSERT(0);
+            default:
+                ASSERT(0);
             }
 
             quad[0] = &pp[0];
@@ -2670,14 +2686,13 @@ extern std::int32_t AENG_cur_fc_cam;
 
 const std::uint8_t flare_table[7][3] =
     {
-        {132, 92, 80},
-        {135, 114, 79},
-        {128, 134, 78},
-        {81, 125, 73},
-        {78, 132, 127},
-        {76, 88, 126},
-        {101, 73, 125}
-
+        {132, 92,  80 },
+        {135, 114, 79 },
+        {128, 134, 78 },
+        {81,  125, 73 },
+        {78,  132, 127},
+        {76,  88,  126},
+        {101, 73,  125}
 };
 
 void BLOOM_flare_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t str) {
@@ -2901,37 +2916,37 @@ void DRAWXTRA_Special(Thing *p_thing) {
     std::int32_t dx, dz, c0, flags = 0;
 
     switch (p_thing->Genus.Special->SpecialType) {
-        case SPECIAL_MINE:
-            if (p_thing->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
-                c0 = (p_thing->Genus.Special->counter >> 1) & 2047;
-                dx = SIN(c0) >> 8;
-                dz = COS(c0) >> 8;
-                BLOOM_draw(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 25, p_thing->WorldPos.Z >> 8,
-                           dx, 0, dz, 0x7F0000, BLOOM_BEAM);
-            } else {
-                c0 = 3 + (THING_NUMBER(p_thing) & 7);
-                c0 = (((GAME_TURN * c0) + (THING_NUMBER(p_thing) * 9)) << 4) & 2047;
-                dx = SIN(c0) >> 8;
-                dz = COS(c0) >> 8;
-                BLOOM_draw(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 15, p_thing->WorldPos.Z >> 8,
-                           dx, 0, dz, 0x7F0000, 0);
-            }
-            break;
-        case SPECIAL_EXPLOSIVES:
-            flags = BLOOM_BEAM;
-            // FALL THRU
-            // case SPECIAL_GRENADE:
-            if (p_thing->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
-                c0 = p_thing->Genus.Special->timer;
-                c0 = (c0 << 3) & 2047;
-                dx = SIN(c0) >> 8;
-                dz = COS(c0) >> 8;
-                BLOOM_draw(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 25, p_thing->WorldPos.Z >> 8,
-                           dx, 0, dz, 0x007F5D, flags);
-            }
-            break;
+    case SPECIAL_MINE:
+        if (p_thing->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
+            c0 = (p_thing->Genus.Special->counter >> 1) & 2047;
+            dx = SIN(c0) >> 8;
+            dz = COS(c0) >> 8;
+            BLOOM_draw(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 25, p_thing->WorldPos.Z >> 8,
+                       dx, 0, dz, 0x7F0000, BLOOM_BEAM);
+        } else {
+            c0 = 3 + (THING_NUMBER(p_thing) & 7);
+            c0 = (((GAME_TURN * c0) + (THING_NUMBER(p_thing) * 9)) << 4) & 2047;
+            dx = SIN(c0) >> 8;
+            dz = COS(c0) >> 8;
+            BLOOM_draw(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 15, p_thing->WorldPos.Z >> 8,
+                       dx, 0, dz, 0x7F0000, 0);
+        }
+        break;
+    case SPECIAL_EXPLOSIVES:
+        flags = BLOOM_BEAM;
+        // FALL THRU
+        // case SPECIAL_GRENADE:
+        if (p_thing->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
+            c0 = p_thing->Genus.Special->timer;
+            c0 = (c0 << 3) & 2047;
+            dx = SIN(c0) >> 8;
+            dz = COS(c0) >> 8;
+            BLOOM_draw(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 25, p_thing->WorldPos.Z >> 8,
+                       dx, 0, dz, 0x007F5D, flags);
+        }
+        break;
 
-            //  no default -- not all specials have extra stuff.
+        //  no default -- not all specials have extra stuff.
     }
 }
 
@@ -3272,10 +3287,10 @@ void DRAWXTRA_final_glow(std::int32_t x, std::int32_t y, std::int32_t z, std::ui
 
     for (i = 0; i < 4; i++) {
         switch (i) {
-            case 0: angle = rotation >> 0; break;
-            case 1: angle = -rotation >> 0; break;
-            case 2: angle = rotation >> 1; break;
-            case 3: angle = -rotation >> 1; break;
+        case 0: angle = rotation >> 0; break;
+        case 1: angle = -rotation >> 0; break;
+        case 2: angle = rotation >> 1; break;
+        case 3: angle = -rotation >> 1; break;
         }
 
         angle += i << 6;

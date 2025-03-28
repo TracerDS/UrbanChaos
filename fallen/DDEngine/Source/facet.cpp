@@ -436,50 +436,50 @@ std::int32_t texture_quad(POLY_Point *quad[4], std::int32_t texture_style, std::
             }
     */
     switch (flip) {
-        case 0:
-            quad[1]->u = 1.0;
-            quad[1]->v = 0.0;
-            quad[0]->u = 0.0;
-            quad[0]->v = 0.0;
-            quad[3]->u = 1.0;
-            quad[3]->v = 1.0;
-            quad[2]->u = 0.0;
-            quad[2]->v = 1.0;
+    case 0:
+        quad[1]->u = 1.0;
+        quad[1]->v = 0.0;
+        quad[0]->u = 0.0;
+        quad[0]->v = 0.0;
+        quad[3]->u = 1.0;
+        quad[3]->v = 1.0;
+        quad[2]->u = 0.0;
+        quad[2]->v = 1.0;
 
-            break;
-        case 1: // flip x
-            quad[1]->u = 0.0;
-            quad[1]->v = 0.0;
-            quad[0]->u = 1.0;
-            quad[0]->v = 0.0;
-            quad[3]->u = 0.0;
-            quad[3]->v = 1.0;
-            quad[2]->u = 1.0;
-            quad[2]->v = 1.0;
+        break;
+    case 1: // flip x
+        quad[1]->u = 0.0;
+        quad[1]->v = 0.0;
+        quad[0]->u = 1.0;
+        quad[0]->v = 0.0;
+        quad[3]->u = 0.0;
+        quad[3]->v = 1.0;
+        quad[2]->u = 1.0;
+        quad[2]->v = 1.0;
 
-            break;
-        case 2: // flip y
-            quad[1]->u = 1.0;
-            quad[1]->v = 1.0;
-            quad[0]->u = 0.0;
-            quad[0]->v = 1.0;
-            quad[3]->u = 1.0;
-            quad[3]->v = 0.0;
-            quad[2]->u = 0.0;
-            quad[2]->v = 0.0;
+        break;
+    case 2: // flip y
+        quad[1]->u = 1.0;
+        quad[1]->v = 1.0;
+        quad[0]->u = 0.0;
+        quad[0]->v = 1.0;
+        quad[3]->u = 1.0;
+        quad[3]->v = 0.0;
+        quad[2]->u = 0.0;
+        quad[2]->v = 0.0;
 
-            break;
-        case 3: // flip x+y
-            quad[1]->u = 0.0;
-            quad[1]->v = 1.0;
-            quad[0]->u = 1.0;
-            quad[0]->v = 1.0;
-            quad[3]->u = 0.0;
-            quad[3]->v = 0.0;
-            quad[2]->u = 1.0;
-            quad[2]->v = 0.0;
+        break;
+    case 3: // flip x+y
+        quad[1]->u = 0.0;
+        quad[1]->v = 1.0;
+        quad[0]->u = 1.0;
+        quad[0]->v = 1.0;
+        quad[3]->u = 0.0;
+        quad[3]->v = 0.0;
+        quad[2]->u = 1.0;
+        quad[2]->v = 0.0;
 
-            break;
+        break;
     }
 
     //	LogText("quad text page %d \n",page);
@@ -559,50 +559,50 @@ std::int32_t texture_quad2(POLY_Point *quad[4], std::int32_t texture_style, std:
         texture_style = 1;
     page = dx_textures_xy[texture_style][texture_piece].Page;
     switch (dx_textures_xy[texture_style][texture_piece].Flip) {
-        case 0:
-            quad[1]->u = 1.0;
-            quad[1]->v = 0.0;
-            quad[0]->u = 0.0;
-            quad[0]->v = 0.0;
-            quad[3]->u = 1.0;
-            quad[3]->v = 1.0;
-            quad[2]->u = 0.0;
-            quad[2]->v = 1.0;
+    case 0:
+        quad[1]->u = 1.0;
+        quad[1]->v = 0.0;
+        quad[0]->u = 0.0;
+        quad[0]->v = 0.0;
+        quad[3]->u = 1.0;
+        quad[3]->v = 1.0;
+        quad[2]->u = 0.0;
+        quad[2]->v = 1.0;
 
-            break;
-        case 1: // flip x
-            quad[1]->u = 0.0;
-            quad[1]->v = 0.0;
-            quad[0]->u = 1.0;
-            quad[0]->v = 0.0;
-            quad[3]->u = 0.0;
-            quad[3]->v = 1.0;
-            quad[2]->u = 1.0;
-            quad[2]->v = 1.0;
+        break;
+    case 1: // flip x
+        quad[1]->u = 0.0;
+        quad[1]->v = 0.0;
+        quad[0]->u = 1.0;
+        quad[0]->v = 0.0;
+        quad[3]->u = 0.0;
+        quad[3]->v = 1.0;
+        quad[2]->u = 1.0;
+        quad[2]->v = 1.0;
 
-            break;
-        case 2: // flip y
-            quad[1]->u = 1.0;
-            quad[1]->v = 1.0;
-            quad[0]->u = 0.0;
-            quad[0]->v = 1.0;
-            quad[3]->u = 1.0;
-            quad[3]->v = 0.0;
-            quad[2]->u = 0.0;
-            quad[2]->v = 0.0;
+        break;
+    case 2: // flip y
+        quad[1]->u = 1.0;
+        quad[1]->v = 1.0;
+        quad[0]->u = 0.0;
+        quad[0]->v = 1.0;
+        quad[3]->u = 1.0;
+        quad[3]->v = 0.0;
+        quad[2]->u = 0.0;
+        quad[2]->v = 0.0;
 
-            break;
-        case 3: // flip x+y
-            quad[1]->u = 0.0;
-            quad[1]->v = 1.0;
-            quad[0]->u = 1.0;
-            quad[0]->v = 1.0;
-            quad[3]->u = 0.0;
-            quad[3]->v = 0.0;
-            quad[2]->u = 1.0;
-            quad[2]->v = 0.0;
+        break;
+    case 3: // flip x+y
+        quad[1]->u = 0.0;
+        quad[1]->v = 1.0;
+        quad[0]->u = 1.0;
+        quad[0]->v = 1.0;
+        quad[3]->u = 0.0;
+        quad[3]->v = 0.0;
+        quad[2]->u = 1.0;
+        quad[2]->v = 0.0;
 
-            break;
+        break;
     }
 
     //	LogText("quad text page %d \n",page);
@@ -616,42 +616,42 @@ std::int32_t texture_tri2(POLY_Point *quad[3], std::int32_t texture_style, std::
         texture_style = 1;
     page = dx_textures_xy[texture_style][texture_piece].Page;
     switch (dx_textures_xy[texture_style][texture_piece].Flip) {
-        case 0:
-            quad[1]->u = 1.0;
-            quad[1]->v = 0.0;
-            quad[0]->u = 0.0;
-            quad[0]->v = 0.0;
-            quad[2]->u = 0.0;
-            quad[2]->v = 1.0;
+    case 0:
+        quad[1]->u = 1.0;
+        quad[1]->v = 0.0;
+        quad[0]->u = 0.0;
+        quad[0]->v = 0.0;
+        quad[2]->u = 0.0;
+        quad[2]->v = 1.0;
 
-            break;
-        case 1: // flip x
-            quad[1]->u = 0.0;
-            quad[1]->v = 0.0;
-            quad[0]->u = 1.0;
-            quad[0]->v = 0.0;
-            quad[2]->u = 1.0;
-            quad[2]->v = 1.0;
+        break;
+    case 1: // flip x
+        quad[1]->u = 0.0;
+        quad[1]->v = 0.0;
+        quad[0]->u = 1.0;
+        quad[0]->v = 0.0;
+        quad[2]->u = 1.0;
+        quad[2]->v = 1.0;
 
-            break;
-        case 2: // flip y
-            quad[1]->u = 1.0;
-            quad[1]->v = 1.0;
-            quad[0]->u = 0.0;
-            quad[0]->v = 1.0;
-            quad[2]->u = 0.0;
-            quad[2]->v = 0.0;
+        break;
+    case 2: // flip y
+        quad[1]->u = 1.0;
+        quad[1]->v = 1.0;
+        quad[0]->u = 0.0;
+        quad[0]->v = 1.0;
+        quad[2]->u = 0.0;
+        quad[2]->v = 0.0;
 
-            break;
-        case 3: // flip x+y
-            quad[1]->u = 0.0;
-            quad[1]->v = 1.0;
-            quad[0]->u = 1.0;
-            quad[0]->v = 1.0;
-            quad[2]->u = 1.0;
-            quad[2]->v = 0.0;
+        break;
+    case 3: // flip x+y
+        quad[1]->u = 0.0;
+        quad[1]->v = 1.0;
+        quad[0]->u = 1.0;
+        quad[0]->v = 1.0;
+        quad[2]->u = 1.0;
+        quad[2]->v = 0.0;
 
-            break;
+        break;
     }
 
     //	LogText("quad text page %d \n",page);
@@ -994,35 +994,35 @@ void DRAW_stairs(std::int32_t stair, std::int32_t storey, std::uint8_t fade) {
         prim |= 2;
 
     switch (prim) {
-        case 1:
-            prim = 27;
-            break;
-        case 2:
-            prim = 29;
-            break;
-        case 3:
-            prim = 28;
-            break;
+    case 1:
+        prim = 27;
+        break;
+    case 2:
+        prim = 29;
+        break;
+    case 3:
+        prim = 28;
+        break;
     }
 
     dir = GET_STAIR_DIR(inside_stairs[stair].Flags);
     switch (dir) {
-        case 0:
-            // n
-            angle = 0;
-            break;
-        case 1:
-            // e
-            angle = 2048 - 512;
-            break;
-        case 2:
-            // s
-            angle = 1024;
-            break;
-        case 3:
-            // w
-            angle = 512;
-            break;
+    case 0:
+        // n
+        angle = 0;
+        break;
+    case 1:
+        // e
+        angle = 2048 - 512;
+        break;
+    case 2:
+        // s
+        angle = 1024;
+        break;
+    case 3:
+        // w
+        angle = 512;
+        break;
     }
 
     if (prim) {
@@ -1064,7 +1064,8 @@ std::uint8_t door_poly[][4] =
     {
         {0, 1, 7, 6},
         {1, 2, 6, 5},
-        {2, 3, 5, 4}};
+        {2, 3, 5, 4}
+};
 
 void DRAW_door(float sx, float sy, float sz, float fx, float fy, float fz, float block_height, std::int32_t count, std::uint32_t fade_alpha, std::int32_t style, std::int32_t flipx = 0) {
     float dy, dx, dz;
@@ -1941,81 +1942,81 @@ void FACET_draw_quick(std::int32_t facet, std::uint8_t alpha) {
         }
 
     switch (p_facet->FacetType) {
-        case STOREY_TYPE_FENCE:
-        case STOREY_TYPE_FENCE_FLAT:
-        case STOREY_TYPE_NORMAL:
+    case STOREY_TYPE_FENCE:
+    case STOREY_TYPE_FENCE_FLAT:
+    case STOREY_TYPE_NORMAL:
 
-            fx1 = p_facet->x[0] << 8;
-            fx2 = p_facet->x[1] << 8;
-            fz1 = p_facet->z[0] << 8;
-            fz2 = p_facet->z[1] << 8;
+        fx1 = p_facet->x[0] << 8;
+        fx2 = p_facet->x[1] << 8;
+        fz1 = p_facet->z[0] << 8;
+        fz2 = p_facet->z[1] << 8;
 
-            fy1 = p_facet->Y[0];
-            fy2 = fy1 + p_facet->Height * p_facet->BlockHeight * 4;
+        fy1 = p_facet->Y[0];
+        fy2 = fy1 + p_facet->Height * p_facet->BlockHeight * 4;
 
-            POLY_buffer_upto = 0;
-            pp = &POLY_buffer[POLY_buffer_upto];
+        POLY_buffer_upto = 0;
+        pp = &POLY_buffer[POLY_buffer_upto];
 
-            POLY_transform(fx2, fy2, fz2, pp);
-            if (pp->clip & POLY_CLIP_NEAR) return;
-            if (pp->MaybeValid()) {
-                pp->colour = col;
-                // pp->colour = 0xff000000;
-                pp->specular = 0;
-                pp->z = 0.99999f;
-                pp->Z = 0.00001f;
-                pp->u = 0.5f;
-                pp->v = 0.5f;
-            }
-            pp++;
-            POLY_transform(fx1, fy2, fz1, pp);
-            if (pp->clip & POLY_CLIP_NEAR) return;
-            if (pp->MaybeValid()) {
-                pp->colour = col;
-                // pp->colour = 0x00ff0000;
-                pp->specular = 0;
-                pp->z = 0.99999f;
-                pp->Z = 0.00001f;
-                pp->u = 0.5f;
-                pp->v = 0.5f;
-            }
-            pp++;
-            POLY_transform(fx2, fy1, fz2, pp);
-            if (pp->clip & POLY_CLIP_NEAR) return;
-            if (pp->MaybeValid()) {
-                pp->colour = col;
-                // pp->colour = 0xff00;
-                pp->specular = 0;
-                pp->z = 0.99999f;
-                pp->Z = 0.00001f;
-                pp->u = 0.5f;
-                pp->v = 0.5f;
-            }
-            pp++;
-            POLY_transform(fx1, fy1, fz1, pp);
-            if (pp->clip & POLY_CLIP_NEAR) return;
-            if (pp->MaybeValid()) {
-                pp->colour = col;
-                // pp->colour = 0xff;
-                pp->specular = 0;
-                pp->z = 0.99999f;
-                pp->Z = 0.00001f;
-                pp->u = 0.5f;
-                pp->v = 0.5f;
-            }
-            pp++;
+        POLY_transform(fx2, fy2, fz2, pp);
+        if (pp->clip & POLY_CLIP_NEAR) return;
+        if (pp->MaybeValid()) {
+            pp->colour = col;
+            // pp->colour = 0xff000000;
+            pp->specular = 0;
+            pp->z = 0.99999f;
+            pp->Z = 0.00001f;
+            pp->u = 0.5f;
+            pp->v = 0.5f;
+        }
+        pp++;
+        POLY_transform(fx1, fy2, fz1, pp);
+        if (pp->clip & POLY_CLIP_NEAR) return;
+        if (pp->MaybeValid()) {
+            pp->colour = col;
+            // pp->colour = 0x00ff0000;
+            pp->specular = 0;
+            pp->z = 0.99999f;
+            pp->Z = 0.00001f;
+            pp->u = 0.5f;
+            pp->v = 0.5f;
+        }
+        pp++;
+        POLY_transform(fx2, fy1, fz2, pp);
+        if (pp->clip & POLY_CLIP_NEAR) return;
+        if (pp->MaybeValid()) {
+            pp->colour = col;
+            // pp->colour = 0xff00;
+            pp->specular = 0;
+            pp->z = 0.99999f;
+            pp->Z = 0.00001f;
+            pp->u = 0.5f;
+            pp->v = 0.5f;
+        }
+        pp++;
+        POLY_transform(fx1, fy1, fz1, pp);
+        if (pp->clip & POLY_CLIP_NEAR) return;
+        if (pp->MaybeValid()) {
+            pp->colour = col;
+            // pp->colour = 0xff;
+            pp->specular = 0;
+            pp->z = 0.99999f;
+            pp->Z = 0.00001f;
+            pp->u = 0.5f;
+            pp->v = 0.5f;
+        }
+        pp++;
 
-            quad[0] = &POLY_buffer[0];
-            quad[1] = &POLY_buffer[1];
-            quad[2] = &POLY_buffer[2];
-            quad[3] = &POLY_buffer[3];
+        quad[0] = &POLY_buffer[0];
+        quad[1] = &POLY_buffer[1];
+        quad[2] = &POLY_buffer[2];
+        quad[3] = &POLY_buffer[3];
 
-            // add with no back-facing culling and no clip flag generation
-            // clip flags should be correct already; back-face culling ruins
-            // the render (since tops of buildings aren't plotted)
-            if (POLY_valid_quad(quad))
-                POLY_add_quad(quad, POLY_PAGE_COLOUR_WITH_FOG, 0, 0);
-            break;
+        // add with no back-facing culling and no clip flag generation
+        // clip flags should be correct already; back-face culling ruins
+        // the render (since tops of buildings aren't plotted)
+        if (POLY_valid_quad(quad))
+            POLY_add_quad(quad, POLY_PAGE_COLOUR_WITH_FOG, 0, 0);
+        break;
     }
 }
 
@@ -2120,10 +2121,10 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
     // Some types dont need back face culling
     //
     switch (p_facet->FacetType) {
-        case STOREY_TYPE_CABLE:
-            cable_draw(p_facet);
-            return;
-            break;
+    case STOREY_TYPE_CABLE:
+        cable_draw(p_facet);
+        return;
+        break;
     }
 
 #ifndef TARGET_DC
@@ -2510,526 +2511,358 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
     //
 
     switch (p_facet->FacetType) {
-        case STOREY_TYPE_FENCE:
-        case STOREY_TYPE_FENCE_FLAT:
-        case STOREY_TYPE_FENCE_BRICK:
-        case STOREY_TYPE_OUTSIDE_DOOR:
+    case STOREY_TYPE_FENCE:
+    case STOREY_TYPE_FENCE_FLAT:
+    case STOREY_TYPE_FENCE_BRICK:
+    case STOREY_TYPE_OUTSIDE_DOOR:
 
-        {
-            float *p_diffy;
-            float dy;
+    {
+        float *p_diffy;
+        float dy;
 
-            p_diffy = diff_y;
+        p_diffy = diff_y;
 
-            x = sx;
-            y = sy;
-            z = sz;
-            c0 = count;
-            while (c0-- > 0) {
-                if (p_facet->FacetFlags & FACET_FLAG_ONBUILDING) {
-                    //
-                    // No offset for building facets.
-                    //
+        x = sx;
+        y = sy;
+        z = sz;
+        c0 = count;
+        while (c0-- > 0) {
+            if (p_facet->FacetFlags & FACET_FLAG_ONBUILDING) {
+                //
+                // No offset for building facets.
+                //
 
-                    *p_diffy++ = p_facet->Y[0];
+                *p_diffy++ = p_facet->Y[0];
+            } else {
+                if (diag) {
+                    dy = (float) PAP_calc_height_noroads((std::int32_t) x, (std::int32_t) z);
                 } else {
-                    if (diag) {
-                        dy = (float) PAP_calc_height_noroads((std::int32_t) x, (std::int32_t) z);
-                    } else {
-                        dy = grid_height_at_world(x, z);
-                    }
-                    *p_diffy = dy;
-
-                    p_diffy++;
-
-                    x += fdx;
-                    z += fdz;
+                    dy = grid_height_at_world(x, z);
                 }
+                *p_diffy = dy;
+
+                p_diffy++;
+
+                x += fdx;
+                z += fdz;
             }
-        } break;
+        }
+    } break;
     }
 
     // MSG_add(" facet %d draw count %d\n",facet,count);
 
     switch (p_facet->FacetType) {
-        case STOREY_TYPE_CABLE:
-            cable_draw(p_facet);
-            break;
-        case STOREY_TYPE_INSIDE_DOOR:
-            if (facet_backwards && (p_facet->FacetFlags & FACET_FLAG_2SIDED))
+    case STOREY_TYPE_CABLE:
+        cable_draw(p_facet);
+        break;
+    case STOREY_TYPE_INSIDE_DOOR:
+        if (facet_backwards && (p_facet->FacetFlags & FACET_FLAG_2SIDED))
+            style_index++;
+        if (facet_backwards) {
+            DRAW_door(sx, sy, sz, fdx, 256.0, fdz, block_height, count, fade_alpha, dstyles[style_index], 1);
+        } else {
+            DRAW_door(sx, sy, sz, fdx, 256.0, fdz, block_height, count, fade_alpha, dstyles[style_index], 0);
+        }
+        break;
+    case STOREY_TYPE_OINSIDE:
+
+        style_index--;
+        //			ASSERT(0);
+
+    case STOREY_TYPE_INSIDE:
+        draw_wall_thickness(p_facet, fade_alpha);
+        if (facet_backwards) {
+            flipx = 1;
+            if (!ShiftFlag)
                 style_index++;
-            if (facet_backwards) {
-                DRAW_door(sx, sy, sz, fdx, 256.0, fdz, block_height, count, fade_alpha, dstyles[style_index], 1);
-            } else {
-                DRAW_door(sx, sy, sz, fdx, 256.0, fdz, block_height, count, fade_alpha, dstyles[style_index], 0);
-            }
-            break;
-        case STOREY_TYPE_OINSIDE:
-
-            style_index--;
-            //			ASSERT(0);
-
-        case STOREY_TYPE_INSIDE:
-            draw_wall_thickness(p_facet, fade_alpha);
-            if (facet_backwards) {
-                flipx = 1;
-                if (!ShiftFlag)
-                    style_index++;
-            }
-
-            hf = 0;
-            while (height >= 0) {
-                x = sx;
-                y = sy;
-                z = sz;
-                rows[hf] = POLY_buffer_upto;
-                c0 = count;
-                while (c0-- > 0) {
-                    ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
-
-                    pp = &POLY_buffer[POLY_buffer_upto++];
-
-                    POLY_transform(x, y, z, pp);
-
-                    if (pp->MaybeValid()) {
-                        NIGHT_get_d3d_colour(
-                            *col,
-                            &pp->colour,
-                            &pp->specular);
-                        // POLY_fadeout_point(pp);
-
-                        pp->colour |= fade_alpha;
-                        //							pp->specular=0xff000000;
-                    }
-
-                    x += fdx;
-                    z += fdz;
-                    col += 1;
-                }
-
-                if (hf > 0) {
-                    std::int32_t row1, row2;
-
-                    row1 = rows[hf - 1];
-                    row2 = rows[hf];
-
-                    //
-                    // create the quads and submit them for drawing
-                    //
-
-                    c0 = 0; // count-1;
-                    while (c0 < count - 1) {
-                        quad[0] = &POLY_buffer[row2 + c0 + 1];
-                        quad[1] = &POLY_buffer[row2 + c0];
-                        quad[2] = &POLY_buffer[row1 + c0 + 1];
-                        quad[3] = &POLY_buffer[row1 + c0];
-
-                        if (POLY_valid_quad(quad)) {
-                            std::int32_t page;
-
-                            //
-                            // Texture the quad.
-                            //
-
-                            page = texture_quad(quad, dstyles[style_index], c0, count, flipx);
-
-                            if (foundation == 1) {
-                                quad[3]->v = diff_y[c0] / 256.0f;
-                                quad[2]->v = diff_y[c0 + 1] / 256.0f;
-                            }
-
-                            POLY_add_quad(quad, page, false); // true means perform a backface cull
-                        } else {
-                            //
-                            // Even though we don't draw the quad, we must
-                            // push on the random number generator.
-                            //
-
-                            facet_rand();
-                        }
-
-                        c0++;
-                    }
-                }
-                foundation--;
-                sy += block_height; //+64.0;
-                height -= 4;
-                hf += 1;
-                /*
-                                                        style_index++;
-                                                        if(facet_backwards)
-                                                        {
-                                                                style_index++;
-                                                        }
-                */
-
-                //
-                // For when we are drawing the building we are in.
-                //
-
-                if (sy > max_height) {
-                    break;
-                }
-            }
-            break;
-
-        case STOREY_TYPE_TRENCH:
-            LogText(" alt %d \n", p_facet->Y[0]);
-
-        case STOREY_TYPE_NORMAL:
-        case STOREY_TYPE_DOOR:
-
-            if (p_facet->FacetFlags & FACET_FLAG_BARB_TOP)
-                FACET_barbedwire_top(p_facet);
-
-            //
-            //	warehouses can be double sided and storey_type_normal
-            //
-            if (facet_backwards && !(p_facet->FacetFlags & FACET_FLAG_HUG_FLOOR)) {
-                //
-                // I don't understand by Mike!
-                //
-                style_index++;
-            }
-
-            block_height = p_facet->BlockHeight << 4;
-
-            if (inside_clip) // INDOORS_INDEX)
-            {
-                std::int32_t top;
-                top = block_height;
-                top = (top * height) >> 2;
-                top += sy;
-                if (top >= (inside_storeys[INDOORS_INDEX].StoreyY + 256)) {
-                    //
-                    // clip the top of the building, but first check fade status
-                    //
-
-                    /*
-                                                                    if(INDOORS_INDEX_FADE_EXT_DIR)
-                                                                    {
-                                                                            //
-                                                                            // we are fadeing so draw it
-                                                                            //
-                                                                            fade_alpha=INDOORS_INDEX_FADE_EXT<<24;
-                                                                    }
-                                                                    else
-                    */
-                    {
-                        height -= ((top + 4) - (inside_storeys[INDOORS_INDEX].StoreyY + 256)) / (p_facet->BlockHeight << 2);
-                    }
-                }
-            }
-
-            if (p_facet->FHeight)
-                foundation = 2;
-
-            //			MakeFacetPoints(sx, sy, sz, fdx, fdz, block_height, height, max_height, col, foundation, count, p_facet->FacetFlags&(FACET_FLAG_INVISIBLE|FACET_FLAG_IN_SEWERS),p_facet->FacetFlags&FACET_FLAG_HUG_FLOOR);
-            MakeFacetPoints(sx, sy, sz, fdx, fdz, block_height, height, max_height, col, foundation, count, p_facet->FacetFlags & (FACET_FLAG_INVISIBLE), p_facet->FacetFlags & FACET_FLAG_HUG_FLOOR);
-
-            //			p_facet->FacetFlags&=~(FACET_FLAG_IN_SEWERS);
-
-            if (p_facet->FacetFlags & (FACET_FLAG_INSIDE)) {
-                reverse_textures = 1;
-                style_index--;
-            } else if (p_facet->FacetFlags & (FACET_FLAG_2TEXTURED)) {
-                style_index--;
-            }
-
-            if (!(p_facet->FacetFlags & FACET_FLAG_HUG_FLOOR) && (p_facet->FacetFlags & (FACET_FLAG_2TEXTURED | FACET_FLAG_2SIDED))) {
-                style_index_offset = 1;
-                style_index_step = 2;
-            } else {
-                style_index_offset = 1;
-                style_index_step = 1;
-            }
-
-            hf = 0;
-            while (height >= 0) {
-                if (hf) {
-                    FillFacetPoints(count, hf - 1, foundation + 1, facet_backwards, style_index - style_index_offset, block_height, reverse_textures);
-                }
-
-                foundation--;
-                sy += block_height;
-                height -= 4;
-                hf++;
-                style_index += style_index_step;
-                //				if(p_facet->FacetFlags&(FACET_FLAG_2SIDED|FACET_FLAG_2TEXTURED))
-                //					style_index++;
-
-                if (sy > max_height) {
-                    break;
-                }
-            }
-            break;
-
-        case STOREY_TYPE_FENCE_BRICK:
-
-            // hardwire the height
-            p_facet->Height += 1;
-
-            // bollocks to it all i'm doing my own so nnyeerrrr
-            FACET_barbedwire_top(p_facet);
-            /*
-            {
-                    float dx=(p_facet->x[1]-p_facet->x[0] << 8);
-                    float dy=(p_facet->Y[1]-p_facet->Y[0]);
-                    float dz=(p_facet->z[1]-p_facet->z[0] << 8);
-                    float mag=sqrt((dx*dx)+(dz*dz));
-                    float stepx=(dx/mag)*10;
-                    float stepy=(dy/mag)*10;
-                    float stepz=(dz/mag)*10;
-                    std::int32_t cx=p_facet->x[0] << 8;
-                    std::int32_t cy=p_facet->Y[0];
-                    std::int32_t cz=p_facet->z[0] << 8;
-                    std::int32_t seed=54321678;
-                    float base=0;
-                    std::int32_t contour = 0;
-
-
-                    while (base<mag) {
-
-                            //...
-                            //sprite it as a test (do it proper later)
-                            //
-
-                            seed*=31415965;
-                            seed+=123456789;
-
-                            if (!(p_facet->FacetFlags & FACET_FLAG_ONBUILDING))
-                            {
-                                    contour = PAP_calc_map_height_at(cx,cz);
-                            }
-                            else
-                            {
-                                    contour = p_facet->Y[0];
-                            }
-
-                            SPRITE_draw_tex(
-                                    cx,
-                                    (64*p_facet->Height)-64+((seed>>8)&0xf) + contour,
-                                    cz,
-                                    50,
-                                    0xffffff,
-                                    0,
-                                    POLY_PAGE_BARBWIRE,
-                                    0.0, 0.0, 1.0, 1.0,
-                                    SPRITE_SORT_NORMAL);
-
-
-                                    base+=10;
-                                    cx+=stepx;
-                                    cy+=stepy;
-                                    cz+=stepz;
-                    }
-
-            }
-            */
-            p_facet->Height -= 1;
-
-            //
-            // FALLTHROUGH!
-            //
-
-        case STOREY_TYPE_FENCE:
-
-            POLY_set_local_rotation_none();
-
-            // this check is due to fence_brick dropping thru
-            if (p_facet->FacetType == STOREY_TYPE_FENCE) {
-                //
-                // build the slope at the top of the fence
-                //
-                float dx, dz, nx, nz;
-                float tsx, tsy, tsz;
-                sy = 0;
-                build_fence_poles(sx, sy, sz, fdx, fdz, count, &dx, &dz, style_index);
-
-                tsx = sx;
-                tsy = sy;
-                tsz = sz;
-
-                nx = dz;
-                nz = -dx;
-
-                sx += nx * 10.0f;
-                sz += nz * 10.0f;
-                sy += 210.0f;
-
-                hf = 0;
-                while (hf <= 1) {
-                    float *p_diffy = diff_y;
-                    x = sx;
-                    y = sy;
-                    z = sz;
-                    rows[hf] = POLY_buffer_upto;
-                    c0 = count;
-                    while (c0-- > 0) {
-                        float dy = 0;
-
-                        ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
-
-                        pp = &POLY_buffer[POLY_buffer_upto++];
-
-                        //							dy=0; //(float)(PAP_2HI(((std::int32_t)x)>>8,((std::int32_t)z)>>8).Alt<<3);
-                        /*
-                                                                                if(diag)
-                                                                                {
-                                                                                        dy=PAP_calc_height_at((std::int32_t)x,(std::int32_t)z);
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                        dy=grid_height_at_world(x,z);
-                                                                                }
-                                                                                */
-
-                        dy = *p_diffy++;
-
-                        POLY_transform_c_saturate_z(x, y + dy, z, pp);
-
-                        if (pp->MaybeValid()) {
-                            NIGHT_get_d3d_colour(
-                                *col,
-                                &pp->colour,
-                                &pp->specular);
-                            // apply_cloud((std::int32_t)x,(std::int32_t)(y+dy),(std::int32_t)z,&pp->colour);
-
-                            // POLY_fadeout_point(pp);
-                        }
-
-                        pp->colour |= fade_alpha;
-                        x += fdx;
-                        z += fdz;
-                        //							col += 1; better not increase this until the cache create knows about fences
-                    }
-                    sy += 40.0f;
-                    sx += nx * 50.0f;
-                    sz += nz * 50.0f;
-                    hf++;
-                }
-
-                //
-                // now draw the quads
-                //
-                {
-                    std::int32_t row1, row2;
-
-                    row1 = rows[0];
-                    row2 = rows[1];
-
-                    //
-                    // create the quads and submit them for drawing
-                    //
-
-                    c0 = 0; // count-1;
-                    while (c0 < count - 1) {
-                        quad[0] = &POLY_buffer[row2 + c0 + 1];
-                        quad[1] = &POLY_buffer[row2 + c0];
-                        quad[2] = &POLY_buffer[row1 + c0 + 1];
-                        quad[3] = &POLY_buffer[row1 + c0];
-
-                        if (POLY_valid_quad(quad)) {
-                            std::int32_t page;
-
-                            //
-                            // Texture the quad.
-                            //
-
-                            page = texture_quad(quad, dstyles[style_index], c0, count);
-
-                            POLY_add_quad(quad, page, 0); // 1 means perform a backface cull
-                        } else {
-                            //
-                            // Push on the random number generator.
-                            //
-
-                            facet_rand();
-                        }
-
-                        c0++;
-                    }
-                }
-
-                //
-                // correct the fiddling we did to these values
-                //
-
-                sx = tsx;
-                sy = tsy;
-                sz = tsz;
-
-                height = 3; // fence is 3/4 height
-            }
-
-            //
-            // proceed to draw the fence
-            //
-
-        case STOREY_TYPE_OUTSIDE_DOOR:
-        case STOREY_TYPE_FENCE_FLAT:
-
-            hf = 0;
-            /*
-                                            if(height==12)
-                                            {
-                                                    //
-                                                    // triple high
-                                                    //
-
-
-                                                    MakeFacetPointsFence(sx, sy, sz, fdx, fdz, block_height, height, max_height, col, foundation, count, p_facet->FacetFlags&(FACET_FLAG_INVISIBLE|FACET_FLAG_IN_SEWERS),diff_y);
-                                                    p_facet->FacetFlags&=~(FACET_FLAG_IN_SEWERS);
-
-
-
-                                                    hf = 0;
-                                                    while (height >= 0)
-                                                    {
-                                                            if (hf)
-                                                            {
-                                                                    FillFacetPoints(count, hf - 1, foundation + 1, facet_backwards, style_index - 1, block_height,reverse_textures);
-                                                            }
-
-                                                            foundation--;
-                                                            sy += block_height;
-                                                            height -= 4;
-                                                            hf++;
-                                                            //style_index++;
-                            //				if(p_facet->FacetFlags&(FACET_FLAG_2SIDED|FACET_FLAG_2TEXTURED))
-                            //					style_index++;
-
-                                                            if (sy > max_height)
-                                                            {
-                                                                    break;
-                                                            }
-                                                    }
-                                                    break;
-
-
-                                            }
-            */
-
-            if (p_facet->Shake) {
-                p_facet->Shake -= p_facet->Shake >> 2;
-                p_facet->Shake -= 1;
-            }
-
-            //
-            // fences DO lock to the floor
-            //
-
-            sy = 0;
-
-#ifdef UNUSED_WIRECUTTERS
-            fence_gap_compare = fence_gap * (count - 1);
-#endif
+        }
+
+        hf = 0;
+        while (height >= 0) {
+            x = sx;
             y = sy;
+            z = sz;
+            rows[hf] = POLY_buffer_upto;
+            c0 = count;
+            while (c0-- > 0) {
+                ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
+                pp = &POLY_buffer[POLY_buffer_upto++];
+
+                POLY_transform(x, y, z, pp);
+
+                if (pp->MaybeValid()) {
+                    NIGHT_get_d3d_colour(
+                        *col,
+                        &pp->colour,
+                        &pp->specular);
+                    // POLY_fadeout_point(pp);
+
+                    pp->colour |= fade_alpha;
+                    //							pp->specular=0xff000000;
+                }
+
+                x += fdx;
+                z += fdz;
+                col += 1;
+            }
+
+            if (hf > 0) {
+                std::int32_t row1, row2;
+
+                row1 = rows[hf - 1];
+                row2 = rows[hf];
+
+                //
+                // create the quads and submit them for drawing
+                //
+
+                c0 = 0; // count-1;
+                while (c0 < count - 1) {
+                    quad[0] = &POLY_buffer[row2 + c0 + 1];
+                    quad[1] = &POLY_buffer[row2 + c0];
+                    quad[2] = &POLY_buffer[row1 + c0 + 1];
+                    quad[3] = &POLY_buffer[row1 + c0];
+
+                    if (POLY_valid_quad(quad)) {
+                        std::int32_t page;
+
+                        //
+                        // Texture the quad.
+                        //
+
+                        page = texture_quad(quad, dstyles[style_index], c0, count, flipx);
+
+                        if (foundation == 1) {
+                            quad[3]->v = diff_y[c0] / 256.0f;
+                            quad[2]->v = diff_y[c0 + 1] / 256.0f;
+                        }
+
+                        POLY_add_quad(quad, page, false); // true means perform a backface cull
+                    } else {
+                        //
+                        // Even though we don't draw the quad, we must
+                        // push on the random number generator.
+                        //
+
+                        facet_rand();
+                    }
+
+                    c0++;
+                }
+            }
+            foundation--;
+            sy += block_height; //+64.0;
+            height -= 4;
+            hf += 1;
+            /*
+                                                    style_index++;
+                                                    if(facet_backwards)
+                                                    {
+                                                            style_index++;
+                                                    }
+            */
+
+            //
+            // For when we are drawing the building we are in.
+            //
+
+            if (sy > max_height) {
+                break;
+            }
+        }
+        break;
+
+    case STOREY_TYPE_TRENCH:
+        LogText(" alt %d \n", p_facet->Y[0]);
+
+    case STOREY_TYPE_NORMAL:
+    case STOREY_TYPE_DOOR:
+
+        if (p_facet->FacetFlags & FACET_FLAG_BARB_TOP)
+            FACET_barbedwire_top(p_facet);
+
+        //
+        //	warehouses can be double sided and storey_type_normal
+        //
+        if (facet_backwards && !(p_facet->FacetFlags & FACET_FLAG_HUG_FLOOR)) {
+            //
+            // I don't understand by Mike!
+            //
+            style_index++;
+        }
+
+        block_height = p_facet->BlockHeight << 4;
+
+        if (inside_clip) // INDOORS_INDEX)
+        {
+            std::int32_t top;
+            top = block_height;
+            top = (top * height) >> 2;
+            top += sy;
+            if (top >= (inside_storeys[INDOORS_INDEX].StoreyY + 256)) {
+                //
+                // clip the top of the building, but first check fade status
+                //
+
+                /*
+                                                                if(INDOORS_INDEX_FADE_EXT_DIR)
+                                                                {
+                                                                        //
+                                                                        // we are fadeing so draw it
+                                                                        //
+                                                                        fade_alpha=INDOORS_INDEX_FADE_EXT<<24;
+                                                                }
+                                                                else
+                */
+                {
+                    height -= ((top + 4) - (inside_storeys[INDOORS_INDEX].StoreyY + 256)) / (p_facet->BlockHeight << 2);
+                }
+            }
+        }
+
+        if (p_facet->FHeight)
+            foundation = 2;
+
+        //			MakeFacetPoints(sx, sy, sz, fdx, fdz, block_height, height, max_height, col, foundation, count, p_facet->FacetFlags&(FACET_FLAG_INVISIBLE|FACET_FLAG_IN_SEWERS),p_facet->FacetFlags&FACET_FLAG_HUG_FLOOR);
+        MakeFacetPoints(sx, sy, sz, fdx, fdz, block_height, height, max_height, col, foundation, count, p_facet->FacetFlags & (FACET_FLAG_INVISIBLE), p_facet->FacetFlags & FACET_FLAG_HUG_FLOOR);
+
+        //			p_facet->FacetFlags&=~(FACET_FLAG_IN_SEWERS);
+
+        if (p_facet->FacetFlags & (FACET_FLAG_INSIDE)) {
+            reverse_textures = 1;
+            style_index--;
+        } else if (p_facet->FacetFlags & (FACET_FLAG_2TEXTURED)) {
+            style_index--;
+        }
+
+        if (!(p_facet->FacetFlags & FACET_FLAG_HUG_FLOOR) && (p_facet->FacetFlags & (FACET_FLAG_2TEXTURED | FACET_FLAG_2SIDED))) {
+            style_index_offset = 1;
+            style_index_step = 2;
+        } else {
+            style_index_offset = 1;
+            style_index_step = 1;
+        }
+
+        hf = 0;
+        while (height >= 0) {
+            if (hf) {
+                FillFacetPoints(count, hf - 1, foundation + 1, facet_backwards, style_index - style_index_offset, block_height, reverse_textures);
+            }
+
+            foundation--;
+            sy += block_height;
+            height -= 4;
+            hf++;
+            style_index += style_index_step;
+            //				if(p_facet->FacetFlags&(FACET_FLAG_2SIDED|FACET_FLAG_2TEXTURED))
+            //					style_index++;
+
+            if (sy > max_height) {
+                break;
+            }
+        }
+        break;
+
+    case STOREY_TYPE_FENCE_BRICK:
+
+        // hardwire the height
+        p_facet->Height += 1;
+
+        // bollocks to it all i'm doing my own so nnyeerrrr
+        FACET_barbedwire_top(p_facet);
+        /*
+        {
+                float dx=(p_facet->x[1]-p_facet->x[0] << 8);
+                float dy=(p_facet->Y[1]-p_facet->Y[0]);
+                float dz=(p_facet->z[1]-p_facet->z[0] << 8);
+                float mag=sqrt((dx*dx)+(dz*dz));
+                float stepx=(dx/mag)*10;
+                float stepy=(dy/mag)*10;
+                float stepz=(dz/mag)*10;
+                std::int32_t cx=p_facet->x[0] << 8;
+                std::int32_t cy=p_facet->Y[0];
+                std::int32_t cz=p_facet->z[0] << 8;
+                std::int32_t seed=54321678;
+                float base=0;
+                std::int32_t contour = 0;
+
+
+                while (base<mag) {
+
+                        //...
+                        //sprite it as a test (do it proper later)
+                        //
+
+                        seed*=31415965;
+                        seed+=123456789;
+
+                        if (!(p_facet->FacetFlags & FACET_FLAG_ONBUILDING))
+                        {
+                                contour = PAP_calc_map_height_at(cx,cz);
+                        }
+                        else
+                        {
+                                contour = p_facet->Y[0];
+                        }
+
+                        SPRITE_draw_tex(
+                                cx,
+                                (64*p_facet->Height)-64+((seed>>8)&0xf) + contour,
+                                cz,
+                                50,
+                                0xffffff,
+                                0,
+                                POLY_PAGE_BARBWIRE,
+                                0.0, 0.0, 1.0, 1.0,
+                                SPRITE_SORT_NORMAL);
+
+
+                                base+=10;
+                                cx+=stepx;
+                                cy+=stepy;
+                                cz+=stepz;
+                }
+
+        }
+        */
+        p_facet->Height -= 1;
+
+        //
+        // FALLTHROUGH!
+        //
+
+    case STOREY_TYPE_FENCE:
+
+        POLY_set_local_rotation_none();
+
+        // this check is due to fence_brick dropping thru
+        if (p_facet->FacetType == STOREY_TYPE_FENCE) {
+            //
+            // build the slope at the top of the fence
+            //
+            float dx, dz, nx, nz;
+            float tsx, tsy, tsz;
+            sy = 0;
+            build_fence_poles(sx, sy, sz, fdx, fdz, count, &dx, &dz, style_index);
+
+            tsx = sx;
+            tsy = sy;
+            tsz = sz;
+
+            nx = dz;
+            nz = -dx;
+
+            sx += nx * 10.0f;
+            sz += nz * 10.0f;
+            sy += 210.0f;
+
+            hf = 0;
             while (hf <= 1) {
                 float *p_diffy = diff_y;
                 x = sx;
-                //					y=sy;
+                y = sy;
                 z = sz;
                 rows[hf] = POLY_buffer_upto;
                 c0 = count;
@@ -3039,51 +2872,47 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
                     ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
                     pp = &POLY_buffer[POLY_buffer_upto++];
-                    //						dy=(float)(PAP_2HI(((std::int32_t)x)>>8,((std::int32_t)z)>>8).Alt<<3);
 
+                    //							dy=0; //(float)(PAP_2HI(((std::int32_t)x)>>8,((std::int32_t)z)>>8).Alt<<3);
                     /*
-                                                                    if(diag)
-                                                                    {
-                                                                            dy=PAP_calc_height_at((std::int32_t)x,(std::int32_t)z);
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                            dy=grid_height_at_world(x,z);
-                                                                    }
-                    */
-                    //						ASSERT(dy==0);
+                                                                            if(diag)
+                                                                            {
+                                                                                    dy=PAP_calc_height_at((std::int32_t)x,(std::int32_t)z);
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                    dy=grid_height_at_world(x,z);
+                                                                            }
+                                                                            */
 
                     dy = *p_diffy++;
 
-                    POLY_transform_c_saturate_z(
-                        x + shake[(Random() & 3) + ((p_facet->Shake >> 3) & ~0x3)],
-                        y + dy,
-                        z + shake[(Random() & 3) + ((p_facet->Shake >> 3) & ~0x3)],
-                        pp);
+                    POLY_transform_c_saturate_z(x, y + dy, z, pp);
 
                     if (pp->MaybeValid()) {
                         NIGHT_get_d3d_colour(
                             *col,
                             &pp->colour,
                             &pp->specular);
-
                         // apply_cloud((std::int32_t)x,(std::int32_t)(y+dy),(std::int32_t)z,&pp->colour);
+
                         // POLY_fadeout_point(pp);
-                        pp->colour |= fade_alpha;
                     }
 
+                    pp->colour |= fade_alpha;
                     x += fdx;
                     z += fdz;
-                    col += 1;
+                    //							col += 1; better not increase this until the cache create knows about fences
                 }
-                if (height == 2)
-                    y += 102; // 256.0/3.0;
-                else
-                    y += height * BLOCK_SIZE;
-
+                sy += 40.0f;
+                sx += nx * 50.0f;
+                sz += nz * 50.0f;
                 hf++;
             }
 
+            //
+            // now draw the quads
+            //
             {
                 std::int32_t row1, row2;
 
@@ -3101,37 +2930,209 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
                     quad[2] = &POLY_buffer[row1 + c0 + 1];
                     quad[3] = &POLY_buffer[row1 + c0];
 
-                    /*
+                    if (POLY_valid_quad(quad)) {
+                        std::int32_t page;
 
-                    if(fence_gap && c0==(fence_gap_compare>>8))
-                    {
-                            std::int32_t	page;
-                            float	fdy;
+                        //
+                        // Texture the quad.
+                        //
 
-                            fdy=diff_y[c0+1]-diff_y[c0];
-                            page=texture_quad(quad,dstyles[style_index],c0,count);
-                            draw_fence_gap(quad,page,fence_gap_compare,sx+fdx*c0,sy+fdy*c0,sz+fdz*c0,fdx,fdy,fdz);
-                                    //
-                                    // Push on the random number generator.
-                                    //
+                        page = texture_quad(quad, dstyles[style_index], c0, count);
 
-                            facet_rand();
+                        POLY_add_quad(quad, page, 0); // 1 means perform a backface cull
+                    } else {
+                        //
+                        // Push on the random number generator.
+                        //
 
-                            fence_gap=get_fence_hole_next(p_facet,fence_gap);
-                            fence_gap_compare=fence_gap*(count-1);
+                        facet_rand();
                     }
-                    else
 
-                    */
-                    {
-                        if (POLY_valid_quad(quad)) {
-                            std::int32_t page;
+                    c0++;
+                }
+            }
 
-                            //
-                            // Texture the quad.
-                            //
+            //
+            // correct the fiddling we did to these values
+            //
 
-                            page = texture_quad(quad, dstyles[style_index], c0, count);
+            sx = tsx;
+            sy = tsy;
+            sz = tsz;
+
+            height = 3; // fence is 3/4 height
+        }
+
+        //
+        // proceed to draw the fence
+        //
+
+    case STOREY_TYPE_OUTSIDE_DOOR:
+    case STOREY_TYPE_FENCE_FLAT:
+
+        hf = 0;
+        /*
+                                        if(height==12)
+                                        {
+                                                //
+                                                // triple high
+                                                //
+
+
+                                                MakeFacetPointsFence(sx, sy, sz, fdx, fdz, block_height, height, max_height, col, foundation, count, p_facet->FacetFlags&(FACET_FLAG_INVISIBLE|FACET_FLAG_IN_SEWERS),diff_y);
+                                                p_facet->FacetFlags&=~(FACET_FLAG_IN_SEWERS);
+
+
+
+                                                hf = 0;
+                                                while (height >= 0)
+                                                {
+                                                        if (hf)
+                                                        {
+                                                                FillFacetPoints(count, hf - 1, foundation + 1, facet_backwards, style_index - 1, block_height,reverse_textures);
+                                                        }
+
+                                                        foundation--;
+                                                        sy += block_height;
+                                                        height -= 4;
+                                                        hf++;
+                                                        //style_index++;
+                        //				if(p_facet->FacetFlags&(FACET_FLAG_2SIDED|FACET_FLAG_2TEXTURED))
+                        //					style_index++;
+
+                                                        if (sy > max_height)
+                                                        {
+                                                                break;
+                                                        }
+                                                }
+                                                break;
+
+
+                                        }
+        */
+
+        if (p_facet->Shake) {
+            p_facet->Shake -= p_facet->Shake >> 2;
+            p_facet->Shake -= 1;
+        }
+
+        //
+        // fences DO lock to the floor
+        //
+
+        sy = 0;
+
+#ifdef UNUSED_WIRECUTTERS
+        fence_gap_compare = fence_gap * (count - 1);
+#endif
+        y = sy;
+
+        while (hf <= 1) {
+            float *p_diffy = diff_y;
+            x = sx;
+            //					y=sy;
+            z = sz;
+            rows[hf] = POLY_buffer_upto;
+            c0 = count;
+            while (c0-- > 0) {
+                float dy = 0;
+
+                ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
+
+                pp = &POLY_buffer[POLY_buffer_upto++];
+                //						dy=(float)(PAP_2HI(((std::int32_t)x)>>8,((std::int32_t)z)>>8).Alt<<3);
+
+                /*
+                                                                if(diag)
+                                                                {
+                                                                        dy=PAP_calc_height_at((std::int32_t)x,(std::int32_t)z);
+                                                                }
+                                                                else
+                                                                {
+                                                                        dy=grid_height_at_world(x,z);
+                                                                }
+                */
+                //						ASSERT(dy==0);
+
+                dy = *p_diffy++;
+
+                POLY_transform_c_saturate_z(
+                    x + shake[(Random() & 3) + ((p_facet->Shake >> 3) & ~0x3)],
+                    y + dy,
+                    z + shake[(Random() & 3) + ((p_facet->Shake >> 3) & ~0x3)],
+                    pp);
+
+                if (pp->MaybeValid()) {
+                    NIGHT_get_d3d_colour(
+                        *col,
+                        &pp->colour,
+                        &pp->specular);
+
+                    // apply_cloud((std::int32_t)x,(std::int32_t)(y+dy),(std::int32_t)z,&pp->colour);
+                    // POLY_fadeout_point(pp);
+                    pp->colour |= fade_alpha;
+                }
+
+                x += fdx;
+                z += fdz;
+                col += 1;
+            }
+            if (height == 2)
+                y += 102; // 256.0/3.0;
+            else
+                y += height * BLOCK_SIZE;
+
+            hf++;
+        }
+
+        {
+            std::int32_t row1, row2;
+
+            row1 = rows[0];
+            row2 = rows[1];
+
+            //
+            // create the quads and submit them for drawing
+            //
+
+            c0 = 0; // count-1;
+            while (c0 < count - 1) {
+                quad[0] = &POLY_buffer[row2 + c0 + 1];
+                quad[1] = &POLY_buffer[row2 + c0];
+                quad[2] = &POLY_buffer[row1 + c0 + 1];
+                quad[3] = &POLY_buffer[row1 + c0];
+
+                /*
+
+                if(fence_gap && c0==(fence_gap_compare>>8))
+                {
+                        std::int32_t	page;
+                        float	fdy;
+
+                        fdy=diff_y[c0+1]-diff_y[c0];
+                        page=texture_quad(quad,dstyles[style_index],c0,count);
+                        draw_fence_gap(quad,page,fence_gap_compare,sx+fdx*c0,sy+fdy*c0,sz+fdz*c0,fdx,fdy,fdz);
+                                //
+                                // Push on the random number generator.
+                                //
+
+                        facet_rand();
+
+                        fence_gap=get_fence_hole_next(p_facet,fence_gap);
+                        fence_gap_compare=fence_gap*(count-1);
+                }
+                else
+
+                */
+                {
+                    if (POLY_valid_quad(quad)) {
+                        std::int32_t page;
+
+                        //
+                        // Texture the quad.
+                        //
+
+                        page = texture_quad(quad, dstyles[style_index], c0, count);
 
 // Flashing pink! No thanks.
 #if 0
@@ -3185,23 +3186,23 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
 #endif
 #endif
 
-                            POLY_add_quad(quad, page, 0); // 1 means perform a backface cull
-                        } else {
-                            //
-                            // Push on the random number generator.
-                            //
+                        POLY_add_quad(quad, page, 0); // 1 means perform a backface cull
+                    } else {
+                        //
+                        // Push on the random number generator.
+                        //
 
-                            facet_rand();
-                        }
+                        facet_rand();
                     }
-
-                    c0++;
                 }
+
+                c0++;
             }
+        }
 
-            break;
+        break;
 
-            break;
+        break;
     }
     return;
 }
@@ -3921,127 +3922,127 @@ void FACET_draw_walkable(std::int32_t build) {
                             ASSERT(FACE_FLAG_SHADOW_1 == 1 << 2);
 
                             switch ((p_f4->DrawFlags & (RFACE_FLAG_SHADOW_1 | RFACE_FLAG_SHADOW_2 | RFACE_FLAG_SHADOW_3))) {
-                                case 0:
-                                    ASSERT(0); // We shouldn't be doing any of this in this case.
-                                    break;
+                            case 0:
+                                ASSERT(0); // We shouldn't be doing any of this in this case.
+                                break;
 
-                                case 1:
+                            case 1:
 
-                                    tri[0] = &pshad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &pshad[2];
+                                tri[0] = &pshad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = quad[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = quad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                case 2:
+                            case 2:
 
-                                    tri[0] = &pshad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &pshad[2];
+                                tri[0] = &pshad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                case 3:
+                            case 3:
 
-                                    // pshad[2].colour += 0x00101010;
+                                // pshad[2].colour += 0x00101010;
 
-                                    tri[0] = quad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                case 4:
+                            case 4:
 
-                                    tri[0] = quad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = &pshad[3];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[1];
+                                tri[1] = &pshad[3];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                case 5:
+                            case 5:
 
-                                    tri[0] = &pshad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &pshad[2];
+                                tri[0] = &pshad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = &pshad[3];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[1];
+                                tri[1] = &pshad[3];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                case 6:
+                            case 6:
 
-                                    tri[0] = &pshad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &pshad[2];
+                                tri[0] = &pshad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                case 7:
+                            case 7:
 
-                                    tri[0] = quad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = quad[2];
+                                tri[0] = quad[0];
+                                tri[1] = quad[1];
+                                tri[2] = quad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = &pshad[3];
-                                    tri[2] = &pshad[2];
+                                tri[0] = quad[1];
+                                tri[1] = &pshad[3];
+                                tri[2] = &pshad[2];
 
-                                    POLY_add_triangle(tri, page, !warehouse);
+                                POLY_add_triangle(tri, page, !warehouse);
 
-                                    break;
+                                break;
 
-                                default:
-                                    ASSERT(0);
-                                    break;
+                            default:
+                                ASSERT(0);
+                                break;
                             }
                         } else {
                             if (p_f4->RX & (1 << 7)) {
@@ -4272,127 +4273,127 @@ void FACET_draw_walkable_old(std::int32_t build) {
                             ASSERT(FACE_FLAG_SHADOW_1 == 1 << 2);
 
                             switch ((p_f4->FaceFlags & (FACE_FLAG_SHADOW_1 | FACE_FLAG_SHADOW_2 | FACE_FLAG_SHADOW_3)) >> 2) {
-                                case 0:
-                                    ASSERT(0); // We shouldn't be doing any of this in this case.
-                                    break;
+                            case 0:
+                                ASSERT(0); // We shouldn't be doing any of this in this case.
+                                break;
 
-                                case 1:
+                            case 1:
 
-                                    tri[0] = &ps[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &ps[2];
+                                tri[0] = &ps[0];
+                                tri[1] = quad[1];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = quad[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = quad[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                case 2:
+                            case 2:
 
-                                    tri[0] = &ps[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &ps[2];
+                                tri[0] = &ps[0];
+                                tri[1] = quad[1];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                case 3:
+                            case 3:
 
-                                    ps[2].colour += 0x00202020;
+                                ps[2].colour += 0x00202020;
 
-                                    tri[0] = quad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                case 4:
+                            case 4:
 
-                                    tri[0] = quad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[0];
+                                tri[1] = quad[1];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = &ps[3];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[1];
+                                tri[1] = &ps[3];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                case 5:
+                            case 5:
 
-                                    tri[0] = &ps[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &ps[2];
+                                tri[0] = &ps[0];
+                                tri[1] = quad[1];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = &ps[3];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[1];
+                                tri[1] = &ps[3];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                case 6:
+                            case 6:
 
-                                    tri[0] = &ps[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = &ps[2];
+                                tri[0] = &ps[0];
+                                tri[1] = quad[1];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = quad[3];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[1];
+                                tri[1] = quad[3];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                case 7:
+                            case 7:
 
-                                    tri[0] = quad[0];
-                                    tri[1] = quad[1];
-                                    tri[2] = quad[2];
+                                tri[0] = quad[0];
+                                tri[1] = quad[1];
+                                tri[2] = quad[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    tri[0] = quad[1];
-                                    tri[1] = &ps[3];
-                                    tri[2] = &ps[2];
+                                tri[0] = quad[1];
+                                tri[1] = &ps[3];
+                                tri[2] = &ps[2];
 
-                                    POLY_add_triangle(tri, page, true);
+                                POLY_add_triangle(tri, page, true);
 
-                                    break;
+                                break;
 
-                                default:
-                                    ASSERT(0);
-                                    break;
+                            default:
+                                ASSERT(0);
+                                break;
                             }
                         } else {
                             POLY_add_quad(quad, page, true);

@@ -557,26 +557,26 @@ std::uint16_t find_stair_in(std::int32_t mx, std::int32_t mz, std::int32_t *rdx,
         dz = 0;
 
         switch (dir) {
-            case 0:
-                dz = -2;
-                dx = 1;
-                // n
-                break;
-            case 1:
-                dx = 2;
-                dz = 1;
-                // e
-                break;
-            case 2:
-                dz = 2;
-                dx = -1;
-                // s
-                break;
-            case 3:
-                dx = -2;
-                dz = -1;
-                // w
-                break;
+        case 0:
+            dz = -2;
+            dx = 1;
+            // n
+            break;
+        case 1:
+            dx = 2;
+            dz = 1;
+            // e
+            break;
+        case 2:
+            dz = 2;
+            dx = -1;
+            // s
+            break;
+        case 3:
+            dx = -2;
+            dz = -1;
+            // w
+            break;
         }
 
         x_ok = 0;

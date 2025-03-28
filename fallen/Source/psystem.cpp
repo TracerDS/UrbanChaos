@@ -546,56 +546,56 @@ std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_
 
     vel = 1024 - (object->Velocity * 128);
     switch (object->DrawType) {
-        case DT_MESH:
-        case DT_VEHICLE:
-            /*		yaw   = -float(object->Draw.Mesh->Angle)   * (2.0F * PI / 2048.0F);
-                            pitch = -float(object->Draw.Mesh->Tilt) * (2.0F * PI / 2048.0F);
-                            roll  = -float(object->Draw.Mesh->Roll)  * (2.0F * PI / 2048.0F);*/
-            //		MATRIX_calc(matrix, yaw, pitch, roll);
-            if (object->Class == CLASS_BIKE) {
-                //			vel=BIKE_get_speed(object);
-                //			TRACE("bikevel %d\n",vel);
-                //			vel=4096+vel;
-                vel = 0; // bike_get_speed does not take account of direction :-(
-            }
-            FMATRIX_calc(matrix, object->Draw.Mesh->Angle, object->Draw.Mesh->Tilt, object->Draw.Mesh->Roll);
-            FMATRIX_TRANSPOSE(matrix);
-            vector[2] = vel;
-            vector[1] = 0;
-            vector[0] = 0;
-            FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-            dx = vector[0];
-            dy = vector[1];
-            dz = vector[2];
-            /*		if (object->Class==CLASS_BIKE) {
-                              ox=oy=oz=0;
-                            } else {*/
-            ox = dx;
-            oy = dy;
-            oz = dz;
-            //		}
-            break;
-        case DT_TWEEN:
-        case DT_ROT_MULTI:
-            /*		yaw   = -float(object->Draw.Tweened->Angle)   * (2.0F * PI / 2048.0F);
-                            pitch = -float(object->Draw.Tweened->Tilt) * (2.0F * PI / 2048.0F);
-                            roll  = -float(object->Draw.Tweened->Roll)  * (2.0F * PI / 2048.0F);*/
-            //		MATRIX_calc(matrix, yaw, pitch, roll);
-            FMATRIX_calc(matrix, object->Draw.Mesh->Angle, object->Draw.Mesh->Tilt, object->Draw.Mesh->Roll);
-            vector[2] = vel;
-            vector[1] = 0;
-            vector[0] = 0;
-            FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
-            dx = vector[0];
-            dy = vector[1];
-            dz = vector[2];
-            ox = dx;
-            oy = dy;
-            oz = dz;
-            break;
-        default:
-            dx = dy = dz = 0;
-            ox = oy = oz = 0;
+    case DT_MESH:
+    case DT_VEHICLE:
+        /*		yaw   = -float(object->Draw.Mesh->Angle)   * (2.0F * PI / 2048.0F);
+                        pitch = -float(object->Draw.Mesh->Tilt) * (2.0F * PI / 2048.0F);
+                        roll  = -float(object->Draw.Mesh->Roll)  * (2.0F * PI / 2048.0F);*/
+        //		MATRIX_calc(matrix, yaw, pitch, roll);
+        if (object->Class == CLASS_BIKE) {
+            //			vel=BIKE_get_speed(object);
+            //			TRACE("bikevel %d\n",vel);
+            //			vel=4096+vel;
+            vel = 0; // bike_get_speed does not take account of direction :-(
+        }
+        FMATRIX_calc(matrix, object->Draw.Mesh->Angle, object->Draw.Mesh->Tilt, object->Draw.Mesh->Roll);
+        FMATRIX_TRANSPOSE(matrix);
+        vector[2] = vel;
+        vector[1] = 0;
+        vector[0] = 0;
+        FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+        dx = vector[0];
+        dy = vector[1];
+        dz = vector[2];
+        /*		if (object->Class==CLASS_BIKE) {
+                          ox=oy=oz=0;
+                        } else {*/
+        ox = dx;
+        oy = dy;
+        oz = dz;
+        //		}
+        break;
+    case DT_TWEEN:
+    case DT_ROT_MULTI:
+        /*		yaw   = -float(object->Draw.Tweened->Angle)   * (2.0F * PI / 2048.0F);
+                        pitch = -float(object->Draw.Tweened->Tilt) * (2.0F * PI / 2048.0F);
+                        roll  = -float(object->Draw.Tweened->Roll)  * (2.0F * PI / 2048.0F);*/
+        //		MATRIX_calc(matrix, yaw, pitch, roll);
+        FMATRIX_calc(matrix, object->Draw.Mesh->Angle, object->Draw.Mesh->Tilt, object->Draw.Mesh->Roll);
+        vector[2] = vel;
+        vector[1] = 0;
+        vector[0] = 0;
+        FMATRIX_MUL(matrix, vector[0], vector[1], vector[2]);
+        dx = vector[0];
+        dy = vector[1];
+        dz = vector[2];
+        ox = dx;
+        oy = dy;
+        oz = dz;
+        break;
+    default:
+        dx = dy = dz = 0;
+        ox = oy = oz = 0;
     }
 
     x = object->WorldPos.X + ox;
@@ -653,23 +653,23 @@ std::uint16_t PARTICLE_Steam(std::int32_t x, std::int32_t y, std::int32_t z, std
     std::int32_t dx, dy, dz, rx, ry, rz;
 
     switch (axis) {
-        case 0:
-            dx = vel;
-            dy = dz = 0;
-            rx = 0;
-            ry = rz = range;
-            break;
-        case 1:
-            dx = dz = 0;
-            dy = vel;
-            rx = rz = range;
-            ry = 0;
-            break;
-        case 2:
-            dx = dy = 0;
-            dz = vel;
-            rx = ry = range;
-            rz = 0;
+    case 0:
+        dx = vel;
+        dy = dz = 0;
+        rx = 0;
+        ry = rz = range;
+        break;
+    case 1:
+        dx = dz = 0;
+        dy = vel;
+        rx = rz = range;
+        ry = 0;
+        break;
+    case 2:
+        dx = dy = 0;
+        dz = vel;
+        rx = ry = range;
+        rz = 0;
     }
 
     p.x = x;

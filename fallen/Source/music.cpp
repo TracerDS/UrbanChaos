@@ -152,20 +152,20 @@ void MUSIC_play_the_mode(std::uint8_t mode) {
     // for the PSX, queue up the appropriate track if it's not playing already
 
     static std::int32_t lookup_table[14][3] = {
-        {S_TUNE_DRIVING_START, S_TUNE_DRIVING, S_TUNE_DRIVING2},
-        {0, S_TUNE_SPRINT, S_TUNE_SPRINT2},
-        {0, S_TUNE_CRAWL, S_TUNE_CRAWL},
-        {0, S_TUNE_FIGHT, S_TUNE_FIGHT2},
-        {0, S_TUNE_COMBAT_TRAINING, S_TUNE_COMBAT_TRAINING},
-        {0, S_TUNE_DRIVING_TRAINING, S_TUNE_DRIVING_TRAINING},
-        {0, S_TUNE_ASSAULT_TRAINING, S_TUNE_ASSAULT_TRAINING},
-        {0, S_TUNE_ASIAN_DUB, S_TUNE_ASIAN_DUB},
-        {0, S_TUNE_TIMER1, S_TUNE_TIMER1},
-        {0, S_DEAD, S_DEAD},
-        {0, S_LEVEL_COMPLETE, S_LEVEL_COMPLETE},
-        {0, S_BRIEFING, S_BRIEFING},
-        {0, S_TUNE_FRONTEND, S_TUNE_FRONTEND},
-        {0, S_TUNE_CHAOS, S_TUNE_CHAOS},
+        {S_TUNE_DRIVING_START, S_TUNE_DRIVING,          S_TUNE_DRIVING2        },
+        {0,                    S_TUNE_SPRINT,           S_TUNE_SPRINT2         },
+        {0,                    S_TUNE_CRAWL,            S_TUNE_CRAWL           },
+        {0,                    S_TUNE_FIGHT,            S_TUNE_FIGHT2          },
+        {0,                    S_TUNE_COMBAT_TRAINING,  S_TUNE_COMBAT_TRAINING },
+        {0,                    S_TUNE_DRIVING_TRAINING, S_TUNE_DRIVING_TRAINING},
+        {0,                    S_TUNE_ASSAULT_TRAINING, S_TUNE_ASSAULT_TRAINING},
+        {0,                    S_TUNE_ASIAN_DUB,        S_TUNE_ASIAN_DUB       },
+        {0,                    S_TUNE_TIMER1,           S_TUNE_TIMER1          },
+        {0,                    S_DEAD,                  S_DEAD                 },
+        {0,                    S_LEVEL_COMPLETE,        S_LEVEL_COMPLETE       },
+        {0,                    S_BRIEFING,              S_BRIEFING             },
+        {0,                    S_TUNE_FRONTEND,         S_TUNE_FRONTEND        },
+        {0,                    S_TUNE_CHAOS,            S_TUNE_CHAOS           },
     };
 
     // the timer tune is designed 'standalone' not looping, so no fade in and no repeats.

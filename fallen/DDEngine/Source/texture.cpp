@@ -906,7 +906,7 @@ void TEXTURE_initialise_clumping(char *fname_level) {
 
     extern void SetLastClumpfile(char *file, size_t size); // in GDisplay.cpp, horrible bodge
 
-    if (1||!clumping) {
+    if (1 || !clumping) {
         // load textures directly
         IndividualTextures = true;
         SetLastClumpfile("", 0);
@@ -2024,7 +2024,7 @@ void TEXTURE_get_minitexturebits_uvs(
                     {0.125F + 0.25F * 0, 0.125F + 0.25F * 2},
                     {0.125F + 0.25F * 1, 0.125F + 0.25F * 2},
                     {0.125F + 0.25F * 2, 0.125F + 0.25F * 2},
-                };
+            };
 
             ASSERT(WITHIN(TEXTURE_DC_pack[num].pos, 0, 8));
 
@@ -2045,49 +2045,49 @@ void TEXTURE_get_minitexturebits_uvs(
     //
 
     switch (trot) {
-        case 0:
-            *u0 = base_u;
-            *v0 = base_v;
-            *u1 = base_u + base_size;
-            *v1 = base_v;
-            *u2 = base_u;
-            *v2 = base_v + base_size;
-            *u3 = base_u + base_size;
-            *v3 = base_v + base_size;
-            break;
+    case 0:
+        *u0 = base_u;
+        *v0 = base_v;
+        *u1 = base_u + base_size;
+        *v1 = base_v;
+        *u2 = base_u;
+        *v2 = base_v + base_size;
+        *u3 = base_u + base_size;
+        *v3 = base_v + base_size;
+        break;
 
-        case 1:
-            *u2 = base_u;
-            *v2 = base_v;
-            *u0 = base_u + base_size;
-            *v0 = base_v;
-            *u3 = base_u;
-            *v3 = base_v + base_size;
-            *u1 = base_u + base_size;
-            *v1 = base_v + base_size;
-            break;
+    case 1:
+        *u2 = base_u;
+        *v2 = base_v;
+        *u0 = base_u + base_size;
+        *v0 = base_v;
+        *u3 = base_u;
+        *v3 = base_v + base_size;
+        *u1 = base_u + base_size;
+        *v1 = base_v + base_size;
+        break;
 
-        case 2:
-            *u3 = base_u;
-            *v3 = base_v;
-            *u2 = base_u + base_size;
-            *v2 = base_v;
-            *u1 = base_u;
-            *v1 = base_v + base_size;
-            *u0 = base_u + base_size;
-            *v0 = base_v + base_size;
-            break;
+    case 2:
+        *u3 = base_u;
+        *v3 = base_v;
+        *u2 = base_u + base_size;
+        *v2 = base_v;
+        *u1 = base_u;
+        *v1 = base_v + base_size;
+        *u0 = base_u + base_size;
+        *v0 = base_v + base_size;
+        break;
 
-        case 3:
-            *u1 = base_u;
-            *v1 = base_v;
-            *u3 = base_u + base_size;
-            *v3 = base_v;
-            *u0 = base_u;
-            *v0 = base_v + base_size;
-            *u2 = base_u + base_size;
-            *v2 = base_v + base_size;
-            break;
+    case 3:
+        *u1 = base_u;
+        *v1 = base_v;
+        *u3 = base_u + base_size;
+        *v3 = base_v;
+        *u0 = base_u;
+        *v0 = base_v + base_size;
+        *u2 = base_u + base_size;
+        *v2 = base_v + base_size;
+        break;
     }
 }
 
@@ -2181,38 +2181,38 @@ void TEXTURE_fix_prim_textures() {
             f3->FaceFlags &= ~FACE_FLAG_THUG_JACKET;
 
             switch (page) {
-                //
-                // pages 9, 10 , 11 are people
-                //
-                case 9 * 64 + 21:
-                case 18 * 64 + 2:
-                case 18 * 64 + 32:
-                    //					ASSERT(0);
-                    f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                    page = 9 * 64 + 21;
+            //
+            // pages 9, 10 , 11 are people
+            //
+            case 9 * 64 + 21:
+            case 18 * 64 + 2:
+            case 18 * 64 + 32:
+                //					ASSERT(0);
+                f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                page = 9 * 64 + 21;
 
-                    break;
+                break;
 
-                case 9 * 64 + 22:
-                case 18 * 64 + 3:
-                case 18 * 64 + 33:
-                    f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                    page = 9 * 64 + 22;
-                    break;
+            case 9 * 64 + 22:
+            case 18 * 64 + 3:
+            case 18 * 64 + 33:
+                f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                page = 9 * 64 + 22;
+                break;
 
-                case 9 * 64 + 24:
-                case 18 * 64 + 4:
-                case 18 * 64 + 36:
-                    f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                    page = 9 * 64 + 24;
-                    break;
+            case 9 * 64 + 24:
+            case 18 * 64 + 4:
+            case 18 * 64 + 36:
+                f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                page = 9 * 64 + 24;
+                break;
 
-                case 9 * 64 + 25:
-                case 18 * 64 + 5:
-                case 18 * 64 + 37:
-                    f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                    page = 9 * 64 + 25;
-                    break;
+            case 9 * 64 + 25:
+            case 18 * 64 + 5:
+            case 18 * 64 + 37:
+                f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                page = 9 * 64 + 25;
+                break;
             }
             page -= FACE_PAGE_OFFSET;
 
@@ -2277,37 +2277,37 @@ void TEXTURE_fix_prim_textures() {
                 page = av_u + av_v * TEXTURE_NORM_SQUARES + f4->TexturePage * TEXTURE_NORM_SQUARES * TEXTURE_NORM_SQUARES;
                 f4->FaceFlags &= ~FACE_FLAG_THUG_JACKET;
                 switch (page) {
-                    //
-                    // pages 9, 10 , 11 are people
-                    //
-                    case 9 * 64 + 21:
-                    case 18 * 64 + 2:
-                    case 18 * 64 + 32:
-                        f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                        page = 9 * 64 + 21;
+                //
+                // pages 9, 10 , 11 are people
+                //
+                case 9 * 64 + 21:
+                case 18 * 64 + 2:
+                case 18 * 64 + 32:
+                    f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                    page = 9 * 64 + 21;
 
-                        break;
+                    break;
 
-                    case 9 * 64 + 22:
-                    case 18 * 64 + 3:
-                    case 18 * 64 + 33:
-                        f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                        page = 9 * 64 + 22;
-                        break;
+                case 9 * 64 + 22:
+                case 18 * 64 + 3:
+                case 18 * 64 + 33:
+                    f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                    page = 9 * 64 + 22;
+                    break;
 
-                    case 9 * 64 + 24:
-                    case 18 * 64 + 4:
-                    case 18 * 64 + 36:
-                        f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                        page = 9 * 64 + 24;
-                        break;
+                case 9 * 64 + 24:
+                case 18 * 64 + 4:
+                case 18 * 64 + 36:
+                    f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                    page = 9 * 64 + 24;
+                    break;
 
-                    case 9 * 64 + 25:
-                    case 18 * 64 + 5:
-                    case 18 * 64 + 37:
-                        f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                        page = 9 * 64 + 25;
-                        break;
+                case 9 * 64 + 25:
+                case 18 * 64 + 5:
+                case 18 * 64 + 37:
+                    f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+                    page = 9 * 64 + 25;
+                    break;
                 }
                 page -= FACE_PAGE_OFFSET;
 
@@ -2682,10 +2682,11 @@ std::int32_t TEXTURE_looks_like(std::int32_t page) {
 
         } offset[4] =
             {
-                {-1, 0},
-                {+1, 0},
-                {0, -1},
-                {0, +1}};
+                {-1, 0 },
+                {+1, 0 },
+                {0,  -1},
+                {0,  +1}
+        };
 
         dir = 0;
 

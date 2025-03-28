@@ -111,7 +111,8 @@ LIGHT_Colour amb_choice[AMB_NUM_CHOICES] =
     {
         {32, 32, 32},
         {38, 32, 30},
-        {30, 32, 38}};
+        {30, 32, 38}
+};
 
 LIGHT_Colour amb_colour;
 std::int32_t amb_choice_cur;
@@ -247,207 +248,207 @@ void parse_console(char *str) {
     for (i = 0; cmd_list[i]; i++) {
         if (!stricmp(cmd, cmd_list[i])) {
             switch (i) {
-                case 0: // cam -- nothing yet
+            case 0: // cam -- nothing yet
 
+                break;
+            case 1: // echo -- for testing
+                CONSOLE_text(ptr, 5000);
+                break;
+            case 2:
+                stored_pos = NET_PERSON(0)->WorldPos;
+                CONSOLE_text("stored.", 3000);
+                break;
+            case 3: // store & restore teleport positions
+                if ((stored_pos.X == -1) && (stored_pos.Y == -1) && (stored_pos.Z == -1)) {
+                    CONSOLE_text("no tel stored.", 5000);
                     break;
-                case 1: // echo -- for testing
-                    CONSOLE_text(ptr, 5000);
-                    break;
-                case 2:
-                    stored_pos = NET_PERSON(0)->WorldPos;
-                    CONSOLE_text("stored.", 3000);
-                    break;
-                case 3: // store & restore teleport positions
-                    if ((stored_pos.X == -1) && (stored_pos.Y == -1) && (stored_pos.Z == -1)) {
-                        CONSOLE_text("no tel stored.", 5000);
-                        break;
-                    }
+                }
+                set_person_idle(NET_PERSON(0));
+                move_thing_on_map(NET_PERSON(0), &stored_pos);
+                FC_force_camera_behind(0);
+                std::int32_t plant_feet(Thing * p_person);
+                plant_feet(NET_PERSON(0));
+                NET_PERSON(0)->Genus.Person->Flags &= ~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
+                CONSOLE_text("restored.", 5000);
+                break;
+            case 4: // telw -- teleport to numbered waypoint
+                i = atoi(ptr);
+                way = eway_find(i);
+                if (way) {
+                    GameCoord pos = {way->x << 8, way->y << 8, way->z << 8};
                     set_person_idle(NET_PERSON(0));
-                    move_thing_on_map(NET_PERSON(0), &stored_pos);
+                    move_thing_on_map(NET_PERSON(0), &pos);
                     FC_force_camera_behind(0);
                     std::int32_t plant_feet(Thing * p_person);
                     plant_feet(NET_PERSON(0));
                     NET_PERSON(0)->Genus.Person->Flags &= ~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
-                    CONSOLE_text("restored.", 5000);
-                    break;
-                case 4: // telw -- teleport to numbered waypoint
-                    i = atoi(ptr);
-                    way = eway_find(i);
-                    if (way) {
-                        GameCoord pos = {way->x << 8, way->y << 8, way->z << 8};
-                        set_person_idle(NET_PERSON(0));
-                        move_thing_on_map(NET_PERSON(0), &pos);
-                        FC_force_camera_behind(0);
-                        std::int32_t plant_feet(Thing * p_person);
-                        plant_feet(NET_PERSON(0));
-                        NET_PERSON(0)->Genus.Person->Flags &= ~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
-                        CONSOLE_text("z-z-zap.", 5000);
-                    } else
-                        CONSOLE_text("wpt not found");
-                    break;
-                case 5: // break
-                    ASSERT(0);
-                    break;
-                case 6: // wpt? -- find nearest wpt
-                    way = eway_find_near(NET_PERSON(0)->WorldPos);
-                    if (way) {
-                        itoa(way->id, cmd, 10);
-                        CONSOLE_text(cmd);
-                    } else
-                        CONSOLE_text("wpt not found");
-                    break;
+                    CONSOLE_text("z-z-zap.", 5000);
+                } else
+                    CONSOLE_text("wpt not found");
+                break;
+            case 5: // break
+                ASSERT(0);
+                break;
+            case 6: // wpt? -- find nearest wpt
+                way = eway_find_near(NET_PERSON(0)->WorldPos);
+                if (way) {
+                    itoa(way->id, cmd, 10);
+                    CONSOLE_text(cmd);
+                } else
+                    CONSOLE_text("wpt not found");
+                break;
 
-                case 7: // vtx - dump vertex buffer information
-                {
+            case 7: // vtx - dump vertex buffer information
+            {
 #ifdef TARGET_DC
-                    CONSOLE_text("Shan't dump VB info - you can't make me.");
+                CONSOLE_text("Shan't dump VB info - you can't make me.");
 #else
-                    FILE *fd = MF_Fopen("C:\\VertexBufferInfo.txt", "w");
-                    if (fd) {
-                        TheVPool->DumpInfo(fd);
-                        MF_Fclose(fd);
-                        CONSOLE_text("Info dumped at C:\\VertexBufferInfo.txt");
-                    } else
-                        CONSOLE_text("Can't open C:\\VertexBufferInfo.txt");
+                FILE *fd = MF_Fopen("C:\\VertexBufferInfo.txt", "w");
+                if (fd) {
+                    TheVPool->DumpInfo(fd);
+                    MF_Fclose(fd);
+                    CONSOLE_text("Info dumped at C:\\VertexBufferInfo.txt");
+                } else
+                    CONSOLE_text("Can't open C:\\VertexBufferInfo.txt");
 #endif
-                } break;
+            } break;
 
-                case 8: // alpha - set alpha sort type
-                    if (ptr[0] == '0') {
-                        PolyPage::DisableAlphaSort();
-                        CONSOLE_text("Alpha sorting OFF");
-                    } else if (ptr[0] == '1') {
-                        PolyPage::EnableAlphaSort();
-                        CONSOLE_text("Alpha sorting ON");
-                    } else {
-                        CONSOLE_text(PolyPage::AlphaSortEnabled() ? "Alpha sorting is ON" : "Alpha sorting is OFF");
-                    }
-                    break;
+            case 8: // alpha - set alpha sort type
+                if (ptr[0] == '0') {
+                    PolyPage::DisableAlphaSort();
+                    CONSOLE_text("Alpha sorting OFF");
+                } else if (ptr[0] == '1') {
+                    PolyPage::EnableAlphaSort();
+                    CONSOLE_text("Alpha sorting ON");
+                } else {
+                    CONSOLE_text(PolyPage::AlphaSortEnabled() ? "Alpha sorting is ON" : "Alpha sorting is OFF");
+                }
+                break;
 
-                case 9: // gamma - set gamma level
-                    if ((ptr[0] >= '0') && (ptr[0] <= '7')) {
-                        int val = 12 * (ptr[0] - '0');
-                        the_display.SetGamma(val, 256);
-                    } else {
-                        CONSOLE_text("Gamma 0-7");
-                    }
-                    break;
+            case 9: // gamma - set gamma level
+                if ((ptr[0] >= '0') && (ptr[0] <= '7')) {
+                    int val = 12 * (ptr[0] - '0');
+                    the_display.SetGamma(val, 256);
+                } else {
+                    CONSOLE_text("Gamma 0-7");
+                }
+                break;
 
-                case 10: // dkeys -- debug keys en/disable
-                    allow_debug_keys ^= 1;
-                    if (allow_debug_keys)
-                        CONSOLE_text("debug mode on");
-                    else
-                        CONSOLE_text("debug mode off");
+            case 10: // dkeys -- debug keys en/disable
+                allow_debug_keys ^= 1;
+                if (allow_debug_keys)
+                    CONSOLE_text("debug mode on");
+                else
+                    CONSOLE_text("debug mode off");
 
-                    dkeys_have_been_used = true;
+                dkeys_have_been_used = true;
 
-                    break;
+                break;
 
-                case 11: // cctv
-                    if (ptr[0] == '0')
-                        PolyPage::SetGreenScreen(false);
-                    else
-                        PolyPage::SetGreenScreen();
-                    break;
+            case 11: // cctv
+                if (ptr[0] == '0')
+                    PolyPage::SetGreenScreen(false);
+                else
+                    PolyPage::SetGreenScreen();
+                break;
 
-                case 12: // win
-                    if (allow_debug_keys)
-                        GAME_STATE = GS_LEVEL_WON;
-                    break;
+            case 12: // win
+                if (allow_debug_keys)
+                    GAME_STATE = GS_LEVEL_WON;
+                break;
 
-                case 13: // lose
-                    GAME_STATE = GS_LEVEL_LOST;
-                    break;
-                case 14:
-                    //				SAVE_ingame("");
-                    //				CONSOLE_text("GAME SAVED");
-                    break;
-                case 15:
-                    //				LOAD_ingame("");
-                    //				CONSOLE_text("GAME LOADED");
-                    break;
-                case 16:
-                    void reload_level();
-                    if (allow_debug_keys)
-                        reload_level();
-                    break;
-                case 17:
-                    //
-                    // ingame ambient editor
-                    //
-                    {
-                        char str[100];
-                        std::int32_t r, g, b;
-                        sscanf(ptr, "%d %d %d", &r, &g, &b);
-                        CONSOLE_text(ptr);
-                        sprintf(str, " red %d green %d blue %d \n", r, g, b);
-                        CONSOLE_text(str);
-
-                        NIGHT_amb_red = r;
-                        NIGHT_amb_green = g;
-                        NIGHT_amb_blue = b;
-                        NIGHT_cache_recalc();
-                        NIGHT_dfcache_recalc();
-                        NIGHT_generate_walkable_lighting();
-                    }
-                    break;
-                case 18:
-                    analogue ^= 1;
-                    break;
-
-                case 19:
-                    i = atoi(ptr);
-                    sprintf(str, "loading music world %d...", i);
+            case 13: // lose
+                GAME_STATE = GS_LEVEL_LOST;
+                break;
+            case 14:
+                //				SAVE_ingame("");
+                //				CONSOLE_text("GAME SAVED");
+                break;
+            case 15:
+                //				LOAD_ingame("");
+                //				CONSOLE_text("GAME LOADED");
+                break;
+            case 16:
+                void reload_level();
+                if (allow_debug_keys)
+                    reload_level();
+                break;
+            case 17:
+                //
+                // ingame ambient editor
+                //
+                {
+                    char str[100];
+                    std::int32_t r, g, b;
+                    sscanf(ptr, "%d %d %d", &r, &g, &b);
+                    CONSOLE_text(ptr);
+                    sprintf(str, " red %d green %d blue %d \n", r, g, b);
                     CONSOLE_text(str);
-                    MUSIC_WORLD = i;
-                    MFX_load_wave_list();
-                    break;
-                case 20:
-                    extern std::uint16_t fade_black;
-                    i = atoi(ptr);
-                    if (i == 0)
-                        fade_black = 1;
-                    else
-                        fade_black = 0;
-                    break;
-                case 21:
-                    if (allow_debug_keys) {
-                        darci->Genus.Person->PersonType = PERSON_ROPER;
-                        darci->Genus.Person->AnimType = ANIM_TYPE_ROPER;
-                        darci->Draw.Tweened->TheChunk = &game_chunk[ANIM_TYPE_ROPER];
-                        darci->Draw.Tweened->MeshID = 0;
-                        darci->Draw.Tweened->PersonID = 0;
-                        set_person_idle(darci);
-                    }
-                    break;
-                case 22:
-                    if (allow_debug_keys) {
-                        darci->Genus.Person->PersonType = PERSON_DARCI;
-                        darci->Genus.Person->AnimType = ANIM_TYPE_DARCI;
-                        darci->Draw.Tweened->TheChunk = &game_chunk[ANIM_TYPE_DARCI];
-                        darci->Draw.Tweened->MeshID = 0;
-                        darci->Draw.Tweened->PersonID = 0;
-                        set_person_idle(darci);
-                    }
-                    break;
-                case 23:
-                    extern int AENG_detail_crinkles;
-                    AENG_detail_crinkles ^= 1;
-                    if (AENG_detail_crinkles)
-                        CONSOLE_text("crinkles on");
-                    else
-                        CONSOLE_text("crinkles off");
-                    break;
 
-                case 24:
-                    //				if(allow_debug_keys)
-                    //				VIOLENCE=1;
-                    break;
+                    NIGHT_amb_red = r;
+                    NIGHT_amb_green = g;
+                    NIGHT_amb_blue = b;
+                    NIGHT_cache_recalc();
+                    NIGHT_dfcache_recalc();
+                    NIGHT_generate_walkable_lighting();
+                }
+                break;
+            case 18:
+                analogue ^= 1;
+                break;
 
-                case 25:
-                    PYRO_create(darci->WorldPos, PYRO_GAMEOVER);
-                    break;
+            case 19:
+                i = atoi(ptr);
+                sprintf(str, "loading music world %d...", i);
+                CONSOLE_text(str);
+                MUSIC_WORLD = i;
+                MFX_load_wave_list();
+                break;
+            case 20:
+                extern std::uint16_t fade_black;
+                i = atoi(ptr);
+                if (i == 0)
+                    fade_black = 1;
+                else
+                    fade_black = 0;
+                break;
+            case 21:
+                if (allow_debug_keys) {
+                    darci->Genus.Person->PersonType = PERSON_ROPER;
+                    darci->Genus.Person->AnimType = ANIM_TYPE_ROPER;
+                    darci->Draw.Tweened->TheChunk = &game_chunk[ANIM_TYPE_ROPER];
+                    darci->Draw.Tweened->MeshID = 0;
+                    darci->Draw.Tweened->PersonID = 0;
+                    set_person_idle(darci);
+                }
+                break;
+            case 22:
+                if (allow_debug_keys) {
+                    darci->Genus.Person->PersonType = PERSON_DARCI;
+                    darci->Genus.Person->AnimType = ANIM_TYPE_DARCI;
+                    darci->Draw.Tweened->TheChunk = &game_chunk[ANIM_TYPE_DARCI];
+                    darci->Draw.Tweened->MeshID = 0;
+                    darci->Draw.Tweened->PersonID = 0;
+                    set_person_idle(darci);
+                }
+                break;
+            case 23:
+                extern int AENG_detail_crinkles;
+                AENG_detail_crinkles ^= 1;
+                if (AENG_detail_crinkles)
+                    CONSOLE_text("crinkles on");
+                else
+                    CONSOLE_text("crinkles off");
+                break;
+
+            case 24:
+                //				if(allow_debug_keys)
+                //				VIOLENCE=1;
+                break;
+
+            case 25:
+                PYRO_create(darci->WorldPos, PYRO_GAMEOVER);
+                break;
             }
             return;
         }
@@ -570,35 +571,36 @@ void plan_view_shot() {
 
     std::uint8_t shad[8][9] =
         {
-            {4, 4, 4, 4, 4, 4, 4, 4, 4},
+            {4, 4, 4, 4,             4, 4, 4, 4, 4},
 
             {4, 4, 1, // 1
              4, 2, 1,
-             3, 2, 1},
+             3,                               2, 1},
 
             {3, 2, 1, // 2
              3, 2, 1,
-             3, 2, 1},
+             3,                               2, 1},
 
             {3, 2, 1, // 3
              3, 2, 2,
-             4, 3, 3},
+             4,                               3, 3},
 
             {1, 1, 1, // 4
              2, 2, 2,
-             3, 3, 3},
+             3,                               3, 3},
 
             {1, 1, 1, // 5
              2, 2, 1,
-             3, 2, 1},
+             3,                               2, 1},
 
             {3, 2, 1, // 6
              3, 2, 1,
-             3, 2, 1},
+             3,                               2, 1},
 
             {1, 1, 1, // 7
              2, 2, 4,
-             3, 4, 4}};
+             3,                               4, 4}
+    };
 
     //
     // The floor first.
@@ -737,94 +739,94 @@ void plan_view_shot() {
         dot_size = 1;
 
         switch (ew->ed.type) {
-            case EWAY_DO_CREATE_PLAYER:
+        case EWAY_DO_CREATE_PLAYER:
+            dot_do = true;
+            red = 0;
+            green = 0;
+            blue = 0;
+            dot_size = 2;
+            break;
+
+        case EWAY_DO_CREATE_ITEM:
+            dot_do = true;
+            red = 210;
+            green = 210;
+            blue = 40;
+            break;
+
+        case EWAY_DO_CREATE_ENEMY:
+
+            switch (ew->ed.subtype) {
+            case PERSON_DARCI:
+            case PERSON_ROPER:
+
                 dot_do = true;
-                red = 0;
-                green = 0;
-                blue = 0;
-                dot_size = 2;
+                red = 55;
+                green = 255;
+                blue = 55;
+
                 break;
 
-            case EWAY_DO_CREATE_ITEM:
-                dot_do = true;
-                red = 210;
-                green = 210;
-                blue = 40;
-                break;
+            case PERSON_CIV:
+            case PERSON_SLAG_TART:
+            case PERSON_SLAG_FATUGLY:
+            case PERSON_HOSTAGE:
+            case PERSON_MECHANIC:
+            case PERSON_TRAMP:
 
-            case EWAY_DO_CREATE_ENEMY:
+                //
+                // Don't show wandering civs...
+                //
 
-                switch (ew->ed.subtype) {
-                    case PERSON_DARCI:
-                    case PERSON_ROPER:
+                EWAY_Edef *ee;
 
-                        dot_do = true;
-                        red = 55;
-                        green = 255;
-                        blue = 55;
+                ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
 
-                        break;
+                ee = &EWAY_edef[ew->index];
 
-                    case PERSON_CIV:
-                    case PERSON_SLAG_TART:
-                    case PERSON_SLAG_FATUGLY:
-                    case PERSON_HOSTAGE:
-                    case PERSON_MECHANIC:
-                    case PERSON_TRAMP:
-
-                        //
-                        // Don't show wandering civs...
-                        //
-
-                        EWAY_Edef *ee;
-
-                        ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
-
-                        ee = &EWAY_edef[ew->index];
-
-                        if (ee->pcom_move != PCOM_MOVE_WANDER) {
-                            dot_do = true;
-                        } else {
-                            dot_do = false;
-                        }
-
-                        red = 255;
-                        green = 255;
-                        blue = 255;
-
-                        break;
-
-                    case PERSON_COP:
-
-                        dot_do = true;
-                        red = 55;
-                        green = 55;
-                        blue = 255;
-
-                        break;
-
-                    default:
-                    case PERSON_THUG_RASTA:
-                    case PERSON_THUG_GREY:
-                    case PERSON_THUG_RED:
-                    case PERSON_MIB1:
-                    case PERSON_MIB2:
-                    case PERSON_MIB3:
-
-                        dot_do = true;
-
-                        red = 255;
-                        green = 55;
-                        blue = 55;
-
-                        break;
+                if (ee->pcom_move != PCOM_MOVE_WANDER) {
+                    dot_do = true;
+                } else {
+                    dot_do = false;
                 }
+
+                red = 255;
+                green = 255;
+                blue = 255;
+
+                break;
+
+            case PERSON_COP:
+
+                dot_do = true;
+                red = 55;
+                green = 55;
+                blue = 255;
 
                 break;
 
             default:
-                dot_do = false;
+            case PERSON_THUG_RASTA:
+            case PERSON_THUG_GREY:
+            case PERSON_THUG_RED:
+            case PERSON_MIB1:
+            case PERSON_MIB2:
+            case PERSON_MIB3:
+
+                dot_do = true;
+
+                red = 255;
+                green = 55;
+                blue = 55;
+
                 break;
+            }
+
+            break;
+
+        default:
+            dot_do = false;
+            break;
         }
 
         if (dot_do) {
@@ -1061,41 +1063,41 @@ std::int8_t CONTROLS_get_best_item(Thing *darci, Thing *player) {
             ASSERT(p_special->Class == CLASS_SPECIAL);
             if (can_i_draw_this_special(p_special)) {
                 switch (p_special->Genus.Special->SpecialType) {
-                    case SPECIAL_SHOTGUN:
-                        if (p_special->Genus.Special->ammo || darci->Genus.Person->ammo_packs_shotgun)
-                            if (current_score < SHOTGUN_SCORE) {
-                                current_item = count;
-                                current_score = SHOTGUN_SCORE;
-                            }
-                        break;
-
-                    case SPECIAL_AK47:
-                        if (p_special->Genus.Special->ammo || darci->Genus.Person->ammo_packs_ak47)
-                            if (current_score < AK47_SCORE) {
-                                current_item = count;
-                                current_score = AK47_SCORE;
-                            }
-                        break;
-                    case SPECIAL_GRENADE:
-                        if (p_special->Genus.Special->ammo)
-                            if (current_score < GRENADE_SCORE) {
-                                current_item = count;
-                                current_score = GRENADE_SCORE;
-                            }
-                        break;
-
-                    case SPECIAL_BASEBALLBAT:
-                        if (current_score < BAT_SCORE) {
+                case SPECIAL_SHOTGUN:
+                    if (p_special->Genus.Special->ammo || darci->Genus.Person->ammo_packs_shotgun)
+                        if (current_score < SHOTGUN_SCORE) {
                             current_item = count;
-                            current_score = BAT_SCORE;
+                            current_score = SHOTGUN_SCORE;
                         }
-                        break;
-                    case SPECIAL_KNIFE:
-                        if (current_score < KNIFE_SCORE) {
+                    break;
+
+                case SPECIAL_AK47:
+                    if (p_special->Genus.Special->ammo || darci->Genus.Person->ammo_packs_ak47)
+                        if (current_score < AK47_SCORE) {
                             current_item = count;
-                            current_score = KNIFE_SCORE;
+                            current_score = AK47_SCORE;
                         }
-                        break;
+                    break;
+                case SPECIAL_GRENADE:
+                    if (p_special->Genus.Special->ammo)
+                        if (current_score < GRENADE_SCORE) {
+                            current_item = count;
+                            current_score = GRENADE_SCORE;
+                        }
+                    break;
+
+                case SPECIAL_BASEBALLBAT:
+                    if (current_score < BAT_SCORE) {
+                        current_item = count;
+                        current_score = BAT_SCORE;
+                    }
+                    break;
+                case SPECIAL_KNIFE:
+                    if (current_score < KNIFE_SCORE) {
+                        current_item = count;
+                        current_score = KNIFE_SCORE;
+                    }
+                    break;
                 }
                 count++;
             }
@@ -1293,18 +1295,18 @@ void context_music() {
 #ifndef VERSION_DEMO
     // hi ho, hi ho, a bodging we shall go
     switch (MUSIC_bodge_code) {
-        case 1:
-            mode = MUSIC_MODE_TRAIN_COMBAT;
-            break;
-        case 2:
-            mode = MUSIC_MODE_TRAIN_ASSAULT;
-            break;
-        case 3:
-            mode = MUSIC_MODE_TRAIN_DRIVING;
-            break;
-        case 4:
-            mode = MUSIC_MODE_FINAL_RECKONING;
-            break;
+    case 1:
+        mode = MUSIC_MODE_TRAIN_COMBAT;
+        break;
+    case 2:
+        mode = MUSIC_MODE_TRAIN_ASSAULT;
+        break;
+    case 3:
+        mode = MUSIC_MODE_TRAIN_DRIVING;
+        break;
+    case 4:
+        mode = MUSIC_MODE_FINAL_RECKONING;
+        break;
     }
 #endif
 
@@ -2880,47 +2882,47 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
         static std::int32_t wind_sign_dz = 0;
 
         switch (wind_updown) {
-            case 0:
-                if (wind_counter > 0) {
-                    wind_counter -= 1;
-                } else {
-                    wind_counter = rand() & 0xff;
-                    wind_max = rand() & 0x7f;
-                    wind_updown = 1;
-                    wind_speed = 0;
-                    /*					wind_sign_dx = (rand() & 0x1) ? +1 : -1;
-                                                            wind_sign_dz = (rand() & 0x1) ? +1 : -1;*/
-                    wind_sign_dx = wind_sign_dz = 1;
-                }
-                break;
-
-            case 1:
-                if (wind_speed < wind_max) {
-                    wind_speed += 1;
-                }
-
-                if (wind_counter > 0) {
-                    wind_counter -= 1;
-                } else {
-                    wind_counter = 0;
-                    wind_updown = 2;
-                }
-                break;
-
-            case 2:
-                if (wind_speed == 0) {
-                    wind_counter = rand() & 0x1ff;
-                    wind_counter += 100;
-                    wind_updown = 0;
-                } else {
-                    wind_speed -= 1;
-                }
-                break;
-
-            default:
-                wind_updown = 0;
-                wind_counter = 0xff;
+        case 0:
+            if (wind_counter > 0) {
+                wind_counter -= 1;
+            } else {
+                wind_counter = rand() & 0xff;
+                wind_max = rand() & 0x7f;
+                wind_updown = 1;
                 wind_speed = 0;
+                /*					wind_sign_dx = (rand() & 0x1) ? +1 : -1;
+                                                        wind_sign_dz = (rand() & 0x1) ? +1 : -1;*/
+                wind_sign_dx = wind_sign_dz = 1;
+            }
+            break;
+
+        case 1:
+            if (wind_speed < wind_max) {
+                wind_speed += 1;
+            }
+
+            if (wind_counter > 0) {
+                wind_counter -= 1;
+            } else {
+                wind_counter = 0;
+                wind_updown = 2;
+            }
+            break;
+
+        case 2:
+            if (wind_speed == 0) {
+                wind_counter = rand() & 0x1ff;
+                wind_counter += 100;
+                wind_updown = 0;
+            } else {
+                wind_speed -= 1;
+            }
+            break;
+
+        default:
+            wind_updown = 0;
+            wind_counter = 0xff;
+            wind_speed = 0;
         }
 
         std::int32_t wind_dx = (wind_speed >> 3) * wind_sign_dx;
@@ -3112,82 +3114,82 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
             posn.Y = (PAP_calc_height_at(posn.X >> 8, posn.Z >> 8) * 256);
 
             switch (which_pyro) {
-                case 0:
-                    posn.X -= 32000;
-                    PYRO_create(posn, PYRO_FLICKER);
-                    break;
-                case 1:
-                    if (ribbon_id == -1) ribbon_id = RIBBON_alloc(RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE | RIBBON_FLAG_CONVECT, 20, POLY_PAGE_FLAMES3, -1, 6, 4);
-                    break;
-                case 2:
-                    PYRO_construct(posn, 14, 256);
-                    PYRO_construct(posn, 1, 400);
-                    posn.X += rand() >> 1;
-                    posn.Z += rand() >> 1;
-                    PYRO_construct(posn, 2, 96 + (rand() & 0x3f));
-                    posn.X = darci->WorldPos.X;
-                    posn.Z = darci->WorldPos.Z;
-                    posn.X -= rand() >> 1;
-                    posn.Z -= rand() >> 1;
-                    PYRO_construct(posn, 2, 96 + (rand() & 0x3f));
+            case 0:
+                posn.X -= 32000;
+                PYRO_create(posn, PYRO_FLICKER);
+                break;
+            case 1:
+                if (ribbon_id == -1) ribbon_id = RIBBON_alloc(RIBBON_FLAG_FADE | RIBBON_FLAG_SLIDE | RIBBON_FLAG_CONVECT, 20, POLY_PAGE_FLAMES3, -1, 6, 4);
+                break;
+            case 2:
+                PYRO_construct(posn, 14, 256);
+                PYRO_construct(posn, 1, 400);
+                posn.X += rand() >> 1;
+                posn.Z += rand() >> 1;
+                PYRO_construct(posn, 2, 96 + (rand() & 0x3f));
+                posn.X = darci->WorldPos.X;
+                posn.Z = darci->WorldPos.Z;
+                posn.X -= rand() >> 1;
+                posn.Z -= rand() >> 1;
+                PYRO_construct(posn, 2, 96 + (rand() & 0x3f));
 
-                    PCOM_oscillate_tympanum(
-                        PCOM_SOUND_BANG,
-                        darci,
-                        posn.X >> 8,
-                        posn.Y >> 8,
-                        posn.Z >> 8);
+                PCOM_oscillate_tympanum(
+                    PCOM_SOUND_BANG,
+                    darci,
+                    posn.X >> 8,
+                    posn.Y >> 8,
+                    posn.Z >> 8);
 
-                    break;
-                case 3:
-                    PYRO_construct(posn, 1, 400);
-                    break;
-                case 4:
-                    posn.X -= 32000;
-                    PYRO_create(posn, PYRO_BONFIRE);
-                    break;
-                case 5:
-                    pyro = PYRO_create(posn, PYRO_IMMOLATE);
-                    pyro->Genus.Pyro->victim = darci;
-                    pyro->Genus.Pyro->Flags = PYRO_FLAGS_FLICKER;
-                    darci->Genus.Person->BurnIndex = PYRO_NUMBER(pyro->Genus.Pyro) + 1;
-                    break;
-                case 6:
-                    posn.X -= 32000;
-                    pyro = PYRO_create(posn, PYRO_FLICKER);
-                    extern void PYRO_fn_init(Thing * thing);
-                    PYRO_fn_init(pyro); // heh heh heh
-                    pyro->Genus.Pyro->radii[0] = 128;
-                    pyro->Genus.Pyro->radii[1] = 400;
-                    pyro->Genus.Pyro->radii[2] = 256;
-                    break;
-                case 7:
-                    if (line) {
-                        pyro = PYRO_create(oldposn, PYRO_FIREWALL);
-                        pyro->Genus.Pyro->target = posn;
-                        line = 0;
-                    } else {
-                        oldposn = posn;
-                        line = 1;
-                    }
-                    break;
+                break;
+            case 3:
+                PYRO_construct(posn, 1, 400);
+                break;
+            case 4:
+                posn.X -= 32000;
+                PYRO_create(posn, PYRO_BONFIRE);
+                break;
+            case 5:
+                pyro = PYRO_create(posn, PYRO_IMMOLATE);
+                pyro->Genus.Pyro->victim = darci;
+                pyro->Genus.Pyro->Flags = PYRO_FLAGS_FLICKER;
+                darci->Genus.Person->BurnIndex = PYRO_NUMBER(pyro->Genus.Pyro) + 1;
+                break;
+            case 6:
+                posn.X -= 32000;
+                pyro = PYRO_create(posn, PYRO_FLICKER);
+                extern void PYRO_fn_init(Thing * thing);
+                PYRO_fn_init(pyro); // heh heh heh
+                pyro->Genus.Pyro->radii[0] = 128;
+                pyro->Genus.Pyro->radii[1] = 400;
+                pyro->Genus.Pyro->radii[2] = 256;
+                break;
+            case 7:
+                if (line) {
+                    pyro = PYRO_create(oldposn, PYRO_FIREWALL);
+                    pyro->Genus.Pyro->target = posn;
+                    line = 0;
+                } else {
+                    oldposn = posn;
+                    line = 1;
+                }
+                break;
 
-                case 8:
-                    // pyro=PYRO_create(posn,PYRO_SPLATTERY);
-                    pyro = PYRO_create(posn, PYRO_FIREBOMB);
-                    break;
+            case 8:
+                // pyro=PYRO_create(posn,PYRO_SPLATTERY);
+                pyro = PYRO_create(posn, PYRO_FIREBOMB);
+                break;
 
-                case 9:
-                    pyro = PYRO_create(posn, PYRO_NEWDOME);
-                    if (pyro) {
-                        pyro->Genus.Pyro->scale = 400;
-                    }
-                    break;
+            case 9:
+                pyro = PYRO_create(posn, PYRO_NEWDOME);
+                if (pyro) {
+                    pyro->Genus.Pyro->scale = 400;
+                }
+                break;
 
-                case 10:
-                    posn.X -= 32000;
-                    PYRO_create(posn, PYRO_WHOOMPH);
-                    break;
+            case 10:
+                posn.X -= 32000;
+                PYRO_create(posn, PYRO_WHOOMPH);
+                break;
             }
 
             /*		Keys[KB_P5]=0;
@@ -3627,9 +3629,9 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
             MAV_precalculate();
 
             switch (Random() % 3) {
-                case 0: set_person_do_a_simple_anim(darci, ANIM_DANCE_BOOGIE); break;
-                case 1: set_person_do_a_simple_anim(darci, ANIM_DANCE_WOOGIE); break;
-                case 2: set_person_do_a_simple_anim(darci, ANIM_DANCE_HEADBANG); break;
+            case 0: set_person_do_a_simple_anim(darci, ANIM_DANCE_BOOGIE); break;
+            case 1: set_person_do_a_simple_anim(darci, ANIM_DANCE_WOOGIE); break;
+            case 2: set_person_do_a_simple_anim(darci, ANIM_DANCE_HEADBANG); break;
             }
 
             darci->Genus.Person->Flags |= FLAG_PERSON_NO_RETURN_TO_NORMAL;
@@ -4320,31 +4322,31 @@ extern std::int32_t	FC_cam_height;
                 dx = COS(angle * (2047 / 7)) >> 8;
                 dz = SIN(angle * (2047 / 7)) >> 8;
                 switch (angle) {
-                    case 0:
-                        alloc_special(SPECIAL_HEALTH, SPECIAL_SUBSTATE_NONE, wx + dx, wy + 0x10, wz + dz, 0);
-                        break;
-                    case 1:
-                        alloc_special(SPECIAL_BASEBALLBAT, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
-                        break;
-                    case 2:
-                        alloc_special(SPECIAL_KNIFE, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
-                        break;
-                    case 3:
-                        alloc_special(SPECIAL_SHOTGUN, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
-                        break;
-                    case 4:
-                        alloc_special(SPECIAL_GRENADE, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
-                        break;
-                    case 5:
-                        alloc_special(SPECIAL_AK47, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
-                        break;
-                    case 6:
-                        alloc_special(SPECIAL_MINE, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
-                        break;
+                case 0:
+                    alloc_special(SPECIAL_HEALTH, SPECIAL_SUBSTATE_NONE, wx + dx, wy + 0x10, wz + dz, 0);
+                    break;
+                case 1:
+                    alloc_special(SPECIAL_BASEBALLBAT, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
+                    break;
+                case 2:
+                    alloc_special(SPECIAL_KNIFE, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
+                    break;
+                case 3:
+                    alloc_special(SPECIAL_SHOTGUN, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
+                    break;
+                case 4:
+                    alloc_special(SPECIAL_GRENADE, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
+                    break;
+                case 5:
+                    alloc_special(SPECIAL_AK47, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
+                    break;
+                case 6:
+                    alloc_special(SPECIAL_MINE, SPECIAL_SUBSTATE_NONE, wx + dx, wy, wz + dz, 0);
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             }
 

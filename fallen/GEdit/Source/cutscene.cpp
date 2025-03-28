@@ -336,20 +336,20 @@ void CUTSCENE_read_packet(FILE *file_handle, CSChannel *chan, int version) {
     CSPacket *pack = CUTSCENE_add_packet(chan);
     fread((void *) pack, sizeof(CSPacket), 1, file_handle);
     switch (version) {
-        case 1:
-            if (pack->type == PT_CAM) pack->length = 0xff7f;
-            break;
+    case 1:
+        if (pack->type == PT_CAM) pack->length = 0xff7f;
+        break;
     }
     switch (pack->type) {
-        case PT_TEXT:
-            if (pack->pos.X) {
-                int l;
-                fread((void *) &l, sizeof(l), 1, file_handle);
-                pack->pos.X = (int) malloc(l + 1);
-                ZeroMemory((void *) pack->pos.X, l + 1);
-                fread((void *) pack->pos.X, l, 1, file_handle);
-            }
-            break;
+    case PT_TEXT:
+        if (pack->pos.X) {
+            int l;
+            fread((void *) &l, sizeof(l), 1, file_handle);
+            pack->pos.X = (int) malloc(l + 1);
+            ZeroMemory((void *) pack->pos.X, l + 1);
+            fread((void *) pack->pos.X, l, 1, file_handle);
+        }
+        break;
     }
 }
 
@@ -403,64 +403,64 @@ void CUTSCENE_recreate(CSData *cutscene) {
     for (channum = 0; channum < cutscene->channelcount; channum++) {
         pkt = chan->packets;
         switch (chan->type) {
-            case CT_CHAR:
-                msg[0] = IM_SCENE_PERSON;
-                if ((chan->index > 0) && (chan->index < 16))
-                    strcpy(msg + 1, PeopleStrings[chan->index - 1]);
-                else
-                    strcpy(msg + 1, "Some Person");
-                if ((chan->index > 0) && (chan->index <= PERSON_NUM_TYPES))
-                    who = chan->index - 1;
-                else
-                    who = -1;
-                /*			switch(chan->index) {
-                                          case 1: who=PERSON_DARCI; break;
-                                          case 2: who=PERSON_ROPER; break;
-                                          default: who=-1;
-                                        }*/
-                if (who > -1)
-                    edit->thing = CUTSCENE_create_person(who, 64 << 8, 0, 64 << 8);
-                else
-                    edit->thing = 0;
-                timeline->Add(msg);
-                for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
-                    timeline->MarkEntry(channum, pkt->start, pkt->length, 1);
-                }
-                break;
-            case CT_CAM:
-                msg[0] = IM_SCENE_CAMERA;
-                strcpy(msg + 1, "Camera");
-                timeline->Add(msg);
-                for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
-                    timeline->MarkEntry(channum, pkt->start, 1, 4); // always 1, and besides, ct_cam's length is used for Other Things(tm)
-                }
-                break;
-            case CT_WAVE:
-                msg[0] = IM_SCENE_SPEAKER;
-                strcpy(msg + 1, "Loudspeaker");
-                timeline->Add(msg);
-                for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
-                    timeline->MarkEntry(channum, pkt->start, 1, 4);
-                }
-                break;
-            case CT_TEXT:
-                msg[0] = IM_SCENE_BUBBLE;
-                strcpy(msg + 1, "Subtitles");
-                timeline->Add(msg);
-                for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
-                    timeline->MarkEntry(channum, pkt->start, pkt->length, 4);
-                }
-                break;
-            case CT_FX:
-                msg[0] = (char) 0xff;
-                strcpy(msg + 1, "FX");
-                timeline->Add(msg);
-                break;
-            default:
-                msg[0] = (char) 0xff;
-                strcpy(msg + 1, "hell if i know");
-                timeline->Add(msg);
-                break;
+        case CT_CHAR:
+            msg[0] = IM_SCENE_PERSON;
+            if ((chan->index > 0) && (chan->index < 16))
+                strcpy(msg + 1, PeopleStrings[chan->index - 1]);
+            else
+                strcpy(msg + 1, "Some Person");
+            if ((chan->index > 0) && (chan->index <= PERSON_NUM_TYPES))
+                who = chan->index - 1;
+            else
+                who = -1;
+            /*			switch(chan->index) {
+                                      case 1: who=PERSON_DARCI; break;
+                                      case 2: who=PERSON_ROPER; break;
+                                      default: who=-1;
+                                    }*/
+            if (who > -1)
+                edit->thing = CUTSCENE_create_person(who, 64 << 8, 0, 64 << 8);
+            else
+                edit->thing = 0;
+            timeline->Add(msg);
+            for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
+                timeline->MarkEntry(channum, pkt->start, pkt->length, 1);
+            }
+            break;
+        case CT_CAM:
+            msg[0] = IM_SCENE_CAMERA;
+            strcpy(msg + 1, "Camera");
+            timeline->Add(msg);
+            for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
+                timeline->MarkEntry(channum, pkt->start, 1, 4); // always 1, and besides, ct_cam's length is used for Other Things(tm)
+            }
+            break;
+        case CT_WAVE:
+            msg[0] = IM_SCENE_SPEAKER;
+            strcpy(msg + 1, "Loudspeaker");
+            timeline->Add(msg);
+            for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
+                timeline->MarkEntry(channum, pkt->start, 1, 4);
+            }
+            break;
+        case CT_TEXT:
+            msg[0] = IM_SCENE_BUBBLE;
+            strcpy(msg + 1, "Subtitles");
+            timeline->Add(msg);
+            for (pktnum = 0; pktnum < chan->packetcount; pkt++, pktnum++) {
+                timeline->MarkEntry(channum, pkt->start, pkt->length, 4);
+            }
+            break;
+        case CT_FX:
+            msg[0] = (char) 0xff;
+            strcpy(msg + 1, "FX");
+            timeline->Add(msg);
+            break;
+        default:
+            msg[0] = (char) 0xff;
+            strcpy(msg + 1, "hell if i know");
+            timeline->Add(msg);
+            break;
         }
         chan++;
         edit++;
@@ -1300,45 +1300,45 @@ bool browserCB(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *str
     std::int32_t x, y, z, who;
 
     switch (reason) {
-        case TBCB_DBLCLK:
-            char msg[800];
-            if ((image == IM_SCENE_SPEAKER) || (image == IM_SCENE_PERSON) || (image == IM_SCENE_CAMERA) || (image == IM_SCENE_BUBBLE)) {
-                msg[0] = image;
-                strcpy(msg + 1, str);
-                timeline->Add(msg);
-                timeline->Repaint();
-                chan = CUTSCENE_add_channel(cutscene);
-                echan = cutscene->editchannels + (chan - cutscene->channels);
-                GI_get_pixel_world_pos(320, 240, &x, &y, &z, 0);
-                /*			x=cam_focus_x; z=cam_focus_z;
-                                        y=PAP_calc_map_height_at(x,z);*/
-                switch (image) {
-                    case IM_SCENE_PERSON:
-                        chan->type = CT_CHAR;
-                        chan->index = index;
-                        if ((index > 0) && (index <= PERSON_NUM_TYPES))
-                            who = index - 1;
-                        else
-                            who = -1;
-                        /*				switch(index) {
-                                                        case 1: who=PERSON_DARCI; break;
-                                                        case 2: who=PERSON_ROPER; break;
-                                                        default: who=-1;
-                                                        }*/
-                        if (who > -1) echan->thing = CUTSCENE_create_person(who, x, y, z);
-                        break;
-                    case IM_SCENE_CAMERA: chan->type = CT_CAM; break;
-                    case IM_SCENE_SPEAKER: chan->type = CT_WAVE; break;
-                    case IM_SCENE_BUBBLE: chan->type = CT_TEXT; break;
-                }
+    case TBCB_DBLCLK:
+        char msg[800];
+        if ((image == IM_SCENE_SPEAKER) || (image == IM_SCENE_PERSON) || (image == IM_SCENE_CAMERA) || (image == IM_SCENE_BUBBLE)) {
+            msg[0] = image;
+            strcpy(msg + 1, str);
+            timeline->Add(msg);
+            timeline->Repaint();
+            chan = CUTSCENE_add_channel(cutscene);
+            echan = cutscene->editchannels + (chan - cutscene->channels);
+            GI_get_pixel_world_pos(320, 240, &x, &y, &z, 0);
+            /*			x=cam_focus_x; z=cam_focus_z;
+                                    y=PAP_calc_map_height_at(x,z);*/
+            switch (image) {
+            case IM_SCENE_PERSON:
+                chan->type = CT_CHAR;
+                chan->index = index;
+                if ((index > 0) && (index <= PERSON_NUM_TYPES))
+                    who = index - 1;
+                else
+                    who = -1;
+                /*				switch(index) {
+                                                case 1: who=PERSON_DARCI; break;
+                                                case 2: who=PERSON_ROPER; break;
+                                                default: who=-1;
+                                                }*/
+                if (who > -1) echan->thing = CUTSCENE_create_person(who, x, y, z);
+                break;
+            case IM_SCENE_CAMERA: chan->type = CT_CAM; break;
+            case IM_SCENE_SPEAKER: chan->type = CT_WAVE; break;
+            case IM_SCENE_BUBBLE: chan->type = CT_TEXT; break;
             }
-            return 0;
-        case TBCB_DRAG:
-            if ((image == IM_SCENE_ANIM) && !index) return 0;
-            return ((image == IM_SCENE_WAVE) || (image == IM_SCENE_ACTION) || (image == IM_SCENE_ANIM));
-            break;
-        default:
-            return 0;
+        }
+        return 0;
+    case TBCB_DRAG:
+        if ((image == IM_SCENE_ANIM) && !index) return 0;
+        return ((image == IM_SCENE_WAVE) || (image == IM_SCENE_ACTION) || (image == IM_SCENE_ANIM));
+        break;
+    default:
+        return 0;
     }
 }
 
@@ -1353,46 +1353,46 @@ void Update3DStuff(CSChannel *chan, CSEditChannel *edit, int cell) {
         return;
     }
     switch (pkt->type) {
-        case PT_ANIM:
-            index = pkt->index;
-            while (index > 1023) {
-                index -= 1024;
-            }
-            if (edit->thing) {
-                // edit->thing->WorldPos=pkt->pos;
-                move_thing_on_map(edit->thing, &pkt->pos);
-                edit->thing->Draw.Tweened->Angle = pkt->angle;
-                set_anim(edit->thing, index);
-                if (pkt->flags & 1) LERPAnim(chan, edit->thing, cell); // should handle the reversing
-            }
-            break;
+    case PT_ANIM:
+        index = pkt->index;
+        while (index > 1023) {
+            index -= 1024;
+        }
+        if (edit->thing) {
+            // edit->thing->WorldPos=pkt->pos;
+            move_thing_on_map(edit->thing, &pkt->pos);
+            edit->thing->Draw.Tweened->Angle = pkt->angle;
+            set_anim(edit->thing, index);
+            if (pkt->flags & 1) LERPAnim(chan, edit->thing, cell); // should handle the reversing
+        }
+        break;
 
-        case PT_CAM:
-            if (!(GetAsyncKeyState(VK_CONTROL) & (1 << 15))) {
-                cam_focus_x = pkt->pos.X;
-                cam_focus_y = pkt->pos.Y;
-                cam_focus_z = pkt->pos.Z;
-                cam_pitch = pkt->pitch;
-                cam_yaw = pkt->angle;
-                lens = ((pkt->length & 0xff) - 0x7f);
-                lens = (lens * 1.5) + 0xff;
-                FC_cam[0].lens = (lens * 0x24000) >> 8;
-                PolyPage::SetGreenScreen(pkt->flags & PF_SECURICAM);
-                CUTSCENE_slomo = pkt->flags & PF_SLOMO;
-                CUTSCENE_fade_level = pkt->length >> 8;
-            }
-            break;
+    case PT_CAM:
+        if (!(GetAsyncKeyState(VK_CONTROL) & (1 << 15))) {
+            cam_focus_x = pkt->pos.X;
+            cam_focus_y = pkt->pos.Y;
+            cam_focus_z = pkt->pos.Z;
+            cam_pitch = pkt->pitch;
+            cam_yaw = pkt->angle;
+            lens = ((pkt->length & 0xff) - 0x7f);
+            lens = (lens * 1.5) + 0xff;
+            FC_cam[0].lens = (lens * 0x24000) >> 8;
+            PolyPage::SetGreenScreen(pkt->flags & PF_SECURICAM);
+            CUTSCENE_slomo = pkt->flags & PF_SLOMO;
+            CUTSCENE_fade_level = pkt->length >> 8;
+        }
+        break;
 
-        case PT_WAVE:
-            if (CUTSCENE_playback) MFX_play_xyz(MUSIC_REF + (chan - cutscene->channels), pkt->index - 2048, 0, pkt->pos.X << 8, pkt->pos.Y << 8, pkt->pos.Z << 8);
-            break;
+    case PT_WAVE:
+        if (CUTSCENE_playback) MFX_play_xyz(MUSIC_REF + (chan - cutscene->channels), pkt->index - 2048, 0, pkt->pos.X << 8, pkt->pos.Y << 8, pkt->pos.Z << 8);
+        break;
 
-        case PT_TEXT:
-            if (pkt->pos.X)
-                strcpy(subtitle_str, (char *) pkt->pos.X);
-            else
-                subtitle_str[0] = 0;
-            break;
+    case PT_TEXT:
+        if (pkt->pos.X)
+            strcpy(subtitle_str, (char *) pkt->pos.X);
+        else
+            subtitle_str[0] = 0;
+        break;
     }
 }
 
@@ -1411,15 +1411,15 @@ int UnMangleLerp(int flags, int which) {
     if (which == 2) flags >>= 4;
     flags &= (1 | 2 | 4);
     switch (flags) {
-        case 0:
-        case 2:
-        case 4:
-        case 6:
-        default: return 0;
-        case 1: return 1;
-        case 3: return 2;
-        case 5: return 3;
-        case 7: return 4;
+    case 0:
+    case 2:
+    case 4:
+    case 6:
+    default: return 0;
+    case 1: return 1;
+    case 3: return 2;
+    case 5: return 3;
+    case 7: return 4;
     }
 }
 
@@ -1431,89 +1431,89 @@ bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
     char str[255];
 
     switch (reason) {
-            /*	case TLCB_GETBARINFO:
-                            chan=&cutscene->Channels[index];
+        /*	case TLCB_GETBARINFO:
+                        chan=&cutscene->Channels[index];
 
-                            break;*/
-        case TLCB_SELECT:
-            for (channum = 0; channum < cutscene->channelcount; channum++)
-                if (channum != index) // we need to update the 3d display, but not the property window
-                {
-                    chan = cutscene->channels + channum;
-                    edit = cutscene->editchannels + channum;
-                    Update3DStuff(chan, edit, cell);
-                }
-            if (index < 0) return 0;
-            chan = cutscene->channels + index;
-            edit = cutscene->editchannels + index;
-            current_packet = pkt = CUTSCENE_get_packet(chan, cell);
-            pedit->Clear();
-            Update3DStuff(chan, edit, cell);
-            if (!pkt) return 0;
-            /*	if (!pkt) {
-                            if (chan->type==CT_CHAR) LERPAnim(chan,edit->thing,cell);
-                            if ((chan->type==CT_CAM)&&!ControlFlag) LERPCamera(chan,cell);
-                            return 0;
-                    }*/
-            switch (pkt->type) {
-                case PT_ANIM: {
-                    HTREEITEM base = darcianim;
-                    int index = pkt->index;
-                    if (index > 1023) {
-                        base = roperanim;
-                        index -= 1024;
-                    }
-                    browser->GetTextFromItem(browser->GetChildFromItem(base, index), str, 255);
-                    /*				  if (edit->thing) {
-                                                              edit->thing->WorldPos=pkt->pos;
-                                                              edit->thing->Draw.Tweened->Angle=pkt->angle;
-                                                              set_anim(edit->thing,index);
-                                                      }*/
-                }
-                    pedit->Add("Type", "Animation", PROPTYPE_READONLY);
-                    pedit->Add("Anim", str, PROPTYPE_READONLY);
-                    pedit->Add("Snap position", "(click here)", PROPTYPE_BUTTON);
-                    pedit->Add("Play direction", "forwards|backwards", PROPTYPE_MULTI);
-                    if (pkt->flags & 1) pedit->Update(3, "backwards");
-                    pedit->Add("Movement", interpolate_strings, PROPTYPE_MULTI);
-                    pedit->Add("Rotation", interpolate_strings, PROPTYPE_MULTI);
-                    pedit->Update(4, get_string_from_index(UnMangleLerp(pkt->flags, 1), interpolate_strings, str));
-                    pedit->Update(5, get_string_from_index(UnMangleLerp(pkt->flags, 2), interpolate_strings, str));
-
-                    break;
-                case PT_CAM:
-                    pedit->Add("Type", "Camera", PROPTYPE_READONLY);
-                    pedit->Add("Cam mode", "normal|security camera", PROPTYPE_MULTI);
-                    if (pkt->flags & PF_SECURICAM) pedit->Update(1, "security camera");
-                    pedit->Add("Movement", interpolate_strings, PROPTYPE_MULTI);
-                    pedit->Add("Rotation", interpolate_strings, PROPTYPE_MULTI);
-                    pedit->Update(2, get_string_from_index(UnMangleLerp(pkt->flags, 1), interpolate_strings, str));
-                    pedit->Update(3, get_string_from_index(UnMangleLerp(pkt->flags, 2), interpolate_strings, str));
-                    itoa(pkt->length >> 8, str, 10);
-                    pedit->Add("Fade in", str, PROPTYPE_INT);
-                    itoa((pkt->length & 0xff) - 0x7f, str, 10);
-                    pedit->Add("Zoom ratio", str, PROPTYPE_INT);
-                    pedit->Add("Slo-mo", "off", PROPTYPE_BOOL);
-                    if (pkt->flags & PF_SLOMO) pedit->Update(6, "on");
-                    CUTSCENE_fade_level = pkt->length >> 8;
-                    break;
-                case PT_WAVE:
-                    pedit->Add("Type", "Wave", PROPTYPE_READONLY);
-                    pedit->Add("Wave", sound_list[pkt->index - 2048], PROPTYPE_READONLY);
-                    pedit->Add("Preview", "(click here)", PROPTYPE_BUTTON);
-                    // if (CUTSCENE_playback) MFX_play_xyz(MUSIC_REF+channum,pkt->index-2048,0,pkt->pos.X,pkt->pos.Y,pkt->pos.Z);
-                    break;
-                case PT_TEXT:
-                    pedit->Add("Type", "Subtitle", PROPTYPE_READONLY);
-                    if (pkt->pos.X)
-                        strcpy(subtitle_str, (char *) pkt->pos.X);
-                    else
-                        subtitle_str[0] = 0;
-                    pedit->Add("Text", subtitle_str, PROPTYPE_STRING);
-                    // pedit->Add("Style","normal|something else",PROPTYPE_MULTI);
-                    break;
+                        break;*/
+    case TLCB_SELECT:
+        for (channum = 0; channum < cutscene->channelcount; channum++)
+            if (channum != index) // we need to update the 3d display, but not the property window
+            {
+                chan = cutscene->channels + channum;
+                edit = cutscene->editchannels + channum;
+                Update3DStuff(chan, edit, cell);
             }
+        if (index < 0) return 0;
+        chan = cutscene->channels + index;
+        edit = cutscene->editchannels + index;
+        current_packet = pkt = CUTSCENE_get_packet(chan, cell);
+        pedit->Clear();
+        Update3DStuff(chan, edit, cell);
+        if (!pkt) return 0;
+        /*	if (!pkt) {
+                        if (chan->type==CT_CHAR) LERPAnim(chan,edit->thing,cell);
+                        if ((chan->type==CT_CAM)&&!ControlFlag) LERPCamera(chan,cell);
+                        return 0;
+                }*/
+        switch (pkt->type) {
+        case PT_ANIM: {
+            HTREEITEM base = darcianim;
+            int index = pkt->index;
+            if (index > 1023) {
+                base = roperanim;
+                index -= 1024;
+            }
+            browser->GetTextFromItem(browser->GetChildFromItem(base, index), str, 255);
+            /*				  if (edit->thing) {
+                                                      edit->thing->WorldPos=pkt->pos;
+                                                      edit->thing->Draw.Tweened->Angle=pkt->angle;
+                                                      set_anim(edit->thing,index);
+                                              }*/
+        }
+            pedit->Add("Type", "Animation", PROPTYPE_READONLY);
+            pedit->Add("Anim", str, PROPTYPE_READONLY);
+            pedit->Add("Snap position", "(click here)", PROPTYPE_BUTTON);
+            pedit->Add("Play direction", "forwards|backwards", PROPTYPE_MULTI);
+            if (pkt->flags & 1) pedit->Update(3, "backwards");
+            pedit->Add("Movement", interpolate_strings, PROPTYPE_MULTI);
+            pedit->Add("Rotation", interpolate_strings, PROPTYPE_MULTI);
+            pedit->Update(4, get_string_from_index(UnMangleLerp(pkt->flags, 1), interpolate_strings, str));
+            pedit->Update(5, get_string_from_index(UnMangleLerp(pkt->flags, 2), interpolate_strings, str));
+
             break;
+        case PT_CAM:
+            pedit->Add("Type", "Camera", PROPTYPE_READONLY);
+            pedit->Add("Cam mode", "normal|security camera", PROPTYPE_MULTI);
+            if (pkt->flags & PF_SECURICAM) pedit->Update(1, "security camera");
+            pedit->Add("Movement", interpolate_strings, PROPTYPE_MULTI);
+            pedit->Add("Rotation", interpolate_strings, PROPTYPE_MULTI);
+            pedit->Update(2, get_string_from_index(UnMangleLerp(pkt->flags, 1), interpolate_strings, str));
+            pedit->Update(3, get_string_from_index(UnMangleLerp(pkt->flags, 2), interpolate_strings, str));
+            itoa(pkt->length >> 8, str, 10);
+            pedit->Add("Fade in", str, PROPTYPE_INT);
+            itoa((pkt->length & 0xff) - 0x7f, str, 10);
+            pedit->Add("Zoom ratio", str, PROPTYPE_INT);
+            pedit->Add("Slo-mo", "off", PROPTYPE_BOOL);
+            if (pkt->flags & PF_SLOMO) pedit->Update(6, "on");
+            CUTSCENE_fade_level = pkt->length >> 8;
+            break;
+        case PT_WAVE:
+            pedit->Add("Type", "Wave", PROPTYPE_READONLY);
+            pedit->Add("Wave", sound_list[pkt->index - 2048], PROPTYPE_READONLY);
+            pedit->Add("Preview", "(click here)", PROPTYPE_BUTTON);
+            // if (CUTSCENE_playback) MFX_play_xyz(MUSIC_REF+channum,pkt->index-2048,0,pkt->pos.X,pkt->pos.Y,pkt->pos.Z);
+            break;
+        case PT_TEXT:
+            pedit->Add("Type", "Subtitle", PROPTYPE_READONLY);
+            if (pkt->pos.X)
+                strcpy(subtitle_str, (char *) pkt->pos.X);
+            else
+                subtitle_str[0] = 0;
+            pedit->Add("Text", subtitle_str, PROPTYPE_STRING);
+            // pedit->Add("Style","normal|something else",PROPTYPE_MULTI);
+            break;
+        }
+        break;
     }
     return 0;
 }
@@ -1522,103 +1522,103 @@ bool propeditCB(PropertyEditor *tb, int reason, int index, char *value) {
     int res, i;
 
     switch (reason) {
-        case PECB_EDITMODE:
-            CUTSCENE_need_keyboard = index;
-            break;
-        case PECB_UPDATE:
-            if (current_packet) {
-                switch (current_packet->type) {
-                    case PT_CAM:
-                        switch (index) {
-                            case 1: // normal/securitycam
-                                current_packet->flags &= ~1;
-                                current_packet->flags |= (*value == 's');
-                                PolyPage::SetGreenScreen(current_packet->flags & 1);
-                                break;
-                            case 2: // motion mode
-                                current_packet->flags &= ~(2 | 4 | 8);
-                                // current_packet->flags|=(*value=='s')<<1;
-                                res = get_index_from_string(value, interpolate_strings);
-                                current_packet->flags |= LerpModeMangle(res, 1);
-                                break;
-                            case 3: // linear/smooth rotation
-                                current_packet->flags &= ~(16 | 32 | 64);
-                                // current_packet->flags|=(*value=='s')<<2;
-                                res = get_index_from_string(value, interpolate_strings);
-                                current_packet->flags |= LerpModeMangle(res, 2);
-                                break;
-                            case 4: // Fade
-                                res = i = atoi(value);
-                                SATURATE(res, 0, 255);
-                                if (res != i) {
-                                    itoa(res, value, 10);
-                                    pedit->Update(4, value);
-                                }
-                                current_packet->length &= 0xff;
-                                current_packet->length |= (res << 8);
-                                break;
-                            case 5: // Zoom
-                                res = i = atoi(value);
-                                SATURATE(res, -127, 128);
-                                if (res != i) {
-                                    itoa(res, value, 10);
-                                    pedit->Update(5, value);
-                                }
-                                current_packet->length &= 0xff00;
-                                current_packet->length |= res + 127;
-                                //					i=(current_packet->length&0xff);
-                                i = (res * 1.5) + 0xff;
-                                FC_cam[0].lens = (i * 0x24000) >> 8;
-                                break;
-                            case 6: // Slo-mo
-                                current_packet->flags &= ~PF_SLOMO;
-                                if (!stricmp("on", value)) current_packet->flags |= PF_SLOMO;
-                                CUTSCENE_slomo = current_packet->flags & PF_SLOMO;
-                                break;
-                        }
-                        break;
-                    case PT_ANIM:
-                        switch (index) {
-                            case 3:
-                                current_packet->flags &= ~1;
-                                current_packet->flags |= (*value == 'b');
-                                break;
-                            case 4: // motion mode
-                                current_packet->flags &= ~(2 | 4 | 8);
-                                res = get_index_from_string(value, interpolate_strings);
-                                current_packet->flags |= LerpModeMangle(res, 1);
-                                break;
-                            case 5: // linear/smooth rotation
-                                current_packet->flags &= ~(16 | 32 | 64);
-                                res = get_index_from_string(value, interpolate_strings);
-                                current_packet->flags |= LerpModeMangle(res, 2);
-                                break;
-                        }
-                        break;
-                    case PT_TEXT:
-                        switch (index) {
-                            case 1:
-                                free((char *) current_packet->pos.X);
-                                current_packet->pos.X = (int) malloc(strlen(value) + 1);
-                                strcpy((char *) current_packet->pos.X, value);
-                        }
-                        break;
+    case PECB_EDITMODE:
+        CUTSCENE_need_keyboard = index;
+        break;
+    case PECB_UPDATE:
+        if (current_packet) {
+            switch (current_packet->type) {
+            case PT_CAM:
+                switch (index) {
+                case 1: // normal/securitycam
+                    current_packet->flags &= ~1;
+                    current_packet->flags |= (*value == 's');
+                    PolyPage::SetGreenScreen(current_packet->flags & 1);
+                    break;
+                case 2: // motion mode
+                    current_packet->flags &= ~(2 | 4 | 8);
+                    // current_packet->flags|=(*value=='s')<<1;
+                    res = get_index_from_string(value, interpolate_strings);
+                    current_packet->flags |= LerpModeMangle(res, 1);
+                    break;
+                case 3: // linear/smooth rotation
+                    current_packet->flags &= ~(16 | 32 | 64);
+                    // current_packet->flags|=(*value=='s')<<2;
+                    res = get_index_from_string(value, interpolate_strings);
+                    current_packet->flags |= LerpModeMangle(res, 2);
+                    break;
+                case 4: // Fade
+                    res = i = atoi(value);
+                    SATURATE(res, 0, 255);
+                    if (res != i) {
+                        itoa(res, value, 10);
+                        pedit->Update(4, value);
+                    }
+                    current_packet->length &= 0xff;
+                    current_packet->length |= (res << 8);
+                    break;
+                case 5: // Zoom
+                    res = i = atoi(value);
+                    SATURATE(res, -127, 128);
+                    if (res != i) {
+                        itoa(res, value, 10);
+                        pedit->Update(5, value);
+                    }
+                    current_packet->length &= 0xff00;
+                    current_packet->length |= res + 127;
+                    //					i=(current_packet->length&0xff);
+                    i = (res * 1.5) + 0xff;
+                    FC_cam[0].lens = (i * 0x24000) >> 8;
+                    break;
+                case 6: // Slo-mo
+                    current_packet->flags &= ~PF_SLOMO;
+                    if (!stricmp("on", value)) current_packet->flags |= PF_SLOMO;
+                    CUTSCENE_slomo = current_packet->flags & PF_SLOMO;
+                    break;
                 }
-            }
-            break;
-        case PECB_BUTTON:
-            if (current_packet) {
-                switch (current_packet->type) {
-                    case PT_ANIM:
-                        if (index == 2) SnapAnimation();
-                        break;
-                    case PT_WAVE:
-                        if (index == 2)
-                            // MFX_play_stereo(MUSIC_REF,current_packet->index-2048,0);
-                            MFX_play_xyz(MUSIC_REF, current_packet->index - 2048, 0, cam_x << 8, cam_y << 8, cam_z << 8);
-                        break;
+                break;
+            case PT_ANIM:
+                switch (index) {
+                case 3:
+                    current_packet->flags &= ~1;
+                    current_packet->flags |= (*value == 'b');
+                    break;
+                case 4: // motion mode
+                    current_packet->flags &= ~(2 | 4 | 8);
+                    res = get_index_from_string(value, interpolate_strings);
+                    current_packet->flags |= LerpModeMangle(res, 1);
+                    break;
+                case 5: // linear/smooth rotation
+                    current_packet->flags &= ~(16 | 32 | 64);
+                    res = get_index_from_string(value, interpolate_strings);
+                    current_packet->flags |= LerpModeMangle(res, 2);
+                    break;
                 }
+                break;
+            case PT_TEXT:
+                switch (index) {
+                case 1:
+                    free((char *) current_packet->pos.X);
+                    current_packet->pos.X = (int) malloc(strlen(value) + 1);
+                    strcpy((char *) current_packet->pos.X, value);
+                }
+                break;
             }
+        }
+        break;
+    case PECB_BUTTON:
+        if (current_packet) {
+            switch (current_packet->type) {
+            case PT_ANIM:
+                if (index == 2) SnapAnimation();
+                break;
+            case PT_WAVE:
+                if (index == 2)
+                    // MFX_play_stereo(MUSIC_REF,current_packet->index-2048,0);
+                    MFX_play_xyz(MUSIC_REF, current_packet->index - 2048, 0, cam_x << 8, cam_y << 8, cam_z << 8);
+                break;
+            }
+        }
     }
     return false;
 }
@@ -1633,70 +1633,70 @@ LRESULT CALLBACK scene_map_view_proc(
     std::int32_t wx, wy, wz, dx, dz, angle;
 
     switch (message) {
-        case WM_LBUTTONDOWN: {
-            std::uint16_t sx = LOWORD(lParam);
-            std::uint16_t sy = HIWORD(lParam);
-            if (GI_get_pixel_world_pos(sx, sy, &wx, &wy, &wz, 0)) {
-                Thing *dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
-                if (dragtest) {
-                    dragitem = dragtest;
-                    SetCapture(hWnd);
-                    CUTSCENE_match_selection_to_item(cutscene, dragitem);
-                    dragmode = 1;
-                }
+    case WM_LBUTTONDOWN: {
+        std::uint16_t sx = LOWORD(lParam);
+        std::uint16_t sy = HIWORD(lParam);
+        if (GI_get_pixel_world_pos(sx, sy, &wx, &wy, &wz, 0)) {
+            Thing *dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
+            if (dragtest) {
+                dragitem = dragtest;
+                SetCapture(hWnd);
+                CUTSCENE_match_selection_to_item(cutscene, dragitem);
+                dragmode = 1;
             }
-        } break;
-        case WM_RBUTTONDOWN: {
-            std::uint16_t sx = LOWORD(lParam);
-            std::uint16_t sy = HIWORD(lParam);
-            if (GI_get_pixel_world_pos(sx, sy, &wx, &wy, &wz, 0)) {
-                Thing *dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
-                if (dragtest) {
-                    dragitem = dragtest;
-                    CUTSCENE_match_selection_to_item(cutscene, dragitem);
-                    SetCapture(hWnd);
-                    dragmode = 2;
-                }
+        }
+    } break;
+    case WM_RBUTTONDOWN: {
+        std::uint16_t sx = LOWORD(lParam);
+        std::uint16_t sy = HIWORD(lParam);
+        if (GI_get_pixel_world_pos(sx, sy, &wx, &wy, &wz, 0)) {
+            Thing *dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
+            if (dragtest) {
+                dragitem = dragtest;
+                CUTSCENE_match_selection_to_item(cutscene, dragitem);
+                SetCapture(hWnd);
+                dragmode = 2;
             }
-        } break;
-        case WM_MOUSEMOVE:
-            if (dragitem) {
-                POINT pt;
-                GetCursorPos(&pt);
-                ScreenToClient(hWnd, &pt);
-                GI_get_pixel_world_pos(pt.x, pt.y, &wx, &wy, &wz, 0);
-                switch (dragmode) {
-                    case 1: {
-                        GameCoord pos = {wx << 8, wy << 8, wz << 8};
-                        move_thing_on_map(dragitem, &pos);
-                        if (current_packet) current_packet->pos = pos;
-                    } break;
-                    case 2:
-                        dx = wx - (dragitem->WorldPos.X >> 8);
-                        dz = (dragitem->WorldPos.Z >> 8) - wz;
+        }
+    } break;
+    case WM_MOUSEMOVE:
+        if (dragitem) {
+            POINT pt;
+            GetCursorPos(&pt);
+            ScreenToClient(hWnd, &pt);
+            GI_get_pixel_world_pos(pt.x, pt.y, &wx, &wy, &wz, 0);
+            switch (dragmode) {
+            case 1: {
+                GameCoord pos = {wx << 8, wy << 8, wz << 8};
+                move_thing_on_map(dragitem, &pos);
+                if (current_packet) current_packet->pos = pos;
+            } break;
+            case 2:
+                dx = wx - (dragitem->WorldPos.X >> 8);
+                dz = (dragitem->WorldPos.Z >> 8) - wz;
 
-                        angle = (1024 + Arctan(dx, dz)) & 2047;
+                angle = (1024 + Arctan(dx, dz)) & 2047;
 
-                        if (dragitem->Class == CLASS_PERSON)
-                            dragitem->Draw.Tweened->Angle = angle;
+                if (dragitem->Class == CLASS_PERSON)
+                    dragitem->Draw.Tweened->Angle = angle;
 
-                        if (current_packet) current_packet->angle = angle;
+                if (current_packet) current_packet->angle = angle;
 
-                        // dir>>=3;
-                        break;
-                }
-                //				SetCursor();
+                // dir>>=3;
+                break;
             }
-            break;
-        case WM_LBUTTONUP:
-        case WM_RBUTTONUP:
-            if (current_packet && dragitem) {
-                current_packet->angle = dragitem->Draw.Tweened->Angle;
-                current_packet->pos = dragitem->WorldPos;
-            }
-            dragitem = 0;
-            ReleaseCapture();
-            break;
+            //				SetCursor();
+        }
+        break;
+    case WM_LBUTTONUP:
+    case WM_RBUTTONUP:
+        if (current_packet && dragitem) {
+            current_packet->angle = dragitem->Draw.Tweened->Angle;
+            current_packet->pos = dragitem->WorldPos;
+        }
+        dragitem = 0;
+        ReleaseCapture();
+        break;
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
@@ -1710,262 +1710,262 @@ bool CALLBACK cuts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t wx, wy, wz;
 
     switch (message) {
-        case WM_INITDIALOG:
+    case WM_INITDIALOG:
 
-            CUTSCENE_edit_wnd = hWnd;
+        CUTSCENE_edit_wnd = hWnd;
 
-            the_ctrl = GetDlgItem(hWnd, IDC_LIST1);
-            //			InitCols(the_ctrl);
-            pedit = new PropertyEditor(the_ctrl);
-            // InitProps(pedit,0);
-            pedit->SetCallback(propeditCB);
+        the_ctrl = GetDlgItem(hWnd, IDC_LIST1);
+        //			InitCols(the_ctrl);
+        pedit = new PropertyEditor(the_ctrl);
+        // InitProps(pedit,0);
+        pedit->SetCallback(propeditCB);
 
-            InitBrowser(the_ctrl = GetDlgItem(hWnd, IDC_TREE1));
+        InitBrowser(the_ctrl = GetDlgItem(hWnd, IDC_TREE1));
 
-            drag = new DragServer(hWnd, GEDIT_hinstance);
-            browser->SetDraggable(drag);
-            browser->SetCallback(browserCB);
+        drag = new DragServer(hWnd, GEDIT_hinstance);
+        browser->SetDraggable(drag);
+        browser->SetCallback(browserCB);
 
-            //			timer = SetTimer(hWnd,nullptr,40,tf);
+        //			timer = SetTimer(hWnd,nullptr,40,tf);
 
-            timeline = new TimeLine(
-                GetDlgItem(hWnd, IDC_LIST2),
-                ruler = new TimeLineRuler(GetDlgItem(hWnd, IDC_BUTTON1)),
-                scroll = new TimeLineScroll(GetDlgItem(hWnd, IDC_SCROLLBAR1)));
-            timeline->SetImageList(GEDIT_hinstance, IDB_SCENE_ICONS1);
-            timeline->SetCallback(timelineCB);
+        timeline = new TimeLine(
+            GetDlgItem(hWnd, IDC_LIST2),
+            ruler = new TimeLineRuler(GetDlgItem(hWnd, IDC_BUTTON1)),
+            scroll = new TimeLineScroll(GetDlgItem(hWnd, IDC_SCROLLBAR1)));
+        timeline->SetImageList(GEDIT_hinstance, IDB_SCENE_ICONS1);
+        timeline->SetCallback(timelineCB);
 
-            cam_focus_x = 64 << 8;
-            cam_focus_z = 64 << 8;
-            cam_focus_y = 0x800;
-            cam_focus_dist = 12 << 8;
-            cam_pitch = 1800;
-            CUTSCENE_recreate(cutscene);
+        cam_focus_x = 64 << 8;
+        cam_focus_z = 64 << 8;
+        cam_focus_y = 0x800;
+        cam_focus_dist = 12 << 8;
+        cam_pitch = 1800;
+        CUTSCENE_recreate(cutscene);
+        return true;
+
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+        ClearLatchedKeys();
+        KeyboardProc(message, wParam, lParam);
+        break;
+
+    case WM_USER:
+        DoHandleShit();
+        return true;
+
+    case WM_MEASUREITEM:
+        if (timeline && (wParam == IDC_LIST2)) timeline->Measure(lParam);
+        break;
+    case WM_DRAWITEM:
+        if (timeline && (wParam == IDC_LIST2)) timeline->Draw(lParam);
+        if (ruler && (wParam == IDC_BUTTON1)) ruler->Draw(lParam);
+        break;
+
+    case WM_DESTROY:
+        //			KillTimer(hWnd,timer);
+        break;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case ID_CEDIT_MOUSELOOK:
+            MouselookToggle();
             return true;
 
-        case WM_KEYDOWN:
-        case WM_KEYUP:
-            ClearLatchedKeys();
-            KeyboardProc(message, wParam, lParam);
-            break;
-
-        case WM_USER:
-            DoHandleShit();
+        case ID_CEDIT_PLAYBACK:
+            CUTSCENE_playback ^= 1;
             return true;
 
-        case WM_MEASUREITEM:
-            if (timeline && (wParam == IDC_LIST2)) timeline->Measure(lParam);
-            break;
-        case WM_DRAWITEM:
-            if (timeline && (wParam == IDC_LIST2)) timeline->Draw(lParam);
-            if (ruler && (wParam == IDC_BUTTON1)) ruler->Draw(lParam);
-            break;
+        case ID_CEDIT_REWIND:
+            if ((i = timeline->GetReadHead()) > 0) timeline->SetReadHead(i - 1);
+            return true;
 
-        case WM_DESTROY:
-            //			KillTimer(hWnd,timer);
-            break;
+        case ID_CEDIT_FFWD:
+            if ((i = timeline->GetReadHead()) < 2000) timeline->SetReadHead(i + 1);
+            return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case ID_CEDIT_MOUSELOOK:
-                    MouselookToggle();
-                    return true;
-
-                case ID_CEDIT_PLAYBACK:
-                    CUTSCENE_playback ^= 1;
-                    return true;
-
-                case ID_CEDIT_REWIND:
-                    if ((i = timeline->GetReadHead()) > 0) timeline->SetReadHead(i - 1);
-                    return true;
-
-                case ID_CEDIT_FFWD:
-                    if ((i = timeline->GetReadHead()) < 2000) timeline->SetReadHead(i + 1);
-                    return true;
-
-                case ID_CEDIT_ERASE:
-                    DoErase();
-                    break;
-
-                case ID_CEDIT_CAMERA_PUNCHIN:
-                    if (!current_packet) {
-                        int channum = timeline->GetSelectedRow();
-                        CSChannel *chan = cutscene->channels + channum;
-                        if ((channum >= 0) && (channum < cutscene->channelcount)) {
-                            CSEditChannel *edit = &cutscene->editchannels[channum];
-                            switch (chan->type) {
-                                case CT_CAM: {
-                                    CSPacket *p = CUTSCENE_add_packet(chan);
-                                    p->start = timeline->GetReadHead();
-                                    p->type = PT_CAM;
-                                    p->length = 0xff7f; // fully faded in, and normal lens length
-                                    current_packet = p;
-                                    timeline->MarkEntry(channum, p->start, 1, 4);
-                                    timeline->Repaint();
-                                    break;
-                                }
-                                case CT_TEXT: {
-                                    CSPacket *p = CUTSCENE_add_packet(chan);
-                                    p->start = timeline->GetReadHead();
-                                    p->type = PT_TEXT;
-                                    p->length = 1;
-                                    p->pos.X = 0;
-                                    current_packet = p;
-                                    timeline->MarkEntry(channum, p->start, 1, 4);
-                                    timeline->Repaint();
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                    if (current_packet) {
-                        switch (current_packet->type) {
-                            case PT_CAM:
-                                current_packet->pos.X = cam_focus_x;
-                                current_packet->pos.Y = cam_focus_y;
-                                current_packet->pos.Z = cam_focus_z;
-                                current_packet->angle = cam_yaw;
-                                current_packet->pitch = cam_pitch;
-                                break;
-                            case PT_TEXT:
-                                // do we need to do anything, really? i doubt it
-                                break;
-                        }
-                        timeline->SetReadHead(current_packet->start); // heh
-                    }
-                    return true;
-
-                case ID_FILE_EXIT:
-                    PostMessage(hWnd, WM_CLOSE, 0, 0);
-                    break;
-
-                case IDC_BUTTON1:
-                    return ruler->Process(hWnd, wParam, lParam);
-
-                case IDC_LIST2:
-                    return timeline->Process(hWnd, wParam, lParam);
-
-                    /*				case	IDOK:
-                                                            SendMessage(hWnd,WM_CLOSE,0,0);
-                                                            return	true;*/
-            }
+        case ID_CEDIT_ERASE:
+            DoErase();
             break;
 
-        case WM_MOUSEMOVE:
-            if (CUTSCENE_mouselook) {
-                POINT pt;
-                GetCursorPos(&pt);
-                SetCursorPos(320, 240);
-                pt.x -= 320;
-                pt.y -= 240;
-                cam_yaw -= pt.x;
-                cam_pitch -= pt.y;
-                DoHandleShit();
-                ClearLatchedKeys();
-                break;
-            }
-            if (!drag->Process(message, wParam, lParam)) {
-                // do stuff here if you care...
-            }
-            break;
-
-        case WM_LBUTTONUP:
-            if (!drag->Process(message, wParam, lParam)) {
-                // do stuff here if you care...
-            }
-            break;
-
-        case UM_DROP: {
-            POINT pt, pt2;
-            pt.x = LOWORD(lParam);
-            pt.y = HIWORD(lParam);
-            pt2 = pt;
-            ClientToScreen(hWnd, &pt);
-            HWND target = ChildWindowFromPoint(hWnd, pt2);
-            if ((HWND) wParam == browser->hWnd) {
-                if (target == timeline->hWnd) {
-                    ScreenToClient(timeline->hWnd, &pt);
-                    int chan = timeline->GetRowFromY(pt.y);
-                    if ((chan >= 0) && (chan < cutscene->channelcount)) {
-                        CSChannel *chn = cutscene->channels + chan;
-                        CSEditChannel *edit = &cutscene->editchannels[chan];
-                        int which, x = timeline->GetCellFromX(pt.x - 100);
-                        int length = 1;
-
-                        if ((browser->drag_item.iImage == IM_SCENE_WAVE) && (chn->type != CT_WAVE)) break;
-                        if ((browser->drag_item.iImage == IM_SCENE_ACTION) && (chn->type != CT_CHAR)) break;
-                        if ((browser->drag_item.iImage == IM_SCENE_ANIM) && (chn->type != CT_CHAR)) break;
-
-                        DoErase(chan, x);
-
-                        CSPacket *p = CUTSCENE_add_packet(&cutscene->channels[chan]);
-
-                        p->start = x;
-                        switch (browser->drag_item.iImage) {
-                            case IM_SCENE_WAVE:
-                                p->type = PT_WAVE;
-                                p->index = browser->drag_item.lParam;
-                                /*GI_get_pixel_world_pos(320,240,&wx,&wy,&wz,0);
-                                p->pos.X=wx;
-                                p->pos.Y=wy;
-                                p->pos.Z=wz;*/
-                                p->pos.X = cam_x;
-                                p->pos.Y = cam_y;
-                                p->pos.Z = cam_z;
-                                p->length = 1;
-                                // which=2;
-                                which = 4;
-                                break;
-                            case IM_SCENE_ACTION:
-                                p->type = PT_ACTION;
-                                which = 1;
-                                break;
-                            case IM_SCENE_ANIM:
-                                p->type = PT_ANIM;
-                                p->index = browser->drag_item.lParam;
-                                length = p->index;
-                                while (length > 1023) length -= 1024;
-                                length = /*CUTSCENE_*/ how_long_is_anim(/*cutscene->editchannels[chan].thing->Genus.Person->AnimType,*/ length);
-                                which = 1;
-                                p->pos = edit->thing->WorldPos;
-                                p->angle = edit->thing->Draw.Tweened->Angle;
-                                p->length = length;
-                                break;
-                        }
-                        timeline->MarkEntry(chan, x, length, which);
+        case ID_CEDIT_CAMERA_PUNCHIN:
+            if (!current_packet) {
+                int channum = timeline->GetSelectedRow();
+                CSChannel *chan = cutscene->channels + channum;
+                if ((channum >= 0) && (channum < cutscene->channelcount)) {
+                    CSEditChannel *edit = &cutscene->editchannels[channum];
+                    switch (chan->type) {
+                    case CT_CAM: {
+                        CSPacket *p = CUTSCENE_add_packet(chan);
+                        p->start = timeline->GetReadHead();
+                        p->type = PT_CAM;
+                        p->length = 0xff7f; // fully faded in, and normal lens length
+                        current_packet = p;
+                        timeline->MarkEntry(channum, p->start, 1, 4);
                         timeline->Repaint();
+                        break;
+                    }
+                    case CT_TEXT: {
+                        CSPacket *p = CUTSCENE_add_packet(chan);
+                        p->start = timeline->GetReadHead();
+                        p->type = PT_TEXT;
+                        p->length = 1;
+                        p->pos.X = 0;
+                        current_packet = p;
+                        timeline->MarkEntry(channum, p->start, 1, 4);
+                        timeline->Repaint();
+                        break;
+                    }
                     }
                 }
             }
-        } break;
-
-        case WM_NOTIFY:
-            switch (LOWORD(wParam)) {
-                case IDC_LIST1:
-                    return pedit->Process(hWnd, wParam, lParam);
-                case IDC_TREE1:
-                    return browser->Process(hWnd, wParam, lParam);
-                    //				return ProcessListCtl(hWnd,GetDlgItem(hWnd,IDC_LIST1),wParam,lParam);
+            if (current_packet) {
+                switch (current_packet->type) {
+                case PT_CAM:
+                    current_packet->pos.X = cam_focus_x;
+                    current_packet->pos.Y = cam_focus_y;
+                    current_packet->pos.Z = cam_focus_z;
+                    current_packet->angle = cam_yaw;
+                    current_packet->pitch = cam_pitch;
                     break;
+                case PT_TEXT:
+                    // do we need to do anything, really? i doubt it
+                    break;
+                }
+                timeline->SetReadHead(current_packet->start); // heh
             }
+            return true;
 
-        case WM_HSCROLL:
-            return scroll->Process(hWnd, wParam, lParam);
+        case ID_FILE_EXIT:
+            PostMessage(hWnd, WM_CLOSE, 0, 0);
+            break;
 
-        case WM_CLOSE:
-            ReleaseCapture();
-            CUTSCENE_edit_wnd = 0;
-            delete timeline;
-            delete pedit;
-            delete browser;
-            delete drag;
-            delete ruler;
-            delete scroll;
-            CUTSCENE_remove(cutscene);
-            //			EndDialog(hWnd,0);
-            DestroyWindow(hWnd);
-            PostQuitMessage(0);
-            return false;
+        case IDC_BUTTON1:
+            return ruler->Process(hWnd, wParam, lParam);
+
+        case IDC_LIST2:
+            return timeline->Process(hWnd, wParam, lParam);
+
+            /*				case	IDOK:
+                                                    SendMessage(hWnd,WM_CLOSE,0,0);
+                                                    return	true;*/
+        }
+        break;
+
+    case WM_MOUSEMOVE:
+        if (CUTSCENE_mouselook) {
+            POINT pt;
+            GetCursorPos(&pt);
+            SetCursorPos(320, 240);
+            pt.x -= 320;
+            pt.y -= 240;
+            cam_yaw -= pt.x;
+            cam_pitch -= pt.y;
+            DoHandleShit();
+            ClearLatchedKeys();
+            break;
+        }
+        if (!drag->Process(message, wParam, lParam)) {
+            // do stuff here if you care...
+        }
+        break;
+
+    case WM_LBUTTONUP:
+        if (!drag->Process(message, wParam, lParam)) {
+            // do stuff here if you care...
+        }
+        break;
+
+    case UM_DROP: {
+        POINT pt, pt2;
+        pt.x = LOWORD(lParam);
+        pt.y = HIWORD(lParam);
+        pt2 = pt;
+        ClientToScreen(hWnd, &pt);
+        HWND target = ChildWindowFromPoint(hWnd, pt2);
+        if ((HWND) wParam == browser->hWnd) {
+            if (target == timeline->hWnd) {
+                ScreenToClient(timeline->hWnd, &pt);
+                int chan = timeline->GetRowFromY(pt.y);
+                if ((chan >= 0) && (chan < cutscene->channelcount)) {
+                    CSChannel *chn = cutscene->channels + chan;
+                    CSEditChannel *edit = &cutscene->editchannels[chan];
+                    int which, x = timeline->GetCellFromX(pt.x - 100);
+                    int length = 1;
+
+                    if ((browser->drag_item.iImage == IM_SCENE_WAVE) && (chn->type != CT_WAVE)) break;
+                    if ((browser->drag_item.iImage == IM_SCENE_ACTION) && (chn->type != CT_CHAR)) break;
+                    if ((browser->drag_item.iImage == IM_SCENE_ANIM) && (chn->type != CT_CHAR)) break;
+
+                    DoErase(chan, x);
+
+                    CSPacket *p = CUTSCENE_add_packet(&cutscene->channels[chan]);
+
+                    p->start = x;
+                    switch (browser->drag_item.iImage) {
+                    case IM_SCENE_WAVE:
+                        p->type = PT_WAVE;
+                        p->index = browser->drag_item.lParam;
+                        /*GI_get_pixel_world_pos(320,240,&wx,&wy,&wz,0);
+                        p->pos.X=wx;
+                        p->pos.Y=wy;
+                        p->pos.Z=wz;*/
+                        p->pos.X = cam_x;
+                        p->pos.Y = cam_y;
+                        p->pos.Z = cam_z;
+                        p->length = 1;
+                        // which=2;
+                        which = 4;
+                        break;
+                    case IM_SCENE_ACTION:
+                        p->type = PT_ACTION;
+                        which = 1;
+                        break;
+                    case IM_SCENE_ANIM:
+                        p->type = PT_ANIM;
+                        p->index = browser->drag_item.lParam;
+                        length = p->index;
+                        while (length > 1023) length -= 1024;
+                        length = /*CUTSCENE_*/ how_long_is_anim(/*cutscene->editchannels[chan].thing->Genus.Person->AnimType,*/ length);
+                        which = 1;
+                        p->pos = edit->thing->WorldPos;
+                        p->angle = edit->thing->Draw.Tweened->Angle;
+                        p->length = length;
+                        break;
+                    }
+                    timeline->MarkEntry(chan, x, length, which);
+                    timeline->Repaint();
+                }
+            }
+        }
+    } break;
+
+    case WM_NOTIFY:
+        switch (LOWORD(wParam)) {
+        case IDC_LIST1:
+            return pedit->Process(hWnd, wParam, lParam);
+        case IDC_TREE1:
+            return browser->Process(hWnd, wParam, lParam);
+            //				return ProcessListCtl(hWnd,GetDlgItem(hWnd,IDC_LIST1),wParam,lParam);
+            break;
+        }
+
+    case WM_HSCROLL:
+        return scroll->Process(hWnd, wParam, lParam);
+
+    case WM_CLOSE:
+        ReleaseCapture();
+        CUTSCENE_edit_wnd = 0;
+        delete timeline;
+        delete pedit;
+        delete browser;
+        delete drag;
+        delete ruler;
+        delete scroll;
+        CUTSCENE_remove(cutscene);
+        //			EndDialog(hWnd,0);
+        DestroyWindow(hWnd);
+        PostQuitMessage(0);
+        return false;
     }
     return false;
 }
@@ -2055,10 +2055,10 @@ void do_cutscene_setup(EventPoint *the_ep) {
                         }*/
 
         switch (msg.message) { // special case stuff, whee
-            case WM_DESTROY:
-            case WM_CLOSE:
-                result = -1;
-                break;
+        case WM_DESTROY:
+        case WM_CLOSE:
+            result = -1;
+            break;
         }
 
         if (result == 0 || result == -1)
@@ -2067,13 +2067,13 @@ void do_cutscene_setup(EventPoint *the_ep) {
         // damn you, evil keyboard handler!
         block_keyboard_messages = 0;
         switch (msg.message) {
-            case WM_KEYDOWN:
-            case WM_KEYUP:
-                KeyboardProc(msg.message, msg.wParam, msg.lParam);
-                if (ED_KEYS) block_keyboard_messages = 1;
-                break;
-            default:
-                TranslateMessage(&msg);
+        case WM_KEYDOWN:
+        case WM_KEYUP:
+            KeyboardProc(msg.message, msg.wParam, msg.lParam);
+            if (ED_KEYS) block_keyboard_messages = 1;
+            break;
+        default:
+            TranslateMessage(&msg);
         }
 
         if (!block_keyboard_messages) {

@@ -199,7 +199,8 @@ ControlDef kframe_def[] =
         {BUTTON, 0, "Re-Cen X&Z(Start)", 130, 290, 0, 0},
         {CHECK_BOX, 0, "Move Separately", 100, 265, 0, 0},
 
-        {0}};
+        {0}
+};
 
 //---------------------------------------------------------------
 
@@ -237,7 +238,8 @@ ControlDef content_def[] =
         {BUTTON, 0, "Reset View", 380, 280, 70, 0},
         {BUTTON, 0, "SAVE ALL File", 60, 276, 70, 0},
 
-        {0}};
+        {0}
+};
 
 #define CTRL_KEY_SLIDER 1
 #define CTRL_KEY_SIZE_PLUS 2
@@ -248,7 +250,8 @@ ControlDef key_def[] =
         {H_SLIDER, 0, "", 0, 0, 4 * KEY_FRAME_IMAGE_SIZE, 0},
         {BUTTON, 0, "+", 40 + 4 * KEY_FRAME_IMAGE_SIZE, 0, 12, 0},
         {BUTTON, 0, "-", 70 + 4 * KEY_FRAME_IMAGE_SIZE, 0, 12, 0},
-        {0}};
+        {0}
+};
 
 //---------------------------------------------------------------
 
@@ -310,18 +313,18 @@ KeyFrameList::KeyFrameList(KeyFrameEditor *parent, std::int32_t x, std::int32_t 
 
 void KeyFrameList::HandleKeyControl(std::uint32_t control_id) {
     switch (control_id) {
-        case CTRL_KEY_SLIDER:
-            break;
-        case CTRL_KEY_SIZE_PLUS:
-            KeyFrameSize += 4;
-            if (KeyFrameSize > 300)
-                KeyFrameSize = 300;
-            break;
-        case CTRL_KEY_SIZE_MINUS:
-            KeyFrameSize -= 4;
-            if (KeyFrameSize < 10)
-                KeyFrameSize = 10;
-            break;
+    case CTRL_KEY_SLIDER:
+        break;
+    case CTRL_KEY_SIZE_PLUS:
+        KeyFrameSize += 4;
+        if (KeyFrameSize > 300)
+            KeyFrameSize = 300;
+        break;
+    case CTRL_KEY_SIZE_MINUS:
+        KeyFrameSize -= 4;
+        if (KeyFrameSize < 10)
+            KeyFrameSize = 10;
+        break;
     }
 }
 void KeyFrameList::HandleModule(void) {
@@ -457,100 +460,100 @@ void KeyFrameList::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point
     local_point = *clicked_point;
     //	WindowControls.GlobalToLocal(&local_point);
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            //			LogText(" click in box x %d y %d  box= (%d,%d,%d,%d) \n",local_point.X,local_point.Y,KeyFrameRect.GetLeft(),KeyFrameRect.GetTop(),KeyFrameRect.GetWidth(),KeyFrameRect.GetHeight());
-            if (KeyFrameRect.PointInRect(&local_point)) {
-                std::int32_t x = 0, y = 0;
-                // Find out which frame has been selected.
-                if (TheAnim)
-                    current_frame = TheAnim->GetFrameList();
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        //			LogText(" click in box x %d y %d  box= (%d,%d,%d,%d) \n",local_point.X,local_point.Y,KeyFrameRect.GetLeft(),KeyFrameRect.GetTop(),KeyFrameRect.GetWidth(),KeyFrameRect.GetHeight());
+        if (KeyFrameRect.PointInRect(&local_point)) {
+            std::int32_t x = 0, y = 0;
+            // Find out which frame has been selected.
+            if (TheAnim)
+                current_frame = TheAnim->GetFrameList();
 
-                selected_frame = 0;
-                max_frames = ContentWidth() / KeyFrameSize;
-                if (ContentHeight() >= KeyFrameSize * 2)
-                    max_frames *= ContentHeight() / KeyFrameSize;
-                first_frame = ((CHSlider *) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->GetCurrentValue();
+            selected_frame = 0;
+            max_frames = ContentWidth() / KeyFrameSize;
+            if (ContentHeight() >= KeyFrameSize * 2)
+                max_frames *= ContentHeight() / KeyFrameSize;
+            first_frame = ((CHSlider *) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->GetCurrentValue();
 
-                if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
-                    max_frames = (test_chunk->KeyFrameCount - first_frame) + 1;
-                if (TheAnim) {
-                    std::int32_t temp;
-                    temp = (TheAnim->GetFrameCount() - first_frame);
-                    if (temp < max_frames)
-                        max_frames = temp;
+            if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
+                max_frames = (test_chunk->KeyFrameCount - first_frame) + 1;
+            if (TheAnim) {
+                std::int32_t temp;
+                temp = (TheAnim->GetFrameCount() - first_frame);
+                if (temp < max_frames)
+                    max_frames = temp;
+            }
+            for (c0 = 0; c0 < max_frames && test_chunk->KeyFrameCount; c0++) {
+                frame_rect.SetRect(
+                    ContentLeft() + (x) + 2,
+                    ContentTop() + y + 2 + KEY_OFFSET_Y,
+                    KeyFrameSize,
+                    KeyFrameSize);
+                if (frame_rect.PointInRect(&local_point)) {
+                    if (TheAnim == 0) {
+                        selected_frame = &test_chunk->KeyFrames[first_frame + c0];
+                    } else {
+                        selected_frame = current_frame;
+                    }
+                    break;
                 }
-                for (c0 = 0; c0 < max_frames && test_chunk->KeyFrameCount; c0++) {
-                    frame_rect.SetRect(
-                        ContentLeft() + (x) + 2,
-                        ContentTop() + y + 2 + KEY_OFFSET_Y,
-                        KeyFrameSize,
-                        KeyFrameSize);
-                    if (frame_rect.PointInRect(&local_point)) {
-                        if (TheAnim == 0) {
-                            selected_frame = &test_chunk->KeyFrames[first_frame + c0];
-                        } else {
-                            selected_frame = current_frame;
-                        }
+                x += KeyFrameSize;
+                if (x > ContentWidth() - KeyFrameSize) {
+                    x = 0;
+                    y += KeyFrameSize;
+                    if (y > ContentHeight() - KeyFrameSize) {
                         break;
                     }
-                    x += KeyFrameSize;
-                    if (x > ContentWidth() - KeyFrameSize) {
-                        x = 0;
-                        y += KeyFrameSize;
-                        if (y > ContentHeight() - KeyFrameSize) {
-                            break;
-                        }
-                    }
-                    if (TheAnim) {
-                        current_frame = current_frame->NextFrame;
-                        if (current_frame == 0) {
-                            break;
-                        }
-                    }
                 }
-
-                // Allow selected frame to be dragged around.
-                if (selected_frame >= 0) {
-                    std::int32_t drop;
-                    //
-                    // drag frames out of a key window, could be main one or scratch pad
-                    //
-                    drop = ParentEdit->DragAndDropFrame(selected_frame, frame_rect.GetLeft(), frame_rect.GetTop(), frame_rect.GetWidth(), frame_rect.GetHeight(), clicked_point, 0);
-
-                    // never want to delete from main list, or scratch list unless draging to bin
-                    if (drop == 0) {
-                        if (this == the_key_list[0]) {
-                            the_key_list[0]->TheAnim->RemoveKeyFrame(selected_frame);
-                        }
+                if (TheAnim) {
+                    current_frame = current_frame->NextFrame;
+                    if (current_frame == 0) {
+                        break;
                     }
-                }
-            } else {
-                current_control = KeyControls.GetControlList();
-                local_point.X -= ContentLeft();
-                local_point.Y -= ContentTop();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        current_control->TrackControl(&local_point);
-                        HandleKeyControl(current_control->TrackControl(&local_point));
-
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            //							KeyControls.DrawControlSet();
-                            DrawContent();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-                    }
-                    current_control = current_control->GetNextControl();
                 }
             }
 
-            break;
-        case RIGHT_CLICK:
-            break;
+            // Allow selected frame to be dragged around.
+            if (selected_frame >= 0) {
+                std::int32_t drop;
+                //
+                // drag frames out of a key window, could be main one or scratch pad
+                //
+                drop = ParentEdit->DragAndDropFrame(selected_frame, frame_rect.GetLeft(), frame_rect.GetTop(), frame_rect.GetWidth(), frame_rect.GetHeight(), clicked_point, 0);
+
+                // never want to delete from main list, or scratch list unless draging to bin
+                if (drop == 0) {
+                    if (this == the_key_list[0]) {
+                        the_key_list[0]->TheAnim->RemoveKeyFrame(selected_frame);
+                    }
+                }
+            }
+        } else {
+            current_control = KeyControls.GetControlList();
+            local_point.X -= ContentLeft();
+            local_point.Y -= ContentTop();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    current_control->TrackControl(&local_point);
+                    HandleKeyControl(current_control->TrackControl(&local_point));
+
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        //							KeyControls.DrawControlSet();
+                        DrawContent();
+                        UnlockWorkScreen();
+                    }
+                    ShowWorkWindow(0);
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+
+        break;
+    case RIGHT_CLICK:
+        break;
     }
 }
 
@@ -825,235 +828,235 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
     local_point = *clicked_point;
     AnimControls.GlobalToLocal(&local_point);
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (AnimFrameRect.PointInRect(&local_point) && CurrentAnim[Bank]) {
-                //
-                // Left click on keyframe (on current playing animation) to drag and drop it somewhere
-                //
-                selected_frame = nullptr;
-                max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-                first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
-                if ((first_frame + max_frames) > CurrentAnim[Bank]->GetFrameCount())
-                    max_frames = (CurrentAnim[Bank]->GetFrameCount() - first_frame);
-                current_frame = CurrentAnim[Bank]->GetFrameList();
-                if (current_frame) {
-                    for (c0 = 0; c0 < first_frame; c0++) {
-                        current_frame = current_frame->NextFrame;
-                    }
-                    for (c0 = 0; c0 < max_frames && current_frame; c0++) {
-                        WindowControls.SetControlDrawArea();
-                        frame_rect.SetRect(
-                            AnimFrameRect.GetLeft() + (c0 * KEY_FRAME_IMAGE_SIZE) + 2,
-                            AnimFrameRect.GetTop() + 2,
-                            KEY_FRAME_IMAGE_SIZE,
-                            KEY_FRAME_IMAGE_SIZE);
-                        if (frame_rect.PointInRect(&local_point)) {
-                            selected_frame = current_frame;
-                            break;
-                        }
-                        current_frame = current_frame->NextFrame;
-                    }
-                    if (selected_frame >= 0) {
-                        std::int32_t drop;
-                        //
-                        // drag frame out of actual editor window
-                        //
-
-                        clicked_point->X -= 300;
-                        drop = DragAndDropFrame(selected_frame, frame_rect.GetLeft(), frame_rect.GetTop(), frame_rect.GetWidth(), frame_rect.GetHeight(), clicked_point, 0);
-                        if (drop == 0 || drop == 1) {
-                            // drop =1 is back on itself
-                            // drop =2 is into scratch pad
-                            // drop =0 is bin
-                            CurrentAnim[Bank]->RemoveKeyFrame(selected_frame);
-                            ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
-                            AnimTween[Bank] = 0;
-                            CurrentFrame[Bank] = 0;
-                        }
-                    }
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (AnimFrameRect.PointInRect(&local_point) && CurrentAnim[Bank]) {
+            //
+            // Left click on keyframe (on current playing animation) to drag and drop it somewhere
+            //
+            selected_frame = nullptr;
+            max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
+            first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
+            if ((first_frame + max_frames) > CurrentAnim[Bank]->GetFrameCount())
+                max_frames = (CurrentAnim[Bank]->GetFrameCount() - first_frame);
+            current_frame = CurrentAnim[Bank]->GetFrameList();
+            if (current_frame) {
+                for (c0 = 0; c0 < first_frame; c0++) {
+                    current_frame = current_frame->NextFrame;
                 }
-            } else if (AllAnimsRect.PointInRect(&local_point)) // this is the anim named list thing
-            {
-                CurrentAnim[Bank] = DrawAllAnimsBox();
-                if (CurrentAnim[Bank]) {
-                    /*
-                    if(the_key_list[0])
-                    {
-                            the_key_list[0]->TheAnim=CurrentAnim[Bank];
-                            ((CHSlider*)the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0,the_key_list[0]->TheAnim->GetFrameCount()-1);
-                            the_key_list[0]->DrawContent();
-                            ShowWorkScreen(0);
+                for (c0 = 0; c0 < max_frames && current_frame; c0++) {
+                    WindowControls.SetControlDrawArea();
+                    frame_rect.SetRect(
+                        AnimFrameRect.GetLeft() + (c0 * KEY_FRAME_IMAGE_SIZE) + 2,
+                        AnimFrameRect.GetTop() + 2,
+                        KEY_FRAME_IMAGE_SIZE,
+                        KEY_FRAME_IMAGE_SIZE);
+                    if (frame_rect.PointInRect(&local_point)) {
+                        selected_frame = current_frame;
+                        break;
                     }
-                    */
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->GetFlags() & ~CONTROL_INACTIVE));
-                    if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP)
-                        AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
-                    else
-                        AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
-
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
-
-                    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1); // added by MD to try and fix slider bug
-                    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
-                } else {
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags(CONTROL_INACTIVE);
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
-                    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString("No Anim");
+                    current_frame = current_frame->NextFrame;
                 }
-                RequestUpdate();
-            } else {
-                current_control = AnimControls.GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        HandleAnimControl(current_control->TrackControl(&local_point));
+                if (selected_frame >= 0) {
+                    std::int32_t drop;
+                    //
+                    // drag frame out of actual editor window
+                    //
 
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            AnimControls.DrawControlSet();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
+                    clicked_point->X -= 300;
+                    drop = DragAndDropFrame(selected_frame, frame_rect.GetLeft(), frame_rect.GetTop(), frame_rect.GetWidth(), frame_rect.GetHeight(), clicked_point, 0);
+                    if (drop == 0 || drop == 1) {
+                        // drop =1 is back on itself
+                        // drop =2 is into scratch pad
+                        // drop =0 is bin
+                        CurrentAnim[Bank]->RemoveKeyFrame(selected_frame);
+                        ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
+                        AnimTween[Bank] = 0;
+                        CurrentFrame[Bank] = 0;
                     }
-                    current_control = current_control->GetNextControl();
                 }
             }
-            break;
-        case RIGHT_CLICK:
-            if (AnimFrameRect.PointInRect(&local_point) && CurrentAnim[Bank]) {
-                //
-                // Right click in keyframe (on current playing animation) to select it
-                //
-                selected_frame = nullptr;
-                max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-                first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
-                if ((first_frame + max_frames) > CurrentAnim[Bank]->GetFrameCount())
-                    max_frames = (CurrentAnim[Bank]->GetFrameCount() - first_frame);
-                current_frame = CurrentAnim[Bank]->GetFrameList();
-                if (current_frame) {
-                    for (c0 = 0; c0 < first_frame; c0++) {
-                        current_frame = current_frame->NextFrame;
-                    }
-                    for (c0 = 0; c0 < max_frames && current_frame; c0++) {
-                        WindowControls.SetControlDrawArea();
-                        frame_rect.SetRect(
-                            AnimFrameRect.GetLeft() + (c0 * KEY_FRAME_IMAGE_SIZE) + 2,
-                            AnimFrameRect.GetTop() + 2,
-                            KEY_FRAME_IMAGE_SIZE,
-                            KEY_FRAME_IMAGE_SIZE);
-                        if (frame_rect.PointInRect(&local_point)) {
-                            selected_frame = current_frame;
-                            break;
-                        }
-                        current_frame = current_frame->NextFrame;
-                    }
-                    if (selected_frame >= 0) {
-                        CurrentFrame[Bank] = selected_frame;
-                    }
+        } else if (AllAnimsRect.PointInRect(&local_point)) // this is the anim named list thing
+        {
+            CurrentAnim[Bank] = DrawAllAnimsBox();
+            if (CurrentAnim[Bank]) {
+                /*
+                if(the_key_list[0])
+                {
+                        the_key_list[0]->TheAnim=CurrentAnim[Bank];
+                        ((CHSlider*)the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0,the_key_list[0]->TheAnim->GetFrameCount()-1);
+                        the_key_list[0]->DrawContent();
+                        ShowWorkScreen(0);
                 }
-            } else if (AllAnimsRect.PointInRect(&local_point)) {
-                //
-                // Check for right click on anim list, for cut/copy/paste functions
-                //
-                temp_anim = DrawAllAnimsBox();
-
-                local_point = *clicked_point;
-                GlobalToLocal(&local_point);
-                popup_def.ControlLeft = local_point.X + 4;
-                popup_def.ControlTop = local_point.Y - 4;
-                popup_def.TheMenuDef = anim_popup;
-                the_control = new CPopUp(&popup_def);
-
-                if (temp_anim) {
-                    the_control->SetItemState(1, CTRL_ACTIVE);
-                    the_control->SetItemState(2, CTRL_ACTIVE);
-                    the_control->SetItemState(4, CTRL_ACTIVE);
-                } else {
-                    the_control->SetItemState(1, CTRL_INACTIVE);
-                    the_control->SetItemState(2, CTRL_INACTIVE);
-                }
-                if (Flags & GOT_ANIM_COPY)
-                    the_control->SetItemState(3, CTRL_ACTIVE);
+                */
+                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->GetFlags() & ~CONTROL_INACTIVE));
+                if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP)
+                    AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
                 else
-                    the_control->SetItemState(3, CTRL_INACTIVE);
+                    AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
 
-                //
-                // Select Cut,Copy,Paste
-                //
-                control_id = the_control->TrackControl(&local_point);
-                switch (control_id >> 8) {
-                    KeyFrame *frame;
-                    case 1: // cut
-                        buffer_file = FileCreate("Editor\\EdSave\\scrap.dat", true);
-                        if (buffer_file) {
-                            SaveAnim(buffer_file, temp_anim);
-                            FileClose(buffer_file);
-                        }
-                        frame = temp_anim->GetFrameList();
-                        while (frame) {
-                            //
-                            // add frame to anim[0]
-                            //
-                            AnimList[Bank]->AddKeyFrame(frame);
+                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
 
-                            frame = frame->NextFrame;
-                            if (frame == temp_anim->GetFrameList())
-                                frame = 0;
-                        }
-                        DestroyAnim(temp_anim);
-                        Flags |= GOT_ANIM_COPY;
-                        break;
-                    case 2: // copy
-                        buffer_file = FileCreate("Editor\\EdSave\\scrap.dat", true);
-                        if (buffer_file) {
-                            SaveAnim(buffer_file, temp_anim);
-                            FileClose(buffer_file);
-                        }
-                        frame = temp_anim->GetFrameList();
-                        while (frame) {
-                            //
-                            // add frame to anim[0]
-                            //
-                            AnimList[Bank]->AddKeyFrame(frame);
+                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1); // added by MD to try and fix slider bug
+                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
+            } else {
+                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags(CONTROL_INACTIVE);
+                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString("No Anim");
+            }
+            RequestUpdate();
+        } else {
+            current_control = AnimControls.GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    HandleAnimControl(current_control->TrackControl(&local_point));
 
-                            frame = frame->NextFrame;
-                            if (frame == temp_anim->GetFrameList())
-                                frame = 0;
-                        }
-                        Flags |= GOT_ANIM_COPY;
-                        break;
-                    case 3: // paste
-                        InsertAnim(temp_anim);
-                        buffer_file = FileOpen("Editor\\EdSave\\scrap.dat");
-                        if (buffer_file) {
-                            LoadAnim(buffer_file, CurrentAnim[Bank]);
-                            FileClose(buffer_file);
-                        }
-                        break;
-                    case 4: // toggle_unused
-                    {
-                        Anim *current_anim;
-                        std::int32_t index = 0;
-
-                        if (AnimList[Bank]) {
-                            current_anim = AnimList[Bank];
-                            while (current_anim != temp_anim && current_anim) {
-                                index++;
-                                current_anim = current_anim->GetNextAnim();
-                            }
-                        }
-                        unused_flags[index] ^= 1;
-                    } break;
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        AnimControls.DrawControlSet();
+                        UnlockWorkScreen();
+                    }
+                    ShowWorkWindow(0);
                 }
-
-                if (the_control) {
-                    delete the_control;
+                current_control = current_control->GetNextControl();
+            }
+        }
+        break;
+    case RIGHT_CLICK:
+        if (AnimFrameRect.PointInRect(&local_point) && CurrentAnim[Bank]) {
+            //
+            // Right click in keyframe (on current playing animation) to select it
+            //
+            selected_frame = nullptr;
+            max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
+            first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
+            if ((first_frame + max_frames) > CurrentAnim[Bank]->GetFrameCount())
+                max_frames = (CurrentAnim[Bank]->GetFrameCount() - first_frame);
+            current_frame = CurrentAnim[Bank]->GetFrameList();
+            if (current_frame) {
+                for (c0 = 0; c0 < first_frame; c0++) {
+                    current_frame = current_frame->NextFrame;
+                }
+                for (c0 = 0; c0 < max_frames && current_frame; c0++) {
+                    WindowControls.SetControlDrawArea();
+                    frame_rect.SetRect(
+                        AnimFrameRect.GetLeft() + (c0 * KEY_FRAME_IMAGE_SIZE) + 2,
+                        AnimFrameRect.GetTop() + 2,
+                        KEY_FRAME_IMAGE_SIZE,
+                        KEY_FRAME_IMAGE_SIZE);
+                    if (frame_rect.PointInRect(&local_point)) {
+                        selected_frame = current_frame;
+                        break;
+                    }
+                    current_frame = current_frame->NextFrame;
+                }
+                if (selected_frame >= 0) {
+                    CurrentFrame[Bank] = selected_frame;
                 }
             }
-            break;
+        } else if (AllAnimsRect.PointInRect(&local_point)) {
+            //
+            // Check for right click on anim list, for cut/copy/paste functions
+            //
+            temp_anim = DrawAllAnimsBox();
+
+            local_point = *clicked_point;
+            GlobalToLocal(&local_point);
+            popup_def.ControlLeft = local_point.X + 4;
+            popup_def.ControlTop = local_point.Y - 4;
+            popup_def.TheMenuDef = anim_popup;
+            the_control = new CPopUp(&popup_def);
+
+            if (temp_anim) {
+                the_control->SetItemState(1, CTRL_ACTIVE);
+                the_control->SetItemState(2, CTRL_ACTIVE);
+                the_control->SetItemState(4, CTRL_ACTIVE);
+            } else {
+                the_control->SetItemState(1, CTRL_INACTIVE);
+                the_control->SetItemState(2, CTRL_INACTIVE);
+            }
+            if (Flags & GOT_ANIM_COPY)
+                the_control->SetItemState(3, CTRL_ACTIVE);
+            else
+                the_control->SetItemState(3, CTRL_INACTIVE);
+
+            //
+            // Select Cut,Copy,Paste
+            //
+            control_id = the_control->TrackControl(&local_point);
+            switch (control_id >> 8) {
+                KeyFrame *frame;
+            case 1: // cut
+                buffer_file = FileCreate("Editor\\EdSave\\scrap.dat", true);
+                if (buffer_file) {
+                    SaveAnim(buffer_file, temp_anim);
+                    FileClose(buffer_file);
+                }
+                frame = temp_anim->GetFrameList();
+                while (frame) {
+                    //
+                    // add frame to anim[0]
+                    //
+                    AnimList[Bank]->AddKeyFrame(frame);
+
+                    frame = frame->NextFrame;
+                    if (frame == temp_anim->GetFrameList())
+                        frame = 0;
+                }
+                DestroyAnim(temp_anim);
+                Flags |= GOT_ANIM_COPY;
+                break;
+            case 2: // copy
+                buffer_file = FileCreate("Editor\\EdSave\\scrap.dat", true);
+                if (buffer_file) {
+                    SaveAnim(buffer_file, temp_anim);
+                    FileClose(buffer_file);
+                }
+                frame = temp_anim->GetFrameList();
+                while (frame) {
+                    //
+                    // add frame to anim[0]
+                    //
+                    AnimList[Bank]->AddKeyFrame(frame);
+
+                    frame = frame->NextFrame;
+                    if (frame == temp_anim->GetFrameList())
+                        frame = 0;
+                }
+                Flags |= GOT_ANIM_COPY;
+                break;
+            case 3: // paste
+                InsertAnim(temp_anim);
+                buffer_file = FileOpen("Editor\\EdSave\\scrap.dat");
+                if (buffer_file) {
+                    LoadAnim(buffer_file, CurrentAnim[Bank]);
+                    FileClose(buffer_file);
+                }
+                break;
+            case 4: // toggle_unused
+            {
+                Anim *current_anim;
+                std::int32_t index = 0;
+
+                if (AnimList[Bank]) {
+                    current_anim = AnimList[Bank];
+                    while (current_anim != temp_anim && current_anim) {
+                        index++;
+                        current_anim = current_anim->GetNextAnim();
+                    }
+                }
+                unused_flags[index] ^= 1;
+            } break;
+            }
+
+            if (the_control) {
+                delete the_control;
+            }
+        }
+        break;
     }
 }
 
@@ -1257,123 +1260,123 @@ void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_poi
     local_point = *clicked_point;
     WindowControls.GlobalToLocal(&local_point);
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (CharactersRect.PointInRect(&local_point)) {
-                std::int32_t x, y, c0;
-                x = CharactersRect.GetLeft();
-                y = CharactersRect.GetTop();
-                y += 1;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (CharactersRect.PointInRect(&local_point)) {
+            std::int32_t x, y, c0;
+            x = CharactersRect.GetLeft();
+            y = CharactersRect.GetTop();
+            y += 1;
 
-                for (c0 = 0; c0 < 15; c0++) {
-                    frame_rect.SetRect(x, y, CharactersRect.GetWidth(), 13);
-                    if (frame_rect.PointInRect(&local_point)) {
-                        PersonID = c0;
-                        SetPersonBits();
-                        ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
-                        ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
-                        edit_name = 1;
+            for (c0 = 0; c0 < 15; c0++) {
+                frame_rect.SetRect(x, y, CharactersRect.GetWidth(), 13);
+                if (frame_rect.PointInRect(&local_point)) {
+                    PersonID = c0;
+                    SetPersonBits();
+                    ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+                    ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
+                    edit_name = 1;
 
-                        break;
-                    }
-                    y += 13;
+                    break;
                 }
-            } else if (BodyPartRect.PointInRect(&local_point)) {
-                std::int32_t x, y, c0;
+                y += 13;
+            }
+        } else if (BodyPartRect.PointInRect(&local_point)) {
+            std::int32_t x, y, c0;
 
-                x = BodyPartRect.GetLeft();
-                y = BodyPartRect.GetTop();
-                y += 1;
-                for (c0 = 0; c0 < MAX_BODY_BITS; c0++) {
-                    char str[100];
+            x = BodyPartRect.GetLeft();
+            y = BodyPartRect.GetTop();
+            y += 1;
+            for (c0 = 0; c0 < MAX_BODY_BITS; c0++) {
+                char str[100];
 
-                    if (body_part_names[c0] == 0)
-                        break;
-                    frame_rect.SetRect(x, y, BodyPartRect.GetWidth(), 13);
+                if (body_part_names[c0] == 0)
+                    break;
+                frame_rect.SetRect(x, y, BodyPartRect.GetWidth(), 13);
 
-                    if (frame_rect.PointInRect(&local_point)) {
-                        PersonBits[c0]++;
-                        SetBodyType(c0);
+                if (frame_rect.PointInRect(&local_point)) {
+                    PersonBits[c0]++;
+                    SetBodyType(c0);
 
-                        break;
-                    }
-
-                    y += 13;
-                }
-            } else if (KeyFrameRect.PointInRect(&local_point)) {
-                // Find out which frame has been selected.
-                selected_frame = -1;
-                max_frames = KeyFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-                first_frame = ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->GetCurrentValue();
-                //				if((first_frame+max_frames)>KeyFrameCount)
-                //					max_frames	=	(KeyFrameCount-first_frame)+1;
-                if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
-                    max_frames = (test_chunk->KeyFrameCount - first_frame) + 1;
-                //				for(c0=0;c0<max_frames&&KeyFrameCount;c0++)
-                for (c0 = 0; c0 < max_frames && test_chunk->KeyFrameCount; c0++) {
-                    WindowControls.SetControlDrawArea();
-                    frame_rect.SetRect(
-                        KeyFrameRect.GetLeft() + (c0 * KEY_FRAME_IMAGE_SIZE) + 2,
-                        KeyFrameRect.GetTop() + 2,
-                        KEY_FRAME_IMAGE_SIZE,
-                        KEY_FRAME_IMAGE_SIZE);
-                    if (frame_rect.PointInRect(&local_point)) {
-                        selected_frame = first_frame + c0;
-                        break;
-                    }
+                    break;
                 }
 
-                // Allow selected frame to be dragged around.
-                if (selected_frame >= 0) {
-                    //
-                    // Drag Frames out of the main keyframe list
-                    //
-                    DragAndDropFrame(&test_chunk->KeyFrames[selected_frame], frame_rect.GetLeft(), frame_rect.GetTop(), frame_rect.GetWidth(), frame_rect.GetHeight(), clicked_point, 0);
-                }
-            } else {
-                current_control = WindowControls.GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        HandleControl(current_control->TrackControl(&local_point));
-
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            WindowControls.DrawControlSet();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-                    }
-                    current_control = current_control->GetNextControl();
+                y += 13;
+            }
+        } else if (KeyFrameRect.PointInRect(&local_point)) {
+            // Find out which frame has been selected.
+            selected_frame = -1;
+            max_frames = KeyFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
+            first_frame = ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->GetCurrentValue();
+            //				if((first_frame+max_frames)>KeyFrameCount)
+            //					max_frames	=	(KeyFrameCount-first_frame)+1;
+            if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
+                max_frames = (test_chunk->KeyFrameCount - first_frame) + 1;
+            //				for(c0=0;c0<max_frames&&KeyFrameCount;c0++)
+            for (c0 = 0; c0 < max_frames && test_chunk->KeyFrameCount; c0++) {
+                WindowControls.SetControlDrawArea();
+                frame_rect.SetRect(
+                    KeyFrameRect.GetLeft() + (c0 * KEY_FRAME_IMAGE_SIZE) + 2,
+                    KeyFrameRect.GetTop() + 2,
+                    KEY_FRAME_IMAGE_SIZE,
+                    KEY_FRAME_IMAGE_SIZE);
+                if (frame_rect.PointInRect(&local_point)) {
+                    selected_frame = first_frame + c0;
+                    break;
                 }
             }
-            break;
-        case RIGHT_CLICK:
-            if (BodyPartRect.PointInRect(&local_point)) {
-                std::int32_t x, y, c0;
 
-                x = BodyPartRect.GetLeft();
-                y = BodyPartRect.GetTop();
-                y += 1;
-                for (c0 = 0; c0 < 20; c0++) {
-                    char str[100];
-
-                    if (body_part_names[c0] == 0)
-                        break;
-                    frame_rect.SetRect(x, y, BodyPartRect.GetWidth(), 13);
-
-                    if (frame_rect.PointInRect(&local_point)) {
-                        //						test_chunk->PeopleTypes[PersonID].BodyPart[c0]--;
-                        PersonBits[c0]--;
-                        SetBodyType(c0);
-                        break;
-                    }
-
-                    y += 13;
-                }
+            // Allow selected frame to be dragged around.
+            if (selected_frame >= 0) {
+                //
+                // Drag Frames out of the main keyframe list
+                //
+                DragAndDropFrame(&test_chunk->KeyFrames[selected_frame], frame_rect.GetLeft(), frame_rect.GetTop(), frame_rect.GetWidth(), frame_rect.GetHeight(), clicked_point, 0);
             }
-            break;
+        } else {
+            current_control = WindowControls.GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    HandleControl(current_control->TrackControl(&local_point));
+
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        WindowControls.DrawControlSet();
+                        UnlockWorkScreen();
+                    }
+                    ShowWorkWindow(0);
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+        break;
+    case RIGHT_CLICK:
+        if (BodyPartRect.PointInRect(&local_point)) {
+            std::int32_t x, y, c0;
+
+            x = BodyPartRect.GetLeft();
+            y = BodyPartRect.GetTop();
+            y += 1;
+            for (c0 = 0; c0 < 20; c0++) {
+                char str[100];
+
+                if (body_part_names[c0] == 0)
+                    break;
+                frame_rect.SetRect(x, y, BodyPartRect.GetWidth(), 13);
+
+                if (frame_rect.PointInRect(&local_point)) {
+                    //						test_chunk->PeopleTypes[PersonID].BodyPart[c0]--;
+                    PersonBits[c0]--;
+                    SetBodyType(c0);
+                    break;
+                }
+
+                y += 13;
+            }
+        }
+        break;
     }
     if (!edit_name) {
         ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
@@ -1820,19 +1823,19 @@ extern void set_default_people_types(struct KeyFrameChunk *the_chunk);
 
 void KeyFrameEditor::SetAnimBank(std::int32_t bank) {
     switch (bank) {
-        case 0:
-            test_chunk = &edit_chunk1;
-            the_elements = elements_bank1;
-            Bank = 0;
-            current_element = 0;
-            break;
+    case 0:
+        test_chunk = &edit_chunk1;
+        the_elements = elements_bank1;
+        Bank = 0;
+        current_element = 0;
+        break;
 
-        case 1:
-            test_chunk = &edit_chunk2;
-            the_elements = elements_bank2;
-            Bank = 1;
-            current_element = 0;
-            break;
+    case 1:
+        test_chunk = &edit_chunk2;
+        the_elements = elements_bank2;
+        Bank = 1;
+        current_element = 0;
+        break;
     }
 }
 
@@ -1907,58 +1910,231 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
     std::int32_t max_range;
 
     switch (control_id) {
-        case 0:
-            break;
-        case CTRL_DRAW_BOTH:
-            if (DontDrawBoth) {
-                DontDrawBoth = 0;
-                WindowControls.SetControlState(CTRL_DRAW_BOTH, CTRL_DESELECTED);
-            } else {
-                DontDrawBoth = 1;
-                WindowControls.SetControlState(CTRL_DRAW_BOTH, CTRL_SELECTED);
+    case 0:
+        break;
+    case CTRL_DRAW_BOTH:
+        if (DontDrawBoth) {
+            DontDrawBoth = 0;
+            WindowControls.SetControlState(CTRL_DRAW_BOTH, CTRL_DESELECTED);
+        } else {
+            DontDrawBoth = 1;
+            WindowControls.SetControlState(CTRL_DRAW_BOTH, CTRL_SELECTED);
+        }
+        break;
+    case CTRL_MOVE_SEPARATELY:
+        if (MoveSeparately) {
+            MoveSeparately = 0;
+            WindowControls.SetControlState(CTRL_MOVE_SEPARATELY, CTRL_DESELECTED);
+        } else {
+            MoveSeparately = 1;
+            WindowControls.SetControlState(CTRL_MOVE_SEPARATELY, CTRL_SELECTED);
+        }
+        break;
+    case CTRL_FLIP_BANK:
+        if (test_chunk == &edit_chunk2) {
+            SetAnimBank(0);
+        } else {
+            SetAnimBank(1);
+        }
+
+        ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
+        /*	if(AnimList[Bank])
+                        ((CHSlider*)the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0,the_key_list[0]->TheAnim->GetFrameCount()+20);
+        */
+
+        max_range = AnimCount[Bank] - 22;
+        if (max_range < 0)
+            max_range = 0;
+        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
+        //				((CVSlider*)AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
+
+        break;
+    case CTRL_NEXT_MESH:
+        test_chunk->MultiObject++;
+        if (test_chunk->MultiObject >= next_prim_multi_object) {
+            test_chunk->MultiObject--;
+        }
+        break;
+    case CTRL_PREV_MESH:
+        test_chunk->MultiObject--;
+        if (test_chunk->MultiObject <= 0) {
+            test_chunk->MultiObject++;
+        }
+        break;
+    case CTRL_RE_CENTER_ALL: {
+        std::int32_t dx, dy, dz, c0;
+        struct KeyFrame *current_frame;
+        Anim *current_anim;
+        std::int32_t index = 0;
+
+        if (AnimList[Bank]) {
+            current_anim = AnimList[Bank];
+            while (current_anim != CurrentAnim[Bank] && current_anim) {
+                index++;
+                current_anim = current_anim->GetNextAnim();
             }
-            break;
-        case CTRL_MOVE_SEPARATELY:
-            if (MoveSeparately) {
-                MoveSeparately = 0;
-                WindowControls.SetControlState(CTRL_MOVE_SEPARATELY, CTRL_DESELECTED);
-            } else {
-                MoveSeparately = 1;
-                WindowControls.SetControlState(CTRL_MOVE_SEPARATELY, CTRL_SELECTED);
+        }
+        re_center_flags[index] = RE_CENTER_ALL;
+
+        if (CurrentAnim[Bank]) {
+            re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 1, 1);
+        }
+    }
+
+    break;
+    case CTRL_RE_CENTER_NONE: {
+        std::int32_t dx, dy, dz, c0;
+        struct KeyFrame *current_frame;
+        Anim *current_anim;
+        std::int32_t index = 0;
+
+        if (AnimList[Bank]) {
+            current_anim = AnimList[Bank];
+            while (current_anim != CurrentAnim[Bank] && current_anim) {
+                index++;
+                current_anim = current_anim->GetNextAnim();
             }
-            break;
-        case CTRL_FLIP_BANK:
-            if (test_chunk == &edit_chunk2) {
-                SetAnimBank(0);
-            } else {
-                SetAnimBank(1);
+        }
+        re_center_flags[index] = RE_CENTER_NONE;
+    } break;
+    case CTRL_RE_CENTER_START: {
+        std::int32_t dx, dy, dz, c0;
+        struct KeyFrame *current_frame;
+        Anim *current_anim;
+        std::int32_t index = 0;
+
+        if (AnimList[Bank]) {
+            current_anim = AnimList[Bank];
+            while (current_anim != CurrentAnim[Bank] && current_anim) {
+                index++;
+                current_anim = current_anim->GetNextAnim();
             }
+        }
+        re_center_flags[index] = RE_CENTER_START;
+
+        if (CurrentAnim[Bank]) {
+            re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 1, 0);
+        }
+    } break;
+        //		case	CTRL_RE_CENTER_END:
+        //			break;
+    case CTRL_RE_CENTER_XZ_START: {
+        std::int32_t dx, dy, dz, c0;
+        struct KeyFrame *current_frame;
+        Anim *current_anim;
+        std::int32_t index = 0;
+
+        if (AnimList[Bank]) {
+            current_anim = AnimList[Bank];
+            while (current_anim != CurrentAnim[Bank] && current_anim) {
+                index++;
+                current_anim = current_anim->GetNextAnim();
+            }
+        }
+        re_center_flags[index] = RE_CENTER_XZ_START;
+
+        if (CurrentAnim[Bank]) {
+            re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 0, 0);
+        }
+    } break;
+    case CTRL_RE_CENTER_XZ: {
+        std::int32_t dx, dy, dz, c0;
+        struct KeyFrame *current_frame;
+        Anim *current_anim;
+        std::int32_t index = 0;
+
+        if (AnimList[Bank]) {
+            current_anim = AnimList[Bank];
+            while (current_anim != CurrentAnim[Bank] && current_anim) {
+                index++;
+                current_anim = current_anim->GetNextAnim();
+            }
+        }
+        re_center_flags[index] = RE_CENTER_XZ;
+
+        if (CurrentAnim[Bank]) {
+            re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 0, 1);
+        }
+    } break;
+    case CTRL_SYNC_BOTH:
+
+        if (CurrentAnim[0]) {
+            PlayingAnim[0] = CurrentAnim[0];
+            CurrentFrame[0] = PlayingAnim[0]->GetFrameList();
+        }
+
+        if (CurrentAnim[1]) {
+            PlayingAnim[1] = CurrentAnim[1];
+            CurrentFrame[1] = PlayingAnim[1]->GetFrameList();
+        }
+
+        AnimTween[0] = 0;
+        AnimTween[1] = 0;
+
+        break;
+
+    case CTRL_LOAD_BUTTON2:
+    case CTRL_LOAD_BUTTON:
+
+        if (control_id == CTRL_LOAD_BUTTON) {
+            SetAnimBank(0);
+        } else {
+            SetAnimBank(1);
+        }
+
+        fr = new FileRequester("DATA\\", "*.VUE", "Load a VUE file", ".VUE");
+        if (fr->Draw()) {
+            PersonID = 0;
+            set_default_people_types(test_chunk);
+
+            //	void	setup_anim_stuff(void);
+            //				setup_anim_stuff();
+
+            ClearAll(); // problem function because it should go after loading the sex file, so you know it exists
+
+            //	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,char* vue_name);
+            {
+                float shrink = 1.0;
+                //
+                // bodge ahoy
+                //
+                extern std::int32_t save_psx;
+                if (save_psx) {
+                    if (strcmp(fr->FileName, "balrog.VUE") == 0)
+                        shrink = 4.0;
+                    if (strcmp(fr->FileName, "gargoyle1.VUE") == 0)
+                        shrink = 4.0;
+                    if (strcmp(fr->FileName, "bane.VUE") == 0)
+                        shrink = 4.0;
+                }
+
+                load_key_frame_chunks(test_chunk, fr->FileName, shrink);
+                load_recenter_flags(test_chunk->ANMName);
+            }
+
+            delete fr;
+            RequestUpdate();
 
             ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
-            /*	if(AnimList[Bank])
-                            ((CHSlider*)the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0,the_key_list[0]->TheAnim->GetFrameCount()+20);
-            */
-
-            max_range = AnimCount[Bank] - 22;
-            if (max_range < 0)
-                max_range = 0;
-            ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
-            //				((CVSlider*)AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
-
-            break;
-        case CTRL_NEXT_MESH:
-            test_chunk->MultiObject++;
-            if (test_chunk->MultiObject >= next_prim_multi_object) {
-                test_chunk->MultiObject--;
+            LoadAllAnims(test_chunk);
+            LogText(" keyframe edit load \n");
+            LoadChunkTextureInfo(test_chunk);
+            if (the_key_list[0]) {
+                the_key_list[0]->TheAnim = AnimList[Bank];
+                if (AnimList[Bank])
+                    ((CHSlider *) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
             }
-            break;
-        case CTRL_PREV_MESH:
-            test_chunk->MultiObject--;
-            if (test_chunk->MultiObject <= 0) {
-                test_chunk->MultiObject++;
-            }
-            break;
-        case CTRL_RE_CENTER_ALL: {
+            SetPersonBits();
+            AnimTween[Bank] = 0;
+            CurrentFrame[Bank] = 0;
+            if (CurrentAnim[Bank])
+                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
+        }
+
+        //
+        // use re_center_flags
+        //
+        {
             std::int32_t dx, dy, dz, c0;
             struct KeyFrame *current_frame;
             Anim *current_anim;
@@ -1966,289 +2142,116 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
 
             if (AnimList[Bank]) {
                 current_anim = AnimList[Bank];
-                while (current_anim != CurrentAnim[Bank] && current_anim) {
+                while (current_anim) {
+                    current_frame = current_anim->GetFrameListStart();
+                    switch (re_center_flags[index]) {
+                    case RE_CENTER_NONE:
+                        break;
+                    case RE_CENTER_ALL:
+                        re_center_anim(current_frame, 1, 1);
+                        break;
+
+                    case RE_CENTER_START:
+                        re_center_anim(current_frame, 1, 0);
+                        break;
+                    case RE_CENTER_END:
+                        break;
+                    case RE_CENTER_XZ:
+                        re_center_anim(current_frame, 0, 1);
+                        break;
+                    case RE_CENTER_XZ_START:
+                        re_center_anim(current_frame, 0, 0);
+                        break;
+                    }
+
                     index++;
                     current_anim = current_anim->GetNextAnim();
                 }
-            }
-            re_center_flags[index] = RE_CENTER_ALL;
-
-            if (CurrentAnim[Bank]) {
-                re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 1, 1);
             }
         }
 
         break;
-        case CTRL_RE_CENTER_NONE: {
-            std::int32_t dx, dy, dz, c0;
-            struct KeyFrame *current_frame;
-            Anim *current_anim;
-            std::int32_t index = 0;
-
-            if (AnimList[Bank]) {
-                current_anim = AnimList[Bank];
-                while (current_anim != CurrentAnim[Bank] && current_anim) {
-                    index++;
-                    current_anim = current_anim->GetNextAnim();
-                }
-            }
-            re_center_flags[index] = RE_CENTER_NONE;
-        } break;
-        case CTRL_RE_CENTER_START: {
-            std::int32_t dx, dy, dz, c0;
-            struct KeyFrame *current_frame;
-            Anim *current_anim;
-            std::int32_t index = 0;
-
-            if (AnimList[Bank]) {
-                current_anim = AnimList[Bank];
-                while (current_anim != CurrentAnim[Bank] && current_anim) {
-                    index++;
-                    current_anim = current_anim->GetNextAnim();
-                }
-            }
-            re_center_flags[index] = RE_CENTER_START;
-
-            if (CurrentAnim[Bank]) {
-                re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 1, 0);
-            }
-        } break;
-            //		case	CTRL_RE_CENTER_END:
-            //			break;
-        case CTRL_RE_CENTER_XZ_START: {
-            std::int32_t dx, dy, dz, c0;
-            struct KeyFrame *current_frame;
-            Anim *current_anim;
-            std::int32_t index = 0;
-
-            if (AnimList[Bank]) {
-                current_anim = AnimList[Bank];
-                while (current_anim != CurrentAnim[Bank] && current_anim) {
-                    index++;
-                    current_anim = current_anim->GetNextAnim();
-                }
-            }
-            re_center_flags[index] = RE_CENTER_XZ_START;
-
-            if (CurrentAnim[Bank]) {
-                re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 0, 0);
-            }
-        } break;
-        case CTRL_RE_CENTER_XZ: {
-            std::int32_t dx, dy, dz, c0;
-            struct KeyFrame *current_frame;
-            Anim *current_anim;
-            std::int32_t index = 0;
-
-            if (AnimList[Bank]) {
-                current_anim = AnimList[Bank];
-                while (current_anim != CurrentAnim[Bank] && current_anim) {
-                    index++;
-                    current_anim = current_anim->GetNextAnim();
-                }
-            }
-            re_center_flags[index] = RE_CENTER_XZ;
-
-            if (CurrentAnim[Bank]) {
-                re_center_anim(CurrentAnim[Bank]->GetFrameListStart(), 0, 1);
-            }
-        } break;
-        case CTRL_SYNC_BOTH:
-
-            if (CurrentAnim[0]) {
-                PlayingAnim[0] = CurrentAnim[0];
-                CurrentFrame[0] = PlayingAnim[0]->GetFrameList();
-            }
-
-            if (CurrentAnim[1]) {
-                PlayingAnim[1] = CurrentAnim[1];
-                CurrentFrame[1] = PlayingAnim[1]->GetFrameList();
-            }
-
-            AnimTween[0] = 0;
-            AnimTween[1] = 0;
-
-            break;
-
-        case CTRL_LOAD_BUTTON2:
-        case CTRL_LOAD_BUTTON:
-
-            if (control_id == CTRL_LOAD_BUTTON) {
-                SetAnimBank(0);
-            } else {
-                SetAnimBank(1);
-            }
-
-            fr = new FileRequester("DATA\\", "*.VUE", "Load a VUE file", ".VUE");
-            if (fr->Draw()) {
-                PersonID = 0;
-                set_default_people_types(test_chunk);
-
-                //	void	setup_anim_stuff(void);
-                //				setup_anim_stuff();
-
-                ClearAll(); // problem function because it should go after loading the sex file, so you know it exists
-
-                //	void	load_key_frame_chunks(KeyFrameChunk *the_chunk,char* vue_name);
-                {
-                    float shrink = 1.0;
-                    //
-                    // bodge ahoy
-                    //
-                    extern std::int32_t save_psx;
-                    if (save_psx) {
-                        if (strcmp(fr->FileName, "balrog.VUE") == 0)
-                            shrink = 4.0;
-                        if (strcmp(fr->FileName, "gargoyle1.VUE") == 0)
-                            shrink = 4.0;
-                        if (strcmp(fr->FileName, "bane.VUE") == 0)
-                            shrink = 4.0;
-                    }
-
-                    load_key_frame_chunks(test_chunk, fr->FileName, shrink);
-                    load_recenter_flags(test_chunk->ANMName);
-                }
-
-                delete fr;
-                RequestUpdate();
-
-                ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
-                LoadAllAnims(test_chunk);
-                LogText(" keyframe edit load \n");
-                LoadChunkTextureInfo(test_chunk);
-                if (the_key_list[0]) {
-                    the_key_list[0]->TheAnim = AnimList[Bank];
-                    if (AnimList[Bank])
-                        ((CHSlider *) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
-                }
-                SetPersonBits();
-                AnimTween[Bank] = 0;
-                CurrentFrame[Bank] = 0;
-                if (CurrentAnim[Bank])
-                    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
-            }
-
-            //
-            // use re_center_flags
-            //
-            {
-                std::int32_t dx, dy, dz, c0;
-                struct KeyFrame *current_frame;
-                Anim *current_anim;
-                std::int32_t index = 0;
-
-                if (AnimList[Bank]) {
-                    current_anim = AnimList[Bank];
-                    while (current_anim) {
-                        current_frame = current_anim->GetFrameListStart();
-                        switch (re_center_flags[index]) {
-                            case RE_CENTER_NONE:
-                                break;
-                            case RE_CENTER_ALL:
-                                re_center_anim(current_frame, 1, 1);
-                                break;
-
-                            case RE_CENTER_START:
-                                re_center_anim(current_frame, 1, 0);
-                                break;
-                            case RE_CENTER_END:
-                                break;
-                            case RE_CENTER_XZ:
-                                re_center_anim(current_frame, 0, 1);
-                                break;
-                            case RE_CENTER_XZ_START:
-                                re_center_anim(current_frame, 0, 0);
-                                break;
-                        }
-
-                        index++;
-                        current_anim = current_anim->GetNextAnim();
-                    }
-                }
-            }
-
-            break;
 
 //			KeyFrameChunk *the_chunk,char* vue_name)
 #ifdef POO_SHIT_GOD_DAMN
 
-            strcpy(test_chunk->VUEName, fr->Path);
-            strcat(test_chunk->VUEName, fr->FileName);
-            strcpy(test_chunk->ASCName, test_chunk->VUEName);
-            strcpy(test_chunk->ANMName, test_chunk->VUEName);
-            c0 = 0;
-            while (test_chunk->ASCName[c0] != '.' && test_chunk->ASCName[c0] != 0) c0++;
-            if (test_chunk->ASCName[c0] == '.') {
-                test_chunk->ASCName[c0 + 1] = 'A';
-                test_chunk->ASCName[c0 + 2] = 'S';
-                test_chunk->ASCName[c0 + 3] = 'C';
-                test_chunk->ASCName[c0 + 4] = 0;
+        strcpy(test_chunk->VUEName, fr->Path);
+        strcat(test_chunk->VUEName, fr->FileName);
+        strcpy(test_chunk->ASCName, test_chunk->VUEName);
+        strcpy(test_chunk->ANMName, test_chunk->VUEName);
+        c0 = 0;
+        while (test_chunk->ASCName[c0] != '.' && test_chunk->ASCName[c0] != 0) c0++;
+        if (test_chunk->ASCName[c0] == '.') {
+            test_chunk->ASCName[c0 + 1] = 'A';
+            test_chunk->ASCName[c0 + 2] = 'S';
+            test_chunk->ASCName[c0 + 3] = 'C';
+            test_chunk->ASCName[c0 + 4] = 0;
 
-                test_chunk->ANMName[c0 + 1] = 'A';
-                test_chunk->ANMName[c0 + 2] = 'N';
-                test_chunk->ANMName[c0 + 3] = 'M';
-                test_chunk->ANMName[c0 + 4] = 0;
-            }
-            delete fr;
-            RequestUpdate();
-            void setup_anim_stuff(void);
-            setup_anim_stuff();
+            test_chunk->ANMName[c0 + 1] = 'A';
+            test_chunk->ANMName[c0 + 2] = 'N';
+            test_chunk->ANMName[c0 + 3] = 'M';
+            test_chunk->ANMName[c0 + 4] = 0;
+        }
+        delete fr;
+        RequestUpdate();
+        void setup_anim_stuff(void);
+        setup_anim_stuff();
 
-            if (ele_count = read_multi_asc(test_chunk->ASCName, 0)) {
-                ClearAll();
-                test_chunk->MultiObject = next_prim_multi_object - 1;
-                test_chunk->ElementCount = ele_count; // prim_multi_objects[test_chunk->MultiObject].EndObject-prim_multi_objects[test_chunk->MultiObject].StartObject;
-                LogText("IN KEYFRAMER element count %d \n", test_chunk->ElementCount);
-                // Fudgy bit for centering.
-                {
-                    std::int32_t c1,
-                        sp, ep;
-                    struct PrimObject *p_obj;
+        if (ele_count = read_multi_asc(test_chunk->ASCName, 0)) {
+            ClearAll();
+            test_chunk->MultiObject = next_prim_multi_object - 1;
+            test_chunk->ElementCount = ele_count; // prim_multi_objects[test_chunk->MultiObject].EndObject-prim_multi_objects[test_chunk->MultiObject].StartObject;
+            LogText("IN KEYFRAMER element count %d \n", test_chunk->ElementCount);
+            // Fudgy bit for centering.
+            {
+                std::int32_t c1,
+                    sp, ep;
+                struct PrimObject *p_obj;
 
-                    for (c0 = prim_multi_objects[test_chunk->MultiObject].StartObject; c0 < prim_multi_objects[test_chunk->MultiObject].EndObject; c0++) {
-                        p_obj = &prim_objects[c0];
-                        sp = p_obj->StartPoint;
-                        ep = p_obj->EndPoint;
+                for (c0 = prim_multi_objects[test_chunk->MultiObject].StartObject; c0 < prim_multi_objects[test_chunk->MultiObject].EndObject; c0++) {
+                    p_obj = &prim_objects[c0];
+                    sp = p_obj->StartPoint;
+                    ep = p_obj->EndPoint;
 
-                        for (c1 = sp; c1 < ep; c1++) {
-                            prim_points[c1].X -= x_centre;
-                            prim_points[c1].Y -= y_centre;
-                            prim_points[c1].Z -= z_centre;
-                        }
+                    for (c1 = sp; c1 < ep; c1++) {
+                        prim_points[c1].X -= x_centre;
+                        prim_points[c1].Y -= y_centre;
+                        prim_points[c1].Z -= z_centre;
                     }
                 }
-
-                //				LoadMultiVUE(test_chunk);
-                load_multi_vue(test_chunk);
-                ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
-                LoadAllAnims(test_chunk);
-                LogText(" keyframe edit load \n");
-                LoadChunkTextureInfo(test_chunk);
-                if (the_key_list[0]) {
-                    the_key_list[0]->TheAnim = AnimList[Bank];
-                    if (AnimList[Bank])
-                        ((CHSlider *) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
-                }
             }
-            SetPersonBits();
-            //			((CHSlider*)AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0,CurrentAnim[Bank]->GetFrameCount()-1);
-            AnimTween[Bank] = 0;
-            CurrentFrame[Bank] = 0;
 
-            break;
+            //				LoadMultiVUE(test_chunk);
+            load_multi_vue(test_chunk);
+            ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
+            LoadAllAnims(test_chunk);
+            LogText(" keyframe edit load \n");
+            LoadChunkTextureInfo(test_chunk);
+            if (the_key_list[0]) {
+                the_key_list[0]->TheAnim = AnimList[Bank];
+                if (AnimList[Bank])
+                    ((CHSlider *) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
+            }
+        }
+        SetPersonBits();
+        //			((CHSlider*)AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0,CurrentAnim[Bank]->GetFrameCount()-1);
+        AnimTween[Bank] = 0;
+        CurrentFrame[Bank] = 0;
+
+        break;
 #endif
-        case CTRL_FRAME_SLIDER:
-            if (LockWorkScreen()) {
-                DrawKeyFrames();
-                UnlockWorkScreen();
-                ShowWorkWindow(0);
-            }
-            break;
-        case CTRL_CHAR_NAME_EDIT:
-            strcpy(test_chunk->PeopleNames[PersonID], (((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetEditString()));
-            //			((CEditText*)WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_ACTIVE);
-            //			((CEditText*)WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
-            break;
+    case CTRL_FRAME_SLIDER:
+        if (LockWorkScreen()) {
+            DrawKeyFrames();
+            UnlockWorkScreen();
+            ShowWorkWindow(0);
+        }
+        break;
+    case CTRL_CHAR_NAME_EDIT:
+        strcpy(test_chunk->PeopleNames[PersonID], (((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetEditString()));
+        //			((CEditText*)WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_ACTIVE);
+        //			((CEditText*)WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
+        break;
     }
 }
 
@@ -2256,284 +2259,284 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
 
 void KeyFrameEditor::HandleAnimControl(std::uint32_t control_id) {
     switch (control_id) {
-        case CTRL_ANIM_FRAME_SLIDER:
+    case CTRL_ANIM_FRAME_SLIDER:
+        if (LockWorkScreen()) {
+            DrawAnimFrames(CurrentAnim[Bank], false);
+            UnlockWorkScreen();
+            ShowWorkWindow(0);
+        }
+        break;
+    case CTRL_ANIM_FPS_TEXT:
+        break;
+    case CTRL_ANIM_FPS_SLIDER:
+        break;
+    case CTRL_ANIM_NEW_ANIM_BUTTON:
+        AppendAnim();
+        ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+        ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
+        break;
+    case CTRL_ANIM_ALL_ANIMS_SLIDER:
+        break;
+    case CTRL_ANIM_NAME_EDIT:
+        if (CurrentAnim[Bank])
+            CurrentAnim[Bank]->SetAnimName(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
+        break;
+    case CTRL_FIGHT_TWEEN0:
+        CurrentAnim[Bank]->SetAllTweens(0);
+        break;
+    case CTRL_FIGHT_TWEEN1:
+        CurrentAnim[Bank]->SetAllTweens(1);
+        break;
+    case CTRL_FIGHT_TWEEN2:
+        CurrentAnim[Bank]->SetAllTweens(2);
+        break;
+    case CTRL_FIGHT_TWEEN3:
+        CurrentAnim[Bank]->SetAllTweens(3);
+        break;
+
+    case CTRL_ANIM_LOOP_SELECT:
+        if (CurrentAnim[Bank]) {
+            CurrentAnim[Bank]->SetAnimFlags((std::uint8_t) (CurrentAnim[Bank]->GetAnimFlags() ^ ANIM_LOOP));
+            if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP) {
+                AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
+                CurrentAnim[Bank]->StartLooping();
+            } else {
+                AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
+                CurrentAnim[Bank]->StopLooping();
+            }
+        }
+        break;
+    case CTRL_ANIM_SUPER_SMOOTH:
+        if (CurrentAnim[Bank]) {
+            if (SpeedFlag == 2) {
+                AnimControls.SetControlState(CTRL_ANIM_SUPER_SMOOTH, CTRL_DESELECTED);
+                SpeedFlag = 0;
+            } else {
+                SpeedFlag = 2;
+                AnimControls.SetControlState(CTRL_ANIM_SUPER_SMOOTH, CTRL_SELECTED);
+                AnimControls.SetControlState(CTRL_ANIM_JUST_KEYS, CTRL_DESELECTED);
+            }
+        }
+        break;
+    case CTRL_ANIM_USE_QUATERNIONS:
+        if (CurrentAnim[Bank]) {
+            if (QuaternionFlag == 1) {
+                AnimControls.SetControlState(CTRL_ANIM_USE_QUATERNIONS, CTRL_DESELECTED);
+                QuaternionFlag = 0;
+            } else {
+                QuaternionFlag = 1;
+                AnimControls.SetControlState(CTRL_ANIM_USE_QUATERNIONS, CTRL_SELECTED);
+            }
+            RequestUpdate();
+        }
+        break;
+    case CTRL_ANIM_FLIP_1:
+        if (CurrentAnim[Bank]) {
+            if (Flip1 == 1) {
+                AnimControls.SetControlState(CTRL_ANIM_FLIP_1, CTRL_DESELECTED);
+                Flip1 = 0;
+                AnimAngleY[0] += 1024;
+                if (AnimAngleY[0] > 1024)
+                    AnimAngleY[0] -= 2048;
+            } else {
+                AnimControls.SetControlState(CTRL_ANIM_FLIP_1, CTRL_SELECTED);
+                Flip1 = 1;
+                AnimAngleY[0] -= 1024;
+                if (AnimAngleY[0] < -1024)
+                    AnimAngleY[0] += 2048;
+            }
+            RequestUpdate();
+        }
+        break;
+    case CTRL_ANIM_FLIP_2:
+        if (CurrentAnim[Bank]) {
+            if (Flip2 == 1) {
+                AnimControls.SetControlState(CTRL_ANIM_FLIP_2, CTRL_DESELECTED);
+                Flip2 = 0;
+                AnimAngleY[1] += 1024;
+                if (AnimAngleY[1] > 1024)
+                    AnimAngleY[1] -= 2048;
+            } else {
+                AnimControls.SetControlState(CTRL_ANIM_FLIP_2, CTRL_SELECTED);
+                Flip2 = 1;
+                AnimAngleY[1] -= 1024;
+                if (AnimAngleY[1] < -1024)
+                    AnimAngleY[1] += 2048;
+            }
+            RequestUpdate();
+        }
+        break;
+    case CTRL_ANIM_JUST_KEYS:
+        if (CurrentAnim[Bank]) {
+            if (SpeedFlag == 1) {
+                AnimControls.SetControlState(CTRL_ANIM_JUST_KEYS, CTRL_DESELECTED);
+                SpeedFlag = 0;
+            } else {
+                SpeedFlag = 1;
+                AnimControls.SetControlState(CTRL_ANIM_SUPER_SMOOTH, CTRL_DESELECTED);
+                AnimControls.SetControlState(CTRL_ANIM_JUST_KEYS, CTRL_SELECTED);
+                AnimTween[Bank] = 0;
+            }
+        }
+        break;
+    case CTRL_PAINT_MESH: {
+        extern void bring_module_to_front(EditorModule * the_module);
+        bring_module_to_front(LinkLevelEditor);
+        LinkLevelEditor->PrimMode->SetPrimTabMode(PRIM_MODE_MULTI);
+        LinkLevelEditor->PrimMode->SetCurrentPrim(test_chunk->MultiObject);
+        LinkLevelEditor->BringTabToFront(LinkLevelEditor->PaintMode);
+        RequestUpdate();
+    } break;
+
+    case CTRL_VIDEO_NEXT:
+        VideoMode = VIDEO_MODE_NEXT_FRAME;
+
+        break;
+
+    case CTRL_VIDEO_PLAY:
+        VideoMode = VIDEO_MODE_PLAY;
+        break;
+
+    case CTRL_VIDEO_PREV:
+        VideoMode = VIDEO_MODE_PREV_FRAME;
+        break;
+
+    case CTRL_VIDEO_PAUSE:
+        VideoMode = VIDEO_MODE_PAUSE;
+        break;
+    case CTRL_FIGHT_HEIGHT_PLUS:
+        if (FightingColPtr) {
+            FightingColPtr->Height++;
+            if (FightingColPtr->Height > 3)
+                FightingColPtr->Height = 0;
+            RequestUpdate();
+        }
+        break;
+    case CTRL_FIGHT_HEIGHT_MINUS:
+        if (FightingColPtr) {
+            FightingColPtr->Height--;
+            if (FightingColPtr->Height > 3)
+                FightingColPtr->Height = 3;
+            RequestUpdate();
+        }
+        break;
+    case CTRL_FIGHT_DAMAGE_PLUS:
+        if (FightingColPtr) {
+            std::int32_t size = 1;
+            if (ShiftFlag)
+                size = 10;
+
+            if (ControlFlag)
+                size = 50;
+
+            FightingColPtr->Damage += size;
+            RequestUpdate();
+        }
+        break;
+    case CTRL_FIGHT_DAMAGE_MINUS:
+        if (FightingColPtr) {
+            std::int32_t size = 1;
+            if (ShiftFlag)
+                size = 10;
+
+            if (ControlFlag)
+                size = 50;
+
+            FightingColPtr->Damage -= size;
+            RequestUpdate();
+        }
+        break;
+
+    case CTRL_ANIM_LORES_TEST:
+        std::uint32_t current_time,
+            fps,
+            last_time;
+        std::int32_t depth,
+            height,
+            width;
+        struct MFTime the_time;
+        std::int32_t tweak_speed;
+
+        width = WorkScreenPixelWidth;
+        height = WorkScreenHeight;
+        depth = WorkScreenDepth;
+        SetDisplay(320, 200, 16);
+        SetDrawFunctions(16);
+        SetWorkWindowBounds(0, 0, 320, 200);
+
+        while (SHELL_ACTIVE && LastKey != KB_ESC) {
+            ClearWorkScreen(0);
+
             if (LockWorkScreen()) {
-                DrawAnimFrames(CurrentAnim[Bank], false);
+                if (CurrentAnim[Bank]) {
+                    HandleModuleKeys();
+                    engine.ShowDebug = 0;
+                    set_key_framer_camera();
+                    DoCurrentAnim();
+                    render_view(0);
+                    engine.ShowDebug = 1;
+                }
+
                 UnlockWorkScreen();
-                ShowWorkWindow(0);
+                ShowWorkScreen(0);
             }
-            break;
-        case CTRL_ANIM_FPS_TEXT:
-            break;
-        case CTRL_ANIM_FPS_SLIDER:
-            break;
-        case CTRL_ANIM_NEW_ANIM_BUTTON:
-            AppendAnim();
-            ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
-            ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
-            break;
-        case CTRL_ANIM_ALL_ANIMS_SLIDER:
-            break;
-        case CTRL_ANIM_NAME_EDIT:
-            if (CurrentAnim[Bank])
-                CurrentAnim[Bank]->SetAnimName(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
-            break;
-        case CTRL_FIGHT_TWEEN0:
-            CurrentAnim[Bank]->SetAllTweens(0);
-            break;
-        case CTRL_FIGHT_TWEEN1:
-            CurrentAnim[Bank]->SetAllTweens(1);
-            break;
-        case CTRL_FIGHT_TWEEN2:
-            CurrentAnim[Bank]->SetAllTweens(2);
-            break;
-        case CTRL_FIGHT_TWEEN3:
-            CurrentAnim[Bank]->SetAllTweens(3);
-            break;
 
-        case CTRL_ANIM_LOOP_SELECT:
-            if (CurrentAnim[Bank]) {
-                CurrentAnim[Bank]->SetAnimFlags((std::uint8_t)(CurrentAnim[Bank]->GetAnimFlags() ^ ANIM_LOOP));
-                if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP) {
-                    AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
-                    CurrentAnim[Bank]->StartLooping();
-                } else {
-                    AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
-                    CurrentAnim[Bank]->StopLooping();
-                }
-            }
-            break;
-        case CTRL_ANIM_SUPER_SMOOTH:
-            if (CurrentAnim[Bank]) {
-                if (SpeedFlag == 2) {
-                    AnimControls.SetControlState(CTRL_ANIM_SUPER_SMOOTH, CTRL_DESELECTED);
-                    SpeedFlag = 0;
-                } else {
-                    SpeedFlag = 2;
-                    AnimControls.SetControlState(CTRL_ANIM_SUPER_SMOOTH, CTRL_SELECTED);
-                    AnimControls.SetControlState(CTRL_ANIM_JUST_KEYS, CTRL_DESELECTED);
-                }
-            }
-            break;
-        case CTRL_ANIM_USE_QUATERNIONS:
-            if (CurrentAnim[Bank]) {
-                if (QuaternionFlag == 1) {
-                    AnimControls.SetControlState(CTRL_ANIM_USE_QUATERNIONS, CTRL_DESELECTED);
-                    QuaternionFlag = 0;
-                } else {
-                    QuaternionFlag = 1;
-                    AnimControls.SetControlState(CTRL_ANIM_USE_QUATERNIONS, CTRL_SELECTED);
-                }
-                RequestUpdate();
-            }
-            break;
-        case CTRL_ANIM_FLIP_1:
-            if (CurrentAnim[Bank]) {
-                if (Flip1 == 1) {
-                    AnimControls.SetControlState(CTRL_ANIM_FLIP_1, CTRL_DESELECTED);
-                    Flip1 = 0;
-                    AnimAngleY[0] += 1024;
-                    if (AnimAngleY[0] > 1024)
-                        AnimAngleY[0] -= 2048;
-                } else {
-                    AnimControls.SetControlState(CTRL_ANIM_FLIP_1, CTRL_SELECTED);
-                    Flip1 = 1;
-                    AnimAngleY[0] -= 1024;
-                    if (AnimAngleY[0] < -1024)
-                        AnimAngleY[0] += 2048;
-                }
-                RequestUpdate();
-            }
-            break;
-        case CTRL_ANIM_FLIP_2:
-            if (CurrentAnim[Bank]) {
-                if (Flip2 == 1) {
-                    AnimControls.SetControlState(CTRL_ANIM_FLIP_2, CTRL_DESELECTED);
-                    Flip2 = 0;
-                    AnimAngleY[1] += 1024;
-                    if (AnimAngleY[1] > 1024)
-                        AnimAngleY[1] -= 2048;
-                } else {
-                    AnimControls.SetControlState(CTRL_ANIM_FLIP_2, CTRL_SELECTED);
-                    Flip2 = 1;
-                    AnimAngleY[1] -= 1024;
-                    if (AnimAngleY[1] < -1024)
-                        AnimAngleY[1] += 2048;
-                }
-                RequestUpdate();
-            }
-            break;
-        case CTRL_ANIM_JUST_KEYS:
-            if (CurrentAnim[Bank]) {
-                if (SpeedFlag == 1) {
-                    AnimControls.SetControlState(CTRL_ANIM_JUST_KEYS, CTRL_DESELECTED);
-                    SpeedFlag = 0;
-                } else {
-                    SpeedFlag = 1;
-                    AnimControls.SetControlState(CTRL_ANIM_SUPER_SMOOTH, CTRL_DESELECTED);
-                    AnimControls.SetControlState(CTRL_ANIM_JUST_KEYS, CTRL_SELECTED);
-                    AnimTween[Bank] = 0;
-                }
-            }
-            break;
-        case CTRL_PAINT_MESH: {
-            extern void bring_module_to_front(EditorModule * the_module);
-            bring_module_to_front(LinkLevelEditor);
-            LinkLevelEditor->PrimMode->SetPrimTabMode(PRIM_MODE_MULTI);
-            LinkLevelEditor->PrimMode->SetCurrentPrim(test_chunk->MultiObject);
-            LinkLevelEditor->BringTabToFront(LinkLevelEditor->PaintMode);
-            RequestUpdate();
-        } break;
-
-        case CTRL_VIDEO_NEXT:
-            VideoMode = VIDEO_MODE_NEXT_FRAME;
-
-            break;
-
-        case CTRL_VIDEO_PLAY:
-            VideoMode = VIDEO_MODE_PLAY;
-            break;
-
-        case CTRL_VIDEO_PREV:
-            VideoMode = VIDEO_MODE_PREV_FRAME;
-            break;
-
-        case CTRL_VIDEO_PAUSE:
-            VideoMode = VIDEO_MODE_PAUSE;
-            break;
-        case CTRL_FIGHT_HEIGHT_PLUS:
-            if (FightingColPtr) {
-                FightingColPtr->Height++;
-                if (FightingColPtr->Height > 3)
-                    FightingColPtr->Height = 0;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_FIGHT_HEIGHT_MINUS:
-            if (FightingColPtr) {
-                FightingColPtr->Height--;
-                if (FightingColPtr->Height > 3)
-                    FightingColPtr->Height = 3;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_FIGHT_DAMAGE_PLUS:
-            if (FightingColPtr) {
-                std::int32_t size = 1;
-                if (ShiftFlag)
-                    size = 10;
-
-                if (ControlFlag)
-                    size = 50;
-
-                FightingColPtr->Damage += size;
-                RequestUpdate();
-            }
-            break;
-        case CTRL_FIGHT_DAMAGE_MINUS:
-            if (FightingColPtr) {
-                std::int32_t size = 1;
-                if (ShiftFlag)
-                    size = 10;
-
-                if (ControlFlag)
-                    size = 50;
-
-                FightingColPtr->Damage -= size;
-                RequestUpdate();
-            }
-            break;
-
-        case CTRL_ANIM_LORES_TEST:
-            std::uint32_t current_time,
-                fps,
-                last_time;
-            std::int32_t depth,
-                height,
-                width;
-            struct MFTime the_time;
-            std::int32_t tweak_speed;
-
-            width = WorkScreenPixelWidth;
-            height = WorkScreenHeight;
-            depth = WorkScreenDepth;
-            SetDisplay(320, 200, 16);
-            SetDrawFunctions(16);
-            SetWorkWindowBounds(0, 0, 320, 200);
-
-            while (SHELL_ACTIVE && LastKey != KB_ESC) {
-                ClearWorkScreen(0);
-
-                if (LockWorkScreen()) {
-                    if (CurrentAnim[Bank]) {
-                        HandleModuleKeys();
-                        engine.ShowDebug = 0;
-                        set_key_framer_camera();
-                        DoCurrentAnim();
-                        render_view(0);
-                        engine.ShowDebug = 1;
+            fps = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->GetCurrentValue();
+            tweak_speed = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->GetCurrentValue() + 128;
+            if (fps) {
+                // Time(&the_time);
+                current_time = GetTickCount();
+                if ((current_time - last_time) > (1000 / fps)) {
+                    //			AnimTween[Bank]	+=	16;
+                    if (CurrentFrame[Bank]) {
+                        AnimTween[Bank] += tweak_speed / (CurrentFrame[Bank]->TweenStep + 1);
                     }
-
-                    UnlockWorkScreen();
-                    ShowWorkScreen(0);
-                }
-
-                fps = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->GetCurrentValue();
-                tweak_speed = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->GetCurrentValue() + 128;
-                if (fps) {
-                    // Time(&the_time);
-                    current_time = GetTickCount();
-                    if ((current_time - last_time) > (1000 / fps)) {
-                        //			AnimTween[Bank]	+=	16;
-                        if (CurrentFrame[Bank]) {
-                            AnimTween[Bank] += tweak_speed / (CurrentFrame[Bank]->TweenStep + 1);
-                        }
-                        last_time = current_time;
-                    }
+                    last_time = current_time;
                 }
             }
-            LastKey = 0;
-            SetDisplay(width, height, 16);
-            SetDrawFunctions(16);
-            SetWorkWindowBounds(0, 0, width, height);
-            RequestUpdate();
-            break;
-        case CTRL_ANIM_SAVE_ANIMS:
-            SaveAllAnims(test_chunk, 0);
-            break;
-        case CTRL_ANIM_SAVE_GAME_ANIM:
-            SaveAllAnims(test_chunk, 1);
-            break;
-        case CTRL_ANIM_RESET_VIEW:
-            AnimAngleX[0] = 0;
-            AnimAngleY[0] = -512;
-            AnimAngleZ[0] = 0;
-            AnimAngleX[1] = 0;
-            AnimAngleY[1] = 512;
-            AnimAngleZ[1] = 0;
+        }
+        LastKey = 0;
+        SetDisplay(width, height, 16);
+        SetDrawFunctions(16);
+        SetWorkWindowBounds(0, 0, width, height);
+        RequestUpdate();
+        break;
+    case CTRL_ANIM_SAVE_ANIMS:
+        SaveAllAnims(test_chunk, 0);
+        break;
+    case CTRL_ANIM_SAVE_GAME_ANIM:
+        SaveAllAnims(test_chunk, 1);
+        break;
+    case CTRL_ANIM_RESET_VIEW:
+        AnimAngleX[0] = 0;
+        AnimAngleY[0] = -512;
+        AnimAngleZ[0] = 0;
+        AnimAngleX[1] = 0;
+        AnimAngleY[1] = 512;
+        AnimAngleZ[1] = 0;
 
-            AnimGlobalAngleX = 0;
-            AnimGlobalAngleY = 0;
-            AnimGlobalOffsetX = 0;
-            AnimGlobalOffsetY = 0;
+        AnimGlobalAngleX = 0;
+        AnimGlobalAngleY = 0;
+        AnimGlobalOffsetX = 0;
+        AnimGlobalOffsetY = 0;
 
-            AnimOffsetX[0] = 0;
-            AnimOffsetY[0] = 0;
-            AnimOffsetZ[0] = 0;
+        AnimOffsetX[0] = 0;
+        AnimOffsetY[0] = 0;
+        AnimOffsetZ[0] = 0;
 
-            AnimOffsetX[1] = 100;
-            AnimOffsetY[1] = 0;
-            AnimOffsetZ[1] = 0;
+        AnimOffsetX[1] = 100;
+        AnimOffsetY[1] = 0;
+        AnimOffsetZ[1] = 0;
 
-            AnimScale = 2000; // 296;
+        AnimScale = 2000; // 296;
 
-            Flip1 = 0;
-            Flip2 = 0;
-            AnimControls.SetControlState(CTRL_ANIM_FLIP_1, CTRL_DESELECTED);
-            AnimControls.SetControlState(CTRL_ANIM_FLIP_2, CTRL_DESELECTED);
-            RequestUpdate();
+        Flip1 = 0;
+        Flip2 = 0;
+        AnimControls.SetControlState(CTRL_ANIM_FLIP_1, CTRL_DESELECTED);
+        AnimControls.SetControlState(CTRL_ANIM_FLIP_2, CTRL_DESELECTED);
+        RequestUpdate();
 
-            break;
+        break;
     }
 }
 
@@ -3549,17 +3552,17 @@ void convert_mat_to_float(float *mat_f, Matrix33 *mat_m) {
 
 void convert_float_to_mat(Matrix33 *mat_m, float *mat_f) {
     // LogText(" mat (%f,%f,%f)(%f,%f,%f)(%f,%f,%f)== ",mat_f[0],mat_f[1],mat_f[2],mat_f[3],mat_f[4],mat_f[5],mat_f[6],mat_f[7],mat_f[8]);
-    mat_m->M[0][0] = (std::int32_t)(mat_f[0] * 32768.0);
-    mat_m->M[0][1] = (std::int32_t)(mat_f[1] * 32768.0);
-    mat_m->M[0][2] = (std::int32_t)(mat_f[2] * 32768.0);
+    mat_m->M[0][0] = (std::int32_t) (mat_f[0] * 32768.0);
+    mat_m->M[0][1] = (std::int32_t) (mat_f[1] * 32768.0);
+    mat_m->M[0][2] = (std::int32_t) (mat_f[2] * 32768.0);
 
-    mat_m->M[1][0] = (std::int32_t)(mat_f[3] * 32768.0);
-    mat_m->M[1][1] = (std::int32_t)(mat_f[4] * 32768.0);
-    mat_m->M[1][2] = (std::int32_t)(mat_f[5] * 32768.0);
+    mat_m->M[1][0] = (std::int32_t) (mat_f[3] * 32768.0);
+    mat_m->M[1][1] = (std::int32_t) (mat_f[4] * 32768.0);
+    mat_m->M[1][2] = (std::int32_t) (mat_f[5] * 32768.0);
 
-    mat_m->M[2][0] = (std::int32_t)(mat_f[6] * 32768.0);
-    mat_m->M[2][1] = (std::int32_t)(mat_f[7] * 32768.0);
-    mat_m->M[2][2] = (std::int32_t)(mat_f[8] * 32768.0);
+    mat_m->M[2][0] = (std::int32_t) (mat_f[6] * 32768.0);
+    mat_m->M[2][1] = (std::int32_t) (mat_f[7] * 32768.0);
+    mat_m->M[2][2] = (std::int32_t) (mat_f[8] * 32768.0);
     // LogText(" mat (%d,%d,%d)(%d,%d,%d)(%d,%d,%d)\n ",mat_m->M[0][0],mat_m->M[0][1],mat_m->M[0][2],mat_m->M[1][0],mat_m->M[1][1],mat_m->M[1][2],mat_m->M[2][0],mat_m->M[2][1],mat_m->M[2][2]);
 }
 

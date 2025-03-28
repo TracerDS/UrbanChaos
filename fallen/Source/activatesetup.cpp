@@ -35,48 +35,48 @@ bool CALLBACK acts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the combo box.
-            INIT_COMBO_BOX(IDC_COMBO1, wactivate_strings, prim_type);
-            PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO1, CBN_SELCHANGE), (LPARAM) the_ctrl);
-            //	Set up the 'count' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(99, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(prim_anim, 0));
+    case WM_INITDIALOG:
+        //	Set up the combo box.
+        INIT_COMBO_BOX(IDC_COMBO1, wactivate_strings, prim_type);
+        PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO1, CBN_SELCHANGE), (LPARAM) the_ctrl);
+        //	Set up the 'count' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(99, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(prim_anim, 0));
 
-            return true;
+        return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDC_COMBO1:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        std::int32_t show = (SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) == 3) ? SW_SHOW : SW_HIDE;
-                        ShowWindow(GetDlgItem(hWnd, IDC_STATIC_ANIM), show);
-                        ShowWindow(GetDlgItem(hWnd, IDC_SPIN1), show);
-                        ShowWindow(GetDlgItem(hWnd, IDC_EDIT1), show);
-                    }
-                    break;
-                case IDOK:
-                    prim_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-                    prim_anim = SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
-                                            UDM_GETPOS,
-                                            0, 0);
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDC_COMBO1:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                std::int32_t show = (SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) == 3) ? SW_SHOW : SW_HIDE;
+                ShowWindow(GetDlgItem(hWnd, IDC_STATIC_ANIM), show);
+                ShowWindow(GetDlgItem(hWnd, IDC_SPIN1), show);
+                ShowWindow(GetDlgItem(hWnd, IDC_EDIT1), show);
             }
             break;
-
-        case WM_CLOSE:
-            EndDialog(hWnd, 0);
+        case IDOK:
+            prim_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            prim_anim = SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
+                                    UDM_GETPOS,
+                                    0, 0);
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

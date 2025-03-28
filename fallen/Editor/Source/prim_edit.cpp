@@ -1077,7 +1077,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
                                                                                                     sxcy = F
                                                                                                            cx(-C) cz +
                                                                                                            sxsz = G
-                                                                                                                  cx(-C) sz -
+                                                                                                                      cx(-C) sz -
                                                                                                                   sxcz = H
                                                                                                                       cxcy = I
 
@@ -1091,7 +1091,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
                                                                                                                                                                        (cz * I) /
                                                                                                                                                                        A = cx
 
-                                                                                                                                                                           cx(-C) cz +
+                                                                                                                                                                               cx(-C) cz +
                                                                                                                                                                            sxsz = G
 
                                                                                                                                                                                       (cz * I(-C) * cz) /
@@ -1100,7 +1100,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
 #endif
 
     void
-    comma_to_dot(char *str) {
+        comma_to_dot(char *str) {
     while (*str) {
         if (*str == ',')
             *str = '.';
@@ -1427,9 +1427,9 @@ std::int32_t read_sex(char *fname, std::int32_t scale /* Ignored */, std::int32_
 
             SWAP_FL(y, z);
 
-            prim_points[next_prim_point].X = (std::int32_t)((x * GAME_SCALE) / GAME_SCALE_DIV);
-            prim_points[next_prim_point].Y = (std::int32_t)((y * GAME_SCALE) / GAME_SCALE_DIV);
-            prim_points[next_prim_point].Z = (std::int32_t)((z * GAME_SCALE) / GAME_SCALE_DIV);
+            prim_points[next_prim_point].X = (std::int32_t) ((x * GAME_SCALE) / GAME_SCALE_DIV);
+            prim_points[next_prim_point].Y = (std::int32_t) ((y * GAME_SCALE) / GAME_SCALE_DIV);
+            prim_points[next_prim_point].Z = (std::int32_t) ((z * GAME_SCALE) / GAME_SCALE_DIV);
 
             //
             // Update the bounding rectangle of this object.
@@ -2043,8 +2043,7 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
             {
                 char *ch;
 
-                for (ch = mat[num_m].name; *ch; ch++)
-                    ;
+                for (ch = mat[num_m].name; *ch; ch++);
 
                 while (1) {
                     ch -= 1;
@@ -2074,7 +2073,7 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
 
                 mat[num_m].col = find_colour((std::uint8_t *) ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
 
-                LogText(" found col %d for obj rgb %d %d %d \n", num_m, (std::int32_t)(r * 255.0), (std::int32_t)(g * 255.0), (std::int32_t)(b * 255.0));
+                LogText(" found col %d for obj rgb %d %d %d \n", num_m, (std::int32_t) (r * 255.0), (std::int32_t) (g * 255.0), (std::int32_t) (b * 255.0));
                 col = mat[num_m].col;
                 LogText(" col used %d  rgb %d %d %d \n", col, ENGINE_palette[col].red, ENGINE_palette[col].green, ENGINE_palette[col].blue);
             }
@@ -2100,9 +2099,9 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
 
             SWAP_FL(y, z);
 
-            prim_points[next_prim_point].X = (std::int32_t)((x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
-            prim_points[next_prim_point].Y = (std::int32_t)((y * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
-            prim_points[next_prim_point].Z = (std::int32_t)((z * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+            prim_points[next_prim_point].X = (std::int32_t) ((x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+            prim_points[next_prim_point].Y = (std::int32_t) ((y * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
+            prim_points[next_prim_point].Z = (std::int32_t) ((z * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
 
             num_v += 1;
             num_points += 1;
@@ -2607,9 +2606,9 @@ std::int8_t read_asc(char *fname, std::int32_t scale, std::uint32_t offset) {
                     //					prim_points[next_prim_point].X=(std::int32_t)((f_y*(float)scale)/100.0) ; //+(engine.X>>8)*offset;
                     //					prim_points[next_prim_point].Y=(std::int32_t)((-f_z*(float)scale)/100.0); //+(engine.Y>>8)*offset;
 
-                    prim_points[next_prim_point].X = (std::int32_t)((f_x * GAME_SCALE) / GAME_SCALE_DIV);
-                    prim_points[next_prim_point].Y = (std::int32_t)((f_z * GAME_SCALE) / GAME_SCALE_DIV); //- md
-                    prim_points[next_prim_point].Z = (std::int32_t)((f_y * GAME_SCALE) / GAME_SCALE_DIV);
+                    prim_points[next_prim_point].X = (std::int32_t) ((f_x * GAME_SCALE) / GAME_SCALE_DIV);
+                    prim_points[next_prim_point].Y = (std::int32_t) ((f_z * GAME_SCALE) / GAME_SCALE_DIV); //- md
+                    prim_points[next_prim_point].Z = (std::int32_t) ((f_y * GAME_SCALE) / GAME_SCALE_DIV);
 
                     /*
                                                             if(offset)
@@ -3054,9 +3053,9 @@ std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float shrink) {
                     */
                     //					LogText(" multi asc in %f,%f,%f\n",f_x,f_y,f_z);
 
-                    prim_points[next_prim_point].X = (std::int32_t)((f_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
-                    prim_points[next_prim_point].Y = (std::int32_t)((f_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
-                    prim_points[next_prim_point].Z = (std::int32_t)((f_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+                    prim_points[next_prim_point].X = (std::int32_t) ((f_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+                    prim_points[next_prim_point].Y = (std::int32_t) ((f_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
+                    prim_points[next_prim_point].Z = (std::int32_t) ((f_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
 
                     //					LogText(" multi asc store %d,%d,%d \n",prim_points[next_prim_point].X,prim_points[next_prim_point].Y,prim_points[next_prim_point].Z);
 
@@ -3777,9 +3776,9 @@ extern std::int16_t CreateALightThing(std::int32_t x, std::int32_t y, std::int32
 
 void apply_map_thing(std::int32_t dx, std::int32_t dy, std::int32_t dz, struct MapThing *p_thing) {
     switch (p_thing->Type) {
-        case MAP_THING_TYPE_LIGHT:
-            CreateALightThing(dx + p_thing->X, dy + p_thing->Y, dz + p_thing->Z, p_thing->IndexOther);
-            break;
+    case MAP_THING_TYPE_LIGHT:
+        CreateALightThing(dx + p_thing->X, dy + p_thing->Y, dz + p_thing->Z, p_thing->IndexOther);
+        break;
     }
 }
 

@@ -265,12 +265,12 @@ void OVAL_add(
     std::int32_t page;
 
     switch (type) {
-        case OVAL_TYPE_OVAL: page = POLY_PAGE_SHADOW_OVAL; break;
-        case OVAL_TYPE_SQUARE: page = POLY_PAGE_SHADOW_SQUARE; break;
+    case OVAL_TYPE_OVAL: page = POLY_PAGE_SHADOW_OVAL; break;
+    case OVAL_TYPE_SQUARE: page = POLY_PAGE_SHADOW_SQUARE; break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     //

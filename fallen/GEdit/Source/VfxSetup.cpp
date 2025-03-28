@@ -27,34 +27,34 @@ bool CALLBACK vfx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            ticklist_init(hWnd, IDC_LIST1, wvfx_strings, vfx_types);
+    case WM_INITDIALOG:
+        ticklist_init(hWnd, IDC_LIST1, wvfx_strings, vfx_types);
 
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
-                        UDM_SETRANGE,
-                        0,
-                        MAKELONG(1024, 0));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(vfx_scale, 0));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
+                    UDM_SETRANGE,
+                    0,
+                    MAKELONG(1024, 0));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(vfx_scale, 0));
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            vfx_types = ticklist_bitmask(hWnd, IDC_LIST1);
+            vfx_scale = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+
+        case IDCANCEL:
+            ticklist_close(hWnd, IDC_LIST1);
+            EndDialog(hWnd, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    vfx_types = ticklist_bitmask(hWnd, IDC_LIST1);
-                    vfx_scale = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-
-                case IDCANCEL:
-                    ticklist_close(hWnd, IDC_LIST1);
-                    EndDialog(hWnd, 0);
-                    return true;
-            }
-            break;
-
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
     }
     return false;
 }

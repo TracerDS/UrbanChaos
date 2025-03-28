@@ -53,7 +53,8 @@ ControlDef maped_tab_def[] =
         {BUTTON, 0, "Flatten Map", 10, 50, 0, 0},
         {CHECK_BOX, 0, "Roof Tops", 200, 180 - 10, 0, 10},
         {CHECK_BOX, 0, "Textures", 200, 180 + 5, 0, 10},
-        {0}};
+        {0}
+};
 
 MapEdTab *the_maped;
 
@@ -277,30 +278,30 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
             if (AxisMode > 3)
                 AxisMode = 0;
             switch (AxisMode) {
-                case 0:
-                    SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_SELECTED);
-                    SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_DESELECTED);
-                    SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_DESELECTED);
-                    Axis = X_AXIS;
-                    break;
-                case 1:
-                    SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_DESELECTED);
-                    SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_SELECTED);
-                    SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_DESELECTED);
-                    Axis = Y_AXIS;
-                    break;
-                case 2:
-                    SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_DESELECTED);
-                    SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_DESELECTED);
-                    SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_SELECTED);
-                    Axis = Z_AXIS;
-                    break;
-                case 3:
-                    SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_SELECTED);
-                    SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_SELECTED);
-                    SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_SELECTED);
-                    Axis = X_AXIS | Y_AXIS | Z_AXIS;
-                    break;
+            case 0:
+                SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_SELECTED);
+                SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_DESELECTED);
+                SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_DESELECTED);
+                Axis = X_AXIS;
+                break;
+            case 1:
+                SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_DESELECTED);
+                SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_SELECTED);
+                SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_DESELECTED);
+                Axis = Y_AXIS;
+                break;
+            case 2:
+                SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_DESELECTED);
+                SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_DESELECTED);
+                SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_SELECTED);
+                Axis = Z_AXIS;
+                break;
+            case 3:
+                SetControlState(CTRL_MAPED_X_AXIS_FREE, CTRL_SELECTED);
+                SetControlState(CTRL_MAPED_Y_AXIS_FREE, CTRL_SELECTED);
+                SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_SELECTED);
+                Axis = X_AXIS | Y_AXIS | Z_AXIS;
+                break;
             }
 
             SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
@@ -339,7 +340,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
     // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
-    std::int32_t MapEdTab::DragEngine(std::uint8_t flags, MFPoint * clicked_point) {
+    std::int32_t MapEdTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
         std::int32_t wwx, wwy, www, wwh;
         std::int32_t screen_change = 0;
         std::int32_t last_world_mouse;
@@ -397,7 +398,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         return (screen_change);
     }
 
-    std::int32_t MapEdTab::CalcMapCoord(std::int32_t * mapx, std::int32_t * mapy, std::int32_t * mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint * clicked_point) {
+    std::int32_t MapEdTab::CalcMapCoord(std::int32_t *mapx, std::int32_t *mapy, std::int32_t *mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *clicked_point) {
         std::int32_t width, count_across, count_high;
         std::int32_t mx, my, mz;
         std::int32_t dx, dy;
@@ -803,89 +804,89 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         std::int32_t step = 1;
 
         switch (Mode) {
-            case 0:
-            case FLOOR_HOLD_BRUSH:
-                switch (flags) {
-                    case NO_CLICK:
-                        break;
-                    case LEFT_CLICK:
-
-                        if (ShiftFlag) {
-                            Mode = FLOOR_CUT_BRUSH_DEF;
-                            CutFloorBrush(clicked_point, 1);
-                        } else {
-                            BuildMode->CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
-                            DragAltitude(mx, mz);
-                        }
-                        /*
-                                                                        LogText(" LEFT \n");
-
-                                                                        mx=mx>>ELE_SHIFT;
-                                                                        mz=mz>>ELE_SHIFT;
-                                                                        if(ShiftFlag)
-                                                                                step=10;
-                                                                        if(ControlFlag)
-                                                                                step=100;
-                                                                        ChangeMapAltitude(mx,mz,step);
-                                                                        //edit_map[mx][mz].Y+=step;
-                        */
-                        return (1);
-
-                        break;
-                    case RIGHT_CLICK:
-                        Mode = FLOOR_CUT_BRUSH;
-                        CutFloorBrush(clicked_point, 2);
-                        /*
-                                                                        LogText(" RIGHT \n");
-
-                                                                        BuildMode->CalcMapCoord(&mx,&my,&mz,x,y,w,h,clicked_point);
-                                                                        mx=mx>>ELE_SHIFT;
-                                                                        mz=mz>>ELE_SHIFT;
-                                                                        if(ShiftFlag)
-                                                                                step=10;
-                                                                        if(ControlFlag)
-                                                                                step=100;
-                                                                        ChangeMapAltitude(mx,mz,-step);
-                        */
-                        // edit_map[mx][mz].Y-=step;
-                        //					remove_cube(mx,my,mz);
-                        return (1);
-
-                        break;
-                    case MIDDLE_CLICK:
-                        // DragEngine(flags,clicked_point);
-                        // if(SubMode==FLOOR_CUT_BRUSH)
-                        /*
-                                                                                {
-                                                                                        LogText(" MIDDLE \n");
-                                                                                        CutFloorBrush(clicked_point);
-                                                                                }
-                        */
-                        break;
-                }
+        case 0:
+        case FLOOR_HOLD_BRUSH:
+            switch (flags) {
+            case NO_CLICK:
                 break;
-            case FLOOR_PASTE_BRUSH:
-                switch (flags) {
-                    case LEFT_CLICK:
-                        BuildMode->CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
-                        CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_ALTITUDE, RoofTop);
-                        break;
+            case LEFT_CLICK:
 
-                    case RIGHT_CLICK:
-                        Mode = FLOOR_CUT_BRUSH;
-                        CutFloorBrush(clicked_point, 2);
-                        break;
+                if (ShiftFlag) {
+                    Mode = FLOOR_CUT_BRUSH_DEF;
+                    CutFloorBrush(clicked_point, 1);
+                } else {
+                    BuildMode->CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
+                    DragAltitude(mx, mz);
                 }
+                /*
+                                                                LogText(" LEFT \n");
+
+                                                                mx=mx>>ELE_SHIFT;
+                                                                mz=mz>>ELE_SHIFT;
+                                                                if(ShiftFlag)
+                                                                        step=10;
+                                                                if(ControlFlag)
+                                                                        step=100;
+                                                                ChangeMapAltitude(mx,mz,step);
+                                                                //edit_map[mx][mz].Y+=step;
+                */
+                return (1);
+
+                break;
+            case RIGHT_CLICK:
+                Mode = FLOOR_CUT_BRUSH;
+                CutFloorBrush(clicked_point, 2);
+                /*
+                                                                LogText(" RIGHT \n");
+
+                                                                BuildMode->CalcMapCoord(&mx,&my,&mz,x,y,w,h,clicked_point);
+                                                                mx=mx>>ELE_SHIFT;
+                                                                mz=mz>>ELE_SHIFT;
+                                                                if(ShiftFlag)
+                                                                        step=10;
+                                                                if(ControlFlag)
+                                                                        step=100;
+                                                                ChangeMapAltitude(mx,mz,-step);
+                */
+                // edit_map[mx][mz].Y-=step;
+                //					remove_cube(mx,my,mz);
+                return (1);
+
+                break;
+            case MIDDLE_CLICK:
+                // DragEngine(flags,clicked_point);
+                // if(SubMode==FLOOR_CUT_BRUSH)
+                /*
+                                                                        {
+                                                                                LogText(" MIDDLE \n");
+                                                                                CutFloorBrush(clicked_point);
+                                                                        }
+                */
+                break;
+            }
+            break;
+        case FLOOR_PASTE_BRUSH:
+            switch (flags) {
+            case LEFT_CLICK:
+                BuildMode->CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
+                CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_ALTITUDE, RoofTop);
                 break;
 
-            case FLOOR_CUT_BRUSH:
-            case FLOOR_CUT_BRUSH_DEF:
-                switch (flags) {
-                    case LEFT_CLICK:
-                        CutFloorBrush(clicked_point, 1);
-                        break;
-                }
+            case RIGHT_CLICK:
+                Mode = FLOOR_CUT_BRUSH;
+                CutFloorBrush(clicked_point, 2);
                 break;
+            }
+            break;
+
+        case FLOOR_CUT_BRUSH:
+        case FLOOR_CUT_BRUSH_DEF:
+            switch (flags) {
+            case LEFT_CLICK:
+                CutFloorBrush(clicked_point, 1);
+                break;
+            }
+            break;
         }
         if (flags == MIDDLE_CLICK)
             LogText(" middle2\n");
@@ -964,7 +965,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         return (0);
     }
 
-    std::uint16_t MapEdTab::HandleTabClick(std::uint8_t flags, MFPoint * clicked_point) {
+    std::uint16_t MapEdTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
         std::uint16_t control_id;
         Control *current_control;
         MFPoint local_point;
@@ -973,39 +974,39 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         ShowWorkScreen(0);
 
         switch (flags) {
-            case NO_CLICK:
-                break;
-            case LEFT_CLICK:
-                SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-                local_point = *clicked_point;
-                GlobalToLocal(&local_point);
-                {
-                    current_control = GetControlList();
-                    while (current_control) {
-                        if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                            // Handle control.
-                            control_id = current_control->TrackControl(&local_point);
-                            HandleControl(control_id);
+        case NO_CLICK:
+            break;
+        case LEFT_CLICK:
+            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+            local_point = *clicked_point;
+            GlobalToLocal(&local_point);
+            {
+                current_control = GetControlList();
+                while (current_control) {
+                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                        // Handle control.
+                        control_id = current_control->TrackControl(&local_point);
+                        HandleControl(control_id);
 
-                            // Tidy up display.
-                            if (LockWorkScreen()) {
-                                DrawTab();
-                                UnlockWorkScreen();
-                            }
-                            ShowWorkWindow(0);
-
-                            return control_id;
+                        // Tidy up display.
+                        if (LockWorkScreen()) {
+                            DrawTab();
+                            UnlockWorkScreen();
                         }
-                        current_control = current_control->GetNextControl();
-                    }
-                }
+                        ShowWorkWindow(0);
 
-                break;
-            case RIGHT_CLICK:
-                SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-                local_point = *clicked_point;
-                GlobalToLocal(&local_point);
-                break;
+                        return control_id;
+                    }
+                    current_control = current_control->GetNextControl();
+                }
+            }
+
+            break;
+        case RIGHT_CLICK:
+            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+            local_point = *clicked_point;
+            GlobalToLocal(&local_point);
+            break;
         }
         return 0;
     }
@@ -1182,56 +1183,56 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
     void MapEdTab::HandleControl(std::uint16_t control_id) {
         switch (control_id & 0xff) {
-            case CTRL_MAPED_ROOF_TOP:
-                ToggleControlSelectedState(CTRL_MAPED_ROOF_TOP);
-                if (RoofTop)
-                    RoofTop = 0;
-                else
-                    RoofTop = 1;
-                break;
-            case CTRL_MAPED_TEXTURE:
-                ToggleControlSelectedState(CTRL_MAPED_TEXTURE);
-                if (Texture)
-                    Texture = 0;
-                else
-                    Texture = 1;
-                break;
-            case CTRL_MAPED_X_AXIS_FREE:
-                ToggleControlSelectedState(CTRL_MAPED_X_AXIS_FREE);
-                if (Axis & X_AXIS)
-                    Axis &= ~X_AXIS;
-                else
-                    Axis |= X_AXIS;
-                break;
-            case CTRL_MAPED_Y_AXIS_FREE:
-                ToggleControlSelectedState(CTRL_MAPED_Y_AXIS_FREE);
-                if (Axis & Y_AXIS)
-                    Axis &= ~Y_AXIS;
-                else
-                    Axis |= Y_AXIS;
-                break;
-            case CTRL_MAPED_Z_AXIS_FREE:
-                ToggleControlSelectedState(CTRL_MAPED_Z_AXIS_FREE);
-                if (Axis & Z_AXIS)
-                    Axis &= ~Z_AXIS;
-                else
-                    Axis |= Z_AXIS;
-                break;
-            case CTRL_MAPED_MARK_BLOCK:
-                Mode = MAPED_MODE_MARK;
-                break;
-            case CTRL_MAPED_PAINT:
-                Mode = MAPED_MODE_PAINT;
-                break;
-            case CTRL_MAPED_COPY_BLOCK:
-                Mode = MAPED_MODE_PASTE;
-                break;
-            case CTRL_MAPED_WIBBLE:
-                wibble_map();
-                break;
-            case CTRL_MAPED_FLATTEN:
-                flatten_map();
-                break;
+        case CTRL_MAPED_ROOF_TOP:
+            ToggleControlSelectedState(CTRL_MAPED_ROOF_TOP);
+            if (RoofTop)
+                RoofTop = 0;
+            else
+                RoofTop = 1;
+            break;
+        case CTRL_MAPED_TEXTURE:
+            ToggleControlSelectedState(CTRL_MAPED_TEXTURE);
+            if (Texture)
+                Texture = 0;
+            else
+                Texture = 1;
+            break;
+        case CTRL_MAPED_X_AXIS_FREE:
+            ToggleControlSelectedState(CTRL_MAPED_X_AXIS_FREE);
+            if (Axis & X_AXIS)
+                Axis &= ~X_AXIS;
+            else
+                Axis |= X_AXIS;
+            break;
+        case CTRL_MAPED_Y_AXIS_FREE:
+            ToggleControlSelectedState(CTRL_MAPED_Y_AXIS_FREE);
+            if (Axis & Y_AXIS)
+                Axis &= ~Y_AXIS;
+            else
+                Axis |= Y_AXIS;
+            break;
+        case CTRL_MAPED_Z_AXIS_FREE:
+            ToggleControlSelectedState(CTRL_MAPED_Z_AXIS_FREE);
+            if (Axis & Z_AXIS)
+                Axis &= ~Z_AXIS;
+            else
+                Axis |= Z_AXIS;
+            break;
+        case CTRL_MAPED_MARK_BLOCK:
+            Mode = MAPED_MODE_MARK;
+            break;
+        case CTRL_MAPED_PAINT:
+            Mode = MAPED_MODE_PAINT;
+            break;
+        case CTRL_MAPED_COPY_BLOCK:
+            Mode = MAPED_MODE_PASTE;
+            break;
+        case CTRL_MAPED_WIBBLE:
+            wibble_map();
+            break;
+        case CTRL_MAPED_FLATTEN:
+            flatten_map();
+            break;
         }
     }
 

@@ -168,40 +168,40 @@ std::int32_t FindColour(std::uint8_t *the_palette, std::int32_t r, std::int32_t 
         b = 255;
 
     switch (WorkScreenDepth) {
-        case 1: {
-            std::int32_t dist = 0x7fffffff,
-                         c0,
-                         dist2,
-                         tr,
-                         tg,
-                         tb;
+    case 1: {
+        std::int32_t dist = 0x7fffffff,
+                     c0,
+                     dist2,
+                     tr,
+                     tg,
+                     tb;
 
-            for (c0 = 0; c0 < 256; c0++) {
-                tr = *the_palette++;
-                tg = *the_palette++;
-                tb = *the_palette++;
+        for (c0 = 0; c0 < 256; c0++) {
+            tr = *the_palette++;
+            tg = *the_palette++;
+            tb = *the_palette++;
 
-                tr -= r;
-                tg -= g;
-                tb -= b;
+            tr -= r;
+            tg -= g;
+            tb -= b;
 
-                dist2 = abs(tr * tr) + abs(tg * tg) + abs(tb * tb);
-                if (dist2 < dist) {
-                    found = c0;
-                    dist = dist2;
-                    if (dist < 8)
-                        return (c0);
-                }
+            dist2 = abs(tr * tr) + abs(tg * tg) + abs(tb * tb);
+            if (dist2 < dist) {
+                found = c0;
+                dist = dist2;
+                if (dist < 8)
+                    return (c0);
             }
-            break;
         }
-        case 2:
+        break;
+    }
+    case 2:
 
-            found = (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
-            break;
-        case 4:
-            found = ((r << 16) | (g << 8) | (b));
-            break;
+        found = (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
+        break;
+    case 4:
+        found = ((r << 16) | (g << 8) | (b));
+        break;
     }
     return (found);
 }

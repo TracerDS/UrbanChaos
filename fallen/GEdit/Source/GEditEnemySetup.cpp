@@ -64,329 +64,329 @@ bool CALLBACK es_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     char msg[800];
 
     switch (message) {
-        case WM_INITDIALOG: {
-            if (adjust) {
-                strcpy(msg, "Adjust Enemy");
-                SendMessage(hWnd, WM_SETTEXT, 0, (LPARAM) msg);
-                ShowWindow(GetDlgItem(hWnd, IDC_STATIC_ADJUST), SW_SHOW);
-                ShowWindow(GetDlgItem(hWnd, IDC_EDIT3), SW_SHOW);
-                ShowWindow(GetDlgItem(hWnd, IDC_SPIN3), SW_SHOW);
-                //	Set up the 'target' spin.
-                SendMessage(
-                    GetDlgItem(hWnd, IDC_SPIN3),
-                    UDM_SETRANGE,
-                    0,
-                    MAKELONG(1000, 0));
-                SendMessage(
-                    GetDlgItem(hWnd, IDC_SPIN3),
-                    UDM_SETPOS,
-                    0,
-                    MAKELONG(enemy_to_change, 0));
-            }
-
-            //	Set up the combo box.
-            INIT_COMBO_BOX(IDC_COMBO1, wenemy_strings, enemy_type - 1);
-            INIT_COMBO_BOX(IDC_COMBO2, wenemy_move_strings, enemy_move);
-            PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO2, CBN_SELCHANGE), (LPARAM) the_ctrl);
-            INIT_COMBO_BOX(IDC_COMBO4, wenemy_ai_strings, LOWORD(enemy_ai));
-            PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO4, CBN_SELCHANGE), (LPARAM) the_ctrl);
-
-            INIT_COMBO_BOX(IDC_COMBO3, wenemy_ability_strings, HIWORD(enemy_ai));
-
-            //  Subclass and init the listbox
-            //			TICKLIST_INIT(IDC_LIST3,wenemy_flag_strings,enemy_flags);
-            ticklist_init(hWnd, IDC_LIST3, wenemy_flag_strings, enemy_flags);
-            ticklist_init(hWnd, IDC_LIST1, wweaponitem_strings, enemy_weaps);
-            ticklist_init(hWnd, IDC_LIST2, wotheritem_strings, enemy_items);
-
-            //	Set up the 'count' spin.
+    case WM_INITDIALOG: {
+        if (adjust) {
+            strcpy(msg, "Adjust Enemy");
+            SendMessage(hWnd, WM_SETTEXT, 0, (LPARAM) msg);
+            ShowWindow(GetDlgItem(hWnd, IDC_STATIC_ADJUST), SW_SHOW);
+            ShowWindow(GetDlgItem(hWnd, IDC_EDIT3), SW_SHOW);
+            ShowWindow(GetDlgItem(hWnd, IDC_SPIN3), SW_SHOW);
+            //	Set up the 'target' spin.
             SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(99, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(enemy_count, 0));
-
-            //	Set up the 'constitution' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(100, 0));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETPOS,
-                0,
-                MAKELONG(enemy_constitution, 0));
-            //	Set up the 'guard' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN4),
+                GetDlgItem(hWnd, IDC_SPIN3),
                 UDM_SETRANGE,
                 0,
                 MAKELONG(1000, 0));
             SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN4),
+                GetDlgItem(hWnd, IDC_SPIN3),
                 UDM_SETPOS,
                 0,
-                MAKELONG(enemy_guard, 0));
-            //	Set up the 'follow' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN5),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(1000, 0));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN5),
-                UDM_SETPOS,
-                0,
-                MAKELONG(enemy_follow, 0));
-
-            //
-            // Set up the 'has' buttons.
-            //
-
-            CheckDlgButton(hWnd, IDC_HAS_PISTOL, (enemy_has & HAS_PISTOL) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_HAS_SHOTGUN, (enemy_has & HAS_SHOTGUN) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_HAS_AK47, (enemy_has & HAS_AK47) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_HAS_GRENADE, (enemy_has & HAS_GRENADE) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_HAS_BALLOON, (enemy_has & HAS_BALLOON) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_KNIFE, (enemy_has & HAS_KNIFE) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_BAT, (enemy_has & HAS_BAT) ? BST_CHECKED : BST_UNCHECKED);
-
-            //
-            // Set up the combat check boxes.
-            //
-
-            CheckDlgButton(hWnd, IDC_WITH_SLIDE, (enemy_combat & PCOM_COMBAT_SLIDE) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_WITH_COMBO_PPP, (enemy_combat & PCOM_COMBAT_COMBO_PPP) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_WITH_COMBO_KKK, (enemy_combat & PCOM_COMBAT_COMBO_KKK) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_WITH_COMBO_ANY, (enemy_combat & PCOM_COMBAT_COMBO_ANY) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_WITH_GRAPPLE_ATTACK, (enemy_combat & PCOM_COMBAT_GRAPPLE_ATTACK) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_WITH_SIDE_KICK, (enemy_combat & PCOM_COMBAT_SIDE_KICK) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_WITH_BACK_KICK, (enemy_combat & PCOM_COMBAT_BACK_KICK) ? BST_CHECKED : BST_UNCHECKED);
-
-            return true;
+                MAKELONG(enemy_to_change, 0));
         }
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDC_COMBO4:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        {
-                            std::int32_t ai;
-                            bool enable;
+        //	Set up the combo box.
+        INIT_COMBO_BOX(IDC_COMBO1, wenemy_strings, enemy_type - 1);
+        INIT_COMBO_BOX(IDC_COMBO2, wenemy_move_strings, enemy_move);
+        PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO2, CBN_SELCHANGE), (LPARAM) the_ctrl);
+        INIT_COMBO_BOX(IDC_COMBO4, wenemy_ai_strings, LOWORD(enemy_ai));
+        PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO4, CBN_SELCHANGE), (LPARAM) the_ctrl);
 
-                            ai = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0);
+        INIT_COMBO_BOX(IDC_COMBO3, wenemy_ability_strings, HIWORD(enemy_ai));
 
-                            switch (ai) {
-                                case 3:  // PCOM_AI_ASSASIN:
-                                case 8:  // PCOM_AI_BODYGUARD:
-                                case 17: // PCOM_AI_GENOCIDE:
-                                case 21: // PCOM_AI_SHOOT_DEAD:
+        //  Subclass and init the listbox
+        //			TICKLIST_INIT(IDC_LIST3,wenemy_flag_strings,enemy_flags);
+        ticklist_init(hWnd, IDC_LIST3, wenemy_flag_strings, enemy_flags);
+        ticklist_init(hWnd, IDC_LIST1, wweaponitem_strings, enemy_weaps);
+        ticklist_init(hWnd, IDC_LIST2, wotheritem_strings, enemy_items);
 
-                                    //
-                                    // We need to know who to kill/protect.
-                                    //
+        //	Set up the 'count' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(99, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(enemy_count, 0));
 
-                                    enable = true;
-                                    break;
+        //	Set up the 'constitution' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(100, 0));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETPOS,
+            0,
+            MAKELONG(enemy_constitution, 0));
+        //	Set up the 'guard' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN4),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(1000, 0));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN4),
+            UDM_SETPOS,
+            0,
+            MAKELONG(enemy_guard, 0));
+        //	Set up the 'follow' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN5),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(1000, 0));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN5),
+            UDM_SETPOS,
+            0,
+            MAKELONG(enemy_follow, 0));
 
-                                default:
-                                    enable = false;
-                                    break;
-                            }
+        //
+        // Set up the 'has' buttons.
+        //
 
-                            EnableWindow(GetDlgItem(hWnd, IDC_STATIC_ADJUST2), enable);
-                            EnableWindow(GetDlgItem(hWnd, IDC_SPIN4), enable);
-                            EnableWindow(GetDlgItem(hWnd, IDC_EDIT4), enable);
-                        }
+        CheckDlgButton(hWnd, IDC_HAS_PISTOL, (enemy_has & HAS_PISTOL) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_HAS_SHOTGUN, (enemy_has & HAS_SHOTGUN) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_HAS_AK47, (enemy_has & HAS_AK47) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_HAS_GRENADE, (enemy_has & HAS_GRENADE) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_HAS_BALLOON, (enemy_has & HAS_BALLOON) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_KNIFE, (enemy_has & HAS_KNIFE) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_BAT, (enemy_has & HAS_BAT) ? BST_CHECKED : BST_UNCHECKED);
+
+        //
+        // Set up the combat check boxes.
+        //
+
+        CheckDlgButton(hWnd, IDC_WITH_SLIDE, (enemy_combat & PCOM_COMBAT_SLIDE) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_WITH_COMBO_PPP, (enemy_combat & PCOM_COMBAT_COMBO_PPP) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_WITH_COMBO_KKK, (enemy_combat & PCOM_COMBAT_COMBO_KKK) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_WITH_COMBO_ANY, (enemy_combat & PCOM_COMBAT_COMBO_ANY) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_WITH_GRAPPLE_ATTACK, (enemy_combat & PCOM_COMBAT_GRAPPLE_ATTACK) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_WITH_SIDE_KICK, (enemy_combat & PCOM_COMBAT_SIDE_KICK) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_WITH_BACK_KICK, (enemy_combat & PCOM_COMBAT_BACK_KICK) ? BST_CHECKED : BST_UNCHECKED);
+
+        return true;
+    }
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDC_COMBO4:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                {
+                    std::int32_t ai;
+                    bool enable;
+
+                    ai = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0);
+
+                    switch (ai) {
+                    case 3:  // PCOM_AI_ASSASIN:
+                    case 8:  // PCOM_AI_BODYGUARD:
+                    case 17: // PCOM_AI_GENOCIDE:
+                    case 21: // PCOM_AI_SHOOT_DEAD:
+
+                        //
+                        // We need to know who to kill/protect.
+                        //
+
+                        enable = true;
+                        break;
+
+                    default:
+                        enable = false;
+                        break;
                     }
-                    break;
-                case IDC_COMBO2:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        bool b = (SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) == 4 || (SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) == 6));
-                        EnableWindow(GetDlgItem(hWnd, IDC_STATIC_ADJUST3), b);
-                        EnableWindow(GetDlgItem(hWnd, IDC_SPIN5), b);
-                        EnableWindow(GetDlgItem(hWnd, IDC_EDIT5), b);
-                    }
-                    break;
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
+
+                    EnableWindow(GetDlgItem(hWnd, IDC_STATIC_ADJUST2), enable);
+                    EnableWindow(GetDlgItem(hWnd, IDC_SPIN4), enable);
+                    EnableWindow(GetDlgItem(hWnd, IDC_EDIT4), enable);
+                }
             }
             break;
-
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
-            /*
-                            case WM_MEASUREITEM:
-                            {
-                                    LPMEASUREITEMSTRUCT item = (LPMEASUREITEMSTRUCT) lParam;
-                                    RECT rc;
-                                    GetWindowRect(GetDlgItem(hWnd,item->CtlID),&rc);
-                                    item->itemWidth=rc.right-rc.left;
-                                    item->itemHeight=16;
-                                    return true;
-                            }
-
-                            case WM_DRAWITEM:
-                            {
-                                    HWND ctl = GetDlgItem(hWnd,wParam);
-                                    HDC  memdc;
-                                    LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
-                                    HBITMAP bmp,obmp;
-                                    char pc[255];
-
-                                    FillRect(item->hDC, &item->rcItem, (HBRUSH) GetStockObject(WHITE_BRUSH));
-                                    SendMessage(ctl,LB_GETTEXT,item->itemID,(long)pc);
-                                    TextOut(item->hDC,item->rcItem.left+20,item->rcItem.top+2,pc,strlen(pc));
-
-
-                                    memdc=CreateCompatibleDC(item->hDC);
-                                    bmp=(HBITMAP)LoadImage(nullptr, (LPCTSTR)OBM_CHECKBOXES, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
-                                    obmp=(HBITMAP)SelectObject(memdc,bmp);
-
-                                    BitBlt(item->hDC,item->rcItem.left+2,item->rcItem.top+2,12,12,memdc,(13*item->itemData),0,SRCCOPY);
-
-                                    SelectObject(memdc,obmp);
-                                    DeleteDC(memdc);
-                                    DeleteObject(bmp);
-
-                                    if (item->itemState & ODS_FOCUS)
-                                            DrawFocusRect(item->hDC,&item->rcItem);
-
-                                    return true;
-                            }
-            */
-        case WM_NOTIFY:
-            lp_ntfy = (NM_UPDOWN *) lParam;
-
-            //	Make the 'constitution' spin go up/down in steps of 5.
-            if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
-                SendMessage(
-                    lp_ntfy->hdr.hwndFrom,
-                    UDM_SETPOS,
-                    0,
-                    MAKELONG(lp_ntfy->iPos + (lp_ntfy->iDelta * 4), 0));
-                return true;
+        case IDC_COMBO2:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                bool b = (SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) == 4 || (SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) == 6));
+                EnableWindow(GetDlgItem(hWnd, IDC_STATIC_ADJUST3), b);
+                EnableWindow(GetDlgItem(hWnd, IDC_SPIN5), b);
+                EnableWindow(GetDlgItem(hWnd, IDC_EDIT5), b);
             }
             break;
-
-        case WM_VSCROLL:
-            //	Set up the 'count' or 'constitution'.
-            if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN1 && LOWORD(wParam) == SB_THUMBPOSITION) {
-                enemy_count = HIWORD(wParam);
-                return true;
-            } else if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN2 && LOWORD(wParam) == SB_THUMBPOSITION) {
-                enemy_constitution = HIWORD(wParam);
-                return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            enemy_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
-                                     CB_GETCURSEL,
-                                     0, 0) +
-                         1;
-            enemy_count = SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
-                                      UDM_GETPOS,
-                                      0, 0);
-            enemy_constitution = SendMessage(GetDlgItem(hWnd, IDC_SPIN2),
-                                             UDM_GETPOS,
-                                             0, 0);
-            enemy_move = SendMessage(GetDlgItem(hWnd, IDC_COMBO2),
-                                     CB_GETCURSEL,
-                                     0, 0);
-            /*			enemy_mood	=	SendMessage (	GetDlgItem(hWnd,IDC_COMBO3),
-                                                                                                    CB_GETCURSEL,
-                                                                                                    0,0
-                                                                                            );*/
-            enemy_flags = ticklist_bitmask(hWnd, IDC_LIST3);
-
-            enemy_ai = SendMessage(GetDlgItem(hWnd, IDC_COMBO4),
-                                   CB_GETCURSEL,
-                                   0, 0);
-            enemy_ai |= SendMessage(GetDlgItem(hWnd, IDC_COMBO3),
-                                    CB_GETCURSEL,
-                                    0, 0)
-                        << 16;
-            enemy_to_change = SendMessage(GetDlgItem(hWnd, IDC_SPIN3),
-                                          UDM_GETPOS,
-                                          0, 0);
-            enemy_guard = SendMessage(GetDlgItem(hWnd, IDC_SPIN4),
-                                      UDM_GETPOS,
-                                      0, 0);
-            enemy_follow = SendMessage(GetDlgItem(hWnd, IDC_SPIN5),
-                                       UDM_GETPOS,
-                                       0, 0);
-            enemy_weaps = ticklist_bitmask(hWnd, IDC_LIST1);
-            enemy_items = ticklist_bitmask(hWnd, IDC_LIST2);
-
-            //
-            // What this enemy has...
-            //
-
-            enemy_has = 0;
-
-            if (IsDlgButtonChecked(hWnd, IDC_HAS_PISTOL) == BST_CHECKED) {
-                enemy_has |= HAS_PISTOL;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_HAS_SHOTGUN) == BST_CHECKED) {
-                enemy_has |= HAS_SHOTGUN;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_HAS_AK47) == BST_CHECKED) {
-                enemy_has |= HAS_AK47;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_HAS_GRENADE) == BST_CHECKED) {
-                enemy_has |= HAS_GRENADE;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_HAS_BALLOON) == BST_CHECKED) {
-                enemy_has |= HAS_BALLOON;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_KNIFE) == BST_CHECKED) {
-                enemy_has |= HAS_KNIFE;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_BAT) == BST_CHECKED) {
-                enemy_has |= HAS_BAT;
-            }
-
-            enemy_combat = 0;
-
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_SLIDE) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_SLIDE;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_COMBO_PPP) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_COMBO_PPP;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_COMBO_KKK) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_COMBO_KKK;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_COMBO_ANY) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_COMBO_ANY;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_GRAPPLE_ATTACK) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_GRAPPLE_ATTACK;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_SIDE_KICK) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_SIDE_KICK;
-            }
-            if (IsDlgButtonChecked(hWnd, IDC_WITH_BACK_KICK) == BST_CHECKED) {
-                enemy_combat |= PCOM_COMBAT_BACK_KICK;
-            }
-
-            ticklist_close(hWnd, IDC_LIST1);
-            ticklist_close(hWnd, IDC_LIST2);
-            ticklist_close(hWnd, IDC_LIST3);
-
-            EndDialog(hWnd, 0);
-
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
+        /*
+                        case WM_MEASUREITEM:
+                        {
+                                LPMEASUREITEMSTRUCT item = (LPMEASUREITEMSTRUCT) lParam;
+                                RECT rc;
+                                GetWindowRect(GetDlgItem(hWnd,item->CtlID),&rc);
+                                item->itemWidth=rc.right-rc.left;
+                                item->itemHeight=16;
+                                return true;
+                        }
+
+                        case WM_DRAWITEM:
+                        {
+                                HWND ctl = GetDlgItem(hWnd,wParam);
+                                HDC  memdc;
+                                LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
+                                HBITMAP bmp,obmp;
+                                char pc[255];
+
+                                FillRect(item->hDC, &item->rcItem, (HBRUSH) GetStockObject(WHITE_BRUSH));
+                                SendMessage(ctl,LB_GETTEXT,item->itemID,(long)pc);
+                                TextOut(item->hDC,item->rcItem.left+20,item->rcItem.top+2,pc,strlen(pc));
+
+
+                                memdc=CreateCompatibleDC(item->hDC);
+                                bmp=(HBITMAP)LoadImage(nullptr, (LPCTSTR)OBM_CHECKBOXES, IMAGE_BITMAP, 0, 0, LR_DEFAULTCOLOR);
+                                obmp=(HBITMAP)SelectObject(memdc,bmp);
+
+                                BitBlt(item->hDC,item->rcItem.left+2,item->rcItem.top+2,12,12,memdc,(13*item->itemData),0,SRCCOPY);
+
+                                SelectObject(memdc,obmp);
+                                DeleteDC(memdc);
+                                DeleteObject(bmp);
+
+                                if (item->itemState & ODS_FOCUS)
+                                        DrawFocusRect(item->hDC,&item->rcItem);
+
+                                return true;
+                        }
+        */
+    case WM_NOTIFY:
+        lp_ntfy = (NM_UPDOWN *) lParam;
+
+        //	Make the 'constitution' spin go up/down in steps of 5.
+        if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
+            SendMessage(
+                lp_ntfy->hdr.hwndFrom,
+                UDM_SETPOS,
+                0,
+                MAKELONG(lp_ntfy->iPos + (lp_ntfy->iDelta * 4), 0));
+            return true;
+        }
+        break;
+
+    case WM_VSCROLL:
+        //	Set up the 'count' or 'constitution'.
+        if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN1 && LOWORD(wParam) == SB_THUMBPOSITION) {
+            enemy_count = HIWORD(wParam);
+            return true;
+        } else if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN2 && LOWORD(wParam) == SB_THUMBPOSITION) {
+            enemy_constitution = HIWORD(wParam);
+            return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        enemy_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
+                                 CB_GETCURSEL,
+                                 0, 0) +
+                     1;
+        enemy_count = SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
+                                  UDM_GETPOS,
+                                  0, 0);
+        enemy_constitution = SendMessage(GetDlgItem(hWnd, IDC_SPIN2),
+                                         UDM_GETPOS,
+                                         0, 0);
+        enemy_move = SendMessage(GetDlgItem(hWnd, IDC_COMBO2),
+                                 CB_GETCURSEL,
+                                 0, 0);
+        /*			enemy_mood	=	SendMessage (	GetDlgItem(hWnd,IDC_COMBO3),
+                                                                                                CB_GETCURSEL,
+                                                                                                0,0
+                                                                                        );*/
+        enemy_flags = ticklist_bitmask(hWnd, IDC_LIST3);
+
+        enemy_ai = SendMessage(GetDlgItem(hWnd, IDC_COMBO4),
+                               CB_GETCURSEL,
+                               0, 0);
+        enemy_ai |= SendMessage(GetDlgItem(hWnd, IDC_COMBO3),
+                                CB_GETCURSEL,
+                                0, 0)
+                    << 16;
+        enemy_to_change = SendMessage(GetDlgItem(hWnd, IDC_SPIN3),
+                                      UDM_GETPOS,
+                                      0, 0);
+        enemy_guard = SendMessage(GetDlgItem(hWnd, IDC_SPIN4),
+                                  UDM_GETPOS,
+                                  0, 0);
+        enemy_follow = SendMessage(GetDlgItem(hWnd, IDC_SPIN5),
+                                   UDM_GETPOS,
+                                   0, 0);
+        enemy_weaps = ticklist_bitmask(hWnd, IDC_LIST1);
+        enemy_items = ticklist_bitmask(hWnd, IDC_LIST2);
+
+        //
+        // What this enemy has...
+        //
+
+        enemy_has = 0;
+
+        if (IsDlgButtonChecked(hWnd, IDC_HAS_PISTOL) == BST_CHECKED) {
+            enemy_has |= HAS_PISTOL;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_HAS_SHOTGUN) == BST_CHECKED) {
+            enemy_has |= HAS_SHOTGUN;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_HAS_AK47) == BST_CHECKED) {
+            enemy_has |= HAS_AK47;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_HAS_GRENADE) == BST_CHECKED) {
+            enemy_has |= HAS_GRENADE;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_HAS_BALLOON) == BST_CHECKED) {
+            enemy_has |= HAS_BALLOON;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_KNIFE) == BST_CHECKED) {
+            enemy_has |= HAS_KNIFE;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_BAT) == BST_CHECKED) {
+            enemy_has |= HAS_BAT;
+        }
+
+        enemy_combat = 0;
+
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_SLIDE) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_SLIDE;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_COMBO_PPP) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_COMBO_PPP;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_COMBO_KKK) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_COMBO_KKK;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_COMBO_ANY) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_COMBO_ANY;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_GRAPPLE_ATTACK) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_GRAPPLE_ATTACK;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_SIDE_KICK) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_SIDE_KICK;
+        }
+        if (IsDlgButtonChecked(hWnd, IDC_WITH_BACK_KICK) == BST_CHECKED) {
+            enemy_combat |= PCOM_COMBAT_BACK_KICK;
+        }
+
+        ticklist_close(hWnd, IDC_LIST1);
+        ticklist_close(hWnd, IDC_LIST2);
+        ticklist_close(hWnd, IDC_LIST3);
+
+        EndDialog(hWnd, 0);
+
+        return true;
     }
     return false;
 }

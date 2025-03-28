@@ -27,57 +27,57 @@ bool CALLBACK cs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the combo box.
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            lbitem_str = wcreature_strings[0];
-            while (*lbitem_str != '!') {
-                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
-                lbitem_str = wcreature_strings[++c0];
-            }
-            //	Set its default item.
-            SendMessage(the_ctrl, CB_SETCURSEL, creature_type - 1, 0);
+    case WM_INITDIALOG:
+        //	Set up the combo box.
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        lbitem_str = wcreature_strings[0];
+        while (*lbitem_str != '!') {
+            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
+            lbitem_str = wcreature_strings[++c0];
+        }
+        //	Set its default item.
+        SendMessage(the_ctrl, CB_SETCURSEL, creature_type - 1, 0);
 
-            //	Set up the 'count' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(99, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(creature_count, 0));
+        //	Set up the 'count' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(99, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(creature_count, 0));
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_VSCROLL:
-            //	Set up the 'count' or 'constitution'.
-            if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN1 && LOWORD(wParam) == SB_THUMBPOSITION) {
-                creature_count = HIWORD(wParam);
-                return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            //	Set the 'type'.
-            creature_type = SendMessage(
-                                GetDlgItem(hWnd, IDC_COMBO1),
-                                CB_GETCURSEL,
-                                0, 0) +
-                            1;
-
-            EndDialog(hWnd, 0);
+    case WM_VSCROLL:
+        //	Set up the 'count' or 'constitution'.
+        if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN1 && LOWORD(wParam) == SB_THUMBPOSITION) {
+            creature_count = HIWORD(wParam);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        //	Set the 'type'.
+        creature_type = SendMessage(
+                            GetDlgItem(hWnd, IDC_COMBO1),
+                            CB_GETCURSEL,
+                            0, 0) +
+                        1;
+
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

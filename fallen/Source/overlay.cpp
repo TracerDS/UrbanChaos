@@ -365,53 +365,83 @@ std::int32_t help_system() {
         p_found = TO_THING(found[i]);
 
         switch (p_found->Class) {
-            case CLASS_VEHICLE:
-                if (!p_found->Genus.Vehicle->Driver && p_found->State != STATE_DEAD) {
-                    if (p_found->Genus.Vehicle->key) {
-                        if (!person_has_special(p_person, p_found->Genus.Vehicle->key)) {
-                            continue;
-                        }
-                    }
-
-                    // Simple bounding circle rejection.
-
-                    dx = abs((p_found->WorldPos.X >> 8) - x);
-                    dz = abs((p_found->WorldPos.Z >> 8) - z);
-
-                    dist = QDIST2(dx, dz);
-
-                    if (dist <= 512) {
-                        std::int32_t cx, cz, dy;
-
-                        show_help_text(HELP_USE_CAR);
-
-                        extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t *cx, std::int32_t *cz);
-
-                        get_car_enter_xz(p_found, &cx, &cz);
-
-                        switch (p_found->Genus.Vehicle->Type) {
-                            case VEH_TYPE_VAN:
-                            case VEH_TYPE_AMBULANCE:
-                            case VEH_TYPE_MEATWAGON:
-                            case VEH_TYPE_JEEP:
-                            case VEH_TYPE_WILDCATVAN:
-                                dy = 150;
-                                break;
-                            default:
-                                dy = 50;
-                                break;
-                        }
-                        arrow_pos(cx, (p_found->WorldPos.Y >> 8) + dy, cz, 1, HELP_USE_CAR);
+        case CLASS_VEHICLE:
+            if (!p_found->Genus.Vehicle->Driver && p_found->State != STATE_DEAD) {
+                if (p_found->Genus.Vehicle->key) {
+                    if (!person_has_special(p_person, p_found->Genus.Vehicle->key)) {
+                        continue;
                     }
                 }
 
-                break;
+                // Simple bounding circle rejection.
+
+                dx = abs((p_found->WorldPos.X >> 8) - x);
+                dz = abs((p_found->WorldPos.Z >> 8) - z);
+
+                dist = QDIST2(dx, dz);
+
+                if (dist <= 512) {
+                    std::int32_t cx, cz, dy;
+
+                    show_help_text(HELP_USE_CAR);
+
+                    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t *cx, std::int32_t *cz);
+
+                    get_car_enter_xz(p_found, &cx, &cz);
+
+                    switch (p_found->Genus.Vehicle->Type) {
+                    case VEH_TYPE_VAN:
+                    case VEH_TYPE_AMBULANCE:
+                    case VEH_TYPE_MEATWAGON:
+                    case VEH_TYPE_JEEP:
+                    case VEH_TYPE_WILDCATVAN:
+                        dy = 150;
+                        break;
+                    default:
+                        dy = 50;
+                        break;
+                    }
+                    arrow_pos(cx, (p_found->WorldPos.Y >> 8) + dy, cz, 1, HELP_USE_CAR);
+                }
+            }
+
+            break;
 
 #ifdef BIKE
-            case CLASS_BIKE:
-                if (p_found->Genus.Vehicle->Driver) {
-                    // prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
-                    // pi   = get_prim_info(prim);
+        case CLASS_BIKE:
+            if (p_found->Genus.Vehicle->Driver) {
+                // prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
+                // pi   = get_prim_info(prim);
+
+                // Simple bounding circle rejection.
+
+                dx = abs((p_found->WorldPos.X >> 8) - x);
+                dz = abs((p_found->WorldPos.Z >> 8) - z);
+
+                dist = QDIST2(dx, dz);
+
+                if (dist <= 512) {
+                    std::int32_t cx, cz;
+                    show_help_text(HELP_USE_BIKE);
+
+                    arrow_object(p_found, 1, HELP_USE_BIKE);
+                    // draw_arrow(cx,(p_found->WorldPos.Y>>8)+150,cz,1);
+                }
+            }
+            break;
+#endif
+
+        case CLASS_SPECIAL:
+
+            if (should_person_get_item(p_person, p_found)) {
+                switch (p_found->Genus.Special->SpecialType) {
+                case SPECIAL_TREASURE:
+                    //
+                    // don't highlight treasure
+                    //
+                    break;
+
+                default:
 
                     // Simple bounding circle rejection.
 
@@ -419,50 +449,20 @@ std::int32_t help_system() {
                     dz = abs((p_found->WorldPos.Z >> 8) - z);
 
                     dist = QDIST2(dx, dz);
-
-                    if (dist <= 512) {
-                        std::int32_t cx, cz;
-                        show_help_text(HELP_USE_BIKE);
-
-                        arrow_object(p_found, 1, HELP_USE_BIKE);
-                        // draw_arrow(cx,(p_found->WorldPos.Y>>8)+150,cz,1);
-                    }
+                    /*
+                                                                    if (dist <= 256)
+                                                                    {
+                            //						if((GAME_TURN&63)==0)
+                            //							CONSOLE_text("Stand over item and press action to pickup\n");
+                                                                            show_help_text(HELP_PICKUP_ITEM);
+                                                                            arrow_object(p_found,1,HELP_PICKUP_ITEM);
+                                                                    }
+                    */
+                    break;
                 }
-                break;
-#endif
+            }
 
-            case CLASS_SPECIAL:
-
-                if (should_person_get_item(p_person, p_found)) {
-                    switch (p_found->Genus.Special->SpecialType) {
-                        case SPECIAL_TREASURE:
-                            //
-                            // don't highlight treasure
-                            //
-                            break;
-
-                        default:
-
-                            // Simple bounding circle rejection.
-
-                            dx = abs((p_found->WorldPos.X >> 8) - x);
-                            dz = abs((p_found->WorldPos.Z >> 8) - z);
-
-                            dist = QDIST2(dx, dz);
-                            /*
-                                                                            if (dist <= 256)
-                                                                            {
-                                    //						if((GAME_TURN&63)==0)
-                                    //							CONSOLE_text("Stand over item and press action to pickup\n");
-                                                                                    show_help_text(HELP_PICKUP_ITEM);
-                                                                                    arrow_object(p_found,1,HELP_PICKUP_ITEM);
-                                                                            }
-                            */
-                            break;
-                    }
-                }
-
-                break;
+            break;
         }
     }
 
@@ -492,32 +492,32 @@ void track_enemy(Thing *p_thing) {
     if (unused >= 0) {
         std::int32_t face;
         switch (p_thing->Genus.Person->PersonType) {
-            case 0:
-                // PERSON_DARCI
-            case 1:
-            case 2:
-                face = 5;
-                break;
-            case 3:
-                face = THING_NUMBER(p_thing) & 3; // special boss man
-                if (face == 0)
-                    face = 1;
-                break;
+        case 0:
+            // PERSON_DARCI
+        case 1:
+        case 2:
+            face = 5;
+            break;
+        case 3:
+            face = THING_NUMBER(p_thing) & 3; // special boss man
+            if (face == 0)
+                face = 1;
+            break;
 
-            case 4:
-                face = 6; // special boss man
-                break;
-            case 5:
-                face = 4;
-                break;
-            case 6:
-            case 7:       // soldier
-                face = 4; // buggered if i know
-                break;
-            default:
-                ///				ASSERT(0); // oi, guvnor. set a face value for whatever you just created
-                face = 0;
-                break;
+        case 4:
+            face = 6; // special boss man
+            break;
+        case 5:
+            face = 4;
+            break;
+        case 6:
+        case 7:       // soldier
+            face = 4; // buggered if i know
+            break;
+        default:
+            ///				ASSERT(0); // oi, guvnor. set a face value for whatever you just created
+            face = 0;
+            break;
         }
         panel_enemy[unused].PThing = p_thing;
         panel_enemy[unused].State = STATE_TRACKING;
@@ -620,43 +620,43 @@ void OVERLAY_draw_gun_sights() {
     for (c0 = 0; c0 < track_count; c0++) {
         p_thing = panel_gun_sight[c0].PThing;
         switch (p_thing->Class) {
-            case CLASS_PERSON:
+        case CLASS_PERSON:
 
-                // 11 is head
-                calc_sub_objects_position(p_thing, p_thing->Draw.Tweened->AnimTween, 11, &hx, &hy, &hz);
+            // 11 is head
+            calc_sub_objects_position(p_thing, p_thing->Draw.Tweened->AnimTween, 11, &hx, &hy, &hz);
 
-                hx += p_thing->WorldPos.X >> 8;
-                hy += p_thing->WorldPos.Y >> 8;
-                hz += p_thing->WorldPos.Z >> 8;
+            hx += p_thing->WorldPos.X >> 8;
+            hy += p_thing->WorldPos.Y >> 8;
+            hz += p_thing->WorldPos.Z >> 8;
 
-                PANEL_draw_gun_sight(hx, hy, hz, panel_gun_sight[c0].Timer, 256);
-                break;
-            case CLASS_SPECIAL:
-                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 30, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 128);
-                break;
-            case CLASS_BAT:
+            PANEL_draw_gun_sight(hx, hy, hz, panel_gun_sight[c0].Timer, 256);
+            break;
+        case CLASS_SPECIAL:
+            PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 30, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 128);
+            break;
+        case CLASS_BAT:
 
-            {
-                std::int32_t scale;
+        {
+            std::int32_t scale;
 
-                if (p_thing->Genus.Bat->type == BAT_TYPE_BALROG) {
-                    scale = 450;
-                } else {
-                    scale = 128;
-                }
-
-                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 30, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, scale);
+            if (p_thing->Genus.Bat->type == BAT_TYPE_BALROG) {
+                scale = 450;
+            } else {
+                scale = 128;
             }
 
+            PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 30, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, scale);
+        }
+
+        break;
+        case CLASS_BARREL:
+            p_thing = panel_gun_sight[c0].PThing;
+            PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 80, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 200);
             break;
-            case CLASS_BARREL:
-                p_thing = panel_gun_sight[c0].PThing;
-                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 80, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 200);
-                break;
-            case CLASS_VEHICLE:
-                p_thing = panel_gun_sight[c0].PThing;
-                PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 80, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 450);
-                break;
+        case CLASS_VEHICLE:
+            p_thing = panel_gun_sight[c0].PThing;
+            PANEL_draw_gun_sight(p_thing->WorldPos.X >> 8, (p_thing->WorldPos.Y >> 8) + 80, p_thing->WorldPos.Z >> 8, panel_gun_sight[c0].Timer, 450);
+            break;
         }
     }
     track_count = 0;
@@ -723,34 +723,34 @@ void OVERLAY_draw_enemy_health() {
             p_target = TO_THING(p_person->Genus.Person->Target);
 
             switch (p_target->Class) {
-                case CLASS_BAT:
-                    if (p_target->Genus.Bat->type == BAT_TYPE_BALROG) {
+            case CLASS_BAT:
+                if (p_target->Genus.Bat->type == BAT_TYPE_BALROG) {
 #ifndef PSX
-                        PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, (100 * p_target->Genus.Bat->health) >> 8, 300);
+                    PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, (100 * p_target->Genus.Bat->health) >> 8, 300);
 #else
-                        PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, (100 * p_target->Genus.Bat->health) >> 8, 150);
+                    PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, (100 * p_target->Genus.Bat->health) >> 8, 150);
 #endif
-                    }
-                    break;
-                case CLASS_PERSON:
+                }
+                break;
+            case CLASS_PERSON:
 
-                {
-                    std::int32_t percent;
+            {
+                std::int32_t percent;
 
-                    extern bool PersonIsMIB(Thing * p_person);
+                extern bool PersonIsMIB(Thing * p_person);
 
-                    if (PersonIsMIB(p_target)) {
-                        percent = p_target->Genus.Person->Health * 100 / 700;
-                    } else {
-                        //							percent = p_target->Genus.Person->Health >> 1;
+                if (PersonIsMIB(p_target)) {
+                    percent = p_target->Genus.Person->Health * 100 / 700;
+                } else {
+                    //							percent = p_target->Genus.Person->Health >> 1;
 
-                        percent = p_target->Genus.Person->Health * 100 / health[p_target->Genus.Person->PersonType];
-                    }
-
-                    PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, percent);
+                    percent = p_target->Genus.Person->Health * 100 / health[p_target->Genus.Person->PersonType];
                 }
 
-                break;
+                PANEL_draw_local_health(p_target->WorldPos.X >> 8, p_target->WorldPos.Y >> 8, p_target->WorldPos.Z >> 8, percent);
+            }
+
+            break;
             }
         }
     }
@@ -766,58 +766,58 @@ void init_punch_kick() {
         if (PAD_Current->data[c0].input_mask > 0) {
             if (PAD_Current->data[c0].input_mask & INPUT_MASK_PUNCH) {
                 switch (PAD_Current->data[c0].pad_button) {
-                    case PAD_RU:
-                        sprintf(punch, STR_TRI);
-                        break;
-                    case PAD_RL:
-                        sprintf(punch, STR_SQUARE);
-                        break;
-                    case PAD_RR:
-                        sprintf(punch, STR_CIRCLE);
-                        break;
-                    case PAD_RD:
-                        sprintf(punch, STR_CROSS);
-                        break;
-                    case PAD_FLT:
-                        sprintf(punch, "L1");
-                        break;
-                    case PAD_FRT:
-                        sprintf(punch, "R1");
-                        break;
-                    case PAD_FLB:
-                        sprintf(punch, "L2");
-                        break;
-                    case PAD_FRB:
-                        sprintf(punch, "R2");
-                        break;
+                case PAD_RU:
+                    sprintf(punch, STR_TRI);
+                    break;
+                case PAD_RL:
+                    sprintf(punch, STR_SQUARE);
+                    break;
+                case PAD_RR:
+                    sprintf(punch, STR_CIRCLE);
+                    break;
+                case PAD_RD:
+                    sprintf(punch, STR_CROSS);
+                    break;
+                case PAD_FLT:
+                    sprintf(punch, "L1");
+                    break;
+                case PAD_FRT:
+                    sprintf(punch, "R1");
+                    break;
+                case PAD_FLB:
+                    sprintf(punch, "L2");
+                    break;
+                case PAD_FRB:
+                    sprintf(punch, "R2");
+                    break;
                 }
             }
             if (PAD_Current->data[c0].input_mask & INPUT_MASK_KICK) {
                 switch (PAD_Current->data[c0].pad_button) {
-                    case PAD_RU:
-                        sprintf(kick, STR_TRI);
-                        break;
-                    case PAD_RL:
-                        sprintf(kick, STR_SQUARE);
-                        break;
-                    case PAD_RR:
-                        sprintf(kick, STR_CIRCLE);
-                        break;
-                    case PAD_RD:
-                        sprintf(kick, STR_CROSS);
-                        break;
-                    case PAD_FLT:
-                        sprintf(kick, "L1");
-                        break;
-                    case PAD_FRT:
-                        sprintf(kick, "R1");
-                        break;
-                    case PAD_FLB:
-                        sprintf(kick, "L2");
-                        break;
-                    case PAD_FRB:
-                        sprintf(kick, "R2");
-                        break;
+                case PAD_RU:
+                    sprintf(kick, STR_TRI);
+                    break;
+                case PAD_RL:
+                    sprintf(kick, STR_SQUARE);
+                    break;
+                case PAD_RR:
+                    sprintf(kick, STR_CIRCLE);
+                    break;
+                case PAD_RD:
+                    sprintf(kick, STR_CROSS);
+                    break;
+                case PAD_FLT:
+                    sprintf(kick, "L1");
+                    break;
+                case PAD_FRT:
+                    sprintf(kick, "R1");
+                    break;
+                case PAD_FLB:
+                    sprintf(kick, "L2");
+                    break;
+                case PAD_FRB:
+                    sprintf(kick, "R2");
+                    break;
                 }
             }
         }
@@ -1379,14 +1379,14 @@ void OVERLAY_draw_damage_values() {
                 }
 
                 switch (damage_values[c0].Type) {
-                    case INFO_NUMBER:
-                        sprintf(str, "%d", damage_values[c0].Value);
+                case INFO_NUMBER:
+                    sprintf(str, "%d", damage_values[c0].Value);
 
-                        FONT2D_DrawString_3d(str, damage_values[c0].X, damage_values[c0].Y, damage_values[c0].Z, col, 512, fade);
-                        break;
-                    case INFO_TEXT:
-                        FONT2D_DrawString_3d(damage_values[c0].text_ptr, damage_values[c0].X, damage_values[c0].Y, damage_values[c0].Z, col, 512, fade);
-                        break;
+                    FONT2D_DrawString_3d(str, damage_values[c0].X, damage_values[c0].Y, damage_values[c0].Z, col, 512, fade);
+                    break;
+                case INFO_TEXT:
+                    FONT2D_DrawString_3d(damage_values[c0].text_ptr, damage_values[c0].X, damage_values[c0].Y, damage_values[c0].Z, col, 512, fade);
+                    break;
                 }
             }
 

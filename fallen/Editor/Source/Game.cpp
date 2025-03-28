@@ -207,7 +207,7 @@ void game() {
             UnlockWorkScreen();
             ShowWorkScreen(DS_WAIT_VBI);
             if (game_flags & GAME_RECORD) {
-                extern void do_record_frame(std::uint8_t * screen, std::uint8_t * palette);
+                extern void do_record_frame(std::uint8_t *screen, std::uint8_t *palette);
                 if (LockWorkScreen()) {
                     do_record_frame(WorkScreen, CurrentPalette);
                     UnlockWorkScreen();

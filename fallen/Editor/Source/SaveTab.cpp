@@ -57,32 +57,32 @@ std::uint16_t SaveTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point
     MFPoint local_point;
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        select_pos = LevelHilitePos(&local_point);
+        if (select_pos) {
+            CurrentLevel = select_pos - 1;
+            sprintf(lev_name, "Level %d", CurrentLevel);
+            ((CStaticText *) GetControlPtr(3))->SetString1(lev_name);
+        } else {
             local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            select_pos = LevelHilitePos(&local_point);
-            if (select_pos) {
-                CurrentLevel = select_pos - 1;
-                sprintf(lev_name, "Level %d", CurrentLevel);
-                ((CStaticText *) GetControlPtr(3))->SetString1(lev_name);
-            } else {
-                local_point = *clicked_point;
-                switch (HandleControlSetClick(flags, &local_point)) {
-                    case 0:
-                        break;
-                    case CTRL_LOAD_BUTTON:
-                        LoadLevel();
-                        break;
-                    case CTRL_SAVE_BUTTON:
-                        SaveLevel();
-                        break;
-                }
+            switch (HandleControlSetClick(flags, &local_point)) {
+            case 0:
+                break;
+            case CTRL_LOAD_BUTTON:
+                LoadLevel();
+                break;
+            case CTRL_SAVE_BUTTON:
+                SaveLevel();
+                break;
             }
-            break;
-        case RIGHT_CLICK:
-            break;
+        }
+        break;
+    case RIGHT_CLICK:
+        break;
     }
     return 0;
 }
@@ -438,44 +438,44 @@ void SaveTab::LoadLevel(void) {
 
                     //	Remap the Thing reference data.
                     switch (the_condition->ConditionType) {
-                        case CON_NONE:
-                            break;
-                        case CON_THING_DEAD:
-                            the_condition->Data1 = thing_mapping_table[the_condition->Data1];
-                            break;
-                        case CON_ALL_GROUP_DEAD:
-                            break;
-                        case CON_PERCENT_GROUP_DEAD:
-                            break;
-                        case CON_THING_NEAR_PLAYER:
-                            the_condition->Data1 = thing_mapping_table[the_condition->Data1];
-                            the_condition->Data2 = (std::uint16_t) 65536;
-                            break;
-                        case CON_GROUP_NEAR_PLAYER:
-                            break;
-                        case CON_CLASS_NEAR_PLAYER:
-                            break;
-                        case CON_THING_NEAR_THING:
-                            the_condition->Data1 = thing_mapping_table[the_condition->Data1];
-                            the_condition->Data2 = thing_mapping_table[the_condition->Data2];
-                            the_condition->Data3 = (std::uint16_t) 65536;
-                            break;
-                        case CON_GROUP_NEAR_THING:
-                            break;
-                        case CON_CLASS_NEAR_THING:
-                            break;
-                        case CON_CLASS_COUNT:
-                            break;
-                        case CON_GROUP_COUNT:
-                            break;
-                        case CON_SWITCH_TRIGGERED:
-                            the_condition->Data1 = thing_mapping_table[the_condition->Data1];
-                            break;
-                        case CON_TIME:
-                            break;
-                        case CON_CLIST_FULFILLED:
-                            the_condition->Data1 = conlist_mapping_table[the_condition->Data1];
-                            break;
+                    case CON_NONE:
+                        break;
+                    case CON_THING_DEAD:
+                        the_condition->Data1 = thing_mapping_table[the_condition->Data1];
+                        break;
+                    case CON_ALL_GROUP_DEAD:
+                        break;
+                    case CON_PERCENT_GROUP_DEAD:
+                        break;
+                    case CON_THING_NEAR_PLAYER:
+                        the_condition->Data1 = thing_mapping_table[the_condition->Data1];
+                        the_condition->Data2 = (std::uint16_t) 65536;
+                        break;
+                    case CON_GROUP_NEAR_PLAYER:
+                        break;
+                    case CON_CLASS_NEAR_PLAYER:
+                        break;
+                    case CON_THING_NEAR_THING:
+                        the_condition->Data1 = thing_mapping_table[the_condition->Data1];
+                        the_condition->Data2 = thing_mapping_table[the_condition->Data2];
+                        the_condition->Data3 = (std::uint16_t) 65536;
+                        break;
+                    case CON_GROUP_NEAR_THING:
+                        break;
+                    case CON_CLASS_NEAR_THING:
+                        break;
+                    case CON_CLASS_COUNT:
+                        break;
+                    case CON_GROUP_COUNT:
+                        break;
+                    case CON_SWITCH_TRIGGERED:
+                        the_condition->Data1 = thing_mapping_table[the_condition->Data1];
+                        break;
+                    case CON_TIME:
+                        break;
+                    case CON_CLIST_FULFILLED:
+                        the_condition->Data1 = conlist_mapping_table[the_condition->Data1];
+                        break;
                     }
                 }
             }
@@ -531,47 +531,47 @@ void SaveTab::LoadLevel(void) {
                     the_command = &edit_commands[c0];
 
                     switch (the_command->CommandType) {
-                        case COM_NONE:
-                            break;
-                        case COM_ATTACK_PLAYER:
-                            break;
-                        case COM_ATTACK_THING:
-                        case COM_DEFEND_THING:
-                        case COM_WAIT_FOR_TRIGGER:
-                            the_command->Data1 = thing_mapping_table[the_command->Data1];
-                            break;
-                        case COM_ATTACK_GROUP:
-                            break;
-                        case COM_ATTACK_CLASS:
-                            break;
-                        case COM_DEFEND_PLAYER:
-                            break;
-                        case COM_DEFEND_GROUP:
-                            break;
-                        case COM_DEFEND_CLASS:
-                            break;
-                        case COM_PATROL_WAYPOINT:
-                            break;
-                        case COM_START_TIMER:
-                            break;
-                        case COM_WAIT_FOR_CLIST:
-                            the_command->Data1 = conlist_mapping_table[the_command->Data1];
-                            break;
-                        case COM_FOLLOW_PLAYER:
-                            break;
+                    case COM_NONE:
+                        break;
+                    case COM_ATTACK_PLAYER:
+                        break;
+                    case COM_ATTACK_THING:
+                    case COM_DEFEND_THING:
+                    case COM_WAIT_FOR_TRIGGER:
+                        the_command->Data1 = thing_mapping_table[the_command->Data1];
+                        break;
+                    case COM_ATTACK_GROUP:
+                        break;
+                    case COM_ATTACK_CLASS:
+                        break;
+                    case COM_DEFEND_PLAYER:
+                        break;
+                    case COM_DEFEND_GROUP:
+                        break;
+                    case COM_DEFEND_CLASS:
+                        break;
+                    case COM_PATROL_WAYPOINT:
+                        break;
+                    case COM_START_TIMER:
+                        break;
+                    case COM_WAIT_FOR_CLIST:
+                        the_command->Data1 = conlist_mapping_table[the_command->Data1];
+                        break;
+                    case COM_FOLLOW_PLAYER:
+                        break;
                     }
 
                     switch (the_command->Data2) {
-                        case COM_S_NONE:
-                            break;
-                        case COM_S_UNTIL_TRIGGER:
-                        case COM_S_WHILE_TRIGGER:
-                            the_command->Data3 = thing_mapping_table[the_command->Data3];
-                            break;
-                        case COM_S_UNTIL_CLIST:
-                        case COM_S_WHILE_CLIST:
-                            the_command->Data3 = conlist_mapping_table[the_command->Data3];
-                            break;
+                    case COM_S_NONE:
+                        break;
+                    case COM_S_UNTIL_TRIGGER:
+                    case COM_S_WHILE_TRIGGER:
+                        the_command->Data3 = thing_mapping_table[the_command->Data3];
+                        break;
+                    case COM_S_UNTIL_CLIST:
+                    case COM_S_WHILE_CLIST:
+                        the_command->Data3 = conlist_mapping_table[the_command->Data3];
+                        break;
                     }
                 }
             }
@@ -582,32 +582,32 @@ void SaveTab::LoadLevel(void) {
             for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
                 if (map_things[c0].Type == MAP_THING_TYPE_ED_THING) {
                     switch (map_things[c0].Class) {
-                        case CLASS_NONE:
-                            break;
-                        case CLASS_PLAYER:
-                            break;
-                        case CLASS_CAMERA:
-                            break;
-                        case CLASS_PROJECTILE:
-                            break;
-                        case CLASS_BUILDING:
-                            break;
-                        case CLASS_PERSON:
-                            if (map_things[c0].Data[0]) {
-                                map_things[c0].Data[0] = comlist_mapping_table[map_things[c0].Data[0]];
-                            }
-                            break;
-                        case CLASS_FURNITURE:
-                            break;
-                        case CLASS_SWITCH:
-                            if (map_things[c0].Genus == SWITCH_THING) {
-                                map_things[c0].Data[1] = thing_mapping_table[map_things[c0].Data[1]];
-                            }
-                            break;
-                        case CLASS_VEHICLE:
-                            break;
-                        case CLASS_SPECIAL:
-                            break;
+                    case CLASS_NONE:
+                        break;
+                    case CLASS_PLAYER:
+                        break;
+                    case CLASS_CAMERA:
+                        break;
+                    case CLASS_PROJECTILE:
+                        break;
+                    case CLASS_BUILDING:
+                        break;
+                    case CLASS_PERSON:
+                        if (map_things[c0].Data[0]) {
+                            map_things[c0].Data[0] = comlist_mapping_table[map_things[c0].Data[0]];
+                        }
+                        break;
+                    case CLASS_FURNITURE:
+                        break;
+                    case CLASS_SWITCH:
+                        if (map_things[c0].Genus == SWITCH_THING) {
+                            map_things[c0].Data[1] = thing_mapping_table[map_things[c0].Data[1]];
+                        }
+                        break;
+                    case CLASS_VEHICLE:
+                        break;
+                    case CLASS_SPECIAL:
+                        break;
                     }
                 } else if (map_things[c0].Type == MAP_THING_TYPE_BUILDING) {
                     map_things[c0].EditorData = thing_mapping_table[map_things[c0].EditorData];

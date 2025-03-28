@@ -65,40 +65,40 @@ void ThingTab::DrawTabContent(void) {
     DrawClassSet();
 
     switch (TabMode) {
-        case THING_MODE_NONE:
-            break;
-        case THING_MODE_SELECT_THING:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Thing") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Thing",
-                0);
-            break;
-        case THING_MODE_SELECT_SWITCH:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Trigger") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Trigger",
-                0);
-            break;
+    case THING_MODE_NONE:
+        break;
+    case THING_MODE_SELECT_THING:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Thing") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Thing",
+            0);
+        break;
+    case THING_MODE_SELECT_SWITCH:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Trigger") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Trigger",
+            0);
+        break;
     }
 }
 
@@ -108,12 +108,12 @@ void ThingTab::UpdateTab(std::uint8_t update_level) {
     if (update_level) {
         if (LockWorkScreen()) {
             switch (update_level) {
-                case UPDATE_ALL:
-                    DrawTabContent();
-                    break;
-                case UPDATE_CLASS_SET:
-                    DrawClassSet();
-                    break;
+            case UPDATE_ALL:
+                DrawTabContent();
+                break;
+            case UPDATE_CLASS_SET:
+                DrawClassSet();
+                break;
             }
             UnlockWorkScreen();
             ShowWorkWindow(0);
@@ -141,23 +141,23 @@ std::uint16_t ThingTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
     SetTabDrawArea();
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            local_point = *clicked_point;
-            control_id = HandleControlSetClick(flags, &local_point);
-            HandleControl(control_id);
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        local_point = *clicked_point;
+        control_id = HandleControlSetClick(flags, &local_point);
+        HandleControl(control_id);
 
-            local_point = *clicked_point;
-            control_id = CurrentSet.HandleControlSetClick(flags, &local_point);
-            if (CurrentClass == CLASS_BUILDING)
-                HandleBuildingControl(control_id);
-            else
-                HandleClassControl(control_id);
-            update = UPDATE_ALL;
-            break;
-        case RIGHT_CLICK:
-            break;
+        local_point = *clicked_point;
+        control_id = CurrentSet.HandleControlSetClick(flags, &local_point);
+        if (CurrentClass == CLASS_BUILDING)
+            HandleBuildingControl(control_id);
+        else
+            HandleClassControl(control_id);
+        update = UPDATE_ALL;
+        break;
+    case RIGHT_CLICK:
+        break;
     }
 
     UpdateTab(update);
@@ -207,10 +207,10 @@ void ThingTab::HandleControl(std::uint16_t control_id) {
 
         } else {
             switch (control) {
-                case CTRL_CLASS_MENU:
-                    CurrentClass = (control_id >> 8) - 1;
-                    CurrentGenus = 0;
-                    break;
+            case CTRL_CLASS_MENU:
+                CurrentClass = (control_id >> 8) - 1;
+                CurrentGenus = 0;
+                break;
             }
             UpdateTabInfo();
             UpdateClassInfo();
@@ -225,58 +225,58 @@ void ThingTab::HandleClassControl(std::uint16_t control_id) {
 
     if (control_id) {
         switch (control_id & 0xff) {
-            case CTRL_GENUS_MENU:
-                CurrentGenus = (control_id >> 8);
-                if (CurrentClass == CLASS_PERSON) {
-                    CurrentGenus += PERSON_ROPER;
-                } else if (CurrentClass == CLASS_SWITCH) {
-                    class_defs[CLASS_SWITCH] = switch_defs[CurrentGenus];
-                    UpdateTabInfo();
-                }
+        case CTRL_GENUS_MENU:
+            CurrentGenus = (control_id >> 8);
+            if (CurrentClass == CLASS_PERSON) {
+                CurrentGenus += PERSON_ROPER;
+            } else if (CurrentClass == CLASS_SWITCH) {
+                class_defs[CLASS_SWITCH] = switch_defs[CurrentGenus];
+                UpdateTabInfo();
+            }
 
-                if (CurrentThing) {
-                    //					map_things[CurrentThing].Genus	=	CurrentGenus;
-                }
+            if (CurrentThing) {
+                //					map_things[CurrentThing].Genus	=	CurrentGenus;
+            }
+            break;
+        case CTRL_GENUS_TEXT:
+            break;
+        case CTRL_ITEM_3:
+            switch (CurrentClass) {
+            case CLASS_PLAYER:
                 break;
-            case CTRL_GENUS_TEXT:
+            case CLASS_CAMERA:
                 break;
-            case CTRL_ITEM_3:
-                switch (CurrentClass) {
-                    case CLASS_PLAYER:
-                        break;
-                    case CLASS_CAMERA:
-                        break;
-                    case CLASS_BUILDING:
-                        break;
-                    case CLASS_PERSON:
-                        the_list = SelectCommandList();
-                        if (the_list) {
-                            map_things[CurrentThing].Data[0] = (std::int32_t)(the_list - edit_comlists);
-                        }
-                        break;
-                    case CLASS_SWITCH:
-                        if (CurrentGenus == SWITCH_THING) {
-                            TabMode = THING_MODE_SELECT_THING;
-                            DataPtr = &map_things[CurrentThing].Data[1];
-                        }
-                        break;
-                    case CLASS_VEHICLE:
-
-                        //
-                        // MAKE IT LIKE PEOPLE!
-                        //
-
-                        the_list = SelectCommandList();
-                        if (the_list) {
-                            map_things[CurrentThing].Data[0] = (std::int32_t)(the_list - edit_comlists);
-                        }
-                        break;
-                    case CLASS_SPECIAL:
-                        break;
+            case CLASS_BUILDING:
+                break;
+            case CLASS_PERSON:
+                the_list = SelectCommandList();
+                if (the_list) {
+                    map_things[CurrentThing].Data[0] = (std::int32_t) (the_list - edit_comlists);
                 }
                 break;
-            case CTRL_ITEM_4:
+            case CLASS_SWITCH:
+                if (CurrentGenus == SWITCH_THING) {
+                    TabMode = THING_MODE_SELECT_THING;
+                    DataPtr = &map_things[CurrentThing].Data[1];
+                }
                 break;
+            case CLASS_VEHICLE:
+
+                //
+                // MAKE IT LIKE PEOPLE!
+                //
+
+                the_list = SelectCommandList();
+                if (the_list) {
+                    map_things[CurrentThing].Data[0] = (std::int32_t) (the_list - edit_comlists);
+                }
+                break;
+            case CLASS_SPECIAL:
+                break;
+            }
+            break;
+        case CTRL_ITEM_4:
+            break;
         }
     }
     UpdateClassInfo();
@@ -290,18 +290,18 @@ void ThingTab::HandleBuildingControl(std::uint16_t control_id) {
     if (control_id) {
         t_mthing = TO_MTHING(CurrentThing);
         switch (control_id & 0xff) {
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                t_mthing->EditorFlags ^= 0x01;
-                CurrentSet.SetControlState(2, (t_mthing->EditorFlags & 0x01 ? CTRL_SELECTED : CTRL_DESELECTED));
-                break;
-            case 3:
-                TabMode = THING_MODE_SELECT_SWITCH;
-                DataPtr = (std::int32_t *) &map_things[CurrentThing].EditorData;
-                break;
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            t_mthing->EditorFlags ^= 0x01;
+            CurrentSet.SetControlState(2, (t_mthing->EditorFlags & 0x01 ? CTRL_SELECTED : CTRL_DESELECTED));
+            break;
+        case 3:
+            TabMode = THING_MODE_SELECT_SWITCH;
+            DataPtr = (std::int32_t *) &map_things[CurrentThing].EditorData;
+            break;
         }
     }
 }
@@ -504,65 +504,65 @@ void ThingTab::UpdateClassInfo(void) {
         ((CStaticText *) CurrentSet.GetControlPtr(CTRL_GENUS_TEXT))->SetString1(genus_text[CurrentClass][CurrentGenus]);
 
     switch (CurrentClass) {
-        case CLASS_PLAYER:
-            break;
-        case CLASS_CAMERA:
-            break;
-        case CLASS_BUILDING:
+    case CLASS_PLAYER:
+        break;
+    case CLASS_CAMERA:
+        break;
+    case CLASS_BUILDING:
 
+        break;
+    case CLASS_PERSON:
+        if (map_things[CurrentThing].Class == CLASS_PERSON) {
+            if (CurrentThing) {
+                CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_ACTIVE);
+                sprintf(text, "%s", edit_comlists[map_things[CurrentThing].Data[0]].ComListName);
+            } else {
+                CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
+                sprintf(text, "None");
+            }
+            ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
+        }
+        break;
+    case CLASS_SWITCH:
+        switch (CurrentGenus) {
+        case SWITCH_NONE:
             break;
-        case CLASS_PERSON:
-            if (map_things[CurrentThing].Class == CLASS_PERSON) {
+        case SWITCH_PLAYER:
+            break;
+        case SWITCH_THING:
+            if (map_things[CurrentThing].Genus == SWITCH_THING) {
                 if (CurrentThing) {
                     CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_ACTIVE);
-                    sprintf(text, "%s", edit_comlists[map_things[CurrentThing].Data[0]].ComListName);
+                    sprintf(text, "%ld", map_things[CurrentThing].Data[1]);
                 } else {
                     CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
-                    sprintf(text, "None");
+                    sprintf(text, "0");
                 }
                 ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
             }
             break;
-        case CLASS_SWITCH:
-            switch (CurrentGenus) {
-                case SWITCH_NONE:
-                    break;
-                case SWITCH_PLAYER:
-                    break;
-                case SWITCH_THING:
-                    if (map_things[CurrentThing].Genus == SWITCH_THING) {
-                        if (CurrentThing) {
-                            CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_ACTIVE);
-                            sprintf(text, "%ld", map_things[CurrentThing].Data[1]);
-                        } else {
-                            CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
-                            sprintf(text, "0");
-                        }
-                        ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
-                    }
-                    break;
-                case SWITCH_GROUP:
-                    break;
-                case SWITCH_CLASS:
-                    break;
-            }
+        case SWITCH_GROUP:
             break;
-        case CLASS_VEHICLE:
+        case SWITCH_CLASS:
+            break;
+        }
+        break;
+    case CLASS_VEHICLE:
 
-            if (map_things[CurrentThing].Class == CLASS_VEHICLE) {
-                if (CurrentThing) {
-                    CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_ACTIVE);
-                    sprintf(text, "%s", edit_comlists[map_things[CurrentThing].Data[0]].ComListName);
-                } else {
-                    CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
-                    sprintf(text, "None");
-                }
-                ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
+        if (map_things[CurrentThing].Class == CLASS_VEHICLE) {
+            if (CurrentThing) {
+                CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_ACTIVE);
+                sprintf(text, "%s", edit_comlists[map_things[CurrentThing].Data[0]].ComListName);
+            } else {
+                CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
+                sprintf(text, "None");
             }
+            ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
+        }
 
-            break;
-        case CLASS_SPECIAL:
-            break;
+        break;
+    case CLASS_SPECIAL:
+        break;
     }
 
     UpdateTab(UPDATE_CLASS_SET);

@@ -82,14 +82,13 @@ extern void fn_person_idle(Thing *p_person);
 
 StateFunction darci_states[] =
     {
-        {STATE_INIT, fn_darci_init},
-        {STATE_NORMAL, nullptr},
-        {STATE_HIT, nullptr},
-        {STATE_ABOUT_TO_REMOVE, nullptr},
-        {STATE_REMOVE_ME, nullptr},
-        {STATE_MOVEING, fn_person_moveing},
-        {STATE_IDLE, fn_person_idle}
-
+        {STATE_INIT,            fn_darci_init    },
+        {STATE_NORMAL,          nullptr          },
+        {STATE_HIT,             nullptr          },
+        {STATE_ABOUT_TO_REMOVE, nullptr          },
+        {STATE_REMOVE_ME,       nullptr          },
+        {STATE_MOVEING,         fn_person_moveing},
+        {STATE_IDLE,            fn_person_idle   }
 };
 
 //---------------------------------------------------------------

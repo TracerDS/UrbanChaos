@@ -52,7 +52,8 @@ SKY_Texture SKY_texture[SKY_NUM_TEXTURES] =
         {0.000F, 0.234F, 0.566F, 0.375F},
         {0.566F, 0.234F, 1.000F, 0.375F},
         {0.000F, 0.375F, 1.000F, 0.648F},
-        {0.000F, 0.648F, 1.000F, 1.000F}};
+        {0.000F, 0.648F, 1.000F, 1.000F}
+};
 
 typedef struct
 {
@@ -496,10 +497,11 @@ void SKY_draw_poly_moon(
 
     } moon_uv[4] =
         {
-            {SKY_MOON_UV_IN, SKY_MOON_UV_IN},
-            {1.0F - SKY_MOON_UV_IN, SKY_MOON_UV_IN},
-            {SKY_MOON_UV_IN, 1.0F - SKY_MOON_UV_IN},
-            {1.0F - SKY_MOON_UV_IN, 1.0F - SKY_MOON_UV_IN}};
+            {SKY_MOON_UV_IN,        SKY_MOON_UV_IN       },
+            {1.0F - SKY_MOON_UV_IN, SKY_MOON_UV_IN       },
+            {SKY_MOON_UV_IN,        1.0F - SKY_MOON_UV_IN},
+            {1.0F - SKY_MOON_UV_IN, 1.0F - SKY_MOON_UV_IN}
+    };
 
     yaw = SKY_MOON_YAW;
     pitch = SKY_MOON_PITCH;
@@ -713,10 +715,11 @@ std::int32_t SKY_draw_moon_reflection(
 
     } moon_uv[4] =
         {
-            {SKY_MOON_UV_IN, SKY_MOON_UV_IN},
-            {1.0F - SKY_MOON_UV_IN, SKY_MOON_UV_IN},
-            {SKY_MOON_UV_IN, 1.0F - SKY_MOON_UV_IN},
-            {1.0F - SKY_MOON_UV_IN, 1.0F - SKY_MOON_UV_IN}};
+            {SKY_MOON_UV_IN,        SKY_MOON_UV_IN       },
+            {1.0F - SKY_MOON_UV_IN, SKY_MOON_UV_IN       },
+            {SKY_MOON_UV_IN,        1.0F - SKY_MOON_UV_IN},
+            {1.0F - SKY_MOON_UV_IN, 1.0F - SKY_MOON_UV_IN}
+    };
 
     yaw = SKY_MOON_YAW;
     pitch = SKY_MOON_PITCH;
@@ -1066,21 +1069,21 @@ void SKY_draw_poly_sky_old(float world_camera_x, float world_camera_y, float wor
                 float pos;
 
                 switch (i % 5) {
-                    case 0:
-                        pos = 0.0F;
-                        break;
-                    case 1:
-                        pos = 0.2F;
-                        break;
-                    case 2:
-                        pos = 0.4F;
-                        break;
-                    case 3:
-                        pos = 0.6F;
-                        break;
-                    case 4:
-                        pos = 0.8F;
-                        break;
+                case 0:
+                    pos = 0.0F;
+                    break;
+                case 1:
+                    pos = 0.2F;
+                    break;
+                case 2:
+                    pos = 0.4F;
+                    break;
+                case 3:
+                    pos = 0.6F;
+                    break;
+                case 4:
+                    pos = 0.8F;
+                    break;
                 }
 
                 quad[0]->u = pos;

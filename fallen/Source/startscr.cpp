@@ -72,15 +72,16 @@ std::uint8_t STARTSCR_miss_autoadvance = 0;
 
 struct StartMenuItemSimple startmenu_special[] =
     {
-        {"INNER CITY", 0, 1, 0, 0},
+        {"INNER CITY",   0, 1, 0, 0},
         {"RESCUE ROPER", 0, 2, 0, 0},
-        {"AIRBASE", 0, 3, 0, 0},
-        {"HOTEL", 0, 4, 0, 0},
-        {"DOCKS", 0, 5, 0, 0},
-        {"WAREHOUSE", 0, 6, 0, 0},
-        {"ROOFTOP", 0, 7, 0, 0},
-        {"TESTBIKE", 0, 8, 0, 0},
-        {"EXIT", 0, 9, 0, 0}};
+        {"AIRBASE",      0, 3, 0, 0},
+        {"HOTEL",        0, 4, 0, 0},
+        {"DOCKS",        0, 5, 0, 0},
+        {"WAREHOUSE",    0, 6, 0, 0},
+        {"ROOFTOP",      0, 7, 0, 0},
+        {"TESTBIKE",     0, 8, 0, 0},
+        {"EXIT",         0, 9, 0, 0}
+};
 
 struct StartMenuItemSimple startmenu[] =
     {
@@ -98,39 +99,37 @@ struct StartMenuItemSimple startmenu[] =
         {"GRAPHICS", 5, 0, 0, 0},
         {"INPUT", 0, 0, 0, 0},
         {
-            "BACK",
-            1,
-            0,
-            0,
-            0,
-        },
+         "BACK",
+         1,
+         0,
+         0,
+         0,
+         },
 
         {"HOST A GAME", 0, STARTS_HOST, 0, 0},
         {"JOIN A GAME", 0, STARTS_JOIN, 0, 0},
         {
-            "BACK",
-            1,
-            0,
-            0,
-            0,
-        }
-
+         "BACK",
+         1,
+         0,
+         0,
+         0,
+         }
 };
 
 struct StartMenuItemComplex startmenu2[] =
     {
-        {"SHADOWS", {"HIGH", "MEDIUM", "LOW"}, 0, 0, 0, 0},
-        {"DRAW DIST", {"FAR", "MEDIUM", "NEAR"}, 0, 0, 0, 0},
-        {"DIRT", {"RANCID", "MUCKY", "CLEAN"}, 0, 0, 0, 0},
-        {"REFLECTIONS", {"ON", "OFF", 0}, 0, 0, 0, 0},
-        {"RESOLUTION", {"HIGH", "LOW", 0}, 0, 0, 0, 0},
-        {"BACK", {0, 0, 0}, 2, 0, 0, 0},
+        {"SHADOWS",       {"HIGH", "MEDIUM", "LOW"},    0, 0, 0, 0},
+        {"DRAW DIST",     {"FAR", "MEDIUM", "NEAR"},    0, 0, 0, 0},
+        {"DIRT",          {"RANCID", "MUCKY", "CLEAN"}, 0, 0, 0, 0},
+        {"REFLECTIONS",   {"ON", "OFF", 0},             0, 0, 0, 0},
+        {"RESOLUTION",    {"HIGH", "LOW", 0},           0, 0, 0, 0},
+        {"BACK",          {0, 0, 0},                    2, 0, 0, 0},
 
-        {"SOUND QUALITY", {"HIGH", "MEDIUM", "LOW"}, 0, 0, 0, 0},
-        {"SOUND VOLUME", {"HIGH", "MEDIUM", "OFF"}, 0, 0, 0, 0},
-        {"MUSIC VOLUME", {"HIGH", "MEDIUM", "OFF"}, 0, 0, 0, 0},
-        {"BACK", {0, 0, 0}, 2, 0, 0, 0}
-
+        {"SOUND QUALITY", {"HIGH", "MEDIUM", "LOW"},    0, 0, 0, 0},
+        {"SOUND VOLUME",  {"HIGH", "MEDIUM", "OFF"},    0, 0, 0, 0},
+        {"MUSIC VOLUME",  {"HIGH", "MEDIUM", "OFF"},    0, 0, 0, 0},
+        {"BACK",          {0, 0, 0},                    2, 0, 0, 0}
 };
 
 struct MissionData {
@@ -143,13 +142,12 @@ struct MissionData {
 struct StartMenu start_menu[] =
     {
 
-        {0, 0, 0, 0},  // dummy
-        {0, 7, 0, 0},  // Main Menu
-        {6, 4, 0, 0},  // Options
+        {0,  0, 0, 0}, // dummy
+        {0,  7, 0, 0}, // Main Menu
+        {6,  4, 0, 0}, // Options
         {10, 3, 0, 0}, // multiplayer
-        {6, 4, 0, 1},  // sfx
-        {0, 6, 0, 1},  // graphics
-
+        {6,  4, 0, 1}, // sfx
+        {0,  6, 0, 1}, // graphics
 };
 
 static std::uint8_t mission_num;
@@ -724,20 +722,20 @@ bool pass_dlg(Form *form, Widget *widget, std::int32_t message) {
     }
     if (widget->methods == &INPUT_Methods) {
         switch (message) {
-            case WIN_ENTER:
-                /*			str=match; pw2=pw;
-                                        while (*str) {
-                                                *str^=*pw2;
-                                                str++; pw2++;
-                                        }
-                                        i=strcmp(match,widget->caption);*/
-                i = strcmp(export_pw, widget->caption);
-                if (!i) {
-                    WIDGET_snd(WS_OK);
-                    form->returncode = 1;
-                } else
-                    WIDGET_snd(WS_FAIL);
-                break;
+        case WIN_ENTER:
+            /*			str=match; pw2=pw;
+                                    while (*str) {
+                                            *str^=*pw2;
+                                            str++; pw2++;
+                                    }
+                                    i=strcmp(match,widget->caption);*/
+            i = strcmp(export_pw, widget->caption);
+            if (!i) {
+                WIDGET_snd(WS_OK);
+                form->returncode = 1;
+            } else
+                WIDGET_snd(WS_FAIL);
+            break;
         }
     }
     return 0;
@@ -853,11 +851,11 @@ std::uint16_t save_slot;
 bool save_dlg(Form *form, Widget *widget, std::int32_t message) {
     if (widget) {
         switch (widget->tag) {
-            case 1:
-                save_slot = form->children->data[4];
-                form->returncode = 1;
-                break;
-            case 2: form->returncode = -1; break;
+        case 1:
+            save_slot = form->children->data[4];
+            form->returncode = 1;
+            break;
+        case 2: form->returncode = -1; break;
         }
     } else if ((message == WFN_CHAR) && (LastKey == 1))
         form->returncode = -1;
@@ -887,11 +885,11 @@ bool brief_dlg(Form *form, Widget *widget, std::int32_t message) {
 bool load_dlg(Form *form, Widget *widget, std::int32_t message) {
     if (widget) {
         switch (widget->tag) {
-            case 1: form->returncode = -1; break;
-            case 2:
-                save_slot = form->children->data[4];
-                form->returncode = 2;
-                break;
+        case 1: form->returncode = -1; break;
+        case 2:
+            save_slot = form->children->data[4];
+            form->returncode = 2;
+            break;
         }
     } else if ((message == WFN_CHAR) && (LastKey == 1))
         form->returncode = -1;
@@ -1005,30 +1003,30 @@ void ParseMissionData(char *text, char version, MissionData *mdata) {
     int debug;
 
     switch (version) {
-        case 2:
-            sscanf(text, "%d : %d : %d : %d : %d : %s : *%d : %*d : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, mdata->fn, mdata->ttl);
-            mdata->Flags = 0;
-            mdata->District = -1;
-            break;
-        case 3:
-            sscanf(text, "%d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, &mdata->District, mdata->fn, mdata->ttl);
-            mdata->Flags = 0;
-            break;
-        case 4:
-            debug = sscanf(text, "%d : %d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
-                           &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                           &mdata->Type, &mdata->Flags, &mdata->District, mdata->fn, mdata->ttl);
-            break;
-        default:
-            sscanf(text, "%d : %d : %d : %d : %d : %s : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, mdata->fn, mdata->ttl);
-            mdata->Flags = 0;
-            mdata->District = -1;
+    case 2:
+        sscanf(text, "%d : %d : %d : %d : %d : %s : *%d : %*d : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, mdata->fn, mdata->ttl);
+        mdata->Flags = 0;
+        mdata->District = -1;
+        break;
+    case 3:
+        sscanf(text, "%d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, &mdata->District, mdata->fn, mdata->ttl);
+        mdata->Flags = 0;
+        break;
+    case 4:
+        debug = sscanf(text, "%d : %d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
+                       &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+                       &mdata->Type, &mdata->Flags, &mdata->District, mdata->fn, mdata->ttl);
+        break;
+    default:
+        sscanf(text, "%d : %d : %d : %d : %d : %s : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, mdata->fn, mdata->ttl);
+        mdata->Flags = 0;
+        mdata->District = -1;
     }
 }
 
@@ -1431,21 +1429,21 @@ char *LoadMissionBriefing(char *script, std::uint8_t index) {
     }
 
     switch (ver) {
-        case 2:
-            sscanf(text, "%*d : %*d : %*d : %*d : %*d : %s : %*d : %*d : %*s : %*s", mfn);
-            n = 9;
-            break;
-        case 3:
-            sscanf(text, "%*d : %*d : %*d : %*d : %*d : %*d : %s : %*s : %*s", mfn);
-            n = 8;
-            break;
-        case 4:
-            sscanf(text, "%*d : %*d : %*d : %*d : %*d : %*d : %*d : %s : %*s : %*s", mfn);
-            n = 9;
-            break;
-        default:
-            n = 7;
-            sscanf(text, "%*d : %*d : %*d : %*d : %*d : %s : %*s : %*s", mfn);
+    case 2:
+        sscanf(text, "%*d : %*d : %*d : %*d : %*d : %s : %*d : %*d : %*s : %*s", mfn);
+        n = 9;
+        break;
+    case 3:
+        sscanf(text, "%*d : %*d : %*d : %*d : %*d : %*d : %s : %*s : %*s", mfn);
+        n = 8;
+        break;
+    case 4:
+        sscanf(text, "%*d : %*d : %*d : %*d : %*d : %*d : %*d : %s : %*s : %*s", mfn);
+        n = 9;
+        break;
+    default:
+        n = 7;
+        sscanf(text, "%*d : %*d : %*d : %*d : %*d : %s : %*s : %*s", mfn);
     }
 
     //	text=strrchr(text,':');
@@ -1603,131 +1601,131 @@ std::int32_t MainWidgetLoop() {
         //		STARTSCR_mission=0;
         PolyPage::EnableAlphaSort();
         switch (mode) {
-            case 0:
-                form = FORM_Create("urban chaOS 0.1", pass_dlg, 205, 105, 570, 385, WIDGET_COLOUR);
-                FORM_AddWidget(form, WIDGET_Create(&STATIC_Methods, 20, 30, 300, 50, "LOGIN:"));
-                widget = FORM_AddWidget(form, WIDGET_Create(&INPUT_Methods, 30, 60, 335, 90, ""));
-                widget->methods->Data(widget, WIM_SETMODE, 1, 0);
-                widget->methods->Char(widget, 13);
-                break;
-            case 1:
+        case 0:
+            form = FORM_Create("urban chaOS 0.1", pass_dlg, 205, 105, 570, 385, WIDGET_COLOUR);
+            FORM_AddWidget(form, WIDGET_Create(&STATIC_Methods, 20, 30, 300, 50, "LOGIN:"));
+            widget = FORM_AddWidget(form, WIDGET_Create(&INPUT_Methods, 30, 60, 335, 90, ""));
+            widget->methods->Data(widget, WIM_SETMODE, 1, 0);
+            widget->methods->Char(widget, 13);
+            break;
+        case 1:
 #ifndef NO_MAP
-                show_game = 1;
+            show_game = 1;
 #endif
-                form = FORM_Create("main menu", menu_dlg, 0, 105, 640, 385, WIDGET_COLOUR);
+            form = FORM_Create("main menu", menu_dlg, 0, 105, 640, 385, WIDGET_COLOUR);
 
-                /*			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,65, 335,85,"START"))->tag=1;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,95, 335,115,"EDITOR"))->tag=2;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,125, 335,145,"LOAD GAME"))->tag=3;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,155, 335,175,"MULTIPLAYER"))->tag=4;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,185,335,205,"OPTIONS"))->tag=5;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,215,335,225,"EXIT"))->tag=6;*/
+            /*			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,65, 335,85,"START"))->tag=1;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,95, 335,115,"EDITOR"))->tag=2;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,125, 335,145,"LOAD GAME"))->tag=3;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,155, 335,175,"MULTIPLAYER"))->tag=4;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,185,335,205,"OPTIONS"))->tag=5;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,215,335,225,"EXIT"))->tag=6;*/
 
-                /*			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,70, 335,90,"START"))->tag=1;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,100, 335,120,"LOAD GAME"))->tag=3;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,130, 335,150,"MULTIPLAYER"))->tag=4;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,160,335,180,"OPTIONS"))->tag=5;
-                                        FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,190,335,200,"EXIT"))->tag=6;
-                                        */
-                WIDGET_menu(form, "START", "LOAD GAME", "MULTIPLAYER", "OPTIONS", "EXIT", 0);
+            /*			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,70, 335,90,"START"))->tag=1;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,100, 335,120,"LOAD GAME"))->tag=3;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,130, 335,150,"MULTIPLAYER"))->tag=4;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,160,335,180,"OPTIONS"))->tag=5;
+                                    FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,190,335,200,"EXIT"))->tag=6;
+                                    */
+            WIDGET_menu(form, "START", "LOAD GAME", "MULTIPLAYER", "OPTIONS", "EXIT", 0);
 
-                break;
-            case 2:
-                //			InitBackImage("handhold.tga");
-                InitBackImage("main_map.tga");
-                show_game = 0;
-                PolyPage::DisableAlphaSort();
+            break;
+        case 2:
+            //			InitBackImage("handhold.tga");
+            InitBackImage("main_map.tga");
+            show_game = 0;
+            PolyPage::DisableAlphaSort();
 
-                LoadFont_LCD();
-                //			form=FORM_Create("select mission",game_dlg,82,82,472,402,WIDGET_COLOUR);
-                form = FORM_Create("select mission", game_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
-                //			form->inverse=1;
-                //			widget=FORM_AddWidget(form,WIDGET_Create(&LISTS_Methods ,30,50,335,180,"listbox"));
-                //			LoadMissionList(widget,MISSION_SCRIPT);
+            LoadFont_LCD();
+            //			form=FORM_Create("select mission",game_dlg,82,82,472,402,WIDGET_COLOUR);
+            form = FORM_Create("select mission", game_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
+            //			form->inverse=1;
+            //			widget=FORM_AddWidget(form,WIDGET_Create(&LISTS_Methods ,30,50,335,180,"listbox"));
+            //			LoadMissionList(widget,MISSION_SCRIPT);
 
-                // LoadMissionList(form,MISSION_SCRIPT);
+            // LoadMissionList(form,MISSION_SCRIPT);
 
-                if (FORCE_FIRST_MISSION)
-                    QuickDistrictList(form, MISSION_SCRIPT);
-                else
-                    LoadDistrictList(form, MISSION_SCRIPT);
+            if (FORCE_FIRST_MISSION)
+                QuickDistrictList(form, MISSION_SCRIPT);
+            else
+                LoadDistrictList(form, MISSION_SCRIPT);
 
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 530, 450, 620, 470, "BACK"))->tag = 999;
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 530, 450, 620, 470, "BACK"))->tag = 999;
 
-                //			widget->methods->Char(widget,13);
-                //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,195,335,225,"view briefing"))->tag=2;
-                //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,235,335,255,"start mission"))->tag=1;
+            //			widget->methods->Char(widget,13);
+            //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,195,335,225,"view briefing"))->tag=2;
+            //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,235,335,255,"start mission"))->tag=1;
 
-                break;
-            case 3:
-                form = FORM_Create("load a saved game", load_dlg, 105, 105, 570, 385, WIDGET_COLOUR);
-                widget = FORM_AddWidget(form, WIDGET_Create(&LISTS_Methods, 30, 50, 435, 180, "listbox"));
-                ScanSavedGames(widget);
-                widget->state |= WIDGET_STATE_SHRINKTEXT;
-                widget->methods->Char(widget, 13);
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 30, 195, 335, 225, "load"))->tag = 2;
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 30, 235, 335, 255, "cancel"))->tag = 1;
-                break;
-            case 10:
-                //			form=FORM_Create("mission briefing",brief_dlg,82,82,472,402,WIDGET_COLOUR);
-                form = FORM_Create("mission briefing", brief_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
+            break;
+        case 3:
+            form = FORM_Create("load a saved game", load_dlg, 105, 105, 570, 385, WIDGET_COLOUR);
+            widget = FORM_AddWidget(form, WIDGET_Create(&LISTS_Methods, 30, 50, 435, 180, "listbox"));
+            ScanSavedGames(widget);
+            widget->state |= WIDGET_STATE_SHRINKTEXT;
+            widget->methods->Char(widget, 13);
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 30, 195, 335, 225, "load"))->tag = 2;
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 30, 235, 335, 255, "cancel"))->tag = 1;
+            break;
+        case 10:
+            //			form=FORM_Create("mission briefing",brief_dlg,82,82,472,402,WIDGET_COLOUR);
+            form = FORM_Create("mission briefing", brief_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
 #ifndef NO_MAP
-                show_game = 1;
+            show_game = 1;
 #endif
 
-                /*			widget=FORM_AddWidget(form,WIDGET_Create(&SHADE_Methods,10,100,320,200,"-"));
-                                        widget->data[0]=3;
-                                        widget->data[1]=255;
-                                        widget->data[2]=0x7f000000;
-                                        widget->data[3]=1;
-                                        widget->tag=900;*/
+            /*			widget=FORM_AddWidget(form,WIDGET_Create(&SHADE_Methods,10,100,320,200,"-"));
+                                    widget->data[0]=3;
+                                    widget->data[1]=255;
+                                    widget->data[2]=0x7f000000;
+                                    widget->data[3]=1;
+                                    widget->tag=900;*/
 
-                //			form->inverse=1;
-                //			FORM_AddWidget(form,WIDGET_Create(&STATIC_Methods,10,60,335,180,mission_name));
-                widget = FORM_AddWidget(form, WIDGET_Create(&TEXTS_Methods, 10, 140, 335, 380, "textbox"));
-                txt = LoadMissionBriefing(MISSION_SCRIPT, mission_num);
-                if (txt) widget->methods->Data(widget, WTM_ADDBLOCK, 0, (std::int32_t) txt);
-                widget->methods->Char(widget, 13);
-                //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,195,335,225,"change mission"))->tag=1;
-                //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,235,335,255,"start mission"))->tag=2;
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 10, 400, 165, 420, "BACK"))->tag = 1;
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 165, 400, 330, 420, "START"))->tag = 2;
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 10, 430, 165, 450, "SAVE"))->tag = 3;
+            //			form->inverse=1;
+            //			FORM_AddWidget(form,WIDGET_Create(&STATIC_Methods,10,60,335,180,mission_name));
+            widget = FORM_AddWidget(form, WIDGET_Create(&TEXTS_Methods, 10, 140, 335, 380, "textbox"));
+            txt = LoadMissionBriefing(MISSION_SCRIPT, mission_num);
+            if (txt) widget->methods->Data(widget, WTM_ADDBLOCK, 0, (std::int32_t) txt);
+            widget->methods->Char(widget, 13);
+            //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,195,335,225,"change mission"))->tag=1;
+            //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,30,235,335,255,"start mission"))->tag=2;
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 10, 400, 165, 420, "BACK"))->tag = 1;
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 165, 400, 330, 420, "START"))->tag = 2;
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 10, 430, 165, 450, "SAVE"))->tag = 3;
 
-                break;
-            case 20:
-                //			mode = 1+(std::uint8_t)won_the_game;
-                if (won_the_game && STARTSCR_mission[0] && STARTSCR_miss_id) {
-                    if (STARTSCR_miss_autoadvance)
-                        return STARTS_START;
-                    else {
-                        mission_num = LoadMissionNumFromId(MISSION_SCRIPT, STARTSCR_miss_id);
-                        mode = 10;
-                        //					GI_load_map("data\\gang1.iam");
-                        //					NIGHT_load_ed_file("data\\lighting\\gang1.lgt");
-                    }
-                } else
-                    mode = 1;
-                return MainWidgetLoop();
-                break;
-            case 40:
-                form = FORM_Create("save game", save_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
-                widget = FORM_AddWidget(form, WIDGET_Create(&LISTS_Methods, 30, 110, 335, 300, "listbox"));
-                widget->state |= WIDGET_STATE_SHRINKTEXT;
-                ScanSavedGames(widget);
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 10, 400, 165, 420, "SAVE"))->tag = 1;
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 165, 400, 330, 420, "CANCEL"))->tag = 2;
-                /*			for (c0=0;c0<10;c0++) {
-                                                char msg[30],ttl[_MAX_PATH];
-                                                if (FileExists(
-                                                sprintf(msg,"Slot %d: %s",c0,ttl);
-                                                widget->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)data.cFileName);
-                                        }*/
-                break;
-            default:
-                form = FORM_Create("missing form", esc_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
-                //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,0,220,640,260,"missing form"));
-                FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 0, 220, 640, 260, "MISSING FORM"));
+            break;
+        case 20:
+            //			mode = 1+(std::uint8_t)won_the_game;
+            if (won_the_game && STARTSCR_mission[0] && STARTSCR_miss_id) {
+                if (STARTSCR_miss_autoadvance)
+                    return STARTS_START;
+                else {
+                    mission_num = LoadMissionNumFromId(MISSION_SCRIPT, STARTSCR_miss_id);
+                    mode = 10;
+                    //					GI_load_map("data\\gang1.iam");
+                    //					NIGHT_load_ed_file("data\\lighting\\gang1.lgt");
+                }
+            } else
+                mode = 1;
+            return MainWidgetLoop();
+            break;
+        case 40:
+            form = FORM_Create("save game", save_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
+            widget = FORM_AddWidget(form, WIDGET_Create(&LISTS_Methods, 30, 110, 335, 300, "listbox"));
+            widget->state |= WIDGET_STATE_SHRINKTEXT;
+            ScanSavedGames(widget);
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 10, 400, 165, 420, "SAVE"))->tag = 1;
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 165, 400, 330, 420, "CANCEL"))->tag = 2;
+            /*			for (c0=0;c0<10;c0++) {
+                                            char msg[30],ttl[_MAX_PATH];
+                                            if (FileExists(
+                                            sprintf(msg,"Slot %d: %s",c0,ttl);
+                                            widget->methods->Data(list,WLM_ADDSTRING,0,(std::int32_t)data.cFileName);
+                                    }*/
+            break;
+        default:
+            form = FORM_Create("missing form", esc_dlg, 0, 0, 640, 480, WIDGET_COLOUR);
+            //			FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,0,220,640,260,"missing form"));
+            FORM_AddWidget(form, WIDGET_Create(&BUTTON_Methods, 0, 220, 640, 260, "MISSING FORM"));
         }
     }
 
@@ -1747,66 +1745,66 @@ std::int32_t MainWidgetLoop() {
         FORM_Free(form);
         form = 0;
         switch (mode) {
-            case 0: // password screen
-                mode = 1;
-                break;
-            case 1: // main menu
-                switch (result) {
-                    case -69: // E3 bodge
-                        mode = 2;
-                        return 0;
-                    case 5: return STARTS_EXIT;
-                    default:
-                        mode = 1 + result;
-                }
-                break;
+        case 0: // password screen
+            mode = 1;
+            break;
+        case 1: // main menu
+            switch (result) {
+            case -69: // E3 bodge
+                mode = 2;
+                return 0;
+            case 5: return STARTS_EXIT;
+            default:
+                mode = 1 + result;
+            }
+            break;
+        case 2:
+            switch (result) {
+            case 1:
+                LoadFont_CRT();
+                //				InitBackImage("gamelogo.tga");
+                LoadMissionFilename(MISSION_SCRIPT, mission_num, STARTSCR_mission, &STARTSCR_miss_id);
+                mode = 20;
+                return STARTS_START;
+            case -69: // E3 bodge
             case 2:
-                switch (result) {
-                    case 1:
-                        LoadFont_CRT();
-                        //				InitBackImage("gamelogo.tga");
-                        LoadMissionFilename(MISSION_SCRIPT, mission_num, STARTSCR_mission, &STARTSCR_miss_id);
-                        mode = 20;
-                        return STARTS_START;
-                    case -69: // E3 bodge
-                    case 2:
-                        mode = 10;
-                        break;
-                    default:
-                        //				MENUFONT_Page(POLY_PAGE_NEWFONT);
-                        LoadFont_CRT();
-                        //				InitBackImage("gamelogo.tga");
-                        mode = 1;
-                        break;
-                }
-                break;
-            case 3:
-                if (result == -1)
-                    mode = 1;
-                else {
-                    LoadQuickGame();
-                    mode = 10;
-                }
-                break;
-            case 10:
-                if ((result == -1) || (result == 1)) mode = 2;
-                if (result == 3) mode = 40; // savegame
-                if ((result == 2) || (result == -69)) {
-                    LoadFont_CRT();
-                    //				InitBackImage("gamelogo.tga");
-                    LoadMissionFilename(MISSION_SCRIPT, mission_num, STARTSCR_mission, &STARTSCR_miss_id);
-                    mode = 20;
-                    return STARTS_START;
-                }
-                break;
-            case 40:
-                if (result == 1) SaveQuickGame(form);
                 mode = 10;
                 break;
             default:
-                if (result == -1) mode = 1;
+                //				MENUFONT_Page(POLY_PAGE_NEWFONT);
+                LoadFont_CRT();
+                //				InitBackImage("gamelogo.tga");
+                mode = 1;
                 break;
-                break;
+            }
+            break;
+        case 3:
+            if (result == -1)
+                mode = 1;
+            else {
+                LoadQuickGame();
+                mode = 10;
+            }
+            break;
+        case 10:
+            if ((result == -1) || (result == 1)) mode = 2;
+            if (result == 3) mode = 40; // savegame
+            if ((result == 2) || (result == -69)) {
+                LoadFont_CRT();
+                //				InitBackImage("gamelogo.tga");
+                LoadMissionFilename(MISSION_SCRIPT, mission_num, STARTSCR_mission, &STARTSCR_miss_id);
+                mode = 20;
+                return STARTS_START;
+            }
+            break;
+        case 40:
+            if (result == 1) SaveQuickGame(form);
+            mode = 10;
+            break;
+        default:
+            if (result == -1) mode = 1;
+            break;
+            break;
         }
     }
     return 0;

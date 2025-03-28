@@ -9,206 +9,206 @@ extern std::uint8_t CurrentPalette[256 * 3];
 #define COL_TO_RGB565(col, PALETTE) (std::uint16_t) (((PALETTE[(col) * 3] >> 3) << 11) | ((PALETTE[(col) * 3 + 1] >> 2) << 5) | (PALETTE[(col) * 3 + 2] >> 3))
 #define COL_TO_RGB888(col, PALETTE) ((PALETTE[(col) * 3] << 16) | (PALETTE[(col) * 3 + 1] << 8) | PALETTE[(col) * 3 + 2])
 
-#define DRAW_SPRITE                           \
-    while (1) {                               \
-        packet = *src_ptr++;                  \
-        switch (packet) {                     \
-            case END_LINE:                    \
-                dst_ptr += WorkScreenWidth;   \
-                line_ptr = dst_ptr;           \
-                break;                        \
-            case COPY_PIXELS:                 \
-                c0 = (*src_ptr++) + 1;        \
-                while (c0--)                  \
-                    *line_ptr++ = *src_ptr++; \
-                break;                        \
-            case SKIP_PIXELS:                 \
-                line_ptr += (*src_ptr++) + 1; \
-                break;                        \
-            case DUPLICATE_PIXELS:            \
-                c0 = (*src_ptr++) + 1;        \
-                dup_pixel = *src_ptr++;       \
-                while (c0--)                  \
-                    *line_ptr++ = dup_pixel;  \
-                break;                        \
-            case FINISHED:                    \
-                return;                       \
-        }                                     \
+#define DRAW_SPRITE                       \
+    while (1) {                           \
+        packet = *src_ptr++;              \
+        switch (packet) {                 \
+        case END_LINE:                    \
+            dst_ptr += WorkScreenWidth;   \
+            line_ptr = dst_ptr;           \
+            break;                        \
+        case COPY_PIXELS:                 \
+            c0 = (*src_ptr++) + 1;        \
+            while (c0--)                  \
+                *line_ptr++ = *src_ptr++; \
+            break;                        \
+        case SKIP_PIXELS:                 \
+            line_ptr += (*src_ptr++) + 1; \
+            break;                        \
+        case DUPLICATE_PIXELS:            \
+            c0 = (*src_ptr++) + 1;        \
+            dup_pixel = *src_ptr++;       \
+            while (c0--)                  \
+                *line_ptr++ = dup_pixel;  \
+            break;                        \
+        case FINISHED:                    \
+            return;                       \
+        }                                 \
     }
 
-#define DRAW_SPRITE16(pal)                                      \
-    while (1) {                                                 \
-        packet = *src_ptr++;                                    \
-        switch (packet) {                                       \
-            case END_LINE:                                      \
-                dst_ptr += WorkScreenPixelWidth;                \
-                line_ptr = dst_ptr;                             \
-                break;                                          \
-            case COPY_PIXELS:                                   \
-                c0 = (*src_ptr++) + 1;                          \
-                while (c0--) {                                  \
-                    *line_ptr++ = COL_TO_RGB565(*src_ptr, pal); \
-                    src_ptr++;                                  \
-                }                                               \
-                break;                                          \
-            case SKIP_PIXELS:                                   \
-                line_ptr += *(src_ptr++) + 1;                   \
-                break;                                          \
-            case DUPLICATE_PIXELS:                              \
-                c0 = (*src_ptr++) + 1;                          \
-                dup_pixel = COL_TO_RGB565(*src_ptr, pal);       \
-                src_ptr++;                                      \
-                while (c0--)                                    \
-                    *line_ptr++ = dup_pixel;                    \
-                break;                                          \
-            case FINISHED:                                      \
-                return;                                         \
-        }                                                       \
+#define DRAW_SPRITE16(pal)                                  \
+    while (1) {                                             \
+        packet = *src_ptr++;                                \
+        switch (packet) {                                   \
+        case END_LINE:                                      \
+            dst_ptr += WorkScreenPixelWidth;                \
+            line_ptr = dst_ptr;                             \
+            break;                                          \
+        case COPY_PIXELS:                                   \
+            c0 = (*src_ptr++) + 1;                          \
+            while (c0--) {                                  \
+                *line_ptr++ = COL_TO_RGB565(*src_ptr, pal); \
+                src_ptr++;                                  \
+            }                                               \
+            break;                                          \
+        case SKIP_PIXELS:                                   \
+            line_ptr += *(src_ptr++) + 1;                   \
+            break;                                          \
+        case DUPLICATE_PIXELS:                              \
+            c0 = (*src_ptr++) + 1;                          \
+            dup_pixel = COL_TO_RGB565(*src_ptr, pal);       \
+            src_ptr++;                                      \
+            while (c0--)                                    \
+                *line_ptr++ = dup_pixel;                    \
+            break;                                          \
+        case FINISHED:                                      \
+            return;                                         \
+        }                                                   \
     }
 
-#define DRAW_SPRITE32(pal)                                      \
-    while (1) {                                                 \
-        packet = *src_ptr++;                                    \
-        switch (packet) {                                       \
-            case END_LINE:                                      \
-                dst_ptr += WorkScreenPixelWidth;                \
-                line_ptr = dst_ptr;                             \
-                break;                                          \
-            case COPY_PIXELS:                                   \
-                c0 = (*src_ptr++) + 1;                          \
-                while (c0--) {                                  \
-                    *line_ptr++ = COL_TO_RGB888(*src_ptr, pal); \
-                    src_ptr++;                                  \
-                }                                               \
-                break;                                          \
-            case SKIP_PIXELS:                                   \
-                line_ptr += *(src_ptr++) + 1;                   \
-                break;                                          \
-            case DUPLICATE_PIXELS:                              \
-                c0 = (*src_ptr++) + 1;                          \
-                dup_pixel = COL_TO_RGB888(*src_ptr, pal);       \
-                src_ptr++;                                      \
-                while (c0--)                                    \
-                    *line_ptr++ = dup_pixel;                    \
-                break;                                          \
-            case FINISHED:                                      \
-                return;                                         \
-        }                                                       \
+#define DRAW_SPRITE32(pal)                                  \
+    while (1) {                                             \
+        packet = *src_ptr++;                                \
+        switch (packet) {                                   \
+        case END_LINE:                                      \
+            dst_ptr += WorkScreenPixelWidth;                \
+            line_ptr = dst_ptr;                             \
+            break;                                          \
+        case COPY_PIXELS:                                   \
+            c0 = (*src_ptr++) + 1;                          \
+            while (c0--) {                                  \
+                *line_ptr++ = COL_TO_RGB888(*src_ptr, pal); \
+                src_ptr++;                                  \
+            }                                               \
+            break;                                          \
+        case SKIP_PIXELS:                                   \
+            line_ptr += *(src_ptr++) + 1;                   \
+            break;                                          \
+        case DUPLICATE_PIXELS:                              \
+            c0 = (*src_ptr++) + 1;                          \
+            dup_pixel = COL_TO_RGB888(*src_ptr, pal);       \
+            src_ptr++;                                      \
+            while (c0--)                                    \
+                *line_ptr++ = dup_pixel;                    \
+            break;                                          \
+        case FINISHED:                                      \
+            return;                                         \
+        }                                                   \
     }
 
-#define DRAW_M_SPRITE                            \
-    while (1) {                                  \
-        packet = *src_ptr++;                     \
-        switch (packet) {                        \
-            case END_LINE:                       \
-                dst_ptr += WorkScreenPixelWidth; \
-                line_ptr = dst_ptr;              \
-                break;                           \
-            case COPY_PIXELS:                    \
-                c0 = (*src_ptr++) + 1;           \
-                src_ptr += c0;                   \
-                while (c0--)                     \
-                    *line_ptr++ = dup_pixel;     \
-                break;                           \
-            case SKIP_PIXELS:                    \
-                line_ptr += (*src_ptr++) + 1;    \
-                break;                           \
-            case DUPLICATE_PIXELS:               \
-                c0 = (*src_ptr++) + 1;           \
-                src_ptr++;                       \
-                while (c0--)                     \
-                    *line_ptr++ = dup_pixel;     \
-                break;                           \
-            case FINISHED:                       \
-                return;                          \
-        }                                        \
-    }
-
-#define V_SCAN                               \
-    while (v_scan) {                         \
-        packet = *src_ptr++;                 \
-        switch (packet) {                    \
-            case END_LINE:                   \
-                v_scan--;                    \
-                break;                       \
-            case COPY_PIXELS:                \
-                src_ptr += 1 + *(src_ptr++); \
-                break;                       \
-            case SKIP_PIXELS:                \
-                src_ptr++;                   \
-                break;                       \
-            case DUPLICATE_PIXELS:           \
-                src_ptr += 2;                \
-                break;                       \
-        }                                    \
-    }
-
-#define L_SCAN                                       \
-    while (l_scan && sprite_height) {                \
-        packet = *src_ptr++;                         \
-        switch (packet) {                            \
-            case END_LINE:                           \
-                dst_ptr += WorkScreenPixelWidth;     \
-                line_ptr = dst_ptr;                  \
-                sprite_height--;                     \
-                pixel_count = 0;                     \
-                break;                               \
-            case COPY_PIXELS:                        \
-                c0 = (*src_ptr++) + 1;               \
-                if ((pixel_count + c0) >= l_scan) {  \
-                    src_ptr += l_scan - pixel_count; \
-                    c0 -= l_scan - pixel_count;      \
-                    pixel_count = l_scan;            \
-                    goto copy_pixels;                \
-                } else {                             \
-                    pixel_count += c0;               \
-                    src_ptr += c0;                   \
-                }                                    \
-                break;                               \
-            case SKIP_PIXELS:                        \
-                c0 = (*src_ptr++) + 1;               \
-                if ((pixel_count + c0) >= l_scan) {  \
-                    c0 -= l_scan - pixel_count;      \
-                    pixel_count = l_scan;            \
-                    goto skip_pixels;                \
-                } else {                             \
-                    pixel_count += c0;               \
-                }                                    \
-                break;                               \
-            case DUPLICATE_PIXELS:                   \
-                c0 = (*src_ptr++) + 1;               \
-                if ((pixel_count + c0) >= l_scan) {  \
-                    c0 -= l_scan - pixel_count;      \
-                    pixel_count = l_scan;            \
-                    goto duplicate_pixels;           \
-                } else {                             \
-                    pixel_count += c0;               \
-                    src_ptr++;                       \
-                }                                    \
-                break;                               \
-            case FINISHED:                           \
-                return;                              \
-        }                                            \
-    }
-
-#define R_SCAN                               \
+#define DRAW_M_SPRITE                        \
     while (1) {                              \
         packet = *src_ptr++;                 \
         switch (packet) {                    \
-            case END_LINE:                   \
-                goto end_line;               \
-            case COPY_PIXELS:                \
-                src_ptr += 1 + *(src_ptr++); \
-                break;                       \
-            case SKIP_PIXELS:                \
-                src_ptr++;                   \
-                break;                       \
-            case DUPLICATE_PIXELS:           \
-                src_ptr += 2;                \
-                break;                       \
-            case FINISHED:                   \
-                return;                      \
+        case END_LINE:                       \
+            dst_ptr += WorkScreenPixelWidth; \
+            line_ptr = dst_ptr;              \
+            break;                           \
+        case COPY_PIXELS:                    \
+            c0 = (*src_ptr++) + 1;           \
+            src_ptr += c0;                   \
+            while (c0--)                     \
+                *line_ptr++ = dup_pixel;     \
+            break;                           \
+        case SKIP_PIXELS:                    \
+            line_ptr += (*src_ptr++) + 1;    \
+            break;                           \
+        case DUPLICATE_PIXELS:               \
+            c0 = (*src_ptr++) + 1;           \
+            src_ptr++;                       \
+            while (c0--)                     \
+                *line_ptr++ = dup_pixel;     \
+            break;                           \
+        case FINISHED:                       \
+            return;                          \
         }                                    \
+    }
+
+#define V_SCAN                           \
+    while (v_scan) {                     \
+        packet = *src_ptr++;             \
+        switch (packet) {                \
+        case END_LINE:                   \
+            v_scan--;                    \
+            break;                       \
+        case COPY_PIXELS:                \
+            src_ptr += 1 + *(src_ptr++); \
+            break;                       \
+        case SKIP_PIXELS:                \
+            src_ptr++;                   \
+            break;                       \
+        case DUPLICATE_PIXELS:           \
+            src_ptr += 2;                \
+            break;                       \
+        }                                \
+    }
+
+#define L_SCAN                                   \
+    while (l_scan && sprite_height) {            \
+        packet = *src_ptr++;                     \
+        switch (packet) {                        \
+        case END_LINE:                           \
+            dst_ptr += WorkScreenPixelWidth;     \
+            line_ptr = dst_ptr;                  \
+            sprite_height--;                     \
+            pixel_count = 0;                     \
+            break;                               \
+        case COPY_PIXELS:                        \
+            c0 = (*src_ptr++) + 1;               \
+            if ((pixel_count + c0) >= l_scan) {  \
+                src_ptr += l_scan - pixel_count; \
+                c0 -= l_scan - pixel_count;      \
+                pixel_count = l_scan;            \
+                goto copy_pixels;                \
+            } else {                             \
+                pixel_count += c0;               \
+                src_ptr += c0;                   \
+            }                                    \
+            break;                               \
+        case SKIP_PIXELS:                        \
+            c0 = (*src_ptr++) + 1;               \
+            if ((pixel_count + c0) >= l_scan) {  \
+                c0 -= l_scan - pixel_count;      \
+                pixel_count = l_scan;            \
+                goto skip_pixels;                \
+            } else {                             \
+                pixel_count += c0;               \
+            }                                    \
+            break;                               \
+        case DUPLICATE_PIXELS:                   \
+            c0 = (*src_ptr++) + 1;               \
+            if ((pixel_count + c0) >= l_scan) {  \
+                c0 -= l_scan - pixel_count;      \
+                pixel_count = l_scan;            \
+                goto duplicate_pixels;           \
+            } else {                             \
+                pixel_count += c0;               \
+                src_ptr++;                       \
+            }                                    \
+            break;                               \
+        case FINISHED:                           \
+            return;                              \
+        }                                        \
+    }
+
+#define R_SCAN                           \
+    while (1) {                          \
+        packet = *src_ptr++;             \
+        switch (packet) {                \
+        case END_LINE:                   \
+            goto end_line;               \
+        case COPY_PIXELS:                \
+            src_ptr += 1 + *(src_ptr++); \
+            break;                       \
+        case SKIP_PIXELS:                \
+            src_ptr++;                   \
+            break;                       \
+        case DUPLICATE_PIXELS:           \
+            src_ptr += 2;                \
+            break;                       \
+        case FINISHED:                   \
+            return;                      \
+        }                                \
     }
 
 //---------------------------------------------------------------
@@ -388,56 +388,56 @@ void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite) {
         while (sprite_height) {
             packet = *src_ptr++;
             switch (packet) {
-                case END_LINE:
-                end_line:
-                    dst_ptr += WorkScreenWidth;
-                    line_ptr = dst_ptr;
-                    sprite_height--;
-                    pixel_count = 0;
-                    L_SCAN
-                    break;
-                case COPY_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                copy_pixels:
-                    pixel_count += c0;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        count_diff = (x + pixel_count) - WorkWindowWidth;
-                        c0 -= count_diff;
-                        while (c0--)
-                            *line_ptr++ = *src_ptr++;
-                        src_ptr += count_diff;
-                        R_SCAN
-                    } else {
-                        while (c0--)
-                            *line_ptr++ = *src_ptr++;
-                    }
-                    break;
-                case SKIP_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                skip_pixels:
-                    pixel_count += c0;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        R_SCAN
-                    } else
-                        line_ptr += c0;
-                    break;
-                case DUPLICATE_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                duplicate_pixels:
-                    pixel_count += c0;
-                    dup_pixel = *src_ptr++;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        c0 -= (x + pixel_count) - WorkWindowWidth;
-                        while (c0--)
-                            *line_ptr++ = dup_pixel;
-                        R_SCAN
-                    } else {
-                        while (c0--)
-                            *line_ptr++ = dup_pixel;
-                    }
-                    break;
-                case FINISHED:
-                    return;
+            case END_LINE:
+            end_line:
+                dst_ptr += WorkScreenWidth;
+                line_ptr = dst_ptr;
+                sprite_height--;
+                pixel_count = 0;
+                L_SCAN
+                break;
+            case COPY_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            copy_pixels:
+                pixel_count += c0;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    count_diff = (x + pixel_count) - WorkWindowWidth;
+                    c0 -= count_diff;
+                    while (c0--)
+                        *line_ptr++ = *src_ptr++;
+                    src_ptr += count_diff;
+                    R_SCAN
+                } else {
+                    while (c0--)
+                        *line_ptr++ = *src_ptr++;
+                }
+                break;
+            case SKIP_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            skip_pixels:
+                pixel_count += c0;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    R_SCAN
+                } else
+                    line_ptr += c0;
+                break;
+            case DUPLICATE_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            duplicate_pixels:
+                pixel_count += c0;
+                dup_pixel = *src_ptr++;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    c0 -= (x + pixel_count) - WorkWindowWidth;
+                    while (c0--)
+                        *line_ptr++ = dup_pixel;
+                    R_SCAN
+                } else {
+                    while (c0--)
+                        *line_ptr++ = dup_pixel;
+                }
+                break;
+            case FINISHED:
+                return;
             }
         }
     } else {
@@ -510,62 +510,62 @@ void DrawBSpritePalC16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
         while (sprite_height) {
             packet = *src_ptr++;
             switch (packet) {
-                case END_LINE:
-                end_line:
-                    dst_ptr += WorkScreenPixelWidth;
-                    line_ptr = dst_ptr;
-                    sprite_height--;
-                    pixel_count = 0;
-                    L_SCAN
-                    break;
-                case COPY_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                copy_pixels:
-                    pixel_count += c0;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        count_diff = (x + pixel_count) - WorkWindowWidth;
-                        c0 -= count_diff;
-                        while (c0--) {
-                            *line_ptr++ = COL_TO_RGB565(*src_ptr, pal);
-                            src_ptr++;
-                        }
-                        src_ptr += count_diff;
-                        R_SCAN
-                    } else {
-                        while (c0--) {
-                            *line_ptr++ = COL_TO_RGB565(*src_ptr, pal);
-                            src_ptr++;
-                        }
+            case END_LINE:
+            end_line:
+                dst_ptr += WorkScreenPixelWidth;
+                line_ptr = dst_ptr;
+                sprite_height--;
+                pixel_count = 0;
+                L_SCAN
+                break;
+            case COPY_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            copy_pixels:
+                pixel_count += c0;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    count_diff = (x + pixel_count) - WorkWindowWidth;
+                    c0 -= count_diff;
+                    while (c0--) {
+                        *line_ptr++ = COL_TO_RGB565(*src_ptr, pal);
+                        src_ptr++;
                     }
-                    break;
-                case SKIP_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                skip_pixels:
-                    pixel_count += c0;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        R_SCAN
-                    } else
-                        line_ptr += c0;
-                    break;
-                case DUPLICATE_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                duplicate_pixels:
-                    pixel_count += c0;
-                    dup_pixel = COL_TO_RGB565(*src_ptr, pal);
-                    src_ptr++;
+                    src_ptr += count_diff;
+                    R_SCAN
+                } else {
+                    while (c0--) {
+                        *line_ptr++ = COL_TO_RGB565(*src_ptr, pal);
+                        src_ptr++;
+                    }
+                }
+                break;
+            case SKIP_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            skip_pixels:
+                pixel_count += c0;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    R_SCAN
+                } else
+                    line_ptr += c0;
+                break;
+            case DUPLICATE_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            duplicate_pixels:
+                pixel_count += c0;
+                dup_pixel = COL_TO_RGB565(*src_ptr, pal);
+                src_ptr++;
 
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        c0 -= (x + pixel_count) - WorkWindowWidth;
-                        while (c0--)
-                            *line_ptr++ = dup_pixel;
-                        R_SCAN
-                    } else {
-                        while (c0--)
-                            *line_ptr++ = dup_pixel;
-                    }
-                    break;
-                case FINISHED:
-                    return;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    c0 -= (x + pixel_count) - WorkWindowWidth;
+                    while (c0--)
+                        *line_ptr++ = dup_pixel;
+                    R_SCAN
+                } else {
+                    while (c0--)
+                        *line_ptr++ = dup_pixel;
+                }
+                break;
+            case FINISHED:
+                return;
             }
         }
     } else {
@@ -627,61 +627,61 @@ void DrawBSpritePalC32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
         while (sprite_height) {
             packet = *src_ptr++;
             switch (packet) {
-                case END_LINE:
-                end_line:
-                    dst_ptr += WorkScreenPixelWidth;
-                    line_ptr = dst_ptr;
-                    sprite_height--;
-                    pixel_count = 0;
-                    L_SCAN
-                    break;
-                case COPY_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                copy_pixels:
-                    pixel_count += c0;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        count_diff = (x + pixel_count) - WorkWindowWidth;
-                        c0 -= count_diff;
-                        while (c0--) {
-                            *line_ptr++ = COL_TO_RGB888(*src_ptr, pal);
-                            src_ptr++;
-                        }
-                        src_ptr += count_diff;
-                        R_SCAN
-                    } else {
-                        while (c0--) {
-                            *line_ptr++ = COL_TO_RGB888(*src_ptr, pal);
-                            src_ptr++;
-                        }
+            case END_LINE:
+            end_line:
+                dst_ptr += WorkScreenPixelWidth;
+                line_ptr = dst_ptr;
+                sprite_height--;
+                pixel_count = 0;
+                L_SCAN
+                break;
+            case COPY_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            copy_pixels:
+                pixel_count += c0;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    count_diff = (x + pixel_count) - WorkWindowWidth;
+                    c0 -= count_diff;
+                    while (c0--) {
+                        *line_ptr++ = COL_TO_RGB888(*src_ptr, pal);
+                        src_ptr++;
                     }
-                    break;
-                case SKIP_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                skip_pixels:
-                    pixel_count += c0;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        R_SCAN
-                    } else
-                        line_ptr += c0;
-                    break;
-                case DUPLICATE_PIXELS:
-                    c0 = (*src_ptr++) + 1;
-                duplicate_pixels:
-                    pixel_count += c0;
-                    dup_pixel = COL_TO_RGB888(*src_ptr, pal);
-                    src_ptr++;
-                    if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
-                        c0 -= (x + pixel_count) - WorkWindowWidth;
-                        while (c0--)
-                            *line_ptr++ = dup_pixel;
-                        R_SCAN
-                    } else {
-                        while (c0--)
-                            *line_ptr++ = dup_pixel;
+                    src_ptr += count_diff;
+                    R_SCAN
+                } else {
+                    while (c0--) {
+                        *line_ptr++ = COL_TO_RGB888(*src_ptr, pal);
+                        src_ptr++;
                     }
-                    break;
-                case FINISHED:
-                    return;
+                }
+                break;
+            case SKIP_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            skip_pixels:
+                pixel_count += c0;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    R_SCAN
+                } else
+                    line_ptr += c0;
+                break;
+            case DUPLICATE_PIXELS:
+                c0 = (*src_ptr++) + 1;
+            duplicate_pixels:
+                pixel_count += c0;
+                dup_pixel = COL_TO_RGB888(*src_ptr, pal);
+                src_ptr++;
+                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                    c0 -= (x + pixel_count) - WorkWindowWidth;
+                    while (c0--)
+                        *line_ptr++ = dup_pixel;
+                    R_SCAN
+                } else {
+                    while (c0--)
+                        *line_ptr++ = dup_pixel;
+                }
+                break;
+            case FINISHED:
+                return;
             }
         }
     } else {

@@ -355,372 +355,372 @@ RawMenuData raw_menu_data[] = {
     {0, OT_BUTTON, X_OKAY, 0, FE_BACK},
 #ifdef WANT_A_KEYBOARD_ITEM
     {
-        FE_CONFIG_INPUT_KB,
-        OT_KEYPRESS,
-        X_LEFT,
-        0,
-        0,
-    },
+     FE_CONFIG_INPUT_KB,
+     OT_KEYPRESS,
+     X_LEFT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_RIGHT,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_RIGHT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_FORWARDS,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_FORWARDS,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_BACKWARDS,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_BACKWARDS,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_PUNCH,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_PUNCH,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_KICK,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_KICK,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_ACTION,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_ACTION,
+     0,
+     0,
+     },
     //	{				  0,  OT_KEYPRESS,	X_RUN,			0,	0,					},
     {
-        0,
-        OT_KEYPRESS,
-        X_JUMP,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_JUMP,
+     0,
+     0,
+     },
 #ifdef WANT_A_START_JOYSTICK_ITEM
     {
-        0,
-        OT_KEYPRESS,
-        X_START,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_START,
+     0,
+     0,
+     },
 #endif
     {
-        0,
-        OT_KEYPRESS,
-        X_SELECT,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_SELECT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_LABEL,
-        X_CAMERA,
-        0,
-        0,
-    },
+     0,
+     OT_LABEL,
+     X_CAMERA,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_JUMP,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_JUMP,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_LEFT,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_LEFT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_RIGHT,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_RIGHT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_KEYPRESS,
-        X_LOOK_AROUND,
-        0,
-        0,
-    },
+     0,
+     OT_KEYPRESS,
+     X_LOOK_AROUND,
+     0,
+     0,
+     },
     {
-        0,
-        OT_RESET,
-        X_RESET_DEFAULT,
-        0,
-        0,
-    },
+     0,
+     OT_RESET,
+     X_RESET_DEFAULT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_BUTTON,
-        X_OKAY,
-        0,
-        FE_BACK,
-    },
+     0,
+     OT_BUTTON,
+     X_OKAY,
+     0,
+     FE_BACK,
+     },
 #endif
 
     {
-        FE_CONFIG_INPUT_JP,
-        OT_PADPRESS,
-        X_KICK,
-        0,
-        0,
-    },
+     FE_CONFIG_INPUT_JP,
+     OT_PADPRESS,
+     X_KICK,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_PUNCH,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_PUNCH,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_JUMP,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_JUMP,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_ACTION,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_ACTION,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_RUN,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_RUN,
+     0,
+     0,
+     },
 #ifdef WANT_A_START_JOYSTICK_ITEM
     {
-        0,
-        OT_PADPRESS,
-        X_START,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_START,
+     0,
+     0,
+     },
 #endif
     {
-        0,
-        OT_PADPRESS,
-        X_SELECT,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_SELECT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_LABEL,
-        X_CAMERA,
-        0,
-        0,
-    },
+     0,
+     OT_LABEL,
+     X_CAMERA,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_JUMP_CAM,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_JUMP_CAM,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_LEFT,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_LEFT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_RIGHT,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_RIGHT,
+     0,
+     0,
+     },
     {
-        0,
-        OT_PADPRESS,
-        X_LOOK_AROUND,
-        0,
-        0,
-    },
+     0,
+     OT_PADPRESS,
+     X_LOOK_AROUND,
+     0,
+     0,
+     },
     {
-        0,
-        OT_RESET,
-        X_RESET_DEFAULT,
-        0,
-        0,
-    },
+     0,
+     OT_RESET,
+     X_RESET_DEFAULT,
+     0,
+     0,
+     },
 
     {
-        0,
-        OT_BUTTON,
-        X_OKAY,
-        0,
-        FE_BACK,
-    },
+     0,
+     OT_BUTTON,
+     X_OKAY,
+     0,
+     FE_BACK,
+     },
 
 //	{	FE_CONFIG_VIDEO,	OT_SLIDER,	X_DETAIL,		0,	128,				},
 #ifdef ALLOW_DANGEROUS_OPTIONS
     {
-        FE_CONFIG_VIDEO,
-        OT_LABEL,
-        X_GRAPHICS,
-        0,
-        1,
-    },
+     FE_CONFIG_VIDEO,
+     OT_LABEL,
+     X_GRAPHICS,
+     0,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_RESOLUTION,
-        0,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_RESOLUTION,
+     0,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_DRIVERS,
-        0,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_DRIVERS,
+     0,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_COLOUR_DEPTH,
-        0,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_COLOUR_DEPTH,
+     0,
+     1,
+     },
 #endif
     //	{                 0,     OT_LABEL,  X_DETAIL,	    0,  1,                  },
     {
-        FE_CONFIG_VIDEO,
-        OT_MULTI,
-        X_STARS,
-        MC_YN,
-        1,
-    },
+     FE_CONFIG_VIDEO,
+     OT_MULTI,
+     X_STARS,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_SHADOWS,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_SHADOWS,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_PUDDLES,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_PUDDLES,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_DIRT,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_DIRT,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_MIST,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_MIST,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_RAIN,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_RAIN,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_SKYLINE,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_SKYLINE,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_CRINKLES,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_CRINKLES,
+     MC_YN,
+     1,
+     },
     {0, OT_LABEL, X_REFLECTIONS, 0, 0},
     {
-        0,
-        OT_MULTI,
-        X_MOON,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_MOON,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_PEOPLE,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_PEOPLE,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_LABEL,
-        X_TEXTURE_MAP,
-        0,
-        0,
-    },
+     0,
+     OT_LABEL,
+     X_TEXTURE_MAP,
+     0,
+     0,
+     },
     {
-        0,
-        OT_MULTI,
-        X_PERSPECTIVE,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_PERSPECTIVE,
+     MC_YN,
+     1,
+     },
     {
-        0,
-        OT_MULTI,
-        X_BILINEAR,
-        MC_YN,
-        1,
-    },
+     0,
+     OT_MULTI,
+     X_BILINEAR,
+     MC_YN,
+     1,
+     },
     //	{				  0,	OT_SLIDER,	"Gamma",		0,	128,				},
     {
-        0,
-        OT_BUTTON,
-        X_OKAY,
-        0,
-        FE_BACK,
-    },
+     0,
+     OT_BUTTON,
+     X_OKAY,
+     0,
+     FE_BACK,
+     },
     {FE_CONFIG_OPTIONS, OT_LABEL, X_SCANNER, 0, 0},
     {0, OT_MULTI, X_TRACK, MC_SCANNER, 0},
     {
-        0,
-        OT_BUTTON,
-        X_OKAY,
-        0,
-        FE_BACK,
-    },
+     0,
+     OT_BUTTON,
+     X_OKAY,
+     0,
+     FE_BACK,
+     },
 #ifdef WANT_AN_EXIT_MENU_ITEM
     {FE_QUIT, OT_LABEL, X_ARE_YOU_SURE, 0, 0},
     {0, OT_BUTTON, X_OKAY, 0, FE_NO_REALLY_QUIT},
@@ -970,13 +970,13 @@ void FRONTEND_scr_new_theme(
     FRONTEND_scr_img_load_into_screenfull(fname_config, &screenfull_config);
 
     switch (last) {
-        case 1: the_display.lp_DD_Background_use_instead = screenfull_back; break;
-        case 2: the_display.lp_DD_Background_use_instead = screenfull_map; break;
-        case 3: the_display.lp_DD_Background_use_instead = screenfull_brief; break;
-        case 4: the_display.lp_DD_Background_use_instead = screenfull_config; break;
-        default:
-            ASSERT(false);
-            break;
+    case 1: the_display.lp_DD_Background_use_instead = screenfull_back; break;
+    case 2: the_display.lp_DD_Background_use_instead = screenfull_map; break;
+    case 3: the_display.lp_DD_Background_use_instead = screenfull_brief; break;
+    case 4: the_display.lp_DD_Background_use_instead = screenfull_config; break;
+    default:
+        ASSERT(false);
+        break;
     }
 
     // And then restart the music.
@@ -994,34 +994,34 @@ void FRONTEND_restore_screenfull_surfaces() {
 void FRONTEND_ParseMissionData(char* text, char version, MissionData* mdata) {
     std::uint16_t a, n;
     switch (version) {
-        case 2:
-            sscanf(text, "%d : %d : %d : %d : %d : %s : *%d : %*d : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, mdata->fn, mdata->ttl);
-            mdata->Flags = 0;
-            mdata->District = -1;
-            n = 9;
-            break;
-        case 3:
-            sscanf(text, "%d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, &mdata->District, mdata->fn, mdata->ttl);
-            mdata->Flags = 0;
-            n = 8;
-            break;
-        case 4:
-            sscanf(text, "%d : %d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, &mdata->Flags, &mdata->District, mdata->fn, mdata->ttl);
-            n = 9;
-            break;
-        default:
-            sscanf(text, "%d : %d : %d : %d : %d : %s : %[^:] : %*s",
-                   &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
-                   &mdata->Type, mdata->fn, mdata->ttl);
-            mdata->Flags = 0;
-            mdata->District = -1;
-            n = 7;
+    case 2:
+        sscanf(text, "%d : %d : %d : %d : %d : %s : *%d : %*d : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, mdata->fn, mdata->ttl);
+        mdata->Flags = 0;
+        mdata->District = -1;
+        n = 9;
+        break;
+    case 3:
+        sscanf(text, "%d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, &mdata->District, mdata->fn, mdata->ttl);
+        mdata->Flags = 0;
+        n = 8;
+        break;
+    case 4:
+        sscanf(text, "%d : %d : %d : %d : %d : %d : %d : %s : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, &mdata->Flags, &mdata->District, mdata->fn, mdata->ttl);
+        n = 9;
+        break;
+    default:
+        sscanf(text, "%d : %d : %d : %d : %d : %s : %[^:] : %*s",
+               &mdata->ObjID, &mdata->GroupID, &mdata->ParentID, &mdata->ParentIsGroup,
+               &mdata->Type, mdata->fn, mdata->ttl);
+        mdata->Flags = 0;
+        mdata->District = -1;
+        n = 7;
     }
     for (a = 0; a < n; a++) {
         text = strchr(text, ':') + 1;
@@ -1136,32 +1136,32 @@ void FRONTEND_init_xition() {
     ScaleX = MidX / 64.0f;
     ScaleY = MidY / 64.0f;
     switch (menu_state.mode) {
-        case FE_MAPSCREEN:
+    case FE_MAPSCREEN:
 
-            screenfull = screenfull_map;
+        screenfull = screenfull_map;
 
-            // FRONTEND_scr_img(menu_map_names[menu_theme]);
-            break;
-        case FE_MAINMENU:
-            screenfull = screenfull_back;
+        // FRONTEND_scr_img(menu_map_names[menu_theme]);
+        break;
+    case FE_MAINMENU:
+        screenfull = screenfull_back;
 
-            // FRONTEND_scr_img(menu_map_names[menu_theme]);
-            break;
-        case FE_LOADSCREEN:
-        case FE_SAVESCREEN:
-        case FE_CONFIG:
+        // FRONTEND_scr_img(menu_map_names[menu_theme]);
+        break;
+    case FE_LOADSCREEN:
+    case FE_SAVESCREEN:
+    case FE_CONFIG:
+        screenfull = screenfull_config;
+
+        // FRONTEND_scr_img(menu_config_names[menu_theme]);
+        break;
+    default:
+        if (menu_state.mode >= 100) {
+            screenfull = screenfull_brief;
+
+            // FRONTEND_scr_img(menu_brief_names[menu_theme]);
+        } else {
             screenfull = screenfull_config;
-
-            // FRONTEND_scr_img(menu_config_names[menu_theme]);
-            break;
-        default:
-            if (menu_state.mode >= 100) {
-                screenfull = screenfull_brief;
-
-                // FRONTEND_scr_img(menu_brief_names[menu_theme]);
-            } else {
-                screenfull = screenfull_config;
-            }
+        }
     }
 }
 
@@ -1204,32 +1204,32 @@ extern std::uint8_t* image_mem;
 void FRONTEND_stop_xition() {
     switch (menu_state.mode) {
 #ifdef WANT_AN_EXIT_MENU_ITEM
-        case FE_QUIT:
+    case FE_QUIT:
 #endif
-        case FE_MAINMENU:
-            UseBackSurface(screenfull_back);
-            break;
-        case FE_CONFIG:
-        case FE_CONFIG_VIDEO:
-        case FE_CONFIG_AUDIO:
+    case FE_MAINMENU:
+        UseBackSurface(screenfull_back);
+        break;
+    case FE_CONFIG:
+    case FE_CONFIG_VIDEO:
+    case FE_CONFIG_AUDIO:
 #ifdef WANT_A_KEYBOARD_ITEM
-        case FE_CONFIG_INPUT_KB:
+    case FE_CONFIG_INPUT_KB:
 #endif
-        case FE_CONFIG_INPUT_JP:
-        case FE_LOADSCREEN:
-        case FE_SAVESCREEN:
+    case FE_CONFIG_INPUT_JP:
+    case FE_LOADSCREEN:
+    case FE_SAVESCREEN:
+        UseBackSurface(screenfull_config);
+        break;
+    case FE_MAPSCREEN:
+        UseBackSurface(screenfull_map);
+        break;
+    default:
+        if (menu_state.mode >= 100) {
+            UseBackSurface(screenfull_brief);
+        } else {
             UseBackSurface(screenfull_config);
-            break;
-        case FE_MAPSCREEN:
-            UseBackSurface(screenfull_map);
-            break;
-        default:
-            if (menu_state.mode >= 100) {
-                UseBackSurface(screenfull_brief);
-            } else {
-                UseBackSurface(screenfull_config);
-            }
-            break;
+        }
+        break;
     }
 
     /*
@@ -1266,34 +1266,34 @@ void FRONTEND_draw_button(std::int32_t x, std::int32_t y, std::uint8_t which, st
     }
 
     switch (which) {
-        case 0:
-        case 4:
-            u = 0.0;
-            v = 0.0;
-            w = 0.5;
-            h = 0.5;
-            break;
-        case 1:
-        case 5:
-            u = 0.5;
-            v = 0.0;
-            w = 1.0;
-            h = 0.5;
-            break;
-        case 2:
-        case 6:
-            u = 0.0;
-            v = 0.5;
-            w = 0.5;
-            h = 1.0;
-            break;
-        case 3:
-        case 7:
-            u = 0.5;
-            v = 0.5;
-            w = 1.0;
-            h = 1.0;
-            break;
+    case 0:
+    case 4:
+        u = 0.0;
+        v = 0.0;
+        w = 0.5;
+        h = 0.5;
+        break;
+    case 1:
+    case 5:
+        u = 0.5;
+        v = 0.0;
+        w = 1.0;
+        h = 0.5;
+        break;
+    case 2:
+    case 6:
+        u = 0.0;
+        v = 0.5;
+        w = 0.5;
+        h = 1.0;
+        break;
+    case 3:
+    case 7:
+        u = 0.5;
+        v = 0.5;
+        w = 1.0;
+        h = 1.0;
+        break;
     }
 
     pp[0].colour = (which < 4) ? 0xffFFFFFF : (fade_rgb << 1) | 0xffffff;
@@ -1546,63 +1546,63 @@ void FRONTEND_kibble_init_one(Kibble* k, std::uint8_t type) {
         if ((menu_state.mode == FE_MAPSCREEN) || (menu_state.mode >= 100)) return;
     }
     switch (type & 0x7f) {
-        case 1:
-            k->dx = (20 + (Random() & 15)) << 5;
-            k->dy = 0;
-            k->page = POLY_PAGE_BIG_LEAF;
-            k->rgb = FRONTEND_leaf_colours[Random() & 3];
+    case 1:
+        k->dx = (20 + (Random() & 15)) << 5;
+        k->dy = 0;
+        k->page = POLY_PAGE_BIG_LEAF;
+        k->rgb = FRONTEND_leaf_colours[Random() & 3];
+        k->x = (-10 - (Random() & 0x1ff)) << 8;
+        k->y = ((Random() % 520) - 20) << 8;
+        k->size = 35 + (Random() & 0x1f);
+        k->r = Random() & 2047;
+        k->t = Random() & 2047;
+        k->p = 0;
+        k->rd = 1 + (Random() & 7);
+        k->td = 1 + (Random() & 7);
+        k->pd = 0;
+        k->type = type;
+        break;
+    case 2:
+        k->dx = k->dy = (20 + (Random() & 15)) << 5;
+        k->page = POLY_PAGE_BIG_RAIN;
+        k->rgb = 0x3f7f7fff;
+        if (Random() & 1) {
             k->x = (-10 - (Random() & 0x1ff)) << 8;
             k->y = ((Random() % 520) - 20) << 8;
-            k->size = 35 + (Random() & 0x1f);
-            k->r = Random() & 2047;
-            k->t = Random() & 2047;
-            k->p = 0;
-            k->rd = 1 + (Random() & 7);
-            k->td = 1 + (Random() & 7);
-            k->pd = 0;
-            k->type = type;
-            break;
-        case 2:
-            k->dx = k->dy = (20 + (Random() & 15)) << 5;
-            k->page = POLY_PAGE_BIG_RAIN;
-            k->rgb = 0x3f7f7fff;
-            if (Random() & 1) {
-                k->x = (-10 - (Random() & 0x1ff)) << 8;
-                k->y = ((Random() % 520) - 20) << 8;
-            } else {
-                k->x = ((Random() % 680) - 20) << 8;
-                k->y = (-10 - (Random() & 0x1ff) - 20) << 8;
-            }
-            k->size = 25 + (Random() & 0x1f);
-            k->r = 0;
-            k->t = 0;
-            k->p = 1792;
-            k->rd = 0;
-            k->td = 0;
-            k->pd = 0;
-            k->type = type;
-            break;
-        case 3:
-            k->dx = (15 + (Random() & 15)) << 5;
-            k->dy = (5 + (Random() & 15)) << 5;
-            k->page = POLY_PAGE_SNOWFLAKE;
-            k->rgb = 0xffafafff;
-            if (Random() & 1) {
-                k->x = (-10 - (Random() & 0x1ff)) << 8;
-                k->y = ((Random() % 520) - 20) << 8;
-            } else {
-                k->x = ((Random() % 680) - 20) << 8;
-                k->y = (-10 - (Random() & 0x1ff) - 20) << 8;
-            }
-            k->size = 25 + (Random() & 0x1f);
-            k->r = 0;
-            k->t = 0;
-            k->p = 0;
-            k->rd = 1;
-            k->td = 2;
-            k->pd = 0;
-            k->type = type;
-            break;
+        } else {
+            k->x = ((Random() % 680) - 20) << 8;
+            k->y = (-10 - (Random() & 0x1ff) - 20) << 8;
+        }
+        k->size = 25 + (Random() & 0x1f);
+        k->r = 0;
+        k->t = 0;
+        k->p = 1792;
+        k->rd = 0;
+        k->td = 0;
+        k->pd = 0;
+        k->type = type;
+        break;
+    case 3:
+        k->dx = (15 + (Random() & 15)) << 5;
+        k->dy = (5 + (Random() & 15)) << 5;
+        k->page = POLY_PAGE_SNOWFLAKE;
+        k->rgb = 0xffafafff;
+        if (Random() & 1) {
+            k->x = (-10 - (Random() & 0x1ff)) << 8;
+            k->y = ((Random() % 520) - 20) << 8;
+        } else {
+            k->x = ((Random() % 680) - 20) << 8;
+            k->y = (-10 - (Random() & 0x1ff) - 20) << 8;
+        }
+        k->size = 25 + (Random() & 0x1f);
+        k->r = 0;
+        k->t = 0;
+        k->p = 0;
+        k->rd = 1;
+        k->td = 2;
+        k->pd = 0;
+        k->type = type;
+        break;
     }
 }
 
@@ -1636,26 +1636,26 @@ void FRONTEND_kibble_flurry() {
     for (c0 = 0, k = kibble; c0 < n; c0++, k++)
         if (!k->type) {
             switch (menu_theme) {
-                case 0:
-                    FRONTEND_kibble_init_one(k, 1 | 128);
-                    k->dx = (25 + (Random() & 15)) << 5;
-                    k->x = (-60 - (Random() & 0xff)) << 8;
-                    k->y = (Random() % 480) << 8;
-                    k->size = 5 + (Random() & 0x1f);
-                    k->r = Random() & 2047;
-                    k->t = Random() & 2047;
-                    k->rd = 1 + (Random() & 7);
-                    k->td = 1 + (Random() & 7);
-                    // k->type|=128;
-                    break;
-                case 1:
-                    FRONTEND_kibble_init_one(k, 2 | 128);
-                    // k->type|=128;
-                    break;
-                case 2:
-                    FRONTEND_kibble_init_one(k, 3 | 128);
-                    // k->type|=128;
-                    break;
+            case 0:
+                FRONTEND_kibble_init_one(k, 1 | 128);
+                k->dx = (25 + (Random() & 15)) << 5;
+                k->x = (-60 - (Random() & 0xff)) << 8;
+                k->y = (Random() % 480) << 8;
+                k->size = 5 + (Random() & 0x1f);
+                k->r = Random() & 2047;
+                k->t = Random() & 2047;
+                k->rd = 1 + (Random() & 7);
+                k->td = 1 + (Random() & 7);
+                // k->type|=128;
+                break;
+            case 1:
+                FRONTEND_kibble_init_one(k, 2 | 128);
+                // k->type|=128;
+                break;
+            case 2:
+                FRONTEND_kibble_init_one(k, 3 | 128);
+                // k->type|=128;
+                break;
             }
         }
 }
@@ -1730,31 +1730,31 @@ void FRONTEND_kibble_process() {
                 k->r &= 2047;
                 k->t &= 2047;
                 switch (k->type) {
-                    case 1:
-                        k->dy++;
-                        k->dx++;
-                        if ((k->y >> 8) > 240) k->dy -= Random() % ((k->y - 240) >> 14);
-                        //			if ((k->x>>8)+k->size<10) FRONTEND_kibble_init_one(k,1);
-                        if ((k->x >> 8) - k->size > 650) FRONTEND_kibble_init_one(k, 1);
-                        break;
-                    case 129:
-                        //			if ((k->x>>8)<10) k->type=0;
-                        if ((k->x >> 8) - k->size > 650) k->type = 0;
-                    case 3:
-                    case 131: {
-                        std::int16_t x = k->x >> 8, y = k->y >> 8;
-                        k->dx++;
-                        if ((x > 320) && (x < 480)) k->dx -= Random() % ((k->x - 320) >> 14);
-                        if ((y > 240) && (y < 280)) k->dy -= Random() % ((k->y - 240) >> 14);
-                    }
-                    case 2:
-                    case 130:
-                        if ((((k->x >> 8) - k->size) > 640) || (((k->y >> 8) - k->size) > 480))
-                            if (k->type < 128)
-                                FRONTEND_kibble_init_one(k, k->type & 127);
-                            else
-                                k->type = 0;
-                        break;
+                case 1:
+                    k->dy++;
+                    k->dx++;
+                    if ((k->y >> 8) > 240) k->dy -= Random() % ((k->y - 240) >> 14);
+                    //			if ((k->x>>8)+k->size<10) FRONTEND_kibble_init_one(k,1);
+                    if ((k->x >> 8) - k->size > 650) FRONTEND_kibble_init_one(k, 1);
+                    break;
+                case 129:
+                    //			if ((k->x>>8)<10) k->type=0;
+                    if ((k->x >> 8) - k->size > 650) k->type = 0;
+                case 3:
+                case 131: {
+                    std::int16_t x = k->x >> 8, y = k->y >> 8;
+                    k->dx++;
+                    if ((x > 320) && (x < 480)) k->dx -= Random() % ((k->x - 320) >> 14);
+                    if ((y > 240) && (y < 280)) k->dy -= Random() % ((k->y - 240) >> 14);
+                }
+                case 2:
+                case 130:
+                    if ((((k->x >> 8) - k->size) > 640) || (((k->y >> 8) - k->size) > 480))
+                        if (k->type < 128)
+                            FRONTEND_kibble_init_one(k, k->type & 127);
+                        else
+                            k->type = 0;
+                    break;
                 }
             }
     }
@@ -2005,32 +2005,32 @@ void FRONTEND_MissionHierarchy(char* script) {
             menu_config_names[menu_theme]);
 
         switch (menu_state.mode) {
-            case FE_MAINMENU:
-                // InitBackImage(menu_back_names[menu_theme]);
+        case FE_MAINMENU:
+            // InitBackImage(menu_back_names[menu_theme]);
 
-                UseBackSurface(screenfull_back);
+            UseBackSurface(screenfull_back);
 
-                break;
-            case FE_CONFIG:
-            case FE_CONFIG_VIDEO:
-            case FE_CONFIG_AUDIO:
-            case FE_CONFIG_OPTIONS:
+            break;
+        case FE_CONFIG:
+        case FE_CONFIG_VIDEO:
+        case FE_CONFIG_AUDIO:
+        case FE_CONFIG_OPTIONS:
 #ifdef WANT_A_KEYBOARD_ITEM
-            case FE_CONFIG_INPUT_KB:
+        case FE_CONFIG_INPUT_KB:
 #endif
-            case FE_CONFIG_INPUT_JP:
-            case FE_LOADSCREEN:
-            case FE_SAVESCREEN:
-                // InitBackImage(menu_config_names[menu_theme]);
-                UseBackSurface(screenfull_config);
-                break;
-            case FE_MAPSCREEN:
-                // InitBackImage(menu_map_names[menu_theme]);
-                UseBackSurface(screenfull_map);
-                break;
-            default:
-                UseBackSurface(screenfull_brief);
-                // InitBackImage(menu_brief_names[menu_theme]);
+        case FE_CONFIG_INPUT_JP:
+        case FE_LOADSCREEN:
+        case FE_SAVESCREEN:
+            // InitBackImage(menu_config_names[menu_theme]);
+            UseBackSurface(screenfull_config);
+            break;
+        case FE_MAPSCREEN:
+            // InitBackImage(menu_map_names[menu_theme]);
+            UseBackSurface(screenfull_map);
+            break;
+        default:
+            UseBackSurface(screenfull_brief);
+            // InitBackImage(menu_brief_names[menu_theme]);
         }
         FRONTEND_kibble_init();
     }
@@ -2651,25 +2651,25 @@ void FRONTEND_easy(std::uint8_t mode) {
         md->Label = XLAT_str_ptr(pt->Label);
         md->Data = pt->Data;
         switch (md->Type) {
-            case OT_BUTTON:
-                md->Choices = pt->Choices; // secret code... :P
-                                           // Fallthrough.
-            case OT_LABEL:
-                MENUFONT_Dimensions(md->Label, x, y, -1, iBigFontScale);
-                md->X = 320 - (x >> 1);
-                break;
-            case OT_MULTI:
-                md->X = 30;
-                if (pt->Choices == MC_YN) {
-                    md->Choices = menu_choice_yesno;
-                    md->Data |= (2 << 8);
-                } else if (pt->Choices == MC_SCANNER) {
-                    md->Choices = menu_choice_scanner;
-                    md->Data |= (2 << 8);
-                }
-                break;
-            default:
-                md->X = 30;
+        case OT_BUTTON:
+            md->Choices = pt->Choices; // secret code... :P
+                                       // Fallthrough.
+        case OT_LABEL:
+            MENUFONT_Dimensions(md->Label, x, y, -1, iBigFontScale);
+            md->X = 320 - (x >> 1);
+            break;
+        case OT_MULTI:
+            md->X = 30;
+            if (pt->Choices == MC_YN) {
+                md->Choices = menu_choice_yesno;
+                md->Data |= (2 << 8);
+            } else if (pt->Choices == MC_SCANNER) {
+                md->Choices = menu_choice_scanner;
+                md->Data |= (2 << 8);
+            }
+            break;
+        default:
+            md->X = 30;
         }
         md->Y = y2;
         y2 += 50;
@@ -2695,18 +2695,18 @@ void FRONTEND_easy(std::uint8_t mode) {
 
 std::uint8_t LabelToIndex(std::int32_t label) {
     switch (label) {
-        case X_STARS: return 0;
-        case X_SHADOWS: return 1;
-        case X_PUDDLES: return 4;
-        case X_DIRT: return 5;
-        case X_MIST: return 6;
-        case X_RAIN: return 7;
-        case X_SKYLINE: return 8;
-        case X_CRINKLES: return 11;
-        case X_MOON: return 2;
-        case X_PEOPLE: return 3;
-        case X_BILINEAR: return 9;
-        case X_PERSPECTIVE: return 10;
+    case X_STARS: return 0;
+    case X_SHADOWS: return 1;
+    case X_PUDDLES: return 4;
+    case X_DIRT: return 5;
+    case X_MIST: return 6;
+    case X_RAIN: return 7;
+    case X_SKYLINE: return 8;
+    case X_CRINKLES: return 11;
+    case X_MOON: return 2;
+    case X_PEOPLE: return 3;
+    case X_BILINEAR: return 9;
+    case X_PERSPECTIVE: return 10;
     }
     return 19;
 }
@@ -2721,42 +2721,42 @@ void FRONTEND_restore_video_data() {
 #endif
     for (i = 0; i < menu_state.items; i++)
         switch (menu_data[i].LabelID) {
-                /*		case X_RESOLUTION:
-                                        CurrentVidMode=menu_data[i].Data&0xff;
-                                        ShellPauseOn();
-                                        switch(CurrentVidMode)
-                                        {
-                                        case 0:
-                                                SetDisplay(640,480,16);
-                                                break;
-                                        case 1:
-                                                SetDisplay(800,600,16);
-                                                break;
-                                        case 2:
-                                                SetDisplay(1024,768,16);
-                                                break;
-                                        }
-                                        ShellPauseOff();
-                                        break;
-                                case X_DRIVERS:
-                                        // er...
-                                        break;*/
-            case X_STARS:
-            case X_SHADOWS:
-            case X_PUDDLES:
-            case X_DIRT:
-            case X_MIST:
-            case X_RAIN:
-            case X_SKYLINE:
-            case X_CRINKLES:
-            case X_MOON:
-            case X_PEOPLE:
-            case X_PERSPECTIVE:
-            case X_BILINEAR:
-                j = LabelToIndex(menu_data[i].LabelID);
-                data[j] |= menu_data[i].Data & 0xff00;
-                menu_data[i].Data = data[j];
-                break;
+            /*		case X_RESOLUTION:
+                                    CurrentVidMode=menu_data[i].Data&0xff;
+                                    ShellPauseOn();
+                                    switch(CurrentVidMode)
+                                    {
+                                    case 0:
+                                            SetDisplay(640,480,16);
+                                            break;
+                                    case 1:
+                                            SetDisplay(800,600,16);
+                                            break;
+                                    case 2:
+                                            SetDisplay(1024,768,16);
+                                            break;
+                                    }
+                                    ShellPauseOff();
+                                    break;
+                            case X_DRIVERS:
+                                    // er...
+                                    break;*/
+        case X_STARS:
+        case X_SHADOWS:
+        case X_PUDDLES:
+        case X_DIRT:
+        case X_MIST:
+        case X_RAIN:
+        case X_SKYLINE:
+        case X_CRINKLES:
+        case X_MOON:
+        case X_PEOPLE:
+        case X_PERSPECTIVE:
+        case X_BILINEAR:
+            j = LabelToIndex(menu_data[i].LabelID);
+            data[j] |= menu_data[i].Data & 0xff00;
+            menu_data[i].Data = data[j];
+            break;
         }
 }
 
@@ -2773,32 +2773,32 @@ void FRONTEND_store_video_data() {
     // Override with menu entries:
     for (i = 0; i < menu_state.items; i++)
         switch (menu_data[i].LabelID) {
-            case X_RESOLUTION:
-                mode = menu_data[i].Data & 0xff;
-                break;
-            case X_COLOUR_DEPTH:
-                bit_depth = menu_data[i].Data & 0xff ? 32 : 16;
-                break;
-            case X_DRIVERS:
-                // er...
-                break;
-            case X_STARS:
-            case X_SHADOWS:
-            case X_PUDDLES:
-            case X_DIRT:
-            case X_MIST:
-            case X_RAIN:
-            case X_SKYLINE:
-            case X_CRINKLES:
-            case X_MOON:
-            case X_PEOPLE:
-            case X_PERSPECTIVE:
-            case X_BILINEAR:
-                data[LabelToIndex(menu_data[i].LabelID)] = menu_data[i].Data & 0xff;
-                break;
-            case X_LOW:
+        case X_RESOLUTION:
+            mode = menu_data[i].Data & 0xff;
+            break;
+        case X_COLOUR_DEPTH:
+            bit_depth = menu_data[i].Data & 0xff ? 32 : 16;
+            break;
+        case X_DRIVERS:
+            // er...
+            break;
+        case X_STARS:
+        case X_SHADOWS:
+        case X_PUDDLES:
+        case X_DIRT:
+        case X_MIST:
+        case X_RAIN:
+        case X_SKYLINE:
+        case X_CRINKLES:
+        case X_MOON:
+        case X_PEOPLE:
+        case X_PERSPECTIVE:
+        case X_BILINEAR:
+            data[LabelToIndex(menu_data[i].LabelID)] = menu_data[i].Data & 0xff;
+            break;
+        case X_LOW:
 
-                break;
+            break;
         }
 #ifndef TARGET_DC
     ENV_set_value_number("Mode", mode, "Video");
@@ -2817,21 +2817,21 @@ void FRONTEND_store_video_data() {
         CurrentBitDepth = bit_depth;
         ShellPauseOn();
         switch (CurrentVidMode) {
-            case 0:
-                SetDisplay(640, 480, bit_depth);
-                break;
-            case 1:
-                SetDisplay(800, 600, bit_depth);
-                break;
-            case 2:
-                SetDisplay(1024, 768, bit_depth);
-                break;
-            case 3:
-                SetDisplay(320, 240, bit_depth);
-                break;
-            case 4:
-                SetDisplay(512, 384, bit_depth);
-                break;
+        case 0:
+            SetDisplay(640, 480, bit_depth);
+            break;
+        case 1:
+            SetDisplay(800, 600, bit_depth);
+            break;
+        case 2:
+            SetDisplay(1024, 768, bit_depth);
+            break;
+        case 3:
+            SetDisplay(320, 240, bit_depth);
+            break;
+        case 4:
+            SetDisplay(512, 384, bit_depth);
+            break;
         }
         ShellPauseOff();
     }
@@ -2851,25 +2851,25 @@ void FRONTEND_do_drivers() {
     char *str = menu_buffer, *str_tmp;
 
     switch (RealDisplayWidth) {
-        case 640:
-            CurrentVidMode = 0;
-            break;
-        case 800:
-            CurrentVidMode = 1;
-            break;
-        case 1024:
-            CurrentVidMode = 2;
-            break;
-        case 320:
-            CurrentVidMode = 3;
-            break;
-        case 512:
-            CurrentVidMode = 4;
-            break;
+    case 640:
+        CurrentVidMode = 0;
+        break;
+    case 800:
+        CurrentVidMode = 1;
+        break;
+    case 1024:
+        CurrentVidMode = 2;
+        break;
+    case 320:
+        CurrentVidMode = 3;
+        break;
+    case 512:
+        CurrentVidMode = 4;
+        break;
 
-        default:
-            CurrentVidMode = 0;
-            break;
+    default:
+        CurrentVidMode = 0;
+        break;
     }
     CurrentBitDepth = DisplayBPP;
 
@@ -3040,26 +3040,26 @@ void FRONTEND_mode(std::int8_t mode, bool bDoTransition = true) {
     }
 
     switch (mode) {
-        case FE_MAPSCREEN:
-            menu_state.title = XLAT_str_ptr(X_START);
-            break;
-        case FE_MAINMENU:
-            // No title.
-            menu_state.title = nullptr;
-            break;
-        case FE_LOADSCREEN:
-            menu_state.title = XLAT_str_ptr(X_LOAD_GAME);
-            break;
-        case FE_SAVESCREEN:
-            menu_state.title = XLAT_str_ptr(X_SAVE_GAME);
-            break;
-        default:
-            if (menu_state.stackpos && (mode < 100)) {
-                menu_state.title = FRONTEND_gettitle(menu_state.stack[menu_state.stackpos - 1].mode, menu_state.stack[menu_state.stackpos - 1].selected);
-            } else {
-                menu_state.title = 0;
-            }
-            break;
+    case FE_MAPSCREEN:
+        menu_state.title = XLAT_str_ptr(X_START);
+        break;
+    case FE_MAINMENU:
+        // No title.
+        menu_state.title = nullptr;
+        break;
+    case FE_LOADSCREEN:
+        menu_state.title = XLAT_str_ptr(X_LOAD_GAME);
+        break;
+    case FE_SAVESCREEN:
+        menu_state.title = XLAT_str_ptr(X_SAVE_GAME);
+        break;
+    default:
+        if (menu_state.stackpos && (mode < 100)) {
+            menu_state.title = FRONTEND_gettitle(menu_state.stack[menu_state.stackpos - 1].mode, menu_state.stack[menu_state.stackpos - 1].selected);
+        } else {
+            menu_state.title = 0;
+        }
+        break;
     }
 
     menu_state.mode = mode;
@@ -3072,151 +3072,151 @@ void FRONTEND_mode(std::int8_t mode, bool bDoTransition = true) {
         return;
     }
     switch (mode) {
-        case FE_MAPSCREEN:
-            // InitBackImage("MAP SELECT LEAVES.TGA");
+    case FE_MAPSCREEN:
+        // InitBackImage("MAP SELECT LEAVES.TGA");
+        FRONTEND_init_xition();
+        FRONTEND_districts(MISSION_SCRIPT);
+        // FRONTEND_MissionList(MISSION_SCRIPT);
+        // MUSIC_mode(MUSIC_MODE_FRONTEND);
+        break;
+    case FE_MAINMENU:
+        // InitBackImage(menu_back_names[menu_theme]);
+        // UseBackSurface(screenfull_back);
+
+        FRONTEND_init_xition();
+
+        FRONTEND_easy(mode);
+
+        // Always reset the stack in the main menu.
+        menu_state.stackpos = 0;
+
+        MUSIC_mode(MUSIC_MODE_FRONTEND);
+        if (AllowSave) menu_data[2].Choices = nullptr;
+        break;
+    case FE_SAVESCREEN:
+        AllowSave = 1;
+        if (!menu_state.stackpos) {
+            // InitBackImage(menu_config_names[menu_theme]);
+            UseBackSurface(screenfull_config);
+        }
+        if (bDoTransition) {
             FRONTEND_init_xition();
-            FRONTEND_districts(MISSION_SCRIPT);
-            // FRONTEND_MissionList(MISSION_SCRIPT);
-            // MUSIC_mode(MUSIC_MODE_FRONTEND);
-            break;
-        case FE_MAINMENU:
-            // InitBackImage(menu_back_names[menu_theme]);
-            // UseBackSurface(screenfull_back);
-
+        }
+        FRONTEND_find_savegames(false, true);
+        FRONTEND_easy(mode);
+        menu_state.title = XLAT_str_ptr(X_SAVE_GAME);
+        break;
+    case FE_LOADSCREEN:
+        FRONTEND_find_savegames(true, false);
+        if (bDoTransition) {
             FRONTEND_init_xition();
-
-            FRONTEND_easy(mode);
-
-            // Always reset the stack in the main menu.
-            menu_state.stackpos = 0;
-
-            MUSIC_mode(MUSIC_MODE_FRONTEND);
-            if (AllowSave) menu_data[2].Choices = nullptr;
-            break;
-        case FE_SAVESCREEN:
-            AllowSave = 1;
-            if (!menu_state.stackpos) {
-                // InitBackImage(menu_config_names[menu_theme]);
-                UseBackSurface(screenfull_config);
-            }
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_find_savegames(false, true);
-            FRONTEND_easy(mode);
-            menu_state.title = XLAT_str_ptr(X_SAVE_GAME);
-            break;
-        case FE_LOADSCREEN:
-            FRONTEND_find_savegames(true, false);
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
-            break;
-        case FE_CONFIG:
-            FRONTEND_init_xition();
-            FRONTEND_easy(mode);
-            break;
+        }
+        FRONTEND_easy(mode);
+        break;
+    case FE_CONFIG:
+        FRONTEND_init_xition();
+        FRONTEND_easy(mode);
+        break;
 #ifdef WANT_AN_EXIT_MENU_ITEM
-        case FE_QUIT:
-            FRONTEND_easy(mode);
-            menu_state.title = XLAT_str_ptr(X_EXIT);
-            break;
+    case FE_QUIT:
+        FRONTEND_easy(mode);
+        menu_state.title = XLAT_str_ptr(X_EXIT);
+        break;
 #endif
-        case FE_CONFIG_VIDEO: {
-            int a, b, c, d, e, f, g, h, i, j, k; // <-- int for compatability with the prototype in aeng.h *shrug*
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
+    case FE_CONFIG_VIDEO: {
+        int a, b, c, d, e, f, g, h, i, j, k; // <-- int for compatability with the prototype in aeng.h *shrug*
+        if (bDoTransition) {
+            FRONTEND_init_xition();
+        }
+        FRONTEND_easy(mode);
 #ifndef TARGET_DC
 #ifdef ALLOW_DANGEROUS_OPTIONS
-            FRONTEND_do_drivers();
+        FRONTEND_do_drivers();
 #endif
 #endif
-            if (the_display.IsGammaAvailable())
-                FRONTEND_do_gamma();
-            FRONTEND_restore_video_data();
-        } break;
-        case FE_CONFIG_AUDIO: {
-            std::int32_t fx, amb, mus;
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
-            // now put in correct values...
+        if (the_display.IsGammaAvailable())
+            FRONTEND_do_gamma();
+        FRONTEND_restore_video_data();
+    } break;
+    case FE_CONFIG_AUDIO: {
+        std::int32_t fx, amb, mus;
+        if (bDoTransition) {
+            FRONTEND_init_xition();
+        }
+        FRONTEND_easy(mode);
+        // now put in correct values...
 
-            MFX_get_volumes(&fx, &amb, &mus);
+        MFX_get_volumes(&fx, &amb, &mus);
 
-            menu_data[0].Data = fx << 1;
-            menu_data[1].Data = amb << 1;
-            menu_data[2].Data = mus << 1;
-        } break;
+        menu_data[0].Data = fx << 1;
+        menu_data[1].Data = amb << 1;
+        menu_data[2].Data = mus << 1;
+    } break;
 #ifdef WANT_A_KEYBOARD_ITEM
-        case FE_CONFIG_INPUT_KB:
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
-            // now put in correct values...
-            menu_data[0].Data = ENV_get_value_number("keyboard_left", 203, "Keyboard");
-            menu_data[1].Data = ENV_get_value_number("keyboard_right", 205, "Keyboard");
-            menu_data[2].Data = ENV_get_value_number("keyboard_forward", 200, "Keyboard");
-            menu_data[3].Data = ENV_get_value_number("keyboard_back", 208, "Keyboard");
-            menu_data[4].Data = ENV_get_value_number("keyboard_punch", 44, "Keyboard");
-            menu_data[5].Data = ENV_get_value_number("keyboard_kick", 45, "Keyboard");
-            menu_data[6].Data = ENV_get_value_number("keyboard_action", 46, "Keyboard");
-            //		menu_data[7].Data = ENV_get_value_number("keyboard_run",		 47, "Keyboard");
-            menu_data[7].Data = ENV_get_value_number("keyboard_jump", 57, "Keyboard");
-            menu_data[8].Data = ENV_get_value_number("keyboard_start", 15, "Keyboard");
-            menu_data[9].Data = ENV_get_value_number("keyboard_select", 28, "Keyboard");
-            // gap for label
-            menu_data[11].Data = ENV_get_value_number("keyboard_camera", 207, "Keyboard");
-            menu_data[12].Data = ENV_get_value_number("keyboard_cam_left", 211, "Keyboard");
-            menu_data[13].Data = ENV_get_value_number("keyboard_cam_right", 209, "Keyboard");
-            menu_data[14].Data = ENV_get_value_number("keyboard_1stperson", 30, "Keyboard");
-            break;
+    case FE_CONFIG_INPUT_KB:
+        if (bDoTransition) {
+            FRONTEND_init_xition();
+        }
+        FRONTEND_easy(mode);
+        // now put in correct values...
+        menu_data[0].Data = ENV_get_value_number("keyboard_left", 203, "Keyboard");
+        menu_data[1].Data = ENV_get_value_number("keyboard_right", 205, "Keyboard");
+        menu_data[2].Data = ENV_get_value_number("keyboard_forward", 200, "Keyboard");
+        menu_data[3].Data = ENV_get_value_number("keyboard_back", 208, "Keyboard");
+        menu_data[4].Data = ENV_get_value_number("keyboard_punch", 44, "Keyboard");
+        menu_data[5].Data = ENV_get_value_number("keyboard_kick", 45, "Keyboard");
+        menu_data[6].Data = ENV_get_value_number("keyboard_action", 46, "Keyboard");
+        //		menu_data[7].Data = ENV_get_value_number("keyboard_run",		 47, "Keyboard");
+        menu_data[7].Data = ENV_get_value_number("keyboard_jump", 57, "Keyboard");
+        menu_data[8].Data = ENV_get_value_number("keyboard_start", 15, "Keyboard");
+        menu_data[9].Data = ENV_get_value_number("keyboard_select", 28, "Keyboard");
+        // gap for label
+        menu_data[11].Data = ENV_get_value_number("keyboard_camera", 207, "Keyboard");
+        menu_data[12].Data = ENV_get_value_number("keyboard_cam_left", 211, "Keyboard");
+        menu_data[13].Data = ENV_get_value_number("keyboard_cam_right", 209, "Keyboard");
+        menu_data[14].Data = ENV_get_value_number("keyboard_1stperson", 30, "Keyboard");
+        break;
 #endif
-        case FE_CONFIG_INPUT_JP:
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
-            menu_data[0].Data = ENV_get_value_number("joypad_kick", 4, "Joypad");
-            menu_data[1].Data = ENV_get_value_number("joypad_punch", 3, "Joypad");
-            menu_data[2].Data = ENV_get_value_number("joypad_jump", 0, "Joypad");
-            menu_data[3].Data = ENV_get_value_number("joypad_action", 1, "Joypad");
-            menu_data[4].Data = ENV_get_value_number("joypad_move", 7, "Joypad");
-            menu_data[5].Data = ENV_get_value_number("joypad_start", 8, "Joypad");
-            menu_data[6].Data = ENV_get_value_number("joypad_select", 2, "Joypad");
-            // gap for label
-            menu_data[8].Data = ENV_get_value_number("joypad_camera", 6, "Joypad");
-            menu_data[9].Data = ENV_get_value_number("joypad_cam_left", 9, "Joypad");
-            menu_data[10].Data = ENV_get_value_number("joypad_cam_right", 10, "Joypad");
-            menu_data[11].Data = ENV_get_value_number("joypad_1stperson", 5, "Joypad");
-            break;
-        case FE_CONFIG_OPTIONS:
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
+    case FE_CONFIG_INPUT_JP:
+        if (bDoTransition) {
+            FRONTEND_init_xition();
+        }
+        FRONTEND_easy(mode);
+        menu_data[0].Data = ENV_get_value_number("joypad_kick", 4, "Joypad");
+        menu_data[1].Data = ENV_get_value_number("joypad_punch", 3, "Joypad");
+        menu_data[2].Data = ENV_get_value_number("joypad_jump", 0, "Joypad");
+        menu_data[3].Data = ENV_get_value_number("joypad_action", 1, "Joypad");
+        menu_data[4].Data = ENV_get_value_number("joypad_move", 7, "Joypad");
+        menu_data[5].Data = ENV_get_value_number("joypad_start", 8, "Joypad");
+        menu_data[6].Data = ENV_get_value_number("joypad_select", 2, "Joypad");
+        // gap for label
+        menu_data[8].Data = ENV_get_value_number("joypad_camera", 6, "Joypad");
+        menu_data[9].Data = ENV_get_value_number("joypad_cam_left", 9, "Joypad");
+        menu_data[10].Data = ENV_get_value_number("joypad_cam_right", 10, "Joypad");
+        menu_data[11].Data = ENV_get_value_number("joypad_1stperson", 5, "Joypad");
+        break;
+    case FE_CONFIG_OPTIONS:
+        if (bDoTransition) {
+            FRONTEND_init_xition();
+        }
+        FRONTEND_easy(mode);
 #ifdef TARGET_DC
-            menu_data[0].Data |= ENV_get_value_number("scanner_follows", 1, "Game");
-            menu_data[1].Data |= ENV_get_value_number("analogue_pad_mode", 0, "Game");
-            menu_data[2].Data |= ENV_get_value_number("vibration_mode", 1, "Game");
-            menu_data[3].Data |= ENV_get_value_number("vibration_engine", 1, "Game");
+        menu_data[0].Data |= ENV_get_value_number("scanner_follows", 1, "Game");
+        menu_data[1].Data |= ENV_get_value_number("analogue_pad_mode", 0, "Game");
+        menu_data[2].Data |= ENV_get_value_number("vibration_mode", 1, "Game");
+        menu_data[3].Data |= ENV_get_value_number("vibration_engine", 1, "Game");
 #else
-            menu_data[1].Data |= ENV_get_value_number("scanner_follows", 1, "Game");
+        menu_data[1].Data |= ENV_get_value_number("scanner_follows", 1, "Game");
 #endif
-            break;
-        case FE_SAVE_CONFIRM:
-            if (bDoTransition) {
-                FRONTEND_init_xition();
-            }
-            FRONTEND_easy(mode);
-            menu_state.scroll = 0;
-            menu_state.title = XLAT_str_ptr(X_SAVE_GAME);
-            break;
+        break;
+    case FE_SAVE_CONFIRM:
+        if (bDoTransition) {
+            FRONTEND_init_xition();
+        }
+        FRONTEND_easy(mode);
+        menu_state.scroll = 0;
+        menu_state.title = XLAT_str_ptr(X_SAVE_GAME);
+        break;
     }
 
     FRONTEND_recenter_menu();
@@ -3266,13 +3266,13 @@ void FRONTEND_draw_districts() {
 
     for (i = 0; i < district_count; i++) {
         switch (district_valid[i]) {
-            case 1:
-                FRONTEND_draw_button(districts[i][0], districts[i][1], (std::uint8_t) (i == district_selected) | 4, i == district_flash);
-                break;
-            case 2:
-            case 3:
-                FRONTEND_draw_button(districts[i][0], districts[i][1], (i == district_selected) ? 5 : 6, i == district_flash);
-                break;
+        case 1:
+            FRONTEND_draw_button(districts[i][0], districts[i][1], (std::uint8_t) (i == district_selected) | 4, i == district_flash);
+            break;
+        case 2:
+        case 3:
+            FRONTEND_draw_button(districts[i][0], districts[i][1], (i == district_selected) ? 5 : 6, i == district_flash);
+            break;
         }
 
         /*
@@ -3509,10 +3509,10 @@ void FRONTEND_display() {
             }
 #endif
             switch (md->Type) {
-                case OT_SLIDER: FRONTEND_DrawSlider(md); break;
-                case OT_MULTI: FRONTEND_DrawMulti(md, rgb); break;
-                case OT_KEYPRESS: FRONTEND_DrawKey(md); break;
-                case OT_PADPRESS: FRONTEND_DrawPad(md); break;
+            case OT_SLIDER: FRONTEND_DrawSlider(md); break;
+            case OT_MULTI: FRONTEND_DrawMulti(md, rgb); break;
+            case OT_KEYPRESS: FRONTEND_DrawKey(md); break;
+            case OT_PADPRESS: FRONTEND_DrawPad(md); break;
             }
         } else {
             if (i == menu_state.selected) { // better do some scrolling
@@ -3541,17 +3541,17 @@ void FRONTEND_display() {
         bool dir;
         x2 = SIN(fade_state << 3) >> 10;
         switch (menu_state.mode) {
-            case FE_MAPSCREEN:
-                MENUFONT_Dimensions(menu_state.title, x, y, -1, BIG_FONT_SCALE);
-                x = 560 - x;
-                x2 = (x2 * 10) - 63;
-                dir = 0;
-                break;
-            default:
-                x = 80;
-                x2 = 642 - (x2 * 10);
-                dir = 1;
-                break;
+        case FE_MAPSCREEN:
+            MENUFONT_Dimensions(menu_state.title, x, y, -1, BIG_FONT_SCALE);
+            x = 560 - x;
+            x2 = (x2 * 10) - 63;
+            dir = 0;
+            break;
+        default:
+            x = 80;
+            x2 = 642 - (x2 * 10);
+            dir = 1;
+            break;
         }
         FontPage = POLY_PAGE_NEWFONT;
         FRONTEND_draw_title(x + 2, 44, x2, menu_state.title, 0, dir);
@@ -3610,64 +3610,64 @@ void FRONTEND_display() {
 
 void FRONTEND_storedata() {
     switch (menu_state.mode) {
-        case FE_CONFIG_VIDEO:
-            FRONTEND_store_video_data();
-            break;
-        case FE_CONFIG_AUDIO:
-            MFX_stop(WEATHER_REF, MFX_WAVE_ALL);
-            // MFX_stop(SIREN_REF,MFX_WAVE_ALL);
-            //		MFX_stop(MFX_CHANNEL_ALL,MFX_WAVE_ALL);
-            //		MFX_free_wave_list();
+    case FE_CONFIG_VIDEO:
+        FRONTEND_store_video_data();
+        break;
+    case FE_CONFIG_AUDIO:
+        MFX_stop(WEATHER_REF, MFX_WAVE_ALL);
+        // MFX_stop(SIREN_REF,MFX_WAVE_ALL);
+        //		MFX_stop(MFX_CHANNEL_ALL,MFX_WAVE_ALL);
+        //		MFX_free_wave_list();
 
-            MFX_set_volumes(menu_data[0].Data >> 1, menu_data[1].Data >> 1, menu_data[2].Data >> 1);
-            break;
+        MFX_set_volumes(menu_data[0].Data >> 1, menu_data[1].Data >> 1, menu_data[2].Data >> 1);
+        break;
 
 #ifdef WANT_A_KEYBOARD_ITEM
-        case FE_CONFIG_INPUT_KB:
-            ENV_set_value_number("keyboard_left", menu_data[0].Data, "Keyboard");
-            ENV_set_value_number("keyboard_right", menu_data[1].Data, "Keyboard");
-            ENV_set_value_number("keyboard_forward", menu_data[2].Data, "Keyboard");
-            ENV_set_value_number("keyboard_back", menu_data[3].Data, "Keyboard");
-            ENV_set_value_number("keyboard_punch", menu_data[4].Data, "Keyboard");
-            ENV_set_value_number("keyboard_kick", menu_data[5].Data, "Keyboard");
-            ENV_set_value_number("keyboard_action", menu_data[6].Data, "Keyboard");
-            //		ENV_set_value_number("keyboard_run",		menu_data[7].Data, "Keyboard");
-            ENV_set_value_number("keyboard_jump", menu_data[7].Data, "Keyboard");
-            ENV_set_value_number("keyboard_start", menu_data[8].Data, "Keyboard");
-            ENV_set_value_number("keyboard_select", menu_data[9].Data, "Keyboard");
-            // gap for label
-            ENV_set_value_number("keyboard_camera", menu_data[11].Data, "Keyboard");
-            ENV_set_value_number("keyboard_cam_left", menu_data[12].Data, "Keyboard");
-            ENV_set_value_number("keyboard_cam_right", menu_data[13].Data, "Keyboard");
-            ENV_set_value_number("keyboard_1stperson", menu_data[14].Data, "Keyboard");
-            break;
+    case FE_CONFIG_INPUT_KB:
+        ENV_set_value_number("keyboard_left", menu_data[0].Data, "Keyboard");
+        ENV_set_value_number("keyboard_right", menu_data[1].Data, "Keyboard");
+        ENV_set_value_number("keyboard_forward", menu_data[2].Data, "Keyboard");
+        ENV_set_value_number("keyboard_back", menu_data[3].Data, "Keyboard");
+        ENV_set_value_number("keyboard_punch", menu_data[4].Data, "Keyboard");
+        ENV_set_value_number("keyboard_kick", menu_data[5].Data, "Keyboard");
+        ENV_set_value_number("keyboard_action", menu_data[6].Data, "Keyboard");
+        //		ENV_set_value_number("keyboard_run",		menu_data[7].Data, "Keyboard");
+        ENV_set_value_number("keyboard_jump", menu_data[7].Data, "Keyboard");
+        ENV_set_value_number("keyboard_start", menu_data[8].Data, "Keyboard");
+        ENV_set_value_number("keyboard_select", menu_data[9].Data, "Keyboard");
+        // gap for label
+        ENV_set_value_number("keyboard_camera", menu_data[11].Data, "Keyboard");
+        ENV_set_value_number("keyboard_cam_left", menu_data[12].Data, "Keyboard");
+        ENV_set_value_number("keyboard_cam_right", menu_data[13].Data, "Keyboard");
+        ENV_set_value_number("keyboard_1stperson", menu_data[14].Data, "Keyboard");
+        break;
 #endif
 
-        case FE_CONFIG_INPUT_JP:
-            ENV_set_value_number("joypad_kick", menu_data[0].Data, "Joypad");
-            ENV_set_value_number("joypad_punch", menu_data[1].Data, "Joypad");
-            ENV_set_value_number("joypad_jump", menu_data[2].Data, "Joypad");
-            ENV_set_value_number("joypad_action", menu_data[3].Data, "Joypad");
-            ENV_set_value_number("joypad_move", menu_data[4].Data, "Joypad");
-            ENV_set_value_number("joypad_start", menu_data[5].Data, "Joypad");
-            ENV_set_value_number("joypad_select", menu_data[6].Data, "Joypad");
-            // gap for label
-            ENV_set_value_number("joypad_camera", menu_data[8].Data, "Joypad");
-            ENV_set_value_number("joypad_cam_left", menu_data[9].Data, "Joypad");
-            ENV_set_value_number("joypad_cam_right", menu_data[10].Data, "Joypad");
-            ENV_set_value_number("joypad_1stperson", menu_data[11].Data, "Joypad");
-            break;
+    case FE_CONFIG_INPUT_JP:
+        ENV_set_value_number("joypad_kick", menu_data[0].Data, "Joypad");
+        ENV_set_value_number("joypad_punch", menu_data[1].Data, "Joypad");
+        ENV_set_value_number("joypad_jump", menu_data[2].Data, "Joypad");
+        ENV_set_value_number("joypad_action", menu_data[3].Data, "Joypad");
+        ENV_set_value_number("joypad_move", menu_data[4].Data, "Joypad");
+        ENV_set_value_number("joypad_start", menu_data[5].Data, "Joypad");
+        ENV_set_value_number("joypad_select", menu_data[6].Data, "Joypad");
+        // gap for label
+        ENV_set_value_number("joypad_camera", menu_data[8].Data, "Joypad");
+        ENV_set_value_number("joypad_cam_left", menu_data[9].Data, "Joypad");
+        ENV_set_value_number("joypad_cam_right", menu_data[10].Data, "Joypad");
+        ENV_set_value_number("joypad_1stperson", menu_data[11].Data, "Joypad");
+        break;
 
-        case FE_CONFIG_OPTIONS:
+    case FE_CONFIG_OPTIONS:
 #ifdef TARGET_DC
-            ENV_set_value_number("scanner_follows", menu_data[0].Data & 1, "Game");
-            ENV_set_value_number("analogue_pad_mode", menu_data[1].Data & 1, "Game");
-            ENV_set_value_number("vibration_mode", menu_data[2].Data & 1, "Game");
-            ENV_set_value_number("vibration_engine", menu_data[3].Data & 1, "Game");
+        ENV_set_value_number("scanner_follows", menu_data[0].Data & 1, "Game");
+        ENV_set_value_number("analogue_pad_mode", menu_data[1].Data & 1, "Game");
+        ENV_set_value_number("vibration_mode", menu_data[2].Data & 1, "Game");
+        ENV_set_value_number("vibration_engine", menu_data[3].Data & 1, "Game");
 #else
-            ENV_set_value_number("scanner_follows", menu_data[1].Data & 1, "Game");
+        ENV_set_value_number("scanner_follows", menu_data[1].Data & 1, "Game");
 #endif
-            break;
+        break;
     }
 }
 
@@ -3975,108 +3975,108 @@ std::uint8_t FRONTEND_input() {
             }
         }
         switch (item->Type) {
-            case OT_MULTI:
-                // Cycle through all options.
-                item->Data = (item->Data & ~0xff) | ((item->Data & 0xff) + 1);
-                if ((item->Data & 0xff) >= (item->Data >> 8)) {
-                    item->Data &= ~0xff;
-                }
-                break;
-            case OT_KEYPRESS:
-                grabbing_key = 1;
-                LastKey = 0;
-                break;
-            case OT_PADPRESS:
-                if (bCanChangeJoypadButtons) {
-                    grabbing_pad = 1;
-                    // LastKey=0;
-                    last_input = 0;
-                } else {
-                    // Can't change button - using a predefined setup.
-                    // I hope this "no" sound is a decent one - sound doesn't work yet!
-                    MFX_play_stereo(0, S_MENU_CLICK_END, MFX_REPLACE);
-                }
-                break;
-            case OT_PADMOVE:
-                // Enter pad-move mode.
-                m_bMovingPanel = true;
-                break;
-            case OT_BUTTON:
-            case OT_BUTTON_L:
-                if (menu_state.mode == FE_START) return FE_LOADSCREEN;
+        case OT_MULTI:
+            // Cycle through all options.
+            item->Data = (item->Data & ~0xff) | ((item->Data & 0xff) + 1);
+            if ((item->Data & 0xff) >= (item->Data >> 8)) {
+                item->Data &= ~0xff;
+            }
+            break;
+        case OT_KEYPRESS:
+            grabbing_key = 1;
+            LastKey = 0;
+            break;
+        case OT_PADPRESS:
+            if (bCanChangeJoypadButtons) {
+                grabbing_pad = 1;
+                // LastKey=0;
+                last_input = 0;
+            } else {
+                // Can't change button - using a predefined setup.
+                // I hope this "no" sound is a decent one - sound doesn't work yet!
+                MFX_play_stereo(0, S_MENU_CLICK_END, MFX_REPLACE);
+            }
+            break;
+        case OT_PADMOVE:
+            // Enter pad-move mode.
+            m_bMovingPanel = true;
+            break;
+        case OT_BUTTON:
+        case OT_BUTTON_L:
+            if (menu_state.mode == FE_START) return FE_LOADSCREEN;
 #ifdef WANT_AN_EXIT_MENU_ITEM
-                // if (item->Data==-1) return -1;
-                if (item->Data == FE_NO_REALLY_QUIT) return -1;
+            // if (item->Data==-1) return -1;
+            if (item->Data == FE_NO_REALLY_QUIT) return -1;
 #endif
-                // if (item->Data==-2) FRONTEND_storedata();
-                if (item->Data == FE_BACK) FRONTEND_storedata();
-                if (item->Data == FE_START) return FE_LOADSCREEN;
-                // temp thingy:
-                // if (item->Data==FE_MAPSCREEN) return FE_START;
-                if (item->Data == FE_EDITOR) return FE_EDITOR;
-                if (item->Data == FE_CREDITS) return FE_CREDITS;
+            // if (item->Data==-2) FRONTEND_storedata();
+            if (item->Data == FE_BACK) FRONTEND_storedata();
+            if (item->Data == FE_START) return FE_LOADSCREEN;
+            // temp thingy:
+            // if (item->Data==FE_MAPSCREEN) return FE_START;
+            if (item->Data == FE_EDITOR) return FE_EDITOR;
+            if (item->Data == FE_CREDITS) return FE_CREDITS;
 
-                FRONTEND_kibble_flurry();
+            FRONTEND_kibble_flurry();
 
-                // FRONTEND_mode(item->Data);
-                menu_mode_queued = item->Data;
-                fade_mode = 2 | ((item->Data == FE_BACK) ? 4 : 0);
-                break;
-            case OT_RESET:
-                switch (menu_state.mode) {
+            // FRONTEND_mode(item->Data);
+            menu_mode_queued = item->Data;
+            fade_mode = 2 | ((item->Data == FE_BACK) ? 4 : 0);
+            break;
+        case OT_RESET:
+            switch (menu_state.mode) {
 #ifdef WANT_A_KEYBOARD_ITEM
-                    case FE_CONFIG_INPUT_KB:
-                        menu_data[0].Data = 203;
-                        menu_data[1].Data = 205;
-                        menu_data[2].Data = 200;
-                        menu_data[3].Data = 208;
-                        menu_data[4].Data = 44;
-                        menu_data[5].Data = 45;
-                        menu_data[6].Data = 46;
-                        // menu_data[7].Data = 47;
-                        menu_data[7].Data = 57;
-                        menu_data[8].Data = 15;
-                        menu_data[9].Data = 28;
-                        // gap for label
-                        menu_data[11].Data = 207;
-                        menu_data[12].Data = 211;
-                        menu_data[13].Data = 209;
-                        menu_data[14].Data = 30;
-                        break;
-#endif
-                    case FE_CONFIG_INPUT_JP:
-#ifdef TARGET_DC
-                        menu_data[0].Data = 1 | (5 << 8);
-                        // gap for label
-                        menu_data[2].Data = 9;
-                        menu_data[3].Data = 10;
-                        menu_data[4].Data = 7;
-                        menu_data[5].Data = 1;
-                        menu_data[6].Data = 3;
-                        menu_data[7].Data = 0;
-                        // gap for label
-                        menu_data[9].Data = 4;
-                        menu_data[10].Data = 5;
-                        menu_data[11].Data = 6;
-                        menu_data[12].Data = 8;
-#else
-                        menu_data[0].Data = 4;
-                        menu_data[1].Data = 3;
-                        menu_data[2].Data = 0;
-                        menu_data[3].Data = 1;
-                        menu_data[4].Data = 7;
-                        menu_data[5].Data = 8;
-                        menu_data[6].Data = 2;
-                        // gap for label
-                        //				menu_data[7].Data = 99;
-                        menu_data[8].Data = 6;
-                        menu_data[9].Data = 9;
-                        menu_data[10].Data = 10;
-                        menu_data[11].Data = 5;
-#endif
-                        break;
-                }
+            case FE_CONFIG_INPUT_KB:
+                menu_data[0].Data = 203;
+                menu_data[1].Data = 205;
+                menu_data[2].Data = 200;
+                menu_data[3].Data = 208;
+                menu_data[4].Data = 44;
+                menu_data[5].Data = 45;
+                menu_data[6].Data = 46;
+                // menu_data[7].Data = 47;
+                menu_data[7].Data = 57;
+                menu_data[8].Data = 15;
+                menu_data[9].Data = 28;
+                // gap for label
+                menu_data[11].Data = 207;
+                menu_data[12].Data = 211;
+                menu_data[13].Data = 209;
+                menu_data[14].Data = 30;
                 break;
+#endif
+            case FE_CONFIG_INPUT_JP:
+#ifdef TARGET_DC
+                menu_data[0].Data = 1 | (5 << 8);
+                // gap for label
+                menu_data[2].Data = 9;
+                menu_data[3].Data = 10;
+                menu_data[4].Data = 7;
+                menu_data[5].Data = 1;
+                menu_data[6].Data = 3;
+                menu_data[7].Data = 0;
+                // gap for label
+                menu_data[9].Data = 4;
+                menu_data[10].Data = 5;
+                menu_data[11].Data = 6;
+                menu_data[12].Data = 8;
+#else
+                menu_data[0].Data = 4;
+                menu_data[1].Data = 3;
+                menu_data[2].Data = 0;
+                menu_data[3].Data = 1;
+                menu_data[4].Data = 7;
+                menu_data[5].Data = 8;
+                menu_data[6].Data = 2;
+                // gap for label
+                //				menu_data[7].Data = 99;
+                menu_data[8].Data = 6;
+                menu_data[9].Data = 9;
+                menu_data[10].Data = 10;
+                menu_data[11].Data = 5;
+#endif
+                break;
+            }
+            break;
         }
     }
     if (Keys[KB_LEFT] || (input & INPUT_MASK_LEFT)) {
@@ -4155,14 +4155,14 @@ std::uint8_t FRONTEND_input() {
         // FRONTEND_scr_del();
         if (menu_state.stackpos) {
             switch (menu_state.mode) {
-                case FE_CONFIG_VIDEO: // eidos want ESC to store opts
-                    FRONTEND_store_video_data();
-                    break;
-                case FE_CONFIG_AUDIO:
-                    MFX_stop(WEATHER_REF, MFX_WAVE_ALL);
-                    // MFX_stop(SIREN_REF,MFX_WAVE_ALL);
-                    MFX_set_volumes(menu_data[0].Data >> 1, menu_data[1].Data >> 1, menu_data[2].Data >> 1);
-                    break;
+            case FE_CONFIG_VIDEO: // eidos want ESC to store opts
+                FRONTEND_store_video_data();
+                break;
+            case FE_CONFIG_AUDIO:
+                MFX_stop(WEATHER_REF, MFX_WAVE_ALL);
+                // MFX_stop(SIREN_REF,MFX_WAVE_ALL);
+                MFX_set_volumes(menu_data[0].Data >> 1, menu_data[1].Data >> 1, menu_data[2].Data >> 1);
+                break;
             }
 
             // Store any options settings.
@@ -4211,15 +4211,15 @@ void FRONTEND_init(bool bGoToTitleScreen) {
 
     // Set up the current language
     switch (0) {
-        case 0:
-            pcSpeechLanguageDir = "talk2\\";
-            break;
-        case 1:
-            pcSpeechLanguageDir = "talk2_french\\";
-            break;
-        default:
-            ASSERT(false);
-            break;
+    case 0:
+        pcSpeechLanguageDir = "talk2\\";
+        break;
+    case 1:
+        pcSpeechLanguageDir = "talk2_french\\";
+        break;
+    default:
+        ASSERT(false);
+        break;
     }
 
     // Reset the transition buffer's contents.
@@ -4516,31 +4516,31 @@ std::int8_t FRONTEND_loop() {
     }
 
     switch (fade_mode & 3) {
-        case 1:
-            if (fade_state < 63) {
-                fade_state += fade_speed;
+    case 1:
+        if (fade_state < 63) {
+            fade_state += fade_speed;
 
-                if (fade_state > 63) {
-                    fade_state = 63;
-                }
-            } else {
-                FRONTEND_stop_xition();
-
-                fade_mode = 0;
+            if (fade_state > 63) {
+                fade_state = 63;
             }
-            break;
+        } else {
+            FRONTEND_stop_xition();
 
-        case 2:
-            if (fade_state > 0) {
-                fade_state -= fade_speed;
+            fade_mode = 0;
+        }
+        break;
 
-                if (fade_state < 0) {
-                    fade_state = 0;
-                }
-            } else {
-                FRONTEND_mode(menu_mode_queued);
+    case 2:
+        if (fade_state > 0) {
+            fade_state -= fade_speed;
+
+            if (fade_state < 0) {
+                fade_state = 0;
             }
-            break;
+        } else {
+            FRONTEND_mode(menu_mode_queued);
+        }
+        break;
     }
     fade_rgb = (((std::int32_t) fade_state * 2) << 24) | 0xFFFFFF;
 
@@ -4683,7 +4683,8 @@ std::int8_t FRONTEND_loop() {
                 {"testdrive3.ucm", (1 << PERSON_MIB1) | (1 << PERSON_TRAMP) | (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
                 {"Album1.ucm", (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | 0, /* balrog ? */ false},
 
-                {"!"}};
+                {"!"}
+        };
 
         //
         // What level are we loading?
