@@ -1050,14 +1050,14 @@ void FARFACET_draw(
                     fs->lvertcount,
                     FARFACET_index + fs->index,
                     fs->indexcount);
-            // TRACE ( "F2" );
+                // TRACE ( "F2" );
 #endif
             }
         }
 
-    //
-    // Revert to default renderstate.
-    //
+        //
+        // Revert to default renderstate.
+        //
 
 #ifdef DEBUG
     the_display.SetRenderState(D3DRENDERSTATE_FOGENABLE, true);

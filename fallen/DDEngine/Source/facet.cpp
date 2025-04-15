@@ -1101,7 +1101,7 @@ void DRAW_door(float sx, float sy, float sz, float fx, float fy, float fz, float
         ps[c0].specular = 0xff000000;
     }
 
-    std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::uint8_t *rflip);
+    std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::uint8_t * rflip);
     page = get_texture_page(style, 0, 1, &flip);
 
     ps[0].u = 0.0f;

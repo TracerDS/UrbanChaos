@@ -469,7 +469,7 @@ void Flamengine::ConvectionBlur2() {
             //		dif=abs(x-zones[j].offset)-abs(zones[j].offtime-zones[j].midpnt);
             dif = abs(x - zones[j].offset) - abs(zones[j].midpnt - zones[j].offtime);
             if (dif < 0) dif = 0;
-            difs[x] += (std::int32_t) (dif * 0.2f);
+            difs[x] += (std::int32_t)(dif * 0.2f);
         }
     }
     for (y = 1; y < 254; y++) {

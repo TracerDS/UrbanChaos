@@ -1413,17 +1413,17 @@ void load_multi_vue(struct KeyFrameChunk *the_chunk, float shrink_me) {
                                     fe_matrix[2][2]/=18.091;
                             } */
 
-                            temp_matrix.M[0][0] = (std::int32_t) (fe_matrix[0][0] * (1 << 15));
-                            temp_matrix.M[0][2] = (std::int32_t) (fe_matrix[1][0] * (1 << 15));
-                            temp_matrix.M[0][1] = (std::int32_t) (fe_matrix[2][0] * (1 << 15)); //-ve md
+                            temp_matrix.M[0][0] = (std::int32_t)(fe_matrix[0][0] * (1 << 15));
+                            temp_matrix.M[0][2] = (std::int32_t)(fe_matrix[1][0] * (1 << 15));
+                            temp_matrix.M[0][1] = (std::int32_t)(fe_matrix[2][0] * (1 << 15)); //-ve md
 
-                            temp_matrix.M[2][0] = (std::int32_t) (fe_matrix[0][1] * (1 << 15));
-                            temp_matrix.M[2][2] = (std::int32_t) (fe_matrix[1][1] * (1 << 15));
-                            temp_matrix.M[2][1] = (std::int32_t) (fe_matrix[2][1] * (1 << 15)); //-ve md
+                            temp_matrix.M[2][0] = (std::int32_t)(fe_matrix[0][1] * (1 << 15));
+                            temp_matrix.M[2][2] = (std::int32_t)(fe_matrix[1][1] * (1 << 15));
+                            temp_matrix.M[2][1] = (std::int32_t)(fe_matrix[2][1] * (1 << 15)); //-ve md
 
-                            temp_matrix.M[1][0] = (std::int32_t) (fe_matrix[0][2] * (1 << 15));
-                            temp_matrix.M[1][2] = (std::int32_t) (fe_matrix[1][2] * (1 << 15));
-                            temp_matrix.M[1][1] = (std::int32_t) (fe_matrix[2][2] * (1 << 15)); // not -ve md
+                            temp_matrix.M[1][0] = (std::int32_t)(fe_matrix[0][2] * (1 << 15));
+                            temp_matrix.M[1][2] = (std::int32_t)(fe_matrix[1][2] * (1 << 15));
+                            temp_matrix.M[1][1] = (std::int32_t)(fe_matrix[2][2] * (1 << 15)); // not -ve md
                             {
                                 std::int32_t dx, dy;
                                 for (dx = 0; dx < 3; dx++) {
@@ -1458,9 +1458,9 @@ void load_multi_vue(struct KeyFrameChunk *the_chunk, float shrink_me) {
                                                                     the_element->OffsetY	=	-(std::int32_t)fe_offset_z;
                                                                     the_element->OffsetZ	=	(std::int32_t)fe_offset_y;
                             */
-                            the_element->OffsetX = (std::int32_t) ((fe_offset_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me));
-                            the_element->OffsetY = (std::int32_t) ((fe_offset_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me)); // -ve md
-                            the_element->OffsetZ = (std::int32_t) ((fe_offset_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me));
+                            the_element->OffsetX = (std::int32_t)((fe_offset_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me));
+                            the_element->OffsetY = (std::int32_t)((fe_offset_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me)); // -ve md
+                            the_element->OffsetZ = (std::int32_t)((fe_offset_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink_me));
                             the_element->Next = current_element;
 
                             the_element->OffsetX -= x_centre;

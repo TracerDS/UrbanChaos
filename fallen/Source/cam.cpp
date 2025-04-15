@@ -254,9 +254,9 @@ void CAM_work_out_focus_pos() {
         Thing * p_mthing,
         std::int32_t tween,
         std::uint16_t object,
-        std::int32_t *x,
-        std::int32_t *y,
-        std::int32_t *z);
+        std::int32_t * x,
+        std::int32_t * y,
+        std::int32_t * z);
 
     switch (CAM_focus->Class) {
     case CLASS_PERSON:
@@ -1991,9 +1991,9 @@ void CAM_get_psx(
     *yaw = CAM_yaw;
     *pitch = CAM_pitch;
     *roll = CAM_roll;
-    *radians_yaw = (std::int32_t) (CAM_radians_yaw * 65536);
-    *radians_pitch = (std::int32_t) (CAM_radians_pitch * 65536);
-    *radians_roll = (std::int32_t) (CAM_radians_roll * 65536);
+    *radians_yaw = (std::int32_t)(CAM_radians_yaw * 65536);
+    *radians_pitch = (std::int32_t)(CAM_radians_pitch * 65536);
+    *radians_roll = (std::int32_t)(CAM_radians_roll * 65536);
 
     if (CAM_shake) {
         *world_x += rand() % CAM_shake;

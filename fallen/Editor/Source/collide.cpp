@@ -340,7 +340,7 @@ std::int32_t get_height_on_face_quad64(std::int32_t x, std::int32_t z, std::uint
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS(a, b) (((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
+#define SAME_SIGNS(a, b) (((std::int32_t)((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
 
 //
 // Lines that share a point count as intersecting.
@@ -683,14 +683,14 @@ static std::uint16_t done_list[116], done_count = 0;
 void add_to_done_list(std::uint16_t p1, std::uint16_t p2) {
     if (done_count > 100)
         return;
-    done_list[done_count] = (std::uint16_t) (p1 | (p2 << 4));
+    done_list[done_count] = (std::uint16_t)(p1 | (p2 << 4));
     done_count++;
 }
 
 std::uint16_t is_it_done(std::uint16_t p1, std::uint16_t p2) {
     std::uint16_t flip1, flip2, c0;
-    flip2 = (std::uint16_t) (p1 | (p2 << 4));
-    flip1 = (std::uint16_t) (p2 | (p1 << 4));
+    flip2 = (std::uint16_t)(p1 | (p2 << 4));
+    flip1 = (std::uint16_t)(p2 | (p1 << 4));
     for (c0 = 0; c0 < done_count; c0++) {
         if (done_list[c0] == flip1 || done_list[c0] == flip2)
             return (1);

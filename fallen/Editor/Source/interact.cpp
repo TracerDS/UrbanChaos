@@ -1378,7 +1378,7 @@ void set_game_camera(struct MapThing *track_thing) {
     if (Keys[KB_G]) {
         std::int32_t mid_x, mid_y, mid_z;
         extern std::uint16_t make_poly_into_glass_shatter_prim(std::int16_t face, std::int16_t mid_x, std::int16_t mid_y, std::int16_t mid_z);
-        extern void calc_face_midpoint(std::int16_t face, std::int32_t *x, std::int32_t *y, std::int32_t *z);
+        extern void calc_face_midpoint(std::int16_t face, std::int32_t * x, std::int32_t * y, std::int32_t * z);
         calc_face_midpoint(31989, &mid_x, &mid_y, &mid_z);
         make_poly_into_glass_shatter_prim(31989, mid_x, mid_y, mid_z);
         Keys[KB_G] = 0;

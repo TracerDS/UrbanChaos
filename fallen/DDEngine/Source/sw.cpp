@@ -951,7 +951,7 @@ void SW_draw_span_reference(SW_Span *ss, std::int32_t line, std::int32_t mode) {
                     // Blend!
                     //
 
-                    br = or * (255 - pa) + pr * pa >> 8;
+                    br = or *(255 - pa) + pr * pa >> 8;
                     bg = og * (255 - pa) + pg * pa >> 8;
                     bb = ob * (255 - pa) + pb * pa >> 8;
 
@@ -2880,7 +2880,7 @@ hor_loop:
 
 main_loop_done:
 
-                    // Do we need to do the last pixel?
+                        // Do we need to do the last pixel?
 				;Is the last pixel odd?
 				mov		ecx,[tempx2]
 				test	ecx,0x1
@@ -3037,7 +3037,7 @@ void SW_render_spans_eddie() {
 					mov			ecx,count
 
 myloop64:
-                    // get U + V * 64
+                        // get U + V * 64
 					mov			edi,ebx // edi = V (6:26)
 					mov			edx,eax // edx = U (6:26)
 
@@ -3130,7 +3130,7 @@ myloop64:
 					mov			ecx,count
 
 myloop32:
-                    // get U + V * 32
+                        // get U + V * 32
 					mov			edi,ebx // edi = V (6:26)
 					mov			edx,eax // edx = U (6:26)
 
@@ -3228,7 +3228,7 @@ myloop32:
 myloopany:
 					mov			count,edi
 
-                                               // get U + V * <n>
+                        // get U + V * <n>
 					mov			edi,ebx
 					mov			ecx,[shift1]
 					shr			edi,cl
@@ -3244,33 +3244,33 @@ myloopany:
 
 					add			edi,src
 
-                                      // load texel
+                        // load texel
 					mov			edx,DWORD PTR [edx + edi]
 
-                                  // get shade
+                    // get shade
 					movq		mm1,mm7 // mm1 = 00|BB|GG|RR
 					psrlw		mm1,8 // mm1 = 00|0B|0G|0R
 
-                                  // expand 
+                    // expand 
 					movd		mm0,edx
 					punpcklbw	mm0,mm5 // mm0 = 00|0B|0G|0R
 
-                                      // multiply
+                        // multiply
 					pmullw		mm1,mm0 // mm1 = 00|BB|GG|RR shaded colour
 
-                                      // increment colour
+                        // increment colour
 					paddw		mm7,mm6 // increment R,G,B
 
-                                      // double with saturation
+                        // double with saturation
 					paddusw		mm1,mm1
 
-                                      // shift down
+                        // shift down
 					psrlw		mm1,8 // mm1 = 00|0B|0G|0R
 
-                                  // pack back to 00000GBR
+                    // pack back to 00000GBR
 					packuswb	mm1,mm5 // mm1 = 00000BGR
 
-                                      // mov back to integer unit
+                        // mov back to integer unit
 					movd		edx,mm1
 
 					mov			edi,count

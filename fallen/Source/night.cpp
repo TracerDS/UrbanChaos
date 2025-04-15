@@ -250,7 +250,7 @@ std::int32_t NIGHT_slight_create(
     nsl->blue &= 0xfe;
 
     {
-        std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *room);
+        std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t * room);
 
         std::uint16_t room;
 

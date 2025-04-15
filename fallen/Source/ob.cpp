@@ -1003,9 +1003,9 @@ void OB_add_walkable_faces() {
                                     py += oi->y;
                                     pz += oi->z;
 
-                            //
-                            // Snap the points to mapsquare boundaries.
-                            //
+                                    //
+                                    // Snap the points to mapsquare boundaries.
+                                    //
 
 #define OB_SNAP_WIDTH 6
 

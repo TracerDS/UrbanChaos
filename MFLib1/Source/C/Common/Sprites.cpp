@@ -4,9 +4,9 @@
 #include <MFHeader.h>
 extern std::uint8_t CurrentPalette[256 * 3];
 
-#define RGB_TO_RGB565(r, g, b) (std::uint16_t) (((r >> 4) << 11) | ((g >> 3) << 5) | (b >> 4))
+#define RGB_TO_RGB565(r, g, b) (std::uint16_t)(((r >> 4) << 11) | ((g >> 3) << 5) | (b >> 4))
 #define RGB_TO_RGB888(r, g, b) ((r << 16) | (g << 8) | (b))
-#define COL_TO_RGB565(col, PALETTE) (std::uint16_t) (((PALETTE[(col) * 3] >> 3) << 11) | ((PALETTE[(col) * 3 + 1] >> 2) << 5) | (PALETTE[(col) * 3 + 2] >> 3))
+#define COL_TO_RGB565(col, PALETTE) (std::uint16_t)(((PALETTE[(col) * 3] >> 3) << 11) | ((PALETTE[(col) * 3 + 1] >> 2) << 5) | (PALETTE[(col) * 3 + 2] >> 3))
 #define COL_TO_RGB888(col, PALETTE) ((PALETTE[(col) * 3] << 16) | (PALETTE[(col) * 3 + 1] << 8) | PALETTE[(col) * 3 + 2])
 
 #define DRAW_SPRITE                       \
@@ -371,10 +371,10 @@ void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite) {
         y = 0;
         clip = 1;
     }
-    if ((std::int32_t) (x + the_sprite->SpriteWidth) >= WorkWindowWidth) {
+    if ((std::int32_t)(x + the_sprite->SpriteWidth) >= WorkWindowWidth) {
         clip = 1;
     }
-    if ((std::int32_t) (y + sprite_height) >= WorkWindowHeight) {
+    if ((std::int32_t)(y + sprite_height) >= WorkWindowHeight) {
         sprite_height -= (y + sprite_height) - WorkWindowHeight;
         clip = 1;
     }
@@ -400,7 +400,7 @@ void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite) {
                 c0 = (*src_ptr++) + 1;
             copy_pixels:
                 pixel_count += c0;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     count_diff = (x + pixel_count) - WorkWindowWidth;
                     c0 -= count_diff;
                     while (c0--)
@@ -416,7 +416,7 @@ void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite) {
                 c0 = (*src_ptr++) + 1;
             skip_pixels:
                 pixel_count += c0;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     R_SCAN
                 } else
                     line_ptr += c0;
@@ -426,7 +426,7 @@ void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite) {
             duplicate_pixels:
                 pixel_count += c0;
                 dup_pixel = *src_ptr++;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     c0 -= (x + pixel_count) - WorkWindowWidth;
                     while (c0--)
                         *line_ptr++ = dup_pixel;
@@ -493,10 +493,10 @@ void DrawBSpritePalC16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
         y = 0;
         clip = 1;
     }
-    if ((std::int32_t) (x + the_sprite->SpriteWidth) >= WorkWindowWidth) {
+    if ((std::int32_t)(x + the_sprite->SpriteWidth) >= WorkWindowWidth) {
         clip = 1;
     }
-    if ((std::int32_t) (y + sprite_height) >= WorkWindowHeight) {
+    if ((std::int32_t)(y + sprite_height) >= WorkWindowHeight) {
         sprite_height -= (y + sprite_height) - WorkWindowHeight;
         clip = 1;
     }
@@ -522,7 +522,7 @@ void DrawBSpritePalC16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
                 c0 = (*src_ptr++) + 1;
             copy_pixels:
                 pixel_count += c0;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     count_diff = (x + pixel_count) - WorkWindowWidth;
                     c0 -= count_diff;
                     while (c0--) {
@@ -542,7 +542,7 @@ void DrawBSpritePalC16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
                 c0 = (*src_ptr++) + 1;
             skip_pixels:
                 pixel_count += c0;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     R_SCAN
                 } else
                     line_ptr += c0;
@@ -554,7 +554,7 @@ void DrawBSpritePalC16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
                 dup_pixel = COL_TO_RGB565(*src_ptr, pal);
                 src_ptr++;
 
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     c0 -= (x + pixel_count) - WorkWindowWidth;
                     while (c0--)
                         *line_ptr++ = dup_pixel;
@@ -610,10 +610,10 @@ void DrawBSpritePalC32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
         y = 0;
         clip = 1;
     }
-    if ((std::int32_t) (x + the_sprite->SpriteWidth) >= WorkWindowWidth) {
+    if ((std::int32_t)(x + the_sprite->SpriteWidth) >= WorkWindowWidth) {
         clip = 1;
     }
-    if ((std::int32_t) (y + sprite_height) >= WorkWindowHeight) {
+    if ((std::int32_t)(y + sprite_height) >= WorkWindowHeight) {
         sprite_height -= (y + sprite_height) - WorkWindowHeight;
         clip = 1;
     }
@@ -639,7 +639,7 @@ void DrawBSpritePalC32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
                 c0 = (*src_ptr++) + 1;
             copy_pixels:
                 pixel_count += c0;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     count_diff = (x + pixel_count) - WorkWindowWidth;
                     c0 -= count_diff;
                     while (c0--) {
@@ -659,7 +659,7 @@ void DrawBSpritePalC32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
                 c0 = (*src_ptr++) + 1;
             skip_pixels:
                 pixel_count += c0;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     R_SCAN
                 } else
                     line_ptr += c0;
@@ -670,7 +670,7 @@ void DrawBSpritePalC32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std:
                 pixel_count += c0;
                 dup_pixel = COL_TO_RGB888(*src_ptr, pal);
                 src_ptr++;
-                if ((std::int32_t) (x + pixel_count) >= WorkWindowWidth) {
+                if ((std::int32_t)(x + pixel_count) >= WorkWindowWidth) {
                     c0 -= (x + pixel_count) - WorkWindowWidth;
                     while (c0--)
                         *line_ptr++ = dup_pixel;

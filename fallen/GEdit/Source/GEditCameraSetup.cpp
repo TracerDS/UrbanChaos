@@ -16,7 +16,13 @@
 
 //---------------------------------------------------------------
 
-std::int32_t camera_type, camera_move, camera_speed, camera_delay, camera_freeze, camera_lock, camera_cant_interrupt;
+std::int32_t camera_type;
+std::int32_t camera_move;
+std::int32_t camera_speed;
+std::int32_t camera_delay;
+std::int32_t camera_freeze;
+std::int32_t camera_lock;
+std::int32_t camera_cant_interrupt;
 EventPoint *use_me_to_debug;
 
 //---------------------------------------------------------------
@@ -69,6 +75,7 @@ bool CALLBACK cams_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
             camera_freeze = IsDlgButtonChecked(hWnd, IDC_CHECK1);
             camera_lock = IsDlgButtonChecked(hWnd, IDC_LOCK_DIRECTION);
             camera_cant_interrupt = IsDlgButtonChecked(hWnd, IDC_CANT_INTERRUPT);
+            [[fallthrough]];
         case IDCANCEL:
             SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;

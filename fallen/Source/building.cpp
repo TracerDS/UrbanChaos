@@ -1615,7 +1615,7 @@ void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::i
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
@@ -1693,7 +1693,7 @@ void build_free_quad_texture_info(struct PrimFace4 *p_f4, std::int32_t mx, std::
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
@@ -4448,7 +4448,7 @@ void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture) {
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     rot = (rot + 3) & 3;
@@ -9521,7 +9521,7 @@ void count_floor() {
 
             tx = ((struct MiniTextureBits *) (&texture))->X;
             ty = ((struct MiniTextureBits *) (&texture))->Y;
-            page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+            page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
             add_page_countxy(tx, ty, page);
         }
 }

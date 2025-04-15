@@ -1346,7 +1346,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
                 }
             }
 
-        //		if(near_ladder_top(p_thing))
+            //		if(near_ladder_top(p_thing))
 
 #ifdef USE_ACTION_TO_THROW_GRENADE
 #error
@@ -1705,7 +1705,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
                 //	std::int32_t	ob_index;
                 OB_Info *oi;
 
-                extern std::int32_t OB_find_type(std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t max_range, std::uint32_t prim_flags, std::int32_t *ob_x, std::int32_t *ob_y, std::int32_t *ob_z, std::int32_t *ob_yaw, std::int32_t *ob_prim, std::int32_t *ob_index);
+                extern std::int32_t OB_find_type(std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t max_range, std::uint32_t prim_flags, std::int32_t * ob_x, std::int32_t * ob_y, std::int32_t * ob_z, std::int32_t * ob_yaw, std::int32_t * ob_prim, std::int32_t * ob_index);
 
                 //				if(OB_find_type(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,0xff,&ob_x,&ob_y,&ob_z,&ob_yaw,&ob_prim))
                 if (oi = OB_find_index(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 256, true)) {

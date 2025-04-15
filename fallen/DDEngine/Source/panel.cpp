@@ -288,14 +288,14 @@ void PANEL_draw_number(float x, float y, std::uint8_t digit) // 0 <= digit <= 9.
 
     } bit[7] =
         {
-            {0, 1, 0.0F, PANEL_SEG_W / 2.0F},
-            {0, 2, PANEL_SEG_W / 2.0F, 0.0F},
-            {1, 3, PANEL_SEG_W / 2.0F, 0.0F},
-            {2, 3, 0.0F, PANEL_SEG_W / 2.0F},
-            {2, 4, PANEL_SEG_W / 2.0F, 0.0F},
-            {3, 5, PANEL_SEG_W / 2.0F, 0.0F},
-            {4, 5, 0.0F, PANEL_SEG_W / 2.0F},
-        };
+            {0, 1, 0.0F,               PANEL_SEG_W / 2.0F},
+            {0, 2, PANEL_SEG_W / 2.0F, 0.0F              },
+            {1, 3, PANEL_SEG_W / 2.0F, 0.0F              },
+            {2, 3, 0.0F,               PANEL_SEG_W / 2.0F},
+            {2, 4, PANEL_SEG_W / 2.0F, 0.0F              },
+            {3, 5, PANEL_SEG_W / 2.0F, 0.0F              },
+            {4, 5, 0.0F,               PANEL_SEG_W / 2.0F},
+    };
 
     float x1;
     float y1;
@@ -662,18 +662,18 @@ void PANEL_draw_gun_sight(std::int32_t mx, std::int32_t my, std::int32_t mz, std
     for (c0 = 0; c0 < 4; c0++) {
         p2 = p1 = pstart;
         switch (c0) {
-            case 0:
-                cangle = +angle;
-                break;
-            case 1:
-                cangle = -angle;
-                break;
-            case 2:
-                cangle = 1024 + angle;
-                break;
-            case 3:
-                cangle = 1024 - angle;
-                break;
+        case 0:
+            cangle = +angle;
+            break;
+        case 1:
+            cangle = -angle;
+            break;
+        case 2:
+            cangle = 1024 + angle;
+            break;
+        case 3:
+            cangle = 1024 - angle;
+            break;
         }
 
         //		cangle+=GAME_TURN<<5;
@@ -712,18 +712,18 @@ void PANEL_draw_gun_sight(std::int32_t mx, std::int32_t my, std::int32_t mz, std
     for (c0 = 0; c0 < 4; c0++) {
         p2 = p1 = pstart;
         switch (c0) {
-            case 0:
-                cangle = 512;
-                break;
-            case 1:
-                cangle = -512;
-                break;
-            case 2:
-                cangle = 1024;
-                break;
-            case 3:
-                cangle = 0;
-                break;
+        case 0:
+            cangle = 512;
+            break;
+        case 1:
+            cangle = -512;
+            break;
+        case 2:
+            cangle = 1024;
+            break;
+        case 3:
+            cangle = 0;
+            break;
         }
 
         //		cangle+=GAME_TURN<<5;
@@ -932,23 +932,24 @@ typedef struct
 
 PANEL_Ic PANEL_ic[PANEL_IC_NUMBER] =
     {
-        {PIC(0), PIC(0), PIC(99), PIC(81), 0},       // Backbox
-        {PIC(1), PIC(83), PIC(191), PIC(137), 0},    // AK47
-        {PIC(100), PIC(1), PIC(140), PIC(64), 0},    // Grenade
-        {PIC(141), PIC(1), PIC(146), PIC(13), 0},    // Single ammo
-        {PIC(158), PIC(1), PIC(208), PIC(13), 0},    // 10 ammos
-        {PIC(142), PIC(15), PIC(221), PIC(75), 0},   // Pistol
-        {PIC(0), PIC(144), PIC(55), PIC(255), 0},    // Darci outline
-        {PIC(55), PIC(144), PIC(109), PIC(256), 0},  // Roper outline
+        {PIC(0),   PIC(0),   PIC(99),  PIC(81),  0}, // Backbox
+        {PIC(1),   PIC(83),  PIC(191), PIC(137), 0}, // AK47
+        {PIC(100), PIC(1),   PIC(140), PIC(64),  0}, // Grenade
+        {PIC(141), PIC(1),   PIC(146), PIC(13),  0}, // Single ammo
+        {PIC(158), PIC(1),   PIC(208), PIC(13),  0}, // 10 ammos
+        {PIC(142), PIC(15),  PIC(221), PIC(75),  0}, // Pistol
+        {PIC(0),   PIC(144), PIC(55),  PIC(255), 0}, // Darci outline
+        {PIC(55),  PIC(144), PIC(109), PIC(256), 0}, // Roper outline
         {PIC(110), PIC(149), PIC(160), PIC(255), 0}, // Darci
         {PIC(160), PIC(148), PIC(210), PIC(255), 0}, // Roper
-        {PIC(210), PIC(95), PIC(254), PIC(256), 0},  // Shotgun
+        {PIC(210), PIC(95),  PIC(254), PIC(256), 0}, // Shotgun
 
 //
 // These are all on the second page.
 //
 
-#define PICALL1(a, b, c, d) {PIC(a), PIC(b), PIC(c), PIC(d), 1}
+#define PICALL1(a, b, c, d) \
+    { PIC(a), PIC(b), PIC(c), PIC(d), 1 }
 
         PICALL1(1, 1, 75, 50),
         PICALL1(75, 5, 151, 46),
@@ -962,17 +963,18 @@ PANEL_Ic PANEL_ic[PANEL_IC_NUMBER] =
         PICALL1(18, 123, 54, 141),
         PICALL1(4, 123, 16, 141),
 
-#define PICALL0(a, b, c, d) {PIC(a), PIC(b), PIC(c), PIC(d), 0}
+#define PICALL0(a, b, c, d) \
+    { PIC(a), PIC(b), PIC(c), PIC(d), 0 }
 
         //
         // These are all squeezed in on the first page.
         //
 
         PICALL0(241, 77, 255, 94), // Digit 0
-        PICALL0(225, 3, 240, 20),  // 1
+        PICALL0(225, 3, 240, 20), // 1
         PICALL0(225, 21, 240, 38), // 2
         PICALL0(225, 40, 240, 57), // 3
-        PICALL0(240, 3, 256, 20),  // 4
+        PICALL0(240, 3, 256, 20), // 4
         PICALL0(241, 21, 255, 38), // 5
         PICALL0(241, 40, 255, 57), // 6
         PICALL0(226, 59, 240, 76), // 7
@@ -983,8 +985,8 @@ PANEL_Ic PANEL_ic[PANEL_IC_NUMBER] =
         // On the second page.
         //
 
-        PICALL1(3, 141, 170, 164),   // Baseball bat
-        PICALL1(11, 176, 44, 223),   // The explosives
+        PICALL1(3, 141, 170, 164), // Baseball bat
+        PICALL1(11, 176, 44, 223), // The explosives
         PICALL1(208, 187, 236, 214), // The grim reaper
         PICALL1(190, 125, 221, 256), // The danger meter
 
@@ -1001,7 +1003,6 @@ PANEL_Ic PANEL_ic[PANEL_IC_NUMBER] =
         PICALL1(205, 215, 254, 256), // Gearbox
         PICALL1(178, 225, 199, 249), // Low gear
         PICALL1(240, 182, 254, 205), // High gear
-
 };
 
 #define PANEL_PAGE_NORMAL 0
@@ -1015,12 +1016,13 @@ std::uint16_t PANEL_page[4][PANEL_PAGE_NUMBER] =
         {POLY_PAGE_IC_NORMAL,
          POLY_PAGE_IC_ALPHA,
          POLY_PAGE_IC_ADDITIVE,
-         POLY_PAGE_IC_ALPHA_END},
+         POLY_PAGE_IC_ALPHA_END },
 
         {POLY_PAGE_IC2_NORMAL,
          POLY_PAGE_IC2_ALPHA,
          POLY_PAGE_IC2_ADDITIVE,
-         POLY_PAGE_IC2_ALPHA_END}};
+         POLY_PAGE_IC2_ALPHA_END}
+};
 
 void PANEL_funky_quad(
     std::int32_t which,
@@ -1512,12 +1514,12 @@ PANEL_Ammo PANEL_ammo[PANEL_AMMO_NUMBER] =
          PANEL_IC_SHOTGUN_AMMO_ONE},
 
         {
-            5.0F,
-            12.0F,
-            10,
-            PANEL_IC_AK47_AMMO_GROUP,
-            PANEL_IC_AK47_AMMO_ONE,
-        },
+         5.0F,
+         12.0F,
+         10,
+         PANEL_IC_AK47_AMMO_GROUP,
+         PANEL_IC_AK47_AMMO_ONE,
+         },
 
         {12.0F,
          18.0F,
@@ -1798,7 +1800,7 @@ void PANEL_new_face(
             {1, 2, 6}, // 1920s man
             {1, 4, 6}, // 1920s girl
             {1, 0, 6}, // Tramp
-        };
+    };
 
     PANEL_Face face_small[PANEL_FACE_NUMBER] =
         {
@@ -1824,143 +1826,143 @@ void PANEL_new_face(
             {1, 6, 0}, // 1920s man
             {1, 7, 0}, // 1920s girl
             {1, 4, 1}, // Tramp
-        };
+    };
 
     if (who == nullptr || who->Class != CLASS_PERSON) {
         face = PANEL_FACE_RADIO;
     } else {
         switch (who->Genus.Person->PersonType) {
-            case PERSON_DARCI:
-                face = PANEL_FACE_DARCI;
-                break;
+        case PERSON_DARCI:
+            face = PANEL_FACE_DARCI;
+            break;
 
-            case PERSON_ROPER:
-                face = PANEL_FACE_ROPER;
-                break;
+        case PERSON_ROPER:
+            face = PANEL_FACE_ROPER;
+            break;
 
-            case PERSON_COP:
-                face = PANEL_FACE_COP;
-                break;
+        case PERSON_COP:
+            face = PANEL_FACE_COP;
+            break;
 
-            case PERSON_CIV:
+        case PERSON_CIV:
 
-                switch (who->Draw.Tweened->MeshID) {
-                    case 7:
+            switch (who->Draw.Tweened->MeshID) {
+            case 7:
 
-                        //
-                        // Normal (i.e. non-wandering) civs.
-                        //
+                //
+                // Normal (i.e. non-wandering) civs.
+                //
 
-                        switch (who->Draw.Tweened->PersonID - 6) {
-                            case 0:
+                switch (who->Draw.Tweened->PersonID - 6) {
+                case 0:
 
-                                //
-                                // Pinhead.
-                                //
+                    //
+                    // Pinhead.
+                    //
 
-                                face = PANEL_FACE_CIV_3;
+                    face = PANEL_FACE_CIV_3;
 
-                                break;
+                    break;
 
-                            case 2:
+                case 2:
 
-                                //
-                                // Oriental chap.
-                                //
+                    //
+                    // Oriental chap.
+                    //
 
-                                face = PANEL_FACE_CIV_4;
+                    face = PANEL_FACE_CIV_4;
 
-                                break;
+                    break;
 
-                            case 1:
-                            case 3:
+                case 1:
+                case 3:
 
-                                //
-                                // Black bloke with moustache.
-                                //
+                    //
+                    // Black bloke with moustache.
+                    //
 
-                                face = PANEL_FACE_CIV_1;
+                    face = PANEL_FACE_CIV_1;
 
-                                break;
+                    break;
 
-                            default:
-                                ASSERT(0);
-                                break;
-                        }
-
-                        break;
-
-                    case 8:
-
-                        //
-                        // Male fake wandering civ.
-                        //
-
-                        face = PANEL_FACE_1920S_MAN;
-
-                        break;
-
-                    case 9:
-
-                        //
-                        // Female fake wandering civ.
-                        //
-
-                        face = PANEL_FACE_1920S_GIRL;
-
-                        break;
-
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
+
                 break;
 
-            case PERSON_THUG_RASTA:
-                face = PANEL_FACE_THUG_RASTA;
+            case 8:
+
+                //
+                // Male fake wandering civ.
+                //
+
+                face = PANEL_FACE_1920S_MAN;
+
                 break;
 
-            case PERSON_THUG_GREY:
-                face = PANEL_FACE_THUG_GREY;
-                break;
+            case 9:
 
-            case PERSON_THUG_RED:
-                face = PANEL_FACE_THUG_RED;
-                break;
+                //
+                // Female fake wandering civ.
+                //
 
-            case PERSON_SLAG_TART:
-                face = PANEL_FACE_SLAG;
-                break;
+                face = PANEL_FACE_1920S_GIRL;
 
-            case PERSON_SLAG_FATUGLY:
-                face = PANEL_FACE_FAT_SLAG;
-                break;
-
-            case PERSON_HOSTAGE:
-                face = PANEL_FACE_HOSTAGE;
-                break;
-
-            case PERSON_MECHANIC:
-                face = PANEL_FACE_WORKMAN;
-                break;
-
-            case PERSON_TRAMP:
-                if (estate) {
-                    face = PANEL_FACE_BOSS_GOATIE;
-                } else {
-                    face = PANEL_FACE_TRAMP;
-                }
-                break;
-
-            case PERSON_MIB1:
-            case PERSON_MIB2:
-            case PERSON_MIB3:
-                face = PANEL_FACE_MIB; // I'm in disguise as a fat slag
                 break;
 
             default:
                 ASSERT(0);
                 break;
+            }
+            break;
+
+        case PERSON_THUG_RASTA:
+            face = PANEL_FACE_THUG_RASTA;
+            break;
+
+        case PERSON_THUG_GREY:
+            face = PANEL_FACE_THUG_GREY;
+            break;
+
+        case PERSON_THUG_RED:
+            face = PANEL_FACE_THUG_RED;
+            break;
+
+        case PERSON_SLAG_TART:
+            face = PANEL_FACE_SLAG;
+            break;
+
+        case PERSON_SLAG_FATUGLY:
+            face = PANEL_FACE_FAT_SLAG;
+            break;
+
+        case PERSON_HOSTAGE:
+            face = PANEL_FACE_HOSTAGE;
+            break;
+
+        case PERSON_MECHANIC:
+            face = PANEL_FACE_WORKMAN;
+            break;
+
+        case PERSON_TRAMP:
+            if (estate) {
+                face = PANEL_FACE_BOSS_GOATIE;
+            } else {
+                face = PANEL_FACE_TRAMP;
+            }
+            break;
+
+        case PERSON_MIB1:
+        case PERSON_MIB2:
+        case PERSON_MIB3:
+            face = PANEL_FACE_MIB; // I'm in disguise as a fat slag
+            break;
+
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -1969,21 +1971,21 @@ void PANEL_new_face(
     PANEL_Face *pf;
 
     switch (size) {
-        case PANEL_FACE_LARGE:
-            pf = &face_large[face];
-            width = 64;
-            uvwidth = 64 / 256.0F;
-            break;
+    case PANEL_FACE_LARGE:
+        pf = &face_large[face];
+        width = 64;
+        uvwidth = 64 / 256.0F;
+        break;
 
-        case PANEL_FACE_SMALL:
-            pf = &face_small[face];
-            width = 32;
-            uvwidth = 32 / 256.0F;
-            break;
+    case PANEL_FACE_SMALL:
+        pf = &face_small[face];
+        width = 32;
+        uvwidth = 32 / 256.0F;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     u = float(pf->u) * (32.0F / 256.0F);
@@ -2860,22 +2862,22 @@ void PANEL_new_funky_do(std::int32_t which, std::int32_t where) {
                 }
 
                 switch (secsleft) {
-                    case 0:
-                    case 1:
-                        colour = 0xff3300;
-                        break;
+                case 0:
+                case 1:
+                    colour = 0xff3300;
+                    break;
 
-                    case 2:
-                        colour = 0xff8800;
-                        break;
+                case 2:
+                    colour = 0xff8800;
+                    break;
 
-                    case 3:
-                        colour = 0x88ff00;
-                        break;
+                case 3:
+                    colour = 0x88ff00;
+                    break;
 
-                    default:
-                        colour = 0x00ff00;
-                        break;
+                default:
+                    colour = 0x00ff00;
+                    break;
                 }
 
                 PANEL_funky_quad(
@@ -2893,63 +2895,63 @@ void PANEL_new_funky_do(std::int32_t which, std::int32_t where) {
     //
 
     switch (specialtype) {
-        default:
+    default:
 
-            if (who == PANEL_WHO_DARCI) {
-                which_gun = PANEL_IC_DARCI_HAND;
-            } else {
-                which_gun = PANEL_IC_ROPER_HAND;
-            }
+        if (who == PANEL_WHO_DARCI) {
+            which_gun = PANEL_IC_DARCI_HAND;
+        } else {
+            which_gun = PANEL_IC_ROPER_HAND;
+        }
 
-            which_ammo = -1;
+        which_ammo = -1;
 
-            break;
+        break;
 
-        case SPECIAL_GUN:
-            which_gun = PANEL_IC_PISTOL;
-            which_ammo = PANEL_AMMO_PISTOL;
-            clip_which = PANEL_IC_CLIP_PISTOL;
-            clip_number = darci->Genus.Person->ammo_packs_pistol;
-            break;
+    case SPECIAL_GUN:
+        which_gun = PANEL_IC_PISTOL;
+        which_ammo = PANEL_AMMO_PISTOL;
+        clip_which = PANEL_IC_CLIP_PISTOL;
+        clip_number = darci->Genus.Person->ammo_packs_pistol;
+        break;
 
-        case SPECIAL_AK47:
-            which_gun = PANEL_IC_AK47;
-            which_ammo = PANEL_AMMO_AK47;
-            which_dx = -45;
-            clip_which = PANEL_IC_CLIP_AK47;
-            clip_number = darci->Genus.Person->ammo_packs_ak47;
-            break;
+    case SPECIAL_AK47:
+        which_gun = PANEL_IC_AK47;
+        which_ammo = PANEL_AMMO_AK47;
+        which_dx = -45;
+        clip_which = PANEL_IC_CLIP_AK47;
+        clip_number = darci->Genus.Person->ammo_packs_ak47;
+        break;
 
-        case SPECIAL_BASEBALLBAT:
-            which_gun = PANEL_IC_BASEBALLBAT;
-            which_ammo = -1;
-            which_dx = -50;
-            break;
+    case SPECIAL_BASEBALLBAT:
+        which_gun = PANEL_IC_BASEBALLBAT;
+        which_ammo = -1;
+        which_dx = -50;
+        break;
 
-        case SPECIAL_KNIFE:
-            which_gun = PANEL_IC_KNIFE;
-            which_ammo = -1;
-            which_dy = 15;
-            break;
+    case SPECIAL_KNIFE:
+        which_gun = PANEL_IC_KNIFE;
+        which_ammo = -1;
+        which_dy = 15;
+        break;
 
-        case SPECIAL_SHOTGUN:
-            which_gun = PANEL_IC_SHOTGUN;
-            which_ammo = PANEL_AMMO_SHOTGUN;
-            which_dx = -35;
-            which_dy = 10;
-            clip_which = PANEL_IC_CLIP_SHOTGUN;
-            clip_number = darci->Genus.Person->ammo_packs_shotgun;
-            break;
+    case SPECIAL_SHOTGUN:
+        which_gun = PANEL_IC_SHOTGUN;
+        which_ammo = PANEL_AMMO_SHOTGUN;
+        which_dx = -35;
+        which_dy = 10;
+        clip_which = PANEL_IC_CLIP_SHOTGUN;
+        clip_number = darci->Genus.Person->ammo_packs_shotgun;
+        break;
 
-        case SPECIAL_GRENADE:
-            which_gun = PANEL_IC_GRENADE;
-            which_ammo = PANEL_AMMO_GRENADE;
-            break;
+    case SPECIAL_GRENADE:
+        which_gun = PANEL_IC_GRENADE;
+        which_ammo = PANEL_AMMO_GRENADE;
+        break;
 
-        case SPECIAL_EXPLOSIVES:
-            which_gun = PANEL_IC_EXPLOSIVES;
-            which_ammo = PANEL_AMMO_GRENADE;
-            break;
+    case SPECIAL_EXPLOSIVES:
+        which_gun = PANEL_IC_EXPLOSIVES;
+        which_ammo = PANEL_AMMO_GRENADE;
+        break;
     }
 
     PANEL_funky_quad(
@@ -3082,15 +3084,15 @@ void PANEL_new_funky_do(std::int32_t which, std::int32_t where) {
         std::uint32_t danger_colour;
 
         switch (player->Genus.Player->Danger) {
-            case 0:
-                goto no_danger_meter;
+        case 0:
+            goto no_danger_meter;
 
-            case 1: danger_colour = 0xffff0000; break;
-            case 2: danger_colour = 0xffffdd00; break;
-            case 3: danger_colour = 0xff00dd00; break;
+        case 1: danger_colour = 0xffff0000; break;
+        case 2: danger_colour = 0xffffdd00; break;
+        case 3: danger_colour = 0xff00dd00; break;
 
-            default:
-                break;
+        default:
+            break;
         }
 
         PANEL_funky_quad(
@@ -3455,7 +3457,8 @@ PANEL_Lsprite PANEL_lsprite[PANEL_LSPRITE_NUMBER] =
 
 PANEL_Lsprite PANEL_lsprite[PANEL_LSPRITE_NUMBER] =
     {
-#define PLS(p, a, b, c, d) {p, float(a) / 256.0F, float(b) / 256.F, float(c) / 256.F, float(d) / 256.F}
+#define PLS(p, a, b, c, d) \
+    { p, float(a) / 256.0F, float(b) / 256.F, float(c) / 256.F, float(d) / 256.F }
 
         /*
 
@@ -3626,15 +3629,16 @@ void PANEL_last_bubble(float x1, float y1, float x2, float y2) {
 
     } blah[9] =
         {
-            {0, 1, 11, 12},
-            {1, 2, 12, 13},
-            {2, 3, 13, 4},
+            {0,  1,  11, 12},
+            {1,  2,  12, 13},
+            {2,  3,  13, 4 },
             {11, 12, 10, 15},
             {12, 13, 15, 14},
-            {13, 4, 14, 5},
-            {10, 15, 9, 8},
-            {15, 14, 8, 7},
-            {14, 5, 7, 6}};
+            {13, 4,  14, 5 },
+            {10, 15, 9,  8 },
+            {15, 14, 8,  7 },
+            {14, 5,  7,  6 }
+    };
 
     for (i = 0; i < 9; i++) {
         quad[0] = &pp[blah[i].p1];
@@ -3757,30 +3761,30 @@ void PANEL_inv_weapon(std::int32_t x, std::int32_t y, std::int32_t item, std::ui
     std::int32_t sprite = -1, faded;
 
     switch (item) {
-        case SPECIAL_GUN:
-            sprite = PANEL_LSPRITE_PISTOL;
-            break;
-        case SPECIAL_SHOTGUN:
-            sprite = PANEL_LSPRITE_SHOTGUN;
-            break;
-        case SPECIAL_AK47:
-            sprite = PANEL_LSPRITE_AK47;
-            break;
-        case SPECIAL_EXPLOSIVES:
-            sprite = PANEL_LSPRITE_EXPLOSIVES;
-            break;
-        case SPECIAL_GRENADE:
-            sprite = PANEL_LSPRITE_GRENADE;
-            break;
-        case SPECIAL_KNIFE:
-            sprite = PANEL_LSPRITE_KNIFE;
-            break;
-        case SPECIAL_BASEBALLBAT:
-            sprite = PANEL_LSPRITE_BBB;
-            break;
-        default:
-            sprite = PANEL_LSPRITE_FIST;
-            break;
+    case SPECIAL_GUN:
+        sprite = PANEL_LSPRITE_PISTOL;
+        break;
+    case SPECIAL_SHOTGUN:
+        sprite = PANEL_LSPRITE_SHOTGUN;
+        break;
+    case SPECIAL_AK47:
+        sprite = PANEL_LSPRITE_AK47;
+        break;
+    case SPECIAL_EXPLOSIVES:
+        sprite = PANEL_LSPRITE_EXPLOSIVES;
+        break;
+    case SPECIAL_GRENADE:
+        sprite = PANEL_LSPRITE_GRENADE;
+        break;
+    case SPECIAL_KNIFE:
+        sprite = PANEL_LSPRITE_KNIFE;
+        break;
+    case SPECIAL_BASEBALLBAT:
+        sprite = PANEL_LSPRITE_BBB;
+        break;
+    default:
+        sprite = PANEL_LSPRITE_FIST;
+        break;
     }
 
     //
@@ -4185,89 +4189,89 @@ void PANEL_last() {
             Thing *p_special = TO_THING(darci->Genus.Person->SpecialUse);
 
             switch (p_special->Genus.Special->SpecialType) {
-                case SPECIAL_SHOTGUN:
+            case SPECIAL_SHOTGUN:
 
-                    sprite = PANEL_LSPRITE_SHOTGUN;
+                sprite = PANEL_LSPRITE_SHOTGUN;
 
-                    if (darci->Genus.Person->ammo_packs_shotgun) {
-                        sprintf(text, "%d\\%d", p_special->Genus.Special->ammo, darci->Genus.Person->ammo_packs_shotgun / SPECIAL_AMMO_IN_A_SHOTGUN);
-                    } else {
-                        sprintf(text, "%d", p_special->Genus.Special->ammo);
-                    }
-
-                    break;
-
-                case SPECIAL_AK47:
-
-                    sprite = PANEL_LSPRITE_AK47;
-
-                    if (darci->Genus.Person->ammo_packs_ak47) {
-                        sprintf(text, "%d\\%d", p_special->Genus.Special->ammo, darci->Genus.Person->ammo_packs_ak47 / SPECIAL_AMMO_IN_A_AK47);
-                    } else {
-                        sprintf(text, "%d", p_special->Genus.Special->ammo);
-                    }
-                    break;
-
-                case SPECIAL_EXPLOSIVES:
-                    sprite = PANEL_LSPRITE_EXPLOSIVES;
+                if (darci->Genus.Person->ammo_packs_shotgun) {
+                    sprintf(text, "%d\\%d", p_special->Genus.Special->ammo, darci->Genus.Person->ammo_packs_shotgun / SPECIAL_AMMO_IN_A_SHOTGUN);
+                } else {
                     sprintf(text, "%d", p_special->Genus.Special->ammo);
-                    break;
+                }
 
-                case SPECIAL_GRENADE:
-                    sprite = PANEL_LSPRITE_GRENADE;
-                    //
-                    // If the player is holding a grenade that has had its pin pulled then
-                    // show how long the grenade has before it goes off.
-                    //
-                    if (p_special->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
-                        std::int32_t secsleft;
+                break;
 
-                        secsleft = p_special->Genus.Special->timer / (16 * 20) + 1;
-                        SATURATE(secsleft, 0, 6);
+            case SPECIAL_AK47:
+
+                sprite = PANEL_LSPRITE_AK47;
+
+                if (darci->Genus.Person->ammo_packs_ak47) {
+                    sprintf(text, "%d\\%d", p_special->Genus.Special->ammo, darci->Genus.Person->ammo_packs_ak47 / SPECIAL_AMMO_IN_A_AK47);
+                } else {
+                    sprintf(text, "%d", p_special->Genus.Special->ammo);
+                }
+                break;
+
+            case SPECIAL_EXPLOSIVES:
+                sprite = PANEL_LSPRITE_EXPLOSIVES;
+                sprintf(text, "%d", p_special->Genus.Special->ammo);
+                break;
+
+            case SPECIAL_GRENADE:
+                sprite = PANEL_LSPRITE_GRENADE;
+                //
+                // If the player is holding a grenade that has had its pin pulled then
+                // show how long the grenade has before it goes off.
+                //
+                if (p_special->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
+                    std::int32_t secsleft;
+
+                    secsleft = p_special->Genus.Special->timer / (16 * 20) + 1;
+                    SATURATE(secsleft, 0, 6);
 
 #ifdef TARGET_DC
-                        // This gets done later, over the grenade icon.
-                        iGrenadeCountdown = secsleft;
+                    // This gets done later, over the grenade icon.
+                    iGrenadeCountdown = secsleft;
 #else
-                        std::uint32_t colour, colours[] = {0xff3300, 0xff8800, 0x88ff00, 0x888888};
-                        if (secsleft < 1)
-                            colour = *colours;
-                        else if (secsleft > 3)
-                            colour = colours[3];
-                        else
-                            colour = colours[secsleft];
+                    std::uint32_t colour, colours[] = {0xff3300, 0xff8800, 0x88ff00, 0x888888};
+                    if (secsleft < 1)
+                        colour = *colours;
+                    else if (secsleft > 3)
+                        colour = colours[3];
+                    else
+                        colour = colours[secsleft];
 
-                        itoa(secsleft, text, 10);
+                    itoa(secsleft, text, 10);
 
-                        FONT2D_DrawString(
-                            text,
-                            m_iPanelXPos + 141,
-                            m_iPanelYPos - 53,
-                            colour,
-                            256);
+                    FONT2D_DrawString(
+                        text,
+                        m_iPanelXPos + 141,
+                        m_iPanelYPos - 53,
+                        colour,
+                        256);
 #endif
 
-                    }
+                }
 #ifdef TARGET_DC
-                    else {
-                        iGrenadeCountdown = -1;
-                    }
+                else {
+                    iGrenadeCountdown = -1;
+                }
 #endif
 
-                    itoa(p_special->Genus.Special->ammo, text, 10);
-                    break;
+                itoa(p_special->Genus.Special->ammo, text, 10);
+                break;
 
-                case SPECIAL_KNIFE:
-                    sprite = PANEL_LSPRITE_KNIFE;
-                    break;
+            case SPECIAL_KNIFE:
+                sprite = PANEL_LSPRITE_KNIFE;
+                break;
 
-                case SPECIAL_BASEBALLBAT:
-                    sprite = PANEL_LSPRITE_BBB;
-                    break;
+            case SPECIAL_BASEBALLBAT:
+                sprite = PANEL_LSPRITE_BBB;
+                break;
 
-                default:
-                    sprite = PANEL_LSPRITE_QMARK;
-                    break;
+            default:
+                sprite = PANEL_LSPRITE_QMARK;
+                break;
             }
         } else {
             sprite = PANEL_LSPRITE_FIST;
@@ -4684,13 +4688,13 @@ void PANEL_last() {
 
                 if (p_track->Class == CLASS_PERSON) {
                     switch (p_track->Genus.Person->PersonType) {
-                        case PERSON_THUG_RASTA:
-                        case PERSON_THUG_GREY:
-                        case PERSON_THUG_RED:
-                        case PERSON_MIB1:
-                        case PERSON_MIB2:
-                        case PERSON_MIB3:
-                            thugly = true;
+                    case PERSON_THUG_RASTA:
+                    case PERSON_THUG_GREY:
+                    case PERSON_THUG_RED:
+                    case PERSON_MIB1:
+                    case PERSON_MIB2:
+                    case PERSON_MIB3:
+                        thugly = true;
                     }
                     if (p_track->State == STATE_DEAD) {
                         //
@@ -4935,24 +4939,24 @@ void PANEL_last() {
             display = false;
 
             switch (p_found->Genus.Person->PersonType) {
-                case PERSON_THUG_RASTA:
-                case PERSON_THUG_GREY:
-                case PERSON_THUG_RED:
-                    display = true;
-                    size = 0.5F;
-                    colour = 0xdd2222;
-                    break;
+            case PERSON_THUG_RASTA:
+            case PERSON_THUG_GREY:
+            case PERSON_THUG_RED:
+                display = true;
+                size = 0.5F;
+                colour = 0xdd2222;
+                break;
 
-                case PERSON_MIB1:
-                case PERSON_MIB2:
-                case PERSON_MIB3:
-                    display = true;
-                    size = 0.5F;
-                    colour = 0xdddddd;
-                    break;
+            case PERSON_MIB1:
+            case PERSON_MIB2:
+            case PERSON_MIB3:
+                display = true;
+                size = 0.5F;
+                colour = 0xdddddd;
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
 
             if (PCOM_person_wants_to_kill(p_found) == THING_NUMBER(darci)) {
@@ -5584,115 +5588,115 @@ static VMU_Screen vmuscreenTemp;
 std::uint8_t bNumberPattern[11][7] =
     {
         {
-            // 0
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-        },
+         // 0
+            FROM_BINARY(0, 1, 1, 1,          0),
+         FROM_BINARY(1,                                                              1,  0, 1,                                    1),
+         FROM_BINARY(1,                                                                                1,                                                                                                       0, 1, 1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                    1,                                                                                                              0, 1, 1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                           0, 1, 1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     0, 1, 1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           1, 1,                                                                                                                                                                                                                           0),
+         },
         {
-            // 1
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 1, 1, 1, 1),
-        },
+         // 1
+            FROM_BINARY(0,                0,                             1,       1, 0),
+         FROM_BINARY(0, 1, 1,                                                                     1,                                                                                                        0),
+         FROM_BINARY(0,   0, 1,                                                                                                                                                                                            1,                                                                                                                                                                                          0),
+         FROM_BINARY(0,                                                                              0, 1,                                                                                                                                                                                                                                                                                                                                                                                                       1,                                                                                                                                                                                                                                                                                                                          0),
+         FROM_BINARY(0, 0, 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0),
+         FROM_BINARY(0,                                                                                                                                                                                          0, 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                       1, 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1),
+         },
         {
-            // 2
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 1, 1, 0, 0),
-            FROM_BINARY(1, 1, 0, 0, 0),
-            FROM_BINARY(1, 1, 1, 1, 1),
-        },
+         // 2
+            FROM_BINARY(0,               1,             1,                      1,                                            0),
+         FROM_BINARY(1,                                          1,                               0,          1, 1),
+         FROM_BINARY(0,                                    0,                                                                                                            0,                                                                                                   1,                                                                                                  1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                              0,                                                                                                                                                                                                                                                1,                                                                                                                                              1,                                            0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                        1,                                                                                                                                                                           0,                                                                                                                               0),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           1, 1),
+         },
         {
-            // 3
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-        },
+         // 3
+            FROM_BINARY(0,               1,               1,               1,                      0),
+         FROM_BINARY(1,                                                                                    1,                                                               0,                                                 1,                                                                      1),
+         FROM_BINARY(0, 0,                                                                                                                                                                                         0,                                                                                                      1,                                        1),
+         FROM_BINARY(0, 0,                                                                                                                                                                                                                                                                                                                                                                                                    1,                                                                                                                                                                                                                                                                                                                                                                                                    1,                                                                                                                                                                                                            0),
+         FROM_BINARY(0,                                                                                                                                            0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1,                                                                                                                                                                                                                                                                                                                                                                                                                       1),
+         FROM_BINARY(1, 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  1),
+         FROM_BINARY(0, 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0),
+         },
         {
-            // 4
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 1, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-        },
+         // 4
+            FROM_BINARY(0,              0,       0,       1,                1),
+         FROM_BINARY(0,                                                0,                                                                              1,                                                                                           1,                                                                                                        1),
+         FROM_BINARY(0,                                                    1,                                                                                                                                                    1,                                                                                                                                    1,                                                                                                                                                                                               1),
+         FROM_BINARY(1,                                                                                                                                                  1,                                                                                                                                                                     0,                                                             1,                                                                                                                                                                                                                                                                                                                                                                                                          1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                        1,                                                                                                                                                                                                                                                                         1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              1),
+         },
         {
-            // 5
-            FROM_BINARY(1, 1, 1, 1, 1),
-            FROM_BINARY(1, 1, 0, 0, 0),
-            FROM_BINARY(1, 1, 1, 1, 0),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-        },
+         // 5
+            FROM_BINARY(1,               1,               1,              1,                      1),
+         FROM_BINARY(1,                                                        1,                                                         0,                                                       0,                                                                                                                       0),
+         FROM_BINARY(1,                                                                             1,                                                                                                                                                                     1,                                                                                                                                                       1,                                                                                                                                          0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                  1,                                                                                                                                                                                                                            1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       1,                                                                                                                                                                                                                                                                                                                                                                                                                 1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0),
+         },
         {
-            // 6
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 0, 0),
-            FROM_BINARY(1, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-        },
+         // 6
+            FROM_BINARY(0,    1,    1,    1,             0),
+         FROM_BINARY(1,                                                              1,                                                               0,                                                               0,                                                                                                  0),
+         FROM_BINARY(1,                                                                                            1,                                                                                                                                                                                                               1,                                                                                                                                                                                         1,                                                                                                                                                                                      0),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                               1,                                                                                                                                                                                                                                                                                                                                                               0,                                                                                                                                                                                                                                                                                                                                                                                                       1,                                                                                                                                                                                                                                                                                                                                          1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                           1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 0),
+         },
         {
-            // 7
-            FROM_BINARY(1, 1, 1, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(0, 1, 1, 0, 0),
-            FROM_BINARY(0, 1, 1, 0, 0),
-        },
+         // 7
+            FROM_BINARY(1,               1,              1,          1,                   1),
+         FROM_BINARY(0,                                                     0,                                                     0,                                                                     1,                                                                                                        1),
+         FROM_BINARY(0,                                                                       0,                                                                                                                                                                           1,                                                                                                                                                                                                        1,                                                                                                                                                                                                                     1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                0,                                                                                                                                                                                                                                                                                                                                                                1,                                                                                                                                                                                                                                                                                                                                                       1,                                                                                                                                                                                                                                                                                                                                    0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0),
+         },
         {
-            // 8
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-        },
+         // 8
+            FROM_BINARY(0,               1,               1,               1,                       0),
+         FROM_BINARY(1,                                                           1,                                                            0,                                                            1,                                                                                              1),
+         FROM_BINARY(1,                                                                             1,                                                                                                                                                                                   0,                                                                                                                                                                                   1,                                                                                                                                                                                 1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                          1,                                                                                                                                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                   1,                                                                                                                                                                                                                                                                                                                                                                     0),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1),
+         FROM_BINARY(1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0),
+         },
         {
-            // 9
-            FROM_BINARY(0, 1, 1, 1, 0),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(1, 1, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 1, 1, 1, 0),
-        },
+         // 9
+            FROM_BINARY(0,              1,       1,       1,                0),
+         FROM_BINARY(1,                                                 1,                                                                  0,                                                                  1,                                                                                                     1),
+         FROM_BINARY(1,                                                                   1,                                                                                                                                                                                         0,                                                                                                                                                                                         1,                                                                                                                                                                                         1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                1,                                                                                                                                                                                                                                                                                                                                                                                                                             1,                                                                                                                                                                                                                                                                                                                                                                                                       1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                 0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              0),
+         },
         {
-            // separator dot.
-            FROM_BINARY(0, 0, 0, 0, 0),
-            FROM_BINARY(0, 0, 0, 0, 0),
-            FROM_BINARY(0, 0, 0, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 1),
-            FROM_BINARY(0, 0, 1, 1, 0),
-            FROM_BINARY(0, 0, 0, 0, 0),
-            FROM_BINARY(0, 0, 0, 0, 0),
-        },
+         // separator dot.
+            FROM_BINARY(0,               0,               0,              0,                      0),
+         FROM_BINARY(0,                                                        0,                                                         0,                                                        0,                                                                                                           0),
+         FROM_BINARY(0,                                                                          0,                                                                                                                                                                                0,                                                                                                                                                                               1,                                                                                                                                                                                               1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                              0,                                                                                                                                                                                                                                                                                                                                                                                           1,                                                                                                                                                                                                                                                                                                                                                                                         1,                                                                                                                                                                                                                                                                                                                                                                                                                      1),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        1,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             0),
+         FROM_BINARY(0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               0),
+         },
 };
 
 void Panel_Draw_VMU_Character(int iCharacter, std::uint8_t *pbScanline, int iXpos) {
@@ -5708,8 +5712,8 @@ void Panel_Draw_VMU_Character(int iCharacter, std::uint8_t *pbScanline, int iXpo
         std::uint16_t uwSrc = (std::uint16_t) *pbSrc++;
         uwSrc <<= iShift;
 
-        *(pbScanline - 0) |= (std::uint8_t) (uwSrc & 0xff);
-        *(pbScanline - 1) |= (std::uint8_t) (uwSrc >> 8);
+        *(pbScanline - 0) |= (std::uint8_t)(uwSrc & 0xff);
+        *(pbScanline - 1) |= (std::uint8_t)(uwSrc >> 8);
 
         pbScanline += 6;
     }
@@ -5769,31 +5773,31 @@ void PANEL_draw_VMU_ammo_counts() {
         while (p_special) {
             ASSERT(p_special->Class == CLASS_SPECIAL);
             switch (p_special->Genus.Special->SpecialType) {
-                case SPECIAL_SHOTGUN:
-                    // We have a shotty.
-                    ASSERT(!bHaveWeapon[WEAP_SHOTGUN]);
-                    bHaveWeapon[WEAP_SHOTGUN] = true;
-                    iAmmo[WEAP_SHOTGUN] = p_special->Genus.Special->ammo;
-                    break;
-                case SPECIAL_AK47:
-                    // We have an AK47, which we now call an M16.
-                    ASSERT(!bHaveWeapon[WEAP_M16]);
-                    bHaveWeapon[WEAP_M16] = true;
-                    iAmmo[WEAP_M16] = p_special->Genus.Special->ammo;
-                    break;
-                case SPECIAL_GRENADE:
-                    // Should only have one grenade special.
-                    ASSERT(!bHaveWeapon[WEAP_GRENADE]);
-                    bHaveWeapon[WEAP_GRENADE] = true;
-                    iAmmo[WEAP_GRENADE] = p_special->Genus.Special->ammo;
-                    if (iAmmo[WEAP_GRENADE] == 0) {
-                        // Er... this means we don't have grenades.
-                        bHaveWeapon[WEAP_GRENADE] = false;
-                    }
-                    break;
-                default:
-                    // You think I care?
-                    break;
+            case SPECIAL_SHOTGUN:
+                // We have a shotty.
+                ASSERT(!bHaveWeapon[WEAP_SHOTGUN]);
+                bHaveWeapon[WEAP_SHOTGUN] = true;
+                iAmmo[WEAP_SHOTGUN] = p_special->Genus.Special->ammo;
+                break;
+            case SPECIAL_AK47:
+                // We have an AK47, which we now call an M16.
+                ASSERT(!bHaveWeapon[WEAP_M16]);
+                bHaveWeapon[WEAP_M16] = true;
+                iAmmo[WEAP_M16] = p_special->Genus.Special->ammo;
+                break;
+            case SPECIAL_GRENADE:
+                // Should only have one grenade special.
+                ASSERT(!bHaveWeapon[WEAP_GRENADE]);
+                bHaveWeapon[WEAP_GRENADE] = true;
+                iAmmo[WEAP_GRENADE] = p_special->Genus.Special->ammo;
+                if (iAmmo[WEAP_GRENADE] == 0) {
+                    // Er... this means we don't have grenades.
+                    bHaveWeapon[WEAP_GRENADE] = false;
+                }
+                break;
+            default:
+                // You think I care?
+                break;
             }
 
             if (p_special->Genus.Special->NextSpecial)

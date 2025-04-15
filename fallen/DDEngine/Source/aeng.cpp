@@ -1422,15 +1422,15 @@ void AENG_calc_gamut_lo_only(
 #endif
 
 #if 1
-    AENG_gamut_lo_xmin = (std::int32_t) (gamut_lo_xmin);
-    AENG_gamut_lo_xmax = (std::int32_t) (gamut_lo_xmax);
-    AENG_gamut_lo_zmin = (std::int32_t) (gamut_lo_zmin);
-    AENG_gamut_lo_zmax = (std::int32_t) (gamut_lo_zmax);
+    AENG_gamut_lo_xmin = (std::int32_t)(gamut_lo_xmin);
+    AENG_gamut_lo_xmax = (std::int32_t)(gamut_lo_xmax);
+    AENG_gamut_lo_zmin = (std::int32_t)(gamut_lo_zmin);
+    AENG_gamut_lo_zmax = (std::int32_t)(gamut_lo_zmax);
 #else
-    AENG_gamut_lo_xmin = (std::int32_t) (gamut_lo_xmin * 0.25f);
-    AENG_gamut_lo_xmax = (std::int32_t) (gamut_lo_xmax * 0.25f);
-    AENG_gamut_lo_zmin = (std::int32_t) (gamut_lo_zmin * 0.25f);
-    AENG_gamut_lo_zmax = (std::int32_t) (gamut_lo_zmax * 0.25f);
+    AENG_gamut_lo_xmin = (std::int32_t)(gamut_lo_xmin * 0.25f);
+    AENG_gamut_lo_xmax = (std::int32_t)(gamut_lo_xmax * 0.25f);
+    AENG_gamut_lo_zmin = (std::int32_t)(gamut_lo_zmin * 0.25f);
+    AENG_gamut_lo_zmax = (std::int32_t)(gamut_lo_zmax * 0.25f);
 #endif
 
     // Just catch the dodgy edge condition.
@@ -6047,14 +6047,14 @@ void draw_quick_floor(std::int32_t warehouse) {
         init_stats = 0;
     }
 
-    ptr32 = (std::uint8_t *) (((std::uint32_t) (some_data + 32)) & 0xffffffe0);
+    ptr32 = (std::uint8_t *) (((std::uint32_t)(some_data + 32)) & 0xffffffe0);
     m_view = (D3DMATRIX *) ptr32;
 
     mm_draw_floor.lpd3dMatrices = m_view;
     mm_draw_floor.lpvLightDirs = NULL;
     mm_draw_floor.lpLightTable = NULL;
 
-    ptr32 = (std::uint8_t *) (((std::uint32_t) (m_vert_mem_block32 + 32)) & 0xffffffe0);
+    ptr32 = (std::uint8_t *) (((std::uint32_t)(m_vert_mem_block32 + 32)) & 0xffffffe0);
 
     kerb_verts = (D3DLVERTEX *) ptr32;
     ptr32 += sizeof(D3DLVERTEX) * KERB_VERTS;
@@ -6436,7 +6436,7 @@ void draw_quick_floor(std::int32_t warehouse) {
 
 #ifdef DEBUG
 #ifdef TARGET_DC
-            // Colour the vertices.
+                // Colour the vertices.
 #define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
                 extern DIJOYSTATE the_state;
                 if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {

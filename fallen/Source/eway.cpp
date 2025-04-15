@@ -4373,9 +4373,9 @@ void EWAY_set_active(EWAY_Way *ew) {
 
         extern void find_nice_place_near_person(
             Thing * p_person,
-            std::int32_t *nice_x, // 8-bits per mapsquare
-            std::int32_t *nice_y,
-            std::int32_t *nice_z);
+            std::int32_t * nice_x, // 8-bits per mapsquare
+            std::int32_t * nice_y,
+            std::int32_t * nice_z);
 
         if ((ew->ed.arg1 & EWAY_ARG_ITEM_FOLLOW_PERSON) &&
             ((ew->ec.type == EWAY_COND_KILLED_NOT_ARRESTED) ||

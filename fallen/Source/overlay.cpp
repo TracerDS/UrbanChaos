@@ -385,7 +385,7 @@ std::int32_t help_system() {
 
                     show_help_text(HELP_USE_CAR);
 
-                    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t *cx, std::int32_t *cz);
+                    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t * cx, std::int32_t * cz);
 
                     get_car_enter_xz(p_found, &cx, &cz);
 

@@ -113,7 +113,7 @@ extern void e_draw_3d_mapwho_y(std::int32_t x1, std::int32_t my_y1, std::int32_t
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS(a, b) (((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
+#define SAME_SIGNS(a, b) (((std::int32_t)((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
 
 //
 // Lines that share a point count as intersecting.
@@ -4443,8 +4443,8 @@ std::int32_t cross_door(std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
     z2 = (z2) >> 8;
     //	add_debug_line(x1,my_y1,z1,x2,y2,z2,0xffffff);
 
-    minx = ((x2)) -radius >> PAP_SHIFT_LO;
-    minz = ((z2)) -radius >> PAP_SHIFT_LO;
+    minx = ((x2)) - radius >> PAP_SHIFT_LO;
+    minz = ((z2)) - radius >> PAP_SHIFT_LO;
 
     maxx = ((x2)) + radius >> PAP_SHIFT_LO;
     maxz = ((z2)) + radius >> PAP_SHIFT_LO;
@@ -6147,8 +6147,8 @@ extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
         //		if((PAP_2HI(x2>>16,z2>>16).Height<<3)>y2)
         //			ASSERT(0);
 
-        void slide_along_edges(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t *x2, std::int32_t *z2);
-        void slide_along_edgesr(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t *x2, std::int32_t *z2);
+        void slide_along_edges(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t * x2, std::int32_t * z2);
+        void slide_along_edgesr(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t * x2, std::int32_t * z2);
 
         //
         // Should we slide along the edges?
@@ -6644,33 +6644,33 @@ extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
 
 #if MARKS_EXTRA_DEBUG
 
-    /*
+            /*
 
-    if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
-    {
-            //
-            // If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
-            //
-
-            std::int32_t ground = PAP_calc_map_height_at(
-                                                    p_thing->WorldPos.X >> 8,
-                                                    p_thing->WorldPos.Z >> 8) << 8;
-
-            if (p_thing->WorldPos.Y < ground - 0x4000)
+            if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
             {
                     //
-                    // Oh dear!
+                    // If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
                     //
 
-                    ASSERT(0);
+                    std::int32_t ground = PAP_calc_map_height_at(
+                                                            p_thing->WorldPos.X >> 8,
+                                                            p_thing->WorldPos.Z >> 8) << 8;
 
-                    p_thing->WorldPos.Y = ground + 0x1000;
+                    if (p_thing->WorldPos.Y < ground - 0x4000)
+                    {
+                            //
+                            // Oh dear!
+                            //
 
-                    plant_feet(p_thing);
+                            ASSERT(0);
+
+                            p_thing->WorldPos.Y = ground + 0x1000;
+
+                            plant_feet(p_thing);
+                    }
             }
-    }
 
-    */
+            */
 
 #endif
 
@@ -9550,10 +9550,10 @@ std::int32_t slide_around_box(
                 }
             }
 
-        //
-        // We have to un-rotate the points. The inverse of the
-        // matrix is its transpose.
-        //
+            //
+            // We have to un-rotate the points. The inverse of the
+            // matrix is its transpose.
+            //
 
 #ifndef PSX
 

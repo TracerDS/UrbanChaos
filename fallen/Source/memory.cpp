@@ -680,14 +680,14 @@ void convert_drawtype_to_index(Thing *p_thing, std::int32_t meshtype) {
             case CLASS_PERSON:
             case CLASS_VEHICLE:
             case CLASS_ANIMAL:
-                chunk = (std::uint32_t) (p_thing->Draw.Tweened->TheChunk - &game_chunk[0]);
+                chunk = (std::uint32_t)(p_thing->Draw.Tweened->TheChunk - &game_chunk[0]);
                 ASSERT(chunk >= 0);
                 chunk |= 1 << 16;
                 p_thing->Draw.Tweened->TheChunk = (GameKeyFrameChunk *) chunk;
                 break;
             case CLASS_BAT:
             case CLASS_ANIM_PRIM:
-                chunk = (std::uint32_t) (p_thing->Draw.Tweened->TheChunk - &anim_chunk[0]);
+                chunk = (std::uint32_t)(p_thing->Draw.Tweened->TheChunk - &anim_chunk[0]);
                 ASSERT(chunk >= 0);
                 chunk |= 2 << 16;
                 p_thing->Draw.Tweened->TheChunk = (GameKeyFrameChunk *) chunk;
@@ -932,7 +932,7 @@ void convert_pointers_to_index() {
     }
 
     for (c0 = 0; c0 < EWAY_mess_upto; c0++) {
-        EWAY_mess[c0] = (char *) ((std::int32_t) (EWAY_mess[c0] - EWAY_mess_buffer));
+        EWAY_mess[c0] = (char *) ((std::int32_t)(EWAY_mess[c0] - EWAY_mess_buffer));
     }
 
     for (c0 = 0; c0 < PYRO_COUNT; c0++) {
@@ -965,24 +965,24 @@ void convert_pointers_to_index() {
 void convert_keyframe_to_index(GameKeyFrame *p, GameKeyFrameElement *p_ele, GameFightCol *p_fight, std::int32_t count) {
     std::int32_t c0;
     for (c0 = 0; c0 < count; c0++) {
-        p[c0].FirstElement = (GameKeyFrameElement *) ((std::int32_t) (p[c0].FirstElement - p_ele));
-        p[c0].PrevFrame = (GameKeyFrame *) ((std::int32_t) (p[c0].PrevFrame - p));
-        p[c0].NextFrame = (GameKeyFrame *) ((std::int32_t) (p[c0].NextFrame - p));
-        p[c0].Fight = (GameFightCol *) ((std::int32_t) (p[c0].Fight - p_fight));
+        p[c0].FirstElement = (GameKeyFrameElement *) ((std::int32_t)(p[c0].FirstElement - p_ele));
+        p[c0].PrevFrame = (GameKeyFrame *) ((std::int32_t)(p[c0].PrevFrame - p));
+        p[c0].NextFrame = (GameKeyFrame *) ((std::int32_t)(p[c0].NextFrame - p));
+        p[c0].Fight = (GameFightCol *) ((std::int32_t)(p[c0].Fight - p_fight));
     }
 }
 
 void convert_animlist_to_index(GameKeyFrame **p, GameKeyFrame *p_anim, std::int32_t count) {
     std::int32_t c0;
     for (c0 = 0; c0 < count; c0++) {
-        p[c0] = (GameKeyFrame *) ((std::int32_t) (p[c0] - p_anim));
+        p[c0] = (GameKeyFrame *) ((std::int32_t)(p[c0] - p_anim));
     }
 }
 
 void convert_fightcol_to_index(GameFightCol *p, GameFightCol *p_fight, std::int32_t count) {
     std::int32_t c0;
     for (c0 = 0; c0 < count; c0++) {
-        p[c0].Next = (GameFightCol *) ((std::int32_t) (p[c0].Next - p_fight));
+        p[c0].Next = (GameFightCol *) ((std::int32_t)(p[c0].Next - p_fight));
     }
 }
 #endif
@@ -1234,7 +1234,7 @@ void fix_psxed_anims() {
                 for (c1 = 0; c1 < gc->MaxKeyFrames; c1++) {
                     if (gc->AnimKeyFrames[c1].FirstElement) {
                         std::int32_t ele_index;
-                        ele_index = (std::uint32_t) (gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
+                        ele_index = (std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
 
                         //
                         // don't want to do a keyframe twice
@@ -1295,7 +1295,7 @@ void save_whole_anims_psx(MFFileHandle handle) {
 
                     //				ASSERT(c1!=1565);
                     if (gc->AnimKeyFrames[c1].FirstElement) {
-                        ele_index = (std::uint32_t) (gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
+                        ele_index = (std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
 
                         //
                         // don't want to do a keyframe twice
@@ -2024,7 +2024,7 @@ void convert_drawtype_to_pointer(Thing *p_thing, std::int32_t meshtype) {
             std::int32_t chunk;
 
             drawtype = TO_DRAW_TWEEN((std::uint32_t) p_thing->Draw.Tweened);
-            ASSERT((std::uint32_t) (p_thing->Draw.Tweened) < RMAX_DRAW_TWEENS);
+            ASSERT((std::uint32_t)(p_thing->Draw.Tweened) < RMAX_DRAW_TWEENS);
             p_thing->Draw.Tweened = drawtype;
 
             chunk = (std::int32_t) drawtype->TheChunk;

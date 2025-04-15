@@ -144,7 +144,7 @@ std::uint32_t POLY_force_additive_alpha;
 std::int32_t fade_point_more(POLY_Point *pp) {
     std::int32_t fade;
 
-    fade = (((std::int32_t) (pp->y)) >> 0);
+    fade = (((std::int32_t)(pp->y)) >> 0);
 
     // fade=2000;
     //	fade=-fade;

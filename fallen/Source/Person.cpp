@@ -3695,78 +3695,78 @@ void general_process_person(Thing *p_person) {
         }
 */
 #endif
-    /*
-            if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
-            {
-                    DebugText(" %d %d %d \n",p_person->State,p_person->SubState,p_person->Genus.Person->pcom_ai);
-            }
-    */
-    //	p_person->Genus.Person->Flags &=~ FLAG_PERSON_DID_ANIMATE;
-    /*
-            if(p_person->Draw.Tweened->CurrentFrame==p_person->Draw.Tweened->NextFrame)
-            {
-                    AENG_world_line(p_person->WorldPos.X          >> 8,p_person->WorldPos.Y + 0x0000 >> 8,p_person->WorldPos.Z  >> 8,
-                                                    32,0x00ff00,p_person->WorldPos.X >> 8,p_person->WorldPos.Y + 0x1000 >> 8,p_person->WorldPos.Z >> 8,
-                                                    0,
-                                                    0x000000,
-                                                    true);
-            }
-    */
+        /*
+                if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
+                {
+                        DebugText(" %d %d %d \n",p_person->State,p_person->SubState,p_person->Genus.Person->pcom_ai);
+                }
+        */
+        //	p_person->Genus.Person->Flags &=~ FLAG_PERSON_DID_ANIMATE;
+        /*
+                if(p_person->Draw.Tweened->CurrentFrame==p_person->Draw.Tweened->NextFrame)
+                {
+                        AENG_world_line(p_person->WorldPos.X          >> 8,p_person->WorldPos.Y + 0x0000 >> 8,p_person->WorldPos.Z  >> 8,
+                                                        32,0x00ff00,p_person->WorldPos.X >> 8,p_person->WorldPos.Y + 0x1000 >> 8,p_person->WorldPos.Z >> 8,
+                                                        0,
+                                                        0x000000,
+                                                        true);
+                }
+        */
 #ifndef NDEBUG
-    /*
-            {
-                    Thing *p_target;
+        /*
+                {
+                        Thing *p_target;
 
-                    if (WITHIN(p_person->Genus.Person->Target, 1, MAX_THINGS - 1))
-                    {
-                            p_target = TO_THING(p_person->Genus.Person->Target);
+                        if (WITHIN(p_person->Genus.Person->Target, 1, MAX_THINGS - 1))
+                        {
+                                p_target = TO_THING(p_person->Genus.Person->Target);
 
-                            if (p_target->Class == CLASS_PERSON)
-                            {
-                                    AENG_world_line(
-                                            p_person->WorldPos.X          >> 8,
-                                            p_person->WorldPos.Y + 0x1000 >> 8,
-                                            p_person->WorldPos.Z          >> 8,
-                                            32,
-                                            0xff0000,
-                                            p_person->WorldPos.X          >> 8,
-                                            p_person->WorldPos.Y + 0x1000 >> 8,
-                                            p_person->WorldPos.Z          >> 8,
-                                            0,
-                                            0x000000,
-                                            true);
-                            }
-                    }
-            }
+                                if (p_target->Class == CLASS_PERSON)
+                                {
+                                        AENG_world_line(
+                                                p_person->WorldPos.X          >> 8,
+                                                p_person->WorldPos.Y + 0x1000 >> 8,
+                                                p_person->WorldPos.Z          >> 8,
+                                                32,
+                                                0xff0000,
+                                                p_person->WorldPos.X          >> 8,
+                                                p_person->WorldPos.Y + 0x1000 >> 8,
+                                                p_person->WorldPos.Z          >> 8,
+                                                0,
+                                                0x000000,
+                                                true);
+                                }
+                        }
+                }
 
-            //
-            // Draw an arrow over helpless people!
-            //
+                //
+                // Draw an arrow over helpless people!
+                //
 
-            if (p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS)
-            {
-                    std::int32_t px;
-                    std::int32_t py;
-                    std::int32_t pz;
+                if (p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS)
+                {
+                        std::int32_t px;
+                        std::int32_t py;
+                        std::int32_t pz;
 
-                    calc_sub_objects_position(
-                            p_person,
-                            p_person->Draw.Tweened->AnimTween,
-                            SUB_OBJECT_HEAD,
-                       &px,
-                       &py,
-                       &pz);
+                        calc_sub_objects_position(
+                                p_person,
+                                p_person->Draw.Tweened->AnimTween,
+                                SUB_OBJECT_HEAD,
+                           &px,
+                           &py,
+                           &pz);
 
-                    px += p_person->WorldPos.X >> 8;
-                    py += p_person->WorldPos.Y >> 8;
-                    pz += p_person->WorldPos.Z >> 8;
+                        px += p_person->WorldPos.X >> 8;
+                        py += p_person->WorldPos.Y >> 8;
+                        pz += p_person->WorldPos.Z >> 8;
 
-                    AENG_world_line(
-                            px, py, pz, 0, 0xffffff,
-                            px, py + 20, pz, 32, 0xccccff,
-                            false);
-            }
-    */
+                        AENG_world_line(
+                                px, py, pz, 0, 0xffffff,
+                                px, py + 20, pz, 32, 0xccccff,
+                                false);
+                }
+        */
 
 #endif
 
@@ -3949,9 +3949,9 @@ void general_process_person(Thing *p_person) {
     if (p_person->Genus.Person->BurnIndex && (p_person->Genus.Person->Health > 0))
         p_person->Genus.Person->Health--;
 
-    //
-    // If urinating... then pee!
-    //
+        //
+        // If urinating... then pee!
+        //
 
 #ifndef PSX // save Eidos/Sony the trouble of instructing us to remove this
     if (p_person->Genus.Person->Flags & FLAG_PERSON_PEEING) {
@@ -11149,9 +11149,9 @@ std::int32_t grab_ledge(Thing *p_person) {
     if (p_person->Genus.Person->InsideIndex)
         return (0);
 
-    //
-    // While we're grabbing a ledge- try grabbing a balloon!
-    //
+        //
+        // While we're grabbing a ledge- try grabbing a balloon!
+        //
 
 #if !defined(PSX) && !defined(TARGET_DC)
     BALLOON_find_grab(THING_NUMBER(p_person));
@@ -12236,7 +12236,7 @@ std::int32_t check_limb_pos_on_fence_sideways(Thing *p_person, std::int32_t sub_
 
     col = p_person->Genus.Person->OnFacet;
 
-    std::int32_t calc_along_vect(std::int32_t ax, std::int32_t az, struct DFacet *p_vect);
+    std::int32_t calc_along_vect(std::int32_t ax, std::int32_t az, struct DFacet * p_vect);
 
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, sub_part, &x1, &y1, &z1);
 
@@ -15749,7 +15749,7 @@ void highlight_gun_target(Thing *p_person, Thing *p_target) {
 
         if (dist_to_target(p_person, p_target) < (10 << 8))
             track_gun_sight(p_target, 256);
-        //	ASSERT(dist_to_target(p_person,p_target)< (10<<8) );
+            //	ASSERT(dist_to_target(p_person,p_target)< (10<<8) );
 
 #define MAKE_FPM_TRACK_ENEMY 1
 

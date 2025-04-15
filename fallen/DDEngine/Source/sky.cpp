@@ -1097,11 +1097,11 @@ void SKY_draw_poly_sky_old(float world_camera_x, float world_camera_y, float wor
                 quad[3]->v = 1.0F;
 
 #ifdef TARGET_DC
-            // These can trip in mad cases - ignore them.
-            // ASSERT ( quad[0]->Z < 0.0009f );
-            // ASSERT ( quad[1]->Z < 0.0009f );
-            // ASSERT ( quad[2]->Z < 0.0009f );
-            // ASSERT ( quad[3]->Z < 0.0009f );
+                // These can trip in mad cases - ignore them.
+                // ASSERT ( quad[0]->Z < 0.0009f );
+                // ASSERT ( quad[1]->Z < 0.0009f );
+                // ASSERT ( quad[2]->Z < 0.0009f );
+                // ASSERT ( quad[3]->Z < 0.0009f );
 #endif
 
                 POLY_add_quad(quad, POLY_PAGE_SKY, false, 1);

@@ -444,9 +444,9 @@ void NS_precalculate() {
             }
         }
 
-    //
-    // Even out the top map.
-    //
+        //
+        // Even out the top map.
+        //
 
 #define NS_EVEN_OUT_INNER 3
 #define NS_EVEN_OUT_OUTER 5

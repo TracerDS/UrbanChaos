@@ -1620,7 +1620,7 @@ void PaintTab::HandleControl(std::uint16_t control_id) {
         edit_info.Clipped ^= 2;
         break;
     case CTRL_TEX_SET_CLIPPED:
-        extern void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz);
+        extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
         {
             std::int32_t minx, maxx, minz, maxz;
 
@@ -1805,7 +1805,7 @@ void PaintTab::HandleTextureControl(std::uint16_t control_id) {
         edit_info.Clipped ^= 2;
         break;
     case CTRL_TEX_SET_CLIPPED:
-        extern void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz);
+        extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
         {
             std::int32_t minx, maxx, minz, maxz;
 
@@ -2772,7 +2772,7 @@ bool PaintTab::ApplyTexture(struct EditFace *edit_face) {
                     prim_faces4[edit_face->Face].UV[c0][1] = CurrentTexture.V[c0];
                 }
                 if (prim_faces4[edit_face->Face].ThingIndex < 0) {
-                    extern void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture *current_texture, std::uint8_t type, std::uint8_t side);
+                    extern void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture * current_texture, std::uint8_t type, std::uint8_t side);
                     std::uint8_t type = 0;
                     if (PaintMode == STYLE_PAINT) {
                         type = CurrentStyleEdit;

@@ -251,7 +251,7 @@ void ThingTab::HandleClassControl(std::uint16_t control_id) {
             case CLASS_PERSON:
                 the_list = SelectCommandList();
                 if (the_list) {
-                    map_things[CurrentThing].Data[0] = (std::int32_t) (the_list - edit_comlists);
+                    map_things[CurrentThing].Data[0] = (std::int32_t)(the_list - edit_comlists);
                 }
                 break;
             case CLASS_SWITCH:
@@ -268,7 +268,7 @@ void ThingTab::HandleClassControl(std::uint16_t control_id) {
 
                 the_list = SelectCommandList();
                 if (the_list) {
-                    map_things[CurrentThing].Data[0] = (std::int32_t) (the_list - edit_comlists);
+                    map_things[CurrentThing].Data[0] = (std::int32_t)(the_list - edit_comlists);
                 }
                 break;
             case CLASS_SPECIAL:

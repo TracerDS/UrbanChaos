@@ -1312,12 +1312,12 @@ void context_music() {
 
     if (WARE_ware[darci->Genus.Person->Ware].ambience == 4)
         return;
-    //		mode=0; // we're inside the nightclub, so don't play context music.
+        //		mode=0; // we're inside the nightclub, so don't play context music.
 
-    // Just for dreamcast MikeD aug 2000
-    //	if (WARE_ware[darci->Genus.Person->Ware].ambience)
-    //		mode=13+WARE_ware[darci->Genus.Person->Ware].ambience;
-    // return; // we're inside the nightclub, so don't play context music.
+        // Just for dreamcast MikeD aug 2000
+        //	if (WARE_ware[darci->Genus.Person->Ware].ambience)
+        //		mode=13+WARE_ware[darci->Genus.Person->Ware].ambience;
+        // return; // we're inside the nightclub, so don't play context music.
 
 #ifndef PSX
     MUSIC_mode(mode);

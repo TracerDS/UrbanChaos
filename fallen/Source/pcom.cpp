@@ -858,7 +858,7 @@ void PCOM_get_vehicle_navsquare(
     std::int32_t iz2;
     std::int32_t dist2;
 
-    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t door, std::int32_t *cx, std::int32_t *cz);
+    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t door, std::int32_t * cx, std::int32_t * cz);
 
     //
     // Go to the nearest door.
@@ -5844,7 +5844,7 @@ void PCOM_process_driving_wander(Thing *p_person) {
                 if (QDIST2(dx, dz) >= (DRAW_DIST << 8)) {
                     std::int32_t x, z, yaw;
 
-                    extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t *posx, std::int32_t *posz, std::int32_t *yaw, std::int32_t anywhere);
+                    extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t * posx, std::int32_t * posz, std::int32_t * yaw, std::int32_t anywhere);
 
                     if (WAND_find_good_start_point_for_car(&x, &z, &yaw, 0)) {
                         GameCoord newpos;
@@ -6279,7 +6279,7 @@ std::int32_t PCOM_do_regen(Thing *p_person) {
         remove_from_gang_attack(p_person, p_target);
     }
 
-    extern std::int32_t WAND_find_good_start_point(std::int32_t *mapx, std::int32_t *mapz);
+    extern std::int32_t WAND_find_good_start_point(std::int32_t * mapx, std::int32_t * mapz);
     if (WAND_find_good_start_point(&nx, &nz)) {
         GameCoord new_position;
 
@@ -7939,7 +7939,7 @@ void PCOM_process_navtokill(Thing *p_person) {
 
                 if (dist_to_target(p_person, p_target) < (10 << 8))
                     track_gun_sight(p_target, shoot_time - p_person->Genus.Person->pcom_ai_counter);
-                //					ASSERT(dist_to_target(p_person,p_target)< (18<<8) );
+                    //					ASSERT(dist_to_target(p_person,p_target)< (18<<8) );
 
 #ifndef TARGET_DC
                 // (a) doesn't work and (b) doesn't look any good. So it's toast.
@@ -8137,7 +8137,7 @@ void PCOM_process_findcar(Thing *p_person) {
                 p_person->Genus.Person->pcom_ai_counter += 1;
             }
 
-            extern std::int32_t in_right_place_for_car(Thing * p_person, Thing * p_vehicle, std::int32_t *door);
+            extern std::int32_t in_right_place_for_car(Thing * p_person, Thing * p_vehicle, std::int32_t * door);
 
             door = 0;
 
@@ -8323,7 +8323,7 @@ void PCOM_process_hitch(Thing *p_person) {
             p_person->Genus.Person->pcom_ai_counter += 1;
         }
 
-        extern std::int32_t in_right_place_for_car(Thing * p_person, Thing * p_vehicle, std::int32_t *door);
+        extern std::int32_t in_right_place_for_car(Thing * p_person, Thing * p_vehicle, std::int32_t * door);
 
         if (p_person->Genus.Person->pcom_ai_counter > 20 || in_right_place_for_car(p_person, p_vehicle, &door)) {
             //

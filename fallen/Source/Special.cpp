@@ -144,9 +144,9 @@ void special_drop(Thing *p_special, Thing *p_person) {
 
                 extern void find_nice_place_near_person( // In person.cpp
                     Thing * p_person,
-                    std::int32_t *nice_x, // 8-bits per mapsquare
-                    std::int32_t *nice_y,
-                    std::int32_t *nice_z);
+                    std::int32_t * nice_x, // 8-bits per mapsquare
+                    std::int32_t * nice_y,
+                    std::int32_t * nice_z);
 
                 find_nice_place_near_person(
                     p_person,

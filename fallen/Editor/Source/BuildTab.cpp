@@ -2013,9 +2013,9 @@ void BuildTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
                     if (storey_index == inside_storey &&
                         building == inside_building) {
-                    //
-                    // Have we got generated the insides for this storey?
-                    //
+                        //
+                        // Have we got generated the insides for this storey?
+                        //
 #ifdef DOG_POO
                         if (inside_valid && 0) {
                             ID_Roominfo ri;

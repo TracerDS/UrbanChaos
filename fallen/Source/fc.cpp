@@ -516,9 +516,9 @@ void FC_calc_focus(FC_Cam *fc) {
         Thing * p_mthing,
         std::int32_t tween,
         std::uint16_t object,
-        std::int32_t *x,
-        std::int32_t *y,
-        std::int32_t *z);
+        std::int32_t * x,
+        std::int32_t * y,
+        std::int32_t * z);
 
     switch (fc->focus->Class) {
     case CLASS_PERSON:

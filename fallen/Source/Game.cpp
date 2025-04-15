@@ -2248,7 +2248,7 @@ round_again:;
             // #ifndef FINAL
             if (!(GAME_FLAGS & GF_PAUSED))
                 CONSOLE_draw();
-            // #endif
+                // #endif
 
 #ifndef PSX
             GAMEMENU_draw();

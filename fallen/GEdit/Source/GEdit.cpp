@@ -341,7 +341,7 @@ bool CALLBACK waypoint_tab_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
                 //				diff=(the_wheel<0) ? diff=-128 : diff=260;
                 //				selected_ep->Y=INDOORS_INDEX=calc_inside_for_xyz(selected_ep->X, GetEventY(selected_ep)+diff, selected_ep->Z,&INDOORS_ROOM);
 
-                extern std::int32_t GetNextFloor(EventPoint * ep, std::int8_t dir, std::uint16_t *room);
+                extern std::int32_t GetNextFloor(EventPoint * ep, std::int8_t dir, std::uint16_t * room);
                 selected_ep->Y = INDOORS_INDEX = GetNextFloor(selected_ep, the_wheel, &INDOORS_ROOM);
                 if (INDOORS_INDEX)
                     INDOORS_DBUILDING = inside_storeys[INDOORS_INDEX].Building;

@@ -187,7 +187,7 @@ std::int32_t check_grab_cable_facet(std::int32_t facet, std::int32_t *grab_x, st
 
     p_facet = &dfacets[facet];
 
-    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t *ret_along);
+    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t * ret_x, std::int32_t * ret_z, std::int32_t * ret_along);
 
     dist = nearest_point_on_line_and_dist_and_along(
         p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -234,7 +234,7 @@ std::int32_t check_grab_ladder_facet(std::int32_t facet, std::int32_t *grab_x, s
 
     p_facet = &dfacets[facet];
 
-    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t *ret_along);
+    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t * ret_x, std::int32_t * ret_z, std::int32_t * ret_along);
 
     dist = nearest_point_on_line_and_dist_and_along(
         p_facet->x[0] << 8, p_facet->z[0] << 8,

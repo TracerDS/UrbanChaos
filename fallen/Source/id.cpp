@@ -1965,8 +1965,8 @@ void ID_add_room_faces(std::int32_t room) {
             std::int32_t x2, std::int32_t z2,
             std::int32_t x3, std::int32_t z3,
             std::int32_t width,
-            std::int32_t *res_x,
-            std::int32_t *res_z);
+            std::int32_t * res_x,
+            std::int32_t * res_z);
 
         //
         // Use fixed-point 8 from now on.

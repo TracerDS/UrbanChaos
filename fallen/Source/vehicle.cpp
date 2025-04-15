@@ -156,8 +156,14 @@ struct VehInfo {
     std::uint8_t shad_elongate; // In 6-bit fixed point!
 };
 
-#define WHEELBASE_VAN {-120, 120, -120, 120}, {150, 150, -165, -165}
-#define WHEELBASE_CAR {-85, 85, -85, 85}, {160, 160, -120, -120}
+#define WHEELBASE_VAN         \
+    {-120, 120, -120, 120}, { \
+        150, 150, -165, -165  \
+    }
+#define WHEELBASE_CAR        \
+    {-85, 85, -85, 85}, {    \
+        160, 160, -120, -120 \
+    }
 
 #define ENGINE_LGV 17, 10, 4, 8  // light goods vehicle - slow in both directions, normal brakes
 #define ENGINE_CAR 21, 10, 4, 8  // car - faster than LGV, same brakes
@@ -2155,12 +2161,12 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
                 if (veh->Scrapin < 10) veh->Scrapin++;
 
-                //				if (is_driven_by_player(p_car))
-                //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
-                //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
-                //								true);
+                    //				if (is_driven_by_player(p_car))
+                    //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
+                    //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
+                    //								true);
 
-                // shake fence
+                    // shake fence
 #ifndef PSX
                 VEH_shake_fences(last_mav_square_x, last_mav_square_z);
 #endif
@@ -2330,10 +2336,10 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
     if (!flags) return 0;
 
-    //
-    // There has been a collision...
-    // Damage the car depending on how fast it is going
-    //
+        //
+        // There has been a collision...
+        // Damage the car depending on how fast it is going
+        //
 
 #if !defined(FAST_EDDIE) || !defined(_DEBUG)
     {

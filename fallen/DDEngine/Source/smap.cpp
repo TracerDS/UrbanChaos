@@ -840,7 +840,7 @@ void SMAP_person(
         std::int32_t xangle,
         std::int32_t yangle,
         std::int32_t zangle,
-        Matrix33 *r3);
+        Matrix33 * r3);
 
     FIGURE_rotate_obj(
         dt->Tilt,

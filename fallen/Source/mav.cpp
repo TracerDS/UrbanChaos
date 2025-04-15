@@ -1119,7 +1119,7 @@ void MAV_precalculate() {
         }
 
     {
-        extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t *angle);
+        extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t * angle);
 
         //
         // Take all slippy squares out of the mav.

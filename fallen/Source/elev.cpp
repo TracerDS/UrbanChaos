@@ -109,11 +109,11 @@ char* psx_game_name;
 
 #define FILE_CLOSE_ERROR ((MFFileHandle) - 101)
 #define FILE_CREATION_ERROR ((MFFileHandle) - 102)
-#define FILE_SIZE_ERROR ((std::int32_t) -103)
-#define FILE_READ_ERROR ((std::int32_t) -104)
-#define FILE_WRITE_ERROR ((std::int32_t) -105)
-#define FILE_SEEK_ERROR ((std::int32_t) -106)
-#define FILE_LOAD_AT_ERROR ((std::int32_t) -107)
+#define FILE_SIZE_ERROR ((std::int32_t) - 103)
+#define FILE_READ_ERROR ((std::int32_t) - 104)
+#define FILE_WRITE_ERROR ((std::int32_t) - 105)
+#define FILE_SEEK_ERROR ((std::int32_t) - 106)
+#define FILE_LOAD_AT_ERROR ((std::int32_t) - 107)
 
 //
 // psx has no sewers at the moment
@@ -331,7 +331,7 @@ void ELEV_load_level(char* fname_level) {
                 std::int32_t max = 0;
 
                 while (max++ < 128 * 128) {
-                    std::int32_t WAND_find_good_start_point_near(std::int32_t* mapx, std::int32_t* mapz);
+                    std::int32_t WAND_find_good_start_point_near(std::int32_t * mapx, std::int32_t * mapz);
 
                     mx = (Random() % 100) + 14;
                     mz = (Random() % 100) + 14;
@@ -1834,7 +1834,7 @@ void ELEV_load_level(char* fname_level) {
         // create fake cars (must do this after the "real" cars are created)
         //
 
-        extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t* posx, std::int32_t* posz, std::int32_t* yaw, std::int32_t anywhere);
+        extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t * posx, std::int32_t * posz, std::int32_t * yaw, std::int32_t anywhere);
 
         if (FAKE_CARS && save_psx) {
             FAKE_CARS = (FAKE_CARS + 1) >> 1;

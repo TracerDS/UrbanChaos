@@ -7,6 +7,7 @@
 #	include <MFTypes.h>
 #endif
 
+#include <cstdint>
 
 //---------------------------------------------------------------
 // DModes.cpp
