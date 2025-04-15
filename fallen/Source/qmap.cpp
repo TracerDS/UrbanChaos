@@ -6,6 +6,7 @@
 #include <MFStdLib.h>
 #include "qmap.h"
 #include "..\ddengine\headers\qeng.h"
+#include <algorithm>
 
 //
 // The actual data declared in the header file...
@@ -778,11 +779,11 @@ void QMAP_create_cube(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z, std
     // Clip the cube to the mapsquare.
     //
 
-    lx1 = MAX(x1, mx1);
-    lz1 = MAX(z1, mz1);
+    lx1 = std::max(x1, mx1);
+    lz1 = std::max(z1, mz1);
 
-    lx2 = MIN(x2, mx2);
-    lz2 = MIN(z2, mz2);
+    lx2 = std::min(x2, mx2);
+    lz2 = std::min(z2, mz2);
 
     //
     // For each edge of the cube: XS

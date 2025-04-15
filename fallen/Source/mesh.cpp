@@ -939,7 +939,7 @@ std::int32_t MESH_add_point(
     mr->mp[ans].x = x;
     mr->mp[ans].y = y;
     mr->mp[ans].z = z;
-    mr->mp[ans].fade = MIN(255, (std::int32_t) fade);
+    mr->mp[ans].fade = std::min(255, (std::int32_t) fade);
 
     mr->num_points += 1;
 

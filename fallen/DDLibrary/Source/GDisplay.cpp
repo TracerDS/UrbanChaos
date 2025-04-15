@@ -17,6 +17,8 @@
 #include "panel.h"
 #include "..\headers\game.h"
 
+#include <algorithm>
+
 //
 // From mfx_miles.h...
 //
@@ -256,7 +258,7 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     extern HINSTANCE hGlobalThisInst;
 
     VideoRes = ENV_get_value_number("video_res", -1, "Render");
-    VideoRes = max(min(VideoRes, 4), 0);
+    VideoRes = std::max(std::min(VideoRes, 4), 0);
 
     depth = 32;
     switch (VideoRes) {

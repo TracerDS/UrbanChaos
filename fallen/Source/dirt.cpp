@@ -25,6 +25,7 @@
 #include "mfx.h"
 #include "pow.h"
 #include "mav.h"
+#include <algorithm>
 
 #ifndef PSX
 #include "..\DDLibrary\headers\D3DTexture.h"
@@ -1413,8 +1414,8 @@ void DIRT_process() {
             dd->droll -= 0xa * SIGN(dd->roll);
 
             dd->dy -= 4 << TICK_SHIFT;
-            dd->dy += MIN(abs(dd->pitch), 180) << (TICK_SHIFT - 5);
-            dd->dy += MIN(abs(dd->roll), 180) << (TICK_SHIFT - 5);
+            dd->dy += std::min(abs(dd->pitch), 180) << (TICK_SHIFT - 5);
+            dd->dy += std::min(abs(dd->roll), 180) << (TICK_SHIFT - 5);
 
             break;
 

@@ -12,11 +12,11 @@
 
 #define	in_range(a,min,max)	{if(a>(max))a=(max);else if(a<(min))a=(min);}
 #ifndef	min
-#define	min(a,b)			(((a)<(b)) ? (a) : (b))
+#define	std::min(a,b)			(((a)<(b)) ? (a) : (b))
 #endif
 
 #ifndef	max
-#define	max(a,b)			(((a)>(b)) ? (a) : (b))
+#define	std::max(a,b)			(((a)>(b)) ? (a) : (b))
 #endif
 
 

@@ -49,12 +49,14 @@
 #include "pow.h"
 #include "frontend.h"
 #ifdef PSX
-#include "c:\fallen\psxeng\headers\psxeng.h"
-#include "c:\fallen\psxeng\headers\panel.h"
+#include "psxeng/headers/psxeng.h"
+#include "psxeng/headers/panel.h"
 #else
 #include "aeng.h"
 #include "panel.h"
 #endif
+
+#include <algorithm>
 
 #ifndef PSX
 std::uint8_t player_visited[16][128];
@@ -4286,12 +4288,12 @@ std::int32_t check_on_slippy_slope(Thing *p_person) {
             p_person->SubState = SUB_STATE_SLIPPING;
             p_person->Draw.Tweened->AngleTo = angle;
 
-            slope = MIN(slope - size, 10);
-            slope = MAX(slope, size);
+            slope = std::min(slope - size, 10);
+            slope = std::max(slope, size);
 
             change_velocity_to(p_person, slope);
 
-            //					p_person->Velocity=MIN(slope-50,40);
+            //					p_person->Velocity=std::min(slope-50,40);
             break;
         }
 
@@ -4571,14 +4573,14 @@ void person_normal_move_dxdz(Thing *p_person, std::int32_t dx, std::int32_t dz) 
                                                 p_person->SubState=SUB_STATE_SLIPPING;
                                                 p_person->Draw.Tweened->AngleTo=angle;
 
-                                                slope=MIN(slope-50,40);
-                                                slope=MAX(slope,10);
+                                                slope=std::min(slope-50,40);
+                                                slope=std::max(slope,10);
 
 
                                                 change_velocity_to(p_person,slope);
                                                 set_generic_person_state_function(p_person,STATE_MOVEING);
 
-        //					p_person->Velocity=MIN(slope-50,40);
+        //					p_person->Velocity=std::min(slope-50,40);
                                                 break;
                                 }
                         }
@@ -10538,8 +10540,8 @@ void fn_person_idle(Thing *p_person) {
                     set_generic_person_state_function(p_person, STATE_MOVEING);
                     p_person->SubState = SUB_STATE_SLIPPING;
                     p_person->Draw.Tweened->AngleTo = angle;
-                    slope = MIN(slope - 50, 10);
-                    slope = MAX(slope, 50);
+                    slope = std::min(slope - 50, 10);
+                    slope = std::max(slope, 50);
                     change_velocity_to(p_person, slope);
 
                     return;

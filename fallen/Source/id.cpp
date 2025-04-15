@@ -1675,7 +1675,7 @@ void ID_find_segment_wall(
         //
 
         *wall = i;
-        *length = MAX(abs(dx), abs(dz));
+        *length = std::max(abs(dx), abs(dz));
 
         return;
     }
@@ -2187,7 +2187,7 @@ std::int32_t ID_get_wall_start(std::int32_t *x, std::int32_t *z) {
                 // diagonals.
                 //
             } else {
-                length = MAX(abs(dx), abs(dz));
+                length = std::max(abs(dx), abs(dz));
                 along = ID_rand() % length;
 
                 dx = SIGN(dx);
@@ -3573,7 +3573,7 @@ std::int32_t ID_make_connecting_doors(std::int32_t storey_type) {
                 // so we don't put any doors there.
                 //
             } else {
-                length = MAX(abs(dx), abs(dz)) >> 8;
+                length = std::max(abs(dx), abs(dz)) >> 8;
 
                 dx /= length;
                 dz /= length;
@@ -4299,7 +4299,7 @@ std::int32_t ID_fit_kitchen(std::int32_t room) {
             // Ignore non-orthogonal walls.
             //
         } else {
-            length = MAX(abs(dx), abs(dz));
+            length = std::max(abs(dx), abs(dz));
 
             if (length > best_length) {
                 //
@@ -5967,7 +5967,7 @@ std::int32_t ID_generate_inside_walls(std::int32_t storey_type) {
                 ID_wall[ID_wall_upto].z1 = z1;
                 ID_wall[ID_wall_upto].x2 = x2;
                 ID_wall[ID_wall_upto].z2 = z2;
-                ID_wall[ID_wall_upto].num_blocks = MAX(abs(x2 - x1), abs(z2 - z1));
+                ID_wall[ID_wall_upto].num_blocks = std::max(abs(x2 - x1), abs(z2 - z1));
 
                 ID_wall_upto += 1;
 
@@ -6499,8 +6499,8 @@ void ID_calculate_in_squares() {
 
         while (z < z2) {
             switch (wall_type) {
-            case ID_LINK_T_ENTER: pos = MIN(x, x + dxdz); break;
-            case ID_LINK_T_LEAVE: pos = MAX(x, x + dxdz); break;
+            case ID_LINK_T_ENTER: pos = std::min(x, x + dxdz); break;
+            case ID_LINK_T_LEAVE: pos = std::max(x, x + dxdz); break;
 
             default:
                 ASSERT(0);

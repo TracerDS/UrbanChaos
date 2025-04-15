@@ -8,6 +8,7 @@
 #include "ns.h"
 #include "heap.h"
 #include "pap.h"
+#include <algorithm>
 
 //
 // Around the edges of the sewers there are curvey bits.
@@ -1205,7 +1206,7 @@ void NS_cache_create_wallstrip(
     ASSERT((bot & 0x7) == 0);
 
     if (bot == 0) {
-        bot = MIN(ty1, ty2);
+        bot = std::min(ty1, ty2);
         bot -= 24;
         bot &= ~7;
 

@@ -994,7 +994,7 @@ again:;
 
         if (abs(map_dx) > abs(map_dz)) {
             if ((bb->front_x >> 16) != (bb->back_x >> 16)) {
-                alongx1 = MAX(bb->front_x, bb->back_x);
+                alongx1 = std::max(bb->front_x, bb->back_x);
                 alongx1 >>= 8;
                 alongx1 &= ~0xff;
                 alongx2 = alongx1;
@@ -1020,7 +1020,7 @@ again:;
             }
         } else {
             if ((bb->front_z >> 16) != (bb->back_z >> 16)) {
-                alongz1 = MAX(bb->front_z, bb->back_z);
+                alongz1 = std::max(bb->front_z, bb->back_z);
                 alongz1 >>= 8;
                 alongz1 &= ~0xff;
                 alongz2 = alongz1;

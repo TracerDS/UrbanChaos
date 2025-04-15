@@ -35,8 +35,9 @@
 #include <libsn.h>
 #include <libcd.h>
 #include <ctype.h>
-#include "c:\fallen\psxlib\headers\myheap.h"
+#include "psxlib/headers/myheap.h"
 #endif
+#include <algorithm>
 
 #ifdef PSX
 #ifdef VERSION_PAL
@@ -871,12 +872,12 @@ void convert_pointers_to_index() {
         }
     }
 
-    save_table[SAVE_TABLE_PEOPLE].Maximum = MIN(save_table[SAVE_TABLE_PEOPLE].Extra + count_people, RMAX_PEOPLE);
-    save_table[SAVE_TABLE_VEHICLE].Maximum = MIN(save_table[SAVE_TABLE_VEHICLE].Extra + count_car, RMAX_VEHICLES);
-    save_table[SAVE_TABLE_SPECIAL].Maximum = MIN(save_table[SAVE_TABLE_SPECIAL].Extra + count_special, RMAX_SPECIALS);
-    save_table[SAVE_TABLE_BAT].Maximum = MIN(save_table[SAVE_TABLE_BAT].Extra + count_bat, RBAT_MAX_BATS);
-    save_table[SAVE_TABLE_DTWEEN].Maximum = MIN(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween, RMAX_DRAW_TWEENS);
-    save_table[SAVE_TABLE_DMESH].Maximum = MIN(save_table[SAVE_TABLE_DMESH].Extra + count_mesh, RMAX_DRAW_MESHES);
+    save_table[SAVE_TABLE_PEOPLE].Maximum = std::min(save_table[SAVE_TABLE_PEOPLE].Extra + count_people, RMAX_PEOPLE);
+    save_table[SAVE_TABLE_VEHICLE].Maximum = std::min(save_table[SAVE_TABLE_VEHICLE].Extra + count_car, RMAX_VEHICLES);
+    save_table[SAVE_TABLE_SPECIAL].Maximum = std::min(save_table[SAVE_TABLE_SPECIAL].Extra + count_special, RMAX_SPECIALS);
+    save_table[SAVE_TABLE_BAT].Maximum = std::min(save_table[SAVE_TABLE_BAT].Extra + count_bat, RBAT_MAX_BATS);
+    save_table[SAVE_TABLE_DTWEEN].Maximum = std::min(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween, RMAX_DRAW_TWEENS);
+    save_table[SAVE_TABLE_DMESH].Maximum = std::min(save_table[SAVE_TABLE_DMESH].Extra + count_mesh, RMAX_DRAW_MESHES);
 
     extern char ELEV_fname_level[];
     if (level_index == 0) {
@@ -891,9 +892,9 @@ void convert_pointers_to_index() {
     if (level_index == 20 || level_index == 19 || level_index == 26 || level_index == 24 || strstr(ELEV_fname_level, "Album1")) {
         // cop killers or semtex or estate map or stern revenge
 
-        save_table[SAVE_TABLE_PEOPLE].Maximum = MIN(save_table[SAVE_TABLE_PEOPLE].Extra + count_people + 30, RMAX_PEOPLE);
-        save_table[SAVE_TABLE_DTWEEN].Maximum = MIN(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween + 30, RMAX_DRAW_TWEENS);
-        save_table[SAVE_TABLE_DMESH].Maximum = MIN(save_table[SAVE_TABLE_DMESH].Extra + count_mesh + 30, RMAX_DRAW_MESHES);
+        save_table[SAVE_TABLE_PEOPLE].Maximum = std::min(save_table[SAVE_TABLE_PEOPLE].Extra + count_people + 30, RMAX_PEOPLE);
+        save_table[SAVE_TABLE_DTWEEN].Maximum = std::min(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween + 30, RMAX_DRAW_TWEENS);
+        save_table[SAVE_TABLE_DMESH].Maximum = std::min(save_table[SAVE_TABLE_DMESH].Extra + count_mesh + 30, RMAX_DRAW_MESHES);
     }
 
     if (count_special > max_special) {

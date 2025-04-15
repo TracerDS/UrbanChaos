@@ -30,6 +30,8 @@
 #include "mfx.h"
 #include "pcom.h"
 
+#include <algorithm>
+
 extern std::uint8_t cheat;
 
 #undef BLOCK_SIZE
@@ -5911,8 +5913,8 @@ void drop_on_heads(Thing *p_thing) {
                         if (QDIST2(dx, dz) < 100) {
                             std::int32_t miny, maxy;
 
-                            miny = hy - (MAX(abs(p_thing->DY >> 8), 100) + 10);
-                            maxy = hy + MAX(abs(p_thing->DY >> 9), 100);
+                            miny = hy - (std::max(abs(p_thing->DY >> 8), 100) + 10);
+                            maxy = hy + std::max(abs(p_thing->DY >> 9), 100);
 
                             if (fy > miny && fy < maxy) {
                                 //
@@ -8729,11 +8731,11 @@ std::int32_t find_intersected_colvect(
 
         CollisionVect *p_vect;
 
-        std::int32_t mx1 = MIN(x1, x2) - PUSH_OUT_A_BIT >> 8;
-        std::int32_t mz1 = MIN(z2, z2) - PUSH_OUT_A_BIT >> 8;
+        std::int32_t mx1 = std::min(x1, x2) - PUSH_OUT_A_BIT >> 8;
+        std::int32_t mz1 = std::min(z2, z2) - PUSH_OUT_A_BIT >> 8;
 
-        std::int32_t mx2 = MAX(x1, x2) + PUSH_OUT_A_BIT >> 8;
-        std::int32_t mz2 = MAX(z1, z2) + PUSH_OUT_A_BIT >> 8;
+        std::int32_t mx2 = std::max(x1, x2) + PUSH_OUT_A_BIT >> 8;
+        std::int32_t mz2 = std::max(z1, z2) + PUSH_OUT_A_BIT >> 8;
 
         SATURATE(mx1, 0, MAP_WIDTH  - 1);
         SATURATE(mz1, 0, MAP_HEIGHT - 1);
@@ -10210,7 +10212,7 @@ void COLLIDE_calc_fastnav_bits() {
         dx = df->x[1] - df->x[0];
         dz = df->z[1] - df->z[0];
 
-        len = MAX(abs(dx), abs(dz));
+        len = std::max(abs(dx), abs(dz));
 
         if (!(dx == 0 || dz == 0)) {
             //

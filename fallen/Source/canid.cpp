@@ -1148,7 +1148,7 @@ std::uint16_t CANID_find_perch(Thing *canid, std::uint16_t ignore_this_vect)
 
                                         dist2 = dx*dx + dz*dz;
 
-                                        score = MIN(dist1, dist2);
+                                        score = std::min(dist1, dist2);
 
                                         if (score < best_score)
                                         {

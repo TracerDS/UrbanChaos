@@ -10,8 +10,8 @@
 #include "hook.h"
 #include "dirt.h"
 #ifdef PSX
-#include "c:\fallen\ddengine\headers\console.h"
-#include "c:\fallen\psxeng\headers\psxeng.h"
+#include "ddengine/headers/console.h"
+#include "psxeng/headers/psxeng.h"
 #endif
 #include "combat.h"
 #include "eway.h"
@@ -33,6 +33,7 @@
 #include "ddlib.h"
 #include "poly.h"
 #endif
+#include <algorithm>
 
 #ifdef TARGET_DC
 #include <platutil.h>
@@ -2691,7 +2692,7 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
             // need to continue moveing
             break;
         case STATE_CLIMB_LADDER:
-            if (dz < -MAX(abs(dx), 8)) {
+            if (dz < -std::max(abs(dx), 8)) {
                 switch (p_thing->SubState) {
                 case SUB_STATE_MOUNT_LADDER:
                     break;
@@ -2703,7 +2704,7 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
             }
             break;
         case STATE_CLIMBING:
-            if (dz < 0 - MAX(abs(dx), 8)) {
+            if (dz < 0 - std::max(abs(dx), 8)) {
                 switch (p_thing->SubState) {
                 case SUB_STATE_STOPPING:
                 case SUB_STATE_CLIMB_AROUND_WALL:
@@ -2719,7 +2720,7 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
             }
             break;
         case STATE_DANGLING:
-            if (dz < -MAX(abs(dx), 8)) {
+            if (dz < -std::max(abs(dx), 8)) {
                 switch (p_thing->SubState) {
                 case SUB_STATE_STOPPING:
                 case SUB_STATE_DANGLING_CABLE_FORWARD:
@@ -2760,7 +2761,7 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
         }
     }
 
-    if (dz > MAX(dx, 8)) {
+    if (dz > std::max(dx, 8)) {
         //		LogText(" have movement input back state %d \n",p_thing->State);
         switch (p_thing->State) {
         case STATE_HUG_WALL:

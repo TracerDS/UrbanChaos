@@ -451,7 +451,7 @@ void delete_a_prim(std::uint16_t prim) {
 
 #endif
 
-// dist= max(x,y,z) + other>>2 +other>>2
+// dist= std::max(x,y,z) + other>>2 +other>>2
 //  13% max error
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 

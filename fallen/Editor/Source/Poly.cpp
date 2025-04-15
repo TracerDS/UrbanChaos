@@ -3540,7 +3540,7 @@ void my_trig(struct MfEnginePoint *p3, struct MfEnginePoint *p2, struct MfEngine
 
         poly.RightX = poly.LeftX;
 
-        count = MIN(dy_rhs, dy_lhs);
+        count = std::min(dy_rhs, dy_lhs);
         //	sprintf(str,"count %d,dy_lhs %d,dy_rhs %d",count,dy_lhs,dy_rhs);
         //	draw_text(80,0,str,32);
 
@@ -3969,7 +3969,7 @@ void my_trigp(struct MfEnginePoint *p3, struct MfEnginePoint *p2, struct MfEngin
 
         poly.RightX = poly.LeftX;
 
-        count = MIN(dy_rhs, dy_lhs);
+        count = std::min(dy_rhs, dy_lhs);
         //	sprintf(str,"count %d,dy_lhs %d,dy_rhs %d",count,dy_lhs,dy_rhs);
         //	draw_text(80,0,str,32);
 
@@ -4633,11 +4633,11 @@ void my_quad_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEn
     std::int32_t filtered = 0, can_filter = 0;
 #endif
 
-    top = MIN(MIN(MIN(p1->Y, p2->Y), p3->Y), p4->Y);
-    bottom = MAX(MAX(MAX(p1->Y, p2->Y), p3->Y), p4->Y);
+    top = std::min(std::min(std::min(p1->Y, p2->Y), p3->Y), p4->Y);
+    bottom = std::max(std::max(std::max(p1->Y, p2->Y), p3->Y), p4->Y);
 
-    left = MIN(MIN(MIN(p1->X, p2->X), p3->X), p4->X);
-    right = MAX(MAX(MAX(p1->X, p2->X), p3->X), p4->X);
+    left = std::min(std::min(std::min(p1->X, p2->X), p3->X), p4->X);
+    right = std::max(std::max(std::max(p1->X, p2->X), p3->X), p4->X);
     ASMCol = poly_info.Col;
     ASMfade_page = yc_to_555[poly_info.Page];
     ASMpal_address = &yc_to_555[poly_info.Page][32 * 256];
@@ -4737,11 +4737,11 @@ void my_trig_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEn
     std::int32_t filtered = 0, can_filter = 0;
 #endif
 
-    top = MIN(MIN(p1->Y, p2->Y), p3->Y);
-    bottom = MAX(MAX(p1->Y, p2->Y), p3->Y);
+    top = std::min(std::min(p1->Y, p2->Y), p3->Y);
+    bottom = std::max(std::max(p1->Y, p2->Y), p3->Y);
 
-    left = MIN(MIN(p1->X, p2->X), p3->X);
-    right = MAX(MAX(p1->X, p2->X), p3->X);
+    left = std::min(std::min(p1->X, p2->X), p3->X);
+    right = std::max(std::max(p1->X, p2->X), p3->X);
     ASMCol = poly_info.Col;
     ASMfade_page = &yc_to_555[poly_info.Page][0];
     ASMpal_address = &yc_to_555[poly_info.Page][32 * 256];
@@ -4970,11 +4970,11 @@ void my_quad(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEngine
     p3->Y %= 200;
     p4->Y %= 200;
 
-    top = MIN(MIN(MIN(p1->Y, p2->Y), p3->Y), p4->Y);
-    bottom = MAX(MAX(MAX(p1->Y, p2->Y), p3->Y), p4->Y);
+    top = std::min(std::min(std::min(p1->Y, p2->Y), p3->Y), p4->Y);
+    bottom = std::max(std::max(std::max(p1->Y, p2->Y), p3->Y), p4->Y);
 
-    left = MIN(MIN(MIN(p1->X, p2->X), p3->X), p4->X);
-    right = MAX(MAX(MAX(p1->X, p2->X), p3->X), p4->X);
+    left = std::min(std::min(std::min(p1->X, p2->X), p3->X), p4->X);
+    right = std::max(std::max(std::max(p1->X, p2->X), p3->X), p4->X);
 
     if (bottom < 0 || top >= WorkWindowHeight)
         return;

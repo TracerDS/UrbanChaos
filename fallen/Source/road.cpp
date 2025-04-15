@@ -10,6 +10,7 @@
 #ifndef PSX
 #include "texture.h"
 #endif
+#include <algorithm>
 
 #include "memory.h"
 
@@ -203,7 +204,7 @@ void ROAD_sink() {
                                     // This is not the edge of a road.
                                     //
                                 } else {
-                                    dist = MAX(abs(dx), abs(dz));
+                                    dist = std::max(abs(dx), abs(dz));
 
                                     if (dist < best_dist) {
                                         best_dist = dist;

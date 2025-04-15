@@ -12,6 +12,7 @@
 //
 
 #include "game.h"
+#include <commdlg.h>
 
 #ifndef PSX
 #include "ddlib.h"

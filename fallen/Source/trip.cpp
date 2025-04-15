@@ -5,6 +5,7 @@
 #include "game.h"
 #include "trip.h"
 #include "animate.h"
+#include <algorithm>
 
 TRIP_Wire *TRIP_wire; //[TRIP_MAX_WIRES];
 std::int32_t TRIP_wire_upto;
@@ -214,7 +215,7 @@ void TRIP_process() {
                 &rfy,
                 &rfz);
 
-            feet = MIN(lfy, rfy);
+            feet = std::min(lfy, rfy);
             feet += darci->WorldPos.Y >> 8;
 
             calc_sub_objects_position(

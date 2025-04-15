@@ -641,14 +641,14 @@ void set_nogo_pap_flags()
                 min=h;
                 max=h;
                 h=PAP_hi[(x+1)&(PAP_SIZE_HI-1)][(z)&(PAP_SIZE_HI-1)].Alt;
-                min=MIN(h,min);
-                max=MAX(h,max);
+                min=std::min(h,min);
+                max=std::max(h,max);
                 h=PAP_hi[(x+1)&(PAP_SIZE_HI-1)][(z+1)&(PAP_SIZE_HI-1)].Alt;
-                min=MIN(h,min);
-                max=MAX(h,max);
+                min=std::min(h,min);
+                max=std::max(h,max);
                 h=PAP_hi[(x)&(PAP_SIZE_HI-1)][(z+1)&(PAP_SIZE_HI-1)].Alt;
-                min=MIN(h,min);
-                max=MAX(h,max);
+                min=std::min(h,min);
+                max=std::max(h,max);
 
                 if((abs(min-max))>30)
                         PAP_hi[x][z].Flags|=PAP_FLAG_NOGO;

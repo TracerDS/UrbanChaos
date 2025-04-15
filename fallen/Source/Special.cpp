@@ -167,7 +167,7 @@ void special_drop(Thing *p_special, Thing *p_person) {
 
             if (p_person->Genus.Person->PlayerID == 0) {
                 //
-                // Don't drop a gun with MAX ammo.
+                // Don't drop a gun with max ammo.
                 //
 
                 switch (p_special->Genus.Special->SpecialType) {

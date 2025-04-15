@@ -16,6 +16,7 @@
 #include <math.h>
 #include "polypoint.h"
 #include "fastprim.h"
+#include <algorithm>
 
 #define POLY_FLAG_GOURAD (1 << 0)
 #define POLY_FLAG_TEXTURED (1 << 1)
@@ -1902,7 +1903,7 @@ std::int32_t MESH_add_point(
     mr->mp[ans].x = x;
     mr->mp[ans].y = y;
     mr->mp[ans].z = z;
-    mr->mp[ans].fade = MIN(255, (std::int32_t) fade);
+    mr->mp[ans].fade = std::min(255, (std::int32_t) fade);
 
     mr->num_points += 1;
 

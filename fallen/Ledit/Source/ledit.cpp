@@ -3,7 +3,9 @@
 #include <windowsx.h>
 #include <ddlib.h>
 #include <commctrl.h>
+#include <commdlg.h>
 #include <zmouse.h> // Mouse wheel support
+
 #include "resource.h"
 #include <Ledit/Headers/gi.h>
 #include "fmatrix.h"

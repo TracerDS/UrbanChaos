@@ -12,8 +12,9 @@
 #include "ticklist.h"
 #include "GEditEdStrings.h"
 #include "GEdit.h"
+#include <Commdlg.h>
 
-//---------------------------------------------------------------
+    //---------------------------------------------------------------
 
 std::int32_t lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
 

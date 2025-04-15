@@ -10,6 +10,7 @@
 #ifndef TARGET_DC
 #include <cmath>
 #endif
+#include <algorithm>
 
 #include "drive.h"
 
@@ -776,9 +777,9 @@ void MFX_get_volumes(std::int32_t* fx, std::int32_t* amb, std::int32_t* mus) {
 }
 
 void MFX_set_volumes(std::int32_t fx, std::int32_t amb, std::int32_t mus) {
-    fx = min(max(fx, 0), 127);
-    amb = min(max(amb, 0), 127);
-    mus = min(max(mus, 0), 127);
+    fx = std::min(std::max(fx, 0), 127);
+    amb = std::min(std::max(amb, 0), 127);
+    mus = std::min(std::max(mus, 0), 127);
 
     Volumes[SMP_Effect] = float(fx) / 127.0f;
     Volumes[SMP_Ambient] = float(amb) / 127.0f;

@@ -19,8 +19,10 @@
 #ifndef PSX
 #include "panel.h"
 #else
-#include "c:\fallen\psxeng\headers\panel.h"
+#include "psxeng/headers/panel.h"
 #endif
+
+#include <algorithm>
 
 BARREL_Sphere *BARREL_sphere;    //[BARREL_MAX_SPHERES];
 std::int32_t BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah_upto
@@ -1048,7 +1050,7 @@ void BARREL_process_normal(Thing *p_barrel) {
                     std::int32_t dtilt1 = abs(p_barrel->Draw.Mesh->Tilt - 512);
                     std::int32_t dtilt2 = abs(p_barrel->Draw.Mesh->Tilt - 1536);
 
-                    if (MIN(dtilt1, dtilt2) < 224) {
+                    if (std::min(dtilt1, dtilt2) < 224) {
                         //
                         // Standing up...
                         //
@@ -1128,7 +1130,7 @@ void BARREL_process_normal(Thing *p_barrel) {
         std::int32_t dtilt1 = abs(p_barrel->Draw.Mesh->Tilt - 512);
         std::int32_t dtilt2 = abs(p_barrel->Draw.Mesh->Tilt - 1536);
 
-        if (MIN(dtilt1, dtilt2) < 224) {
+        if (std::min(dtilt1, dtilt2) < 224) {
             if ((bb->type == BARREL_TYPE_CONE || bb->type == BARREL_TYPE_BIN) && (bs1->y > bs2->y)) {
                 //
                 // Cones and bins only stand up one way...

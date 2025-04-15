@@ -3990,19 +3990,19 @@ void EWAY_process_camera() {
             /*
                                     if(dyaw>0)
                                     {
-                                            EWAY_cam_yaw   += MAX(dyaw   >> 2,dyaw-max_dangle);
+                                            EWAY_cam_yaw   += std::max(dyaw   >> 2,dyaw-max_dangle);
                                     }
                                     else
                                     {
-                                            EWAY_cam_yaw   -= MAX(-dyaw   >> 2,-dyaw-max_dangle);
+                                            EWAY_cam_yaw   -= std::max(-dyaw   >> 2,-dyaw-max_dangle);
                                     }
                                     if(dpitch>0)
                                     {
-                                            EWAY_cam_pitch   += MAX(dpitch   >> 2,dpitch-max_dangle);
+                                            EWAY_cam_pitch   += std::max(dpitch   >> 2,dpitch-max_dangle);
                                     }
                                     else
                                     {
-                                            EWAY_cam_pitch   -= MAX(-dpitch   >> 2,-dpitch-max_dangle);
+                                            EWAY_cam_pitch   -= std::max(-dpitch   >> 2,-dpitch-max_dangle);
                                     }
             */
 

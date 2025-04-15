@@ -4,7 +4,9 @@
 
 #include <MFStdLib.h>
 #include <DDLib.h>
-#include <math.h>
+#include <cmath>
+#include <algorithm>
+
 #include "game.h"
 #include "aeng.h"
 #include "font.h"
@@ -89,6 +91,8 @@
 #include "polypage.h"
 #include "DCLowLevel.h"
 #include "es.h"
+
+#include <algorithm>
 
 #ifdef TARGET_DC
 #include <shsgintr.h>
@@ -1688,18 +1692,18 @@ void AENG_do_cached_lighting_old(void) {
 
             floor_y = p_inside->StoreyY;
 
-            min_z = MAX(NGAMUT_lo_zmin, p_inside->MinZ >> 2);
-            max_z = MIN(NGAMUT_lo_zmax, p_inside->MaxZ >> 2);
+            min_z = std::max(NGAMUT_lo_zmin, p_inside->MinZ >> 2);
+            max_z = std::min(NGAMUT_lo_zmax, p_inside->MaxZ >> 2);
 
             in_width = p_inside->MaxX - p_inside->MinX;
 
             for (z = min_z; z <= max_z + 1; z++) {
-                min_x = MAX(NGAMUT_lo_gamut[z].xmin, p_inside->MinX >> 2);
-                max_x = MIN(NGAMUT_lo_gamut[z].xmax, p_inside->MaxX >> 2);
+                min_x = std::max(NGAMUT_lo_gamut[z].xmin, p_inside->MinX >> 2);
+                max_x = std::min(NGAMUT_lo_gamut[z].xmax, p_inside->MaxX >> 2);
 
                 if (z > min_z) {
-                    min_x = MIN(NGAMUT_lo_gamut[z - 1].xmin, min_x);
-                    max_x = MAX(NGAMUT_lo_gamut[z - 1].xmax, max_x);
+                    min_x = std::min(NGAMUT_lo_gamut[z - 1].xmin, min_x);
+                    max_x = std::max(NGAMUT_lo_gamut[z - 1].xmax, max_x);
                 }
 
                 for (x = min_x; x <= max_x + 1; x++) {
@@ -7719,10 +7723,10 @@ void AENG_draw_city() {
             // The moon is wibbled with polys now.
             //
 
-            bbox[0].x1 = MAX((std::int32_t)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-            bbox[0].y1 = MAX((std::int32_t)moon_y1, 0);
-            bbox[0].x2 = MIN((std::int32_t)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
-            bbox[0].y2 = MIN((std::int32_t)moon_y2, DisplayHeight);
+            bbox[0].x1 = std::max((std::int32_t)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+            bbox[0].y1 = std::max((std::int32_t)moon_y1, 0);
+            bbox[0].x2 = std::min((std::int32_t)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
+            bbox[0].y2 = std::min((std::int32_t)moon_y2, DisplayHeight);
 
             bbox[0].water_box = FALSE;
 
@@ -7806,10 +7810,10 @@ void AENG_draw_city() {
                                         // Create a new bounding box
                                         //
 
-                                        bbox[bbox_upto].x1 = MAX(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-                                        bbox[bbox_upto].y1 = MAX(FIGURE_reflect_y1, 0);
-                                        bbox[bbox_upto].x2 = MIN(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
-                                        bbox[bbox_upto].y2 = MIN(FIGURE_reflect_y2, DisplayHeight);
+                                        bbox[bbox_upto].x1 = std::max(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+                                        bbox[bbox_upto].y1 = std::max(FIGURE_reflect_y1, 0);
+                                        bbox[bbox_upto].x2 = std::min(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
+                                        bbox[bbox_upto].y2 = std::min(FIGURE_reflect_y2, DisplayHeight);
 
                                         bbox[bbox_upto].water_box = ph->Flags & PAP_FLAG_WATER;
 
@@ -8072,10 +8076,10 @@ void AENG_draw_city() {
                                 continue;
                             }
 
-                            ix1 = MAX(px1, bbox[i].x1);
-                            iy1 = MAX(py1, bbox[i].y1);
-                            ix2 = MIN(px2, bbox[i].x2);
-                            iy2 = MIN(py2, bbox[i].y2);
+                            ix1 = std::max(px1, bbox[i].x1);
+                            iy1 = std::max(py1, bbox[i].y1);
+                            ix2 = std::min(px2, bbox[i].x2);
+                            iy2 = std::min(py2, bbox[i].y2);
 
                             if (ix1 < ix2 && iy1 < iy2) {
                                 if (the_display.screen_lock()) {
@@ -12169,10 +12173,10 @@ void AENG_draw_ns() {
                                     // Create a new bounding box
                                     //
 
-                                    bbox[bbox_upto].x1 = MAX(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-                                    bbox[bbox_upto].y1 = MAX(FIGURE_reflect_y1, 0);
-                                    bbox[bbox_upto].x2 = MIN(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
-                                    bbox[bbox_upto].y2 = MIN(FIGURE_reflect_y2, DisplayHeight);
+                                    bbox[bbox_upto].x1 = std::max(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+                                    bbox[bbox_upto].y1 = std::max(FIGURE_reflect_y1, 0);
+                                    bbox[bbox_upto].x2 = std::min(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
+                                    bbox[bbox_upto].y2 = std::min(FIGURE_reflect_y2, DisplayHeight);
 
                                     bbox_upto += 1;
                                 }
@@ -15433,8 +15437,8 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
     floor_y = (float) p_inside->StoreyY;
     roof_y = floor_y + 256.0f;
 
-    min_z = MAX(NGAMUT_point_zmin, p_inside->MinZ);
-    max_z = MIN(NGAMUT_point_zmax, p_inside->MaxZ);
+    min_z = std::max(NGAMUT_point_zmin, static_cast<std::int32_t>(p_inside->MinZ));
+    max_z = std::min(NGAMUT_point_zmax, static_cast<std::int32_t>(p_inside->MaxZ));
 
     in_width = p_inside->MaxX - p_inside->MinX;
 
@@ -15463,8 +15467,8 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
         std::int32_t min_x, max_x;
         float face_y;
         std::int32_t col;
-        min_x = MAX(NGAMUT_point_gamut[z].xmin, p_inside->MinX);
-        max_x = MIN(NGAMUT_point_gamut[z].xmax, p_inside->MaxX);
+        min_x = std::max(NGAMUT_point_gamut[z].xmin, static_cast<std::int32_t>(p_inside->MinX));
+        max_x = std::min(NGAMUT_point_gamut[z].xmax, static_cast<std::int32_t>(p_inside->MaxX));
 
         for (x = min_x; x < max_x; x++) {
             ASSERT(WITHIN(x, 0, MAP_WIDTH - 1));

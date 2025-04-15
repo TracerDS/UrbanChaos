@@ -6,6 +6,8 @@
 #include <windowsx.h>
 #include <ddlib.h>
 #include <commctrl.h>
+#include <commdlg.h>
+
 #include "resource.h"
 #include "GEditMission.h"
 #include "GEditWSpace.h"

@@ -5,6 +5,8 @@
 #include <MFStdLib.h>
 #include "ngamut.h"
 
+#include <algorithm>
+
 NGAMUT_Gamut NGAMUT_gamut[NGAMUT_SIZE];
 std::int32_t NGAMUT_zmin;
 std::int32_t NGAMUT_zmax;
@@ -209,8 +211,8 @@ void NGAMUT_calculate_point_gamut() {
     NGAMUT_point_zmax = NGAMUT_zmax + 1;
 
     for (i = NGAMUT_zmin + 1; i <= NGAMUT_zmax; i++) {
-        NGAMUT_point_gamut[i].xmin = MIN(NGAMUT_gamut[i].xmin, NGAMUT_gamut[i - 1].xmin);
-        NGAMUT_point_gamut[i].xmax = MAX(NGAMUT_gamut[i].xmax + 1, NGAMUT_gamut[i - 1].xmax + 1);
+        NGAMUT_point_gamut[i].xmin = std::min(NGAMUT_gamut[i].xmin, NGAMUT_gamut[i - 1].xmin);
+        NGAMUT_point_gamut[i].xmax = std::max(NGAMUT_gamut[i].xmax + 1, NGAMUT_gamut[i - 1].xmax + 1);
     }
 
     NGAMUT_point_gamut[NGAMUT_point_zmin].xmin = NGAMUT_gamut[NGAMUT_zmin].xmin;
@@ -224,11 +226,11 @@ std::int32_t NGAMUT_out_zmin;
 std::int32_t NGAMUT_out_zmax;
 
 #ifndef MIN3
-#define MIN3(a, b, c) (MIN(MIN(a, b), c))
+#define MIN3(a, b, c) (std::min(std::min(a, b), c))
 #endif
 
 #ifndef MAX3
-#define MAX3(a, b, c) (MAX(MAX(a,b,c))
+#define MAX3(a, b, c) (std::max(std::max(a,b,c))
 #endif
 
 void NGAMUT_calculate_out_gamut() {
@@ -261,8 +263,8 @@ void NGAMUT_calculate_out_gamut() {
 
         SATURATE(z2, NGAMUT_zmin, NGAMUT_zmax);
 
-        xmin = MIN3(NGAMUT_gamut[z1].xmin - 1, NGAMUT_gamut[z2].xmin - 1, NGAMUT_gamut[z3].xmin - 1);
-        xmax = MIN3(NGAMUT_gamut[z1].xmax + 1, NGAMUT_gamut[z2].xmax + 1, NGAMUT_gamut[z3].xmax + 1);
+        xmin = std::min({NGAMUT_gamut[z1].xmin - 1, NGAMUT_gamut[z2].xmin - 1, NGAMUT_gamut[z3].xmin - 1});
+        xmax = std::max({NGAMUT_gamut[z1].xmax + 1, NGAMUT_gamut[z2].xmax + 1, NGAMUT_gamut[z3].xmax + 1});
 
         if (xmin < 0) {
             xmin = 0;

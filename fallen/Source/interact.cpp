@@ -870,8 +870,8 @@ round_again:;
 					if (!(PAP_2HI(mx,mz).Flags & (PAP_FLAG_HIDDEN)))
 					{
 						floor_height = PAP_2HI(
-											(x >> PAP_SHIFT_HI) + MIN(dx, 0),
-											(z >> PAP_SHIFT_HI) + MIN(dz, 0)).Alt << FLOOR_HEIGHT_SHIFT;
+											(x >> PAP_SHIFT_HI) + std::min(dx, 0),
+											(z >> PAP_SHIFT_HI) + std::min(dz, 0)).Alt << FLOOR_HEIGHT_SHIFT;
 							
 						if(abs(floor_height-y)<dy)
 						{

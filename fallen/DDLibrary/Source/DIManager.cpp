@@ -1483,7 +1483,7 @@ bool MapleVMU::Flash_WriteFile(char *pcFilename, char *pcGameName, char *pcComme
 
     if (pcGameName != nullptr) {
         char pcTemp[MAX_VMS_COMMENT];
-        DWORD dwMaxLength = MIN(MAX_VMS_COMMENT, MIN(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
+        DWORD dwMaxLength = std::min(MAX_VMS_COMMENT, std::min(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
         dwMaxLength--;
         strncpy(pcTemp, pcGameName, dwMaxLength);
         pcTemp[dwMaxLength] = '\0';
@@ -1500,7 +1500,7 @@ bool MapleVMU::Flash_WriteFile(char *pcFilename, char *pcGameName, char *pcComme
 
     if (pcComment != nullptr) {
         char pcTemp[MAX_VMS_COMMENT];
-        DWORD dwMaxLength = MIN(MAX_VMS_COMMENT, MIN(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
+        DWORD dwMaxLength = std::min(MAX_VMS_COMMENT, std::min(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
         dwMaxLength--;
         strncpy(pcTemp, pcComment, dwMaxLength);
         pcTemp[dwMaxLength] = '\0';

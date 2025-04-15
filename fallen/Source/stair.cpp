@@ -5,6 +5,7 @@
 #include "game.h"
 #include "id.h"
 #include "stair.h"
+#include <algorithm>
 
 //
 // The bounding box of the building.
@@ -426,13 +427,13 @@ void STAIR_storey_wall(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::u
         switch (link_t) {
         case STAIR_LINK_T_ENTER:
             pos = x >> 8; // 8-bit fixed point.
-            square = MAX(x, x + dxdz);
+            square = std::max(x, x + dxdz);
             square += 0xffff;
             square >>= 16;
             break;
         case STAIR_LINK_T_LEAVE:
             pos = x >> 8; // 8-bit fixed point.
-            square = MIN(x, x + dxdz);
+            square = std::min(x, x + dxdz);
             square >>= 16;
             break;
 

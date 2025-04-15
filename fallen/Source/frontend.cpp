@@ -44,6 +44,8 @@
 #include "truetype.h"
 #include "..\ddlibrary\headers\dclowlevel.h"
 #include "panel.h"
+#include <Windows.h>
+#include <timeapi.h>
 
 #include "interfac.h"
 extern bool allow_debug_keys;

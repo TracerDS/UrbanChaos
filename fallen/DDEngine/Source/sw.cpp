@@ -5993,8 +5993,8 @@ void SW_copy_to_bb() {
     the_display.screen_lock();
 
     if (the_display.screen) {
-        std::int32_t width = MIN(the_display.screen_width, SW_buffer_width);
-        std::int32_t height = MIN(the_display.screen_height, SW_buffer_height);
+        std::int32_t width = std::min(the_display.screen_width, SW_buffer_width);
+        std::int32_t height = std::min(the_display.screen_height, SW_buffer_height);
 
         if (the_display.screen_bbp == 32) {
             //

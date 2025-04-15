@@ -161,11 +161,11 @@ inline void average_svect4(struct SVector *mid, struct SVector *p1, struct SVect
 std::uint32_t should_i_split_it(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector *res) {
     std::int32_t top, bottom;
     std::int32_t left, right;
-    top = MIN(MIN(MIN(res[p1].Y, res[p2].Y), res[p3].Y), res[p4].Y);
-    bottom = MAX(MAX(MAX(res[p1].Y, res[p2].Y), res[p3].Y), res[p4].Y);
+    top = std::min(std::min(std::min(res[p1].Y, res[p2].Y), res[p3].Y), res[p4].Y);
+    bottom = std::max(std::max(std::max(res[p1].Y, res[p2].Y), res[p3].Y), res[p4].Y);
 
-    left = MIN(MIN(MIN(res[p1].X, res[p2].X), res[p3].X), res[p4].X);
-    right = MAX(MAX(MAX(res[p1].X, res[p2].X), res[p3].X), res[p4].X);
+    left = std::min(std::min(std::min(res[p1].X, res[p2].X), res[p3].X), res[p4].X);
+    right = std::max(std::max(std::max(res[p1].X, res[p2].X), res[p3].X), res[p4].X);
     if (bottom - top > 190 || right - left > 190)
         return (1);
     else
