@@ -16,74 +16,75 @@ volatile std::int32_t MouseDX, MouseDY;
 
 std::int32_t OldMouseX, OldMouseY;
 
-volatile LastMouse LeftMouse = {0, 0, 0, {0, 0}},
-                   MiddleMouse = {0, 0, 0, {0, 0}},
-                   RightMouse = {0, 0, 0, {0, 0}};
+volatile LastMouse LeftMouse = {
+                       0, 0, 0, {0, 0}
+},
+                   MiddleMouse = {0, 0, 0, {0, 0}}, RightMouse = {0, 0, 0, {0, 0}};
 volatile MFPoint MousePoint = {0, 0};
 
 //---------------------------------------------------------------
 
 LRESULT CALLBACK MouseProc(int code, WPARAM wParam, LPARAM lParam) {
     switch (code) {
-        case WM_MOUSEMOVE:
-            MouseX = LOWORD(lParam);
-            MouseY = HIWORD(lParam);
+    case WM_MOUSEMOVE:
+        MouseX = LOWORD(lParam);
+        MouseY = HIWORD(lParam);
 
-            MouseDX = MouseX - OldMouseX;
-            MouseDY = MouseY - OldMouseY;
-            MousePoint.X = MouseX;
-            MousePoint.Y = MouseY;
-            MouseMoved = 1;
+        MouseDX = MouseX - OldMouseX;
+        MouseDY = MouseY - OldMouseY;
+        MousePoint.X = MouseX;
+        MousePoint.Y = MouseY;
+        MouseMoved = 1;
 
-            OldMouseX = MouseX;
-            OldMouseY = MouseY;
+        OldMouseX = MouseX;
+        OldMouseY = MouseY;
 
-            break;
-        case WM_RBUTTONUP:
-            RightButton = 0;
-            break;
-        case WM_RBUTTONDOWN:
-            RightButton = 1;
-            if (!RightMouse.ButtonState) {
-                RightMouse.ButtonState = 1;
-                RightMouse.MouseX = LOWORD(lParam);
-                RightMouse.MouseY = HIWORD(lParam);
-                RightMouse.MousePoint.X = LOWORD(lParam);
-                RightMouse.MousePoint.Y = HIWORD(lParam);
-            }
-            break;
-        case WM_RBUTTONDBLCLK:
-            break;
-        case WM_LBUTTONUP:
-            LeftButton = 0;
-            break;
-        case WM_LBUTTONDOWN:
-            LeftButton = 1;
-            if (!LeftMouse.ButtonState) {
-                LeftMouse.ButtonState = 1;
-                LeftMouse.MouseX = LOWORD(lParam);
-                LeftMouse.MouseY = HIWORD(lParam);
-                LeftMouse.MousePoint.X = LOWORD(lParam);
-                LeftMouse.MousePoint.Y = HIWORD(lParam);
-            }
-            break;
-        case WM_LBUTTONDBLCLK:
-            break;
-        case WM_MBUTTONUP:
-            MiddleButton = 0;
-            break;
-        case WM_MBUTTONDOWN:
-            MiddleButton = 1;
-            if (!MiddleMouse.ButtonState) {
-                MiddleMouse.ButtonState = 1;
-                MiddleMouse.MouseX = LOWORD(lParam);
-                MiddleMouse.MouseY = HIWORD(lParam);
-                MiddleMouse.MousePoint.X = LOWORD(lParam);
-                MiddleMouse.MousePoint.Y = HIWORD(lParam);
-            }
-            break;
-        case WM_MBUTTONDBLCLK:
-            break;
+        break;
+    case WM_RBUTTONUP:
+        RightButton = 0;
+        break;
+    case WM_RBUTTONDOWN:
+        RightButton = 1;
+        if (!RightMouse.ButtonState) {
+            RightMouse.ButtonState = 1;
+            RightMouse.MouseX = LOWORD(lParam);
+            RightMouse.MouseY = HIWORD(lParam);
+            RightMouse.MousePoint.X = LOWORD(lParam);
+            RightMouse.MousePoint.Y = HIWORD(lParam);
+        }
+        break;
+    case WM_RBUTTONDBLCLK:
+        break;
+    case WM_LBUTTONUP:
+        LeftButton = 0;
+        break;
+    case WM_LBUTTONDOWN:
+        LeftButton = 1;
+        if (!LeftMouse.ButtonState) {
+            LeftMouse.ButtonState = 1;
+            LeftMouse.MouseX = LOWORD(lParam);
+            LeftMouse.MouseY = HIWORD(lParam);
+            LeftMouse.MousePoint.X = LOWORD(lParam);
+            LeftMouse.MousePoint.Y = HIWORD(lParam);
+        }
+        break;
+    case WM_LBUTTONDBLCLK:
+        break;
+    case WM_MBUTTONUP:
+        MiddleButton = 0;
+        break;
+    case WM_MBUTTONDOWN:
+        MiddleButton = 1;
+        if (!MiddleMouse.ButtonState) {
+            MiddleMouse.ButtonState = 1;
+            MiddleMouse.MouseX = LOWORD(lParam);
+            MiddleMouse.MouseY = HIWORD(lParam);
+            MiddleMouse.MousePoint.X = LOWORD(lParam);
+            MiddleMouse.MousePoint.Y = HIWORD(lParam);
+        }
+        break;
+    case WM_MBUTTONDBLCLK:
+        break;
     }
     return false;
 }

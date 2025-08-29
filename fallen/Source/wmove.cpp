@@ -31,35 +31,35 @@ void WMOVE_init() {
 
 std::int32_t WMOVE_get_num_faces(Thing *p_thing) {
     switch (p_thing->Class) {
-        case CLASS_PERSON:
-        case CLASS_PLAT:
+    case CLASS_PERSON:
+    case CLASS_PLAT:
+        return 1;
+        break;
+
+    case CLASS_VEHICLE:
+        switch (p_thing->Genus.Vehicle->Type) {
+        case VEH_TYPE_VAN:
+        case VEH_TYPE_AMBULANCE:
+        case VEH_TYPE_WILDCATVAN:
             return 1;
-            break;
 
-        case CLASS_VEHICLE:
-            switch (p_thing->Genus.Vehicle->Type) {
-                case VEH_TYPE_VAN:
-                case VEH_TYPE_AMBULANCE:
-                case VEH_TYPE_WILDCATVAN:
-                    return 1;
+        case VEH_TYPE_JEEP:
+        case VEH_TYPE_MEATWAGON:
+            return 4;
 
-                case VEH_TYPE_JEEP:
-                case VEH_TYPE_MEATWAGON:
-                    return 4;
+        case VEH_TYPE_CAR:
+        case VEH_TYPE_TAXI:
+        case VEH_TYPE_POLICE:
+        case VEH_TYPE_SEDAN:
+            return 5;
+        }
 
-                case VEH_TYPE_CAR:
-                case VEH_TYPE_TAXI:
-                case VEH_TYPE_POLICE:
-                case VEH_TYPE_SEDAN:
-                    return 5;
-            }
+        ASSERT(0);
+        break;
 
-            ASSERT(0);
-            break;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     return 0;
@@ -107,251 +107,251 @@ void WMOVE_get_pos(
     std::uint16_t get_vehicle_body_prim(std::int32_t type);
 
     switch (p_thing->Class) {
-        case CLASS_PERSON:
+    case CLASS_PERSON:
 
-            //
-            // A square on top of this person's head.
-            //
+        //
+        // A square on top of this person's head.
+        //
 
-            dx = SIN(p_thing->Draw.Tweened->Angle) >> 10;
-            dz = COS(p_thing->Draw.Tweened->Angle) >> 10;
+        dx = SIN(p_thing->Draw.Tweened->Angle) >> 10;
+        dz = COS(p_thing->Draw.Tweened->Angle) >> 10;
 
-            xo = (p_thing->WorldPos.X >> 8) + dx + (-dz);
-            zo = (p_thing->WorldPos.Z >> 8) + dz + (+dx);
+        xo = (p_thing->WorldPos.X >> 8) + dx + (-dz);
+        zo = (p_thing->WorldPos.Z >> 8) + dz + (+dx);
 
-            xa = xo + (-dx << 1);
-            za = zo + (-dz << 1);
+        xa = xo + (-dx << 1);
+        za = zo + (-dz << 1);
 
-            xb = xo + (+dz << 1);
-            zb = zo + (-dx << 1);
+        xb = xo + (+dz << 1);
+        zb = zo + (-dx << 1);
 
-            y = (p_thing->WorldPos.Y >> 8) + 0xa0;
+        y = (p_thing->WorldPos.Y >> 8) + 0xa0;
 
-            //
-            // Store this triangle in the array.
-            //
+        //
+        // Store this triangle in the array.
+        //
 
-            pos[0].x = xo;
-            pos[0].y = y;
-            pos[0].z = zo;
+        pos[0].x = xo;
+        pos[0].y = y;
+        pos[0].z = zo;
 
-            pos[1].x = xa;
-            pos[1].y = y;
-            pos[1].z = za;
+        pos[1].x = xa;
+        pos[1].y = y;
+        pos[1].z = za;
 
-            pos[2].x = xb;
-            pos[2].y = y;
-            pos[2].z = zb;
-
-            break;
-
-        case CLASS_VEHICLE:
-
-        {
-            typedef struct
-            {
-                std::uint8_t p[3];
-
-            } WMOVE_Tri;
-
-            const static WMOVE_Tri tri_van[1] =
-                {
-                    {{1, 2, 21}}};
-
-            const static WMOVE_Tri tri_car[5] =
-                {
-                    {{33, 11, 34}},
-                    {{34, 12, 35}},
-                    {{35, 13, 37}},
-                    {{37, 15, 38}},
-                    {{38, 16, 39}}};
-
-            const static WMOVE_Tri tri_police[5] =
-                {
-                    {{28, 29, 50}},
-                    {{27, 28, 49}},
-                    {{25, 27, 47}},
-                    {{24, 25, 46}},
-                    {{23, 24, 45}}};
-
-            const static WMOVE_Tri tri_ambulance[1] =
-                {
-                    {{119, 120, 121}}};
-
-            const static WMOVE_Tri tri_jeep[4] =
-                {
-                    {{14, 33, 2}},
-                    {{2, 4, 11}},
-                    {{11, 30, 9}},
-                    {{9, 28, 19}}};
-
-            /*
-
-            I think the meatwagon is the same mesh as the jeep nowadays...
-
-            const static WMOVE_Tri tri_meatwagon[4] =
-            {
-                    {{25,44, 4}},
-                    {{ 4, 6,22}},
-                    {{22,41,20}},
-                    {{20,39,30}}
-            };
-
-            */
-
-            const static WMOVE_Tri *tri_vehicle[VEH_TYPE_NUMBER] =
-                {
-                    tri_van,
-                    tri_car,
-                    tri_car,
-                    tri_police,
-                    tri_ambulance,
-                    tri_jeep,
-                    tri_jeep, // tri_meatwagon, Meatwagon model is the same as the jeep nowadays.
-                    tri_car,
-                    tri_van};
-
-            const WMOVE_Tri *use = &((tri_vehicle[p_thing->Genus.Vehicle->Type])[number]);
-
-            //
-            // Find this things matrix.
-            //
-
-            if (WMOVE_matrix_thing != THING_NUMBER(p_thing) ||
-                WMOVE_matrix_turn != GAME_TURN) {
-                WMOVE_matrix_thing = THING_NUMBER(p_thing);
-                WMOVE_matrix_turn = GAME_TURN;
-
-                FMATRIX_calc(
-                    WMOVE_matrix,
-                    p_thing->Genus.Vehicle->Angle,
-                    p_thing->Genus.Vehicle->Tilt,
-                    p_thing->Genus.Vehicle->Roll);
-            }
-
-            //
-            // The offset of the vehicle's body prim from the vehicle position and
-            // the prim to use.
-            //
-
-            std::int32_t offy = get_vehicle_body_offset(p_thing->Genus.Vehicle->Type);
-            std::int32_t prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
-
-            PrimObject *po = &prim_objects[prim];
-
-            for (i = 0; i < 3; i++) {
-                x = prim_points[po->StartPoint + use->p[i]].X;
-                y = prim_points[po->StartPoint + use->p[i]].Y;
-                z = prim_points[po->StartPoint + use->p[i]].Z;
-
-                FMATRIX_MUL_BY_TRANSPOSE(
-                    WMOVE_matrix,
-                    x,
-                    y,
-                    z);
-
-                x += p_thing->WorldPos.X >> 8;
-                y += p_thing->WorldPos.Y >> 8;
-                z += p_thing->WorldPos.Z >> 8;
-
-                y -= offy >> 8;
-
-                pos[i].x = x;
-                pos[i].y = y;
-                pos[i].z = z;
-            }
-        }
+        pos[2].x = xb;
+        pos[2].y = y;
+        pos[2].z = zb;
 
         break;
 
-        case CLASS_PLAT:
+    case CLASS_VEHICLE:
 
-            if (p_thing->Class == CLASS_VEHICLE) {
-                prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
-                useangle = -p_thing->Genus.Vehicle->Angle;
-                useangle &= 2047;
-            } else {
-                prim = p_thing->Draw.Mesh->ObjectId;
-                useangle = -p_thing->Draw.Mesh->Angle;
-                useangle &= 2047;
-            }
+    {
+        typedef struct
+        {
+            std::uint8_t p[3];
 
-            pi = get_prim_info(prim);
+        } WMOVE_Tri;
 
-            sin_yaw = SIN(useangle);
-            cos_yaw = COS(useangle);
+        const static WMOVE_Tri tri_van[1] =
+            {
+                {{1, 2, 21}}};
 
-            matrix[0] = cos_yaw;
-            matrix[1] = -sin_yaw;
-            matrix[2] = sin_yaw;
-            matrix[3] = cos_yaw;
+        const static WMOVE_Tri tri_car[5] =
+            {
+                {{33, 11, 34}},
+                {{34, 12, 35}},
+                {{35, 13, 37}},
+                {{37, 15, 38}},
+                {{38, 16, 39}}};
 
+        const static WMOVE_Tri tri_police[5] =
+            {
+                {{28, 29, 50}},
+                {{27, 28, 49}},
+                {{25, 27, 47}},
+                {{24, 25, 46}},
+                {{23, 24, 45}}};
+
+        const static WMOVE_Tri tri_ambulance[1] =
+            {
+                {{119, 120, 121}}};
+
+        const static WMOVE_Tri tri_jeep[4] =
+            {
+                {{14, 33, 2}},
+                {{2, 4, 11}},
+                {{11, 30, 9}},
+                {{9, 28, 19}}};
+
+        /*
+
+        I think the meatwagon is the same mesh as the jeep nowadays...
+
+        const static WMOVE_Tri tri_meatwagon[4] =
+        {
+                {{25,44, 4}},
+                {{ 4, 6,22}},
+                {{22,41,20}},
+                {{20,39,30}}
+        };
+
+        */
+
+        const static WMOVE_Tri *tri_vehicle[VEH_TYPE_NUMBER] =
+            {
+                tri_van,
+                tri_car,
+                tri_car,
+                tri_police,
+                tri_ambulance,
+                tri_jeep,
+                tri_jeep, // tri_meatwagon, Meatwagon model is the same as the jeep nowadays.
+                tri_car,
+                tri_van};
+
+        const WMOVE_Tri *use = &((tri_vehicle[p_thing->Genus.Vehicle->Type])[number]);
+
+        //
+        // Find this things matrix.
+        //
+
+        if (WMOVE_matrix_thing != THING_NUMBER(p_thing) ||
+            WMOVE_matrix_turn != GAME_TURN) {
+            WMOVE_matrix_thing = THING_NUMBER(p_thing);
+            WMOVE_matrix_turn = GAME_TURN;
+
+            FMATRIX_calc(
+                WMOVE_matrix,
+                p_thing->Genus.Vehicle->Angle,
+                p_thing->Genus.Vehicle->Tilt,
+                p_thing->Genus.Vehicle->Roll);
+        }
+
+        //
+        // The offset of the vehicle's body prim from the vehicle position and
+        // the prim to use.
+        //
+
+        std::int32_t offy = get_vehicle_body_offset(p_thing->Genus.Vehicle->Type);
+        std::int32_t prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
+
+        PrimObject *po = &prim_objects[prim];
+
+        for (i = 0; i < 3; i++) {
+            x = prim_points[po->StartPoint + use->p[i]].X;
+            y = prim_points[po->StartPoint + use->p[i]].Y;
+            z = prim_points[po->StartPoint + use->p[i]].Z;
+
+            FMATRIX_MUL_BY_TRANSPOSE(
+                WMOVE_matrix,
+                x,
+                y,
+                z);
+
+            x += p_thing->WorldPos.X >> 8;
+            y += p_thing->WorldPos.Y >> 8;
+            z += p_thing->WorldPos.Z >> 8;
+
+            y -= offy >> 8;
+
+            pos[i].x = x;
+            pos[i].y = y;
+            pos[i].z = z;
+        }
+    }
+
+    break;
+
+    case CLASS_PLAT:
+
+        if (p_thing->Class == CLASS_VEHICLE) {
+            prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
+            useangle = -p_thing->Genus.Vehicle->Angle;
+            useangle &= 2047;
+        } else {
+            prim = p_thing->Draw.Mesh->ObjectId;
+            useangle = -p_thing->Draw.Mesh->Angle;
+            useangle &= 2047;
+        }
+
+        pi = get_prim_info(prim);
+
+        sin_yaw = SIN(useangle);
+        cos_yaw = COS(useangle);
+
+        matrix[0] = cos_yaw;
+        matrix[1] = -sin_yaw;
+        matrix[2] = sin_yaw;
+        matrix[3] = cos_yaw;
+
+        //
+        // Rotate the positions.
+        //
+
+        txo = pi->minx;
+        tzo = pi->minz;
+
+        txa = pi->maxx;
+        tza = pi->minz;
+
+        txb = pi->minx;
+        tzb = pi->maxz;
+
+        xo = MUL64(txo, matrix[0]) + MUL64(tzo, matrix[1]);
+        zo = MUL64(txo, matrix[2]) + MUL64(tzo, matrix[3]);
+
+        xa = MUL64(txa, matrix[0]) + MUL64(tza, matrix[1]);
+        za = MUL64(txa, matrix[2]) + MUL64(tza, matrix[3]);
+
+        xb = MUL64(txb, matrix[0]) + MUL64(tzb, matrix[1]);
+        zb = MUL64(txb, matrix[2]) + MUL64(tzb, matrix[3]);
+
+        y = (p_thing->WorldPos.Y >> 8) + pi->maxy + 0x10;
+
+        if (p_thing->Class == CLASS_VEHICLE) {
             //
-            // Rotate the positions.
+            // Oh well. It's a strange world!
             //
 
-            txo = pi->minx;
-            tzo = pi->minz;
+            y -= get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8;
+        }
 
-            txa = pi->maxx;
-            tza = pi->minz;
+        //
+        // Relative to the object.
+        //
 
-            txb = pi->minx;
-            tzb = pi->maxz;
+        xo += (p_thing->WorldPos.X >> 8);
+        zo += (p_thing->WorldPos.Z >> 8);
 
-            xo = MUL64(txo, matrix[0]) + MUL64(tzo, matrix[1]);
-            zo = MUL64(txo, matrix[2]) + MUL64(tzo, matrix[3]);
+        xa += (p_thing->WorldPos.X >> 8);
+        za += (p_thing->WorldPos.Z >> 8);
 
-            xa = MUL64(txa, matrix[0]) + MUL64(tza, matrix[1]);
-            za = MUL64(txa, matrix[2]) + MUL64(tza, matrix[3]);
+        xb += (p_thing->WorldPos.X >> 8);
+        zb += (p_thing->WorldPos.Z >> 8);
 
-            xb = MUL64(txb, matrix[0]) + MUL64(tzb, matrix[1]);
-            zb = MUL64(txb, matrix[2]) + MUL64(tzb, matrix[3]);
+        //
+        // Store this triangle in the array.
+        //
 
-            y = (p_thing->WorldPos.Y >> 8) + pi->maxy + 0x10;
+        pos[0].x = xo;
+        pos[0].y = y;
+        pos[0].z = zo;
 
-            if (p_thing->Class == CLASS_VEHICLE) {
-                //
-                // Oh well. It's a strange world!
-                //
+        pos[1].x = xa;
+        pos[1].y = y;
+        pos[1].z = za;
 
-                y -= get_vehicle_body_offset(p_thing->Genus.Vehicle->Type) >> 8;
-            }
+        pos[2].x = xb;
+        pos[2].y = y;
+        pos[2].z = zb;
 
-            //
-            // Relative to the object.
-            //
+        break;
 
-            xo += (p_thing->WorldPos.X >> 8);
-            zo += (p_thing->WorldPos.Z >> 8);
-
-            xa += (p_thing->WorldPos.X >> 8);
-            za += (p_thing->WorldPos.Z >> 8);
-
-            xb += (p_thing->WorldPos.X >> 8);
-            zb += (p_thing->WorldPos.Z >> 8);
-
-            //
-            // Store this triangle in the array.
-            //
-
-            pos[0].x = xo;
-            pos[0].y = y;
-            pos[0].z = zo;
-
-            pos[1].x = xa;
-            pos[1].y = y;
-            pos[1].z = za;
-
-            pos[2].x = xb;
-            pos[2].y = y;
-            pos[2].z = zb;
-
-            break;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 

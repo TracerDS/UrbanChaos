@@ -73,25 +73,20 @@ extern void  (*DrawPixelC)(std::int32_t x,std::int32_t y,std::uint32_t colour);
 //---------------------------------------------------------------
 // DrawRect.c
 
-void			DrawRect(MFRect *the_rect,std::uint32_t colour);
-void			DrawRectC(MFRect *the_rect,std::uint32_t colour);
+void DrawRect(MFRect *the_rect,std::uint32_t colour);
+void DrawRectC(MFRect *the_rect,std::uint32_t colour);
 
 //---------------------------------------------------------------
 // QuickText.c
 
 extern std::uint8_t	*CharTable[];
 
+extern void (*QuickText)(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour);
+extern void (*QuickTextC)(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour);
+extern void (*QuickChar)(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour);
+extern void (*QuickCharC)(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour);
 
-extern void  (*QuickText)(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour);
-extern void  (*QuickTextC)(std::int32_t x,std::int32_t y,char* the_string,std::uint32_t colour);
-extern void  (*QuickChar)(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour);
-extern void  (*QuickCharC)(std::int32_t x,std::int32_t y,char the_char,std::uint32_t colour);
-
-std::int32_t			QTStringWidth(char* the_string);
-inline std::int32_t	QTStringHeight()				{	return 8;	}
-inline std::int32_t	QTCharWidth(char the_char)			{	return (CharTable[the_char])[0];	}
-inline std::int32_t	QTCharHeight(char the_char)		{	return (CharTable[the_char])[1];	}
-
-//---------------------------------------------------------------
-
-#endif
+std::int32_t QTStringWidth(char* the_string);
+inline std::int32_t	QTStringHeight() { return 8; }
+inline std::int32_t	QTCharWidth(char the_char) { return (CharTable[the_char])[0]; }
+inline std::int32_t	QTCharHeight(char the_char) { return (CharTable[the_char])[1]; }

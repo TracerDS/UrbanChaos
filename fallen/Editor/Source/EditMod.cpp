@@ -113,18 +113,18 @@ void EditorModule::SizeModule(MFPoint *clicked_point) {
 
 void EditorModule::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (WhereInWindow(clicked_point) == IN_CONTENT) {
-                // Left click in content.
-            }
-            break;
-        case RIGHT_CLICK:
-            if (WhereInWindow(clicked_point) == IN_CONTENT) {
-                // Right click in content.
-            }
-            break;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (WhereInWindow(clicked_point) == IN_CONTENT) {
+            // Left click in content.
+        }
+        break;
+    case RIGHT_CLICK:
+        if (WhereInWindow(clicked_point) == IN_CONTENT) {
+            // Right click in content.
+        }
+        break;
     }
 }
 
@@ -132,18 +132,18 @@ void EditorModule::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point
 
 void EditorModule::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) {
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (WhereInWindow(clicked_point) == IN_CONTROLS) {
-                // Left click in content.
-            }
-            break;
-        case RIGHT_CLICK:
-            if (WhereInWindow(clicked_point) == IN_CONTROLS) {
-                // Right click in content.
-            }
-            break;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (WhereInWindow(clicked_point) == IN_CONTROLS) {
+            // Left click in content.
+        }
+        break;
+    case RIGHT_CLICK:
+        if (WhereInWindow(clicked_point) == IN_CONTROLS) {
+            // Right click in content.
+        }
+        break;
     }
 }
 

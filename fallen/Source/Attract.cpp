@@ -357,104 +357,104 @@ reinit_because_of_language_change:
 
             if (res) {
                 switch (res) {
-                        /*
-                                                        case	1:
-                                                        case	2:
-                                                        case	3:
-                                                        case	4:
-                                                        case	5:
-                                                        case	6:
-                                                        case	7:
-                                                        case	8:
-                                                                        GAME_STATE	&= ~GS_ATTRACT_MODE;
-                                                                        GAME_STATE	|=	GS_PLAY_GAME;
-                                                                        go_into_game =  -res;
-                                                                        break;
-                                                        case	9:
-                                                                        GAME_STATE	=	0;
-                                                                        LastKey	=	0;
-                                                                        break;
-                        */
+                    /*
+                                                    case	1:
+                                                    case	2:
+                                                    case	3:
+                                                    case	4:
+                                                    case	5:
+                                                    case	6:
+                                                    case	7:
+                                                    case	8:
+                                                                    GAME_STATE	&= ~GS_ATTRACT_MODE;
+                                                                    GAME_STATE	|=	GS_PLAY_GAME;
+                                                                    go_into_game =  -res;
+                                                                    break;
+                                                    case	9:
+                                                                    GAME_STATE	=	0;
+                                                                    LastKey	=	0;
+                                                                    break;
+                    */
 
-                    case STARTS_PSX:
+                case STARTS_PSX:
 #ifdef EDITOR
-                        void make_all_wads();
-                        make_all_wads();
+                    void make_all_wads();
+                    make_all_wads();
 #endif
-                        break;
-                    case STARTS_START:
+                    break;
+                case STARTS_START:
 #ifdef OBEY_SCRIPT
-                        if (BRIEFING_select() > 0)
+                    if (BRIEFING_select() > 0)
 #endif
-                        {
-                            GAME_STATE &= ~GS_ATTRACT_MODE;
-                            GAME_STATE |= GS_PLAY_GAME;
-                            go_into_game = true;
-
-#ifdef TARGET_DC
-                            // Unload all the frontend gubbins.
-                            FRONTEND_unload();
-#endif
-
-                            ATTRACT_loadscreen_init();
-
-                            // Stop everything.
-                            stop_all_fx_and_music();
-
-                            // but play the loading music, coz it's all in memory.
-                            // (No, should already be played, and stopping then starting it
-                            // makes it huccup.)
-                            // DCLL_memstream_play();
-
-                            extern void init_joypad_config();
-                            init_joypad_config(); // incase it's been changed in front end
-                        }
-                        break;
-                    case STARTS_PLAYBACK:
+                    {
                         GAME_STATE &= ~GS_ATTRACT_MODE;
                         GAME_STATE |= GS_PLAY_GAME;
-                        GAME_STATE |= GS_PLAYBACK;
                         go_into_game = true;
-                        break;
-                    case STARTS_EDITOR:
-                        GAME_STATE = GS_EDITOR;
-                        break;
-                    case STARTS_MULTI:
-
-                        NET_init();
-                        GAME_STATE = GS_CONFIGURE_NET;
-
-                        break;
-                    case STARTS_EXIT:
-                        GAME_STATE = 0;
-                        LastKey = 0;
-                        break;
-                    case STARTS_HOST:
-                        break;
-                    case STARTS_JOIN:
-                        break;
-                    case STARTS_LANGUAGE_CHANGE:
-                        // A language change has been made -
-                        // reload all the language stuff and go to the main menu.
 
 #ifdef TARGET_DC
-                        // The only place this can happen is at the title screen.
-                        // And after the title screen, we play the intro movie.
-
-                        // Free up as much memory as we can - the movie needs it!
-                        extern void FRONTEND_scr_unload_theme();
-                        FRONTEND_scr_unload_theme();
-                        stop_all_fx_and_music();
-                        the_display.RunCutscene(0, ENV_get_value_number("lang_num", 0, ""));
+                        // Unload all the frontend gubbins.
+                        FRONTEND_unload();
 #endif
 
-                        // Loading screen for a second.
                         ATTRACT_loadscreen_init();
 
-                        // This goto makes the compiler very unhappy - it seems to get very confused.
-                        // goto reinit_because_of_language_change;
-                        bReinitBecauseOfLanguageChange = true;
-                        break;
+                        // Stop everything.
+                        stop_all_fx_and_music();
+
+                        // but play the loading music, coz it's all in memory.
+                        // (No, should already be played, and stopping then starting it
+                        // makes it huccup.)
+                        // DCLL_memstream_play();
+
+                        extern void init_joypad_config();
+                        init_joypad_config(); // incase it's been changed in front end
+                    }
+                    break;
+                case STARTS_PLAYBACK:
+                    GAME_STATE &= ~GS_ATTRACT_MODE;
+                    GAME_STATE |= GS_PLAY_GAME;
+                    GAME_STATE |= GS_PLAYBACK;
+                    go_into_game = true;
+                    break;
+                case STARTS_EDITOR:
+                    GAME_STATE = GS_EDITOR;
+                    break;
+                case STARTS_MULTI:
+
+                    NET_init();
+                    GAME_STATE = GS_CONFIGURE_NET;
+
+                    break;
+                case STARTS_EXIT:
+                    GAME_STATE = 0;
+                    LastKey = 0;
+                    break;
+                case STARTS_HOST:
+                    break;
+                case STARTS_JOIN:
+                    break;
+                case STARTS_LANGUAGE_CHANGE:
+                    // A language change has been made -
+                    // reload all the language stuff and go to the main menu.
+
+#ifdef TARGET_DC
+                    // The only place this can happen is at the title screen.
+                    // And after the title screen, we play the intro movie.
+
+                    // Free up as much memory as we can - the movie needs it!
+                    extern void FRONTEND_scr_unload_theme();
+                    FRONTEND_scr_unload_theme();
+                    stop_all_fx_and_music();
+                    the_display.RunCutscene(0, ENV_get_value_number("lang_num", 0, ""));
+#endif
+
+                    // Loading screen for a second.
+                    ATTRACT_loadscreen_init();
+
+                    // This goto makes the compiler very unhappy - it seems to get very confused.
+                    // goto reinit_because_of_language_change;
+                    bReinitBecauseOfLanguageChange = true;
+                    break;
                 }
             }
         }
@@ -640,14 +640,14 @@ void ScoresDraw() {
         if (p_thing->Class == CLASS_PERSON) {
             if (p_thing->State != STATE_DEAD) {
                 switch (p_thing->Genus.Person->PersonType) {
-                    case PERSON_THUG_RASTA:
-                    case PERSON_THUG_GREY:
-                    case PERSON_THUG_RED:
-                    case PERSON_MIB1:
-                    case PERSON_MIB2:
-                    case PERSON_MIB3:
-                        count++;
-                        break;
+                case PERSON_THUG_RASTA:
+                case PERSON_THUG_GREY:
+                case PERSON_THUG_RED:
+                case PERSON_MIB1:
+                case PERSON_MIB2:
+                case PERSON_MIB3:
+                    count++;
+                    break;
                 }
             }
         }
@@ -814,7 +814,8 @@ void ScoresDraw() {
                     {"\\Gangorder1.ucm", "Assassin", 5, 21, "Joe Neate"},
                     {"\\FreeCD1.ucm", "Demo map", 40, 00, "Beat me"},
                     {"\\Album1.ucm", "Breakout!", 15, 38, "Tom Forsyth"},
-                    {nullptr}};
+                    {nullptr}
+            };
 #endif
 
             char par[128];

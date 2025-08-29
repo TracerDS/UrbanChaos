@@ -51,27 +51,27 @@ void EXTRA_create_or_delete(std::int32_t type, std::int32_t x, std::int32_t z) {
 
         if (et->type == EXTRA_TYPE_NONE) {
             switch (type) {
-                case EXTRA_TYPE_PUDDLE:
-                    et->type = EXTRA_TYPE_PUDDLE;
-                    et->x = x;
-                    et->z = z;
-                    et->radius = 384;
-                    et->angle = 0;
-                    return;
+            case EXTRA_TYPE_PUDDLE:
+                et->type = EXTRA_TYPE_PUDDLE;
+                et->x = x;
+                et->z = z;
+                et->radius = 384;
+                et->angle = 0;
+                return;
 
-                case EXTRA_TYPE_MIST:
-                    et->type = EXTRA_TYPE_MIST;
-                    et->x = x;
-                    et->z = z;
-                    et->radius = 0x600;
-                    et->height = rand() & 63;
-                    et->height += 50;
-                    et->detail = 17;
-                    return;
+            case EXTRA_TYPE_MIST:
+                et->type = EXTRA_TYPE_MIST;
+                et->x = x;
+                et->z = z;
+                et->radius = 0x600;
+                et->height = rand() & 63;
+                et->height += 50;
+                et->detail = 17;
+                return;
 
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
         }
     }

@@ -93,150 +93,150 @@ bool CALLBACK ts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     NM_UPDOWN *lp_ntfy;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the 'Trigger Type' combo.
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            lbitem_str = wtrigger_strings[0];
-            while (*lbitem_str != '!') {
-                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
-                lbitem_str = wtrigger_strings[++c0];
-            }
-            //	Set its default item.
-            if (trigger_type < 1) trigger_type = 1;
-            SendMessage(the_ctrl, CB_SETCURSEL, trigger_type - 1, 0);
+    case WM_INITDIALOG:
+        //	Set up the 'Trigger Type' combo.
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        lbitem_str = wtrigger_strings[0];
+        while (*lbitem_str != '!') {
+            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
+            lbitem_str = wtrigger_strings[++c0];
+        }
+        //	Set its default item.
+        if (trigger_type < 1) trigger_type = 1;
+        SendMessage(the_ctrl, CB_SETCURSEL, trigger_type - 1, 0);
 
-            //	Set up the radius & dependency spins.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(2560, 0));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN3),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(511, 0));
-            /*
-                                    //	Set up the radio buttons & the trigger data.
-                                    switch(triggered_by)
-                                    {
-                                            case	TB_NONE:
-                                                    //	Default to proximity.
-                                                    triggered_by			=	TB_PROXIMITY;
-                                                    current_ep->TriggeredBy	=	triggered_by;
-                                                    SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,true,0);
-                                                    trigger_radius	=	0;
-                                                    break;
-                                            case	TB_PROXIMITY:
-                                                    SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,true,0);
-                                                    SendMessage	(
-                                                                                    GetDlgItem(hWnd,IDC_SPIN2),
-                                                                                    UDM_SETPOS,
-                                                                                    0,
-                                                                                    MAKELONG(trigger_radius,0)
-                                                                            );
-                                                    SendMessage	(
-                                                                                    GetDlgItem(hWnd,IDC_SPIN3),
-                                                                                    UDM_SETPOS,
-                                                                                    0,
-                                                                                    MAKELONG(0,0)
-                                                                            );
-                                                    break;
-                                            case	TB_DEPENDENCY:
-                                                    SendMessage(GetDlgItem(hWnd,IDC_RADIO2),BM_SETCHECK,true,0);
-                                                    SendMessage	(
-                                                                                    GetDlgItem(hWnd,IDC_SPIN2),
-                                                                                    UDM_SETPOS,
-                                                                                    0,
-                                                                                    MAKELONG(0,0)
-                                                                            );
-                                                    SendMessage	(
-                                                                                    GetDlgItem(hWnd,IDC_SPIN3),
-                                                                                    UDM_SETPOS,
-                                                                                    0,
-                                                                                    MAKELONG(trigger_depend,0)
-                                                                            );
-                                                    break;
-                                    }
-            */
-            //	Set up the time spin.
+        //	Set up the radius & dependency spins.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(2560, 0));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN3),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(511, 0));
+        /*
+                                //	Set up the radio buttons & the trigger data.
+                                switch(triggered_by)
+                                {
+                                        case	TB_NONE:
+                                                //	Default to proximity.
+                                                triggered_by			=	TB_PROXIMITY;
+                                                current_ep->TriggeredBy	=	triggered_by;
+                                                SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,true,0);
+                                                trigger_radius	=	0;
+                                                break;
+                                        case	TB_PROXIMITY:
+                                                SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_SETCHECK,true,0);
+                                                SendMessage	(
+                                                                                GetDlgItem(hWnd,IDC_SPIN2),
+                                                                                UDM_SETPOS,
+                                                                                0,
+                                                                                MAKELONG(trigger_radius,0)
+                                                                        );
+                                                SendMessage	(
+                                                                                GetDlgItem(hWnd,IDC_SPIN3),
+                                                                                UDM_SETPOS,
+                                                                                0,
+                                                                                MAKELONG(0,0)
+                                                                        );
+                                                break;
+                                        case	TB_DEPENDENCY:
+                                                SendMessage(GetDlgItem(hWnd,IDC_RADIO2),BM_SETCHECK,true,0);
+                                                SendMessage	(
+                                                                                GetDlgItem(hWnd,IDC_SPIN2),
+                                                                                UDM_SETPOS,
+                                                                                0,
+                                                                                MAKELONG(0,0)
+                                                                        );
+                                                SendMessage	(
+                                                                                GetDlgItem(hWnd,IDC_SPIN3),
+                                                                                UDM_SETPOS,
+                                                                                0,
+                                                                                MAKELONG(trigger_depend,0)
+                                                                        );
+                                                break;
+                                }
+        */
+        //	Set up the time spin.
 
-            update_action_combos(hWnd);
-            update_trigger_radios(hWnd);
+        update_action_combos(hWnd);
+        update_trigger_radios(hWnd);
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            //					SendMessage(hWnd,WM_CLOSE,0,0);
+            EndDialog(hWnd, IDOK);
             return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    //					SendMessage(hWnd,WM_CLOSE,0,0);
-                    EndDialog(hWnd, IDOK);
-                    return true;
-
-                case IDC_COMBO1:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        //	Get the 'Trigger Type'.
-                        trigger_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
-                        update_action_combos(hWnd);
-                        return true;
-                    }
-                    break;
-
-                case IDC_RADIO1:
-                case IDC_RADIO2:
-                    update_trigger_radios(hWnd);
-                    return true;
-            }
-            break;
-
-        case WM_NOTIFY:
-            lp_ntfy = (NM_UPDOWN *) lParam;
-
-            //	Make the 'radius' spin go up/down in steps of 32.
-            if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
-                SendMessage(
-                    lp_ntfy->hdr.hwndFrom,
-                    UDM_SETPOS,
-                    0,
-                    MAKELONG(lp_ntfy->iPos + (lp_ntfy->iDelta * 31), 0));
+        case IDC_COMBO1:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                //	Get the 'Trigger Type'.
+                trigger_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
+                update_action_combos(hWnd);
                 return true;
             }
             break;
-            /*
-                            case	WM_VSCROLL:
-                                    //	Set up the 'radius', 'dependency' or 'time'.
-                                    if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN1 && LOWORD(wParam)==SB_THUMBPOSITION)
-                                    {
-                                            trigger_data1	=	HIWORD(wParam);
-                                            return	true;
-                                    }
-                                    else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN2 && LOWORD(wParam)==SB_THUMBPOSITION)
-                                    {
-                                            trigger_radius		=	HIWORD(wParam);
-                                            current_ep->Radius	=	trigger_radius;
-                                            process_view_wind();
-                                            SendMessage(GEDIT_edit_wnd,WM_PAINT,0,0);
-                                            return	true;
-                                    }
-                                    else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN3 && LOWORD(wParam)==SB_THUMBPOSITION)
-                                    {
-                                            trigger_depend		=	HIWORD(wParam);
-                                            current_ep->EPRef	=	trigger_depend;
-                                            if(!trigger_depend)
-                                                    SendMessage	(
-                                                                                    GetDlgItem(hWnd,IDC_EDIT3),
-                                                                                    WM_SETTEXT,
-                                                                                    0,(LPARAM)"None"
-                                                                            );
-            //				process_view_wind();
-            //				SendMessage(GEDIT_edit_wnd,WM_PAINT,0,0);
-                                            return	true;
-                                    }
-                                    break;
-            */
-        case WM_CLOSE:
-            EndDialog(hWnd, 0);
+
+        case IDC_RADIO1:
+        case IDC_RADIO2:
+            update_trigger_radios(hWnd);
             return true;
+        }
+        break;
+
+    case WM_NOTIFY:
+        lp_ntfy = (NM_UPDOWN *) lParam;
+
+        //	Make the 'radius' spin go up/down in steps of 32.
+        if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
+            SendMessage(
+                lp_ntfy->hdr.hwndFrom,
+                UDM_SETPOS,
+                0,
+                MAKELONG(lp_ntfy->iPos + (lp_ntfy->iDelta * 31), 0));
+            return true;
+        }
+        break;
+        /*
+                        case	WM_VSCROLL:
+                                //	Set up the 'radius', 'dependency' or 'time'.
+                                if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN1 && LOWORD(wParam)==SB_THUMBPOSITION)
+                                {
+                                        trigger_data1	=	HIWORD(wParam);
+                                        return	true;
+                                }
+                                else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN2 && LOWORD(wParam)==SB_THUMBPOSITION)
+                                {
+                                        trigger_radius		=	HIWORD(wParam);
+                                        current_ep->Radius	=	trigger_radius;
+                                        process_view_wind();
+                                        SendMessage(GEDIT_edit_wnd,WM_PAINT,0,0);
+                                        return	true;
+                                }
+                                else if(GetDlgCtrlID((HWND)lParam)==IDC_SPIN3 && LOWORD(wParam)==SB_THUMBPOSITION)
+                                {
+                                        trigger_depend		=	HIWORD(wParam);
+                                        current_ep->EPRef	=	trigger_depend;
+                                        if(!trigger_depend)
+                                                SendMessage	(
+                                                                                GetDlgItem(hWnd,IDC_EDIT3),
+                                                                                WM_SETTEXT,
+                                                                                0,(LPARAM)"None"
+                                                                        );
+        //				process_view_wind();
+        //				SendMessage(GEDIT_edit_wnd,WM_PAINT,0,0);
+                                        return	true;
+                                }
+                                break;
+        */
+    case WM_CLOSE:
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

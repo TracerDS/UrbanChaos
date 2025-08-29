@@ -7,11 +7,12 @@
 
 StateFunction switch_functions[] =
     {
-        {SWITCH_NONE, NULL},
+        {SWITCH_NONE,   NULL            },
         {SWITCH_PLAYER, fn_switch_player},
-        {SWITCH_THING, fn_switch_thing},
-        {SWITCH_GROUP, fn_switch_group},
-        {SWITCH_CLASS, fn_switch_class}};
+        {SWITCH_THING,  fn_switch_thing },
+        {SWITCH_GROUP,  fn_switch_group },
+        {SWITCH_CLASS,  fn_switch_class }
+};
 
 //---------------------------------------------------------------
 

@@ -81,7 +81,7 @@ BANG_Type BANG_type[BANG_TYPE_NUMBER] =
           {1, BANG_TYPE_NEARLY, BANG_CHILD_WHERE_EDGE},
           {2, BANG_TYPE_NEARLY, BANG_CHILD_WHERE_EDGE},
           {0, 0, 0},
-          {0, 0, 0}}},
+          {0, 0, 0}}                                      },
 
         {// Nearly
          0,
@@ -102,7 +102,7 @@ BANG_Type BANG_type[BANG_TYPE_NUMBER] =
              {2, BANG_TYPE_END, BANG_CHILD_WHERE_EDGE},
              {3, BANG_TYPE_END, BANG_CHILD_WHERE_EDGE},
              {4, BANG_TYPE_END, BANG_CHILD_WHERE_EDGE},
-         }},
+         }                                                },
 
         {// End
          0,
@@ -120,7 +120,8 @@ BANG_Type BANG_type[BANG_TYPE_NUMBER] =
           {0, 0, 0},
           {0, 0, 0},
           {0, 0, 0},
-          {0, 0, 0}}}};
+          {0, 0, 0}}                                      }
+};
 
 //
 // Each bit of an explosion.

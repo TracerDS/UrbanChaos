@@ -447,11 +447,11 @@ void OS_decompress_sound(
         nullptr,
         0,
         ACM_STREAMOPENF_NONREALTIME)) {
-        case ACMERR_NOTPOSSIBLE: TRACE("The requested operation cannot be performed.\n"); break;
-        case MMSYSERR_INVALFLAG: TRACE("At least one flag is invalid. 			  \n"); break;
-        case MMSYSERR_INVALHANDLE: TRACE("The specified handle is invalid. 			  \n"); break;
-        case MMSYSERR_INVALPARAM: TRACE("At least one parameter is invalid. 		  \n"); break;
-        case MMSYSERR_NOMEM: TRACE("The system is unable to allocate resources. \n"); break;
+    case ACMERR_NOTPOSSIBLE: TRACE("The requested operation cannot be performed.\n"); break;
+    case MMSYSERR_INVALFLAG: TRACE("At least one flag is invalid. 			  \n"); break;
+    case MMSYSERR_INVALHANDLE: TRACE("The specified handle is invalid. 			  \n"); break;
+    case MMSYSERR_INVALPARAM: TRACE("At least one parameter is invalid. 		  \n"); break;
+    case MMSYSERR_NOMEM: TRACE("The system is unable to allocate resources. \n"); break;
     }
 
     //
@@ -779,18 +779,18 @@ found_spare_sound:;
         dsbdesc.lpwfxFormat = &destwfx;
 
         switch (type) {
-            case OS_SOUND_TYPE_2D:
-                dsbdesc.dwFlags |= DSBCAPS_CTRLVOLUME;
-                break;
+        case OS_SOUND_TYPE_2D:
+            dsbdesc.dwFlags |= DSBCAPS_CTRLVOLUME;
+            break;
 
-            case OS_SOUND_TYPE_3D:
-                dsbdesc.dwFlags |= DSBCAPS_CTRL3D;
-                dsbdesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
-                break;
+        case OS_SOUND_TYPE_3D:
+            dsbdesc.dwFlags |= DSBCAPS_CTRL3D;
+            dsbdesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, nullptr) != DS_OK) {
@@ -857,18 +857,18 @@ found_spare_sound:;
         dsbdesc.lpwfxFormat = pwfx;
 
         switch (type) {
-            case OS_SOUND_TYPE_2D:
-                dsbdesc.dwFlags |= DSBCAPS_CTRLVOLUME;
-                break;
+        case OS_SOUND_TYPE_2D:
+            dsbdesc.dwFlags |= DSBCAPS_CTRLVOLUME;
+            break;
 
-            case OS_SOUND_TYPE_3D:
-                dsbdesc.dwFlags |= DSBCAPS_CTRL3D;
-                dsbdesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
-                break;
+        case OS_SOUND_TYPE_3D:
+            dsbdesc.dwFlags |= DSBCAPS_CTRL3D;
+            dsbdesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, nullptr) != DS_OK) {
@@ -1001,18 +1001,18 @@ found_spare_sound:;
     dsbdesc.lpwfxFormat = &pwfx;
 
     switch (type) {
-        case OS_SOUND_TYPE_2D:
-            dsbdesc.dwFlags |= DSBCAPS_CTRLVOLUME;
-            break;
+    case OS_SOUND_TYPE_2D:
+        dsbdesc.dwFlags |= DSBCAPS_CTRLVOLUME;
+        break;
 
-        case OS_SOUND_TYPE_3D:
-            dsbdesc.dwFlags |= DSBCAPS_CTRL3D;
-            dsbdesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
-            break;
+    case OS_SOUND_TYPE_3D:
+        dsbdesc.dwFlags |= DSBCAPS_CTRL3D;
+        dsbdesc.dwFlags |= DSBCAPS_MUTE3DATMAXDISTANCE;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     if (OS_sound_dsound->CreateSoundBuffer(&dsbdesc, &os->buffer, nullptr) != DS_OK) {
@@ -1852,9 +1852,9 @@ OS_Texture *OS_texture_create(std::int32_t width, std::int32_t height, std::int3
         //
 
         switch (format) {
-            case OS_TEXTURE_FORMAT_8: format = OS_TEXTURE_FORMAT_RGB; break;
-            case OS_TEXTURE_FORMAT_1555: format = OS_TEXTURE_FORMAT_4444; break;
-            case OS_TEXTURE_FORMAT_4444: format = OS_TEXTURE_FORMAT_1555; break;
+        case OS_TEXTURE_FORMAT_8: format = OS_TEXTURE_FORMAT_RGB; break;
+        case OS_TEXTURE_FORMAT_1555: format = OS_TEXTURE_FORMAT_4444; break;
+        case OS_TEXTURE_FORMAT_4444: format = OS_TEXTURE_FORMAT_1555; break;
         }
 
         if (!OS_tformat[format].valid) {
@@ -2186,41 +2186,41 @@ void OS_pipeline_calculate() {
         d3d->SetTexture(1, ot2->ddtx);
 
         switch (OS_pipeline_method_mul) {
-            case 1:
+        case 1:
 
-                d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+            d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
 
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                break;
+            break;
 
-            case 0:
+        case 0:
 
-                d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-                d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+            d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                break;
+            break;
 
-            default:
+        default:
 
-                //
-                // Didn't find any way to do mulitexturing!
-                //
+            //
+            // Didn't find any way to do mulitexturing!
+            //
 
-                break;
+            break;
         }
 
         if (OS_pipeline_method_mul == OS_METHOD_NUMBER_MUL) {
@@ -2338,52 +2338,52 @@ void OS_change_renderstate_for_type(std::uint32_t draw) {
 
     if (draw & OS_DRAW_TEX_MUL) {
         switch (OS_pipeline_method_mul) {
-            case 1:
+        case 1:
 
-                if (draw & OS_DRAW_DECAL) {
-                    //
-                    // Don't multiply by diffuse colour...
-                    //
-
-                    d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
-                } else {
-                    d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                    d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
-                }
-
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
-
-                break;
-
-            case 0:
+            if (draw & OS_DRAW_DECAL) {
+                //
+                // Don't multiply by diffuse colour...
+                //
 
                 d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
                 d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
                 d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            } else {
+                d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+                d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+                d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+            }
 
-                d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
-                d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
 
-                if (draw & OS_DRAW_DECAL) {
-                    //
-                    // Don't multiply by diffuse colour...
-                    //
-                } else {
-                    d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
-                    d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-                    d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
-                }
+            break;
 
-                break;
+        case 0:
 
-            default:
-                break;
+            d3d->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_CURRENT);
+
+            d3d->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+            d3d->SetTextureStageState(1, D3DTSS_COLORARG2, D3DTA_CURRENT);
+
+            if (draw & OS_DRAW_DECAL) {
+                //
+                // Don't multiply by diffuse colour...
+                //
+            } else {
+                d3d->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
+                d3d->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+                d3d->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
+            }
+
+            break;
+
+        default:
+            break;
         }
     }
 
@@ -2672,84 +2672,84 @@ LRESULT CALLBACK OS_message_handler(
     std::uint8_t scancode;
 
     switch (message_type) {
-        case WM_PAINT:
+    case WM_PAINT:
 
-            //
-            // The user callback function does all the screen drawing.
-            // Do enough to appease windows.
-            //
+        //
+        // The user callback function does all the screen drawing.
+        // Do enough to appease windows.
+        //
 
-            HDC device_context_handle;
-            PAINTSTRUCT paintstruct;
+        HDC device_context_handle;
+        PAINTSTRUCT paintstruct;
 
-            device_context_handle = BeginPaint(window_handle, &paintstruct);
-            EndPaint(window_handle, &paintstruct);
+        device_context_handle = BeginPaint(window_handle, &paintstruct);
+        EndPaint(window_handle, &paintstruct);
 
-            return 0;
+        return 0;
 
-        case WM_CHAR:
-            KEY_inkey = param_w;
-            break;
+    case WM_CHAR:
+        KEY_inkey = param_w;
+        break;
 
-        case WM_KEYDOWN:
-        case WM_KEYUP:
+    case WM_KEYDOWN:
+    case WM_KEYUP:
 
-            //
-            // Keyboard stuff.
-            //
+        //
+        // Keyboard stuff.
+        //
 
-            scancode = (param_l >> 16) & 0xff;
-            scancode |= (param_l >> 17) & 0x80;
+        scancode = (param_l >> 16) & 0xff;
+        scancode |= (param_l >> 17) & 0x80;
 
-            if (message_type == WM_KEYDOWN) {
-                KEY_on[scancode] = 1;
-            } else {
-                KEY_on[scancode] = 0;
-            }
+        if (message_type == WM_KEYDOWN) {
+            KEY_on[scancode] = 1;
+        } else {
+            KEY_on[scancode] = 0;
+        }
 
-            //
-            // Alt keys don't work.
-            //
+        //
+        // Alt keys don't work.
+        //
 
-            KEY_on[KEY_LALT] = 0;
-            KEY_on[KEY_RALT] = 0;
+        KEY_on[KEY_LALT] = 0;
+        KEY_on[KEY_RALT] = 0;
 
-            //
-            // Check for shift/alt/control keys.
-            //
+        //
+        // Check for shift/alt/control keys.
+        //
 
-            KEY_shift = 0;
+        KEY_shift = 0;
 
-            if (KEY_on[KEY_LSHIFT] || KEY_on[KEY_RSHIFT]) KEY_shift |= KEY_SHIFT;
-            if (KEY_on[KEY_LCONTROL] || KEY_on[KEY_RCONTROL]) KEY_shift |= KEY_CONTROL;
-            if (KEY_on[KEY_LALT] || KEY_on[KEY_RALT]) KEY_shift |= KEY_ALT;
+        if (KEY_on[KEY_LSHIFT] || KEY_on[KEY_RSHIFT]) KEY_shift |= KEY_SHIFT;
+        if (KEY_on[KEY_LCONTROL] || KEY_on[KEY_RCONTROL]) KEY_shift |= KEY_CONTROL;
+        if (KEY_on[KEY_LALT] || KEY_on[KEY_RALT]) KEY_shift |= KEY_ALT;
 
-            if (KEY_on[KEY_ESCAPE]) {
-                OS_message_handler_request_quit = true;
-            }
-
-            break;
-
-        case WM_MOVE:
-
-            //
-            // Tell the frame about the new position of the window.
-            //
-
-            OS_frame.Move(LOWORD(param_l), HIWORD(param_l));
-
-            //
-            // Fall through to the default handling.
-            //
-
-            break;
-
-        case WM_CLOSE:
+        if (KEY_on[KEY_ESCAPE]) {
             OS_message_handler_request_quit = true;
-            return 0;
+        }
 
-        default:
-            break;
+        break;
+
+    case WM_MOVE:
+
+        //
+        // Tell the frame about the new position of the window.
+        //
+
+        OS_frame.Move(LOWORD(param_l), HIWORD(param_l));
+
+        //
+        // Fall through to the default handling.
+        //
+
+        break;
+
+    case WM_CLOSE:
+        OS_message_handler_request_quit = true;
+        return 0;
+
+    default:
+        break;
     }
 
     //
@@ -3035,112 +3035,112 @@ bool CALLBACK OS_mydemo_proc(
     D3DEnum_DeviceInfo *ci;
 
     switch (message_type) {
-        case WM_INITDIALOG:
+    case WM_INITDIALOG:
+
+        //
+        // Fill out the list boxes with the correct values.  First find
+        // all compatible
+        //
+
+        combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_DRIVER);
+
+        for (i = 0; i < OS_mode_upto; i++) {
+            SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) OS_mode[i].driver->strDesc);
+        }
+
+        //
+        // Set the current selection.
+        //
+
+        SendMessage(combo_handle, CB_SETCURSEL, OS_mode_sel, 0);
+
+        //
+        // Add the modes for the current selection.
+        //
+
+        combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_MODE);
+
+        OS_mydemo_setup_mode_combo(combo_handle, OS_mode_sel);
+
+        {
+            char mhz[64];
+
+            sprintf(mhz, "Detected a %dMhz processor", OS_mhz);
 
             //
-            // Fill out the list boxes with the correct values.  First find
-            // all compatible
+            // What speed processor have we detected?
             //
 
-            combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_DRIVER);
+            SetWindowText(GetDlgItem(dialog_handle, IDC_PROCESSOR), mhz);
+        }
 
-            for (i = 0; i < OS_mode_upto; i++) {
-                SendMessage(combo_handle, CB_ADDSTRING, 0, (LPARAM) OS_mode[i].driver->strDesc);
-            }
+        //
+        // Run the egg physics by default.
+        //
 
-            //
-            // Set the current selection.
-            //
+        CheckDlgButton(dialog_handle, IDC_RUN_PATCH_TEST, BST_CHECKED);
 
-            SendMessage(combo_handle, CB_SETCURSEL, OS_mode_sel, 0);
+        return true;
 
-            //
-            // Add the modes for the current selection.
-            //
+    case WM_COMMAND:
 
-            combo_handle = GetDlgItem(dialog_handle, IDC_COMBO_MODE);
-
-            OS_mydemo_setup_mode_combo(combo_handle, OS_mode_sel);
-
-            {
-                char mhz[64];
-
-                sprintf(mhz, "Detected a %dMhz processor", OS_mhz);
-
-                //
-                // What speed processor have we detected?
-                //
-
-                SetWindowText(GetDlgItem(dialog_handle, IDC_PROCESSOR), mhz);
-            }
-
-            //
-            // Run the egg physics by default.
-            //
-
-            CheckDlgButton(dialog_handle, IDC_RUN_PATCH_TEST, BST_CHECKED);
-
+        switch (LOWORD(param_w)) {
+        case IDOK:
+            EndDialog(dialog_handle, OS_MYDEMO_RUN);
             return true;
 
-        case WM_COMMAND:
+        case IDCANCEL:
+            EndDialog(dialog_handle, OS_MYDEMO_EXIT);
+            return true;
 
-            switch (LOWORD(param_w)) {
-                case IDOK:
-                    EndDialog(dialog_handle, OS_MYDEMO_RUN);
-                    return true;
+        case IDC_COMBO_DRIVER:
 
-                case IDCANCEL:
-                    EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-                    return true;
+            switch (HIWORD(param_w)) {
+            case CBN_SELCHANGE:
 
-                case IDC_COMBO_DRIVER:
+                //
+                // Change the list of modes.
+                //
 
-                    switch (HIWORD(param_w)) {
-                        case CBN_SELCHANGE:
+                OS_mode_sel = SendMessage((HWND) param_l, CB_GETCURSEL, 0, 0);
 
-                            //
-                            // Change the list of modes.
-                            //
+                ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
 
-                            OS_mode_sel = SendMessage((HWND) param_l, CB_GETCURSEL, 0, 0);
+                OS_mydemo_setup_mode_combo(
+                    GetDlgItem(dialog_handle, IDC_COMBO_MODE),
+                    OS_mode_sel);
 
-                            ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
-
-                            OS_mydemo_setup_mode_combo(
-                                GetDlgItem(dialog_handle, IDC_COMBO_MODE),
-                                OS_mode_sel);
-
-                            break;
-                    }
-
-                    break;
-
-                case IDC_COMBO_MODE:
-
-                    switch (HIWORD(param_w)) {
-                        case CBN_SELCHANGE:
-
-                            //
-                            // Update the current mode.
-                            //
-
-                            index = SendMessage((HWND) param_l, CB_GETCURSEL, 0, 0);
-
-                            ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
-
-                            OS_mode[OS_mode_sel].mode = (D3DEnum_ModeInfo * /* We hope */) SendMessage((HWND) param_l, CB_GETITEMDATA, (WPARAM) index, 0);
-
-                            break;
-                    }
-
-                    break;
+                break;
             }
 
             break;
 
-        case WM_CLOSE:
-            EndDialog(dialog_handle, OS_MYDEMO_EXIT);
-            return true;
+        case IDC_COMBO_MODE:
+
+            switch (HIWORD(param_w)) {
+            case CBN_SELCHANGE:
+
+                //
+                // Update the current mode.
+                //
+
+                index = SendMessage((HWND) param_l, CB_GETCURSEL, 0, 0);
+
+                ASSERT(WITHIN(OS_mode_sel, 0, OS_mode_upto - 1));
+
+                OS_mode[OS_mode_sel].mode = (D3DEnum_ModeInfo * /* We hope */) SendMessage((HWND) param_l, CB_GETITEMDATA, (WPARAM) index, 0);
+
+                break;
+            }
+
+            break;
+        }
+
+        break;
+
+    case WM_CLOSE:
+        EndDialog(dialog_handle, OS_MYDEMO_EXIT);
+        return true;
     }
 
     return false;
@@ -3307,22 +3307,22 @@ have_another_go:;
         MAKEINTRESOURCE(IDD_DRIVERS),
         OS_window_handle,
         OS_mydemo_proc)) {
-        case OS_MYDEMO_RUN:
-            break;
+    case OS_MYDEMO_RUN:
+        break;
 
-        case OS_MYDEMO_EXIT:
+    case OS_MYDEMO_EXIT:
 
-            //
-            // Close gracefully...
-            //
+        //
+        // Close gracefully...
+        //
 
-            D3DEnum_FreeResources();
+        D3DEnum_FreeResources();
 
-            return 0;
+        return 0;
 
-        default:
-            exit(1);
-            break;
+    default:
+        exit(1);
+        break;
     }
 
     {
@@ -3957,17 +3957,17 @@ void OS_fps_draw() {
 
     for (i = 0; i < OS_fps; i++) {
         switch ((i + 1) % 10) {
-            case 0:
-                tick = 8.0F;
-                break;
+        case 0:
+            tick = 8.0F;
+            break;
 
-            case 5:
-                tick = 5.0F;
-                break;
+        case 5:
+            tick = 5.0F;
+            break;
 
-            default:
-                tick = 3.0F;
-                break;
+        default:
+            tick = 3.0F;
+            break;
         }
 
         x1 = 5.0F + i * 2.0F;
@@ -4927,41 +4927,41 @@ void OS_buffer_add_sprite_arbitrary(
         of = &ob->flert[ob->num_flerts + i];
 
         switch (i) {
-            case 0:
-                x = x1;
-                y = y1;
-                u = u1;
-                v = v1;
-                z = z1;
-                break;
+        case 0:
+            x = x1;
+            y = y1;
+            u = u1;
+            v = v1;
+            z = z1;
+            break;
 
-            case 1:
-                x = x2;
-                y = y2;
-                u = u2;
-                v = v2;
-                z = z2;
-                break;
+        case 1:
+            x = x2;
+            y = y2;
+            u = u2;
+            v = v2;
+            z = z2;
+            break;
 
-            case 2:
-                x = x3;
-                y = y3;
-                u = u3;
-                v = v3;
-                z = z3;
-                break;
+        case 2:
+            x = x3;
+            y = y3;
+            u = u3;
+            v = v3;
+            z = z3;
+            break;
 
-            case 3:
-                x = x4;
-                y = y4;
-                u = u4;
-                v = v4;
-                z = z4;
-                break;
+        case 3:
+            x = x4;
+            y = y4;
+            u = u4;
+            v = v4;
+            z = z4;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         x *= OS_screen_width;

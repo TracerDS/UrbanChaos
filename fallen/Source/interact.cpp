@@ -187,7 +187,7 @@ std::int32_t check_grab_cable_facet(std::int32_t facet, std::int32_t *grab_x, st
 
     p_facet = &dfacets[facet];
 
-    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t *ret_along);
+    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t * ret_x, std::int32_t * ret_z, std::int32_t * ret_along);
 
     dist = nearest_point_on_line_and_dist_and_along(
         p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -234,7 +234,7 @@ std::int32_t check_grab_ladder_facet(std::int32_t facet, std::int32_t *grab_x, s
 
     p_facet = &dfacets[facet];
 
-    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t *ret_along);
+    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t * ret_x, std::int32_t * ret_z, std::int32_t * ret_along);
 
     dist = nearest_point_on_line_and_dist_and_along(
         p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -544,22 +544,22 @@ round_again:;
 
                                 if (pass == 0) {
                                     switch (i) {
-                                        case 0:
-                                            if (abs((MAVHEIGHT(mx, mz - 1) << 6) - grab_py[0]) < 0xa0)
-                                                continue;
-                                            break;
-                                        case 1:
-                                            if (abs((MAVHEIGHT(mx + 1, mz) << 6) - grab_py[0]) < 0xa0)
-                                                continue;
-                                            break;
-                                        case 2:
-                                            if (abs((MAVHEIGHT(mx, mz + 1) << 6) - grab_py[0]) < 0xa0)
-                                                continue;
-                                            break;
-                                        case 3:
-                                            if (abs((MAVHEIGHT(mx - 1, mz) << 6) - grab_py[0]) < 0xa0)
-                                                continue;
-                                            break;
+                                    case 0:
+                                        if (abs((MAVHEIGHT(mx, mz - 1) << 6) - grab_py[0]) < 0xa0)
+                                            continue;
+                                        break;
+                                    case 1:
+                                        if (abs((MAVHEIGHT(mx + 1, mz) << 6) - grab_py[0]) < 0xa0)
+                                            continue;
+                                        break;
+                                    case 2:
+                                        if (abs((MAVHEIGHT(mx, mz + 1) << 6) - grab_py[0]) < 0xa0)
+                                            continue;
+                                        break;
+                                    case 3:
+                                        if (abs((MAVHEIGHT(mx - 1, mz) << 6) - grab_py[0]) < 0xa0)
+                                            continue;
+                                        break;
                                     }
                                 }
 
@@ -870,8 +870,8 @@ round_again:;
 					if (!(PAP_2HI(mx,mz).Flags & (PAP_FLAG_HIDDEN)))
 					{
 						floor_height = PAP_2HI(
-											(x >> PAP_SHIFT_HI) + MIN(dx, 0),
-											(z >> PAP_SHIFT_HI) + MIN(dz, 0)).Alt << FLOOR_HEIGHT_SHIFT;
+											(x >> PAP_SHIFT_HI) + std::min(dx, 0),
+											(z >> PAP_SHIFT_HI) + std::min(dz, 0)).Alt << FLOOR_HEIGHT_SHIFT;
 							
 						if(abs(floor_height-y)<dy)
 						{
@@ -983,10 +983,11 @@ std::int32_t find_grab_face_in_sewers(
         std::int8_t dz;
     } order[4] =
         {
-            {+1, 0},
-            {-1, 0},
-            {0, +1},
-            {0, -1}};
+            {+1, 0 },
+            {-1, 0 },
+            {0,  +1},
+            {0,  -1}
+    };
 
     //
     // Person is over trench square so try grab edge of trench
@@ -1009,44 +1010,44 @@ std::int32_t find_grab_face_in_sewers(
 
                 if (abs(floor_height - y) < dy) {
                     switch (i) {
-                        case 0: dist = 255 - (x & 0xff); break;
-                        case 1: dist = (x & 0xff); break;
-                        case 2: dist = 255 - (z & 0xff); break;
-                        case 3: dist = (z & 0xff); break;
-                        default:
-                            ASSERT(0);
-                            break;
+                    case 0: dist = 255 - (x & 0xff); break;
+                    case 1: dist = (x & 0xff); break;
+                    case 2: dist = 255 - (z & 0xff); break;
+                    case 3: dist = (z & 0xff); break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
 
                     if (dist < best_dist) {
                         switch (i) {
-                            case 0:
-                                best_x = (x + 256) & 0xffffff00;
-                                best_z = z;
-                                best_angle = 1536; // 270 degrees
-                                break;
+                        case 0:
+                            best_x = (x + 256) & 0xffffff00;
+                            best_z = z;
+                            best_angle = 1536; // 270 degrees
+                            break;
 
-                            case 1:
-                                best_x = x & 0xffffff00;
-                                best_z = z;
-                                best_angle = 512; // 90 degrees
-                                break;
+                        case 1:
+                            best_x = x & 0xffffff00;
+                            best_z = z;
+                            best_angle = 512; // 90 degrees
+                            break;
 
-                            case 2:
-                                best_z = (z + 256) & 0xffffff00;
-                                best_x = x;
-                                best_angle = 1024;
-                                break;
+                        case 2:
+                            best_z = (z + 256) & 0xffffff00;
+                            best_x = x;
+                            best_angle = 1024;
+                            break;
 
-                            case 3:
-                                best_z = z & 0xffffff00;
-                                best_x = x;
-                                best_angle = 0;
-                                break;
+                        case 3:
+                            best_z = z & 0xffffff00;
+                            best_x = x;
+                            best_angle = 0;
+                            break;
 
-                            default:
-                                ASSERT(0);
-                                break;
+                        default:
+                            ASSERT(0);
+                            break;
                         }
 
                         dangle = best_angle - angle;

@@ -30,66 +30,66 @@ LRESULT CALLBACK DDLibShellProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
     switch (message) {
 #ifndef TARGET_DC
-        case WM_ACTIVATEAPP:
+    case WM_ACTIVATEAPP:
 
-            if (!wParam) {
-                //
-                // Lost focus...
-                //
-
-                app_inactive = true;
-            } else {
-                app_inactive = false;
-                restore_surfaces = true;
-            }
-
-            break;
-
-        case WM_SIZE:
-        case WM_MOVE:
-
+        if (!wParam) {
             //
-            // Tell the new engine the that window has moved.
+            // Lost focus...
             //
 
-            //			FINALENG_window_moved(LOWORD(lParam),HIWORD(lParam));
+            app_inactive = true;
+        } else {
+            app_inactive = false;
+            restore_surfaces = true;
+        }
 
-            if (the_display.IsFullScreen()) {
-                SetRect(&the_display.DisplayRect, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
-            } else {
-                GetClientRect(hWnd, &the_display.DisplayRect);
-                ClientToScreen(hWnd, (LPPOINT) &the_display.DisplayRect);
-                ClientToScreen(hWnd, (LPPOINT) &the_display.DisplayRect + 1);
-            }
-            break;
-        case WM_MOUSEMOVE:
-        case WM_RBUTTONUP:
-        case WM_RBUTTONDOWN:
-        case WM_RBUTTONDBLCLK:
-        case WM_LBUTTONUP:
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONDBLCLK:
-        case WM_MBUTTONUP:
-        case WM_MBUTTONDOWN:
-        case WM_MBUTTONDBLCLK:
-            MouseProc(message, wParam, lParam);
-            break;
+        break;
+
+    case WM_SIZE:
+    case WM_MOVE:
+
+        //
+        // Tell the new engine the that window has moved.
+        //
+
+        //			FINALENG_window_moved(LOWORD(lParam),HIWORD(lParam));
+
+        if (the_display.IsFullScreen()) {
+            SetRect(&the_display.DisplayRect, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+        } else {
+            GetClientRect(hWnd, &the_display.DisplayRect);
+            ClientToScreen(hWnd, (LPPOINT) &the_display.DisplayRect);
+            ClientToScreen(hWnd, (LPPOINT) &the_display.DisplayRect + 1);
+        }
+        break;
+    case WM_MOUSEMOVE:
+    case WM_RBUTTONUP:
+    case WM_RBUTTONDOWN:
+    case WM_RBUTTONDBLCLK:
+    case WM_LBUTTONUP:
+    case WM_LBUTTONDOWN:
+    case WM_LBUTTONDBLCLK:
+    case WM_MBUTTONUP:
+    case WM_MBUTTONDOWN:
+    case WM_MBUTTONDBLCLK:
+        MouseProc(message, wParam, lParam);
+        break;
 #endif // #ifndef TARGET_DC
 
-        case WM_KEYDOWN:
-        case WM_KEYUP:
-            KeyboardProc(message, wParam, lParam);
-            break;
-        case WM_CLOSE:
-            // normally, we should call DestroyWindow().
-            // instead, let's set flags so the normal quit process goes thru.
-            GAME_STATE = 0;
-            break;
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            break;
-        default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+        KeyboardProc(message, wParam, lParam);
+        break;
+    case WM_CLOSE:
+        // normally, we should call DestroyWindow().
+        // instead, let's set flags so the normal quit process goes thru.
+        GAME_STATE = 0;
+        break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
 }

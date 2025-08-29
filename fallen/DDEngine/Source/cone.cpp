@@ -939,7 +939,12 @@ void CONE_intersect_with_map() {
         std::int32_t x;
         std::int32_t z;
 
-    } done[CONE_MAX_DONE] = {{-1, -1}, {-1, -1}, {-1, -1}, {-1, -1}};
+    } done[CONE_MAX_DONE] = {
+        {-1, -1},
+        {-1, -1},
+        {-1, -1},
+        {-1, -1}
+    };
     std::int32_t done_upto = 0;
 
     //

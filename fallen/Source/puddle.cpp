@@ -70,10 +70,11 @@ typedef struct
 
 PUDDLE_Texture PUDDLE_texture[PUDDLE_TYPE_NUMBER] =
     {
-        {0, 0, 256, 62},
-        {0, 64, 256, 126},
-        {0, 128, 128, 256},
-        {128, 128, 256, 256}};
+        {0,   0,   256, 62 },
+        {0,   64,  256, 126},
+        {0,   128, 128, 256},
+        {128, 128, 256, 256}
+};
 
 void PUDDLE_init() {
     std::int32_t i;
@@ -295,10 +296,11 @@ void PUDDLE_precalculate() {
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     for (mx = 1; mx < MAP_WIDTH - 2; mx++)
         for (mz = 1; mz < MAP_HEIGHT - 2; mz++) {

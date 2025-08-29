@@ -52,86 +52,86 @@ bool CALLBACK traps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     NM_UPDOWN* lp_ntfy;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the combo box.
-            INIT_COMBO_BOX(IDC_COMBO1, wtraptype_strings, trap_type);
-            INIT_COMBO_BOX(IDC_COMBO2, wtrapaxis_strings, trap_axis);
+    case WM_INITDIALOG:
+        //	Set up the combo box.
+        INIT_COMBO_BOX(IDC_COMBO1, wtraptype_strings, trap_type);
+        INIT_COMBO_BOX(IDC_COMBO2, wtrapaxis_strings, trap_axis);
 
-            ticklist_init(hWnd, IDC_LIST1, blank_string, 0);
+        ticklist_init(hWnd, IDC_LIST1, blank_string, 0);
 
-            InitSteps(hWnd, trap_steps, trap_mask);
+        InitSteps(hWnd, trap_steps, trap_mask);
 
-            //	Set up the 'speed' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(32, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(trap_speed, 0));
+        //	Set up the 'speed' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(32, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(trap_speed, 0));
 
-            //	Set up the 'steps' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(32, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETPOS,
-                0,
-                MAKELONG(trap_steps, 0));
+        //	Set up the 'steps' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(32, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETPOS,
+            0,
+            MAKELONG(trap_steps, 0));
 
-            //	Set up the 'range' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN3),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(32, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN3),
-                UDM_SETPOS,
-                0,
-                MAKELONG(trap_range, 0));
+        //	Set up the 'range' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN3),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(32, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN3),
+            UDM_SETPOS,
+            0,
+            MAKELONG(trap_range, 0));
 
+        return true;
+
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
+
+    case WM_NOTIFY:
+        lp_ntfy = (NM_UPDOWN*) lParam;
+
+        //	Make the 'constitution' spin go up/down in steps of 5.
+        if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
+            InitSteps(hWnd, lp_ntfy->iPos + lp_ntfy->iDelta, ticklist_bitmask(hWnd, IDC_LIST1));
+        }
+        break;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            trap_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            trap_axis = SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETCURSEL, 0, 0);
+            trap_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            trap_steps = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
+            trap_mask = ticklist_bitmask(hWnd, IDC_LIST1);
+            trap_range = SendMessage(GetDlgItem(hWnd, IDC_SPIN3), UDM_GETPOS, 0, 0);
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
-
-        case WM_NOTIFY:
-            lp_ntfy = (NM_UPDOWN*) lParam;
-
-            //	Make the 'constitution' spin go up/down in steps of 5.
-            if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
-                InitSteps(hWnd, lp_ntfy->iPos + lp_ntfy->iDelta, ticklist_bitmask(hWnd, IDC_LIST1));
-            }
-            break;
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    trap_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-                    trap_axis = SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETCURSEL, 0, 0);
-                    trap_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    trap_steps = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
-                    trap_mask = ticklist_bitmask(hWnd, IDC_LIST1);
-                    trap_range = SendMessage(GetDlgItem(hWnd, IDC_SPIN3), UDM_GETPOS, 0, 0);
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            ticklist_close(hWnd, IDC_LIST1);
-            EndDialog(hWnd, 0);
-            return true;
+    case WM_CLOSE:
+        ticklist_close(hWnd, IDC_LIST1);
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

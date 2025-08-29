@@ -1981,24 +1981,24 @@ round_again:;
 
             if (PANEL_fadeout_finished()) {
                 switch (exit_game_loop) {
-                    case GAMEMENU_DO_NOTHING:
-                        break;
+                case GAMEMENU_DO_NOTHING:
+                    break;
 
-                    case GAMEMENU_DO_RESTART:
-                        GAME_STATE = GS_REPLAY;
-                        break;
+                case GAMEMENU_DO_RESTART:
+                    GAME_STATE = GS_REPLAY;
+                    break;
 
-                    case GAMEMENU_DO_CHOOSE_NEW_MISSION:
-                        GAME_STATE = GS_LEVEL_LOST;
-                        break;
+                case GAMEMENU_DO_CHOOSE_NEW_MISSION:
+                    GAME_STATE = GS_LEVEL_LOST;
+                    break;
 
-                    case GAMEMENU_DO_NEXT_LEVEL:
-                        GAME_STATE = GS_LEVEL_WON;
-                        break;
+                case GAMEMENU_DO_NEXT_LEVEL:
+                    GAME_STATE = GS_LEVEL_WON;
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
 
                 break;
@@ -2248,7 +2248,7 @@ round_again:;
             // #ifndef FINAL
             if (!(GAME_FLAGS & GF_PAUSED))
                 CONSOLE_draw();
-            // #endif
+                // #endif
 
 #ifndef PSX
             GAMEMENU_draw();
@@ -2409,24 +2409,24 @@ round_again:;
                         POLY_frame_init(false, false);
 
                         switch (the_game.DarciDeadCivWarnings) {
-                            case 0: mess = XLAT_str(X_CIVSDEAD_WARNING_1); break;
-                            case 1: mess = XLAT_str(X_CIVSDEAD_WARNING_2); break;
-                            case 2: mess = XLAT_str(X_CIVSDEAD_WARNING_3); break;
+                        case 0: mess = XLAT_str(X_CIVSDEAD_WARNING_1); break;
+                        case 1: mess = XLAT_str(X_CIVSDEAD_WARNING_2); break;
+                        case 2: mess = XLAT_str(X_CIVSDEAD_WARNING_3); break;
 
-                            default:
-                            case 3:
-                                GAME_STATE = GS_LEVEL_LOST;
+                        default:
+                        case 3:
+                            GAME_STATE = GS_LEVEL_LOST;
 
-                                MENUFONT_Draw(
-                                    30, 320,
-                                    192,
-                                    XLAT_str(X_LEVEL_LOST),
-                                    0xffffffff,
-                                    0);
+                            MENUFONT_Draw(
+                                30, 320,
+                                192,
+                                XLAT_str(X_LEVEL_LOST),
+                                0xffffffff,
+                                0);
 
-                                mess = XLAT_str(X_CIVSDEAD_WARNING_4);
+                            mess = XLAT_str(X_CIVSDEAD_WARNING_4);
 
-                                break;
+                            break;
                         }
 
                         FONT2D_DrawStringWrapTo(mess, 32, 82, 0x000000, 256, POLY_PAGE_FONT2D, 0, 352);
@@ -2477,46 +2477,46 @@ round_again:;
         // game_fini();
 
         switch (GAME_STATE) {
-            case 0:
+        case 0:
 #ifdef PSX
-                extern void AENG_flip_init();
-                AENG_flip_init();
-                DrawSync(0);
+            extern void AENG_flip_init();
+            AENG_flip_init();
+            DrawSync(0);
 #endif
-                break;
+            break;
 
-            case GS_REPLAY:
-                GAME_STATE = GS_PLAY_GAME | GS_REPLAY;
+        case GS_REPLAY:
+            GAME_STATE = GS_PLAY_GAME | GS_REPLAY;
 #ifdef PSX
-                extern void AENG_flip_init();
-                AENG_flip_init();
-                DrawSync(0);
+            extern void AENG_flip_init();
+            AENG_flip_init();
+            DrawSync(0);
 #endif
 
-                goto round_again;
-            case GS_LEVEL_WON:
+            goto round_again;
+        case GS_LEVEL_WON:
 #ifndef PSX
 //				STARTSCR_notify_gameover(1);
 #else
-                AENG_flip_init();
-                DrawSync(0);
-                Wadmenu_gameover(1);
+            AENG_flip_init();
+            DrawSync(0);
+            Wadmenu_gameover(1);
 #endif
-                break;
-            case GS_LEVEL_LOST:
+            break;
+        case GS_LEVEL_LOST:
 #ifndef PSX
 //				STARTSCR_notify_gameover(0);
 #else
 
-                TRACE("game_loop LOST 1\n");
-                AENG_flip_init();
-                TRACE("game_loop LOST 2\n");
-                DrawSync(0);
-                TRACE("game_loop LOST 3\n");
-                Wadmenu_gameover(0);
-                TRACE("game_loop LOST 4\n");
+            TRACE("game_loop LOST 1\n");
+            AENG_flip_init();
+            TRACE("game_loop LOST 2\n");
+            DrawSync(0);
+            TRACE("game_loop LOST 3\n");
+            Wadmenu_gameover(0);
+            TRACE("game_loop LOST 4\n");
 #endif
-                break;
+            break;
         }
 
         // game_fini();

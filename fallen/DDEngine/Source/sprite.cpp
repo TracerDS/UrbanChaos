@@ -95,30 +95,30 @@ void SPRITE_draw_tex_distorted(
             pp[3].specular = specular;
 
             switch (sort) {
-                case SPRITE_SORT_NORMAL:
-                    pp[0].z = mid.z;
-                    pp[0].Z = mid.Z;
-                    pp[1].z = mid.z;
-                    pp[1].Z = mid.Z;
-                    pp[2].z = mid.z;
-                    pp[2].Z = mid.Z;
-                    pp[3].z = mid.z;
-                    pp[3].Z = mid.Z;
-                    break;
+            case SPRITE_SORT_NORMAL:
+                pp[0].z = mid.z;
+                pp[0].Z = mid.Z;
+                pp[1].z = mid.z;
+                pp[1].Z = mid.Z;
+                pp[2].z = mid.z;
+                pp[2].Z = mid.Z;
+                pp[3].z = mid.z;
+                pp[3].Z = mid.Z;
+                break;
 
-                case SPRITE_SORT_FRONT:
-                    pp[0].z = 0.01F;
-                    pp[0].Z = 1.00F;
-                    pp[1].z = 0.01F;
-                    pp[1].Z = 1.00F;
-                    pp[2].z = 0.01F;
-                    pp[2].Z = 1.00F;
-                    pp[3].z = 0.01F;
-                    pp[3].Z = 1.00F;
-                    break;
+            case SPRITE_SORT_FRONT:
+                pp[0].z = 0.01F;
+                pp[0].Z = 1.00F;
+                pp[1].z = 0.01F;
+                pp[1].Z = 1.00F;
+                pp[2].z = 0.01F;
+                pp[2].Z = 1.00F;
+                pp[3].z = 0.01F;
+                pp[3].Z = 1.00F;
+                break;
 
-                default:
-                    ASSERT(0);
+            default:
+                ASSERT(0);
             }
 
             quad[0] = &pp[0];
@@ -192,30 +192,30 @@ void SPRITE_draw(
             pp[3].specular = specular;
 
             switch (sort) {
-                case SPRITE_SORT_NORMAL:
-                    pp[0].z = mid.z;
-                    pp[0].Z = mid.Z;
-                    pp[1].z = mid.z;
-                    pp[1].Z = mid.Z;
-                    pp[2].z = mid.z;
-                    pp[2].Z = mid.Z;
-                    pp[3].z = mid.z;
-                    pp[3].Z = mid.Z;
-                    break;
+            case SPRITE_SORT_NORMAL:
+                pp[0].z = mid.z;
+                pp[0].Z = mid.Z;
+                pp[1].z = mid.z;
+                pp[1].Z = mid.Z;
+                pp[2].z = mid.z;
+                pp[2].Z = mid.Z;
+                pp[3].z = mid.z;
+                pp[3].Z = mid.Z;
+                break;
 
-                case SPRITE_SORT_FRONT:
-                    pp[0].z = 0.01F;
-                    pp[0].Z = 1.00F;
-                    pp[1].z = 0.01F;
-                    pp[1].Z = 1.00F;
-                    pp[2].z = 0.01F;
-                    pp[2].Z = 1.00F;
-                    pp[3].z = 0.01F;
-                    pp[3].Z = 1.00F;
-                    break;
+            case SPRITE_SORT_FRONT:
+                pp[0].z = 0.01F;
+                pp[0].Z = 1.00F;
+                pp[1].z = 0.01F;
+                pp[1].Z = 1.00F;
+                pp[2].z = 0.01F;
+                pp[2].Z = 1.00F;
+                pp[3].z = 0.01F;
+                pp[3].Z = 1.00F;
+                break;
 
-                default:
-                    ASSERT(0);
+            default:
+                ASSERT(0);
             }
 
             quad[0] = &pp[0];
@@ -291,30 +291,30 @@ void SPRITE_draw_tex(
             pp[3].specular = specular;
 
             switch (sort) {
-                case SPRITE_SORT_NORMAL:
-                    pp[0].z = mid.z;
-                    pp[0].Z = mid.Z;
-                    pp[1].z = mid.z;
-                    pp[1].Z = mid.Z;
-                    pp[2].z = mid.z;
-                    pp[2].Z = mid.Z;
-                    pp[3].z = mid.z;
-                    pp[3].Z = mid.Z;
-                    break;
+            case SPRITE_SORT_NORMAL:
+                pp[0].z = mid.z;
+                pp[0].Z = mid.Z;
+                pp[1].z = mid.z;
+                pp[1].Z = mid.Z;
+                pp[2].z = mid.z;
+                pp[2].Z = mid.Z;
+                pp[3].z = mid.z;
+                pp[3].Z = mid.Z;
+                break;
 
-                case SPRITE_SORT_FRONT:
-                    pp[0].z = 0.01F;
-                    pp[0].Z = 1.00F;
-                    pp[1].z = 0.01F;
-                    pp[1].Z = 1.00F;
-                    pp[2].z = 0.01F;
-                    pp[2].Z = 1.00F;
-                    pp[3].z = 0.01F;
-                    pp[3].Z = 1.00F;
-                    break;
+            case SPRITE_SORT_FRONT:
+                pp[0].z = 0.01F;
+                pp[0].Z = 1.00F;
+                pp[1].z = 0.01F;
+                pp[1].Z = 1.00F;
+                pp[2].z = 0.01F;
+                pp[2].Z = 1.00F;
+                pp[3].z = 0.01F;
+                pp[3].Z = 1.00F;
+                break;
 
-                default:
-                    ASSERT(0);
+            default:
+                ASSERT(0);
             }
 
             quad[0] = &pp[0];

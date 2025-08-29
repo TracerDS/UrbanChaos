@@ -115,26 +115,26 @@ void PlayAmbient3D(std::int32_t channel, std::int32_t wave_id, std::int32_t flag
 void SND_BeginAmbient() {
     // map across from the texture set to the world type
     switch (TEXTURE_SET) {
-        case 1:
-            wtype = Jungle;
-            MFX_play_ambient(AMBIENT_EFFECT_REF, S_TROPICAL, MFX_LOOPED);
-            break;
+    case 1:
+        wtype = Jungle;
+        MFX_play_ambient(AMBIENT_EFFECT_REF, S_TROPICAL, MFX_LOOPED);
+        break;
 
-        case 5:
-            wtype = Snow;
-            break;
+    case 5:
+        wtype = Snow;
+        break;
 
-        case 10:
-            wtype = Estate;
-            break;
+    case 10:
+        wtype = Estate;
+        break;
 
-        case 16:
-            wtype = QuietCity;
-            break;
+    case 16:
+        wtype = QuietCity;
+        break;
 
-        default:
-            wtype = BusyCity;
-            break;
+    default:
+        wtype = BusyCity;
+        break;
     }
 
 #ifdef _DEBUG
@@ -155,28 +155,28 @@ void new_outdoors_effects() {
         siren_time = 5000;
 
         switch (wtype) {
-            case Jungle:
-                break;
+        case Jungle:
+            break;
 
-            case Snow:
-                // this one goes on forever, so it's made extra rare
-                wave_id = S_AMB_WOLF1;
-                siren_time = 1500 + ((Random() & 0xFFFF) >> 5);
-                break;
+        case Snow:
+            // this one goes on forever, so it's made extra rare
+            wave_id = S_AMB_WOLF1;
+            siren_time = 1500 + ((Random() & 0xFFFF) >> 5);
+            break;
 
-            case Estate:
-                wave_id = S_AMB_AIRCRAFT1;
-                siren_time = 500 + ((Random() & 0xFFFF) >> 5);
-                break;
+        case Estate:
+            wave_id = S_AMB_AIRCRAFT1;
+            siren_time = 500 + ((Random() & 0xFFFF) >> 5);
+            break;
 
-            case BusyCity:
-                //			wave_id = S_SIREN_START + (Random() % 4);
-                wave_id = SOUND_Range(S_SIREN_START, S_SIREN_END);
-                siren_time = 300 + ((Random() & 0xFFFF) >> 5);
-                break;
+        case BusyCity:
+            //			wave_id = S_SIREN_START + (Random() % 4);
+            wave_id = SOUND_Range(S_SIREN_START, S_SIREN_END);
+            siren_time = 300 + ((Random() & 0xFFFF) >> 5);
+            break;
 
-            case QuietCity:
-                break;
+        case QuietCity:
+            break;
         }
 
         if (wave_id != -1)
@@ -411,28 +411,28 @@ inline std::int32_t SOUND_Range(std::int32_t start, std::int32_t end) {
 
 std::uint8_t SOUND_Gender(Thing *p_thing) {
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-        case PERSON_SLAG_TART:
-        case PERSON_SLAG_FATUGLY:
-        case PERSON_HOSTAGE:
+    case PERSON_DARCI:
+    case PERSON_SLAG_TART:
+    case PERSON_SLAG_FATUGLY:
+    case PERSON_HOSTAGE:
+        return 2;
+    case PERSON_ROPER:
+    case PERSON_COP:
+    case PERSON_THUG_RASTA:
+    case PERSON_THUG_GREY:
+    case PERSON_THUG_RED:
+    case PERSON_MECHANIC:
+    case PERSON_TRAMP:
+    case PERSON_MIB1:
+    case PERSON_MIB2:
+    case PERSON_MIB3:
+        return 1;
+    case PERSON_CIV:
+        if (p_thing->Draw.Tweened->MeshID == 9)
             return 2;
-        case PERSON_ROPER:
-        case PERSON_COP:
-        case PERSON_THUG_RASTA:
-        case PERSON_THUG_GREY:
-        case PERSON_THUG_RED:
-        case PERSON_MECHANIC:
-        case PERSON_TRAMP:
-        case PERSON_MIB1:
-        case PERSON_MIB2:
-        case PERSON_MIB3:
-            return 1;
-        case PERSON_CIV:
-            if (p_thing->Draw.Tweened->MeshID == 9)
-                return 2;
-            return 1;
-        default:
-            return 0;
+        return 1;
+    default:
+        return 0;
     }
 }
 
@@ -442,20 +442,20 @@ void SOUND_Curious(Thing *p_thing) {
     if (!IsEnglish) return;
 
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_THUG_RASTA:
-            snd_a = S_BTHUG_UNCERTAIN_START;
-            snd_b = S_BTHUG_UNCERTAIN_END;
-            break;
-        case PERSON_THUG_GREY:
-            snd_a = S_WTHUG1_UNCERTAIN_START;
-            snd_b = S_WTHUG1_UNCERTAIN_END;
-            break;
-        case PERSON_THUG_RED:
-            snd_a = S_WTHUG2_UNCERTAIN_START;
-            snd_b = S_WTHUG2_UNCERTAIN_END;
-            break;
-        default:
-            return;
+    case PERSON_THUG_RASTA:
+        snd_a = S_BTHUG_UNCERTAIN_START;
+        snd_b = S_BTHUG_UNCERTAIN_END;
+        break;
+    case PERSON_THUG_GREY:
+        snd_a = S_WTHUG1_UNCERTAIN_START;
+        snd_b = S_WTHUG1_UNCERTAIN_END;
+        break;
+    case PERSON_THUG_RED:
+        snd_a = S_WTHUG2_UNCERTAIN_START;
+        snd_b = S_WTHUG2_UNCERTAIN_END;
+        break;
+    default:
+        return;
     }
     snd_a = SOUND_Range(snd_a, snd_b);
     MFX_play_thing(THING_NUMBER(p_thing), snd_a, 0, p_thing);
@@ -464,20 +464,20 @@ void SOUND_Curious(Thing *p_thing) {
 void DieSound(Thing *p_thing) {
     std::int16_t hit_a, hit_b;
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            hit_a = S_DARCI_HIT_START;
-            hit_b = S_DARCI_HIT_END;
-            break;
-        case PERSON_ROPER:
-            hit_a = S_ROPER_HIT_START;
-            hit_b = S_ROPER_HIT_END;
-            break;
-        case PERSON_COP:
-            hit_a = S_COP_DIE_START;
-            hit_b = S_COP_DIE_END;
-            break;
-        default:
-            return;
+    case PERSON_DARCI:
+        hit_a = S_DARCI_HIT_START;
+        hit_b = S_DARCI_HIT_END;
+        break;
+    case PERSON_ROPER:
+        hit_a = S_ROPER_HIT_START;
+        hit_b = S_ROPER_HIT_END;
+        break;
+    case PERSON_COP:
+        hit_a = S_COP_DIE_START;
+        hit_b = S_COP_DIE_END;
+        break;
+    default:
+        return;
     }
     hit_a = SOUND_Range(hit_a, hit_b);
     MFX_play_thing(THING_NUMBER(p_thing), hit_a, MFX_QUEUED | MFX_SHORT_QUEUE, p_thing);
@@ -487,56 +487,56 @@ void PainSound(Thing *p_thing) {
     std::int16_t hit_a, hit_b;
 
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            hit_a = S_DARCI_HIT_START;
-            hit_b = S_DARCI_HIT_END;
-            break;
-        case PERSON_ROPER:
-            hit_a = S_ROPER_HIT_START;
-            hit_b = S_ROPER_HIT_END;
-            break;
-        case PERSON_COP:
-            hit_a = S_COP_PAIN_START;
-            if (Random() & 3)
-                hit_b = hit_a + 1;
-            else
-                hit_b = S_COP_PAIN_END;
-            break;
-        case PERSON_THUG_RASTA:
-            hit_a = S_RASTA_PAIN_START;
-            if (Random() & 3)
-                hit_b = hit_a + 1;
-            else
-                hit_b = S_RASTA_PAIN_END;
-            break;
-        case PERSON_THUG_GREY:
-            hit_a = S_GGREY_PAIN_START;
-            if (Random() & 3)
-                hit_b = hit_a + 1;
-            else
-                hit_b = S_GGREY_PAIN_END;
-            break;
-        case PERSON_THUG_RED:
-            hit_a = S_GRED_PAIN_START;
-            hit_b = S_GRED_PAIN_END;
-            break;
-        case PERSON_HOSTAGE:
-            hit_a = S_HOSTAGE_PAIN_START;
-            hit_b = S_HOSTAGE_PAIN_END;
-            break;
-        case PERSON_MECHANIC:
-            hit_a = S_WORKMAN_PAIN_START;
-            hit_b = S_WORKMAN_PAIN_END;
-            break;
-        case PERSON_TRAMP:
-            hit_a = S_TRAMP_PAIN_START;
-            if (Random() & 3)
-                hit_b = hit_a + 1;
-            else
-                hit_b = S_TRAMP_PAIN_END;
-            break;
-        default:
-            return;
+    case PERSON_DARCI:
+        hit_a = S_DARCI_HIT_START;
+        hit_b = S_DARCI_HIT_END;
+        break;
+    case PERSON_ROPER:
+        hit_a = S_ROPER_HIT_START;
+        hit_b = S_ROPER_HIT_END;
+        break;
+    case PERSON_COP:
+        hit_a = S_COP_PAIN_START;
+        if (Random() & 3)
+            hit_b = hit_a + 1;
+        else
+            hit_b = S_COP_PAIN_END;
+        break;
+    case PERSON_THUG_RASTA:
+        hit_a = S_RASTA_PAIN_START;
+        if (Random() & 3)
+            hit_b = hit_a + 1;
+        else
+            hit_b = S_RASTA_PAIN_END;
+        break;
+    case PERSON_THUG_GREY:
+        hit_a = S_GGREY_PAIN_START;
+        if (Random() & 3)
+            hit_b = hit_a + 1;
+        else
+            hit_b = S_GGREY_PAIN_END;
+        break;
+    case PERSON_THUG_RED:
+        hit_a = S_GRED_PAIN_START;
+        hit_b = S_GRED_PAIN_END;
+        break;
+    case PERSON_HOSTAGE:
+        hit_a = S_HOSTAGE_PAIN_START;
+        hit_b = S_HOSTAGE_PAIN_END;
+        break;
+    case PERSON_MECHANIC:
+        hit_a = S_WORKMAN_PAIN_START;
+        hit_b = S_WORKMAN_PAIN_END;
+        break;
+    case PERSON_TRAMP:
+        hit_a = S_TRAMP_PAIN_START;
+        if (Random() & 3)
+            hit_b = hit_a + 1;
+        else
+            hit_b = S_TRAMP_PAIN_END;
+        break;
+    default:
+        return;
     }
     hit_a = SOUND_Range(hit_a, hit_b);
     MFX_play_thing(THING_NUMBER(p_thing), hit_a, MFX_QUEUED | MFX_SHORT_QUEUE, p_thing);
@@ -545,16 +545,16 @@ void PainSound(Thing *p_thing) {
 void EffortSound(Thing *p_thing) {
     std::int16_t snd_a, snd_b;
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            snd_a = S_DARCI_EFFORT_START;
-            snd_b = S_DARCI_EFFORT_END;
-            break;
-        case PERSON_ROPER:
-            snd_a = S_ROPER_EFFORT_START;
-            snd_b = S_ROPER_EFFORT_END;
-            break;
-        default:
-            return;
+    case PERSON_DARCI:
+        snd_a = S_DARCI_EFFORT_START;
+        snd_b = S_DARCI_EFFORT_END;
+        break;
+    case PERSON_ROPER:
+        snd_a = S_ROPER_EFFORT_START;
+        snd_b = S_ROPER_EFFORT_END;
+        break;
+    default:
+        return;
     }
     snd_a = SOUND_Range(snd_a, snd_b);
     MFX_play_thing(THING_NUMBER(p_thing), snd_a, 0, p_thing);
@@ -562,29 +562,29 @@ void EffortSound(Thing *p_thing) {
 
 void MinorEffortSound(Thing *p_thing) {
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            MFX_play_thing(THING_NUMBER(p_thing), S_DARCI_SHORT_EFFORT, 0, p_thing);
-            break;
-        case PERSON_ROPER:
-            MFX_play_thing(THING_NUMBER(p_thing), S_ROPER_SHORT_EFFORT, 0, p_thing);
-            break;
+    case PERSON_DARCI:
+        MFX_play_thing(THING_NUMBER(p_thing), S_DARCI_SHORT_EFFORT, 0, p_thing);
+        break;
+    case PERSON_ROPER:
+        MFX_play_thing(THING_NUMBER(p_thing), S_ROPER_SHORT_EFFORT, 0, p_thing);
+        break;
     }
 }
 
 void ScreamFallSound(Thing *p_thing) {
     std::int16_t snd_a, snd_b;
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            snd_a = S_DARCI_SCREAM_FALL_START;
-            snd_b = S_DARCI_SCREAM_FALL_END;
-            break;
-        case PERSON_ROPER:
-        case PERSON_CIV:
-            snd_a = S_ROPER_SCREAM_FALL_START;
-            snd_b = S_ROPER_SCREAM_FALL_END;
-            break;
-        default:
-            return;
+    case PERSON_DARCI:
+        snd_a = S_DARCI_SCREAM_FALL_START;
+        snd_b = S_DARCI_SCREAM_FALL_END;
+        break;
+    case PERSON_ROPER:
+    case PERSON_CIV:
+        snd_a = S_ROPER_SCREAM_FALL_START;
+        snd_b = S_ROPER_SCREAM_FALL_END;
+        break;
+    default:
+        return;
     }
     snd_a = SOUND_Range(snd_a, snd_b);
     MFX_play_thing(THING_NUMBER(p_thing), snd_a, 0, p_thing);
@@ -593,17 +593,17 @@ void ScreamFallSound(Thing *p_thing) {
 void StopScreamFallSound(Thing *p_thing) {
     std::int16_t snd_a, snd_b, snd;
     switch (p_thing->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            snd_a = S_DARCI_SCREAM_FALL_START;
-            snd_b = S_DARCI_SCREAM_FALL_END;
-            break;
-        case PERSON_ROPER:
-        case PERSON_CIV:
-            snd_a = S_ROPER_SCREAM_FALL_START;
-            snd_b = S_ROPER_SCREAM_FALL_END;
-            break;
-        default:
-            return;
+    case PERSON_DARCI:
+        snd_a = S_DARCI_SCREAM_FALL_START;
+        snd_b = S_DARCI_SCREAM_FALL_END;
+        break;
+    case PERSON_ROPER:
+    case PERSON_CIV:
+        snd_a = S_ROPER_SCREAM_FALL_START;
+        snd_b = S_ROPER_SCREAM_FALL_END;
+        break;
+    default:
+        return;
     }
     for (snd = snd_a; snd <= snd_b; snd++) {
         MFX_stop(THING_NUMBER(p_thing), snd);
@@ -690,14 +690,14 @@ std::int32_t play_ambient_wave(std::int32_t sample, std::int32_t id, std::int32_
 
 void play_glue_wave(std::uint16_t type, std::uint16_t id, std::int32_t x, std::int32_t y, std::int32_t z) {
     switch (type) {
-        case 0:
-            //		play_quick_wave_xyz(x,y,z,id,0,0);
-            MFX_play_xyz(0, id, MFX_OVERLAP, x, y, z);
-            break;
-        case 1:
-            //		music_id=play_quick_wave_xyz(FC_cam[0].x,FC_cam[0].y,FC_cam[0].z,id,music_id,0);
-            MFX_play_xyz(music_id, id, MFX_REPLACE, x, y, z);
-            break;
+    case 0:
+        //		play_quick_wave_xyz(x,y,z,id,0,0);
+        MFX_play_xyz(0, id, MFX_OVERLAP, x, y, z);
+        break;
+    case 1:
+        //		music_id=play_quick_wave_xyz(FC_cam[0].x,FC_cam[0].y,FC_cam[0].z,id,music_id,0);
+        MFX_play_xyz(music_id, id, MFX_REPLACE, x, y, z);
+        break;
     }
 }
 

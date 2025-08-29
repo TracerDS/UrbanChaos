@@ -97,13 +97,13 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         // Unused...
 
         {
-            POW_ARRANGE_NOTHING},
+         POW_ARRANGE_NOTHING},
 
         // Basic large sphere
 
         {
-            POW_ARRANGE_SPHERE,
-            1, // Speed
+         POW_ARRANGE_SPHERE,
+         1, // Speed
             3, // Density
             0, // Framespeed
             0, // Damping
@@ -114,8 +114,8 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         // Basic medium sphere
 
         {
-            POW_ARRANGE_SPHERE,
-            2, // Speed
+         POW_ARRANGE_SPHERE,
+         2, // Speed
             1, // Density
             1, // Framespeed
             0, // Damping
@@ -126,8 +126,8 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         // Basic small sphere
 
         {
-            POW_ARRANGE_SPHERE,
-            3, // Speed
+         POW_ARRANGE_SPHERE,
+         3, // Speed
             0, // Density
             0, // Framespeed
             1, // Damping
@@ -140,14 +140,14 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         //
 
         {
-            POW_ARRANGE_SPHERE,
-            1, // Speed
+         POW_ARRANGE_SPHERE,
+         1, // Speed
             3, // Density
             0, // Framespeed
             0, // Damping
             0, // Padding
             POW_TICKS_PER_SECOND * 4 >> 3,
-            {{POW_TICKS_PER_SECOND * 3 >> 3,
+         {{POW_TICKS_PER_SECOND * 3 >> 3,
               POW_TYPE_BASIC_SPHERE_MEDIUM,
               POW_SPAWN_FLAG_AWAY | POW_SPAWN_FLAG_FAR_OFF},
 
@@ -164,14 +164,14 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         //
 
         {
-            POW_ARRANGE_SPHERE,
-            2, // Speed
+         POW_ARRANGE_SPHERE,
+         2, // Speed
             1, // Density
             1, // Framespeed
             0, // Damping
             0, // Padding
             POW_TICKS_PER_SECOND * 4 >> 3,
-            {
+         {
                 {POW_TICKS_PER_SECOND * 3 >> 3,
                  POW_TYPE_BASIC_SPHERE_SMALL,
                  POW_SPAWN_FLAG_AWAY},
@@ -190,14 +190,14 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         //
 
         {
-            POW_ARRANGE_SPHERE,
-            1, // Speed
+         POW_ARRANGE_SPHERE,
+         1, // Speed
             3, // Density
             0, // Framespeed
             0, // Damping
             0, // Padding
             POW_TICKS_PER_SECOND * 4 >> 3,
-            {{POW_TICKS_PER_SECOND * 3 >> 3,
+         {{POW_TICKS_PER_SECOND * 3 >> 3,
               POW_TYPE_SPAWN_SPHERE_MEDIUM,
               POW_SPAWN_FLAG_AWAY | POW_SPAWN_FLAG_FAR_OFF},
 
@@ -214,14 +214,14 @@ POW_Type POW_type[POW_TYPE_NUMBER] =
         //
 
         {
-            POW_ARRANGE_SEMISPHERE,
-            1, // Speed
+         POW_ARRANGE_SEMISPHERE,
+         1, // Speed
             3, // Density
             0, // Framespeed
             0, // Damping
             0, // Padding
             POW_TICKS_PER_SECOND * 4 >> 3,
-            {{POW_TICKS_PER_SECOND * 3 >> 3,
+         {{POW_TICKS_PER_SECOND * 3 >> 3,
               POW_TYPE_SPAWN_SPHERE_MEDIUM,
               POW_SPAWN_FLAG_AWAY | POW_SPAWN_FLAG_FAR_OFF},
 

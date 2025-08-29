@@ -347,17 +347,17 @@ void SLAP_render() {
             }
 
             switch (sk2->type) {
-                case SLAP_TYPE_START:
-                    on += 1;
-                    break;
+            case SLAP_TYPE_START:
+                on += 1;
+                break;
 
-                case SLAP_TYPE_END:
-                    on -= 1;
-                    break;
+            case SLAP_TYPE_END:
+                on -= 1;
+                break;
 
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             if (!sk2->next) {

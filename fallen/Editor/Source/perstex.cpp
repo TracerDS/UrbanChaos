@@ -44,8 +44,7 @@ std::int32_t PERSTEX_get_number(char *fname) {
     // Change the fullname_txt file to have .txt at the end of it!
     //
 
-    for (ch = fullname_txt; *ch; ch++)
-        ;
+    for (ch = fullname_txt; *ch; ch++);
 
     ch[-3] = 't';
     ch[-2] = 'x';

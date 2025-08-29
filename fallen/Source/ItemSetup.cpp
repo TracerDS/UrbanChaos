@@ -37,69 +37,69 @@ bool CALLBACK is_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            /*			//	Set up the 'item' combo.
-                                    the_ctrl	=	GetDlgItem(hWnd,IDC_COMBO1);
-                                    lbitem_str	=	witem_strings[0];
-                                    while(*lbitem_str!='!')
-                                    {
-                                            SendMessage(the_ctrl,CB_ADDSTRING,0,(LPARAM)lbitem_str);
-                                            lbitem_str	=	witem_strings[++c0];
-                                    }
-                                    //	Set its default item.
-                                    SendMessage(the_ctrl,CB_SETCURSEL,item_type-1,0);*/
-            INIT_COMBO_BOX(IDC_COMBO1, witem_strings, item_type - 1);
-            //			INIT_COMBO_BOX(IDC_COMBO2,witemcontainer_strings,item_container);
-            ticklist_init(hWnd, IDC_LIST1, witem_flag_strings, item_flags);
+    case WM_INITDIALOG:
+        /*			//	Set up the 'item' combo.
+                                the_ctrl	=	GetDlgItem(hWnd,IDC_COMBO1);
+                                lbitem_str	=	witem_strings[0];
+                                while(*lbitem_str!='!')
+                                {
+                                        SendMessage(the_ctrl,CB_ADDSTRING,0,(LPARAM)lbitem_str);
+                                        lbitem_str	=	witem_strings[++c0];
+                                }
+                                //	Set its default item.
+                                SendMessage(the_ctrl,CB_SETCURSEL,item_type-1,0);*/
+        INIT_COMBO_BOX(IDC_COMBO1, witem_strings, item_type - 1);
+        //			INIT_COMBO_BOX(IDC_COMBO2,witemcontainer_strings,item_container);
+        ticklist_init(hWnd, IDC_LIST1, witem_flag_strings, item_flags);
 
-            //	Set up the 'count' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(99, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(item_count, 0));
+        //	Set up the 'count' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(99, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(item_count, 0));
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            //	Get the 'type'.
+            item_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
+                                    CB_GETCURSEL,
+                                    0, 0) +
+                        1;
+            item_count = SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
+                                     UDM_GETPOS,
+                                     0, 0);
+            /*				item_container= SendMessage	(	GetDlgItem(hWnd,IDC_COMBO2),
+                                                                                                            CB_GETCURSEL,
+                                                                                                            0,0
+                                                                                                    );*/
+            item_flags = ticklist_bitmask(hWnd, IDC_LIST1);
+
+        case IDCANCEL:
+            ticklist_close(hWnd, IDC_LIST1);
+            EndDialog(hWnd, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    //	Get the 'type'.
-                    item_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
-                                            CB_GETCURSEL,
-                                            0, 0) +
-                                1;
-                    item_count = SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
-                                             UDM_GETPOS,
-                                             0, 0);
-                    /*				item_container= SendMessage	(	GetDlgItem(hWnd,IDC_COMBO2),
-                                                                                                                    CB_GETCURSEL,
-                                                                                                                    0,0
-                                                                                                            );*/
-                    item_flags = ticklist_bitmask(hWnd, IDC_LIST1);
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
 
-                case IDCANCEL:
-                    ticklist_close(hWnd, IDC_LIST1);
-                    EndDialog(hWnd, 0);
-                    return true;
-            }
-            break;
-
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
-
-        case WM_VSCROLL:
-            if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN1 && LOWORD(wParam) == SB_THUMBPOSITION) {
-                item_count = HIWORD(wParam);
-                return true;
-            }
-            break;
+    case WM_VSCROLL:
+        if (GetDlgCtrlID((HWND) lParam) == IDC_SPIN1 && LOWORD(wParam) == SB_THUMBPOSITION) {
+            item_count = HIWORD(wParam);
+            return true;
+        }
+        break;
     }
     return false;
 }

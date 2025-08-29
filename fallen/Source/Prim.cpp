@@ -451,7 +451,7 @@ void delete_a_prim(std::uint16_t prim) {
 
 #endif
 
-// dist= max(x,y,z) + other>>2 +other>>2
+// dist= std::max(x,y,z) + other>>2 +other>>2
 //  13% max error
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
@@ -1876,44 +1876,44 @@ void fn_anim_prim_normal(Thing *p_thing) {
             //
 
             switch (get_anim_prim_type(p_thing->Index)) {
-                case ANIM_PRIM_TYPE_NORMAL:
-                    break;
+            case ANIM_PRIM_TYPE_NORMAL:
+                break;
 
-                case ANIM_PRIM_TYPE_DOOR:
+            case ANIM_PRIM_TYPE_DOOR:
 
-                    if (p_thing->Draw.Tweened->CurrentAnim == 2) {
-                        //
-                        // Door just opened.
-                        //
-
-                        p_thing->Flags |= FLAGS_SWITCHED_ON;
-                    } else {
-                        //
-                        // Door just shut.
-                        //
-
-                        p_thing->Flags &= ~FLAGS_SWITCHED_ON;
-                    }
-
-                    p_thing->StateFn = NULL;
-
-                    break;
-
-                case ANIM_PRIM_TYPE_SWITCH:
-
-                    p_thing->Flags ^= FLAGS_SWITCHED_ON;
-
+                if (p_thing->Draw.Tweened->CurrentAnim == 2) {
                     //
-                    // Mark anim as finished- don't call this function anymore!
+                    // Door just opened.
                     //
 
-                    p_thing->StateFn = NULL;
+                    p_thing->Flags |= FLAGS_SWITCHED_ON;
+                } else {
+                    //
+                    // Door just shut.
+                    //
 
-                    break;
+                    p_thing->Flags &= ~FLAGS_SWITCHED_ON;
+                }
 
-                default:
-                    ASSERT(0);
-                    break;
+                p_thing->StateFn = NULL;
+
+                break;
+
+            case ANIM_PRIM_TYPE_SWITCH:
+
+                p_thing->Flags ^= FLAGS_SWITCHED_ON;
+
+                //
+                // Mark anim as finished- don't call this function anymore!
+                //
+
+                p_thing->StateFn = NULL;
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
             }
         }
     }
@@ -1956,25 +1956,25 @@ void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32
         add_thing_to_map(t_thing);
 
         switch (get_anim_prim_type(t_thing->Index)) {
-            case ANIM_PRIM_TYPE_NORMAL:
+        case ANIM_PRIM_TYPE_NORMAL:
 
-                //
-                // Start off doing the first animation.
-                //
+            //
+            // Start off doing the first animation.
+            //
 
-                t_thing->StateFn = fn_anim_prim_normal;
+            t_thing->StateFn = fn_anim_prim_normal;
 
-                break;
+            break;
 
-            case ANIM_PRIM_TYPE_DOOR:
-                t_thing->Flags |= FLAGS_SWITCHED_ON;
-                break;
-            case ANIM_PRIM_TYPE_SWITCH:
-                break;
+        case ANIM_PRIM_TYPE_DOOR:
+            t_thing->Flags |= FLAGS_SWITCHED_ON;
+            break;
+        case ANIM_PRIM_TYPE_SWITCH:
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 }
@@ -2000,19 +2000,19 @@ void set_anim_prim_anim(std::int32_t anim_prim, std::int32_t anim) {
 
 std::int32_t get_anim_prim_type(std::int32_t anim_prim) {
     switch (anim_prim) {
-        case 4:
-            return ANIM_PRIM_TYPE_SWITCH;
-        case 3:
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 10:
-        case 11:
-            return ANIM_PRIM_TYPE_DOOR;
+    case 4:
+        return ANIM_PRIM_TYPE_SWITCH;
+    case 3:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 10:
+    case 11:
+        return ANIM_PRIM_TYPE_DOOR;
 
-        default:
-            return ANIM_PRIM_TYPE_NORMAL;
+    default:
+        return ANIM_PRIM_TYPE_NORMAL;
     }
 }
 #endif

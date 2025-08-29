@@ -156,8 +156,14 @@ struct VehInfo {
     std::uint8_t shad_elongate; // In 6-bit fixed point!
 };
 
-#define WHEELBASE_VAN {-120, 120, -120, 120}, {150, 150, -165, -165}
-#define WHEELBASE_CAR {-85, 85, -85, 85}, {160, 160, -120, -120}
+#define WHEELBASE_VAN         \
+    {-120, 120, -120, 120}, { \
+        150, 150, -165, -165  \
+    }
+#define WHEELBASE_CAR        \
+    {-85, 85, -85, 85}, {    \
+        160, 160, -120, -120 \
+    }
 
 #define ENGINE_LGV 17, 10, 4, 8  // light goods vehicle - slow in both directions, normal brakes
 #define ENGINE_CAR 21, 10, 4, 8  // car - faster than LGV, same brakes
@@ -166,15 +172,15 @@ struct VehInfo {
 
 struct VehInfo veh_info[VEH_TYPE_NUMBER] =
     {
-        {WHEELBASE_VAN, ENGINE_LGV, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_VAN_BODY, 0x6800, 0, NULL, -248, 15, 90, 0, 0, 0, 0, 0, 0, 0, 185, 100},
-        {WHEELBASE_CAR, ENGINE_CAR, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_CAR_BODY, 0x4000, 0, NULL, -205, 0, 60, 235, -8, 60, 0, 0, 0, 0, 125, 160},
-        {WHEELBASE_CAR, ENGINE_CAR, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_TAXI_BODY, 0x4000, 0, NULL, -225, 0, 60, 245, -8, 60, 0, 0, 0, 0, 125, 160},
-        {WHEELBASE_CAR, ENGINE_PIG, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_POLICE_BODY, 0x4000, 0, NULL, -225, 0, 60, 205, -24, 60, 0, 70, 40, 0, 125, 160},
-        {WHEELBASE_VAN, ENGINE_AMB, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_AMBULANCE_BODY, 0x6800, 0, NULL, -248, 15, 90, 240, 15, 90, -40, 210, 50, 1, 185, 100},
-        {WHEELBASE_VAN, ENGINE_CAR, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_JEEP_BODY, 0x6800, 0, NULL, -225, -10, 80, 240, -5, 90, 0, 0, 0, 0, 185, 100},
-        {WHEELBASE_VAN, ENGINE_AMB, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_MEATWAGON_BODY, 0x6800, 0, NULL, -240, -10, 80, 240, 15, 90, 50, 140, 40, 0, 185, 100},
-        {WHEELBASE_CAR, ENGINE_PIG, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_SEDAN_BODY, 0x4000, 0, NULL, -225, -20, 60, 205, -24, 70, 0, 0, 0, 0, 125, 160},
-        {WHEELBASE_VAN, ENGINE_LGV, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_WILDCATVAN_BODY, 0x6800, 0, NULL, -248, 15, 90, 0, 0, 0, 0, 0, 0, 0, 185, 100},
+        {WHEELBASE_VAN, ENGINE_LGV, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_VAN_BODY,        0x6800, 0, NULL, -248, 15,  90, 0,   0,   0,  0,   0,   0,  0, 185, 100},
+        {WHEELBASE_CAR, ENGINE_CAR, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_CAR_BODY,        0x4000, 0, NULL, -205, 0,   60, 235, -8,  60, 0,   0,   0,  0, 125, 160},
+        {WHEELBASE_CAR, ENGINE_CAR, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_TAXI_BODY,       0x4000, 0, NULL, -225, 0,   60, 245, -8,  60, 0,   0,   0,  0, 125, 160},
+        {WHEELBASE_CAR, ENGINE_PIG, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_POLICE_BODY,     0x4000, 0, NULL, -225, 0,   60, 205, -24, 60, 0,   70,  40, 0, 125, 160},
+        {WHEELBASE_VAN, ENGINE_AMB, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_AMBULANCE_BODY,  0x6800, 0, NULL, -248, 15,  90, 240, 15,  90, -40, 210, 50, 1, 185, 100},
+        {WHEELBASE_VAN, ENGINE_CAR, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_JEEP_BODY,       0x6800, 0, NULL, -225, -10, 80, 240, -5,  90, 0,   0,   0,  0, 185, 100},
+        {WHEELBASE_VAN, ENGINE_AMB, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_MEATWAGON_BODY,  0x6800, 0, NULL, -240, -10, 80, 240, 15,  90, 50,  140, 40, 0, 185, 100},
+        {WHEELBASE_CAR, ENGINE_PIG, 0, 30, PRIM_OBJ_CAR_WHEEL, PRIM_OBJ_SEDAN_BODY,      0x4000, 0, NULL, -225, -20, 60, 205, -24, 70, 0,   0,   0,  0, 125, 160},
+        {WHEELBASE_VAN, ENGINE_LGV, 0, 30, PRIM_OBJ_VAN_WHEEL, PRIM_OBJ_WILDCATVAN_BODY, 0x6800, 0, NULL, -248, 15,  90, 0,   0,   0,  0,   0,   0,  0, 185, 100},
 };
 
 // debug stuff
@@ -255,14 +261,15 @@ std::int32_t get_vehicle_body_offset(std::int32_t type) {
 
 StateFunction VEH_statefunctions[] =
     {
-        {STATE_INIT, NULL},
-        {STATE_NORMAL, NULL},
-        {STATE_COLLISION, NULL},
-        {STATE_ABOUT_TO_REMOVE, NULL},
-        {STATE_REMOVE_ME, NULL},
-        {STATE_MOVEING, NULL},
-        {STATE_FDRIVING, VEH_driving},
-        {STATE_FDOOR, NULL}};
+        {STATE_INIT,            NULL       },
+        {STATE_NORMAL,          NULL       },
+        {STATE_COLLISION,       NULL       },
+        {STATE_ABOUT_TO_REMOVE, NULL       },
+        {STATE_REMOVE_ME,       NULL       },
+        {STATE_MOVEING,         NULL       },
+        {STATE_FDRIVING,        VEH_driving},
+        {STATE_FDOOR,           NULL       }
+};
 
 // utilities
 
@@ -353,25 +360,25 @@ std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index
 #define MAX_INFRONT 512
 
     switch (p_vehicle->Class) {
-        case CLASS_VEHICLE:
-            angle = p_vehicle->Genus.Vehicle->Angle & 2047;
-            infront = MAX_INFRONT;
-            if (!dangle) infront -= abs(p_vehicle->Genus.Vehicle->WheelAngle * 3);
-            break;
+    case CLASS_VEHICLE:
+        angle = p_vehicle->Genus.Vehicle->Angle & 2047;
+        infront = MAX_INFRONT;
+        if (!dangle) infront -= abs(p_vehicle->Genus.Vehicle->WheelAngle * 3);
+        break;
 
 #ifdef BIKE
 
-        case CLASS_BIKE:
-            angle = p_vehicle->Draw.Mesh->Angle & 2047;
-            infront = MAX_INFRONT;
-            if (!dangle) infront -= abs(BIKE_control_get(p_vehicle).steer) * 8;
-            break;
+    case CLASS_BIKE:
+        angle = p_vehicle->Draw.Mesh->Angle & 2047;
+        infront = MAX_INFRONT;
+        if (!dangle) infront -= abs(BIKE_control_get(p_vehicle).steer) * 8;
+        break;
 
 #endif
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     dx = -SIN(angle);
@@ -603,31 +610,31 @@ void VEH_bounce(Vehicle *vp, std::uint8_t area, std::int32_t amount) {
     amount *= 2;
 
     switch (area) {
-        case 0:
-            vp->DY[1] -= amount;
-            break;
+    case 0:
+        vp->DY[1] -= amount;
+        break;
 
-        case 1:
-            vp->DY[0] -= amount;
-            break;
+    case 1:
+        vp->DY[0] -= amount;
+        break;
 
-        case 2:
-            vp->DY[1] -= amount;
-            vp->DY[3] -= amount;
-            break;
+    case 2:
+        vp->DY[1] -= amount;
+        vp->DY[3] -= amount;
+        break;
 
-        case 3:
-            vp->DY[0] -= amount;
-            vp->DY[2] -= amount;
-            break;
+    case 3:
+        vp->DY[0] -= amount;
+        vp->DY[2] -= amount;
+        break;
 
-        case 4:
-            vp->DY[3] -= amount;
-            break;
+    case 4:
+        vp->DY[3] -= amount;
+        break;
 
-        case 5:
-            vp->DY[2] -= amount;
-            break;
+    case 5:
+        vp->DY[2] -= amount;
+        break;
     }
 }
 
@@ -1244,23 +1251,23 @@ extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world
             std::int32_t colour = 0;
 
             switch (p_car->Genus.Vehicle->Dir) {
-                case -1:
-                case 1:
-                    p_car->Genus.Vehicle->Brakelight = is_driven_by_player(p_car) ? 1 : 10; // timer for NPCs (non-player cars)
-                    break;
+            case -1:
+            case 1:
+                p_car->Genus.Vehicle->Brakelight = is_driven_by_player(p_car) ? 1 : 10; // timer for NPCs (non-player cars)
+                break;
 
-                case -2:
-                    p_car->Genus.Vehicle->Brakelight = 0;
-                    if (p_car->Genus.Vehicle->DControl & VEH_DECEL) //	colour = 0x606060;	// reversing light
-                        colour = 0x303030;
-                    break;
+            case -2:
+                p_car->Genus.Vehicle->Brakelight = 0;
+                if (p_car->Genus.Vehicle->DControl & VEH_DECEL) //	colour = 0x606060;	// reversing light
+                    colour = 0x303030;
+                break;
 
-                case 2:
-                    p_car->Genus.Vehicle->Brakelight = 0;
-                    break;
+            case 2:
+                p_car->Genus.Vehicle->Brakelight = 0;
+                break;
 
-                case 0:
-                    break;
+            case 0:
+                break;
             }
 
             if (p_car->Genus.Vehicle->Brakelight) {
@@ -1530,10 +1537,43 @@ void VEH_collide_find_things(std::int32_t x, std::int32_t y, std::int32_t z, std
         p_found = TO_THING(found[i]);
 
         switch (p_found->Class) {
-            case CLASS_VEHICLE:
+        case CLASS_VEHICLE:
 
-                prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
-                pi = get_prim_info(prim);
+            prim = get_vehicle_body_prim(p_found->Genus.Vehicle->Type);
+            pi = get_prim_info(prim);
+
+            // Simple bounding circle rejection.
+
+            dx = abs((p_found->WorldPos.X >> 8) - x);
+            dz = abs((p_found->WorldPos.Z >> 8) - z);
+
+            dist = QDIST2(dx, dz);
+
+            if (dist <= radius + pi->radius + 0x10) {
+                vc = &VEH_col[VEH_col_upto++];
+
+                vc->type = VEH_COL_TYPE_BBOX;
+                vc->ob_index = NULL;
+                vc->veh = p_found;
+                vc->mid_x = p_found->WorldPos.X >> 8;
+                vc->mid_y = p_found->WorldPos.Y >> 8;
+                vc->mid_z = p_found->WorldPos.Z >> 8;
+                vc->height = pi->maxy;
+                vc->min_x = pi->minx;
+                vc->min_z = pi->minz;
+                vc->max_x = pi->maxx;
+                vc->max_z = pi->maxz;
+
+                vc->radius_or_yaw = p_found->Genus.Vehicle->Angle; // (= yaw for a BBOX)
+            }
+
+            break;
+
+        case CLASS_ANIM_PRIM:
+#ifdef ANIM_PRIMS
+            if (should_i_collide_against_this_anim_prim(p_found)) {
+                apb = &anim_prim_bbox[p_found->Index];
+                pi = get_prim_info(p_found->Index);
 
                 // Simple bounding circle rejection.
 
@@ -1547,96 +1587,63 @@ void VEH_collide_find_things(std::int32_t x, std::int32_t y, std::int32_t z, std
 
                     vc->type = VEH_COL_TYPE_BBOX;
                     vc->ob_index = NULL;
-                    vc->veh = p_found;
+                    vc->veh = NULL;
                     vc->mid_x = p_found->WorldPos.X >> 8;
                     vc->mid_y = p_found->WorldPos.Y >> 8;
                     vc->mid_z = p_found->WorldPos.Z >> 8;
-                    vc->height = pi->maxy;
-                    vc->min_x = pi->minx;
-                    vc->min_z = pi->minz;
-                    vc->max_x = pi->maxx;
-                    vc->max_z = pi->maxz;
+                    vc->height = apb->maxy;
+                    vc->min_x = apb->minx;
+                    vc->min_z = apb->minz;
+                    vc->max_x = apb->maxx;
+                    vc->max_z = apb->maxz;
 
-                    vc->radius_or_yaw = p_found->Genus.Vehicle->Angle; // (= yaw for a BBOX)
+                    vc->radius_or_yaw = p_found->Draw.Tweened->Angle; // (= yaw for a BBOX)
                 }
-
-                break;
-
-            case CLASS_ANIM_PRIM:
-#ifdef ANIM_PRIMS
-                if (should_i_collide_against_this_anim_prim(p_found)) {
-                    apb = &anim_prim_bbox[p_found->Index];
-                    pi = get_prim_info(p_found->Index);
-
-                    // Simple bounding circle rejection.
-
-                    dx = abs((p_found->WorldPos.X >> 8) - x);
-                    dz = abs((p_found->WorldPos.Z >> 8) - z);
-
-                    dist = QDIST2(dx, dz);
-
-                    if (dist <= radius + pi->radius + 0x10) {
-                        vc = &VEH_col[VEH_col_upto++];
-
-                        vc->type = VEH_COL_TYPE_BBOX;
-                        vc->ob_index = NULL;
-                        vc->veh = NULL;
-                        vc->mid_x = p_found->WorldPos.X >> 8;
-                        vc->mid_y = p_found->WorldPos.Y >> 8;
-                        vc->mid_z = p_found->WorldPos.Z >> 8;
-                        vc->height = apb->maxy;
-                        vc->min_x = apb->minx;
-                        vc->min_z = apb->minz;
-                        vc->max_x = apb->maxx;
-                        vc->max_z = apb->maxz;
-
-                        vc->radius_or_yaw = p_found->Draw.Tweened->Angle; // (= yaw for a BBOX)
-                    }
-                }
+            }
 #endif
-                break;
+            break;
 
 #if BIKE
 
-            case CLASS_BIKE:
+        case CLASS_BIKE:
 
+            vc = &VEH_col[VEH_col_upto++];
+
+            vc->type = VEH_COL_TYPE_CYLINDER;
+            vc->ob_index = NULL;
+            vc->veh = NULL;
+            vc->mid_x = p_found->WorldPos.X >> 8;
+            vc->mid_y = p_found->WorldPos.Y >> 8;
+            vc->mid_z = p_found->WorldPos.Z >> 8;
+            vc->height = 0x100;
+
+            vc->radius_or_yaw = 0x40; // (= radius for a cylinder)
+
+            break;
+
+#endif
+
+        case CLASS_BAT:
+
+            if (p_found->Genus.Bat->type == BAT_TYPE_BALROG) {
                 vc = &VEH_col[VEH_col_upto++];
 
                 vc->type = VEH_COL_TYPE_CYLINDER;
                 vc->ob_index = NULL;
-                vc->veh = NULL;
+                vc->veh = p_found;
                 vc->mid_x = p_found->WorldPos.X >> 8;
                 vc->mid_y = p_found->WorldPos.Y >> 8;
                 vc->mid_z = p_found->WorldPos.Z >> 8;
                 vc->height = 0x100;
 
                 vc->radius_or_yaw = 0x40; // (= radius for a cylinder)
+            }
 
-                break;
+            break;
 
-#endif
-
-            case CLASS_BAT:
-
-                if (p_found->Genus.Bat->type == BAT_TYPE_BALROG) {
-                    vc = &VEH_col[VEH_col_upto++];
-
-                    vc->type = VEH_COL_TYPE_CYLINDER;
-                    vc->ob_index = NULL;
-                    vc->veh = p_found;
-                    vc->mid_x = p_found->WorldPos.X >> 8;
-                    vc->mid_y = p_found->WorldPos.Y >> 8;
-                    vc->mid_z = p_found->WorldPos.Z >> 8;
-                    vc->height = 0x100;
-
-                    vc->radius_or_yaw = 0x40; // (= radius for a cylinder)
-                }
-
-                break;
-
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -1663,71 +1670,71 @@ void VEH_collide_find_things(std::int32_t x, std::int32_t y, std::int32_t z, std
                     if (oi->y >= y + 0x180) continue; // it's above us
 
                     switch (prim_get_collision_model(oi->prim)) {
-                        case PRIM_COLLIDE_BOX:
-                        case PRIM_COLLIDE_SMALLBOX:
+                    case PRIM_COLLIDE_BOX:
+                    case PRIM_COLLIDE_SMALLBOX:
 
-                            pi = get_prim_info(oi->prim);
+                        pi = get_prim_info(oi->prim);
 
-                            // Simple bounding circle rejection.
+                        // Simple bounding circle rejection.
 
-                            dx = abs(oi->x - x);
-                            dz = abs(oi->z - z);
+                        dx = abs(oi->x - x);
+                        dz = abs(oi->z - z);
 
-                            dist = QDIST2(dx, dz);
+                        dist = QDIST2(dx, dz);
 
-                            if (dist <= radius + pi->radius + 0x10) {
-                                vc = &VEH_col[VEH_col_upto++];
+                        if (dist <= radius + pi->radius + 0x10) {
+                            vc = &VEH_col[VEH_col_upto++];
 
-                                vc->type = VEH_COL_TYPE_BBOX;
-                                vc->ob_index = oi->index;
-                                vc->veh = NULL;
-                                vc->mid_x = oi->x;
-                                vc->mid_y = oi->y;
-                                vc->mid_z = oi->z;
-                                vc->height = pi->maxy;
-                                vc->min_x = pi->minx;
-                                vc->min_z = pi->minz;
-                                vc->max_x = pi->maxx;
-                                vc->max_z = pi->maxz;
+                            vc->type = VEH_COL_TYPE_BBOX;
+                            vc->ob_index = oi->index;
+                            vc->veh = NULL;
+                            vc->mid_x = oi->x;
+                            vc->mid_y = oi->y;
+                            vc->mid_z = oi->z;
+                            vc->height = pi->maxy;
+                            vc->min_x = pi->minx;
+                            vc->min_z = pi->minz;
+                            vc->max_x = pi->maxx;
+                            vc->max_z = pi->maxz;
 
-                                vc->radius_or_yaw = oi->yaw; // (= yaw for BBOXs)
-                            }
+                            vc->radius_or_yaw = oi->yaw; // (= yaw for BBOXs)
+                        }
 
-                            break;
+                        break;
 
-                        case PRIM_COLLIDE_NONE:
-                            break;
+                    case PRIM_COLLIDE_NONE:
+                        break;
 
-                        case PRIM_COLLIDE_CYLINDER:
+                    case PRIM_COLLIDE_CYLINDER:
 
-                            pi = get_prim_info(oi->prim);
+                        pi = get_prim_info(oi->prim);
 
-                            // Simple bounding circle rejection.
+                        // Simple bounding circle rejection.
 
-                            dx = abs(oi->x - x);
-                            dz = abs(oi->z - z);
+                        dx = abs(oi->x - x);
+                        dz = abs(oi->z - z);
 
-                            dist = QDIST2(dx, dz);
+                        dist = QDIST2(dx, dz);
 
-                            if (dist <= radius + 0x40) {
-                                vc = &VEH_col[VEH_col_upto++];
+                        if (dist <= radius + 0x40) {
+                            vc = &VEH_col[VEH_col_upto++];
 
-                                vc->type = VEH_COL_TYPE_CYLINDER;
-                                vc->ob_index = oi->index;
-                                vc->veh = NULL;
-                                vc->mid_x = oi->x;
-                                vc->mid_y = oi->y;
-                                vc->mid_z = oi->z;
-                                vc->height = pi->maxy;
+                            vc->type = VEH_COL_TYPE_CYLINDER;
+                            vc->ob_index = oi->index;
+                            vc->veh = NULL;
+                            vc->mid_x = oi->x;
+                            vc->mid_y = oi->y;
+                            vc->mid_z = oi->z;
+                            vc->height = pi->maxy;
 
-                                vc->radius_or_yaw = 0x30; // (= radius for cylinders)
-                            }
+                            vc->radius_or_yaw = 0x30; // (= radius for cylinders)
+                        }
 
-                            break;
+                        break;
 
-                        default:
-                            ASSERT(0);
-                            break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
                 }
             }
@@ -1876,15 +1883,15 @@ void VEH_co_damage(Thing *v1, Thing *v2) {
     torque >>= 10;
 
     switch (c2) {
-        case 0:
-        case 5:
-            vv2->VelR -= torque;
-            break;
+    case 0:
+    case 5:
+        vv2->VelR -= torque;
+        break;
 
-        case 1:
-        case 4:
-            vv2->VelR += torque;
-            break;
+    case 1:
+    case 4:
+        vv2->VelR += torque;
+        break;
     }
 
     vv2->Skid = SKID_START;
@@ -2010,50 +2017,50 @@ static void process_car(Thing *p_car);
 void nudge_car(Thing *p_car, std::int32_t flags, std::int32_t *x, std::int32_t *z, std::int32_t neg) {
     std::int32_t dx = 0, dz = 0;
     switch (flags & 15) {
-        case 1 + 2:
-            dx = x[3] - x[1];
-            dz = z[3] - z[1];
-            break;
-        case 2 + 4:
-            dx = x[0] - x[2];
-            dz = z[0] - z[2];
-            break;
-        case 4 + 8:
-            dx = x[1] - x[3];
-            dz = z[1] - z[3];
-            break;
-        case 8 + 1:
-            dx = x[2] - x[0];
-            dz = z[2] - z[0];
-            break;
+    case 1 + 2:
+        dx = x[3] - x[1];
+        dz = z[3] - z[1];
+        break;
+    case 2 + 4:
+        dx = x[0] - x[2];
+        dz = z[0] - z[2];
+        break;
+    case 4 + 8:
+        dx = x[1] - x[3];
+        dz = z[1] - z[3];
+        break;
+    case 8 + 1:
+        dx = x[2] - x[0];
+        dz = z[2] - z[0];
+        break;
 
-        case 1:
-        case 1 + 8 + 2:
-            // front
-            dx = x[2] - x[1];
-            dz = z[2] - z[1];
-            break;
+    case 1:
+    case 1 + 8 + 2:
+        // front
+        dx = x[2] - x[1];
+        dz = z[2] - z[1];
+        break;
 
-        case 2:
-        case 2 + 1 + 4:
-            // rhs
-            dx = x[0] - x[1];
-            dz = z[0] - z[1];
-            break;
+    case 2:
+    case 2 + 1 + 4:
+        // rhs
+        dx = x[0] - x[1];
+        dz = z[0] - z[1];
+        break;
 
-        case 4:
-        case 4 + 2 + 8:
-            // back
-            dx = x[1] - x[2];
-            dz = z[1] - z[2];
-            break;
+    case 4:
+    case 4 + 2 + 8:
+        // back
+        dx = x[1] - x[2];
+        dz = z[1] - z[2];
+        break;
 
-        case 8:
-        case 8 + 4 + 1:
-            // lhs
-            dx = x[1] - x[0];
-            dz = z[1] - z[0];
-            break;
+    case 8:
+    case 8 + 4 + 1:
+        // lhs
+        dx = x[1] - x[0];
+        dz = z[1] - z[0];
+        break;
     }
 
 //	dx>>=4;
@@ -2154,12 +2161,12 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
                 if (veh->Scrapin < 10) veh->Scrapin++;
 
-                //				if (is_driven_by_player(p_car))
-                //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
-                //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
-                //								true);
+                    //				if (is_driven_by_player(p_car))
+                    //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
+                    //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
+                    //								true);
 
-                // shake fence
+                    // shake fence
 #ifndef PSX
                 VEH_shake_fences(last_mav_square_x, last_mav_square_z);
 #endif
@@ -2329,10 +2336,10 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
     if (!flags) return 0;
 
-    //
-    // There has been a collision...
-    // Damage the car depending on how fast it is going
-    //
+        //
+        // There has been a collision...
+        // Damage the car depending on how fast it is going
+        //
 
 #if !defined(FAST_EDDIE) || !defined(_DEBUG)
     {
@@ -2361,45 +2368,45 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
     torque >>= 9;
 
     switch (code) {
-        case COLL_FRONT:
-        case COLL_BACK:
-            p_car->Flags |= FLAGS_COLLIDED;
-            // Fallthrough!
+    case COLL_FRONT:
+    case COLL_BACK:
+        p_car->Flags |= FLAGS_COLLIDED;
+        // Fallthrough!
 
-        case COLL_LEFT:
-        case COLL_RIGHT:
-            if (flags & 16) veh->VelX = -veh->VelX / 4;
-            if (flags & 32) veh->VelZ = -veh->VelZ / 4;
-            veh->Skid = SKID_START;
-            break;
+    case COLL_LEFT:
+    case COLL_RIGHT:
+        if (flags & 16) veh->VelX = -veh->VelX / 4;
+        if (flags & 32) veh->VelZ = -veh->VelZ / 4;
+        veh->Skid = SKID_START;
+        break;
 
-        case COLL_FL:
-        case COLL_BR:
-            p_car->Flags |= FLAGS_COLLIDED;
-            veh->VelR -= torque;
-            if (veh->VelR > -10) veh->VelR = -10;
-            if (flags & 16) veh->VelX = -veh->VelX / 8;
-            if (flags & 32) veh->VelZ = -veh->VelZ / 8;
-            //		veh->Skid = SKID_START;
-            break;
+    case COLL_FL:
+    case COLL_BR:
+        p_car->Flags |= FLAGS_COLLIDED;
+        veh->VelR -= torque;
+        if (veh->VelR > -10) veh->VelR = -10;
+        if (flags & 16) veh->VelX = -veh->VelX / 8;
+        if (flags & 32) veh->VelZ = -veh->VelZ / 8;
+        //		veh->Skid = SKID_START;
+        break;
 
-        case COLL_FR:
-        case COLL_BL:
-            p_car->Flags |= FLAGS_COLLIDED;
-            veh->VelR += torque;
-            if (veh->VelR < +10) veh->VelR = +10;
-            if (flags & 16) veh->VelX = -veh->VelX / 8;
-            if (flags & 32) veh->VelZ = -veh->VelZ / 8;
-            //		veh->Skid = SKID_START;
-            break;
+    case COLL_FR:
+    case COLL_BL:
+        p_car->Flags |= FLAGS_COLLIDED;
+        veh->VelR += torque;
+        if (veh->VelR < +10) veh->VelR = +10;
+        if (flags & 16) veh->VelX = -veh->VelX / 8;
+        if (flags & 32) veh->VelZ = -veh->VelZ / 8;
+        //		veh->Skid = SKID_START;
+        break;
 
-        case COLL_ALL:
-            veh->VelX = 0;
-            veh->VelZ = 0;
-            veh->VelR = 0;
-            p_car->Velocity = 0;
-            veh->Skid = SKID_START;
-            break;
+    case COLL_ALL:
+        veh->VelX = 0;
+        veh->VelZ = 0;
+        veh->VelR = 0;
+        p_car->Velocity = 0;
+        veh->Skid = SKID_START;
+        break;
     }
 
     // reduce velocity to prevent bounce
@@ -3016,17 +3023,17 @@ void VEH_driving(Thing *p_thing) {
                             //
 
                             switch (person_is_lying_on_what(p_found)) {
-                                case PERSON_ON_HIS_FRONT:
-                                    anim = ANIM_FIGHT_STOMPED_BACK;
-                                    break;
+                            case PERSON_ON_HIS_FRONT:
+                                anim = ANIM_FIGHT_STOMPED_BACK;
+                                break;
 
-                                case PERSON_ON_HIS_BACK:
-                                    anim = ANIM_FIGHT_STOMPED_FRONT;
-                                    break;
+                            case PERSON_ON_HIS_BACK:
+                                anim = ANIM_FIGHT_STOMPED_FRONT;
+                                break;
 
-                                default:
-                                    ASSERT(0);
-                                    break;
+                            default:
+                                ASSERT(0);
+                                break;
                             }
 
                             if (p_found->Draw.Tweened->CurrentAnim != anim || (p_found->Draw.Tweened->CurrentFrame->Flags & ANIM_FLAG_LAST_FRAME))
@@ -3767,32 +3774,32 @@ static void do_car_input(Thing *p_thing) {
             MFX_stop(THING_NUMBER(p_thing), S_CAR_REVERSE_LOOP);
             MFX_stop(THING_NUMBER(p_thing), S_CAR_REVERSE_END);
             switch (state) {
-                case VEH_FWD_ACCEL:
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
-                    break;
-                case VEH_FWD_DECEL:
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
-                    break;
-                case VEH_REV_ACCEL:
+            case VEH_FWD_ACCEL:
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                break;
+            case VEH_FWD_DECEL:
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                break;
+            case VEH_REV_ACCEL:
 #ifdef PSX
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_START, MFX_MOVING | MFX_EARLY_OUT);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_CRUISE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #else
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_START, MFX_MOVING | MFX_EARLY_OUT);
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_LOOP, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_START, MFX_MOVING | MFX_EARLY_OUT);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_LOOP, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #endif
-                    break;
-                case VEH_REV_DECEL:
+                break;
+            case VEH_REV_DECEL:
 #ifdef PSX
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_DECEL, MFX_MOVING | MFX_EARLY_OUT);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #else
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_END, MFX_MOVING | MFX_EARLY_OUT);
-                    MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CAR_REVERSE_END, MFX_MOVING | MFX_EARLY_OUT);
+                MFX_play_ambient(THING_NUMBER(p_thing), S_CARX_IDLE, MFX_MOVING | MFX_QUEUED | MFX_SHORT_QUEUE | MFX_LOOPED);
 #endif
-                    break;
+                break;
             }
         }
 
@@ -4300,65 +4307,65 @@ static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int3
 
     for (wheel = 0; wheel < 4; wheel++) {
         switch (wheel) {
-            case 0:
-                vx = x02;
-                vy = y02;
-                vz = z02;
-                wx = x10;
-                wy = y10;
-                wz = z10;
+        case 0:
+            vx = x02;
+            vy = y02;
+            vz = z02;
+            wx = x10;
+            wy = y10;
+            wz = z10;
 
-                nx = (vy * wz - vz * wy) >> 8;
-                ny = (vz * wx - vx * wz) >> 8;
-                nz = (vx * wy - vy * wx) >> 8;
+            nx = (vy * wz - vz * wy) >> 8;
+            ny = (vz * wx - vx * wz) >> 8;
+            nz = (vx * wy - vy * wx) >> 8;
 
-                calc_tilt_n_roll_with_matrix(wx, wy, wz, vx, vy, vz, nx, ny, nz, &angle, tilt, roll);
-                break;
+            calc_tilt_n_roll_with_matrix(wx, wy, wz, vx, vy, vz, nx, ny, nz, &angle, tilt, roll);
+            break;
 
-            case 1:
-                vx = x10;
-                vy = y10;
-                vz = z10;
-                wx = x31;
-                wy = y31;
-                wz = z31;
+        case 1:
+            vx = x10;
+            vy = y10;
+            vz = z10;
+            wx = x31;
+            wy = y31;
+            wz = z31;
 
-                nx = (vy * wz - vz * wy) >> 8;
-                ny = (vz * wx - vx * wz) >> 8;
-                nz = (vx * wy - vy * wx) >> 8;
+            nx = (vy * wz - vz * wy) >> 8;
+            ny = (vz * wx - vx * wz) >> 8;
+            nz = (vx * wy - vy * wx) >> 8;
 
-                calc_tilt_n_roll_with_matrix(vx, vy, vz, -wx, -wy, -wz, nx, ny, nz, &angle, tilt, roll);
-                break;
+            calc_tilt_n_roll_with_matrix(vx, vy, vz, -wx, -wy, -wz, nx, ny, nz, &angle, tilt, roll);
+            break;
 
-            case 2:
-                vx = x23;
-                vy = y23;
-                vz = z23;
-                wx = x02;
-                wy = y02;
-                wz = z02;
+        case 2:
+            vx = x23;
+            vy = y23;
+            vz = z23;
+            wx = x02;
+            wy = y02;
+            wz = z02;
 
-                nx = (vy * wz - vz * wy) >> 8;
-                ny = (vz * wx - vx * wz) >> 8;
-                nz = (vx * wy - vy * wx) >> 8;
+            nx = (vy * wz - vz * wy) >> 8;
+            ny = (vz * wx - vx * wz) >> 8;
+            nz = (vx * wy - vy * wx) >> 8;
 
-                calc_tilt_n_roll_with_matrix(-vx, -vy, -vz, wx, wy, wz, nx, ny, nz, &angle, tilt, roll);
-                break;
+            calc_tilt_n_roll_with_matrix(-vx, -vy, -vz, wx, wy, wz, nx, ny, nz, &angle, tilt, roll);
+            break;
 
-            case 3:
-                vx = x31;
-                vy = y31;
-                vz = z31;
-                wx = x23;
-                wy = y23;
-                wz = z23;
+        case 3:
+            vx = x31;
+            vy = y31;
+            vz = z31;
+            wx = x23;
+            wy = y23;
+            wz = z23;
 
-                nx = (vy * wz - vz * wy) >> 8;
-                ny = (vz * wx - vx * wz) >> 8;
-                nz = (vx * wy - vy * wx) >> 8;
+            nx = (vy * wz - vz * wy) >> 8;
+            ny = (vz * wx - vx * wz) >> 8;
+            nz = (vx * wy - vy * wx) >> 8;
 
-                calc_tilt_n_roll_with_matrix(-wx, -wy, -wz, -vx, -vy, -vz, nx, ny, nz, &angle, tilt, roll);
-                break;
+            calc_tilt_n_roll_with_matrix(-wx, -wy, -wz, -vx, -vy, -vz, nx, ny, nz, &angle, tilt, roll);
+            break;
         }
 
         if (*roll > 1024) *roll = *roll - 2048;

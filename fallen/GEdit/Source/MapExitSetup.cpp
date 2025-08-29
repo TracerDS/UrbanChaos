@@ -25,31 +25,31 @@ bool CALLBACK mapexit_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
     std::int32_t c0 = 0;
 
     switch (message) {
-        case WM_INITDIALOG:
-            DlgDirListComboBox(hWnd, "levels\\*.ucm", IDC_COMBO1, 0, DDL_ARCHIVE);
+    case WM_INITDIALOG:
+        DlgDirListComboBox(hWnd, "levels\\*.ucm", IDC_COMBO1, 0, DDL_ARCHIVE);
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        c0 = SendMessage(the_ctrl, CB_FINDSTRINGEXACT, -1, (long) filename);
+        if (c0 == CB_ERR)
+            c0 = SendMessage(the_ctrl, CB_ADDSTRING, 0, (long) filename);
+        if (c0 != CB_ERR)
+            SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
+
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
             the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            c0 = SendMessage(the_ctrl, CB_FINDSTRINGEXACT, -1, (long) filename);
-            if (c0 == CB_ERR)
-                c0 = SendMessage(the_ctrl, CB_ADDSTRING, 0, (long) filename);
-            if (c0 != CB_ERR)
-                SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
-
+            SendMessage(the_ctrl, WM_GETTEXT, _MAX_PATH, (long) filename);
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-                    SendMessage(the_ctrl, WM_GETTEXT, _MAX_PATH, (long) filename);
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            EndDialog(hWnd, 0);
-            return true;
+    case WM_CLOSE:
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

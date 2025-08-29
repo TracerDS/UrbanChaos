@@ -902,7 +902,7 @@ hor_loop:
 
 main_loop_done:
 
-                    // Do we need to do the last pixel?
+                        // Do we need to do the last pixel?
 				;Is the last pixel odd?
 				mov		ecx,[tempx2]
 				test	ecx,0x1

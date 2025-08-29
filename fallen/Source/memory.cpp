@@ -35,8 +35,9 @@
 #include <libsn.h>
 #include <libcd.h>
 #include <ctype.h>
-#include "c:\fallen\psxlib\headers\myheap.h"
+#include "psxlib/headers/myheap.h"
 #endif
+#include <algorithm>
 
 #ifdef PSX
 #ifdef VERSION_PAL
@@ -361,26 +362,26 @@ void release_memory() {
 struct MemTable save_table[] =
     {
 
-        {M_("Pap_Hi"), (void **) &PAP_hi, MEM_STATIC, 0, 0, PAP_SIZE_HI *PAP_SIZE_HI, sizeof(PAP_Hi), 0},                                                         // 0
-        {M_("Pap_Lo"), (void **) &PAP_lo, MEM_STATIC, 0, 0, PAP_SIZE_LO *PAP_SIZE_LO, sizeof(PAP_Lo), 0},                                                         // 1
-        {M_("net_peep"), (void **) &NETPERSON, MEM_STATIC, 0, 0, 10, sizeof(Thing *), 0},                                                                         // 2
-        {M_("net_plyr"), (void **) &NETPLAYERS, MEM_STATIC, 0, 0, 10, sizeof(Thing *), 0},                                                                        // 3
-        {M_("f-links"), (void **) &facet_links, MEM_DYNAMIC, 0, (std::uint16_t *) &next_facet_link, MAX_FACET_LINK, sizeof(std::int16_t), 0},                     // 4
-        {M_("dbuildings"), (void **) &dbuildings, MEM_DYNAMIC, &next_dbuilding, 0, MAX_DBUILDINGS, sizeof(struct DBuilding), 0},                                  // 5
-        {M_("dfacets"), (void **) &dfacets, MEM_DYNAMIC, &next_dfacet, 0, MAX_DFACETS, sizeof(struct DFacet), 0},                                                 // 6
-        {M_("dwalkables"), (void **) &dwalkables, MEM_DYNAMIC, &next_dwalkable, 0, MAX_DWALKABLES, sizeof(struct DWalkable), 0},                                  // 7
-        {M_("dstyles"), (void **) &dstyles, MEM_DYNAMIC, &next_dstyle, 0, MAX_DSTYLES, sizeof(std::int16_t), 0},                                                  // 8
-        {M_("dstoreys"), (void **) &dstoreys, MEM_DYNAMIC, 0, (std::uint16_t *) &next_dstorey, MAX_DSTOREYS, sizeof(struct DStorey), 0},                          // 9
-        {M_("paintmem"), (void **) &paint_mem, MEM_DYNAMIC, 0, (std::uint16_t *) &next_paint_mem, MAX_PAINTMEM, sizeof(std::uint8_t), 0},                         // 10
+        {M_("Pap_Hi"), (void **) &PAP_hi, MEM_STATIC, 0, 0, PAP_SIZE_HI *PAP_SIZE_HI, sizeof(PAP_Hi), 0}, // 0
+        {M_("Pap_Lo"), (void **) &PAP_lo, MEM_STATIC, 0, 0, PAP_SIZE_LO *PAP_SIZE_LO, sizeof(PAP_Lo), 0}, // 1
+        {M_("net_peep"), (void **) &NETPERSON, MEM_STATIC, 0, 0, 10, sizeof(Thing *), 0}, // 2
+        {M_("net_plyr"), (void **) &NETPLAYERS, MEM_STATIC, 0, 0, 10, sizeof(Thing *), 0}, // 3
+        {M_("f-links"), (void **) &facet_links, MEM_DYNAMIC, 0, (std::uint16_t *) &next_facet_link, MAX_FACET_LINK, sizeof(std::int16_t), 0}, // 4
+        {M_("dbuildings"), (void **) &dbuildings, MEM_DYNAMIC, &next_dbuilding, 0, MAX_DBUILDINGS, sizeof(struct DBuilding), 0}, // 5
+        {M_("dfacets"), (void **) &dfacets, MEM_DYNAMIC, &next_dfacet, 0, MAX_DFACETS, sizeof(struct DFacet), 0}, // 6
+        {M_("dwalkables"), (void **) &dwalkables, MEM_DYNAMIC, &next_dwalkable, 0, MAX_DWALKABLES, sizeof(struct DWalkable), 0}, // 7
+        {M_("dstyles"), (void **) &dstyles, MEM_DYNAMIC, &next_dstyle, 0, MAX_DSTYLES, sizeof(std::int16_t), 0}, // 8
+        {M_("dstoreys"), (void **) &dstoreys, MEM_DYNAMIC, 0, (std::uint16_t *) &next_dstorey, MAX_DSTOREYS, sizeof(struct DStorey), 0}, // 9
+        {M_("paintmem"), (void **) &paint_mem, MEM_DYNAMIC, 0, (std::uint16_t *) &next_paint_mem, MAX_PAINTMEM, sizeof(std::uint8_t), 0}, // 10
         {M_("insideStoreys"), (void **) &inside_storeys, MEM_DYNAMIC, 0, (std::uint16_t *) &next_inside_storey, MAX_INSIDE_RECT, sizeof(struct InsideStorey), 0}, // 11
-        {M_("insideStairs"), (void **) &inside_stairs, MEM_DYNAMIC, 0, &next_inside_stair, MAX_INSIDE_STAIRS, sizeof(struct Staircase), 0},                       // 12
-        {M_("insideblock"), (void **) &inside_block, MEM_DYNAMIC, &next_inside_block, 0, MAX_INSIDE_MEM, sizeof(std::uint8_t), 0},                                // 13
-        {M_("roof bounds"), (void **) &roof_bounds, MEM_DYNAMIC, 0, &next_roof_bound, MAX_ROOF_BOUND, sizeof(struct BoundBox), 0},                                // 14
-        {M_("prim_points"), (void **) &prim_points, MEM_DYNAMIC, 0, &next_prim_point, RMAX_PRIM_POINTS, sizeof(struct PrimPoint), 256},                           // 15
-        {M_("prim_faces4"), (void **) &prim_faces4, MEM_DYNAMIC, 0, &next_prim_face4, RMAX_PRIM_FACES4, sizeof(struct PrimFace4), 64},                            // 16
-        {M_("prim_faces3"), (void **) &prim_faces3, MEM_DYNAMIC, 0, &next_prim_face3, MAX_PRIM_FACES3, sizeof(struct PrimFace3), 0},                              // 17
-        {M_("prim_objects"), (void **) &prim_objects, MEM_DYNAMIC, 0, &next_prim_object, MAX_PRIM_OBJECTS, sizeof(struct PrimObject), 0},                         // 18
-        {M_("prim_Mobjects"), (void **) &prim_multi_objects, MEM_DYNAMIC, 0, &next_prim_multi_object, MAX_PRIM_MOBJECTS, sizeof(struct PrimMultiObject), 0},      // 19
+        {M_("insideStairs"), (void **) &inside_stairs, MEM_DYNAMIC, 0, &next_inside_stair, MAX_INSIDE_STAIRS, sizeof(struct Staircase), 0}, // 12
+        {M_("insideblock"), (void **) &inside_block, MEM_DYNAMIC, &next_inside_block, 0, MAX_INSIDE_MEM, sizeof(std::uint8_t), 0}, // 13
+        {M_("roof bounds"), (void **) &roof_bounds, MEM_DYNAMIC, 0, &next_roof_bound, MAX_ROOF_BOUND, sizeof(struct BoundBox), 0}, // 14
+        {M_("prim_points"), (void **) &prim_points, MEM_DYNAMIC, 0, &next_prim_point, RMAX_PRIM_POINTS, sizeof(struct PrimPoint), 256}, // 15
+        {M_("prim_faces4"), (void **) &prim_faces4, MEM_DYNAMIC, 0, &next_prim_face4, RMAX_PRIM_FACES4, sizeof(struct PrimFace4), 64}, // 16
+        {M_("prim_faces3"), (void **) &prim_faces3, MEM_DYNAMIC, 0, &next_prim_face3, MAX_PRIM_FACES3, sizeof(struct PrimFace3), 0}, // 17
+        {M_("prim_objects"), (void **) &prim_objects, MEM_DYNAMIC, 0, &next_prim_object, MAX_PRIM_OBJECTS, sizeof(struct PrimObject), 0}, // 18
+        {M_("prim_Mobjects"), (void **) &prim_multi_objects, MEM_DYNAMIC, 0, &next_prim_multi_object, MAX_PRIM_MOBJECTS, sizeof(struct PrimMultiObject), 0}, // 19
 
         /*
         #ifdef TEST_DC
@@ -388,9 +389,9 @@ struct MemTable save_table[] =
         #endif
         */
 
-        {M_("ob_ob"), (void **) &OB_ob, MEM_DYNAMIC, &OB_ob_upto, 0, OB_MAX_OBS, sizeof(OB_Ob), 0},                                         // 20
-        {M_("ob_ mapwho"), (void **) &OB_mapwho, MEM_STATIC, 0, 0, OB_SIZE *OB_SIZE, sizeof(OB_Mapwho), 0},                                 // 21
-        {M_("EWAY_mess"), (void **) &EWAY_mess, MEM_DYNAMIC, &EWAY_mess_upto, 0, EWAY_MAX_MESSES, sizeof(char *), 0},                       // 22
+        {M_("ob_ob"), (void **) &OB_ob, MEM_DYNAMIC, &OB_ob_upto, 0, OB_MAX_OBS, sizeof(OB_Ob), 0}, // 20
+        {M_("ob_ mapwho"), (void **) &OB_mapwho, MEM_STATIC, 0, 0, OB_SIZE *OB_SIZE, sizeof(OB_Mapwho), 0}, // 21
+        {M_("EWAY_mess"), (void **) &EWAY_mess, MEM_DYNAMIC, &EWAY_mess_upto, 0, EWAY_MAX_MESSES, sizeof(char *), 0}, // 22
         {M_("EWAY_mess buf"), (void **) &EWAY_mess_buffer, MEM_DYNAMIC, &EWAY_mess_buffer_upto, 0, EWAY_MESS_BUFFER_SIZE, sizeof(char), 0}, // 23
 #ifdef NEW_LEVELS
         {M_("EWAY_timer"), (void **) &EWAY_timer, MEM_STATIC, 0, 0, EWAY_MAX_TIMERS, sizeof(std::uint16_t), 0}, // 24
@@ -398,53 +399,53 @@ struct MemTable save_table[] =
         {M_("EWAY_timer"), (void **) &EWAY_timer, MEM_DYNAMIC, 0, 0, EWAY_MAX_TIMERS, sizeof(std::uint16_t), 0}, // 24
 #endif
         {M_("EWAY_cond"), (void **) &EWAY_cond, MEM_DYNAMIC, &EWAY_cond_upto, 0, EWAY_MAX_CONDS, sizeof(EWAY_Cond), 0}, // 25
-        {M_("EWAY_way"), (void **) &EWAY_way, MEM_DYNAMIC, &EWAY_way_upto, 0, EWAY_MAX_WAYS, sizeof(EWAY_Way), 0},      // 26
+        {M_("EWAY_way"), (void **) &EWAY_way, MEM_DYNAMIC, &EWAY_way_upto, 0, EWAY_MAX_WAYS, sizeof(EWAY_Way), 0}, // 26
         {M_("EWAY_edef"), (void **) &EWAY_edef, MEM_DYNAMIC, &EWAY_edef_upto, 0, EWAY_MAX_EDEFS, sizeof(EWAY_Edef), 0}, // 27
-        {M_("EWAY_counter"), (void **) &EWAY_counter, MEM_STATIC, 0, 0, EWAY_MAX_COUNTERS, sizeof(std::uint8_t), 0},    // 28
+        {M_("EWAY_counter"), (void **) &EWAY_counter, MEM_STATIC, 0, 0, EWAY_MAX_COUNTERS, sizeof(std::uint8_t), 0}, // 28
 
-        {M_("vehicles"), (void **) &VEHICLES, MEM_STATIC, 0, 0, RMAX_VEHICLES, sizeof(Vehicle), 32},           // 29
-        {M_("people"), (void **) &PEOPLE, MEM_STATIC, 0, 0, RMAX_PEOPLE, sizeof(Person), 128},                 // 30
-        {M_("animals"), (void **) &ANIMALS, MEM_STATIC, 0, 0, MAX_ANIMALS, sizeof(Animal), 0},                 // 31
-        {M_("choppers"), (void **) &CHOPPERS, MEM_STATIC, 0, 0, MAX_CHOPPERS, sizeof(Chopper), 0},             // 32
-        {M_("pyro"), (void **) &PYROS, MEM_STATIC, 0, 0, MAX_PYROS, sizeof(Pyro), 0},                          // 33
-        {M_("players"), (void **) &PLAYERS, MEM_STATIC, 0, 0, MAX_PLAYERS, sizeof(Player), 0},                 // 34
+        {M_("vehicles"), (void **) &VEHICLES, MEM_STATIC, 0, 0, RMAX_VEHICLES, sizeof(Vehicle), 32}, // 29
+        {M_("people"), (void **) &PEOPLE, MEM_STATIC, 0, 0, RMAX_PEOPLE, sizeof(Person), 128}, // 30
+        {M_("animals"), (void **) &ANIMALS, MEM_STATIC, 0, 0, MAX_ANIMALS, sizeof(Animal), 0}, // 31
+        {M_("choppers"), (void **) &CHOPPERS, MEM_STATIC, 0, 0, MAX_CHOPPERS, sizeof(Chopper), 0}, // 32
+        {M_("pyro"), (void **) &PYROS, MEM_STATIC, 0, 0, MAX_PYROS, sizeof(Pyro), 0}, // 33
+        {M_("players"), (void **) &PLAYERS, MEM_STATIC, 0, 0, MAX_PLAYERS, sizeof(Player), 0}, // 34
         {M_("projectiles"), (void **) &PROJECTILES, MEM_STATIC, 0, 0, MAX_PROJECTILES, sizeof(Projectile), 0}, // 35
-        {M_("special"), (void **) &SPECIALS, MEM_STATIC, 0, 0, RMAX_SPECIALS, sizeof(Special), 128},           // 36
-        {M_("switches"), (void **) &SWITCHES, MEM_STATIC, 0, 0, MAX_SWITCHES, sizeof(Switch), 0},              // 37
-        {M_("bats"), (void **) &BATS, MEM_STATIC, 0, 0, RBAT_MAX_BATS, sizeof(Bat), 32},                       // 38
-        {M_("thing"), (void **) &THINGS, MEM_STATIC, 0, 0, MAX_THINGS, sizeof(Thing), 0},                      // 39
+        {M_("special"), (void **) &SPECIALS, MEM_STATIC, 0, 0, RMAX_SPECIALS, sizeof(Special), 128}, // 36
+        {M_("switches"), (void **) &SWITCHES, MEM_STATIC, 0, 0, MAX_SWITCHES, sizeof(Switch), 0}, // 37
+        {M_("bats"), (void **) &BATS, MEM_STATIC, 0, 0, RBAT_MAX_BATS, sizeof(Bat), 32}, // 38
+        {M_("thing"), (void **) &THINGS, MEM_STATIC, 0, 0, MAX_THINGS, sizeof(Thing), 0}, // 39
         {M_("drawtween"), (void **) &DRAW_TWEENS, MEM_STATIC, 0, 0, RMAX_DRAW_TWEENS, sizeof(DrawTween), 128}, // 40
-        {M_("drawmesh"), (void **) &DRAW_MESHES, MEM_STATIC, 0, 0, RMAX_DRAW_MESHES, sizeof(DrawMesh), 128},   // 41
+        {M_("drawmesh"), (void **) &DRAW_MESHES, MEM_STATIC, 0, 0, RMAX_DRAW_MESHES, sizeof(DrawMesh), 128}, // 41
 #ifdef BIKE
         {M_("bike"), (void **) &BIKE_bike, MEM_STATIC, 0, 0, BIKE_MAX_BIKES, sizeof(BIKE_Bike), 0}, // 42
 #endif
-        {M_("barrelsphere"), (void **) &BARREL_sphere, MEM_STATIC, 0, 0, BARREL_MAX_SPHERES, sizeof(BARREL_Sphere), 0},        // 43
+        {M_("barrelsphere"), (void **) &BARREL_sphere, MEM_STATIC, 0, 0, BARREL_MAX_SPHERES, sizeof(BARREL_Sphere), 0}, // 43
         {M_("barrels"), (void **) &BARREL_barrel, MEM_DYNAMIC, &BARREL_barrel_upto, 0, BARREL_MAX_BARRELS, sizeof(Barrel), 0}, // 44
-        {M_("plat"), (void **) &PLAT_plat, MEM_DYNAMIC, &PLAT_plat_upto, 0, RPLAT_MAX_PLATS, sizeof(Plat), 2},                 // 45
-        {M_("wmove"), (void **) &WMOVE_face, MEM_DYNAMIC, &WMOVE_face_upto, 0, RWMOVE_MAX_FACES, sizeof(WMOVE_Face), 64},      // 46
-        {M_("mav_opt"), (void **) &MAV_opt, MEM_DYNAMIC, &MAV_opt_upto, 0, MAV_MAX_OPTS, sizeof(MAV_Opt), 0},                  // 47
+        {M_("plat"), (void **) &PLAT_plat, MEM_DYNAMIC, &PLAT_plat_upto, 0, RPLAT_MAX_PLATS, sizeof(Plat), 2}, // 45
+        {M_("wmove"), (void **) &WMOVE_face, MEM_DYNAMIC, &WMOVE_face_upto, 0, RWMOVE_MAX_FACES, sizeof(WMOVE_Face), 64}, // 46
+        {M_("mav_opt"), (void **) &MAV_opt, MEM_DYNAMIC, &MAV_opt_upto, 0, MAV_MAX_OPTS, sizeof(MAV_Opt), 0}, // 47
 
         //{M_("mav height")	,(void**)&MAV_height			,MEM_STATIC, 0							,0							,PAP_SIZE_HI*PAP_SIZE_HI	,sizeof(std::int8_t)					},
 
-        {M_("mav_nav"), (void **) &MAV_nav, MEM_STATIC, 0, 0, PAP_SIZE_HI *PAP_SIZE_HI, sizeof(std::uint16_t), 0},                             // 48
-        {M_("road_noads"), (void **) &ROAD_node, MEM_DYNAMIC, &ROAD_node_upto, 0, ROAD_MAX_NODES, sizeof(ROAD_Node), 0},                       // 49
+        {M_("mav_nav"), (void **) &MAV_nav, MEM_STATIC, 0, 0, PAP_SIZE_HI *PAP_SIZE_HI, sizeof(std::uint16_t), 0}, // 48
+        {M_("road_noads"), (void **) &ROAD_node, MEM_DYNAMIC, &ROAD_node_upto, 0, ROAD_MAX_NODES, sizeof(ROAD_Node), 0}, // 49
         {M_("balloons"), (void **) &BALLOON_balloon, MEM_DYNAMIC, &BALLOON_balloon_upto, 0, BALLOON_MAX_BALLOONS, sizeof(BALLOON_Balloon), 0}, // 50
-        {M_("tracks"), (void **) &tracks, MEM_STATIC, 0, 0, TRACK_BUFFER_LENGTH, sizeof(Track), 0},                                            // 51
-        {M_("roofface4"), (void **) &roof_faces4, MEM_DYNAMIC, 0, &next_roof_face4, MAX_ROOF_FACE4, sizeof(struct RoofFace4), 0},              // 52
-        {M_("fastnav"), (void **) &COLLIDE_fastnav, MEM_STATIC, 0, 0, PAP_SIZE_HI *PAP_SIZE_HI >> 3, sizeof(std::uint8_t), 0},                 // 53
-        {M_("night_slight"), (void **) &NIGHT_slight, MEM_DYNAMIC, &NIGHT_slight_upto, 0, NIGHT_MAX_SLIGHTS, sizeof(NIGHT_Slight), 0},         // 54
-        {M_("night_smap"), (void **) &NIGHT_smap, MEM_STATIC, 0, 0, PAP_SIZE_LO *PAP_SIZE_LO, sizeof(NIGHT_Smap), 0},                          // 55
-        {M_("night_dlight"), (void **) &NIGHT_dlight, MEM_STATIC, 0, 0, NIGHT_MAX_DLIGHTS, sizeof(NIGHT_Dlight), 0},                           // 56
-        {M_("WARE_ware"), (void **) &WARE_ware, MEM_DYNAMIC, 0, &WARE_ware_upto, WARE_MAX_WARES, sizeof(WARE_Ware), 0},                        // 57
-        {M_("WARE_nav"), (void **) &WARE_nav, MEM_DYNAMIC, 0, &WARE_nav_upto, WARE_MAX_NAVS, sizeof(std::uint16_t), 0},                        // 58
-        {M_("WARE_height"), (void **) &WARE_height, MEM_DYNAMIC, 0, &WARE_height_upto, WARE_MAX_HEIGHTS, sizeof(std::int8_t), 0},              // 59
-        {M_("WARE_rooftex"), (void **) &WARE_rooftex, MEM_DYNAMIC, 0, &WARE_rooftex_upto, WARE_MAX_ROOFTEXES, sizeof(std::uint16_t), 0},       // 60
-        {M_("Trip_Wire"), (void **) &TRIP_wire, MEM_DYNAMIC, &TRIP_wire_upto, 0, TRIP_MAX_WIRES, sizeof(TRIP_Wire), 0},                        // 61
-        {M_("Road_edges"), (void **) &ROAD_edge, MEM_DYNAMIC, 0, &ROAD_edge_upto, ROAD_MAX_EDGES, sizeof(std::uint8_t), 0},                    // 62
-        {M_("Thing_heads"), (void **) &thing_class_head, MEM_STATIC, 0, 0, CLASS_END, sizeof(std::uint16_t), 0},                               // 63
-        {M_("psx_remap"), (void **) &psx_remap, MEM_STATIC, 0, 0, 128, sizeof(std::uint16_t), 0},                                              // 64
-        {M_("psx_tex_xy"), (void **) &psx_textures_xy, MEM_STATIC, 0, 0, 200 * 5, sizeof(std::uint16_t), 0},                                   // 65
-        {M_("map_beacon"), (void **) &MAP_beacon, MEM_STATIC, 0, 0, MAP_MAX_BEACONS, sizeof(MAP_Beacon), 0},                                   // 66
+        {M_("tracks"), (void **) &tracks, MEM_STATIC, 0, 0, TRACK_BUFFER_LENGTH, sizeof(Track), 0}, // 51
+        {M_("roofface4"), (void **) &roof_faces4, MEM_DYNAMIC, 0, &next_roof_face4, MAX_ROOF_FACE4, sizeof(struct RoofFace4), 0}, // 52
+        {M_("fastnav"), (void **) &COLLIDE_fastnav, MEM_STATIC, 0, 0, PAP_SIZE_HI *PAP_SIZE_HI >> 3, sizeof(std::uint8_t), 0}, // 53
+        {M_("night_slight"), (void **) &NIGHT_slight, MEM_DYNAMIC, &NIGHT_slight_upto, 0, NIGHT_MAX_SLIGHTS, sizeof(NIGHT_Slight), 0}, // 54
+        {M_("night_smap"), (void **) &NIGHT_smap, MEM_STATIC, 0, 0, PAP_SIZE_LO *PAP_SIZE_LO, sizeof(NIGHT_Smap), 0}, // 55
+        {M_("night_dlight"), (void **) &NIGHT_dlight, MEM_STATIC, 0, 0, NIGHT_MAX_DLIGHTS, sizeof(NIGHT_Dlight), 0}, // 56
+        {M_("WARE_ware"), (void **) &WARE_ware, MEM_DYNAMIC, 0, &WARE_ware_upto, WARE_MAX_WARES, sizeof(WARE_Ware), 0}, // 57
+        {M_("WARE_nav"), (void **) &WARE_nav, MEM_DYNAMIC, 0, &WARE_nav_upto, WARE_MAX_NAVS, sizeof(std::uint16_t), 0}, // 58
+        {M_("WARE_height"), (void **) &WARE_height, MEM_DYNAMIC, 0, &WARE_height_upto, WARE_MAX_HEIGHTS, sizeof(std::int8_t), 0}, // 59
+        {M_("WARE_rooftex"), (void **) &WARE_rooftex, MEM_DYNAMIC, 0, &WARE_rooftex_upto, WARE_MAX_ROOFTEXES, sizeof(std::uint16_t), 0}, // 60
+        {M_("Trip_Wire"), (void **) &TRIP_wire, MEM_DYNAMIC, &TRIP_wire_upto, 0, TRIP_MAX_WIRES, sizeof(TRIP_Wire), 0}, // 61
+        {M_("Road_edges"), (void **) &ROAD_edge, MEM_DYNAMIC, 0, &ROAD_edge_upto, ROAD_MAX_EDGES, sizeof(std::uint8_t), 0}, // 62
+        {M_("Thing_heads"), (void **) &thing_class_head, MEM_STATIC, 0, 0, CLASS_END, sizeof(std::uint16_t), 0}, // 63
+        {M_("psx_remap"), (void **) &psx_remap, MEM_STATIC, 0, 0, 128, sizeof(std::uint16_t), 0}, // 64
+        {M_("psx_tex_xy"), (void **) &psx_textures_xy, MEM_STATIC, 0, 0, 200 * 5, sizeof(std::uint16_t), 0}, // 65
+        {M_("map_beacon"), (void **) &MAP_beacon, MEM_STATIC, 0, 0, MAP_MAX_BEACONS, sizeof(MAP_Beacon), 0}, // 66
 //	{"anim_mids"	,(void**)&anim_mids				,MEM_STATIC ,0							,&next_anim_mids			,256						,sizeof(PrimPoint)				},
 // cutscene memory
 #ifndef BUILD_PSX
@@ -461,12 +462,11 @@ struct MemTable save_table[] =
         //
         // new ones added by MikeD for footstep surfaces
         //
-        {M_("soundfxmap"), (void **) &SOUND_FXMapping, MEM_STATIC, 0, 0, 1024, sizeof(std::uint8_t), 0},      // 48
+        {M_("soundfxmap"), (void **) &SOUND_FXMapping, MEM_STATIC, 0, 0, 1024, sizeof(std::uint8_t), 0}, // 48
         {M_("soundfxgroup"), (void **) &SOUND_FXGroups, MEM_STATIC, 0, 0, 128 * 2, sizeof(std::uint16_t), 0}, // 48
 
         {0, 0, 0, 0, 0, 0, 0}
         //	{""		,(void**)		,1,0					,&		,MAX_PAINTMEM			,sizeof(struct )	},
-
 };
 
 void init_memory() {
@@ -662,132 +662,132 @@ void set_darci_normals() {
 #ifndef PSX
 void convert_drawtype_to_index(Thing *p_thing, std::int32_t meshtype) {
     switch (meshtype) {
-        case DT_MESH:
-            if (p_thing->Draw.Mesh) {
-                std::uint32_t drawtype;
-                drawtype = (p_thing->Draw.Mesh - DRAW_MESHES);
-                p_thing->Draw.Mesh = (DrawMesh *) drawtype;
-            }
-            break;
-        case DT_ROT_MULTI:
-        case DT_ANIM_PRIM:
-        case DT_BIKE:
-            if (p_thing->Draw.Tweened) {
-                std::uint32_t drawtype;
-                std::int32_t chunk;
+    case DT_MESH:
+        if (p_thing->Draw.Mesh) {
+            std::uint32_t drawtype;
+            drawtype = (p_thing->Draw.Mesh - DRAW_MESHES);
+            p_thing->Draw.Mesh = (DrawMesh *) drawtype;
+        }
+        break;
+    case DT_ROT_MULTI:
+    case DT_ANIM_PRIM:
+    case DT_BIKE:
+        if (p_thing->Draw.Tweened) {
+            std::uint32_t drawtype;
+            std::int32_t chunk;
 
-                switch (p_thing->Class) {
-                    case CLASS_BIKE:
-                    case CLASS_PERSON:
-                    case CLASS_VEHICLE:
-                    case CLASS_ANIMAL:
-                        chunk = (std::uint32_t) (p_thing->Draw.Tweened->TheChunk - &game_chunk[0]);
-                        ASSERT(chunk >= 0);
-                        chunk |= 1 << 16;
-                        p_thing->Draw.Tweened->TheChunk = (GameKeyFrameChunk *) chunk;
-                        break;
-                    case CLASS_BAT:
-                    case CLASS_ANIM_PRIM:
-                        chunk = (std::uint32_t) (p_thing->Draw.Tweened->TheChunk - &anim_chunk[0]);
-                        ASSERT(chunk >= 0);
-                        chunk |= 2 << 16;
-                        p_thing->Draw.Tweened->TheChunk = (GameKeyFrameChunk *) chunk;
-                        break;
-                }
-
-                drawtype = (p_thing->Draw.Tweened - DRAW_TWEENS);
-                p_thing->Draw.Tweened = (DrawTween *) drawtype;
+            switch (p_thing->Class) {
+            case CLASS_BIKE:
+            case CLASS_PERSON:
+            case CLASS_VEHICLE:
+            case CLASS_ANIMAL:
+                chunk = (std::uint32_t)(p_thing->Draw.Tweened->TheChunk - &game_chunk[0]);
+                ASSERT(chunk >= 0);
+                chunk |= 1 << 16;
+                p_thing->Draw.Tweened->TheChunk = (GameKeyFrameChunk *) chunk;
+                break;
+            case CLASS_BAT:
+            case CLASS_ANIM_PRIM:
+                chunk = (std::uint32_t)(p_thing->Draw.Tweened->TheChunk - &anim_chunk[0]);
+                ASSERT(chunk >= 0);
+                chunk |= 2 << 16;
+                p_thing->Draw.Tweened->TheChunk = (GameKeyFrameChunk *) chunk;
+                break;
             }
-            break;
+
+            drawtype = (p_thing->Draw.Tweened - DRAW_TWEENS);
+            p_thing->Draw.Tweened = (DrawTween *) drawtype;
+        }
+        break;
     }
 }
 
 void convert_thing_to_index(Thing *p_thing) {
     //	ASSERT(THING_NUMBER(p_thing)!=94);
     switch (p_thing->DrawType) {
-        case DT_MESH:
-        case DT_CHOPPER:
-            convert_drawtype_to_index(p_thing, DT_MESH);
-            break;
-        case DT_ROT_MULTI:
-            convert_drawtype_to_index(p_thing, DT_ROT_MULTI);
-            break;
+    case DT_MESH:
+    case DT_CHOPPER:
+        convert_drawtype_to_index(p_thing, DT_MESH);
+        break;
+    case DT_ROT_MULTI:
+        convert_drawtype_to_index(p_thing, DT_ROT_MULTI);
+        break;
 
-        case DT_ANIM_PRIM:
-        case DT_BIKE:
-            convert_drawtype_to_index(p_thing, DT_ANIM_PRIM);
-            break;
+    case DT_ANIM_PRIM:
+    case DT_BIKE:
+        convert_drawtype_to_index(p_thing, DT_ANIM_PRIM);
+        break;
     }
 
     switch (p_thing->Class) {
-        case CLASS_NONE:
-            break;
-        case CLASS_PLAYER:
-            p_thing->Genus.Player->PlayerPerson = (Thing *) THING_NUMBER(p_thing->Genus.Player->PlayerPerson);
-            p_thing->Genus.Player = (Player *) PLAYER_NUMBER(p_thing->Genus.Player);
+    case CLASS_NONE:
+        break;
+    case CLASS_PLAYER:
+        p_thing->Genus.Player->PlayerPerson = (Thing *) THING_NUMBER(p_thing->Genus.Player->PlayerPerson);
+        p_thing->Genus.Player = (Player *) PLAYER_NUMBER(p_thing->Genus.Player);
 
-            break;
-        case CLASS_CAMERA:
-            break;
-        case CLASS_PROJECTILE:
-            p_thing->Genus.Projectile = (Projectile *) PROJECTILE_NUMBER(p_thing->Genus.Projectile);
-            break;
-        case CLASS_BUILDING:
-            break;
-        case CLASS_PERSON:
-            p_thing->Genus.Person = (Person *) PERSON_NUMBER(p_thing->Genus.Person);
+        break;
+    case CLASS_CAMERA:
+        break;
+    case CLASS_PROJECTILE:
+        p_thing->Genus.Projectile = (Projectile *) PROJECTILE_NUMBER(p_thing->Genus.Projectile);
+        break;
+    case CLASS_BUILDING:
+        break;
+    case CLASS_PERSON:
+        p_thing->Genus.Person = (Person *) PERSON_NUMBER(p_thing->Genus.Person);
 
-            break;
-        case CLASS_ANIMAL:
-            p_thing->Genus.Animal = (Animal *) ANIMAL_NUMBERb(p_thing->Genus.Animal);
+        break;
+    case CLASS_ANIMAL:
+        p_thing->Genus.Animal = (Animal *) ANIMAL_NUMBERb(p_thing->Genus.Animal);
 
-            break;
-        case CLASS_FURNITURE:
-            p_thing->Genus.Furniture = (Furniture *) FURNITURE_NUMBER(p_thing->Genus.Furniture);
-            break;
-        case CLASS_SWITCH:
-            p_thing->Genus.Switch = (Switch *) SWITCH_NUMBER(p_thing->Genus.Switch);
-            break;
-        case CLASS_VEHICLE:
-            p_thing->Genus.Vehicle = (Vehicle *) VEHICLE_NUMBER(p_thing->Genus.Vehicle);
-            break;
-        case CLASS_SPECIAL:
-            p_thing->Genus.Special = (Special *) SPECIAL_NUMBER(p_thing->Genus.Special);
-            break;
-        case CLASS_ANIM_PRIM:
-            break;
-        case CLASS_CHOPPER:
-            p_thing->Genus.Chopper = (Chopper *) CHOPPER_NUMBER(p_thing->Genus.Chopper);
+        break;
+    case CLASS_FURNITURE:
+        p_thing->Genus.Furniture = (Furniture *) FURNITURE_NUMBER(p_thing->Genus.Furniture);
+        break;
+    case CLASS_SWITCH:
+        p_thing->Genus.Switch = (Switch *) SWITCH_NUMBER(p_thing->Genus.Switch);
+        break;
+    case CLASS_VEHICLE:
+        p_thing->Genus.Vehicle = (Vehicle *) VEHICLE_NUMBER(p_thing->Genus.Vehicle);
+        break;
+    case CLASS_SPECIAL:
+        p_thing->Genus.Special = (Special *) SPECIAL_NUMBER(p_thing->Genus.Special);
+        break;
+    case CLASS_ANIM_PRIM:
+        break;
+    case CLASS_CHOPPER:
+        p_thing->Genus.Chopper = (Chopper *) CHOPPER_NUMBER(p_thing->Genus.Chopper);
 
-            break;
-        case CLASS_PYRO:
-            p_thing->Genus.Pyro = (Pyro *) PYRO_NUMBER(p_thing->Genus.Pyro);
-            break;
-        case CLASS_TRACK:
-            if (p_thing->Genus.Track->flags == TRACK_FLAGS_SPLUTTING)
-                p_thing->Genus.Track->page = POLY_PAGE_BLOODSPLAT;
-            p_thing->Genus.Track = (Track *) TRACK_NUMBER(p_thing->Genus.Track);
-            break;
-        case CLASS_PLAT:
-            p_thing->Genus.Plat = (Plat *) PLAT_NUMBER(p_thing->Genus.Plat);
+        break;
+    case CLASS_PYRO:
+        p_thing->Genus.Pyro = (Pyro *) PYRO_NUMBER(p_thing->Genus.Pyro);
+        break;
+    case CLASS_TRACK:
+        if (p_thing->Genus.Track->flags == TRACK_FLAGS_SPLUTTING)
+            p_thing->Genus.Track->page = POLY_PAGE_BLOODSPLAT;
+        p_thing->Genus.Track = (Track *) TRACK_NUMBER(p_thing->Genus.Track);
+        break;
+    case CLASS_PLAT:
+        p_thing->Genus.Plat = (Plat *) PLAT_NUMBER(p_thing->Genus.Plat);
 
-            break;
-        case CLASS_BARREL:
-            p_thing->Genus.Barrel = (Barrel *) BARREL_NUMBER(p_thing->Genus.Barrel);
+        break;
+    case CLASS_BARREL:
+        p_thing->Genus.Barrel = (Barrel *) BARREL_NUMBER(p_thing->Genus.Barrel);
 
-            break;
+        break;
 #ifdef BIKE
-        case CLASS_BIKE:
-            p_thing->Genus.Bike = (BIKE_Bike *) BIKE_NUMBER(p_thing->Genus.Bike);
-            break;
+    case CLASS_BIKE:
+        p_thing->Genus.Bike = (BIKE_Bike *) BIKE_NUMBER(p_thing->Genus.Bike);
+        break;
 #endif
-        case CLASS_BAT:
-            p_thing->Genus.Bat = (Bat *) BAT_NUMBER(p_thing->Genus.Bat);
-            break;
+    case CLASS_BAT:
+        p_thing->Genus.Bat = (Bat *) BAT_NUMBER(p_thing->Genus.Bat);
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -872,12 +872,12 @@ void convert_pointers_to_index() {
         }
     }
 
-    save_table[SAVE_TABLE_PEOPLE].Maximum = MIN(save_table[SAVE_TABLE_PEOPLE].Extra + count_people, RMAX_PEOPLE);
-    save_table[SAVE_TABLE_VEHICLE].Maximum = MIN(save_table[SAVE_TABLE_VEHICLE].Extra + count_car, RMAX_VEHICLES);
-    save_table[SAVE_TABLE_SPECIAL].Maximum = MIN(save_table[SAVE_TABLE_SPECIAL].Extra + count_special, RMAX_SPECIALS);
-    save_table[SAVE_TABLE_BAT].Maximum = MIN(save_table[SAVE_TABLE_BAT].Extra + count_bat, RBAT_MAX_BATS);
-    save_table[SAVE_TABLE_DTWEEN].Maximum = MIN(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween, RMAX_DRAW_TWEENS);
-    save_table[SAVE_TABLE_DMESH].Maximum = MIN(save_table[SAVE_TABLE_DMESH].Extra + count_mesh, RMAX_DRAW_MESHES);
+    save_table[SAVE_TABLE_PEOPLE].Maximum = std::min(save_table[SAVE_TABLE_PEOPLE].Extra + count_people, RMAX_PEOPLE);
+    save_table[SAVE_TABLE_VEHICLE].Maximum = std::min(save_table[SAVE_TABLE_VEHICLE].Extra + count_car, RMAX_VEHICLES);
+    save_table[SAVE_TABLE_SPECIAL].Maximum = std::min(save_table[SAVE_TABLE_SPECIAL].Extra + count_special, RMAX_SPECIALS);
+    save_table[SAVE_TABLE_BAT].Maximum = std::min(save_table[SAVE_TABLE_BAT].Extra + count_bat, RBAT_MAX_BATS);
+    save_table[SAVE_TABLE_DTWEEN].Maximum = std::min(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween, RMAX_DRAW_TWEENS);
+    save_table[SAVE_TABLE_DMESH].Maximum = std::min(save_table[SAVE_TABLE_DMESH].Extra + count_mesh, RMAX_DRAW_MESHES);
 
     extern char ELEV_fname_level[];
     if (level_index == 0) {
@@ -892,9 +892,9 @@ void convert_pointers_to_index() {
     if (level_index == 20 || level_index == 19 || level_index == 26 || level_index == 24 || strstr(ELEV_fname_level, "Album1")) {
         // cop killers or semtex or estate map or stern revenge
 
-        save_table[SAVE_TABLE_PEOPLE].Maximum = MIN(save_table[SAVE_TABLE_PEOPLE].Extra + count_people + 30, RMAX_PEOPLE);
-        save_table[SAVE_TABLE_DTWEEN].Maximum = MIN(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween + 30, RMAX_DRAW_TWEENS);
-        save_table[SAVE_TABLE_DMESH].Maximum = MIN(save_table[SAVE_TABLE_DMESH].Extra + count_mesh + 30, RMAX_DRAW_MESHES);
+        save_table[SAVE_TABLE_PEOPLE].Maximum = std::min(save_table[SAVE_TABLE_PEOPLE].Extra + count_people + 30, RMAX_PEOPLE);
+        save_table[SAVE_TABLE_DTWEEN].Maximum = std::min(save_table[SAVE_TABLE_DTWEEN].Extra + count_tween + 30, RMAX_DRAW_TWEENS);
+        save_table[SAVE_TABLE_DMESH].Maximum = std::min(save_table[SAVE_TABLE_DMESH].Extra + count_mesh + 30, RMAX_DRAW_MESHES);
     }
 
     if (count_special > max_special) {
@@ -933,7 +933,7 @@ void convert_pointers_to_index() {
     }
 
     for (c0 = 0; c0 < EWAY_mess_upto; c0++) {
-        EWAY_mess[c0] = (char *) ((std::int32_t) (EWAY_mess[c0] - EWAY_mess_buffer));
+        EWAY_mess[c0] = (char *) ((std::int32_t)(EWAY_mess[c0] - EWAY_mess_buffer));
     }
 
     for (c0 = 0; c0 < PYRO_COUNT; c0++) {
@@ -966,24 +966,24 @@ void convert_pointers_to_index() {
 void convert_keyframe_to_index(GameKeyFrame *p, GameKeyFrameElement *p_ele, GameFightCol *p_fight, std::int32_t count) {
     std::int32_t c0;
     for (c0 = 0; c0 < count; c0++) {
-        p[c0].FirstElement = (GameKeyFrameElement *) ((std::int32_t) (p[c0].FirstElement - p_ele));
-        p[c0].PrevFrame = (GameKeyFrame *) ((std::int32_t) (p[c0].PrevFrame - p));
-        p[c0].NextFrame = (GameKeyFrame *) ((std::int32_t) (p[c0].NextFrame - p));
-        p[c0].Fight = (GameFightCol *) ((std::int32_t) (p[c0].Fight - p_fight));
+        p[c0].FirstElement = (GameKeyFrameElement *) ((std::int32_t)(p[c0].FirstElement - p_ele));
+        p[c0].PrevFrame = (GameKeyFrame *) ((std::int32_t)(p[c0].PrevFrame - p));
+        p[c0].NextFrame = (GameKeyFrame *) ((std::int32_t)(p[c0].NextFrame - p));
+        p[c0].Fight = (GameFightCol *) ((std::int32_t)(p[c0].Fight - p_fight));
     }
 }
 
 void convert_animlist_to_index(GameKeyFrame **p, GameKeyFrame *p_anim, std::int32_t count) {
     std::int32_t c0;
     for (c0 = 0; c0 < count; c0++) {
-        p[c0] = (GameKeyFrame *) ((std::int32_t) (p[c0] - p_anim));
+        p[c0] = (GameKeyFrame *) ((std::int32_t)(p[c0] - p_anim));
     }
 }
 
 void convert_fightcol_to_index(GameFightCol *p, GameFightCol *p_fight, std::int32_t count) {
     std::int32_t c0;
     for (c0 = 0; c0 < count; c0++) {
-        p[c0].Next = (GameFightCol *) ((std::int32_t) (p[c0].Next - p_fight));
+        p[c0].Next = (GameFightCol *) ((std::int32_t)(p[c0].Next - p_fight));
     }
 }
 #endif
@@ -1235,7 +1235,7 @@ void fix_psxed_anims() {
                 for (c1 = 0; c1 < gc->MaxKeyFrames; c1++) {
                     if (gc->AnimKeyFrames[c1].FirstElement) {
                         std::int32_t ele_index;
-                        ele_index = (std::uint32_t) (gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
+                        ele_index = (std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
 
                         //
                         // don't want to do a keyframe twice
@@ -1296,7 +1296,7 @@ void save_whole_anims_psx(MFFileHandle handle) {
 
                     //				ASSERT(c1!=1565);
                     if (gc->AnimKeyFrames[c1].FirstElement) {
-                        ele_index = (std::uint32_t) (gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
+                        ele_index = (std::uint32_t)(gc->AnimKeyFrames[c1].FirstElement - gc->TheElements);
 
                         //
                         // don't want to do a keyframe twice
@@ -1700,25 +1700,25 @@ void save_whole_wad(char *gamename, std::uint8_t type) {
             //			ASSERT(c0!=29);
             ptab = &save_table[c0];
             switch (ptab->Type) {
-                case 2:
-                    mem_size = ptab->Maximum * ptab->StructSize;
-                    count = ptab->Maximum;
-                    break;
+            case 2:
+                mem_size = ptab->Maximum * ptab->StructSize;
+                count = ptab->Maximum;
+                break;
 
-                case 1:
-                    if (ptab->CountL) {
-                        count = *ptab->CountL;
-                    } else {
-                        if (ptab->CountW)
-                            count = *ptab->CountW;
-                        else
-                            ASSERT(0);
-                    }
-                    if (ptab->Extra)          // redundant but more readable!
-                        count += ptab->Extra; // we have some extra ones so increase how many we create, this is also saved into the next_blah_blah filed but the loader will subtract this off for next_blah_blah
+            case 1:
+                if (ptab->CountL) {
+                    count = *ptab->CountL;
+                } else {
+                    if (ptab->CountW)
+                        count = *ptab->CountW;
+                    else
+                        ASSERT(0);
+                }
+                if (ptab->Extra)          // redundant but more readable!
+                    count += ptab->Extra; // we have some extra ones so increase how many we create, this is also saved into the next_blah_blah filed but the loader will subtract this off for next_blah_blah
 
-                    mem_size = count * ptab->StructSize;
-                    break;
+                mem_size = count * ptab->StructSize;
+                break;
             }
 
             if (c0 == 16) {
@@ -1939,15 +1939,15 @@ void save_whole_wad(char *gamename, std::uint8_t type) {
 #endif
 
         switch (type) {
-            case 0:
-                save_whole_anims(handle);
-                break;
+        case 0:
+            save_whole_anims(handle);
+            break;
 
-            case 1:
+        case 1:
 #ifndef ULTRA_COMPRESSED_ANIMATIONS
-                save_whole_anims_psx(handle);
+            save_whole_anims_psx(handle);
 #endif
-                break;
+            break;
         }
 
         //		STORE_DATA(GAME_TIME,sizeof
@@ -2007,109 +2007,109 @@ extern std::int32_t person_normal_animate(Thing *p_person);
 
 void convert_drawtype_to_pointer(Thing *p_thing, std::int32_t meshtype) {
     switch (meshtype) {
-        case DT_MESH:
-            //			if(p_thing->Draw.Mesh)
-            {
-                DrawMesh *drawtype;
-                drawtype = TO_DRAW_MESH((std::uint32_t) p_thing->Draw.Mesh);
-                p_thing->Draw.Mesh = drawtype;
-                drawtype->Cache = 0;
+    case DT_MESH:
+        //			if(p_thing->Draw.Mesh)
+        {
+            DrawMesh *drawtype;
+            drawtype = TO_DRAW_MESH((std::uint32_t) p_thing->Draw.Mesh);
+            p_thing->Draw.Mesh = drawtype;
+            drawtype->Cache = 0;
+        }
+        break;
+    case DT_ROT_MULTI:
+    case DT_ANIM_PRIM:
+    case DT_BIKE:
+        //			if(p_thing->Draw.Tweened)
+        {
+            DrawTween *drawtype;
+            std::int32_t chunk;
+
+            drawtype = TO_DRAW_TWEEN((std::uint32_t) p_thing->Draw.Tweened);
+            ASSERT((std::uint32_t)(p_thing->Draw.Tweened) < RMAX_DRAW_TWEENS);
+            p_thing->Draw.Tweened = drawtype;
+
+            chunk = (std::int32_t) drawtype->TheChunk;
+            switch (chunk >> 16) {
+            case 1:
+                drawtype->TheChunk = &game_chunk[chunk & 0xffff];
+                break;
+            case 2:
+                drawtype->TheChunk = &anim_chunk[chunk & 0xffff];
+                break;
+            default:
+                ASSERT(0);
+                break;
             }
-            break;
-        case DT_ROT_MULTI:
-        case DT_ANIM_PRIM:
-        case DT_BIKE:
-            //			if(p_thing->Draw.Tweened)
-            {
-                DrawTween *drawtype;
-                std::int32_t chunk;
 
-                drawtype = TO_DRAW_TWEEN((std::uint32_t) p_thing->Draw.Tweened);
-                ASSERT((std::uint32_t) (p_thing->Draw.Tweened) < RMAX_DRAW_TWEENS);
-                p_thing->Draw.Tweened = drawtype;
+            switch (p_thing->Class) {
+            case CLASS_PERSON:
+                drawtype->QueuedFrame = 0;
+                drawtype->InterruptFrame = 0;
+                if (p_thing->Genus.Person->PersonType == PERSON_CIV && (drawtype->CurrentAnim > 100 && drawtype->CurrentAnim < 140) && drawtype->CurrentAnim != 109) {
+                    drawtype->CurrentFrame = game_chunk[ANIM_TYPE_CIV].AnimList[drawtype->CurrentAnim];
+                } else if (p_thing->Genus.Person->PersonType == PERSON_COP && (drawtype->CurrentAnim > 200 && drawtype->CurrentAnim < 220)) {
+                    drawtype->CurrentFrame = game_chunk[ANIM_TYPE_ROPER].AnimList[drawtype->CurrentAnim];
+                } else
+                    drawtype->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][drawtype->CurrentAnim];
 
-                chunk = (std::int32_t) drawtype->TheChunk;
-                switch (chunk >> 16) {
-                    case 1:
-                        drawtype->TheChunk = &game_chunk[chunk & 0xffff];
-                        break;
-                    case 2:
-                        drawtype->TheChunk = &anim_chunk[chunk & 0xffff];
-                        break;
-                    default:
-                        ASSERT(0);
-                        break;
+                if (drawtype->CurrentFrame)
+                    drawtype->NextFrame = drawtype->CurrentFrame->NextFrame;
+                else
+                    drawtype->NextFrame = 0;
+
+                if (p_thing->State == STATE_DEAD) {
+                    std::int32_t c0;
+                    std::int32_t old_tick;
+
+                    old_tick = TICK_RATIO;
+
+                    the_game.TickRatio = 1 << TICK_SHIFT;
+                    for (c0 = 0; c0 < 40; c0++)
+                        person_normal_animate(p_thing);
+
+                    the_game.TickRatio = old_tick;
                 }
+                break;
+            case CLASS_BAT:
 
-                switch (p_thing->Class) {
-                    case CLASS_PERSON:
-                        drawtype->QueuedFrame = 0;
-                        drawtype->InterruptFrame = 0;
-                        if (p_thing->Genus.Person->PersonType == PERSON_CIV && (drawtype->CurrentAnim > 100 && drawtype->CurrentAnim < 140) && drawtype->CurrentAnim != 109) {
-                            drawtype->CurrentFrame = game_chunk[ANIM_TYPE_CIV].AnimList[drawtype->CurrentAnim];
-                        } else if (p_thing->Genus.Person->PersonType == PERSON_COP && (drawtype->CurrentAnim > 200 && drawtype->CurrentAnim < 220)) {
-                            drawtype->CurrentFrame = game_chunk[ANIM_TYPE_ROPER].AnimList[drawtype->CurrentAnim];
-                        } else
-                            drawtype->CurrentFrame = global_anim_array[p_thing->Genus.Person->AnimType][drawtype->CurrentAnim];
+            case CLASS_BIKE:
+            case CLASS_ANIM_PRIM:
+                drawtype->QueuedFrame = 0;
+                drawtype->InterruptFrame = 0;
 
-                        if (drawtype->CurrentFrame)
-                            drawtype->NextFrame = drawtype->CurrentFrame->NextFrame;
-                        else
-                            drawtype->NextFrame = 0;
+                //						load_anim_prim_object(p_thing->Index); // make sure the anim prim is loaded, wont load it if it's already in
+                //
+                //
+                // bat's dont set up index right
+                //
+                drawtype->CurrentFrame = anim_chunk[p_thing->Index].AnimList[drawtype->CurrentAnim];
+                if (drawtype->CurrentFrame)
+                    drawtype->NextFrame = drawtype->CurrentFrame->NextFrame;
+                else
+                    drawtype->NextFrame = 0;
 
-                        if (p_thing->State == STATE_DEAD) {
-                            std::int32_t c0;
-                            std::int32_t old_tick;
+                break;
 
-                            old_tick = TICK_RATIO;
+            case CLASS_ANIMAL:
+                drawtype->QueuedFrame = 0;
+                drawtype->InterruptFrame = 0;
+                drawtype->CurrentFrame = game_chunk[6].AnimList[1];
+                if (drawtype->CurrentFrame)
+                    drawtype->NextFrame = drawtype->CurrentFrame->NextFrame;
+                else
+                    drawtype->NextFrame = 0;
+                break;
 
-                            the_game.TickRatio = 1 << TICK_SHIFT;
-                            for (c0 = 0; c0 < 40; c0++)
-                                person_normal_animate(p_thing);
-
-                            the_game.TickRatio = old_tick;
-                        }
-                        break;
-                    case CLASS_BAT:
-
-                    case CLASS_BIKE:
-                    case CLASS_ANIM_PRIM:
-                        drawtype->QueuedFrame = 0;
-                        drawtype->InterruptFrame = 0;
-
-                        //						load_anim_prim_object(p_thing->Index); // make sure the anim prim is loaded, wont load it if it's already in
-                        //
-                        //
-                        // bat's dont set up index right
-                        //
-                        drawtype->CurrentFrame = anim_chunk[p_thing->Index].AnimList[drawtype->CurrentAnim];
-                        if (drawtype->CurrentFrame)
-                            drawtype->NextFrame = drawtype->CurrentFrame->NextFrame;
-                        else
-                            drawtype->NextFrame = 0;
-
-                        break;
-
-                    case CLASS_ANIMAL:
-                        drawtype->QueuedFrame = 0;
-                        drawtype->InterruptFrame = 0;
-                        drawtype->CurrentFrame = game_chunk[6].AnimList[1];
-                        if (drawtype->CurrentFrame)
-                            drawtype->NextFrame = drawtype->CurrentFrame->NextFrame;
-                        else
-                            drawtype->NextFrame = 0;
-                        break;
-
-                    default:
-                        ASSERT(0);
-                        drawtype->QueuedFrame = 0;
-                        drawtype->InterruptFrame = 0;
-                        drawtype->CurrentFrame = 0;
-                        drawtype->NextFrame = 0;
-                        break;
-                }
+            default:
+                ASSERT(0);
+                drawtype->QueuedFrame = 0;
+                drawtype->InterruptFrame = 0;
+                drawtype->CurrentFrame = 0;
+                drawtype->NextFrame = 0;
+                break;
             }
-            break;
+        }
+        break;
     }
 }
 
@@ -2122,107 +2122,107 @@ extern void fn_anim_prim_normal(Thing *p_thing);
 
 void convert_thing_to_pointer(Thing *p_thing) {
     switch (p_thing->Class) {
-        case CLASS_NONE:
-            break;
-        case CLASS_PLAYER:
-            p_thing->Genus.Player = (Player *) TO_PLAYER((std::int32_t) p_thing->Genus.Player);
-            p_thing->Genus.Player->PlayerPerson = (Thing *) TO_THING((std::int32_t) p_thing->Genus.Player->PlayerPerson);
-            p_thing->StateFn = process_hardware_level_input_for_player; // Bodge for now
+    case CLASS_NONE:
+        break;
+    case CLASS_PLAYER:
+        p_thing->Genus.Player = (Player *) TO_PLAYER((std::int32_t) p_thing->Genus.Player);
+        p_thing->Genus.Player->PlayerPerson = (Thing *) TO_THING((std::int32_t) p_thing->Genus.Player->PlayerPerson);
+        p_thing->StateFn = process_hardware_level_input_for_player; // Bodge for now
 
-            break;
-        case CLASS_CAMERA:
-            break;
-        case CLASS_PROJECTILE:
-            p_thing->Genus.Projectile = (Projectile *) TO_PROJECTILE((std::int32_t) p_thing->Genus.Projectile);
-            break;
-        case CLASS_BUILDING:
-            break;
-        case CLASS_PERSON:
-            p_thing->Genus.Person = (Person *) TO_PERSON((std::int32_t) p_thing->Genus.Person);
-            set_generic_person_state_function(p_thing, p_thing->State);
-            break;
-        case CLASS_ANIMAL:
-            p_thing->Genus.Animal = (Animal *) TO_ANIMAL((std::int32_t) p_thing->Genus.Animal);
+        break;
+    case CLASS_CAMERA:
+        break;
+    case CLASS_PROJECTILE:
+        p_thing->Genus.Projectile = (Projectile *) TO_PROJECTILE((std::int32_t) p_thing->Genus.Projectile);
+        break;
+    case CLASS_BUILDING:
+        break;
+    case CLASS_PERSON:
+        p_thing->Genus.Person = (Person *) TO_PERSON((std::int32_t) p_thing->Genus.Person);
+        set_generic_person_state_function(p_thing, p_thing->State);
+        break;
+    case CLASS_ANIMAL:
+        p_thing->Genus.Animal = (Animal *) TO_ANIMAL((std::int32_t) p_thing->Genus.Animal);
 
-            set_state_function(p_thing, p_thing->State);
+        set_state_function(p_thing, p_thing->State);
 
-            break;
-        case CLASS_FURNITURE:
-            p_thing->Genus.Furniture = (Furniture *) TO_FURNITURE((std::int32_t) p_thing->Genus.Furniture);
-            break;
-        case CLASS_SWITCH:
-            p_thing->Genus.Switch = (Switch *) TO_SWITCH((std::int32_t) p_thing->Genus.Switch);
-            break;
-        case CLASS_VEHICLE:
-            p_thing->Genus.Vehicle = (Vehicle *) TO_VEHICLE((std::int32_t) p_thing->Genus.Vehicle);
-            set_state_function(p_thing, p_thing->State);
-            break;
-        case CLASS_SPECIAL:
-            p_thing->Genus.Special = (Special *) TO_SPECIAL((std::int32_t) p_thing->Genus.Special);
-            void special_normal(Thing * s_thing);
-            p_thing->StateFn = special_normal;
+        break;
+    case CLASS_FURNITURE:
+        p_thing->Genus.Furniture = (Furniture *) TO_FURNITURE((std::int32_t) p_thing->Genus.Furniture);
+        break;
+    case CLASS_SWITCH:
+        p_thing->Genus.Switch = (Switch *) TO_SWITCH((std::int32_t) p_thing->Genus.Switch);
+        break;
+    case CLASS_VEHICLE:
+        p_thing->Genus.Vehicle = (Vehicle *) TO_VEHICLE((std::int32_t) p_thing->Genus.Vehicle);
+        set_state_function(p_thing, p_thing->State);
+        break;
+    case CLASS_SPECIAL:
+        p_thing->Genus.Special = (Special *) TO_SPECIAL((std::int32_t) p_thing->Genus.Special);
+        void special_normal(Thing * s_thing);
+        p_thing->StateFn = special_normal;
 
-            break;
+        break;
 #ifdef ANIM_PRIM
-        case CLASS_ANIM_PRIM:
-            if (p_thing->StateFn) {
-                p_thing->StateFn = fn_anim_prim_normal;
-            }
-            break;
+    case CLASS_ANIM_PRIM:
+        if (p_thing->StateFn) {
+            p_thing->StateFn = fn_anim_prim_normal;
+        }
+        break;
 #endif
-        case CLASS_CHOPPER:
-            void CHOPPER_fn_normal(Thing *);
-            p_thing->Genus.Chopper = (Chopper *) TO_CHOPPER((std::int32_t) p_thing->Genus.Chopper);
-            p_thing->StateFn = CHOPPER_fn_normal;
+    case CLASS_CHOPPER:
+        void CHOPPER_fn_normal(Thing *);
+        p_thing->Genus.Chopper = (Chopper *) TO_CHOPPER((std::int32_t) p_thing->Genus.Chopper);
+        p_thing->StateFn = CHOPPER_fn_normal;
 
-            break;
-        case CLASS_PYRO:
-            p_thing->Genus.Pyro = (Pyro *) TO_PYRO((std::int32_t) p_thing->Genus.Pyro);
-            set_state_function(p_thing, p_thing->State);
-            break;
-        case CLASS_TRACK:
-            p_thing->Genus.Track = (Track *) TO_TRACK((std::int32_t) p_thing->Genus.Track);
-            break;
-        case CLASS_PLAT:
-            p_thing->Genus.Plat = (Plat *) TO_PLAT((std::int32_t) p_thing->Genus.Plat);
-            p_thing->StateFn = PLAT_process;
-            break;
-        case CLASS_BARREL:
-            void BARREL_process_normal(Thing * p_barrel);
-            p_thing->Genus.Barrel = (Barrel *) TO_BARREL((std::int32_t) p_thing->Genus.Barrel);
-            p_thing->StateFn = BARREL_process_normal;
+        break;
+    case CLASS_PYRO:
+        p_thing->Genus.Pyro = (Pyro *) TO_PYRO((std::int32_t) p_thing->Genus.Pyro);
+        set_state_function(p_thing, p_thing->State);
+        break;
+    case CLASS_TRACK:
+        p_thing->Genus.Track = (Track *) TO_TRACK((std::int32_t) p_thing->Genus.Track);
+        break;
+    case CLASS_PLAT:
+        p_thing->Genus.Plat = (Plat *) TO_PLAT((std::int32_t) p_thing->Genus.Plat);
+        p_thing->StateFn = PLAT_process;
+        break;
+    case CLASS_BARREL:
+        void BARREL_process_normal(Thing * p_barrel);
+        p_thing->Genus.Barrel = (Barrel *) TO_BARREL((std::int32_t) p_thing->Genus.Barrel);
+        p_thing->StateFn = BARREL_process_normal;
 
-            break;
+        break;
 
 #ifdef BIKE
-        case CLASS_BIKE:
-            void BIKE_process_normal(Thing * p_bike);
-            p_thing->StateFn = BIKE_process_normal;
-            p_thing->Genus.Bike = (BIKE_Bike *) TO_BIKE((std::int32_t) p_thing->Genus.Bike);
-            break;
+    case CLASS_BIKE:
+        void BIKE_process_normal(Thing * p_bike);
+        p_thing->StateFn = BIKE_process_normal;
+        p_thing->Genus.Bike = (BIKE_Bike *) TO_BIKE((std::int32_t) p_thing->Genus.Bike);
+        break;
 #endif
 
-        case CLASS_BAT:
-            p_thing->StateFn = BAT_normal;
-            p_thing->Genus.Bat = (Bat *) TO_BAT((std::int32_t) p_thing->Genus.Bat);
-            break;
+    case CLASS_BAT:
+        p_thing->StateFn = BAT_normal;
+        p_thing->Genus.Bat = (Bat *) TO_BAT((std::int32_t) p_thing->Genus.Bat);
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
     switch (p_thing->DrawType) {
-        case DT_MESH:
-        case DT_CHOPPER:
-            convert_drawtype_to_pointer(p_thing, DT_MESH);
-            break;
-        case DT_ROT_MULTI:
-            convert_drawtype_to_pointer(p_thing, DT_ROT_MULTI);
-            break;
-        case DT_ANIM_PRIM:
-        case DT_BIKE:
-            convert_drawtype_to_pointer(p_thing, DT_ANIM_PRIM);
-            break;
+    case DT_MESH:
+    case DT_CHOPPER:
+        convert_drawtype_to_pointer(p_thing, DT_MESH);
+        break;
+    case DT_ROT_MULTI:
+        convert_drawtype_to_pointer(p_thing, DT_ROT_MULTI);
+        break;
+    case DT_ANIM_PRIM:
+    case DT_BIKE:
+        convert_drawtype_to_pointer(p_thing, DT_ANIM_PRIM);
+        break;
     }
 }
 
@@ -2605,23 +2605,23 @@ void load_whole_game(char *gamename) {
         *ptab->Point = p_all;
 
         switch (ptab->Type) {
-            case 2:
-                if (ptab->Extra)
-                    ptab->Maximum = count;
+        case 2:
+            if (ptab->Extra)
+                ptab->Maximum = count;
 
-                break;
+            break;
 
-            case 1:
-                if (ptab->Extra)
-                    count -= ptab->Extra;
+        case 1:
+            if (ptab->Extra)
+                count -= ptab->Extra;
 
-                if (ptab->CountL) {
-                    *ptab->CountL = count;
-                } else {
-                    if (ptab->CountW)
-                        *ptab->CountW = count;
-                }
-                break;
+            if (ptab->CountL) {
+                *ptab->CountL = count;
+            } else {
+                if (ptab->CountW)
+                    *ptab->CountW = count;
+            }
+            break;
         }
 
         p_all += mem_size;
@@ -3328,30 +3328,30 @@ void save_dreamcast_wad(char *fname) {
             //			ASSERT(c0!=29);
             ptab = &save_table[c0];
             switch (ptab->Type) {
-                case MEM_STATIC:
-                    mem_size = ptab->Maximum * ptab->StructSize;
-                    count = ptab->Maximum;
-                    break;
+            case MEM_STATIC:
+                mem_size = ptab->Maximum * ptab->StructSize;
+                count = ptab->Maximum;
+                break;
 
-                case MEM_DYNAMIC:
-                    if (ptab->CountL) {
-                        count = *ptab->CountL;
-                    } else {
-                        if (ptab->CountW)
+            case MEM_DYNAMIC:
+                if (ptab->CountL) {
+                    count = *ptab->CountL;
+                } else {
+                    if (ptab->CountW)
 
-                            count = *ptab->CountW;
-                    }
-                    if (ptab->Extra)          // redundant but more readable!
-                        count += ptab->Extra; // we have some extra ones so increase how many we create,
-                                              // this is also saved into the next_blah_blah filed but the
-                                              // loader will subtract this off for next_blah_blah
+                        count = *ptab->CountW;
+                }
+                if (ptab->Extra)          // redundant but more readable!
+                    count += ptab->Extra; // we have some extra ones so increase how many we create,
+                                          // this is also saved into the next_blah_blah filed but the
+                                          // loader will subtract this off for next_blah_blah
 
-                    mem_size = count * ptab->StructSize;
-                    break;
+                mem_size = count * ptab->StructSize;
+                break;
 
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             p_mem = (std::uint8_t *) *ptab->Point;
@@ -3636,23 +3636,23 @@ void load_dreamcast_wad(char *fname) {
         *ptab->Point = p_all;
 
         switch (ptab->Type) {
-            case 2:
-                if (ptab->Extra)
-                    ptab->Maximum = count;
+        case 2:
+            if (ptab->Extra)
+                ptab->Maximum = count;
 
-                break;
+            break;
 
-            case 1:
-                if (ptab->Extra)
-                    count -= ptab->Extra;
+        case 1:
+            if (ptab->Extra)
+                count -= ptab->Extra;
 
-                if (ptab->CountL) {
-                    *ptab->CountL = count;
-                } else {
-                    if (ptab->CountW)
-                        *ptab->CountW = count;
-                }
-                break;
+            if (ptab->CountL) {
+                *ptab->CountL = count;
+            } else {
+                if (ptab->CountW)
+                    *ptab->CountW = count;
+            }
+            break;
         }
 
         p_all += mem_size;

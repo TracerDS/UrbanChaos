@@ -37,85 +37,85 @@ bool CALLBACK sign_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the 'speed' spin.
+    case WM_INITDIALOG:
+        //	Set up the 'speed' spin.
 
-            switch (sign) {
-                case 0:
-                    SendMessage(
-                        GetDlgItem(hWnd, IDC_UTURN),
-                        BM_SETCHECK,
-                        (WPARAM) BST_CHECKED,
-                        0);
-                    break;
-
-                case 1:
-                    SendMessage(
-                        GetDlgItem(hWnd, IDC_RIGHT_TURN),
-                        BM_SETCHECK,
-                        (WPARAM) BST_CHECKED,
-                        0);
-                    break;
-
-                case 2:
-                    SendMessage(
-                        GetDlgItem(hWnd, IDC_AHEAD),
-                        BM_SETCHECK,
-                        (WPARAM) BST_CHECKED,
-                        0);
-                    break;
-
-                case 3:
-                    SendMessage(
-                        GetDlgItem(hWnd, IDC_STOP),
-                        BM_SETCHECK,
-                        (WPARAM) BST_CHECKED,
-                        0);
-                    break;
-            }
-
-            CheckDlgButton(hWnd, IDC_FLIP_LEFT_RIGHT, (flip & 1) ? BST_CHECKED : BST_UNCHECKED);
-            CheckDlgButton(hWnd, IDC_FLIP_TOP_BOTTOM, (flip & 2) ? BST_CHECKED : BST_UNCHECKED);
-
-            return true;
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-
-                    sign = 0;
-
-                    if (SendMessage(GetDlgItem(hWnd, IDC_UTURN), BM_GETCHECK, 0, 0) == BST_CHECKED) {
-                        sign = 0;
-                    }
-                    if (SendMessage(GetDlgItem(hWnd, IDC_RIGHT_TURN), BM_GETCHECK, 0, 0) == BST_CHECKED) {
-                        sign = 1;
-                    }
-                    if (SendMessage(GetDlgItem(hWnd, IDC_AHEAD), BM_GETCHECK, 0, 0) == BST_CHECKED) {
-                        sign = 2;
-                    }
-                    if (SendMessage(GetDlgItem(hWnd, IDC_STOP), BM_GETCHECK, 0, 0) == BST_CHECKED) {
-                        sign = 3;
-                    }
-
-                    flip = 0;
-
-                    if (IsDlgButtonChecked(hWnd, IDC_FLIP_LEFT_RIGHT) == BST_CHECKED) {
-                        flip |= 1;
-                    }
-                    if (IsDlgButtonChecked(hWnd, IDC_FLIP_TOP_BOTTOM) == BST_CHECKED) {
-                        flip |= 2;
-                    }
-
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
+        switch (sign) {
+        case 0:
+            SendMessage(
+                GetDlgItem(hWnd, IDC_UTURN),
+                BM_SETCHECK,
+                (WPARAM) BST_CHECKED,
+                0);
             break;
 
-        case WM_CLOSE:
-            EndDialog(hWnd, 0);
+        case 1:
+            SendMessage(
+                GetDlgItem(hWnd, IDC_RIGHT_TURN),
+                BM_SETCHECK,
+                (WPARAM) BST_CHECKED,
+                0);
+            break;
+
+        case 2:
+            SendMessage(
+                GetDlgItem(hWnd, IDC_AHEAD),
+                BM_SETCHECK,
+                (WPARAM) BST_CHECKED,
+                0);
+            break;
+
+        case 3:
+            SendMessage(
+                GetDlgItem(hWnd, IDC_STOP),
+                BM_SETCHECK,
+                (WPARAM) BST_CHECKED,
+                0);
+            break;
+        }
+
+        CheckDlgButton(hWnd, IDC_FLIP_LEFT_RIGHT, (flip & 1) ? BST_CHECKED : BST_UNCHECKED);
+        CheckDlgButton(hWnd, IDC_FLIP_TOP_BOTTOM, (flip & 2) ? BST_CHECKED : BST_UNCHECKED);
+
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+
+            sign = 0;
+
+            if (SendMessage(GetDlgItem(hWnd, IDC_UTURN), BM_GETCHECK, 0, 0) == BST_CHECKED) {
+                sign = 0;
+            }
+            if (SendMessage(GetDlgItem(hWnd, IDC_RIGHT_TURN), BM_GETCHECK, 0, 0) == BST_CHECKED) {
+                sign = 1;
+            }
+            if (SendMessage(GetDlgItem(hWnd, IDC_AHEAD), BM_GETCHECK, 0, 0) == BST_CHECKED) {
+                sign = 2;
+            }
+            if (SendMessage(GetDlgItem(hWnd, IDC_STOP), BM_GETCHECK, 0, 0) == BST_CHECKED) {
+                sign = 3;
+            }
+
+            flip = 0;
+
+            if (IsDlgButtonChecked(hWnd, IDC_FLIP_LEFT_RIGHT) == BST_CHECKED) {
+                flip |= 1;
+            }
+            if (IsDlgButtonChecked(hWnd, IDC_FLIP_TOP_BOTTOM) == BST_CHECKED) {
+                flip |= 2;
+            }
+
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

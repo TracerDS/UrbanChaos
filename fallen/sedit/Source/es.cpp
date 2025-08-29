@@ -198,13 +198,13 @@ void ES_change_height(
                 dz = 0;
 
                 switch (i) {
-                    case 0: dx = -1; break;
-                    case 1: dx = +1; break;
-                    case 2: dz = -1; break;
-                    case 3: dz = +1; break;
-                    default:
-                        ASSERT(0);
-                        break;
+                case 0: dx = -1; break;
+                case 1: dx = +1; break;
+                case 2: dz = -1; break;
+                case 3: dz = +1; break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
 
                 nx = qs->x + dx;
@@ -372,13 +372,13 @@ void ES_build_sewers() {
             nh = &NS_hi[x][z];
 
             switch (eh->type) {
-                case ES_TYPE_ROCK: nh_type = NS_HI_TYPE_ROCK; break;
-                case ES_TYPE_SEWER: nh_type = NS_HI_TYPE_SEWER; break;
-                case ES_TYPE_GROUND: nh_type = NS_HI_TYPE_STONE; break;
-                case ES_TYPE_HOLE: nh_type = NS_HI_TYPE_STONE; break;
-                default:
-                    ASSERT(0);
-                    break;
+            case ES_TYPE_ROCK: nh_type = NS_HI_TYPE_ROCK; break;
+            case ES_TYPE_SEWER: nh_type = NS_HI_TYPE_SEWER; break;
+            case ES_TYPE_GROUND: nh_type = NS_HI_TYPE_STONE; break;
+            case ES_TYPE_HOLE: nh_type = NS_HI_TYPE_STONE; break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             if (eh->flag & ES_FLAG_GRATING) {
@@ -592,46 +592,46 @@ void ES_build_sewers() {
         et = &ES_thing[i];
 
         switch (et->type) {
-            case ES_THING_TYPE_UNUSED:
-                break;
+        case ES_THING_TYPE_UNUSED:
+            break;
 
-            case ES_THING_TYPE_LADDER:
+        case ES_THING_TYPE_LADDER:
 
-                //
-                // Find the middle square of this ladder.
-                //
+            //
+            // Find the middle square of this ladder.
+            //
 
-                mx = (et->x1 + et->x2 << 7) + ((et->z2 - et->z1) << 2) >> 8;
-                mz = (et->z1 + et->z2 << 7) - ((et->x2 - et->x1) << 2) >> 8;
+            mx = (et->x1 + et->x2 << 7) + ((et->z2 - et->z1) << 2) >> 8;
+            mz = (et->z1 + et->z2 << 7) - ((et->x2 - et->x1) << 2) >> 8;
 
-                ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
-                ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));
+            ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
+            ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));
 
-                bottom = (ES_hi[mx][mz].height << 5) + (32 * -0x100);
+            bottom = (ES_hi[mx][mz].height << 5) + (32 * -0x100);
 
-                add_sewer_ladder(
-                    et->x1 << 8, et->z1 << 8,
-                    et->x2 << 8, et->z2 << 8,
-                    bottom,
-                    et->height,
-                    ES_hi[mx][mz].flag & ES_FLAG_ENTRANCE);
+            add_sewer_ladder(
+                et->x1 << 8, et->z1 << 8,
+                et->x2 << 8, et->z2 << 8,
+                bottom,
+                et->height,
+                ES_hi[mx][mz].flag & ES_FLAG_ENTRANCE);
 
-                break;
+            break;
 
-            case ES_THING_TYPE_PRIM:
+        case ES_THING_TYPE_PRIM:
 
-                NS_add_prim(
-                    et->prim,
-                    et->yaw,
-                    et->x,
-                    et->y,
-                    et->z);
+            NS_add_prim(
+                et->prim,
+                et->yaw,
+                et->x,
+                et->y,
+                et->z);
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -1339,13 +1339,13 @@ void ES_sewer_water_dheight(std::int32_t x, std::int32_t z, std::int32_t dheight
             dz = 0;
 
             switch (i) {
-                case 0: dx = -1; break;
-                case 1: dx = +1; break;
-                case 2: dz = -1; break;
-                case 3: dz = +1; break;
-                default:
-                    ASSERT(0);
-                    break;
+            case 0: dx = -1; break;
+            case 1: dx = +1; break;
+            case 2: dz = -1; break;
+            case 3: dz = +1; break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             nx = qs->x + dx;

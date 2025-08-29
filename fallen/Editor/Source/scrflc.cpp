@@ -711,47 +711,47 @@ std::int32_t anim_show_next_frame() {
                 animation->NextFrameBufferPointer.UByte += sizeof(struct FLCFrameDataChunk);
 
                 switch (FLCFrameDataChunk->Type) {
-                    case FLI_COLOUR256:
-                        printf("Frame : %04d   FLI_COLOUR256   Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_COLOUR256();
-                        SetPalette(animation->Palette);
-                        break;
+                case FLI_COLOUR256:
+                    printf("Frame : %04d   FLI_COLOUR256   Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_COLOUR256();
+                    SetPalette(animation->Palette);
+                    break;
 
-                    case FLI_SS2:
-                        printf("Frame : %04d   FLI_SS2         Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_SS2();
-                        break;
+                case FLI_SS2:
+                    printf("Frame : %04d   FLI_SS2         Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_SS2();
+                    break;
 
-                    case FLI_COLOUR:
-                        printf("Frame : %04d   FLI_COLOUR      Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_COLOUR();
-                        SetPalette(animation->Palette);
-                        break;
+                case FLI_COLOUR:
+                    printf("Frame : %04d   FLI_COLOUR      Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_COLOUR();
+                    SetPalette(animation->Palette);
+                    break;
 
-                    case FLI_LC:
-                        printf("Frame : %04d   FLI_LC          Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_LC();
-                        break;
+                case FLI_LC:
+                    printf("Frame : %04d   FLI_LC          Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_LC();
+                    break;
 
-                    case FLI_BLACK:
-                        printf("Frame : %04d   FLI_BLACK       Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_BLACK();
-                        break;
+                case FLI_BLACK:
+                    printf("Frame : %04d   FLI_BLACK       Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_BLACK();
+                    break;
 
-                    case FLI_BRUN:
-                        printf("Frame : %04d   FLI_BRUN        Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_BRUN();
-                        break;
+                case FLI_BRUN:
+                    printf("Frame : %04d   FLI_BRUN        Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_BRUN();
+                    break;
 
-                    case FLI_COPY:
-                        printf("Frame : %04d   FLI_COPY        Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_COPY();
-                        break;
+                case FLI_COPY:
+                    printf("Frame : %04d   FLI_COPY        Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_COPY();
+                    break;
 
-                    case FLI_PSTAMP:
-                        printf("Frame : %04d   FLI_PSTAMP      Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
-                        anim_show_FLI_PSTAMP();
-                        break;
+                case FLI_PSTAMP:
+                    printf("Frame : %04d   FLI_PSTAMP      Datasize %05d\n", animation->FrameNumber, FLCFrameDataChunk->Size);
+                    anim_show_FLI_PSTAMP();
+                    break;
                 }
                 animation->NextFrameBufferPointer.UByte = (std::uint8_t *) (FLCFrameDataChunk) + FLCFrameDataChunk->Size;
             }

@@ -36,40 +36,40 @@ bool CALLBACK bomb_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            INIT_COMBO_BOX(IDC_COMBO1, wbombtype_strings, bomb_type);
-            ticklist_init(hWnd, IDC_LIST1, wvfx_strings, bomb_fx);
+    case WM_INITDIALOG:
+        INIT_COMBO_BOX(IDC_COMBO1, wbombtype_strings, bomb_type);
+        ticklist_init(hWnd, IDC_LIST1, wvfx_strings, bomb_fx);
 
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
-                        UDM_SETRANGE,
-                        0,
-                        MAKELONG(1024, 0));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(bomb_size, 0));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
+                    UDM_SETRANGE,
+                    0,
+                    MAKELONG(1024, 0));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(bomb_size, 0));
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            bomb_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            bomb_size = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            bomb_fx = ticklist_bitmask(hWnd, IDC_LIST1);
+
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    bomb_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-                    bomb_size = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    bomb_fx = ticklist_bitmask(hWnd, IDC_LIST1);
+    case WM_CLOSE:
+        ticklist_close(hWnd, IDC_LIST1);
+        EndDialog(hWnd, 0);
+        return true;
 
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            ticklist_close(hWnd, IDC_LIST1);
-            EndDialog(hWnd, 0);
-            return true;
-
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
     }
     return false;
 }

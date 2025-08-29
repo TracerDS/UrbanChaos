@@ -149,58 +149,58 @@ float CAM_get_ryaw() {
 
 void CAM_set_type(std::int32_t type) {
     switch (type) {
-        default:
-        case CAM_TYPE_STANDARD:
-            CAM_set_mode(CAM_MODE_NORMAL);
-            CAM_set_zoom(0x600);
-            CAM_set_behind_up(0x20000);
-            CAM_lens = CAM_LENS_WIDEANGLE;
-            CAM_set_collision(true);
-            break;
+    default:
+    case CAM_TYPE_STANDARD:
+        CAM_set_mode(CAM_MODE_NORMAL);
+        CAM_set_zoom(0x600);
+        CAM_set_behind_up(0x20000);
+        CAM_lens = CAM_LENS_WIDEANGLE;
+        CAM_set_collision(true);
+        break;
 
-        case CAM_TYPE_LOWER:
-            CAM_set_mode(CAM_MODE_NORMAL);
-            CAM_set_zoom(0x420);
-            CAM_set_behind_up(0x8000);
-            CAM_lens = CAM_LENS_NORMAL;
-            CAM_set_collision(true);
-            break;
+    case CAM_TYPE_LOWER:
+        CAM_set_mode(CAM_MODE_NORMAL);
+        CAM_set_zoom(0x420);
+        CAM_set_behind_up(0x8000);
+        CAM_lens = CAM_LENS_NORMAL;
+        CAM_set_collision(true);
+        break;
 
-        case CAM_TYPE_BEHIND:
+    case CAM_TYPE_BEHIND:
 
-            CAM_set_mode(CAM_MODE_BEHIND);
-            CAM_set_zoom(0x340 * 180 / 256);
-            CAM_set_behind_up(0x18000 * 180 / 256);
-            CAM_lens = CAM_LENS_WIDEANGLE;
-            CAM_set_collision(false);
+        CAM_set_mode(CAM_MODE_BEHIND);
+        CAM_set_zoom(0x340 * 180 / 256);
+        CAM_set_behind_up(0x18000 * 180 / 256);
+        CAM_lens = CAM_LENS_WIDEANGLE;
+        CAM_set_collision(false);
 
-            /*
-            CAM_set_mode(CAM_MODE_NORMAL);
-            CAM_set_zoom(0x200);
-            CAM_set_behind_up(0x50000);
-            CAM_lens = CAM_LENS_WIDEANGLE;
-            */
-            break;
+        /*
+        CAM_set_mode(CAM_MODE_NORMAL);
+        CAM_set_zoom(0x200);
+        CAM_set_behind_up(0x50000);
+        CAM_lens = CAM_LENS_WIDEANGLE;
+        */
+        break;
 
-        case CAM_TYPE_WIDE:
-            CAM_set_mode(CAM_MODE_NORMAL);
-            CAM_set_zoom(0x380);
-            CAM_set_behind_up(0x38000);
-            CAM_lens = CAM_LENS_WIDEANGLE;
-            CAM_set_collision(true);
-            break;
+    case CAM_TYPE_WIDE:
+        CAM_set_mode(CAM_MODE_NORMAL);
+        CAM_set_zoom(0x380);
+        CAM_set_behind_up(0x38000);
+        CAM_lens = CAM_LENS_WIDEANGLE;
+        CAM_set_collision(true);
+        break;
 
-        case CAM_TYPE_ZOOM:
-            CAM_set_mode(CAM_MODE_NORMAL);
-            CAM_set_zoom(0x520);
-            CAM_set_behind_up(0x38000);
-            CAM_lens = CAM_LENS_NORMAL;
-            CAM_set_collision(true);
-            break;
+    case CAM_TYPE_ZOOM:
+        CAM_set_mode(CAM_MODE_NORMAL);
+        CAM_set_zoom(0x520);
+        CAM_set_behind_up(0x38000);
+        CAM_lens = CAM_LENS_NORMAL;
+        CAM_set_collision(true);
+        break;
 
-            //		default:
-            //			ASSERT(0);
-            //			break;
+        //		default:
+        //			ASSERT(0);
+        //			break;
     }
 
     CAM_type = type;
@@ -220,28 +220,28 @@ void CAM_set_shake(std::uint8_t amount) {
 
 void CAM_work_out_focus_yaw() {
     switch (CAM_focus->Class) {
-        case CLASS_PERSON:
+    case CLASS_PERSON:
 
-            if (CAM_focus->Flags & FLAG_PERSON_DRIVING) {
-                CAM_focus_yaw = TO_THING(CAM_focus->Genus.Person->InCar)->Genus.Vehicle->Angle;
-            } else {
-                CAM_focus_yaw = CAM_focus->Draw.Tweened->Angle;
-                if (CAM_focus->Genus.Person->Action == ACTION_SIDE_STEP) {
-                    CAM_focus_yaw += 1024;
-                    CAM_focus_yaw &= 2047;
-                }
+        if (CAM_focus->Flags & FLAG_PERSON_DRIVING) {
+            CAM_focus_yaw = TO_THING(CAM_focus->Genus.Person->InCar)->Genus.Vehicle->Angle;
+        } else {
+            CAM_focus_yaw = CAM_focus->Draw.Tweened->Angle;
+            if (CAM_focus->Genus.Person->Action == ACTION_SIDE_STEP) {
+                CAM_focus_yaw += 1024;
+                CAM_focus_yaw &= 2047;
             }
+        }
 
-            break;
+        break;
 
-        case CLASS_VEHICLE:
-            CAM_focus_yaw = CAM_focus->Genus.Vehicle->Angle;
-            break;
+    case CLASS_VEHICLE:
+        CAM_focus_yaw = CAM_focus->Genus.Vehicle->Angle;
+        break;
 
-        default:
+    default:
 
-            ASSERT(0);
-            break;
+        ASSERT(0);
+        break;
     }
 }
 
@@ -254,101 +254,88 @@ void CAM_work_out_focus_pos() {
         Thing * p_mthing,
         std::int32_t tween,
         std::uint16_t object,
-        std::int32_t *x,
-        std::int32_t *y,
-        std::int32_t *z);
+        std::int32_t * x,
+        std::int32_t * y,
+        std::int32_t * z);
 
     switch (CAM_focus->Class) {
-        case CLASS_PERSON:
-            /*
-                                    if(CAM_focus->Draw.Tweened->PersonID==1)
-                                    {
-                                            //
-                                            // got your gun out
-                                            //
+    case CLASS_PERSON:
+        /*
+                                if(CAM_focus->Draw.Tweened->PersonID==1)
+                                {
+                                        //
+                                        // got your gun out
+                                        //
 
-                                            if(CAM_focus->Genus.Person->Target)
-                                            {
-                                                    Thing	*p_thing;
-                                                    p_thing=TO_THING(CAM_focus->Genus.Person->Target);
+                                        if(CAM_focus->Genus.Person->Target)
+                                        {
+                                                Thing	*p_thing;
+                                                p_thing=TO_THING(CAM_focus->Genus.Person->Target);
 
-                                                    CAM_focus_x=p_thing->WorldPos.X;
-                                                    CAM_focus_y=p_thing->WorldPos.Y;
-                                                    CAM_focus_z=p_thing->WorldPos.Z;
-                                                    CAM_focus_y += 0x1000;
-                                            }
+                                                CAM_focus_x=p_thing->WorldPos.X;
+                                                CAM_focus_y=p_thing->WorldPos.Y;
+                                                CAM_focus_z=p_thing->WorldPos.Z;
+                                                CAM_focus_y += 0x1000;
+                                        }
 
-                                    }
-                                    else
-            */
+                                }
+                                else
+        */
 
-            switch (CAM_focus->Genus.Person->Action) {
-                case ACTION_DANGLING:
-                case ACTION_PULL_UP:
-                case ACTION_CLIMBING:
-                case ACTION_STANDING_JUMP:
-                case ACTION_DROP_DOWN:
+        switch (CAM_focus->Genus.Person->Action) {
+        case ACTION_DANGLING:
+        case ACTION_PULL_UP:
+        case ACTION_CLIMBING:
+        case ACTION_STANDING_JUMP:
+        case ACTION_DROP_DOWN:
 
-                    //
-                    // Focus just above pelvis
-                    //
+            //
+            // Focus just above pelvis
+            //
 
-                    calc_sub_objects_position(
-                        CAM_focus,
-                        CAM_focus->Draw.Tweened->AnimTween,
-                        0, // 0 is pelvis
-                        &CAM_focus_x,
-                        &CAM_focus_y,
-                        &CAM_focus_z);
+            calc_sub_objects_position(
+                CAM_focus,
+                CAM_focus->Draw.Tweened->AnimTween,
+                0, // 0 is pelvis
+                &CAM_focus_x,
+                &CAM_focus_y,
+                &CAM_focus_z);
 
-                    CAM_focus_x <<= 8;
-                    CAM_focus_y <<= 8;
-                    CAM_focus_z <<= 8;
+            CAM_focus_x <<= 8;
+            CAM_focus_y <<= 8;
+            CAM_focus_z <<= 8;
 
-                    CAM_focus_x += CAM_focus->WorldPos.X;
-                    CAM_focus_y += CAM_focus->WorldPos.Y;
-                    CAM_focus_z += CAM_focus->WorldPos.Z;
+            CAM_focus_x += CAM_focus->WorldPos.X;
+            CAM_focus_y += CAM_focus->WorldPos.Y;
+            CAM_focus_z += CAM_focus->WorldPos.Z;
 
-                    CAM_focus_y += 0x1000;
+            CAM_focus_y += 0x1000;
 
-                    break;
+            break;
 
-                case ACTION_HOP_BACK:
-                case ACTION_SIDE_STEP:
-                case ACTION_FLIP_LEFT:
-                case ACTION_FLIP_RIGHT:
+        case ACTION_HOP_BACK:
+        case ACTION_SIDE_STEP:
+        case ACTION_FLIP_LEFT:
+        case ACTION_FLIP_RIGHT:
 
-                    //
-                    // Take (x,z) from the position of the pelvis.
-                    //
+            //
+            // Take (x,z) from the position of the pelvis.
+            //
 
-                    calc_sub_objects_position(
-                        CAM_focus,
-                        CAM_focus->Draw.Tweened->AnimTween,
-                        0, // 0 is pelvis
-                        &CAM_focus_x,
-                        &CAM_focus_y,
-                        &CAM_focus_z);
+            calc_sub_objects_position(
+                CAM_focus,
+                CAM_focus->Draw.Tweened->AnimTween,
+                0, // 0 is pelvis
+                &CAM_focus_x,
+                &CAM_focus_y,
+                &CAM_focus_z);
 
-                    CAM_focus_x <<= 8;
-                    CAM_focus_z <<= 8;
+            CAM_focus_x <<= 8;
+            CAM_focus_z <<= 8;
 
-                    CAM_focus_x += CAM_focus->WorldPos.X;
-                    CAM_focus_y = CAM_focus->WorldPos.Y + CAM_LOOK_UP;
-                    CAM_focus_z += CAM_focus->WorldPos.Z;
-
-                    break;
-
-                default:
-
-                    CAM_focus_x = CAM_focus->WorldPos.X;
-                    CAM_focus_y = CAM_focus->WorldPos.Y;
-                    CAM_focus_z = CAM_focus->WorldPos.Z;
-
-                    CAM_focus_y += CAM_LOOK_UP;
-
-                    break;
-            }
+            CAM_focus_x += CAM_focus->WorldPos.X;
+            CAM_focus_y = CAM_focus->WorldPos.Y + CAM_LOOK_UP;
+            CAM_focus_z += CAM_focus->WorldPos.Z;
 
             break;
 
@@ -361,6 +348,19 @@ void CAM_work_out_focus_pos() {
             CAM_focus_y += CAM_LOOK_UP;
 
             break;
+        }
+
+        break;
+
+    default:
+
+        CAM_focus_x = CAM_focus->WorldPos.X;
+        CAM_focus_y = CAM_focus->WorldPos.Y;
+        CAM_focus_z = CAM_focus->WorldPos.Z;
+
+        CAM_focus_y += CAM_LOOK_UP;
+
+        break;
     }
 }
 
@@ -1842,46 +1842,46 @@ void CAM_process() {
         CAM_process_behind();
     } else {
         switch (CAM_mode) {
-            case CAM_MODE_CRAPPY:
-                CAM_process_crappy();
-                break;
+        case CAM_MODE_CRAPPY:
+            CAM_process_crappy();
+            break;
 
-            case CAM_MODE_NORMAL:
-                CAM_process_normal();
-                break;
+        case CAM_MODE_NORMAL:
+            CAM_process_normal();
+            break;
 
-            case CAM_MODE_STATIONARY:
-                CAM_process_stationary();
-                break;
+        case CAM_MODE_STATIONARY:
+            CAM_process_stationary();
+            break;
 
-            case CAM_MODE_SHOOT_NORMAL:
-                CAM_process_shoot_normal();
-                break;
+        case CAM_MODE_SHOOT_NORMAL:
+            CAM_process_shoot_normal();
+            break;
 
-            case CAM_MODE_FIGHT_NORMAL:
-                CAM_process_fight_normal();
-                break;
+        case CAM_MODE_FIGHT_NORMAL:
+            CAM_process_fight_normal();
+            break;
 
-            case CAM_MODE_BEHIND:
-                CAM_process_behind();
-                break;
+        case CAM_MODE_BEHIND:
+            CAM_process_behind();
+            break;
 
-            case CAM_MODE_FIRST_PERSON:
-                CAM_process_first_person();
-                break;
+        case CAM_MODE_FIRST_PERSON:
+            CAM_process_first_person();
+            break;
 
-            case CAM_MODE_THIRD_PERSON:
-                CAM_process_third_person();
-                break;
-                /*
-                                        case CAM_MODE_TOPPER:
-                                                CAM_process_topper();
-                                                break;
-                */
+        case CAM_MODE_THIRD_PERSON:
+            CAM_process_third_person();
+            break;
+            /*
+                                    case CAM_MODE_TOPPER:
+                                            CAM_process_topper();
+                                            break;
+            */
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 }
@@ -1991,9 +1991,9 @@ void CAM_get_psx(
     *yaw = CAM_yaw;
     *pitch = CAM_pitch;
     *roll = CAM_roll;
-    *radians_yaw = (std::int32_t) (CAM_radians_yaw * 65536);
-    *radians_pitch = (std::int32_t) (CAM_radians_pitch * 65536);
-    *radians_roll = (std::int32_t) (CAM_radians_roll * 65536);
+    *radians_yaw = (std::int32_t)(CAM_radians_yaw * 65536);
+    *radians_pitch = (std::int32_t)(CAM_radians_pitch * 65536);
+    *radians_roll = (std::int32_t)(CAM_radians_roll * 65536);
 
     if (CAM_shake) {
         *world_x += rand() % CAM_shake;

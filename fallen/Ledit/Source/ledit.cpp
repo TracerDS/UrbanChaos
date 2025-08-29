@@ -3,7 +3,9 @@
 #include <windowsx.h>
 #include <ddlib.h>
 #include <commctrl.h>
+#include <commdlg.h>
 #include <zmouse.h> // Mouse wheel support
+
 #include "resource.h"
 #include <Ledit/Headers/gi.h>
 #include "fmatrix.h"
@@ -299,12 +301,48 @@ void LEDIT_set_state_look() {
     EnableMenuItem(LEDIT_main_menu, ID_EDIT_DELETE_ARSE, MF_GRAYED);
 
     switch (LEDIT_mode) {
-        case LEDIT_MODE_NOTHING:
-            break;
+    case LEDIT_MODE_NOTHING:
+        break;
 
-        case LEDIT_MODE_PLACE_LIGHT:
+    case LEDIT_MODE_PLACE_LIGHT:
 
-            SetWindowText(LEDIT_handle_light, "Values to place a light with");
+        SetWindowText(LEDIT_handle_light, "Values to place a light with");
+
+        EnableWindow(LEDIT_handle_red, true);
+        EnableWindow(LEDIT_handle_green, true);
+        EnableWindow(LEDIT_handle_blue, true);
+        EnableWindow(LEDIT_handle_bright, true);
+        EnableWindow(LEDIT_handle_range, true);
+        EnableWindow(LEDIT_handle_anti, true);
+
+        CheckMenuItem(LEDIT_main_menu, ID_EDIT_PLACELIGHT, MF_CHECKED);
+
+        break;
+
+    case LEDIT_MODE_EDIT_LIGHT:
+
+        if (!LEDIT_edit_light) {
+            //
+            // No light is being edited at the moment.
+            //
+
+            SetWindowText(LEDIT_handle_light, "Select a light to edit...");
+
+            EnableWindow(LEDIT_handle_red, false);
+            EnableWindow(LEDIT_handle_green, false);
+            EnableWindow(LEDIT_handle_blue, false);
+            EnableWindow(LEDIT_handle_bright, false);
+            EnableWindow(LEDIT_handle_range, false);
+            EnableWindow(LEDIT_handle_anti, false);
+
+            EnableWindow(LEDIT_handle_bwhite, false);
+            EnableWindow(LEDIT_handle_blgrey, false);
+            EnableWindow(LEDIT_handle_bdgrey, false);
+            EnableWindow(LEDIT_handle_bpyellow, false);
+            EnableWindow(LEDIT_handle_bpblue, false);
+            EnableWindow(LEDIT_handle_bpred, false);
+        } else {
+            SetWindowText(LEDIT_handle_light, "Editing a light");
 
             EnableWindow(LEDIT_handle_red, true);
             EnableWindow(LEDIT_handle_green, true);
@@ -313,101 +351,65 @@ void LEDIT_set_state_look() {
             EnableWindow(LEDIT_handle_range, true);
             EnableWindow(LEDIT_handle_anti, true);
 
-            CheckMenuItem(LEDIT_main_menu, ID_EDIT_PLACELIGHT, MF_CHECKED);
+            EnableMenuItem(LEDIT_main_menu, ID_EDIT_DELETE_ARSE, MF_ENABLED);
+        }
 
-            break;
+        CheckMenuItem(LEDIT_main_menu, ID_EDIT_EDITLIGHTS, MF_CHECKED);
 
-        case LEDIT_MODE_EDIT_LIGHT:
+        break;
 
-            if (!LEDIT_edit_light) {
-                //
-                // No light is being edited at the moment.
-                //
+    case LEDIT_MODE_SET_AMBIENT:
 
-                SetWindowText(LEDIT_handle_light, "Select a light to edit...");
+        SetWindowText(LEDIT_handle_light, "Setting ambient light");
 
-                EnableWindow(LEDIT_handle_red, false);
-                EnableWindow(LEDIT_handle_green, false);
-                EnableWindow(LEDIT_handle_blue, false);
-                EnableWindow(LEDIT_handle_bright, false);
-                EnableWindow(LEDIT_handle_range, false);
-                EnableWindow(LEDIT_handle_anti, false);
+        EnableWindow(LEDIT_handle_red, true);
+        EnableWindow(LEDIT_handle_green, true);
+        EnableWindow(LEDIT_handle_blue, true);
+        EnableWindow(LEDIT_handle_bright, true);
+        EnableWindow(LEDIT_handle_range, false);
+        EnableWindow(LEDIT_handle_anti, false);
 
-                EnableWindow(LEDIT_handle_bwhite, false);
-                EnableWindow(LEDIT_handle_blgrey, false);
-                EnableWindow(LEDIT_handle_bdgrey, false);
-                EnableWindow(LEDIT_handle_bpyellow, false);
-                EnableWindow(LEDIT_handle_bpblue, false);
-                EnableWindow(LEDIT_handle_bpred, false);
-            } else {
-                SetWindowText(LEDIT_handle_light, "Editing a light");
+        SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
 
-                EnableWindow(LEDIT_handle_red, true);
-                EnableWindow(LEDIT_handle_green, true);
-                EnableWindow(LEDIT_handle_blue, true);
-                EnableWindow(LEDIT_handle_bright, true);
-                EnableWindow(LEDIT_handle_range, true);
-                EnableWindow(LEDIT_handle_anti, true);
+        CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETAMBIENT, MF_CHECKED);
 
-                EnableMenuItem(LEDIT_main_menu, ID_EDIT_DELETE_ARSE, MF_ENABLED);
-            }
+        break;
 
-            CheckMenuItem(LEDIT_main_menu, ID_EDIT_EDITLIGHTS, MF_CHECKED);
+    case LEDIT_MODE_SET_LAMPOST:
 
-            break;
+        SetWindowText(LEDIT_handle_light, "Changing the lights under lamposts");
 
-        case LEDIT_MODE_SET_AMBIENT:
+        EnableWindow(LEDIT_handle_red, true);
+        EnableWindow(LEDIT_handle_green, true);
+        EnableWindow(LEDIT_handle_blue, true);
+        EnableWindow(LEDIT_handle_bright, true);
+        EnableWindow(LEDIT_handle_range, true);
+        EnableWindow(LEDIT_handle_anti, true);
 
-            SetWindowText(LEDIT_handle_light, "Setting ambient light");
+        CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETLAMPOSTCOLOUR, MF_CHECKED);
 
-            EnableWindow(LEDIT_handle_red, true);
-            EnableWindow(LEDIT_handle_green, true);
-            EnableWindow(LEDIT_handle_blue, true);
-            EnableWindow(LEDIT_handle_bright, true);
-            EnableWindow(LEDIT_handle_range, false);
-            EnableWindow(LEDIT_handle_anti, false);
+        break;
 
-            SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
+    case LEDIT_MODE_SET_SKY:
 
-            CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETAMBIENT, MF_CHECKED);
+        SetWindowText(LEDIT_handle_light, "Set the sky colour");
 
-            break;
+        EnableWindow(LEDIT_handle_red, true);
+        EnableWindow(LEDIT_handle_green, true);
+        EnableWindow(LEDIT_handle_blue, true);
+        EnableWindow(LEDIT_handle_bright, true);
+        EnableWindow(LEDIT_handle_range, false);
+        EnableWindow(LEDIT_handle_anti, false);
 
-        case LEDIT_MODE_SET_LAMPOST:
+        SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
 
-            SetWindowText(LEDIT_handle_light, "Changing the lights under lamposts");
+        CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETSKYCOLOUR, MF_CHECKED);
 
-            EnableWindow(LEDIT_handle_red, true);
-            EnableWindow(LEDIT_handle_green, true);
-            EnableWindow(LEDIT_handle_blue, true);
-            EnableWindow(LEDIT_handle_bright, true);
-            EnableWindow(LEDIT_handle_range, true);
-            EnableWindow(LEDIT_handle_anti, true);
+        break;
 
-            CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETLAMPOSTCOLOUR, MF_CHECKED);
-
-            break;
-
-        case LEDIT_MODE_SET_SKY:
-
-            SetWindowText(LEDIT_handle_light, "Set the sky colour");
-
-            EnableWindow(LEDIT_handle_red, true);
-            EnableWindow(LEDIT_handle_green, true);
-            EnableWindow(LEDIT_handle_blue, true);
-            EnableWindow(LEDIT_handle_bright, true);
-            EnableWindow(LEDIT_handle_range, false);
-            EnableWindow(LEDIT_handle_anti, false);
-
-            SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
-
-            CheckMenuItem(LEDIT_main_menu, ID_EDIT_SETSKYCOLOUR, MF_CHECKED);
-
-            break;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     //
@@ -460,19 +462,19 @@ void LEDIT_lighting_load() {
             "Save changes to current map?",
             "Load lighting",
             MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
-            case IDYES:
-                LEDIT_lighting_save();
-                break;
+        case IDYES:
+            LEDIT_lighting_save();
+            break;
 
-            case IDNO:
-                break;
+        case IDNO:
+            break;
 
-            case IDCANCEL:
-                return;
+        case IDCANCEL:
+            return;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -503,64 +505,26 @@ void LEDIT_sync_colours() {
     std::int32_t range;
 
     switch (LEDIT_mode) {
-        case LEDIT_MODE_NOTHING:
-            break;
+    case LEDIT_MODE_NOTHING:
+        break;
 
-        case LEDIT_MODE_PLACE_LIGHT:
-            break;
+    case LEDIT_MODE_PLACE_LIGHT:
+        break;
 
-        case LEDIT_MODE_EDIT_LIGHT:
+    case LEDIT_MODE_EDIT_LIGHT:
 
-            if (LEDIT_edit_light) {
-                ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
+        if (LEDIT_edit_light) {
+            ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
 
-                ED_Light *el = &ED_light[LEDIT_edit_light];
+            ED_Light *el = &ED_light[LEDIT_edit_light];
 
-                red = abs(el->red) << 1;
-                green = abs(el->green) << 1;
-                blue = abs(el->blue) << 1;
+            red = abs(el->red) << 1;
+            green = abs(el->green) << 1;
+            blue = abs(el->blue) << 1;
 
-                if (el->red < 0 || el->green < 0 || el->blue < 0) {
-                    //
-                    // This is an anti-light.
-                    //
-
-                    SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_CHECKED, 0);
-                } else {
-                    SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
-                }
-
-                LEDIT_change_colour(RGB(red, green, blue));
-
-                SendMessage(LEDIT_handle_range, TBM_SETPOS, true, 255 - el->range);
-            }
-
-            break;
-
-        case LEDIT_MODE_SET_AMBIENT:
-
-            ED_amb_get(
-                &red,
-                &green,
-                &blue);
-
-            LEDIT_change_colour(RGB(red, green, blue));
-
-            break;
-
-        case LEDIT_MODE_SET_LAMPOST:
-
-            ED_lampost_get(
-                &range,
-                &signed_red,
-                &signed_green,
-                &signed_blue);
-
-            if (signed_red < 0 ||
-                signed_green < 0 ||
-                signed_blue < 0) {
+            if (el->red < 0 || el->green < 0 || el->blue < 0) {
                 //
-                // This is an antilight.
+                // This is an anti-light.
                 //
 
                 SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_CHECKED, 0);
@@ -568,29 +532,67 @@ void LEDIT_sync_colours() {
                 SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
             }
 
-            signed_red = abs(signed_red) << 1;
-            signed_green = abs(signed_green) << 1;
-            signed_blue = abs(signed_blue) << 1;
-
-            LEDIT_change_colour(RGB(signed_red, signed_green, signed_blue));
-
-            SendMessage(LEDIT_handle_range, TBM_SETPOS, true, 255 - range);
-
-            break;
-
-        case LEDIT_MODE_SET_SKY:
-
-            ED_sky_get(
-                &red,
-                &green,
-                &blue);
-
             LEDIT_change_colour(RGB(red, green, blue));
 
-            break;
+            SendMessage(LEDIT_handle_range, TBM_SETPOS, true, 255 - el->range);
+        }
 
-        default:
-            break;
+        break;
+
+    case LEDIT_MODE_SET_AMBIENT:
+
+        ED_amb_get(
+            &red,
+            &green,
+            &blue);
+
+        LEDIT_change_colour(RGB(red, green, blue));
+
+        break;
+
+    case LEDIT_MODE_SET_LAMPOST:
+
+        ED_lampost_get(
+            &range,
+            &signed_red,
+            &signed_green,
+            &signed_blue);
+
+        if (signed_red < 0 ||
+            signed_green < 0 ||
+            signed_blue < 0) {
+            //
+            // This is an antilight.
+            //
+
+            SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_CHECKED, 0);
+        } else {
+            SendMessage(LEDIT_handle_anti, BM_SETCHECK, BST_UNCHECKED, 0);
+        }
+
+        signed_red = abs(signed_red) << 1;
+        signed_green = abs(signed_green) << 1;
+        signed_blue = abs(signed_blue) << 1;
+
+        LEDIT_change_colour(RGB(signed_red, signed_green, signed_blue));
+
+        SendMessage(LEDIT_handle_range, TBM_SETPOS, true, 255 - range);
+
+        break;
+
+    case LEDIT_MODE_SET_SKY:
+
+        ED_sky_get(
+            &red,
+            &green,
+            &blue);
+
+        LEDIT_change_colour(RGB(red, green, blue));
+
+        break;
+
+    default:
+        break;
     }
 }
 
@@ -658,8 +660,8 @@ void LEDIT_collide_window_rect(
 
     for (i = 0; i < 2; i++) {
         switch (i) {
-            case 0: hwnd = LEDIT_handle_engine; break;
-            case 1: hwnd = LEDIT_handle_light; break;
+        case 0: hwnd = LEDIT_handle_engine; break;
+        case 1: hwnd = LEDIT_handle_light; break;
         }
 
         if (hwnd != ignore_window) {
@@ -876,49 +878,21 @@ void LEDIT_edited_light(std::int32_t make_undoable) {
         &unsigned_range);
 
     switch (LEDIT_mode) {
-        case LEDIT_MODE_NOTHING:
-            break;
+    case LEDIT_MODE_NOTHING:
+        break;
 
-        case LEDIT_MODE_PLACE_LIGHT:
-            break;
+    case LEDIT_MODE_PLACE_LIGHT:
+        break;
 
-        case LEDIT_MODE_EDIT_LIGHT:
+    case LEDIT_MODE_EDIT_LIGHT:
 
-            if (LEDIT_edit_light) {
-                //
-                // Change the attribute of our light.
-                //
+        if (LEDIT_edit_light) {
+            //
+            // Change the attribute of our light.
+            //
 
-                ED_light_change(
-                    LEDIT_edit_light,
-                    signed_range,
-                    signed_red,
-                    signed_green,
-                    signed_blue);
-
-                if (make_undoable) {
-                    LEDIT_make_undoable();
-                }
-            }
-
-            break;
-
-        case LEDIT_MODE_SET_AMBIENT:
-
-            ED_amb_set(
-                unsigned_red,
-                unsigned_green,
-                unsigned_blue);
-
-            if (make_undoable) {
-                LEDIT_make_undoable();
-            }
-
-            break;
-
-        case LEDIT_MODE_SET_LAMPOST:
-
-            ED_lampost_set(
+            ED_light_change(
+                LEDIT_edit_light,
                 signed_range,
                 signed_red,
                 signed_green,
@@ -927,25 +901,53 @@ void LEDIT_edited_light(std::int32_t make_undoable) {
             if (make_undoable) {
                 LEDIT_make_undoable();
             }
+        }
 
-            break;
+        break;
 
-        case LEDIT_MODE_SET_SKY:
+    case LEDIT_MODE_SET_AMBIENT:
 
-            ED_sky_set(
-                unsigned_red,
-                unsigned_green,
-                unsigned_blue);
+        ED_amb_set(
+            unsigned_red,
+            unsigned_green,
+            unsigned_blue);
 
-            if (make_undoable) {
-                LEDIT_make_undoable();
-            }
+        if (make_undoable) {
+            LEDIT_make_undoable();
+        }
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    case LEDIT_MODE_SET_LAMPOST:
+
+        ED_lampost_set(
+            signed_range,
+            signed_red,
+            signed_green,
+            signed_blue);
+
+        if (make_undoable) {
+            LEDIT_make_undoable();
+        }
+
+        break;
+
+    case LEDIT_MODE_SET_SKY:
+
+        ED_sky_set(
+            unsigned_red,
+            unsigned_green,
+            unsigned_blue);
+
+        if (make_undoable) {
+            LEDIT_make_undoable();
+        }
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1043,19 +1045,19 @@ void LEDIT_request_exit() {
             "Save changes to current map?",
             "Exit lighting editor",
             MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
-            case IDYES:
-                LEDIT_lighting_save();
-                break;
+        case IDYES:
+            LEDIT_lighting_save();
+            break;
 
-            case IDNO:
-                break;
+        case IDNO:
+            break;
 
-            case IDCANCEL:
-                return;
+        case IDCANCEL:
+            return;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -1073,23 +1075,23 @@ void LEDIT_load_map(char *name) {
             "Save changes to current map?",
             "Load a new map",
             MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
-            case IDYES:
+        case IDYES:
 
-                //
-                // Save changes.
-                //
+            //
+            // Save changes.
+            //
 
-                break;
+            break;
 
-            case IDNO:
-                break;
+        case IDNO:
+            break;
 
-            case IDCANCEL:
-                return;
+        case IDCANCEL:
+            return;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -1503,245 +1505,245 @@ LRESULT CALLBACK LEDIT_callback_frame(
     }
 
     switch (message_type) {
-        case WM_CLOSE:
-            LEDIT_request_exit();
-            return 0;
+    case WM_CLOSE:
+        LEDIT_request_exit();
+        return 0;
 
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            return 0;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
 
-        case WM_COMMAND:
-            switch (LOWORD(param_w)) {
-                case ID_FILE_OPEN_ARSE:
+    case WM_COMMAND:
+        switch (LOWORD(param_w)) {
+        case ID_FILE_OPEN_ARSE:
 
-                    if (GetOpenFileName(&LEDIT_ofn_map)) {
-                        LEDIT_load_map(LEDIT_ofn_file_map);
-                    }
-
-                    break;
-
-                case ID_FILE_LOAD_ARSE:
-                    LEDIT_lighting_load();
-                    break;
-
-                case ID_FILE_SAVE_ARSE:
-                    LEDIT_lighting_save();
-                    break;
-
-                case ID_FILE_EXIT:
-                    LEDIT_request_exit();
-                    break;
-
-                case ID_EDIT_UNDO_ARSE:
-                    LEDIT_undo();
-                    break;
-
-                case ID_EDIT_REDO_ARSE:
-                    LEDIT_redo();
-                    break;
-
-                case ID_EDIT_CLEARALL:
-
-                    //
-                    // Delete all the lights.
-                    //
-
-                    ED_delete_all();
-                    LEDIT_make_undoable();
-
-                    break;
-
-                case ID_EDIT_DELETE_ARSE:
-
-                    if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
-                        LEDIT_edit_light) {
-                        //
-                        // Delete the light we are editing.
-                        //
-
-                        ED_delete(LEDIT_edit_light);
-                        LEDIT_edit_light = 0;
-                        LEDIT_make_undoable();
-                        LEDIT_set_state_look();
-                    }
-
-                    break;
-
-                case ID_EDIT_INSIDES:
-                    LEDIT_insides ^= 1;
-                    CheckMenuItem(LEDIT_main_menu, ID_EDIT_INSIDES, MF_BYCOMMAND | (LEDIT_insides ? MF_CHECKED : MF_UNCHECKED));
-                    DrawMenuBar((struct HWND__ *) LEDIT_main_menu);
-                    break;
-
-                case ID_EDIT_PLACELIGHT:
-                    LEDIT_mode = LEDIT_MODE_PLACE_LIGHT;
-                    LEDIT_last_placed = 0;
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_EDIT_EDITLIGHTS:
-                    LEDIT_mode = LEDIT_MODE_EDIT_LIGHT;
-                    LEDIT_edit_light = 0;
-                    LEDIT_edit_dragging = false;
-                    LEDIT_edit_dragged = false;
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_EDIT_SETAMBIENT:
-
-                    LEDIT_mode = LEDIT_MODE_SET_AMBIENT;
-                    LEDIT_sync_colours();
-                    LEDIT_set_state_look();
-
-                    break;
-
-                case ID_EDIT_SETLAMPOSTCOLOUR:
-
-                    if (!ED_lampost_on_get()) {
-                        //
-                        // Editing lampost light but lamposts aren't
-                        // enabled.
-                        //
-
-                        switch (MessageBox(
-                            LEDIT_handle_frame,
-                            "Lights under lamposts is not enabled. Do you want to turn it on?",
-                            "Edit lights under lamposts",
-                            MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
-                            case IDYES:
-                                LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
-                                ED_lampost_on_set(true);
-                                LEDIT_set_state_look();
-                                break;
-
-                            case IDNO:
-                                LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
-                                LEDIT_set_state_look();
-                                break;
-
-                            case IDCANCEL:
-                                break;
-                        }
-                    } else {
-                        LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
-                        LEDIT_set_state_look();
-                    }
-
-                    if (LEDIT_mode == LEDIT_MODE_SET_LAMPOST) {
-                        LEDIT_sync_colours();
-                    }
-
-                    break;
-
-                case ID_EDIT_SETSKYCOLOUR:
-                    LEDIT_mode = LEDIT_MODE_SET_SKY;
-                    LEDIT_sync_colours();
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_MAP_NIGHTSKY:
-                    ED_night_set(true);
-                    LEDIT_sync_colours();
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_MAP_DAYTIME:
-                    ED_night_set(false);
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_MAP_LIGHTSUNDERLAMPOSTS:
-                    ED_lampost_on_set(!ED_lampost_on_get());
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_MAP_DARKENBOTTOMSOFBUILDINGS:
-                    ED_darken_bottoms_on_set(!ED_darken_bottoms_on_get());
-                    LEDIT_set_state_look();
-                    break;
-
-                case ID_HELP_ABOUT:
-
-                    MessageBox(
-                        LEDIT_handle_frame,
-                        "Mark is the main guilty party here",
-                        "Urban Chaos lighting editor",
-                        MB_ICONINFORMATION | MB_OK | MB_APPLMODAL);
-
-                    break;
+            if (GetOpenFileName(&LEDIT_ofn_map)) {
+                LEDIT_load_map(LEDIT_ofn_file_map);
             }
 
-            return 0;
-
-        case WM_KEYDOWN:
-
-            scancode = (param_l >> 16) & 0x7f;
-
-            if (param_l & 0x01000000) {
-                //
-                // Exteneded key.
-                //
-
-                scancode += 0x80;
-            }
-
-            Keys[scancode] = true;
-
-            AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
-            ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
-            ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
-
-            return 0;
-
-        case WM_KEYUP:
-
-            scancode = (param_l >> 16) & 0x7f;
-
-            if (param_l & 0x01000000) {
-                //
-                // Exteneded key.
-                //
-
-                scancode += 0x80;
-            }
-
-            Keys[scancode] = false;
-
-            AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
-            ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
-            ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
-
-            return 0;
-
-        case WM_KILLFOCUS:
-
-            //
-            // Stop the focus going to the trackbars.
-            //
-
-            if ((HWND) param_w == LEDIT_handle_red ||
-                (HWND) param_w == LEDIT_handle_green ||
-                (HWND) param_w == LEDIT_handle_blue ||
-                (HWND) param_w == LEDIT_handle_range ||
-                (HWND) param_w == LEDIT_handle_bright) {
-                SetFocus(LEDIT_handle_frame);
-            }
-
-            return 0;
-
-        case WM_USER:
-
-            //
-            // The message we send to ourselves when nothing else is happening.
-            //
-
-            LEDIT_process();
-
-            return 0;
-
-        default:
             break;
+
+        case ID_FILE_LOAD_ARSE:
+            LEDIT_lighting_load();
+            break;
+
+        case ID_FILE_SAVE_ARSE:
+            LEDIT_lighting_save();
+            break;
+
+        case ID_FILE_EXIT:
+            LEDIT_request_exit();
+            break;
+
+        case ID_EDIT_UNDO_ARSE:
+            LEDIT_undo();
+            break;
+
+        case ID_EDIT_REDO_ARSE:
+            LEDIT_redo();
+            break;
+
+        case ID_EDIT_CLEARALL:
+
+            //
+            // Delete all the lights.
+            //
+
+            ED_delete_all();
+            LEDIT_make_undoable();
+
+            break;
+
+        case ID_EDIT_DELETE_ARSE:
+
+            if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
+                LEDIT_edit_light) {
+                //
+                // Delete the light we are editing.
+                //
+
+                ED_delete(LEDIT_edit_light);
+                LEDIT_edit_light = 0;
+                LEDIT_make_undoable();
+                LEDIT_set_state_look();
+            }
+
+            break;
+
+        case ID_EDIT_INSIDES:
+            LEDIT_insides ^= 1;
+            CheckMenuItem(LEDIT_main_menu, ID_EDIT_INSIDES, MF_BYCOMMAND | (LEDIT_insides ? MF_CHECKED : MF_UNCHECKED));
+            DrawMenuBar((struct HWND__ *) LEDIT_main_menu);
+            break;
+
+        case ID_EDIT_PLACELIGHT:
+            LEDIT_mode = LEDIT_MODE_PLACE_LIGHT;
+            LEDIT_last_placed = 0;
+            LEDIT_set_state_look();
+            break;
+
+        case ID_EDIT_EDITLIGHTS:
+            LEDIT_mode = LEDIT_MODE_EDIT_LIGHT;
+            LEDIT_edit_light = 0;
+            LEDIT_edit_dragging = false;
+            LEDIT_edit_dragged = false;
+            LEDIT_set_state_look();
+            break;
+
+        case ID_EDIT_SETAMBIENT:
+
+            LEDIT_mode = LEDIT_MODE_SET_AMBIENT;
+            LEDIT_sync_colours();
+            LEDIT_set_state_look();
+
+            break;
+
+        case ID_EDIT_SETLAMPOSTCOLOUR:
+
+            if (!ED_lampost_on_get()) {
+                //
+                // Editing lampost light but lamposts aren't
+                // enabled.
+                //
+
+                switch (MessageBox(
+                    LEDIT_handle_frame,
+                    "Lights under lamposts is not enabled. Do you want to turn it on?",
+                    "Edit lights under lamposts",
+                    MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
+                case IDYES:
+                    LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
+                    ED_lampost_on_set(true);
+                    LEDIT_set_state_look();
+                    break;
+
+                case IDNO:
+                    LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
+                    LEDIT_set_state_look();
+                    break;
+
+                case IDCANCEL:
+                    break;
+                }
+            } else {
+                LEDIT_mode = LEDIT_MODE_SET_LAMPOST;
+                LEDIT_set_state_look();
+            }
+
+            if (LEDIT_mode == LEDIT_MODE_SET_LAMPOST) {
+                LEDIT_sync_colours();
+            }
+
+            break;
+
+        case ID_EDIT_SETSKYCOLOUR:
+            LEDIT_mode = LEDIT_MODE_SET_SKY;
+            LEDIT_sync_colours();
+            LEDIT_set_state_look();
+            break;
+
+        case ID_MAP_NIGHTSKY:
+            ED_night_set(true);
+            LEDIT_sync_colours();
+            LEDIT_set_state_look();
+            break;
+
+        case ID_MAP_DAYTIME:
+            ED_night_set(false);
+            LEDIT_set_state_look();
+            break;
+
+        case ID_MAP_LIGHTSUNDERLAMPOSTS:
+            ED_lampost_on_set(!ED_lampost_on_get());
+            LEDIT_set_state_look();
+            break;
+
+        case ID_MAP_DARKENBOTTOMSOFBUILDINGS:
+            ED_darken_bottoms_on_set(!ED_darken_bottoms_on_get());
+            LEDIT_set_state_look();
+            break;
+
+        case ID_HELP_ABOUT:
+
+            MessageBox(
+                LEDIT_handle_frame,
+                "Mark is the main guilty party here",
+                "Urban Chaos lighting editor",
+                MB_ICONINFORMATION | MB_OK | MB_APPLMODAL);
+
+            break;
+        }
+
+        return 0;
+
+    case WM_KEYDOWN:
+
+        scancode = (param_l >> 16) & 0x7f;
+
+        if (param_l & 0x01000000) {
+            //
+            // Exteneded key.
+            //
+
+            scancode += 0x80;
+        }
+
+        Keys[scancode] = true;
+
+        AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
+        ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
+        ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
+
+        return 0;
+
+    case WM_KEYUP:
+
+        scancode = (param_l >> 16) & 0x7f;
+
+        if (param_l & 0x01000000) {
+            //
+            // Exteneded key.
+            //
+
+            scancode += 0x80;
+        }
+
+        Keys[scancode] = false;
+
+        AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
+        ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
+        ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
+
+        return 0;
+
+    case WM_KILLFOCUS:
+
+        //
+        // Stop the focus going to the trackbars.
+        //
+
+        if ((HWND) param_w == LEDIT_handle_red ||
+            (HWND) param_w == LEDIT_handle_green ||
+            (HWND) param_w == LEDIT_handle_blue ||
+            (HWND) param_w == LEDIT_handle_range ||
+            (HWND) param_w == LEDIT_handle_bright) {
+            SetFocus(LEDIT_handle_frame);
+        }
+
+        return 0;
+
+    case WM_USER:
+
+        //
+        // The message we send to ourselves when nothing else is happening.
+        //
+
+        LEDIT_process();
+
+        return 0;
+
+    default:
+        break;
     }
 
     return DefWindowProc(
@@ -1778,189 +1780,189 @@ LRESULT CALLBACK LEDIT_callback_engine(
     ED_Light *el;
 
     switch (message_type) {
-        case WM_PAINT:
+    case WM_PAINT:
 
-            //
-            // Blit across the invalid region from the back-buffer.
-            //
+        //
+        // Blit across the invalid region from the back-buffer.
+        //
 
-            hdc = BeginPaint(window_handle, &ps);
+        hdc = BeginPaint(window_handle, &ps);
 
-            clientpos.x = 0;
-            clientpos.y = 0;
+        clientpos.x = 0;
+        clientpos.y = 0;
 
-            ClientToScreen(
-                window_handle,
-                &clientpos);
+        ClientToScreen(
+            window_handle,
+            &clientpos);
 
-            dest.top = ps.rcPaint.top + clientpos.y;
-            dest.left = ps.rcPaint.left + clientpos.x;
-            dest.right = ps.rcPaint.right + clientpos.x;
-            dest.bottom = ps.rcPaint.bottom + clientpos.y;
+        dest.top = ps.rcPaint.top + clientpos.y;
+        dest.left = ps.rcPaint.left + clientpos.x;
+        dest.right = ps.rcPaint.right + clientpos.x;
+        dest.bottom = ps.rcPaint.bottom + clientpos.y;
 
-            src = ps.rcPaint;
+        src = ps.rcPaint;
 
-            the_display.lp_DD_FrontSurface->Blt(&dest, the_display.lp_DD_BackSurface, &src, DDBLT_WAIT, 0);
+        the_display.lp_DD_FrontSurface->Blt(&dest, the_display.lp_DD_BackSurface, &src, DDBLT_WAIT, 0);
 
-            EndPaint(window_handle, &ps);
+        EndPaint(window_handle, &ps);
 
-            return 0;
+        return 0;
 
-        case WM_CONTEXTMENU:
-            return 0;
+    case WM_CONTEXTMENU:
+        return 0;
 
-        case WM_LBUTTONDOWN:
+    case WM_LBUTTONDOWN:
 
-            if (LEDIT_map_valid && LEDIT_mouse_valid) {
-                switch (LEDIT_mode) {
-                    case LEDIT_MODE_PLACE_LIGHT:
-
-                        //
-                        // Place a light.
-                        //
-
-                        LEDIT_get_light_signed(
-                            &red,
-                            &green,
-                            &blue,
-                            &range);
-
-                        LEDIT_last_placed = ED_create(
-                            LEDIT_mouse_world_x,
-                            LEDIT_mouse_world_y + 0x100,
-                            LEDIT_mouse_world_z,
-                            range,
-                            red,
-                            green,
-                            blue);
-
-                        LEDIT_make_undoable();
-
-                        break;
-
-                    case LEDIT_MODE_EDIT_LIGHT:
-
-                        if (LEDIT_mouse_over == GI_MOUSE_OVER_LIGHT_BOT) {
-                            ASSERT(WITHIN(LEDIT_mouse_light, 1, ED_MAX_LIGHTS - 1));
-
-                            //
-                            // Select the light.
-                            //
-
-                            LEDIT_edit_light = LEDIT_mouse_light;
-
-                            //
-                            // Start dragging it.
-                            //
-
-                            el = &ED_light[LEDIT_edit_light];
-
-                            LEDIT_edit_dragging = true;
-                            LEDIT_edit_dragged = false;
-                            LEDIT_edit_drag_dx = LEDIT_mouse_world_x - el->x;
-                            LEDIT_edit_drag_dy = LEDIT_mouse_world_y - el->y;
-                            LEDIT_edit_drag_dz = LEDIT_mouse_world_z - el->z;
-
-                            //
-                            // Grab control of the mouse.
-                            //
-
-                            SetCapture(LEDIT_handle_engine);
-
-                            //
-                            // Update the light window.
-                            //
-
-                            LEDIT_set_state_look();
-
-                            //
-                            // Sync the colours to the new light we are editing.
-                            //
-
-                            LEDIT_sync_colours();
-                        } else {
-                            LEDIT_edit_dragging = false;
-                        }
-
-                        break;
-
-                    case LEDIT_MODE_SET_AMBIENT:
-                        break;
-
-                    case LEDIT_MODE_SET_LAMPOST:
-                        break;
-
-                    case LEDIT_MODE_SET_SKY:
-                        break;
-
-                    default:
-                        ASSERT(0);
-                        break;
-                }
-            }
-
-            return 0;
-
-        case WM_MOUSEMOVE:
-
-            if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
-                LEDIT_edit_light &&
-                LEDIT_edit_dragging) {
-                ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
-
-                el = &ED_light[LEDIT_edit_light];
+        if (LEDIT_map_valid && LEDIT_mouse_valid) {
+            switch (LEDIT_mode) {
+            case LEDIT_MODE_PLACE_LIGHT:
 
                 //
-                // Move the edit light to the new place.
+                // Place a light.
                 //
 
-                ED_light_move(
-                    LEDIT_edit_light,
-                    LEDIT_mouse_world_x - LEDIT_edit_drag_dx,
-                    LEDIT_mouse_world_y - LEDIT_edit_drag_dy,
-                    LEDIT_mouse_world_z - LEDIT_edit_drag_dz);
-            }
+                LEDIT_get_light_signed(
+                    &red,
+                    &green,
+                    &blue,
+                    &range);
 
-            return 0;
+                LEDIT_last_placed = ED_create(
+                    LEDIT_mouse_world_x,
+                    LEDIT_mouse_world_y + 0x100,
+                    LEDIT_mouse_world_z,
+                    range,
+                    red,
+                    green,
+                    blue);
 
-        case WM_LBUTTONUP:
+                LEDIT_make_undoable();
 
-            if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
-                LEDIT_edit_light &&
-                LEDIT_edit_dragging) {
-                //
-                // Stop dragging the light.
-                //
+                break;
 
-                LEDIT_edit_dragging = false;
+            case LEDIT_MODE_EDIT_LIGHT:
 
-                //
-                // Release the capture on the mouse.
-                //
+                if (LEDIT_mouse_over == GI_MOUSE_OVER_LIGHT_BOT) {
+                    ASSERT(WITHIN(LEDIT_mouse_light, 1, ED_MAX_LIGHTS - 1));
 
-                ReleaseCapture();
-
-                if (LEDIT_edit_dragged) {
                     //
-                    // We did move the light, so make sure we can undo it.
+                    // Select the light.
                     //
 
-                    LEDIT_make_undoable();
+                    LEDIT_edit_light = LEDIT_mouse_light;
+
+                    //
+                    // Start dragging it.
+                    //
+
+                    el = &ED_light[LEDIT_edit_light];
+
+                    LEDIT_edit_dragging = true;
+                    LEDIT_edit_dragged = false;
+                    LEDIT_edit_drag_dx = LEDIT_mouse_world_x - el->x;
+                    LEDIT_edit_drag_dy = LEDIT_mouse_world_y - el->y;
+                    LEDIT_edit_drag_dz = LEDIT_mouse_world_z - el->z;
+
+                    //
+                    // Grab control of the mouse.
+                    //
+
+                    SetCapture(LEDIT_handle_engine);
+
+                    //
+                    // Update the light window.
+                    //
+
+                    LEDIT_set_state_look();
+
+                    //
+                    // Sync the colours to the new light we are editing.
+                    //
+
+                    LEDIT_sync_colours();
+                } else {
+                    LEDIT_edit_dragging = false;
                 }
+
+                break;
+
+            case LEDIT_MODE_SET_AMBIENT:
+                break;
+
+            case LEDIT_MODE_SET_LAMPOST:
+                break;
+
+            case LEDIT_MODE_SET_SKY:
+                break;
+
+            default:
+                ASSERT(0);
+                break;
             }
+        }
 
-            return 0;
+        return 0;
 
-        case WM_MOVING:
+    case WM_MOUSEMOVE:
 
-            LEDIT_collide_window_rect(
-                (RECT *) param_l,
-                window_handle);
+        if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
+            LEDIT_edit_light &&
+            LEDIT_edit_dragging) {
+            ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
 
-            break;
+            el = &ED_light[LEDIT_edit_light];
 
-        default:
-            break;
+            //
+            // Move the edit light to the new place.
+            //
+
+            ED_light_move(
+                LEDIT_edit_light,
+                LEDIT_mouse_world_x - LEDIT_edit_drag_dx,
+                LEDIT_mouse_world_y - LEDIT_edit_drag_dy,
+                LEDIT_mouse_world_z - LEDIT_edit_drag_dz);
+        }
+
+        return 0;
+
+    case WM_LBUTTONUP:
+
+        if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT &&
+            LEDIT_edit_light &&
+            LEDIT_edit_dragging) {
+            //
+            // Stop dragging the light.
+            //
+
+            LEDIT_edit_dragging = false;
+
+            //
+            // Release the capture on the mouse.
+            //
+
+            ReleaseCapture();
+
+            if (LEDIT_edit_dragged) {
+                //
+                // We did move the light, so make sure we can undo it.
+                //
+
+                LEDIT_make_undoable();
+            }
+        }
+
+        return 0;
+
+    case WM_MOVING:
+
+        LEDIT_collide_window_rect(
+            (RECT *) param_l,
+            window_handle);
+
+        break;
+
+    default:
+        break;
     }
 
     return DefWindowProc(
@@ -1987,153 +1989,153 @@ LRESULT CALLBACK LEDIT_callback_light(
     std::int32_t delta;
 
     switch (message_type) {
-        case WM_MOVING:
+    case WM_MOVING:
 
-            LEDIT_collide_window_rect(
-                (RECT *) param_l,
-                window_handle);
+        LEDIT_collide_window_rect(
+            (RECT *) param_l,
+            window_handle);
 
-            break;
+        break;
 
-        case WM_HSCROLL:
+    case WM_HSCROLL:
 
-            if (param_l == (int) LEDIT_handle_bright) {
-                delta = SendMessage(LEDIT_handle_bright, TBM_GETPOS, 0, 0) - 256;
+        if (param_l == (int) LEDIT_handle_bright) {
+            delta = SendMessage(LEDIT_handle_bright, TBM_GETPOS, 0, 0) - 256;
 
-                red = LEDIT_bright_base_red + delta;
-                green = LEDIT_bright_base_green + delta;
-                blue = LEDIT_bright_base_blue + delta;
+            red = LEDIT_bright_base_red + delta;
+            green = LEDIT_bright_base_green + delta;
+            blue = LEDIT_bright_base_blue + delta;
 
-                SATURATE(red, 0, 255);
-                SATURATE(green, 0, 255);
-                SATURATE(blue, 0, 255);
+            SATURATE(red, 0, 255);
+            SATURATE(green, 0, 255);
+            SATURATE(blue, 0, 255);
 
-                LEDIT_dont_normalise_brightness_bar = true;
-
-                //
-                // Set the colour in the colour box.
-                //
-
-                cr = RGB(red, green, blue);
-
-                LEDIT_change_colour(cr);
-
-                //
-                // Change what we are editing.  Only create an undo
-                // packet at the end of the dragging of the trackbar- i.e.
-                // a TB_THUMPOSITION message.
-                //
-
-                LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
-
-                LEDIT_dont_normalise_brightness_bar = false;
-            } else {
-                //
-                // Get the current colours.
-                //
-
-                red = SendMessage(LEDIT_handle_red, TBM_GETPOS, 0, 0);
-                green = SendMessage(LEDIT_handle_green, TBM_GETPOS, 0, 0);
-                blue = SendMessage(LEDIT_handle_blue, TBM_GETPOS, 0, 0);
-
-                //
-                // Set the colour in the colour box.
-                //
-
-                cr = RGB(red, green, blue);
-
-                LEDIT_change_colour(cr);
-
-                //
-                // Change what we are editing.  Only create an undo
-                // packet at the end of the dragging of the trackbar- i.e.
-                // a TB_THUMPOSITION message.
-                //
-
-                LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
-            }
-
-            return 0;
-
-        case WM_VSCROLL:
-
-            if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT ||
-                LEDIT_mode == LEDIT_MODE_SET_LAMPOST) {
-                //
-                // Change what we are editing.  Only create an undo
-                // packet at the end of the dragging of the trackbar- i.e.
-                // a TB_THUMPOSITION message.
-                //
-
-                LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
-            }
-
-            return 0;
-
-        case WM_COMMAND:
+            LEDIT_dont_normalise_brightness_bar = true;
 
             //
-            // A button has been pressed. Make sure that the frame
-            // window has the focus.
+            // Set the colour in the colour box.
             //
 
-            SetFocus(LEDIT_handle_frame);
+            cr = RGB(red, green, blue);
 
-            if (LOWORD(param_w) == LEDIT_CHILD_ANTI) {
-                //
-                // Clicked on the anti-light button.
-                //
-            } else {
-                switch (LOWORD(param_w)) {
-                    case LEDIT_CHILD_BWHITE:
-                        red = 255;
-                        green = 255;
-                        blue = 255;
-                        break;
+            LEDIT_change_colour(cr);
 
-                    case LEDIT_CHILD_BLGREY:
-                        red = 160;
-                        green = 160;
-                        blue = 160;
-                        break;
+            //
+            // Change what we are editing.  Only create an undo
+            // packet at the end of the dragging of the trackbar- i.e.
+            // a TB_THUMPOSITION message.
+            //
 
-                    case LEDIT_CHILD_BDGREY:
-                        red = 64;
-                        green = 64;
-                        blue = 64;
-                        break;
+            LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
 
-                    case LEDIT_CHILD_BPYELLOW:
-                        red = 255;
-                        green = 255;
-                        blue = 196;
-                        break;
+            LEDIT_dont_normalise_brightness_bar = false;
+        } else {
+            //
+            // Get the current colours.
+            //
 
-                    case LEDIT_CHILD_BPBLUE:
-                        red = 200;
-                        green = 200;
-                        blue = 255;
-                        break;
+            red = SendMessage(LEDIT_handle_red, TBM_GETPOS, 0, 0);
+            green = SendMessage(LEDIT_handle_green, TBM_GETPOS, 0, 0);
+            blue = SendMessage(LEDIT_handle_blue, TBM_GETPOS, 0, 0);
 
-                    case LEDIT_CHILD_BPRED:
-                        red = 255;
-                        green = 200;
-                        blue = 200;
-                        break;
+            //
+            // Set the colour in the colour box.
+            //
 
-                    default:
-                        ASSERT(0);
-                }
+            cr = RGB(red, green, blue);
 
-                LEDIT_change_colour(RGB(red, green, blue));
+            LEDIT_change_colour(cr);
+
+            //
+            // Change what we are editing.  Only create an undo
+            // packet at the end of the dragging of the trackbar- i.e.
+            // a TB_THUMPOSITION message.
+            //
+
+            LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
+        }
+
+        return 0;
+
+    case WM_VSCROLL:
+
+        if (LEDIT_mode == LEDIT_MODE_EDIT_LIGHT ||
+            LEDIT_mode == LEDIT_MODE_SET_LAMPOST) {
+            //
+            // Change what we are editing.  Only create an undo
+            // packet at the end of the dragging of the trackbar- i.e.
+            // a TB_THUMPOSITION message.
+            //
+
+            LEDIT_edited_light(LOWORD(param_w) == TB_THUMBPOSITION);
+        }
+
+        return 0;
+
+    case WM_COMMAND:
+
+        //
+        // A button has been pressed. Make sure that the frame
+        // window has the focus.
+        //
+
+        SetFocus(LEDIT_handle_frame);
+
+        if (LOWORD(param_w) == LEDIT_CHILD_ANTI) {
+            //
+            // Clicked on the anti-light button.
+            //
+        } else {
+            switch (LOWORD(param_w)) {
+            case LEDIT_CHILD_BWHITE:
+                red = 255;
+                green = 255;
+                blue = 255;
+                break;
+
+            case LEDIT_CHILD_BLGREY:
+                red = 160;
+                green = 160;
+                blue = 160;
+                break;
+
+            case LEDIT_CHILD_BDGREY:
+                red = 64;
+                green = 64;
+                blue = 64;
+                break;
+
+            case LEDIT_CHILD_BPYELLOW:
+                red = 255;
+                green = 255;
+                blue = 196;
+                break;
+
+            case LEDIT_CHILD_BPBLUE:
+                red = 200;
+                green = 200;
+                blue = 255;
+                break;
+
+            case LEDIT_CHILD_BPRED:
+                red = 255;
+                green = 200;
+                blue = 200;
+                break;
+
+            default:
+                ASSERT(0);
             }
 
-            LEDIT_edited_light(true);
+            LEDIT_change_colour(RGB(red, green, blue));
+        }
 
-            return 0;
+        LEDIT_edited_light(true);
 
-        default:
-            break;
+        return 0;
+
+    default:
+        break;
     }
 
     return DefWindowProc(
@@ -2178,47 +2180,47 @@ LRESULT CALLBACK LEDIT_callback_colour(
             0x00008888};
 
     switch (message_type) {
-        case WM_LBUTTONDBLCLK:
-        case WM_LBUTTONDOWN:
+    case WM_LBUTTONDBLCLK:
+    case WM_LBUTTONDOWN:
 
-            LEDIT_get_light_unsigned(
-                &red,
-                &green,
-                &blue,
-                &range);
+        LEDIT_get_light_unsigned(
+            &red,
+            &green,
+            &blue,
+            &range);
 
-            cc.lStructSize = sizeof(cc);
-            cc.hwndOwner = window_handle;
-            cc.hInstance = (struct HWND__ *) LEDIT_hinstance;
-            cc.lpCustColors = cr;
-            cc.Flags = CC_ANYCOLOR | CC_RGBINIT | CC_FULLOPEN;
-            cc.lCustData = 0;
-            cc.lpfnHook = nullptr;
-            cc.lpTemplateName = nullptr;
-            cc.rgbResult = RGB(red, green, blue);
+        cc.lStructSize = sizeof(cc);
+        cc.hwndOwner = window_handle;
+        cc.hInstance = (struct HWND__ *) LEDIT_hinstance;
+        cc.lpCustColors = cr;
+        cc.Flags = CC_ANYCOLOR | CC_RGBINIT | CC_FULLOPEN;
+        cc.lCustData = 0;
+        cc.lpfnHook = nullptr;
+        cc.lpTemplateName = nullptr;
+        cc.rgbResult = RGB(red, green, blue);
 
-            if (ChooseColor(&cc)) {
-                //
-                // Set the colour in the colour box.
-                //
+        if (ChooseColor(&cc)) {
+            //
+            // Set the colour in the colour box.
+            //
 
-                LEDIT_change_colour(cc.rgbResult);
+            LEDIT_change_colour(cc.rgbResult);
 
-                //
-                // Change what we are editing.
-                //
+            //
+            // Change what we are editing.
+            //
 
-                LEDIT_edited_light(true);
-            }
+            LEDIT_edited_light(true);
+        }
 
-            return 0;
+        return 0;
 
-        default:
-            return DefWindowProc(
-                window_handle,
-                message_type,
-                param_w,
-                param_l);
+    default:
+        return DefWindowProc(
+            window_handle,
+            message_type,
+            param_w,
+            param_l);
     }
 }
 

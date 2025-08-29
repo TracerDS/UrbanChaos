@@ -23,9 +23,9 @@ typedef struct
 
 LMAP_Tex LMAP_tex[LMAP_MAX_TEXES] =
     {
-        {16, nullptr},
-        {32, nullptr},
-        {64, nullptr},
+        {16,  nullptr},
+        {32,  nullptr},
+        {64,  nullptr},
         {128, nullptr},
         {256, nullptr},
 };

@@ -226,9 +226,9 @@ void DeleteCivs(Mission *mission) {
             // check the wpt itself doesn't rule out trashing it
             if (LOWORD(ep->Data[0]) > 2) walk_ep = 0; // isn't a civvy
             switch (LOWORD(ep->Data[5])) {
-                case 0:
-                case 1: break;
-                default: walk_ep = 0; // doesn't obey civvy AI
+            case 0:
+            case 1: break;
+            default: walk_ep = 0; // doesn't obey civvy AI
             }
             /*			switch (ep->Data[3]) {
                                     case 0: case 3: break;
@@ -371,31 +371,31 @@ void DeleteCars(Mission *mission) {
 
         if (ep->WaypointType == WPT_CREATE_VEHICLE) {
             switch (ep->Data[0]) {
-                case 1:
-                case 2:
-                case 3:
-                case 9:
-                case 10:
-                    // this is a potential target...
-                    for (walk_ep = mission->UsedEPoints; walk_ep; walk_ep = ep_tst->Next) {
-                        ep_tst = TO_EVENTPOINT(ep_base, walk_ep);
-                        if ((ep_tst->EPRef == current_ep) || (ep_tst->EPRefBool == current_ep)) {
-                            // saved
+            case 1:
+            case 2:
+            case 3:
+            case 9:
+            case 10:
+                // this is a potential target...
+                for (walk_ep = mission->UsedEPoints; walk_ep; walk_ep = ep_tst->Next) {
+                    ep_tst = TO_EVENTPOINT(ep_base, walk_ep);
+                    if ((ep_tst->EPRef == current_ep) || (ep_tst->EPRefBool == current_ep)) {
+                        // saved
+                        ep_tst = 0;
+                        break;
+                    }
+                    if ((ep_tst->EPRefBool) && (ep_tst->TriggeredBy == TT_PERSON_IN_VEHICLE) && (ep_tst->EPRefBool == current_ep)) {
+                        ep_tst = 0;
+                        break;
+                    }
+                    if ((ep_tst->WaypointType == WPT_STALL_CAR) || (ep_tst->WaypointType == WPT_LOCK_VEHICLE)) {
+                        if ((ep_tst->Data[0]) && (ep_tst->Data[0] == current_ep)) {
                             ep_tst = 0;
                             break;
-                        }
-                        if ((ep_tst->EPRefBool) && (ep_tst->TriggeredBy == TT_PERSON_IN_VEHICLE) && (ep_tst->EPRefBool == current_ep)) {
-                            ep_tst = 0;
-                            break;
-                        }
-                        if ((ep_tst->WaypointType == WPT_STALL_CAR) || (ep_tst->WaypointType == WPT_LOCK_VEHICLE)) {
-                            if ((ep_tst->Data[0]) && (ep_tst->Data[0] == current_ep)) {
-                                ep_tst = 0;
-                                break;
-                            }
                         }
                     }
-                    if (ep_tst) TrashList[i++] = ep;
+                }
+                if (ep_tst) TrashList[i++] = ep;
             }
         }
 
@@ -949,13 +949,13 @@ void show_mission_info() {
 
         if (ep->WaypointType == WPT_CREATE_ITEM) {
             switch (ep->Data[0]) {
-                case IT_HEALTH: num_health += 1; break;
-                case IT_AMMO_PISTOL: num_ammo_pistol += 1; break;
-                case IT_AMMO_SHOTGUN: num_ammo_shotgun += 1; break;
-                case IT_AMMO_AK47: num_ammo_ak47 += 1; break;
-                case IT_PISTOL: num_pistol += 1; break;
-                case IT_SHOTGUN: num_shotgun += 1; break;
-                case IT_AK47: num_ak47 += 1; break;
+            case IT_HEALTH: num_health += 1; break;
+            case IT_AMMO_PISTOL: num_ammo_pistol += 1; break;
+            case IT_AMMO_SHOTGUN: num_ammo_shotgun += 1; break;
+            case IT_AMMO_AK47: num_ammo_ak47 += 1; break;
+            case IT_PISTOL: num_pistol += 1; break;
+            case IT_SHOTGUN: num_shotgun += 1; break;
+            case IT_AK47: num_ak47 += 1; break;
             }
         } else if (ep->WaypointType == WPT_CREATE_TREASURE) {
             num_treasures += 1;
@@ -985,20 +985,20 @@ void set_car_collision_with_road_prims() {
         (current_mission->Flags & MISSION_FLAG_CARS_WITH_ROAD_PRIMS) ? "Collision is currently ON" : "Collision is now OFF",
         "Set car collision with prims on the roads",
         MB_YESNOCANCEL | MB_ICONQUESTION)) {
-        case IDNO:
-            current_mission->Flags &= ~MISSION_FLAG_CARS_WITH_ROAD_PRIMS;
-            break;
+    case IDNO:
+        current_mission->Flags &= ~MISSION_FLAG_CARS_WITH_ROAD_PRIMS;
+        break;
 
-        case IDYES:
-            current_mission->Flags |= MISSION_FLAG_CARS_WITH_ROAD_PRIMS;
-            break;
+    case IDYES:
+        current_mission->Flags |= MISSION_FLAG_CARS_WITH_ROAD_PRIMS;
+        break;
 
-        case IDCANCEL:
-            break;
+    case IDCANCEL:
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1065,159 +1065,159 @@ LRESULT CALLBACK sc_tree_proc(
     POINT click_point;
 
     switch (message) {
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                    //--- workspace ---//
-                case ID_WORKSPACEROOT_ADD:
-                    ws_add_map();
-                    return 0;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+            //--- workspace ---//
+        case ID_WORKSPACEROOT_ADD:
+            ws_add_map();
+            return 0;
 
-                case ID_WORKSPACEROOT_REFRESH:
-                    ws_refresh_all();
-                    return 0;
-                    //--- map ---//
-                case ID_MAPROOT_NEWMISSION:
-                    ws_new_mission();
-                    return 0;
+        case ID_WORKSPACEROOT_REFRESH:
+            ws_refresh_all();
+            return 0;
+            //--- map ---//
+        case ID_MAPROOT_NEWMISSION:
+            ws_new_mission();
+            return 0;
 
-                case ID_MAPROOT_IMPORTMISSION:
-                    import_mission();
-                    return 0;
+        case ID_MAPROOT_IMPORTMISSION:
+            import_mission();
+            return 0;
 
-                case ID_MAPROOT_RESETPRIMS:
-                    if (current_map && map_valid) {
-                        if (MessageBox(GEDIT_edit_wnd, "Discard all changes to the prims on this map?", "Are you sure?", MB_ICONQUESTION | MB_YESNO) == IDYES)
-                            GI_load_map(current_map->MapName);
-                    }
-                    return 0;
-
-                case ID_MAPROOT_COUNTPRIMS:
-                    if (current_map && map_valid)
-                        count_prims_map();
-                    return 0;
-
-                case ID_MAPROOT_SAVEPRIMS:
-                    //					MessageBox(GEDIT_edit_wnd,"Saving prims is temporarily disabled while a bug is fixed. Try again later...","Arse off...",MB_OK);
-                    //					return 0;
-                    if (current_map && map_valid) {
-                        if (MessageBox(GEDIT_edit_wnd, "Permanently save prims for this map?", "Are you sure?", MB_ICONQUESTION | MB_YESNO) == IDYES) {
-                            save_prim_map(current_map->MapName);
-                            update_prims_on_map(current_map->MapName);
-                        }
-                    }
-                    return 0;
-
-                case ID_MAPROOT_DELETEMAP:
-                    if (!current_map)
-                        MessageBox(GEDIT_edit_wnd, "Select a map first.", "Error", MB_ICONEXCLAMATION | MB_OK);
-                    else if (MessageBox(GEDIT_edit_wnd, "Remove this map and all associated missions from the workspace?", "Are you sure?", MB_ICONQUESTION | MB_YESNO) == IDYES)
-                        remove_map_from_wspace(current_map);
-                    return 0;
-
-                    //--- mission ---//
-                case ID_MISSIONROOT_ADDMISSIONBRIEF:
-                    return 0;
-
-                case ID_MISSIONROOT_ADDLIGHTMAP:
-                    ws_add_light_map();
-                    return 0;
-
-                case ID_MISSIONROOT_ADDSEWERMAP:
-                    ws_add_citsez_map();
-                    return 0;
-
-                case ID_MISSIONROOT_SETDEFAULTSKILLS:
-                    SetSkills(current_mission->SkillLevels);
-                    return 0;
-
-                case ID_MISSIONROOT_SETCRIMERATE:
-                    SetCrimeRate(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_SETCIVVYCOUNT:
-                    SetWanderingCivsRate(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_SETCARSCOUNT:
-                    SetWanderingCarsRate(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_SETMUSICWORLD:
-                    SetMusicWorld(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_CRIMERATE_VISIBILITY:
-
-                {
-                    switch (MessageBox(0, "Do you want the crime rate visible on this map?", "Set crime rate visible/invisible", MB_ICONQUESTION | MB_YESNOCANCEL)) {
-                        case IDYES:
-                            current_mission->Flags |= MISSION_FLAG_SHOW_CRIMERATE;
-                            break;
-
-                        case IDNO:
-                            current_mission->Flags &= ~MISSION_FLAG_SHOW_CRIMERATE;
-                            break;
-                    }
-                }
-
-                    return 0;
-
-                case ID_MISSIONROOT_BOREDOM:
-                    SetBoredomRate(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_SETCARCOLLISIONWITHROADPRIMS:
-                    set_car_collision_with_road_prims();
-                    break;
-
-                case ID_MISSIONROOT_DELETECIVS:
-                    if (MessageBox(0, "This will delete ALL civillians on the level, along with their text, if they aren't referred to by other waypoints. Are you sure??",
-                                   "Confirm: Delete Civs", MB_OKCANCEL | MB_ICONEXCLAMATION) == IDOK) DeleteCivs(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_DELETECARS:
-                    if (MessageBox(0, "This will delete all 'wandering' cars on the level, along with their drivers, if they aren't referred to by other waypoints. Are you sure??",
-                                   "Confirm: Delete Cars", MB_OKCANCEL | MB_ICONEXCLAMATION) == IDOK) DeleteCars(current_mission);
-                    return 0;
-
-                case ID_MISSIONROOT_DELETEMISSION:
-                    ws_del_mission();
-                    return 0;
-
-                case ID_MISSIONROOT_EXPORTMISSION:
-                    //	Export the mission in game form.
-                    export_mission();
-                    return 0;
-
-                case ID_MISSIONROOT_VALIDATEMISSION:
-                    valid_mission();
-                    return 0;
-
-                case ID_MISSIONROOT_REFRESHMISSION:
-                    refresh_mission();
-                    return 0;
-
-                case ID_MISSIONROOT_SHOWMISSIONINFO:
-                    show_mission_info();
-                    return 0;
+        case ID_MAPROOT_RESETPRIMS:
+            if (current_map && map_valid) {
+                if (MessageBox(GEDIT_edit_wnd, "Discard all changes to the prims on this map?", "Are you sure?", MB_ICONQUESTION | MB_YESNO) == IDYES)
+                    GI_load_map(current_map->MapName);
             }
+            return 0;
+
+        case ID_MAPROOT_COUNTPRIMS:
+            if (current_map && map_valid)
+                count_prims_map();
+            return 0;
+
+        case ID_MAPROOT_SAVEPRIMS:
+            //					MessageBox(GEDIT_edit_wnd,"Saving prims is temporarily disabled while a bug is fixed. Try again later...","Arse off...",MB_OK);
+            //					return 0;
+            if (current_map && map_valid) {
+                if (MessageBox(GEDIT_edit_wnd, "Permanently save prims for this map?", "Are you sure?", MB_ICONQUESTION | MB_YESNO) == IDYES) {
+                    save_prim_map(current_map->MapName);
+                    update_prims_on_map(current_map->MapName);
+                }
+            }
+            return 0;
+
+        case ID_MAPROOT_DELETEMAP:
+            if (!current_map)
+                MessageBox(GEDIT_edit_wnd, "Select a map first.", "Error", MB_ICONEXCLAMATION | MB_OK);
+            else if (MessageBox(GEDIT_edit_wnd, "Remove this map and all associated missions from the workspace?", "Are you sure?", MB_ICONQUESTION | MB_YESNO) == IDYES)
+                remove_map_from_wspace(current_map);
+            return 0;
+
+            //--- mission ---//
+        case ID_MISSIONROOT_ADDMISSIONBRIEF:
+            return 0;
+
+        case ID_MISSIONROOT_ADDLIGHTMAP:
+            ws_add_light_map();
+            return 0;
+
+        case ID_MISSIONROOT_ADDSEWERMAP:
+            ws_add_citsez_map();
+            return 0;
+
+        case ID_MISSIONROOT_SETDEFAULTSKILLS:
+            SetSkills(current_mission->SkillLevels);
+            return 0;
+
+        case ID_MISSIONROOT_SETCRIMERATE:
+            SetCrimeRate(current_mission);
+            return 0;
+
+        case ID_MISSIONROOT_SETCIVVYCOUNT:
+            SetWanderingCivsRate(current_mission);
+            return 0;
+
+        case ID_MISSIONROOT_SETCARSCOUNT:
+            SetWanderingCarsRate(current_mission);
+            return 0;
+
+        case ID_MISSIONROOT_SETMUSICWORLD:
+            SetMusicWorld(current_mission);
+            return 0;
+
+        case ID_MISSIONROOT_CRIMERATE_VISIBILITY:
+
+        {
+            switch (MessageBox(0, "Do you want the crime rate visible on this map?", "Set crime rate visible/invisible", MB_ICONQUESTION | MB_YESNOCANCEL)) {
+            case IDYES:
+                current_mission->Flags |= MISSION_FLAG_SHOW_CRIMERATE;
+                break;
+
+            case IDNO:
+                current_mission->Flags &= ~MISSION_FLAG_SHOW_CRIMERATE;
+                break;
+            }
+        }
+
+            return 0;
+
+        case ID_MISSIONROOT_BOREDOM:
+            SetBoredomRate(current_mission);
+            return 0;
+
+        case ID_MISSIONROOT_SETCARCOLLISIONWITHROADPRIMS:
+            set_car_collision_with_road_prims();
             break;
 
-        case WM_KEYDOWN:
-        case WM_KEYUP:
-            KeyboardProc(message, wParam, lParam);
-            if (ED_KEYS)
-                return 0;
-            break;
+        case ID_MISSIONROOT_DELETECIVS:
+            if (MessageBox(0, "This will delete ALL civillians on the level, along with their text, if they aren't referred to by other waypoints. Are you sure??",
+                           "Confirm: Delete Civs", MB_OKCANCEL | MB_ICONEXCLAMATION) == IDOK) DeleteCivs(current_mission);
+            return 0;
 
-        case WM_LBUTTONDBLCLK:
-            //	Make point relative to screen coords instead of window.
-            click_point.x = LOWORD(lParam);
-            click_point.y = HIWORD(lParam);
-            ClientToScreen(hWnd, &click_point);
-            if (handle_ws_dblclk(&click_point))
-                return 0;
-            break;
+        case ID_MISSIONROOT_DELETECARS:
+            if (MessageBox(0, "This will delete all 'wandering' cars on the level, along with their drivers, if they aren't referred to by other waypoints. Are you sure??",
+                           "Confirm: Delete Cars", MB_OKCANCEL | MB_ICONEXCLAMATION) == IDOK) DeleteCars(current_mission);
+            return 0;
+
+        case ID_MISSIONROOT_DELETEMISSION:
+            ws_del_mission();
+            return 0;
+
+        case ID_MISSIONROOT_EXPORTMISSION:
+            //	Export the mission in game form.
+            export_mission();
+            return 0;
+
+        case ID_MISSIONROOT_VALIDATEMISSION:
+            valid_mission();
+            return 0;
+
+        case ID_MISSIONROOT_REFRESHMISSION:
+            refresh_mission();
+            return 0;
+
+        case ID_MISSIONROOT_SHOWMISSIONINFO:
+            show_mission_info();
+            return 0;
+        }
+        break;
+
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+        KeyboardProc(message, wParam, lParam);
+        if (ED_KEYS)
+            return 0;
+        break;
+
+    case WM_LBUTTONDBLCLK:
+        //	Make point relative to screen coords instead of window.
+        click_point.x = LOWORD(lParam);
+        click_point.y = HIWORD(lParam);
+        ClientToScreen(hWnd, &click_point);
+        if (handle_ws_dblclk(&click_point))
+            return 0;
+        break;
     }
 
     return CallWindowProc(tree_proc, hWnd, message, wParam, lParam);
@@ -1231,9 +1231,9 @@ LRESULT CALLBACK sc_dialog_proc(
     WPARAM wParam,
     LPARAM lParam) {
     switch (message) {
-        case WM_ENTERIDLE:
-            process_view_wind();
-            return 0;
+    case WM_ENTERIDLE:
+        process_view_wind();
+        return 0;
     }
     return CallWindowProc(dialog_proc, hWnd, message, wParam, lParam);
 }

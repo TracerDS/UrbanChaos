@@ -255,110 +255,110 @@ bool CALLBACK ms_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     EventPoint *ep_ptr, *ep_base = current_mission->EventPoints;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the edit text.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                EM_SETLIMITTEXT,
-                2550, 0);
+    case WM_INITDIALOG:
+        //	Set up the edit text.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            EM_SETLIMITTEXT,
+            2550, 0);
 
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                WM_SETTEXT,
-                0, (LPARAM) message_text);
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            WM_SETTEXT,
+            0, (LPARAM) message_text);
 
-            // and the spinner
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0, MAKELONG(message_time, 0));
+        // and the spinner
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0, MAKELONG(message_time, 0));
 
-            // and the said-by combo
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            strcpy(str, "Radio");
-            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
-            SendMessage(the_ctrl, CB_SETCURSEL, 0, 0);
+        // and the said-by combo
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        strcpy(str, "Radio");
+        SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+        SendMessage(the_ctrl, CB_SETCURSEL, 0, 0);
 
-            strcpy(str, "Place/Street-name");
-            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+        strcpy(str, "Place/Street-name");
+        SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
 
-            strcpy(str, "Tutorial help message");
-            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+        strcpy(str, "Tutorial help message");
+        SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
 
-            ep = current_mission->UsedEPoints;
-            c0 = 3;
-            while (ep) {
-                ep_ptr = TO_EVENTPOINT(ep_base, ep);
-                if ((ep_ptr->WaypointType == WPT_CREATE_PLAYER) || (ep_ptr->WaypointType == WPT_CREATE_ENEMIES)) {
-                    WaypointExtra(ep_ptr, msg);
-                    sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
-                    SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
-                    if (ep == message_who) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
-                    c0++;
-                }
-                ep = ep_ptr->Next;
+        ep = current_mission->UsedEPoints;
+        c0 = 3;
+        while (ep) {
+            ep_ptr = TO_EVENTPOINT(ep_base, ep);
+            if ((ep_ptr->WaypointType == WPT_CREATE_PLAYER) || (ep_ptr->WaypointType == WPT_CREATE_ENEMIES)) {
+                WaypointExtra(ep_ptr, msg);
+                sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
+                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+                if (ep == message_who) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
+                c0++;
             }
+            ep = ep_ptr->Next;
+        }
 
-            if (message_who == 0xffff) {
-                SendMessage(the_ctrl, CB_SETCURSEL, 1, 0);
-            }
+        if (message_who == 0xffff) {
+            SendMessage(the_ctrl, CB_SETCURSEL, 1, 0);
+        }
 
-            if (message_who == 0xfffe) {
-                SendMessage(the_ctrl, CB_SETCURSEL, 2, 0);
-            }
+        if (message_who == 0xfffe) {
+            SendMessage(the_ctrl, CB_SETCURSEL, 2, 0);
+        }
 
-            SetFocus(GetDlgItem(hWnd, IDC_EDIT1));
-            return false;
+        SetFocus(GetDlgItem(hWnd, IDC_EDIT1));
+        return false;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            len = SendMessage(
-                      GetDlgItem(hWnd, IDC_EDIT1),
-                      WM_GETTEXTLENGTH,
-                      0, 0) +
-                  1;
-            if (message_text) free(message_text);
-            message_text = (char*) malloc(len);
-            ZeroMemory(message_text, len);
-
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                WM_GETTEXT,
-                len,
-                (LPARAM) message_text);
-            message_time = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-
-            message_who = SendMessage(
-                GetDlgItem(hWnd, IDC_COMBO1),
-                CB_GETCURSEL,
-                0, 0);
-            // now translate phoney people indices to real one
-            if (message_who < 3) {
-                switch (message_who) {
-                    case 0: message_who = 0; break;
-                    case 1: message_who = 0xffff; break;
-                    case 2: message_who = 0xfffe; break;
-
-                    default:
-                        ASSERT(0);
-                        break;
-                }
-
-            } else {
-                memset(str, 0, STR_LEN);
-                SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETLBTEXT, message_who, (long) str);
-                sscanf(str, "%d", &message_who);
-            }
-
-            EndDialog(hWnd, 0);
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        len = SendMessage(
+                  GetDlgItem(hWnd, IDC_EDIT1),
+                  WM_GETTEXTLENGTH,
+                  0, 0) +
+              1;
+        if (message_text) free(message_text);
+        message_text = (char*) malloc(len);
+        ZeroMemory(message_text, len);
+
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            WM_GETTEXT,
+            len,
+            (LPARAM) message_text);
+        message_time = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+
+        message_who = SendMessage(
+            GetDlgItem(hWnd, IDC_COMBO1),
+            CB_GETCURSEL,
+            0, 0);
+        // now translate phoney people indices to real one
+        if (message_who < 3) {
+            switch (message_who) {
+            case 0: message_who = 0; break;
+            case 1: message_who = 0xffff; break;
+            case 2: message_who = 0xfffe; break;
+
+            default:
+                ASSERT(0);
+                break;
+            }
+
+        } else {
+            memset(str, 0, STR_LEN);
+            SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETLBTEXT, message_who, (long) str);
+            sscanf(str, "%d", &message_who);
+        }
+
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

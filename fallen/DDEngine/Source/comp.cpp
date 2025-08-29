@@ -325,9 +325,9 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
 
         found_best_pan:;
 
-    //
-    // The maximum error per-pixel we can live with.
-    //
+        //
+        // The maximum error per-pixel we can live with.
+        //
 
 #define COMP_MAX_ERROR_PER_PIXEL 32
 

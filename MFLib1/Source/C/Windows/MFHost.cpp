@@ -152,111 +152,111 @@ void ResetHost() {
 LRESULT CALLBACK WndProc(HWND h_window, UINT i_message, WPARAM w_param, LPARAM l_param) {
     switch (i_message) {
 #ifndef TARGET_DC
-        case WM_SIZE:
-        case WM_MOVE:
-            //			LogText("WM_SIZE or WM_MOVE\n");
-            if (IsIconic(h_window)) {
-                // Shell is minimized, maybe set Pause flag?
-            }
+    case WM_SIZE:
+    case WM_MOVE:
+        //			LogText("WM_SIZE or WM_MOVE\n");
+        if (IsIconic(h_window)) {
+            // Shell is minimized, maybe set Pause flag?
+        }
 #ifdef _DEBUG
-            GetClientRect(h_window, &ShellRect);
-            ClientToScreen(h_window, (LPPOINT) &ShellRect);
-            ClientToScreen(h_window, (LPPOINT) &ShellRect + 1);
+        GetClientRect(h_window, &ShellRect);
+        ClientToScreen(h_window, (LPPOINT) &ShellRect);
+        ClientToScreen(h_window, (LPPOINT) &ShellRect + 1);
 
 #else
-            SetRect(&ShellRect, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
+        SetRect(&ShellRect, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
 #endif
-            if (lp_DD_FrontSurface)
-                ClearDisplay();
-            break;
-        case WM_QUERYNEWPALETTE:
-            //			LogText("WM_QUERYNEWPALETTE\n");
-            RestorePalettes();
-            break;
-        case WM_PALETTECHANGED:
-            //			LogText("WM_PALETTECHANGED\n");
-            RestorePalettes();
-            break;
-        case WM_MOUSEMOVE:
-            //			LogText("WM_MOUSEMOVE:\n");
-            MouseX = LOWORD(l_param);
-            MouseY = HIWORD(l_param);
-            MousePoint.X = MouseX;
-            MousePoint.Y = MouseY;
-            MouseMoved = 1;
-            break;
+        if (lp_DD_FrontSurface)
+            ClearDisplay();
+        break;
+    case WM_QUERYNEWPALETTE:
+        //			LogText("WM_QUERYNEWPALETTE\n");
+        RestorePalettes();
+        break;
+    case WM_PALETTECHANGED:
+        //			LogText("WM_PALETTECHANGED\n");
+        RestorePalettes();
+        break;
+    case WM_MOUSEMOVE:
+        //			LogText("WM_MOUSEMOVE:\n");
+        MouseX = LOWORD(l_param);
+        MouseY = HIWORD(l_param);
+        MousePoint.X = MouseX;
+        MousePoint.Y = MouseY;
+        MouseMoved = 1;
+        break;
 #endif // #ifndef TARGET_DC
-        case WM_RBUTTONUP:
-            //			LogText("WM_RBUTTONUP\n");
-            RightButton = 0;
-            break;
-        case WM_RBUTTONDOWN:
-            //			LogText("WM_RBUTTONDOWN\n");
-            RightButton = 1;
-            if (!RightMouse.ButtonState) {
-                RightMouse.ButtonState = 1;
-                RightMouse.MouseX = LOWORD(l_param);
-                RightMouse.MouseY = HIWORD(l_param);
-                RightMouse.MousePoint.X = LOWORD(l_param);
-                RightMouse.MousePoint.Y = HIWORD(l_param);
-            }
-            break;
-        case WM_RBUTTONDBLCLK:
-            break;
-        case WM_LBUTTONUP:
-            LogText("WM_LBUTTONUP\n");
-            LeftButton = 0;
-            break;
-        case WM_LBUTTONDOWN:
-            //			LogText("WM_LBUTTONDOWN\n");
-            LeftButton = 1;
-            if (!LeftMouse.ButtonState) {
-                LeftMouse.ButtonState = 1;
-                LeftMouse.MouseX = LOWORD(l_param);
-                LeftMouse.MouseY = HIWORD(l_param);
-                LeftMouse.MousePoint.X = LOWORD(l_param);
-                LeftMouse.MousePoint.Y = HIWORD(l_param);
-            }
-            break;
-        case WM_LBUTTONDBLCLK:
-            break;
-        case WM_MBUTTONUP:
-            MiddleButton = 0;
-            break;
-        case WM_MBUTTONDOWN:
-            //			LogText("WM_MBUTTONDOWN\n");
-            MiddleButton = 1;
-            if (!MiddleMouse.ButtonState) {
-                MiddleMouse.ButtonState = 1;
-                MiddleMouse.MouseX = LOWORD(l_param);
-                MiddleMouse.MouseY = HIWORD(l_param);
-                MiddleMouse.MousePoint.X = LOWORD(l_param);
-                MiddleMouse.MousePoint.Y = HIWORD(l_param);
-            }
-            break;
-        case WM_MBUTTONDBLCLK:
-            break;
+    case WM_RBUTTONUP:
+        //			LogText("WM_RBUTTONUP\n");
+        RightButton = 0;
+        break;
+    case WM_RBUTTONDOWN:
+        //			LogText("WM_RBUTTONDOWN\n");
+        RightButton = 1;
+        if (!RightMouse.ButtonState) {
+            RightMouse.ButtonState = 1;
+            RightMouse.MouseX = LOWORD(l_param);
+            RightMouse.MouseY = HIWORD(l_param);
+            RightMouse.MousePoint.X = LOWORD(l_param);
+            RightMouse.MousePoint.Y = HIWORD(l_param);
+        }
+        break;
+    case WM_RBUTTONDBLCLK:
+        break;
+    case WM_LBUTTONUP:
+        LogText("WM_LBUTTONUP\n");
+        LeftButton = 0;
+        break;
+    case WM_LBUTTONDOWN:
+        //			LogText("WM_LBUTTONDOWN\n");
+        LeftButton = 1;
+        if (!LeftMouse.ButtonState) {
+            LeftMouse.ButtonState = 1;
+            LeftMouse.MouseX = LOWORD(l_param);
+            LeftMouse.MouseY = HIWORD(l_param);
+            LeftMouse.MousePoint.X = LOWORD(l_param);
+            LeftMouse.MousePoint.Y = HIWORD(l_param);
+        }
+        break;
+    case WM_LBUTTONDBLCLK:
+        break;
+    case WM_MBUTTONUP:
+        MiddleButton = 0;
+        break;
+    case WM_MBUTTONDOWN:
+        //			LogText("WM_MBUTTONDOWN\n");
+        MiddleButton = 1;
+        if (!MiddleMouse.ButtonState) {
+            MiddleMouse.ButtonState = 1;
+            MiddleMouse.MouseX = LOWORD(l_param);
+            MiddleMouse.MouseY = HIWORD(l_param);
+            MiddleMouse.MousePoint.X = LOWORD(l_param);
+            MiddleMouse.MousePoint.Y = HIWORD(l_param);
+        }
+        break;
+    case WM_MBUTTONDBLCLK:
+        break;
 
-            // #ifdef	_DEBUG
-            extern LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
-        case WM_KEYDOWN:
-        case WM_KEYUP:
-            //			LogText("WM_KEYDOWN or WM_KEYUP\n");
-            KeyboardProc(0, 0, l_param);
-            break;
-            // #endif
+        // #ifdef	_DEBUG
+        extern LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
+    case WM_KEYDOWN:
+    case WM_KEYUP:
+        //			LogText("WM_KEYDOWN or WM_KEYUP\n");
+        KeyboardProc(0, 0, l_param);
+        break;
+        // #endif
 
-        case WM_CLOSE:
-            //			LogText("WM_CLOSE\n");
-            DisplayActive = 0;
-            break;
-        case WM_DESTROY:
-            //			LogText("WM_DESTROY\n");
-            PostQuitMessage(0);
-            DisplayState &= ~(DS_SHELL_WINDOW_OPEN);
-            break;
-            //		default:
-            //			LogText("Unknown event - %ld\n",i_message);
+    case WM_CLOSE:
+        //			LogText("WM_CLOSE\n");
+        DisplayActive = 0;
+        break;
+    case WM_DESTROY:
+        //			LogText("WM_DESTROY\n");
+        PostQuitMessage(0);
+        DisplayState &= ~(DS_SHELL_WINDOW_OPEN);
+        break;
+        //		default:
+        //			LogText("Unknown event - %ld\n",i_message);
     }
     return DefWindowProc(h_window, i_message, w_param, l_param);
 }
@@ -375,13 +375,13 @@ int MFMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine) {
     flag = MB_ABORTRETRYIGNORE | MB_ICONSTOP | MB_DEFBUTTON3;
 
     switch (MessageBox(hShellWindow, buff2, "Mucky Foot Message", flag)) {
-        case IDABORT:
-        case IDCANCEL:
-            exit(1);
-            break;
+    case IDABORT:
+    case IDCANCEL:
+        exit(1);
+        break;
 
-        case IDRETRY:
-            return true;
+    case IDRETRY:
+        return true;
     }
 #else  // #ifndef TARGET_DC
     LogText("Mucky Foot Message\n    %s\nIn   : %s\nLine : %u", pMessage, pFile, dwLine);

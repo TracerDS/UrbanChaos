@@ -151,7 +151,8 @@ void build_radius_info() {
 
 DXMaterial dx_materials[200] =
     {
-        {0, 0, 0}};
+        {0, 0, 0}
+};
 
 void setup_anim_stuff() {
 #ifdef EDITOR

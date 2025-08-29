@@ -15,21 +15,22 @@
 int waypoint_colour,
     waypoint_group;
 std::uint8_t button_colours[WAY_COLOURS][3] = {
-    {0, 0, 0},
+    {0,   0,   0  },
     {255, 255, 255},
-    {255, 0, 0},
-    {255, 255, 0},
-    {0, 255, 0},
-    {0, 255, 255},
-    {0, 0, 255},
-    {255, 0, 255},
+    {255, 0,   0  },
+    {255, 255, 0  },
+    {0,   255, 0  },
+    {0,   255, 255},
+    {0,   0,   255},
+    {255, 0,   255},
     {238, 176, 176},
-    {139, 112, 85},
-    {127, 76, 180},
-    {76, 196, 174},
-    {195, 52, 3},
+    {139, 112, 85 },
+    {127, 76,  180},
+    {76,  196, 174},
+    {195, 52,  3  },
     {171, 249, 167},
-    {168, 178, 54}};
+    {168, 178, 54 }
+};
 TCHAR button_classes[WAY_COLOURS][_MAX_PATH];
 
 extern HCURSOR GEDIT_arrow;
@@ -250,28 +251,28 @@ LRESULT CALLBACK button_proc(
     DRAWITEMSTRUCT draw_item;
 
     switch (message) {
-        case WM_LBUTTONDOWN:
-            //	Notify the parent that this colour box has been clicked.
+    case WM_LBUTTONDOWN:
+        //	Notify the parent that this colour box has been clicked.
+        SendMessage(
+            GetParent(hWnd),
+            WM_COMMAND,
+            (BN_CLICKED << 16) | GetWindowLong(hWnd, GWL_ID),
+            (LPARAM) hWnd);
+        return 0;
+
+    case WM_PAINT:
+        //	Draw the colour box & if it's the selected box, force an update.
+        DefWindowProc(hWnd, message, wParam, lParam);
+        if (GetDlgCtrlID(hWnd) == waypoint_colour + IDC_CUSTOM_1) {
+            draw_item.CtlID = waypoint_colour + IDC_CUSTOM_1;
+            draw_item.itemAction = ODA_DRAWENTIRE;
             SendMessage(
                 GetParent(hWnd),
-                WM_COMMAND,
-                (BN_CLICKED << 16) | GetWindowLong(hWnd, GWL_ID),
-                (LPARAM) hWnd);
-            return 0;
-
-        case WM_PAINT:
-            //	Draw the colour box & if it's the selected box, force an update.
-            DefWindowProc(hWnd, message, wParam, lParam);
-            if (GetDlgCtrlID(hWnd) == waypoint_colour + IDC_CUSTOM_1) {
-                draw_item.CtlID = waypoint_colour + IDC_CUSTOM_1;
-                draw_item.itemAction = ODA_DRAWENTIRE;
-                SendMessage(
-                    GetParent(hWnd),
-                    WM_DRAWITEM,
-                    waypoint_colour + IDC_CUSTOM_1,
-                    (LPARAM) &draw_item);
-            }
-            return 0;
+                WM_DRAWITEM,
+                waypoint_colour + IDC_CUSTOM_1,
+                (LPARAM) &draw_item);
+        }
+        return 0;
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }

@@ -75,32 +75,32 @@ void WAND_init() {
         for (z = 0; z < PAP_SIZE_LO; z++) {
             for (oi = OB_find(x, z); oi->prim; oi++) {
                 switch (prim_get_collision_model(oi->prim)) {
-                    case PRIM_COLLIDE_BOX:
-                    case PRIM_COLLIDE_SMALLBOX:
-                    case PRIM_COLLIDE_CYLINDER:
+                case PRIM_COLLIDE_BOX:
+                case PRIM_COLLIDE_SMALLBOX:
+                case PRIM_COLLIDE_CYLINDER:
 
-                        //
-                        // If this prim covers the middle of a mapsquare, stop it being
-                        // a wander square.
-                        //
+                    //
+                    // If this prim covers the middle of a mapsquare, stop it being
+                    // a wander square.
+                    //
 
-                        mx = oi->x >> 8;
-                        mz = oi->z >> 8;
+                    mx = oi->x >> 8;
+                    mz = oi->z >> 8;
 
-                        if (!(PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) {
-                            if (oi->y <= PAP_calc_map_height_at(oi->x, oi->z) + 0x40) {
-                                PAP_2HI(mx, mz).Flags &= ~PAP_FLAG_WANDER;
-                            }
+                    if (!(PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) {
+                        if (oi->y <= PAP_calc_map_height_at(oi->x, oi->z) + 0x40) {
+                            PAP_2HI(mx, mz).Flags &= ~PAP_FLAG_WANDER;
                         }
+                    }
 
-                        break;
+                    break;
 
-                    case PRIM_COLLIDE_NONE:
-                        break;
+                case PRIM_COLLIDE_NONE:
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             }
         }
@@ -175,11 +175,12 @@ void WAND_get_next_place(
 
     } look[WAND_MAX_LOOKS] =
         {
-            {+WAND_MAX_MOVE, 0},
-            {-WAND_MAX_MOVE, 0},
+            {+WAND_MAX_MOVE, 0             },
+            {-WAND_MAX_MOVE, 0             },
 
-            {0, +WAND_MAX_MOVE},
-            {0, -WAND_MAX_MOVE}};
+            {0,              +WAND_MAX_MOVE},
+            {0,              -WAND_MAX_MOVE}
+    };
 
     std::int8_t offset[4] = {-1, 0, 0, +1};
 

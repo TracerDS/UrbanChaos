@@ -101,15 +101,15 @@ void set_up_camera(Thing *camera_thing, GameCoord *start_pos, Thing *track_thing
 void set_camera_type(Thing *c_thing, std::uint8_t type) {
     // Set the camera state function.
     switch (type) {
-        case CAMERA_NONE:
-            c_thing->StateFn = nullptr;
-            break;
-        case CAMERA_TRACKER:
-            c_thing->StateFn = (void (*)(Thing *)) process_t_camera;
-            break;
-        case CAMERA_FIXED:
-            c_thing->StateFn = (void (*)(Thing *)) process_f_camera;
-            break;
+    case CAMERA_NONE:
+        c_thing->StateFn = nullptr;
+        break;
+    case CAMERA_TRACKER:
+        c_thing->StateFn = (void (*)(Thing *)) process_t_camera;
+        break;
+    case CAMERA_FIXED:
+        c_thing->StateFn = (void (*)(Thing *)) process_f_camera;
+        break;
     }
 }
 
@@ -376,34 +376,34 @@ void process_t_camera(Thing *c_thing) {
 
         if (USER_INTERFACE == 1) {
             switch (track_thing->Class) {
-                case CLASS_PERSON:
-                    if (track_thing->State == STATE_IDLE) {
-                        angle = track_thing->Draw.Tweened->Angle;
-                    } else {
-                        // camera angle is flipped arround 512
-                        angle = (-(test_view.CameraAngle - 512) + 512 + 2048) & 2047; // track_thing->Draw.Tweened->Angle;
-                    }
-                    tilt = track_thing->Draw.Tweened->Tilt;
-                    car = 0;
-                    break;
-                case CLASS_VEHICLE:
-                    angle = track_thing->Genus.Furniture->RAngle;
-                    tilt = track_thing->Draw.Mesh->Tilt;
-                    car = 1;
-                    break;
+            case CLASS_PERSON:
+                if (track_thing->State == STATE_IDLE) {
+                    angle = track_thing->Draw.Tweened->Angle;
+                } else {
+                    // camera angle is flipped arround 512
+                    angle = (-(test_view.CameraAngle - 512) + 512 + 2048) & 2047; // track_thing->Draw.Tweened->Angle;
+                }
+                tilt = track_thing->Draw.Tweened->Tilt;
+                car = 0;
+                break;
+            case CLASS_VEHICLE:
+                angle = track_thing->Genus.Furniture->RAngle;
+                tilt = track_thing->Draw.Mesh->Tilt;
+                car = 1;
+                break;
             }
         } else {
             switch (track_thing->Class) {
-                case CLASS_PERSON:
-                    angle = track_thing->Draw.Tweened->Angle;
-                    tilt = track_thing->Draw.Tweened->Tilt;
-                    car = 0;
-                    break;
-                case CLASS_VEHICLE:
-                    angle = track_thing->Genus.Furniture->RAngle;
-                    tilt = 0; // track_thing->Draw.Mesh->Tilt;
-                    car = 1;
-                    break;
+            case CLASS_PERSON:
+                angle = track_thing->Draw.Tweened->Angle;
+                tilt = track_thing->Draw.Tweened->Tilt;
+                car = 0;
+                break;
+            case CLASS_VEHICLE:
+                angle = track_thing->Genus.Furniture->RAngle;
+                tilt = 0; // track_thing->Draw.Mesh->Tilt;
+                car = 1;
+                break;
             }
         }
         //		angle = (-(test_view.CameraRAngle-512)+512+2048)&2047; //track_thing->Draw.Tweened->Angle;

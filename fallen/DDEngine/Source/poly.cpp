@@ -144,7 +144,7 @@ std::uint32_t POLY_force_additive_alpha;
 std::int32_t fade_point_more(POLY_Point *pp) {
     std::int32_t fade;
 
-    fade = (((std::int32_t) (pp->y)) >> 0);
+    fade = (((std::int32_t)(pp->y)) >> 0);
 
     // fade=2000;
     //	fade=-fade;
@@ -1700,7 +1700,7 @@ void POLY_add_nearclipped_triangle(POLY_Point *pt[3], std::int32_t page, std::in
         }
 
 #else // #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-        // The version with index buffers
+      // The version with index buffers
 
         PolyPage *pp = &POLY_Page[page];
 #ifdef TEX_EMBED
@@ -2710,11 +2710,11 @@ void POLY_clip_line_add(float sx1, float sy1, float sx2, float sy2, std::uint32_
         return;
     }
 
-#define SWAP_UB(q, w)     \
-    {                     \
+#define SWAP_UB(q, w)            \
+    {                            \
         std::uint8_t temp = (q); \
-        (q) = (w);        \
-        (w) = temp;       \
+        (q) = (w);               \
+        (w) = temp;              \
     }
 
     if (clip_or) {
@@ -3150,7 +3150,7 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
         //		BreakTime("FRAMEDRAW end buckets");
 
 #else // do it page by page
-        //		BreakTime("FRAMEDRAW start page by page");
+      //		BreakTime("FRAMEDRAW start page by page");
 
 #ifdef TEX_EMBED
         for (i = 0; i <= iPolyNumPagesRender; i++) // <= because we skip POLY_PAGE_COLOUR...

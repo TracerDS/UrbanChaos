@@ -55,37 +55,36 @@ std::uint16_t end_prim_multi_object = MAX_PRIM_MOBJECTS - 2;
 #ifndef PSX
 struct TXTY texture_xy2[] =
     {
-        {0, 0, 0},           // 0
-        {0, 32, 0},          // 1
-        {0, 64, 0},          // 2
-        {0, 0, 32},          // 3
-        {0, 32, 32},         // 4
-        {0, 64, 32},         // 5
-        {0, 96, 32},         // 6
-        {0, 128, 32},        // 7
-        {0, 0, 64},          // 8
-        {0, 32, 64},         // 9
-        {0, 64, 64},         // 10
-        {0, 96, 64},         // 11
-        {0, 128, 64},        // 12
-        {0, 0, 96},          // 13
-        {0, 32, 96},         // 14
-        {0, 64, 96},         // 15
-        {0, 96, 96},         // 16
-        {0, 128, 96},        // 17
-        {0, 0, 128},         // 18
-        {0, 32, 128},        // 19
-        {0, 64, 128},        // 20
-        {0, 96, 128},        // 21
-        {0, 128, 128},       // 22
-        {0, 0, 160},         // 23
-        {0, 32, 160},        // 24
-        {0, 64, 160},        // 25
-        {0, 96, 160},        // 26
-        {0, 128, 160},       // 27
+        {0, 0, 0}, // 0
+        {0, 32, 0}, // 1
+        {0, 64, 0}, // 2
+        {0, 0, 32}, // 3
+        {0, 32, 32}, // 4
+        {0, 64, 32}, // 5
+        {0, 96, 32}, // 6
+        {0, 128, 32}, // 7
+        {0, 0, 64}, // 8
+        {0, 32, 64}, // 9
+        {0, 64, 64}, // 10
+        {0, 96, 64}, // 11
+        {0, 128, 64}, // 12
+        {0, 0, 96}, // 13
+        {0, 32, 96}, // 14
+        {0, 64, 96}, // 15
+        {0, 96, 96}, // 16
+        {0, 128, 96}, // 17
+        {0, 0, 128}, // 18
+        {0, 32, 128}, // 19
+        {0, 64, 128}, // 20
+        {0, 96, 128}, // 21
+        {0, 128, 128}, // 22
+        {0, 0, 160}, // 23
+        {0, 32, 160}, // 24
+        {0, 64, 160}, // 25
+        {0, 96, 160}, // 26
+        {0, 128, 160}, // 27
         {3, 4 * 32, 6 * 32}, // 28
         {0, 0}
-
 };
 #endif
 
@@ -299,143 +298,143 @@ std::int32_t add_bound_box(std::uint8_t minx, std::uint8_t maxx, std::uint8_t mi
 
 std::int32_t get_map_walkable(std::int32_t x, std::int32_t z) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
 //			return(edit_map[x][z].Walkable);
 #endif
-            break;
-        case BUILD_MODE_DX:
-            return (MAP2(x, z).Walkable);
-            break;
+        break;
+    case BUILD_MODE_DX:
+        return (MAP2(x, z).Walkable);
+        break;
     }
     return (0);
 }
 
 void set_map_walkable(std::int32_t x, std::int32_t z, std::int32_t walkable) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
 //			edit_map[x][z].Walkable=walkable;
 #endif
-            break;
-        case BUILD_MODE_DX:
-            MAP2(x, z).Walkable = walkable;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        MAP2(x, z).Walkable = walkable;
+        break;
     }
 }
 
 std::int32_t get_map_texture(std::int32_t x, std::int32_t z) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            if (tex_map[x][z] & 0x3ff)
-                return (tex_map[x][z]);
-            else
-                return (edit_map[x][z].Texture);
+        if (tex_map[x][z] & 0x3ff)
+            return (tex_map[x][z]);
+        else
+            return (edit_map[x][z].Texture);
 #endif
-            break;
-        case BUILD_MODE_DX:
+        break;
+    case BUILD_MODE_DX:
 
-            return PAP_2HI(x, z).Texture;
-            break;
+        return PAP_2HI(x, z).Texture;
+        break;
     }
     return (0);
 }
 
 void set_map_texture(std::int32_t x, std::int32_t z, std::int32_t texture) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            edit_map[x][z].Texture = (std::uint16_t) texture;
+        edit_map[x][z].Texture = (std::uint16_t) texture;
 #endif
-            break;
-        case BUILD_MODE_DX:
-            PAP_2HI(x, z).Texture = texture;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        PAP_2HI(x, z).Texture = texture;
+        break;
     }
 }
 
 std::int32_t get_map_height(std::int32_t x, std::int32_t z) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            return (edit_map[x][z].Y);
+        return (edit_map[x][z].Y);
 #endif
-            break;
-        case BUILD_MODE_DX:
-            return PAP_2HI(x, z).Alt;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        return PAP_2HI(x, z).Alt;
+        break;
     }
     return (0);
 }
 
 std::int32_t get_roof_height(std::int32_t x, std::int32_t z) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            return (edit_map_roof_height[x][z]);
+        return (edit_map_roof_height[x][z]);
 #endif
-            break;
-        case BUILD_MODE_DX:
-            return 0; // PAP_2HI(x,z).Alt;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        return 0; // PAP_2HI(x,z).Alt;
+        break;
     }
     return (0);
 }
 
 std::int32_t set_map_flag(std::int32_t x, std::int32_t z, std::int32_t flag) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            edit_map[x][z].Flags |= flag;
+        edit_map[x][z].Flags |= flag;
 #endif
-            break;
-        case BUILD_MODE_DX:
-            PAP_2HI(x, z).Flags |= flag;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        PAP_2HI(x, z).Flags |= flag;
+        break;
     }
     return (0);
 }
 
 std::int32_t mask_map_flag(std::int32_t x, std::int32_t z, std::int32_t flag) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            edit_map[x][z].Flags &= ~flag;
+        edit_map[x][z].Flags &= ~flag;
 #endif
-            break;
-        case BUILD_MODE_DX:
-            PAP_2HI(x, z).Flags &= ~flag;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        PAP_2HI(x, z).Flags &= ~flag;
+        break;
     }
     return (0);
 }
 
 std::int32_t get_map_flags(std::int32_t x, std::int32_t z) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            return (edit_map[x][z].Flags);
+        return (edit_map[x][z].Flags);
 #endif
-            break;
-        case BUILD_MODE_DX:
-            return PAP_2HI(x, z).Flags;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        return PAP_2HI(x, z).Flags;
+        break;
     }
     return (0);
 }
 
 void set_map_height(std::int32_t x, std::int32_t z, std::int32_t y) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            edit_map[x][z].Y = (std::int8_t) y;
-            PAP_2HI(x, z).Alt = y;
+        edit_map[x][z].Y = (std::int8_t) y;
+        PAP_2HI(x, z).Alt = y;
 #endif
-            break;
-        case BUILD_MODE_DX:
-            PAP_2HI(x, z).Alt = y;
-            break;
+        break;
+    case BUILD_MODE_DX:
+        PAP_2HI(x, z).Alt = y;
+        break;
     }
 }
 
@@ -443,35 +442,35 @@ std::int32_t in_map_range(std::int32_t x, std::int32_t z) {
     if (x < 0 || z < 0)
         return (0);
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            if (x > EDIT_MAP_WIDTH || z > EDIT_MAP_DEPTH)
-                return (0);
-            else
-                return (1);
+        if (x > EDIT_MAP_WIDTH || z > EDIT_MAP_DEPTH)
+            return (0);
+        else
+            return (1);
 #endif
-            break;
-        case BUILD_MODE_DX:
-            if (x > MAP_WIDTH || z > MAP_HEIGHT)
-                return (0);
-            else
-                return (1);
-            break;
+        break;
+    case BUILD_MODE_DX:
+        if (x > MAP_WIDTH || z > MAP_HEIGHT)
+            return (0);
+        else
+            return (1);
+        break;
     }
     return (0);
 }
 
 void place_thing_on_map(std::int32_t x, std::int32_t z, std::int32_t thing) {
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-            add_thing_to_edit_map(x >> ELE_SHIFT, z >> ELE_SHIFT, thing);
+        add_thing_to_edit_map(x >> ELE_SHIFT, z >> ELE_SHIFT, thing);
 #endif
-            break;
-        case BUILD_MODE_DX:
-            add_thing_to_map(TO_THING(thing));
+        break;
+    case BUILD_MODE_DX:
+        add_thing_to_map(TO_THING(thing));
 
-            break;
+        break;
     }
 }
 
@@ -652,69 +651,69 @@ std::int32_t place_building_at(std::uint16_t building, std::uint16_t prim, std::
     // y=0;
     // LogText(" place building prim %d x %d y %d z %d \n",prim,x,y,z);
     switch (build_mode) {
-        case BUILD_MODE_EDITOR:
+    case BUILD_MODE_EDITOR:
 #ifdef EDITOR
-        {
-            struct MapThing *p_mthing;
-            map_thing = find_empty_map_thing();
-            if (!map_thing)
-                return (0);
-            // add_thing_to_edit_map(x>>ELE_SHIFT,z>>ELE_SHIFT,map_thing);
-            p_mthing = TO_MTHING(map_thing);
-            p_mthing->X = 0; // x;
-            p_mthing->Y = y;
-            p_mthing->Z = 0; // z;
+    {
+        struct MapThing *p_mthing;
+        map_thing = find_empty_map_thing();
+        if (!map_thing)
+            return (0);
+        // add_thing_to_edit_map(x>>ELE_SHIFT,z>>ELE_SHIFT,map_thing);
+        p_mthing = TO_MTHING(map_thing);
+        p_mthing->X = 0; // x;
+        p_mthing->Y = y;
+        p_mthing->Z = 0; // z;
 
-            p_mthing->Type = MAP_THING_TYPE_BUILDING;
-            p_mthing->IndexOther = prim;
-            p_mthing->IndexOrig = prim;
-            p_mthing->BuildingList = building;
-            p_mthing->EditorFlags = 0;
-            p_mthing->EditorData = 0;
-            place_thing_on_map(x, z, map_thing);
+        p_mthing->Type = MAP_THING_TYPE_BUILDING;
+        p_mthing->IndexOther = prim;
+        p_mthing->IndexOrig = prim;
+        p_mthing->BuildingList = building;
+        p_mthing->EditorFlags = 0;
+        p_mthing->EditorData = 0;
+        place_thing_on_map(x, z, map_thing);
 
-            //
-            // Link the building to the editor MapThing.
-            //
+        //
+        // Link the building to the editor MapThing.
+        //
 
-            building_list[building].ThingIndex = map_thing;
+        building_list[building].ThingIndex = map_thing;
 
-            return (map_thing);
-        }
+        return (map_thing);
+    }
 #endif
-        break;
-        case BUILD_MODE_DX: {
-            Thing *p_thing;
-            std::int32_t new_thing;
+    break;
+    case BUILD_MODE_DX: {
+        Thing *p_thing;
+        std::int32_t new_thing;
 
-            new_thing = alloc_primary_thing(CLASS_BUILDING);
-            if (new_thing) {
-                p_thing = TO_THING(new_thing);
+        new_thing = alloc_primary_thing(CLASS_BUILDING);
+        if (new_thing) {
+            p_thing = TO_THING(new_thing);
 
-                p_thing->WorldPos.X = x << 8;
-                p_thing->WorldPos.Y = y << 8;
-                p_thing->WorldPos.Z = z << 8;
-                p_thing->StateFn = fn_building_normal; //	Guy.
-                                                       //						p_thing->StateFn		=	nullptr;
-                p_thing->DrawType = DT_NONE;
-                p_thing->Flags = 0;
+            p_thing->WorldPos.X = x << 8;
+            p_thing->WorldPos.Y = y << 8;
+            p_thing->WorldPos.Z = z << 8;
+            p_thing->StateFn = fn_building_normal; //	Guy.
+                                                   //						p_thing->StateFn		=	nullptr;
+            p_thing->DrawType = DT_NONE;
+            p_thing->Flags = 0;
 
-                p_thing->Index = prim;
-                p_thing->DrawType = DT_BUILDING;
-                p_thing->Class = CLASS_BUILDING;
-                //						p_thing->BuildingList	=	building;
-                MSG_add(" create building  prim %d at %d %d %d building %d \n", prim, x, y, z, building);
-                add_thing_to_map(p_thing);
+            p_thing->Index = prim;
+            p_thing->DrawType = DT_BUILDING;
+            p_thing->Class = CLASS_BUILDING;
+            //						p_thing->BuildingList	=	building;
+            MSG_add(" create building  prim %d at %d %d %d building %d \n", prim, x, y, z, building);
+            add_thing_to_map(p_thing);
 
-                //
-                // Link the building to the thing.
-                //
+            //
+            // Link the building to the thing.
+            //
 
-                building_list[building].ThingIndex = new_thing;
+            building_list[building].ThingIndex = new_thing;
 
-                return new_thing;
-            }
-        } break;
+            return new_thing;
+        }
+    } break;
     }
     return (0);
 }
@@ -1616,23 +1615,23 @@ void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::i
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
     switch (rot) {
-        case 0:
-            set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
-            break;
-        case 1:
-            set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
-            break;
-        case 2:
-            set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
-            break;
-        case 3:
-            set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
-            break;
+    case 0:
+        set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
+        break;
+    case 1:
+        set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
+        break;
+    case 2:
+        set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
+        break;
+    case 3:
+        set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
+        break;
     }
 
     dtx_down = UV[3][0] - UV[0][0];
@@ -1694,23 +1693,23 @@ void build_free_quad_texture_info(struct PrimFace4 *p_f4, std::int32_t mx, std::
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     //	rot=(rot3)&3;
     switch (rot) {
-        case 0:
-            set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
-            break;
-        case 1:
-            set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
-            break;
-        case 2:
-            set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
-            break;
-        case 3:
-            set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
-            break;
+    case 0:
+        set_UV4(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
+        break;
+    case 1:
+        set_UV4(tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize);
+        break;
+    case 2:
+        set_UV4(tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty);
+        break;
+    case 3:
+        set_UV4(tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty);
+        break;
     }
 
     dtx_down = UV[3][0] - UV[0][0];
@@ -1792,34 +1791,34 @@ void scan_45(std::int32_t x1, std::int32_t z1, std::int32_t dx, std::int32_t dz)
         p2 = flag_blocks[(x1 - dx) + z1 * MAX_BOUND_SIZE];
         p3 = flag_blocks[(x1) + (z1 - dz) * MAX_BOUND_SIZE];
         switch (type) { //(vector goes from pp to p1)
-            case 0:     // SE
-                //  pp 	   p3
-                //
-                //	p2     p1
-                p_f3 = create_a_tri(p2, p1, pp, 0, 0);
-                build_free_tri_texture_info(p_f3, x1 - dx, z1 - dz + (edge_min_z >> ELE_SHIFT));
-                break;
-            case 1: // SW
-                //  p3 	   pp
-                //
-                //	p1     p2
-                p_f3 = create_a_tri(p1, pp, p3, 0, 0);
-                build_free_tri_texture_info(p_f3, x1, z1 - dz + (edge_min_z >> ELE_SHIFT));
-                break;
-            case 2: // NE
-                //  p2 	   p1
-                //
-                //	pp     p3
-                p_f3 = create_a_tri(pp, p3, p1, 0, 0);
-                build_free_tri_texture_info(p_f3, x1 - dx, z1 + (edge_min_z >> ELE_SHIFT));
-                break;
-            case 3: // NW
-                //  p1 	   p2
-                //
-                //	p3     pp
-                p_f3 = create_a_tri(p1, pp, p2, 0, 0);
-                build_free_tri_texture_info(p_f3, x1, z1 + (edge_min_z >> ELE_SHIFT));
-                break;
+        case 0:         // SE
+            //  pp 	   p3
+            //
+            //	p2     p1
+            p_f3 = create_a_tri(p2, p1, pp, 0, 0);
+            build_free_tri_texture_info(p_f3, x1 - dx, z1 - dz + (edge_min_z >> ELE_SHIFT));
+            break;
+        case 1: // SW
+            //  p3 	   pp
+            //
+            //	p1     p2
+            p_f3 = create_a_tri(p1, pp, p3, 0, 0);
+            build_free_tri_texture_info(p_f3, x1, z1 - dz + (edge_min_z >> ELE_SHIFT));
+            break;
+        case 2: // NE
+            //  p2 	   p1
+            //
+            //	pp     p3
+            p_f3 = create_a_tri(pp, p3, p1, 0, 0);
+            build_free_tri_texture_info(p_f3, x1 - dx, z1 + (edge_min_z >> ELE_SHIFT));
+            break;
+        case 3: // NW
+            //  p1 	   p2
+            //
+            //	p3     pp
+            p_f3 = create_a_tri(p1, pp, p2, 0, 0);
+            build_free_tri_texture_info(p_f3, x1, z1 + (edge_min_z >> ELE_SHIFT));
+            break;
         }
 
         pp = p1;
@@ -1837,24 +1836,24 @@ std::int32_t build_storey_lip(std::int32_t storey, std::int32_t y) {
         flag |= 2;
 
     switch (flag) {
-        case 0: // cant have 0
+    case 0: // cant have 0
 
-            break;
-        case 1:
-            out = BLOCK_SIZE;
-            height = BLOCK_SIZE + (BLOCK_SIZE >> 1);
-            dip = 20;
-            break;
-        case 2:
-            out = BLOCK_SIZE >> 1;
-            height = (BLOCK_SIZE >> 1);
-            dip = 0;
-            break;
-        case 3:
-            out = BLOCK_SIZE;
-            height = (BLOCK_SIZE);
-            dip = 0; // BLOCK_SIZE>>2;
-            break;
+        break;
+    case 1:
+        out = BLOCK_SIZE;
+        height = BLOCK_SIZE + (BLOCK_SIZE >> 1);
+        dip = 20;
+        break;
+    case 2:
+        out = BLOCK_SIZE >> 1;
+        height = (BLOCK_SIZE >> 1);
+        dip = 0;
+        break;
+    case 3:
+        out = BLOCK_SIZE;
+        height = (BLOCK_SIZE);
+        dip = 0; // BLOCK_SIZE>>2;
+        break;
     }
 
     y = build_ledge2(y, storey, out, height, dip);
@@ -3784,470 +3783,470 @@ std::int32_t build_roof_grid(std::int32_t storey, std::int32_t y, std::int32_t f
                     std::int32_t zl, zr;
                     std::int32_t pa, pb;
 
-                    case (TR + BR):
-                        xt = cut_blocks[x * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        xb = cut_blocks[x * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                case (TR + BR):
+                    xt = cut_blocks[x * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    xb = cut_blocks[x * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
 
-                        if (xt && xb) {
-                            //  pa  p1
-                            //
-                            //	pb	p2
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                    if (xt && xb) {
+                        //  pa  p1
+                        //
+                        //	pb	p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f4 = create_a_quad(pa, pb, p1, p2, 0, 0);
+                        if (p_f4) {
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        }
+                        //							LogText(" done tr+br 1 at [%d][%d]\n",x,z);
+                    } else if (xt) {
+                        //   pa p1
+                        //
+                        //		p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p2, p1, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //							LogText(" done tr+br 2 at [%d][%d]\n",x,z);
+                    } else if (xb) {
+                        //   	 p1
+                        //
+                        //	  pa p2
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p2, p1, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //							LogText(" done tr+br 3 at [%d][%d]\n",x,z);
+                    } else
+                        LogText(" pooerror1\n");
+
+                    break;
+                case (BL + BR):
+                    zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText(" zl %x zr %x \n", zl, zr);
+
+                    if (zl && zr) {
+                        //  pa  pb
+                        //
+                        //	p3	p2
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f4 = create_a_quad(pa, p3, pb, p2, 0, 0);
+                        if (p_f4) {
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        }
+                        //							LogText(" done bl+br 1 at [%d][%d]\n",x,z);
+                    } else if (zl) {
+                        //
+                        //	pa
+                        //	p3	 p2
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        p_f3 = create_a_tri(p3, p2, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //							LogText(" done bl+br 2 at [%d][%d]\n",x,z);
+                    } else if (zr) {
+                        //
+                        //		 pa
+                        //	p3	 p2
+                        pa = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f3 = create_a_tri(p3, p2, pa, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done bl+br 3 at [%d][%d]\n",x,z);
+                    } else
+                        LogText(" pooerror2\n");
+                    break;
+                case (TL + BL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    xb = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+
+                    if (xt && xb) {
+                        //  p0  pa
+                        //
+                        //	p3	pb
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f4 = create_a_quad(p0, p3, pa, pb, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tl+bl 1 at [%d][%d]\n",x,z);
+                    } else if (xt) {
+                        //  p0 pa
+                        //
+                        //	p3
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p3, pa, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tl+bl 2 at [%d][%d]\n",x,z);
+                    } else if (xb) {
+                        //  p0
+                        //
+                        //	p3 pa
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        p_f3 = create_a_tri(p3, pa, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tl+bl 3 at [%d][%d]\n",x,z);
+                    }
+                    /* can not be surely
+                                                                    else
+                                                                    {
+                                                                            zr=cut_blocks[(x)*4+(z)*MAX_BOUND_SIZE*4+CUT_BLOCK_RIGHT];
+                                                                            if(zr)
+                                                                            {
+                                                                                    //  p0
+                                                                                    //	    pa
+                                                                                    //	p3
+                                                                                    pa=next_prim_point;
+                                                                                    add_point((x+1)<<ELE_SHIFT,y,zr+edge_min_z);
+                                                                                    create_a_tri(p3,pa,p0,0,0);
+
+                                                                            }
+
+                                                                    }
+                    */
+                    // LogText(" pooerror3\n");
+                    break;
+                case (TL + TR):
+                    zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    //					LogText(" zl %x zr %x \n",zl,zr);
+
+                    if (zl && zr) {
+                        //  p0  p1
+                        //
+                        //	pa	pb
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f4 = create_a_quad(p0, pa, p1, pb, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tl+tr 1 at [%d][%d]\n",x,z);
+                    } else if (zl) {
+                        //  p0   p1
+                        //	pa
+                        //
+                        pa = next_prim_point;
+                        add_point(x << ELE_SHIFT, y, zl + edge_min_z);
+                        p_f3 = create_a_tri(pa, p1, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tl+tr 2 at [%d][%d]\n",x,z);
+                    } else if (zr) {
+                        //  p0   p1
+                        //		 pa
+                        //
+                        pa = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f3 = create_a_tri(pa, p1, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tl+tr 3 at [%d][%d]\n",x,z);
+                    } else
+                        LogText(" pooerror4\n");
+                    break;
+
+                case (TR + BR + BL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    //					LogText("POO1 xt %x zl %x \n",xt,zl);
+                    //					LogText(" [%d][%d] \n",x,z);
+                    if (xt && zl) {
+                        //   pa p1
+                        //	pb
+                        //	p3	p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+
+                        p_f4 = create_a_quad(pa, pb, p1, p3, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p3, p2, p1, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //						LogText(" done tr+br+bl 1 at [%d][%d]\n",x,z);
+                    } else if (xt || zl) {
+                        if (xt == (x + 1) << ELE_SHIFT || xt == 0) {
+                            //      pa
+                            //	pb
+                            //	p3	p2
+                            LogText("special 1b \n");
                             pb = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f4 = create_a_quad(pa, pb, p1, p2, 0, 0);
-                            if (p_f4) {
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            }
-                            //							LogText(" done tr+br 1 at [%d][%d]\n",x,z);
-                        } else if (xt) {
+                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                            p_f4 = create_a_quad(pb, p3, p1, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            //							LogText(" done tr+br+bl 2 at [%d][%d]\n",x,z);
+
+                        } else if (zl == (z + 1) << ELE_SHIFT || zl == 0) {
                             //   pa p1
                             //
-                            //		p2
+                            //	p3	p2
+                            //							LogText("special 1b \n");
                             pa = next_prim_point;
                             add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p2, p1, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //							LogText(" done tr+br 2 at [%d][%d]\n",x,z);
-                        } else if (xb) {
-                            //   	 p1
+                            p_f4 = create_a_quad(pa, p3, p1, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            //						LogText(" done tr+br+bl 3 at [%d][%d]\n",x,z);
+                        }
+                    }
+                    //						else
+                    //							create_a_tri(p3,p2,p1,0,0);
+
+                    break;
+                case (TL + BR + BL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    //				LogText("POO2 xt %x zr %x \n",xt,zr);
+                    //				LogText(" [%d][%d] \n",x,z);
+                    //				LogText(" p0 (%d,%d,%d) p2 (%d,%d,%d) p3 (%d,%d,%d) \n",prim_points[p0].X,prim_points[p0].Y,prim_points[p0].Z,prim_points[p2].X,prim_points[p2].Y,prim_points[p2].Z,prim_points[p3].X,prim_points[p3].Y,prim_points[p3].Z);
+
+                    if (xt && zr) {
+                        //  p0 pa
+                        //		 pb
+                        //	p3	 p2
+                        pa = next_prim_point;
+                        add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+
+                        p_f4 = create_a_quad(pb, pa, p2, p0, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p3, p2, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //							LogText(" done tl+br+bl 1 at [%d][%d]\n",x,z);
+                    } else if (xt || zr) {
+                        if (xt == x << ELE_SHIFT || xt == 0) {
+                            //  pa
+                            //		pb
+                            //	p3	p2
+                            LogText("special 2 \n");
+                            pb = next_prim_point;
+                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, pb, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+br+bl 2 at [%d][%d]\n", x, z);
+
+                        } else if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
+                            //  p0 pa
+                            //
+                            //	p3	p2
+                            LogText("special 2b \n");
+                            pb = next_prim_point;
+                            add_point((xt), y, (z << ELE_SHIFT) + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, pa, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+br+bl 3 at [%d][%d]\n", x, z);
+                        }
+                    }
+                    //						else
+                    //							create_a_tri(p3,p2,p0,0,0);
+
+                    break;
+                case (TL + TR + BL):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    LogText("POO3 xb %x zr %x \n", xb, zr);
+                    LogText(" [%d][%d] \n", x, z);
+                    LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
+
+                    if (xb && zr) {
+                        //  p0   p1
+                        //		 pb
+                        //	p3 pa
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+
+                        p_f4 = create_a_quad(pa, pb, p3, p1, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p3, p1, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr+bl 1 at [%d][%d]\n", x, z);
+                    } else if (xb || zr) {
+                        if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
+                            //  p0  p1
+                            //
+                            //	p3 pa
+                            LogText("special 3 \n");
+                            pa = next_prim_point;
+                            add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, p1, pa, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+tr+bl 2 at [%d][%d]\n", x, z);
+
+                        } else if (xb == (x << ELE_SHIFT) || xb == 0) {
+                            //  p0  p1
+                            //		pb
+                            //	pa3
+                            LogText("special 3b \n");
+                            pb = next_prim_point;
+                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                            p_f4 = create_a_quad(p0, p3, p1, pb, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+tr+bl 3 at [%d][%d]\n", x, z);
+                        }
+                    }
+                    //						else
+                    //							create_a_tri(p3,p1,p0,0,0);
+
+                    break;
+
+                case (TL + TR + BR):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    LogText("POO444 xb %x zl %x \n", xb, zl);
+                    LogText(" [%d][%d] \n", x, z);
+
+                    if (xb && zl) {
+                        //  p0  p1
+                        //	pb
+                        //	 pa	p2
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                        LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p2 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z);
+                        LogText(" pa (%d,%d,%d) pb (%d,%d,%d) \n", prim_points[pa].X, prim_points[pa].Y, prim_points[pa].Z, prim_points[pb].X, prim_points[pb].Y, prim_points[pb].Z);
+
+                        p_f4 = create_a_quad(pb, pa, p0, p2, 0, 0);
+                        p_f4->ThingIndex = face_wall;
+                        build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                        p_f3 = create_a_tri(p0, p2, p1, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tl+tr+br 1 at [%d][%d]\n", x, z);
+                    } else if (xb || zl) {
+                        if (xb == (x + 1) << ELE_SHIFT || xb == 0) {
+                            //  p0  p1
+                            //	pb
+                            //		p2a
+                            LogText("special 4 \n");
+                            pb = next_prim_point;
+                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                            p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
+                            p_f4->ThingIndex = face_wall;
+                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
+                            LogText(" done tl+tr+br 2 at [%d][%d]\n", x, z);
+
+                        } else if (zl == (z) << ELE_SHIFT || zl == 0) {
+                            //  pb   p1
                             //
                             //	  pa p2
+                            LogText("special 4b \n");
                             pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p2, p1, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //							LogText(" done tr+br 3 at [%d][%d]\n",x,z);
-                        } else
-                            LogText(" pooerror1\n");
-
-                        break;
-                    case (BL + BR):
-                        zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText(" zl %x zr %x \n", zl, zr);
-
-                        if (zl && zr) {
-                            //  pa  pb
-                            //
-                            //	p3	p2
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f4 = create_a_quad(pa, p3, pb, p2, 0, 0);
-                            if (p_f4) {
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            }
-                            //							LogText(" done bl+br 1 at [%d][%d]\n",x,z);
-                        } else if (zl) {
-                            //
-                            //	pa
-                            //	p3	 p2
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            p_f3 = create_a_tri(p3, p2, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //							LogText(" done bl+br 2 at [%d][%d]\n",x,z);
-                        } else if (zr) {
-                            //
-                            //		 pa
-                            //	p3	 p2
-                            pa = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f3 = create_a_tri(p3, p2, pa, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done bl+br 3 at [%d][%d]\n",x,z);
-                        } else
-                            LogText(" pooerror2\n");
-                        break;
-                    case (TL + BL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        xb = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-
-                        if (xt && xb) {
-                            //  p0  pa
-                            //
-                            //	p3	pb
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f4 = create_a_quad(p0, p3, pa, pb, 0, 0);
+                            add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                            p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
                             p_f4->ThingIndex = face_wall;
                             build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tl+bl 1 at [%d][%d]\n",x,z);
-                        } else if (xt) {
-                            //  p0 pa
-                            //
-                            //	p3
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p3, pa, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tl+bl 2 at [%d][%d]\n",x,z);
-                        } else if (xb) {
-                            //  p0
-                            //
-                            //	p3 pa
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            p_f3 = create_a_tri(p3, pa, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tl+bl 3 at [%d][%d]\n",x,z);
+                            LogText(" done tl+tr+br 3 at [%d][%d]\n", x, z);
                         }
-                        /* can not be surely
-                                                                        else
-                                                                        {
-                                                                                zr=cut_blocks[(x)*4+(z)*MAX_BOUND_SIZE*4+CUT_BLOCK_RIGHT];
-                                                                                if(zr)
-                                                                                {
-                                                                                        //  p0
-                                                                                        //	    pa
-                                                                                        //	p3
-                                                                                        pa=next_prim_point;
-                                                                                        add_point((x+1)<<ELE_SHIFT,y,zr+edge_min_z);
-                                                                                        create_a_tri(p3,pa,p0,0,0);
+                    }
+                    //						else
+                    //							create_a_tri(p2,p1,p0,0,0);
+                    break;
+                case (TL):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    //						LogText("SINGLE1 xt %x zl %x \n",xt,zl);
+                    //						LogText(" [%d][%d] \n",x,z);
 
-                                                                                }
+                    if (xt && zl) {
+                        //  p0  pa
+                        //	pb
 
-                                                                        }
-                        */
-                        // LogText(" pooerror3\n");
-                        break;
-                    case (TL + TR):
-                        zl = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        //					LogText(" zl %x zr %x \n",zl,zr);
+                        pa = next_prim_point;
+                        add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
 
-                        if (zl && zr) {
-                            //  p0  p1
-                            //
-                            //	pa	pb
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f4 = create_a_quad(p0, pa, p1, pb, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tl+tr 1 at [%d][%d]\n",x,z);
-                        } else if (zl) {
-                            //  p0   p1
-                            //	pa
-                            //
-                            pa = next_prim_point;
-                            add_point(x << ELE_SHIFT, y, zl + edge_min_z);
-                            p_f3 = create_a_tri(pa, p1, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tl+tr 2 at [%d][%d]\n",x,z);
-                        } else if (zr) {
-                            //  p0   p1
-                            //		 pa
-                            //
-                            pa = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                            p_f3 = create_a_tri(pa, p1, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tl+tr 3 at [%d][%d]\n",x,z);
-                        } else
-                            LogText(" pooerror4\n");
-                        break;
+                        p_f3 = create_a_tri(pb, pa, p0, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //							LogText(" done tl 1 at [%d][%d]\n",x,z);
+                    }
+                    break;
+                case (TR):
+                    xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    //						LogText("SINGLE2 xt %x zr %x \n",xt,zr);
+                    //						LogText(" [%d][%d] \n",x,z);
 
-                    case (TR + BR + BL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        //					LogText("POO1 xt %x zl %x \n",xt,zl);
-                        //					LogText(" [%d][%d] \n",x,z);
-                        if (xt && zl) {
-                            //   pa p1
-                            //	pb
-                            //	p3	p2
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
+                    if (xt && zr) {
+                        //  pa  p1
+                        //		pb
 
-                            p_f4 = create_a_quad(pa, pb, p1, p3, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p3, p2, p1, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //						LogText(" done tr+br+bl 1 at [%d][%d]\n",x,z);
-                        } else if (xt || zl) {
-                            if (xt == (x + 1) << ELE_SHIFT || xt == 0) {
-                                //      pa
-                                //	pb
-                                //	p3	p2
-                                LogText("special 1b \n");
-                                pb = next_prim_point;
-                                add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-                                p_f4 = create_a_quad(pb, p3, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                //							LogText(" done tr+br+bl 2 at [%d][%d]\n",x,z);
+                        pa = next_prim_point;
+                        add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
 
-                            } else if (zl == (z + 1) << ELE_SHIFT || zl == 0) {
-                                //   pa p1
-                                //
-                                //	p3	p2
-                                //							LogText("special 1b \n");
-                                pa = next_prim_point;
-                                add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(pa, p3, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                //						LogText(" done tr+br+bl 3 at [%d][%d]\n",x,z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p3,p2,p1,0,0);
+                        p_f3 = create_a_tri(pa, pb, p1, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done tr 1 at [%d][%d]\n", x, z);
+                    }
+                    break;
+                case (BR):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
+                    //						LogText("SINGLE3 xb %x zr %x \n",xb,zr);
+                    //						LogText(" [%d][%d] \n",x,z);
 
-                        break;
-                    case (TL + BR + BL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        //				LogText("POO2 xt %x zr %x \n",xt,zr);
-                        //				LogText(" [%d][%d] \n",x,z);
-                        //				LogText(" p0 (%d,%d,%d) p2 (%d,%d,%d) p3 (%d,%d,%d) \n",prim_points[p0].X,prim_points[p0].Y,prim_points[p0].Z,prim_points[p2].X,prim_points[p2].Y,prim_points[p2].Z,prim_points[p3].X,prim_points[p3].Y,prim_points[p3].Z);
+                    if (xb && zr) {
+                        //      pb
+                        //	 pa	p2
 
-                        if (xt && zr) {
-                            //  p0 pa
-                            //		 pb
-                            //	p3	 p2
-                            pa = next_prim_point;
-                            add_point(xt, y, (z << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
 
-                            p_f4 = create_a_quad(pb, pa, p2, p0, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p3, p2, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //							LogText(" done tl+br+bl 1 at [%d][%d]\n",x,z);
-                        } else if (xt || zr) {
-                            if (xt == x << ELE_SHIFT || xt == 0) {
-                                //  pa
-                                //		pb
-                                //	p3	p2
-                                LogText("special 2 \n");
-                                pb = next_prim_point;
-                                add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, pb, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+br+bl 2 at [%d][%d]\n", x, z);
+                        p_f3 = create_a_tri(pb, pa, p2, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        LogText(" done br 1 at [%d][%d]\n", x, z);
+                    }
+                    break;
+                case (BL):
+                    xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
+                    zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
+                    //						LogText("SINGLE4 xb %x zl %x \n",xb,zl);
+                    //						LogText(" [%d][%d] \n",x,z);
 
-                            } else if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
-                                //  p0 pa
-                                //
-                                //	p3	p2
-                                LogText("special 2b \n");
-                                pb = next_prim_point;
-                                add_point((xt), y, (z << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, pa, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+br+bl 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p3,p2,p0,0,0);
+                    if (xb && zl) {
+                        //  pb
+                        //	p3 pa
 
-                        break;
-                    case (TL + TR + BL):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        LogText("POO3 xb %x zr %x \n", xb, zr);
-                        LogText(" [%d][%d] \n", x, z);
-                        LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p3 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p3].X, prim_points[p3].Y, prim_points[p3].Z);
+                        pa = next_prim_point;
+                        add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
+                        pb = next_prim_point;
+                        add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
 
-                        if (xb && zr) {
-                            //  p0   p1
-                            //		 pb
-                            //	p3 pa
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
+                        p_f3 = create_a_tri(p3, pa, pb, 0, 0);
+                        build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
+                        //							LogText(" done bl 1 at [%d][%d]\n",x,z);
+                    }
+                    break;
 
-                            p_f4 = create_a_quad(pa, pb, p3, p1, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p3, p1, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr+bl 1 at [%d][%d]\n", x, z);
-                        } else if (xb || zr) {
-                            if (zr == ((z + 1) << ELE_SHIFT) || zr == 0) {
-                                //  p0  p1
-                                //
-                                //	p3 pa
-                                LogText("special 3 \n");
-                                pa = next_prim_point;
-                                add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, p1, pa, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+bl 2 at [%d][%d]\n", x, z);
-
-                            } else if (xb == (x << ELE_SHIFT) || xb == 0) {
-                                //  p0  p1
-                                //		pb
-                                //	pa3
-                                LogText("special 3b \n");
-                                pb = next_prim_point;
-                                add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-                                p_f4 = create_a_quad(p0, p3, p1, pb, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+bl 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p3,p1,p0,0,0);
-
-                        break;
-
-                    case (TL + TR + BR):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        LogText("POO444 xb %x zl %x \n", xb, zl);
-                        LogText(" [%d][%d] \n", x, z);
-
-                        if (xb && zl) {
-                            //  p0  p1
-                            //	pb
-                            //	 pa	p2
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-                            LogText(" p0 (%d,%d,%d) p1 (%d,%d,%d) p2 (%d,%d,%d) \n", prim_points[p0].X, prim_points[p0].Y, prim_points[p0].Z, prim_points[p1].X, prim_points[p1].Y, prim_points[p1].Z, prim_points[p2].X, prim_points[p2].Y, prim_points[p2].Z);
-                            LogText(" pa (%d,%d,%d) pb (%d,%d,%d) \n", prim_points[pa].X, prim_points[pa].Y, prim_points[pa].Z, prim_points[pb].X, prim_points[pb].Y, prim_points[pb].Z);
-
-                            p_f4 = create_a_quad(pb, pa, p0, p2, 0, 0);
-                            p_f4->ThingIndex = face_wall;
-                            build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                            p_f3 = create_a_tri(p0, p2, p1, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tl+tr+br 1 at [%d][%d]\n", x, z);
-                        } else if (xb || zl) {
-                            if (xb == (x + 1) << ELE_SHIFT || xb == 0) {
-                                //  p0  p1
-                                //	pb
-                                //		p2a
-                                LogText("special 4 \n");
-                                pb = next_prim_point;
-                                add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-                                p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+br 2 at [%d][%d]\n", x, z);
-
-                            } else if (zl == (z) << ELE_SHIFT || zl == 0) {
-                                //  pb   p1
-                                //
-                                //	  pa p2
-                                LogText("special 4b \n");
-                                pa = next_prim_point;
-                                add_point((xb), y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                                p_f4 = create_a_quad(p0, pb, p1, p2, 0, 0);
-                                p_f4->ThingIndex = face_wall;
-                                build_free_quad_texture_info(p_f4, x, z + (edge_min_z >> ELE_SHIFT));
-                                LogText(" done tl+tr+br 3 at [%d][%d]\n", x, z);
-                            }
-                        }
-                        //						else
-                        //							create_a_tri(p2,p1,p0,0,0);
-                        break;
-                    case (TL):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        //						LogText("SINGLE1 xt %x zl %x \n",xt,zl);
-                        //						LogText(" [%d][%d] \n",x,z);
-
-                        if (xt && zl) {
-                            //  p0  pa
-                            //	pb
-
-                            pa = next_prim_point;
-                            add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-
-                            p_f3 = create_a_tri(pb, pa, p0, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //							LogText(" done tl 1 at [%d][%d]\n",x,z);
-                        }
-                        break;
-                    case (TR):
-                        xt = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_TOP];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        //						LogText("SINGLE2 xt %x zr %x \n",xt,zr);
-                        //						LogText(" [%d][%d] \n",x,z);
-
-                        if (xt && zr) {
-                            //  pa  p1
-                            //		pb
-
-                            pa = next_prim_point;
-                            add_point(xt, y, ((z) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-
-                            p_f3 = create_a_tri(pa, pb, p1, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done tr 1 at [%d][%d]\n", x, z);
-                        }
-                        break;
-                    case (BR):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zr = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_RIGHT];
-                        //						LogText("SINGLE3 xb %x zr %x \n",xb,zr);
-                        //						LogText(" [%d][%d] \n",x,z);
-
-                        if (xb && zr) {
-                            //      pb
-                            //	 pa	p2
-
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x + 1) << ELE_SHIFT, y, zr + edge_min_z);
-
-                            p_f3 = create_a_tri(pb, pa, p2, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            LogText(" done br 1 at [%d][%d]\n", x, z);
-                        }
-                        break;
-                    case (BL):
-                        xb = cut_blocks[(x) * 4 + z * MAX_BOUND_SIZE * 4 + CUT_BLOCK_BOTTOM];
-                        zl = cut_blocks[(x) * 4 + (z) *MAX_BOUND_SIZE * 4 + CUT_BLOCK_LEFT];
-                        //						LogText("SINGLE4 xb %x zl %x \n",xb,zl);
-                        //						LogText(" [%d][%d] \n",x,z);
-
-                        if (xb && zl) {
-                            //  pb
-                            //	p3 pa
-
-                            pa = next_prim_point;
-                            add_point(xb, y, ((z + 1) << ELE_SHIFT) + edge_min_z);
-                            pb = next_prim_point;
-                            add_point((x) << ELE_SHIFT, y, zl + edge_min_z);
-
-                            p_f3 = create_a_tri(p3, pa, pb, 0, 0);
-                            build_free_tri_texture_info(p_f3, x, z + (edge_min_z >> ELE_SHIFT));
-                            //							LogText(" done bl 1 at [%d][%d]\n",x,z);
-                        }
-                        break;
-
-                    default:
-                        LogText(" un supported p0...  (%d,%d,%d,%d)\n", p0, p1, p2, p3);
-                        break;
+                default:
+                    LogText(" un supported p0...  (%d,%d,%d,%d)\n", p0, p1, p2, p3);
+                    break;
                 }
             }
         }
@@ -4449,24 +4448,24 @@ void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture) {
 
     tx = ((struct MiniTextureBits *) (&texture))->X << 5;
     ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
     tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&texture))->Size]-1;
     rot = ((struct MiniTextureBits *) (&texture))->Rot;
     rot = (rot + 3) & 3;
     switch (rot) {
-        case 0:
+    case 0:
 
-            PsetUV4(p_f4, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
-            break;
-        case 1:
-            PsetUV4(p_f4, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
-            break;
-        case 2:
-            PsetUV4(p_f4, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
-            break;
-        case 3:
-            PsetUV4(p_f4, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
-            break;
+        PsetUV4(p_f4, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
+        break;
+    case 1:
+        PsetUV4(p_f4, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
+        break;
+    case 2:
+        PsetUV4(p_f4, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
+        break;
+    case 3:
+        PsetUV4(p_f4, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
+        break;
     }
 }
 
@@ -4634,46 +4633,46 @@ struct PrimFace4 *create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_
 
     switch (flip) // textures_xy[texture_style][texture_piece].Flip)
     {
-        case 0:
-            p4->UV[0][0] = tx;
-            p4->UV[0][1] = ty;
-            p4->UV[1][0] = tx + 31;
-            p4->UV[1][1] = ty;
-            p4->UV[2][0] = tx;
-            p4->UV[2][1] = ty + theight;
-            p4->UV[3][0] = tx + 31;
-            p4->UV[3][1] = ty + 31;
-            break;
-        case 1: // flip x
-            p4->UV[0][0] = tx + 31;
-            p4->UV[0][1] = ty;
-            p4->UV[1][0] = tx;
-            p4->UV[1][1] = ty;
-            p4->UV[2][0] = tx + 31;
-            p4->UV[2][1] = ty + theight;
-            p4->UV[3][0] = tx;
-            p4->UV[3][1] = ty + theight;
-            break;
-        case 2: // flip y
-            p4->UV[0][0] = tx;
-            p4->UV[0][1] = ty + 31;
-            p4->UV[1][0] = tx + 31;
-            p4->UV[1][1] = ty + theight;
-            p4->UV[2][0] = tx;
-            p4->UV[2][1] = ty;
-            p4->UV[3][0] = tx + 31;
-            p4->UV[3][1] = ty;
-            break;
-        case 3: // flip x+y
-            p4->UV[0][0] = tx + 31;
-            p4->UV[0][1] = ty + 31;
-            p4->UV[1][0] = tx;
-            p4->UV[1][1] = ty + 31;
-            p4->UV[2][0] = tx + theight;
-            p4->UV[2][1] = ty;
-            p4->UV[3][0] = tx;
-            p4->UV[3][1] = ty;
-            break;
+    case 0:
+        p4->UV[0][0] = tx;
+        p4->UV[0][1] = ty;
+        p4->UV[1][0] = tx + 31;
+        p4->UV[1][1] = ty;
+        p4->UV[2][0] = tx;
+        p4->UV[2][1] = ty + theight;
+        p4->UV[3][0] = tx + 31;
+        p4->UV[3][1] = ty + 31;
+        break;
+    case 1: // flip x
+        p4->UV[0][0] = tx + 31;
+        p4->UV[0][1] = ty;
+        p4->UV[1][0] = tx;
+        p4->UV[1][1] = ty;
+        p4->UV[2][0] = tx + 31;
+        p4->UV[2][1] = ty + theight;
+        p4->UV[3][0] = tx;
+        p4->UV[3][1] = ty + theight;
+        break;
+    case 2: // flip y
+        p4->UV[0][0] = tx;
+        p4->UV[0][1] = ty + 31;
+        p4->UV[1][0] = tx + 31;
+        p4->UV[1][1] = ty + theight;
+        p4->UV[2][0] = tx;
+        p4->UV[2][1] = ty;
+        p4->UV[3][0] = tx + 31;
+        p4->UV[3][1] = ty;
+        break;
+    case 3: // flip x+y
+        p4->UV[0][0] = tx + 31;
+        p4->UV[0][1] = ty + 31;
+        p4->UV[1][0] = tx;
+        p4->UV[1][1] = ty + 31;
+        p4->UV[2][0] = tx + theight;
+        p4->UV[2][1] = ty;
+        p4->UV[3][0] = tx;
+        p4->UV[3][1] = ty;
+        break;
     }
 
     /*
@@ -4809,14 +4808,14 @@ struct PrimFace3 *create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t
 void set_texture_fe(struct PrimFace4 *p4, std::int32_t xw, std::int32_t xh, std::int32_t type) {
     std::int32_t tx, ty;
     switch (type) {
-        case 0:
-            tx = 0;
-            ty = 6 * 32;
-            break;
-        case 1:
-            tx = 5 * 32;
-            ty = 4 * 32;
-            break;
+    case 0:
+        tx = 0;
+        ty = 6 * 32;
+        break;
+    case 1:
+        tx = 5 * 32;
+        ty = 4 * 32;
+        break;
     }
 
     xw = 1;
@@ -4923,13 +4922,13 @@ std::uint16_t id_offset[] =
 
 std::int32_t next_connected_face(std::int32_t type, std::int32_t id, std::int32_t count) {
     switch (type) {
-        case FACE_TYPE_FIRE_ESCAPE:
-            std::int32_t start;
+    case FACE_TYPE_FIRE_ESCAPE:
+        std::int32_t start;
 
-            start = id_offset[id];
-            //			LogText(" id %d start %d count %d \n",id,start,count);
-            return (face_offsets[start + count]);
-            break;
+        start = id_offset[id];
+        //			LogText(" id %d start %d count %d \n",id,start,count);
+        return (face_offsets[start + count]);
+        break;
     }
     return (0);
 }
@@ -8377,19 +8376,19 @@ void build_fence(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t wa
     }
 
     switch (storey_list[storey].StoreyType) {
-        case STOREY_TYPE_FENCE: //   3/4
-            build_fence_points_and_faces(y, y + ((height * 3) >> 2) + 2, x, z, wall_list[wall].DX, wall_list[wall].DZ, wall, 1);
-            break;
-        case STOREY_TYPE_FENCE_BRICK:
+    case STOREY_TYPE_FENCE: //   3/4
+        build_fence_points_and_faces(y, y + ((height * 3) >> 2) + 2, x, z, wall_list[wall].DX, wall_list[wall].DZ, wall, 1);
+        break;
+    case STOREY_TYPE_FENCE_BRICK:
+        build_height_fence(x, y, z, wall, storey, height, alt_mode);
+        break;
+    case STOREY_TYPE_FENCE_FLAT:
+    case STOREY_TYPE_OUTSIDE_DOOR:
+        if (height == 512)
+            build_high_chain_fence(x, y, z, wall, storey, BLOCK_SIZE * 4, alt_mode);
+        else
             build_height_fence(x, y, z, wall, storey, height, alt_mode);
-            break;
-        case STOREY_TYPE_FENCE_FLAT:
-        case STOREY_TYPE_OUTSIDE_DOOR:
-            if (height == 512)
-                build_high_chain_fence(x, y, z, wall, storey, BLOCK_SIZE * 4, alt_mode);
-            else
-                build_height_fence(x, y, z, wall, storey, height, alt_mode);
-            break;
+        break;
     }
     WindowCount = 0;
 }
@@ -8457,48 +8456,48 @@ std::int32_t process_external_pieces(std::uint16_t building) {
     LogText(" storey type START %d \n", storey_list[storey].StoreyType);
     while (storey && c0 < 400) {
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_CABLE:
-                prev_facet = build_cables(storey, prev_facet);
-                break;
-            case STOREY_TYPE_FENCE:
-            case STOREY_TYPE_FENCE_FLAT:
-            case STOREY_TYPE_OUTSIDE_DOOR:
-                if (storey_list[storey].DY == 0)
-                    prev_facet = build_whole_fence(storey);
-                LogText(" storey type1 %d facet %d\n", storey_list[storey].StoreyType, prev_facet);
-                break;
-            case STOREY_TYPE_FENCE_BRICK:
-                if (storey_list[storey].DY == 0)
-                    prev_facet = build_whole_fence(storey);
-                //				prev_facet=build_brick_wall(storey);
-                LogText(" storey type2 %d \n", storey_list[storey].StoreyType);
-                break;
-            case STOREY_TYPE_NORMAL:
-                if (storey_list[storey].DY == 0) {
-                    std::int32_t wall;
-                    std::int32_t x, y, z;
-                    wall = storey_list[storey].WallHead;
-                    x = storey_list[storey].DX;
-                    z = storey_list[storey].DZ;
+        case STOREY_TYPE_CABLE:
+            prev_facet = build_cables(storey, prev_facet);
+            break;
+        case STOREY_TYPE_FENCE:
+        case STOREY_TYPE_FENCE_FLAT:
+        case STOREY_TYPE_OUTSIDE_DOOR:
+            if (storey_list[storey].DY == 0)
+                prev_facet = build_whole_fence(storey);
+            LogText(" storey type1 %d facet %d\n", storey_list[storey].StoreyType, prev_facet);
+            break;
+        case STOREY_TYPE_FENCE_BRICK:
+            if (storey_list[storey].DY == 0)
+                prev_facet = build_whole_fence(storey);
+            //				prev_facet=build_brick_wall(storey);
+            LogText(" storey type2 %d \n", storey_list[storey].StoreyType);
+            break;
+        case STOREY_TYPE_NORMAL:
+            if (storey_list[storey].DY == 0) {
+                std::int32_t wall;
+                std::int32_t x, y, z;
+                wall = storey_list[storey].WallHead;
+                x = storey_list[storey].DX;
+                z = storey_list[storey].DZ;
+                y = PAP_calc_height_at(x, z);
+                if (y < build_min_y)
+                    build_min_y = y;
+
+                if (y > build_max_y)
+                    build_max_y = y;
+
+                while (wall) {
+                    x = wall_list[wall].DX;
+                    z = wall_list[wall].DZ;
                     y = PAP_calc_height_at(x, z);
                     if (y < build_min_y)
                         build_min_y = y;
-
                     if (y > build_max_y)
                         build_max_y = y;
 
-                    while (wall) {
-                        x = wall_list[wall].DX;
-                        z = wall_list[wall].DZ;
-                        y = PAP_calc_height_at(x, z);
-                        if (y < build_min_y)
-                            build_min_y = y;
-                        if (y > build_max_y)
-                            build_max_y = y;
-
-                        wall = wall_list[wall].Next;
-                    }
+                    wall = wall_list[wall].Next;
                 }
+            }
         }
         storey = storey_list[storey].Next;
         c0++;
@@ -8583,25 +8582,25 @@ void setup_storey_data(std::uint16_t building, std::int16_t *wall_for_ladder) {
         storey_list[storey].StoreyFlags &= ~FLAG_STOREY_FACET_LINKED;
 
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-            case STOREY_TYPE_FENCE:
-            case STOREY_TYPE_FENCE_FLAT:
-            case STOREY_TYPE_FENCE_BRICK:
-            case STOREY_TYPE_OUTSIDE_DOOR:
-                wall = storey_list[storey].WallHead;
-                while (wall) {
-                    wall_list[wall].WallFlags &= ~FLAG_WALL_FACET_LINKED;
-                    wall = wall_list[wall].Next;
-                }
+        case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_FENCE:
+        case STOREY_TYPE_FENCE_FLAT:
+        case STOREY_TYPE_FENCE_BRICK:
+        case STOREY_TYPE_OUTSIDE_DOOR:
+            wall = storey_list[storey].WallHead;
+            while (wall) {
+                wall_list[wall].WallFlags &= ~FLAG_WALL_FACET_LINKED;
+                wall = wall_list[wall].Next;
+            }
 
-                break;
-            case STOREY_TYPE_LADDER:
+            break;
+        case STOREY_TYPE_LADDER:
 
-                wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
-                if (wall >= 0)
-                    wall_for_ladder[wall] = storey;
-                mark_map_with_ladder(storey);
-                break;
+            wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
+            if (wall >= 0)
+                wall_for_ladder[wall] = storey;
+            mark_map_with_ladder(storey);
+            break;
         }
         storey = storey_list[storey].Next;
     }
@@ -8616,14 +8615,14 @@ std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2
 
     while (storey && !found) {
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-                //			case	STOREY_TYPE_FENCE:
-                //			case	STOREY_TYPE_FENCE_BRICK:
-                //			case	STOREY_TYPE_FENCE_FLAT:
-                found = 1;
-                break;
-            default:
-                storey = storey_list[storey].Next;
+        case STOREY_TYPE_NORMAL:
+            //			case	STOREY_TYPE_FENCE:
+            //			case	STOREY_TYPE_FENCE_BRICK:
+            //			case	STOREY_TYPE_FENCE_FLAT:
+            found = 1;
+            break;
+        default:
+            storey = storey_list[storey].Next;
         }
     }
     if (found) {
@@ -8935,116 +8934,116 @@ std::int32_t create_building_prim(std::uint16_t building, std::int32_t *small_y)
         //		LogText("MCD build storey %d \n",storey);
 
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_FENCE_FLAT:
-            case STOREY_TYPE_OUTSIDE_DOOR:
-            case STOREY_TYPE_FENCE:
-            case STOREY_TYPE_FENCE_BRICK:
-                if (storey_list[storey].DY) {
-                    x1 = storey_list[storey].DX;
-                    z1 = storey_list[storey].DZ;
-                    y = storey_list[storey].DY;
-                    wall = storey_list[storey].WallHead;
-                    while (wall) {
-                        build_fence(x1, y + offset_y, z1, wall, storey, storey_list[storey].Height);
-
-                        x1 = wall_list[wall].DX;
-                        z1 = wall_list[wall].DZ;
-
-                        wall = wall_list[wall].Next;
-
-                        prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0, col_vect);
-
-                        //	LogText(" create building prim4  next prim_point %d \n",next_prim_point);
-                        start_point = next_prim_point;
-                        start_face3 = next_prim_face3;
-                        start_face4 = next_prim_face4;
-                    }
-                }
-
-                break;
-            case STOREY_TYPE_NORMAL:
-                valid = 1;
-                if (first == 0) {
-                    set_floor_hidden(storey, 0, PAP_FLAG_HIDDEN);
-                    first = 1;
-                }
-
+        case STOREY_TYPE_FENCE_FLAT:
+        case STOREY_TYPE_OUTSIDE_DOOR:
+        case STOREY_TYPE_FENCE:
+        case STOREY_TYPE_FENCE_BRICK:
+            if (storey_list[storey].DY) {
                 x1 = storey_list[storey].DX;
                 z1 = storey_list[storey].DZ;
-
-                wall_count = 0;
+                y = storey_list[storey].DY;
                 wall = storey_list[storey].WallHead;
                 while (wall) {
-                    std::int32_t connect_wall, connect_storey, connect_count = 0;
+                    build_fence(x1, y + offset_y, z1, wall, storey, storey_list[storey].Height);
 
-                    x2 = wall_list[wall].DX;
-                    z2 = wall_list[wall].DZ;
-                    if (!(wall_list[wall].WallFlags & FLAG_WALL_FACET_LINKED)) {
-                        y = storey_list[storey].DY;
+                    x1 = wall_list[wall].DX;
+                    z1 = wall_list[wall].DZ;
 
-                        if (y == 0) {
-                            std::int32_t temp_y;
-                            temp_y = PAP_calc_height_at(x1, z1);
-                            if (temp_y < *small_y)
-                                *small_y = temp_y;
-                        }
-                        //						LogText("MCD normal storey wall append%d at y %d \n",wall,y+offset_y);
+                    wall = wall_list[wall].Next;
 
-                        wall_list[wall].WallFlags |= FLAG_WALL_FACET_LINKED;
-                        if ((y) == 0 && (build_min_y != build_max_y) && circular)
-                            append_foundation_wall(x1, y + offset_y + 256, z1, wall, storey, storey_list[storey].Height); // this wants the top of the wall
-                        else
-                            append_wall_prim(x1, y + offset_y, z1, wall, storey, storey_list[storey].Height); //,textures,tcount); //this wants the base of the wall
+                    prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0, col_vect);
 
-                        {
-                            std::uint8_t *tex = 0;
-                            std::uint16_t tcount = 0;
-                            connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, storey, &tex, &tcount);
-                            connect_count = 1;
-                            if (connect_wall) {
-                                //							LogText(" found a connect wall %d\n",connect_wall);
+                    //	LogText(" create building prim4  next prim_point %d \n",next_prim_point);
+                    start_point = next_prim_point;
+                    start_face3 = next_prim_face3;
+                    start_face4 = next_prim_face4;
+                }
+            }
 
-                                while (connect_wall) {
-                                    std::int32_t ty;
-                                    connect_count++;
-                                    ty = storey_list[connect_storey].DY;
-                                    wall_list[connect_wall].WallFlags |= FLAG_WALL_FACET_LINKED;
-                                    append_wall_prim(x1, ty + offset_y, z1, connect_wall, connect_storey, storey_list[connect_storey].Height); //,tex,tcount);
-                                    connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, connect_storey, &tex, &tcount);
-                                }
-                            } else {
-                                //
-                                //
-                                //
+            break;
+        case STOREY_TYPE_NORMAL:
+            valid = 1;
+            if (first == 0) {
+                set_floor_hidden(storey, 0, PAP_FLAG_HIDDEN);
+                first = 1;
+            }
+
+            x1 = storey_list[storey].DX;
+            z1 = storey_list[storey].DZ;
+
+            wall_count = 0;
+            wall = storey_list[storey].WallHead;
+            while (wall) {
+                std::int32_t connect_wall, connect_storey, connect_count = 0;
+
+                x2 = wall_list[wall].DX;
+                z2 = wall_list[wall].DZ;
+                if (!(wall_list[wall].WallFlags & FLAG_WALL_FACET_LINKED)) {
+                    y = storey_list[storey].DY;
+
+                    if (y == 0) {
+                        std::int32_t temp_y;
+                        temp_y = PAP_calc_height_at(x1, z1);
+                        if (temp_y < *small_y)
+                            *small_y = temp_y;
+                    }
+                    //						LogText("MCD normal storey wall append%d at y %d \n",wall,y+offset_y);
+
+                    wall_list[wall].WallFlags |= FLAG_WALL_FACET_LINKED;
+                    if ((y) == 0 && (build_min_y != build_max_y) && circular)
+                        append_foundation_wall(x1, y + offset_y + 256, z1, wall, storey, storey_list[storey].Height); // this wants the top of the wall
+                    else
+                        append_wall_prim(x1, y + offset_y, z1, wall, storey, storey_list[storey].Height); //,textures,tcount); //this wants the base of the wall
+
+                    {
+                        std::uint8_t *tex = 0;
+                        std::uint16_t tcount = 0;
+                        connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, storey, &tex, &tcount);
+                        connect_count = 1;
+                        if (connect_wall) {
+                            //							LogText(" found a connect wall %d\n",connect_wall);
+
+                            while (connect_wall) {
+                                std::int32_t ty;
+                                connect_count++;
+                                ty = storey_list[connect_storey].DY;
+                                wall_list[connect_wall].WallFlags |= FLAG_WALL_FACET_LINKED;
+                                append_wall_prim(x1, ty + offset_y, z1, connect_wall, connect_storey, storey_list[connect_storey].Height); //,tex,tcount);
+                                connect_wall = find_connect_wall(x1, z1, x2, z2, &connect_storey, connect_storey, &tex, &tcount);
                             }
-                        }
-
-                        if (wall_list[wall].WallFlags & FLAG_WALL_RECESSED) {
-                            //
-                            // Add colvects around the recess...
-                            //
-
-                            insert_recessed_wall_vect(
-                                x1, y + offset_y, z1,
-                                x2, y + offset_y, z2,
-                                STOREY_TYPE_NORMAL,
-                                connect_count,
-                                -wall);
-                            if (building == 3)
-                                LogText(" building 3   recessed wall \n");
                         } else {
-                            if (y == 0) {
-                                col_vect = insert_collision_vect(x1, y + offset_y, z1, x2, y + offset_y, z2, STOREY_TYPE_NORMAL_FOUNDATION, connect_count * 4, -wall);
-                            } else
-                                col_vect = insert_collision_vect(x1, y + offset_y, z1, x2, y + offset_y, z2, STOREY_TYPE_NORMAL, connect_count * 4, -wall);
+                            //
+                            //
+                            //
                         }
+                    }
 
-                        mid_point = next_prim_point;
-                        //					LogText(" create building prim3  next prim_point %d \n",next_prim_point);
-                        mid_face4 = next_prim_face4;
-                        if (wall_for_fe[wall_count] && pass2 == 0) {
-                            build_firescape(wall_for_fe[wall_count]);
-                        }
+                    if (wall_list[wall].WallFlags & FLAG_WALL_RECESSED) {
+                        //
+                        // Add colvects around the recess...
+                        //
+
+                        insert_recessed_wall_vect(
+                            x1, y + offset_y, z1,
+                            x2, y + offset_y, z2,
+                            STOREY_TYPE_NORMAL,
+                            connect_count,
+                            -wall);
+                        if (building == 3)
+                            LogText(" building 3   recessed wall \n");
+                    } else {
+                        if (y == 0) {
+                            col_vect = insert_collision_vect(x1, y + offset_y, z1, x2, y + offset_y, z2, STOREY_TYPE_NORMAL_FOUNDATION, connect_count * 4, -wall);
+                        } else
+                            col_vect = insert_collision_vect(x1, y + offset_y, z1, x2, y + offset_y, z2, STOREY_TYPE_NORMAL, connect_count * 4, -wall);
+                    }
+
+                    mid_point = next_prim_point;
+                    //					LogText(" create building prim3  next prim_point %d \n",next_prim_point);
+                    mid_face4 = next_prim_face4;
+                    if (wall_for_fe[wall_count] && pass2 == 0) {
+                        build_firescape(wall_for_fe[wall_count]);
+                    }
 //						if(wall_for_ladder[wall_count]&&pass2==0)
 //						{
 //							build_ladder(wall_for_ladder[wall_count]);
@@ -9053,62 +9052,62 @@ std::int32_t create_building_prim(std::uint16_t building, std::int32_t *small_y)
 //		printf(" build 1\n");
 #endif
 
-                        prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0, col_vect);
+                    prev_facet = build_facet(start_point, mid_point, start_face3, start_face4, mid_face4, prev_facet, 0, col_vect);
 
-                        //	LogText(" create building prim4  next prim_point %d \n",next_prim_point);
-                        start_point = next_prim_point;
-                        start_face3 = next_prim_face3;
-                        start_face4 = next_prim_face4;
-                    }
-                    //					else
-                    //						LogText(" allready done through connection \n");
-
-                    x1 = x2;
-                    z1 = z2;
-                    textures = wall_list[wall].Textures;
-                    tcount = wall_list[wall].Tcount;
-
-                    wall = wall_list[wall].Next;
-                    wall_count++;
+                    //	LogText(" create building prim4  next prim_point %d \n",next_prim_point);
+                    start_point = next_prim_point;
+                    start_face3 = next_prim_face3;
+                    start_face4 = next_prim_face4;
                 }
-                pass2 = 1;
+                //					else
+                //						LogText(" allready done through connection \n");
 
-                break;
-            case STOREY_TYPE_LADDER:
-                //				build_ladder(storey);
-                break;
-            case STOREY_TYPE_FIRE_ESCAPE:
-                wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
-                if (wall >= 0)
-                    wall_for_fe[wall] = storey;
-                fire_escape_count++;
-                break;
-            case STOREY_TYPE_TRENCH:
-                prev_facet = build_trench(prev_facet, storey);
-                start_point = next_prim_point;
-                start_face3 = next_prim_face3;
-                start_face4 = next_prim_face4;
-                break;
-            case STOREY_TYPE_STAIRCASE:
-                build_staircase(storey);
-                prev_facet = build_facet(start_point, next_prim_point, start_face3, start_face4, next_prim_face4, prev_facet, 0, 0);
+                x1 = x2;
+                z1 = z2;
+                textures = wall_list[wall].Textures;
+                tcount = wall_list[wall].Tcount;
 
-                start_point = next_prim_point;
-                start_face3 = next_prim_face3;
-                start_face4 = next_prim_face4;
-                break;
+                wall = wall_list[wall].Next;
+                wall_count++;
+            }
+            pass2 = 1;
 
-                /* moved to setup_storey_data
-                                        case	STOREY_TYPE_LADDER:
-                                                wall=find_wall_for_fe(storey_list[storey].DX,storey_list[storey].DZ,building_list[building].StoreyHead);
-                                                if(wall>=0)
-                                                        wall_for_ladder[wall]=storey;
-                                                ladder_count++;
-                                                break;
-                */
+            break;
+        case STOREY_TYPE_LADDER:
+            //				build_ladder(storey);
+            break;
+        case STOREY_TYPE_FIRE_ESCAPE:
+            wall = find_wall_for_fe(storey_list[storey].DX, storey_list[storey].DZ, building_list[building].StoreyHead);
+            if (wall >= 0)
+                wall_for_fe[wall] = storey;
+            fire_escape_count++;
+            break;
+        case STOREY_TYPE_TRENCH:
+            prev_facet = build_trench(prev_facet, storey);
+            start_point = next_prim_point;
+            start_face3 = next_prim_face3;
+            start_face4 = next_prim_face4;
+            break;
+        case STOREY_TYPE_STAIRCASE:
+            build_staircase(storey);
+            prev_facet = build_facet(start_point, next_prim_point, start_face3, start_face4, next_prim_face4, prev_facet, 0, 0);
 
-            default:
-                break;
+            start_point = next_prim_point;
+            start_face3 = next_prim_face3;
+            start_face4 = next_prim_face4;
+            break;
+
+            /* moved to setup_storey_data
+                                    case	STOREY_TYPE_LADDER:
+                                            wall=find_wall_for_fe(storey_list[storey].DX,storey_list[storey].DZ,building_list[building].StoreyHead);
+                                            if(wall>=0)
+                                                    wall_for_ladder[wall]=storey;
+                                            ladder_count++;
+                                            break;
+            */
+
+        default:
+            break;
         }
         //		if(storey_list[storey].StoreyFlags&FLAG_STOREY_ROOF_RIM)
         //			offset_y+=BLOCK_SIZE+(BLOCK_SIZE>>1)-20;
@@ -9158,16 +9157,16 @@ std::int32_t create_building_prim(std::uint16_t building, std::int32_t *small_y)
             */
         } else {
             switch (storey_list[storey].StoreyType) {
-                case STOREY_TYPE_LADDER:
-                    if (building == 3)
-                        LogText(" building 3   build ladder\n");
-                    build_ladder(storey);
-                    break;
-                case STOREY_TYPE_SKYLIGHT: // where should a skylight be processed?
-                    if (building == 3)
-                        LogText(" building 3   build skylight\n");
-                    build_skylight(storey);
-                    break;
+            case STOREY_TYPE_LADDER:
+                if (building == 3)
+                    LogText(" building 3   build ladder\n");
+                build_ladder(storey);
+                break;
+            case STOREY_TYPE_SKYLIGHT: // where should a skylight be processed?
+                if (building == 3)
+                    LogText(" building 3   build skylight\n");
+                build_skylight(storey);
+                break;
             }
         }
 
@@ -9302,33 +9301,33 @@ void clear_map2() {
             index = edit_map[x][z].MapThingIndex;
             while (index) {
                 switch (map_things[index].Type) {
-                    case MAP_THING_TYPE_ANIM_PRIM:
-                    case MAP_THING_TYPE_PRIM:
-                    case MAP_THING_TYPE_LIGHT:
-                        /*
-                                                        if(map_things[index].MapChild>0)
-                                                        {
-                                                                switch(map_things[map_things[index].MapChild].Type)
-                                                                {
+                case MAP_THING_TYPE_ANIM_PRIM:
+                case MAP_THING_TYPE_PRIM:
+                case MAP_THING_TYPE_LIGHT:
+                    /*
+                                                    if(map_things[index].MapChild>0)
+                                                    {
+                                                            switch(map_things[map_things[index].MapChild].Type)
+                                                            {
 
-                                                                        case	MAP_THING_TYPE_ANIM_PRIM:
-                                                                        case	MAP_THING_TYPE_PRIM:
-                                                                        case	MAP_THING_TYPE_LIGHT:
-                                                                                break;
-                                                                        default:
-                                                                                map_things[index].MapChild=0;
-                                                                                break;
-                                                                }
-                                                        }
-                        */
-                        index = map_things[index].MapChild;
-                        break;
-                    default:
-                        delete_thing_from_edit_map(x, z, index);
-                        index = edit_map[x][z].MapThingIndex;
+                                                                    case	MAP_THING_TYPE_ANIM_PRIM:
+                                                                    case	MAP_THING_TYPE_PRIM:
+                                                                    case	MAP_THING_TYPE_LIGHT:
+                                                                            break;
+                                                                    default:
+                                                                            map_things[index].MapChild=0;
+                                                                            break;
+                                                            }
+                                                    }
+                    */
+                    index = map_things[index].MapChild;
+                    break;
+                default:
+                    delete_thing_from_edit_map(x, z, index);
+                    index = edit_map[x][z].MapThingIndex;
 
-                        //				edit_map[x][z].MapThingIndex=0;
-                        break;
+                    //				edit_map[x][z].MapThingIndex=0;
+                    break;
                 }
             }
 
@@ -9343,13 +9342,13 @@ void clear_map2() {
     // memset((std::uint8_t*)&map_things[0],0,sizeof(struct MapThing)*MAX_MAP_THINGS);
     for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
         switch (map_things[c0].Type) {
-            case MAP_THING_TYPE_ANIM_PRIM:
-            case MAP_THING_TYPE_PRIM:
-            case MAP_THING_TYPE_LIGHT:
-                break;
-            default:
-                memset((std::uint8_t *) &map_things[c0], 0, sizeof(struct MapThing));
-                break;
+        case MAP_THING_TYPE_ANIM_PRIM:
+        case MAP_THING_TYPE_PRIM:
+        case MAP_THING_TYPE_LIGHT:
+            break;
+        default:
+            memset((std::uint8_t *) &map_things[c0], 0, sizeof(struct MapThing));
+            break;
         }
     }
 
@@ -9504,10 +9503,10 @@ void fix_furniture() {
     p_thing = TO_THING(0);
     for (c0 = 1; c0 < MAX_THINGS; c0++) {
         switch (p_thing->Class) {
-            case CLASS_FURNITURE:
-                //				if(abs(p_thing->WorldPos.Y)<(10<<8))
-                p_thing->WorldPos.Y = PAP_calc_height_at(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8) << 8;
-                break;
+        case CLASS_FURNITURE:
+            //				if(abs(p_thing->WorldPos.Y)<(10<<8))
+            p_thing->WorldPos.Y = PAP_calc_height_at(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Z >> 8) << 8;
+            break;
         }
     }
 }
@@ -9522,7 +9521,7 @@ void count_floor() {
 
             tx = ((struct MiniTextureBits *) (&texture))->X;
             ty = ((struct MiniTextureBits *) (&texture))->Y;
-            page = (std::uint8_t) (((struct MiniTextureBits *) (&texture))->Page);
+            page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
             add_page_countxy(tx, ty, page);
         }
 }

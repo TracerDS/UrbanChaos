@@ -79,384 +79,384 @@ void PLAT_process(Thing *p_thing) {
     DrawMesh *dm = p_thing->Draw.Mesh;
 
     switch (plat->state) {
-        case PLAT_STATE_NONE:
+    case PLAT_STATE_NONE:
+
+        //
+        // What should we be doing?
+        //
+
+        switch (plat->move) {
+        case PLAT_MOVE_STILL:
 
             //
-            // What should we be doing?
+            // We are doing nothing- but that is what we are meant to be doing.
             //
-
-            switch (plat->move) {
-                case PLAT_MOVE_STILL:
-
-                    //
-                    // We are doing nothing- but that is what we are meant to be doing.
-                    //
-
-                    break;
-
-                case PLAT_MOVE_PATROL:
-                case PLAT_MOVE_PATROL_RAND:
-
-                    //
-                    // Wait for a while.
-                    //
-
-                    plat->waypoint = NULL;
-                    plat->state = PLAT_STATE_PAUSE;
-                    plat->counter = 1 * 1000;
-
-                    break;
-
-                default:
-                    ASSERT(0);
-                    break;
-            }
 
             break;
 
-        case PLAT_STATE_GOTO:
+        case PLAT_MOVE_PATROL:
+        case PLAT_MOVE_PATROL_RAND:
 
             //
-            // Bodge rocket-exhaust in here
+            // Wait for a while.
             //
+
+            plat->waypoint = NULL;
+            plat->state = PLAT_STATE_PAUSE;
+            plat->counter = 1 * 1000;
+
+            break;
+
+        default:
+            ASSERT(0);
+            break;
+        }
+
+        break;
+
+    case PLAT_STATE_GOTO:
+
+        //
+        // Bodge rocket-exhaust in here
+        //
 #ifndef PSX
-            if (plat->flag & PLAT_FLAG_BODGE_ROCKET) {
-                PARTICLE_Add(p_thing->WorldPos.X + (((Random() & 0xff) - 0x7f) << 7), p_thing->WorldPos.Y, p_thing->WorldPos.Z + (((Random() & 0xff) - 0x7f) << 7),
-                             ((Random() & 0xff) - 0x7f) << 2, 0, ((Random() & 0xff) - 0x7f) << 2,
-                             POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
-                             PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE,
-                             300, 70, 1, 1, 2);
-                PARTICLE_Add(p_thing->WorldPos.X + (((Random() & 0xff) - 0x7f) << 5), p_thing->WorldPos.Y, p_thing->WorldPos.Z + (((Random() & 0xff) - 0x7f) << 5),
-                             ((Random() & 0xff) - 0x7f) << 2, 0, ((Random() & 0xff) - 0x7f) << 2,
-                             POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
-                             PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE,
-                             300, 70, 1, 1, -2);
-                BLOOM_draw(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8,
-                           0, -0xff, 0, 0x00ffffff, BLOOM_BEAM | BLOOM_LENSFLARE);
-            }
+        if (plat->flag & PLAT_FLAG_BODGE_ROCKET) {
+            PARTICLE_Add(p_thing->WorldPos.X + (((Random() & 0xff) - 0x7f) << 7), p_thing->WorldPos.Y, p_thing->WorldPos.Z + (((Random() & 0xff) - 0x7f) << 7),
+                         ((Random() & 0xff) - 0x7f) << 2, 0, ((Random() & 0xff) - 0x7f) << 2,
+                         POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                         PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE,
+                         300, 70, 1, 1, 2);
+            PARTICLE_Add(p_thing->WorldPos.X + (((Random() & 0xff) - 0x7f) << 5), p_thing->WorldPos.Y, p_thing->WorldPos.Z + (((Random() & 0xff) - 0x7f) << 5),
+                         ((Random() & 0xff) - 0x7f) << 2, 0, ((Random() & 0xff) - 0x7f) << 2,
+                         POLY_PAGE_FLAMES2, 2 + ((Random() & 3) << 2), 0x7FFFFFFF,
+                         PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FIRE | PFLAG_FADE | PFLAG_RESIZE,
+                         300, 70, 1, 1, -2);
+            BLOOM_draw(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8,
+                       0, -0xff, 0, 0x00ffffff, BLOOM_BEAM | BLOOM_LENSFLARE);
+        }
 #endif
 
+        //
+        // What direction should we be going in?
+        //
+
+        if (ControlFlag) {
+            waypoint = 0;
+        }
+
+        EWAY_get_position(
+            plat->waypoint,
+            &way_x,
+            &way_y,
+            &way_z);
+
+        dx = way_x - (p_thing->WorldPos.X >> 8);
+        dy = way_y - (p_thing->WorldPos.Y >> 8);
+        dz = way_z - (p_thing->WorldPos.Z >> 8);
+
+        if (plat->flag & PLAT_FLAG_LOCK_X) {
+            dy = 0;
+            dz = 0;
+        } else if (plat->flag & PLAT_FLAG_LOCK_Y) {
+            dz = 0;
+            dx = 0;
+        } else if (plat->flag & PLAT_FLAG_LOCK_Z) {
+            dx = 0;
+            dy = 0;
+        }
+
+        len = QDIST3(abs(dx), abs(dy), abs(dz)) + 1;
+
+        //
+        // Accelerate to our desired speed.
+        //
+
+        wspeed = plat->wspeed;
+        speed = plat->speed;
+
+        if (len < 0x100) {
+            wspeed >>= 2;
+        }
+        if (len < 0x80) {
+            wspeed >>= 2;
+        }
+        if (len < 0x40) {
+            wspeed >>= 2;
+        }
+
+        if (wspeed < 3) {
+            wspeed = 3;
+        }
+
+        if (abs(speed - wspeed) < ticks) {
+            speed = wspeed;
+        } else if (speed > wspeed) {
+            speed -= ticks;
+        } else {
+            speed += ticks;
+        }
+
+        SATURATE(speed, 0, 255);
+
+        plat->speed = speed;
+
+        //
+        // How far should we move this gameturn?
+        //
+
+        move = speed * TICK_RATIO >> TICK_SHIFT;
+
+        //
+        // Have we arrived?
+        //
+
+        if (len <= ((move >> 8) + 4)) {
             //
-            // What direction should we be going in?
+            // We have arrived. Wait for a while before moving onto the next waypoint.
             //
 
-            if (ControlFlag) {
-                waypoint = 0;
-            }
+            plat->state = PLAT_STATE_PAUSE;
+            plat->counter = EWAY_get_delay(plat->waypoint, 2 * 1000);
 
-            EWAY_get_position(
-                plat->waypoint,
-                &way_x,
-                &way_y,
-                &way_z);
-
-            dx = way_x - (p_thing->WorldPos.X >> 8);
-            dy = way_y - (p_thing->WorldPos.Y >> 8);
-            dz = way_z - (p_thing->WorldPos.Z >> 8);
-
-            if (plat->flag & PLAT_FLAG_LOCK_X) {
-                dy = 0;
-                dz = 0;
-            } else if (plat->flag & PLAT_FLAG_LOCK_Y) {
-                dz = 0;
-                dx = 0;
-            } else if (plat->flag & PLAT_FLAG_LOCK_Z) {
-                dx = 0;
-                dy = 0;
-            }
-
-            len = QDIST3(abs(dx), abs(dy), abs(dz)) + 1;
-
-            //
-            // Accelerate to our desired speed.
-            //
-
-            wspeed = plat->wspeed;
-            speed = plat->speed;
-
-            if (len < 0x100) {
-                wspeed >>= 2;
-            }
-            if (len < 0x80) {
-                wspeed >>= 2;
-            }
-            if (len < 0x40) {
-                wspeed >>= 2;
-            }
-
-            if (wspeed < 3) {
-                wspeed = 3;
-            }
-
-            if (abs(speed - wspeed) < ticks) {
-                speed = wspeed;
-            } else if (speed > wspeed) {
-                speed -= ticks;
-            } else {
-                speed += ticks;
-            }
-
-            SATURATE(speed, 0, 255);
-
-            plat->speed = speed;
-
-            //
-            // How far should we move this gameturn?
-            //
-
-            move = speed * TICK_RATIO >> TICK_SHIFT;
-
-            //
-            // Have we arrived?
-            //
-
-            if (len <= ((move >> 8) + 4)) {
+            if (plat->counter == 10000) {
                 //
-                // We have arrived. Wait for a while before moving onto the next waypoint.
-                //
-
-                plat->state = PLAT_STATE_PAUSE;
-                plat->counter = EWAY_get_delay(plat->waypoint, 2 * 1000);
-
-                if (plat->counter == 10000) {
-                    //
-                    // This amount of time (10 seconds) actually means wait here forever!
-                    //
-
-                    plat->state = PLAT_STATE_STOP;
-                }
-            } else {
-                overlen = (move << 8) / len;
-                dx = dx * overlen;
-                dy = dy * overlen;
-                dz = dz * overlen;
-
-                dx = dx * TICK_RATIO >> TICK_SHIFT;
-                dy = dy * TICK_RATIO >> TICK_SHIFT;
-                dz = dz * TICK_RATIO >> TICK_SHIFT;
-
-                SATURATE(dy, -8 << 8, +8 << 8);
-
-                newpos.X = p_thing->WorldPos.X + dx;
-                newpos.Y = p_thing->WorldPos.Y + dy;
-                newpos.Z = p_thing->WorldPos.Z + dz;
-
-                move_thing_on_map(p_thing, &newpos);
-
-                //
-                // Look for people to push out of the way.
+                // This amount of time (10 seconds) actually means wait here forever!
                 //
 
-                {
+                plat->state = PLAT_STATE_STOP;
+            }
+        } else {
+            overlen = (move << 8) / len;
+            dx = dx * overlen;
+            dy = dy * overlen;
+            dz = dz * overlen;
+
+            dx = dx * TICK_RATIO >> TICK_SHIFT;
+            dy = dy * TICK_RATIO >> TICK_SHIFT;
+            dz = dz * TICK_RATIO >> TICK_SHIFT;
+
+            SATURATE(dy, -8 << 8, +8 << 8);
+
+            newpos.X = p_thing->WorldPos.X + dx;
+            newpos.Y = p_thing->WorldPos.Y + dy;
+            newpos.Z = p_thing->WorldPos.Z + dz;
+
+            move_thing_on_map(p_thing, &newpos);
+
+            //
+            // Look for people to push out of the way.
+            //
+
+            {
 #define PLAT_MAX_FIND 8
 
-                    std::int32_t i;
-                    std::int32_t num;
-                    THING_INDEX found[PLAT_MAX_FIND];
-                    Thing *p_person;
+                std::int32_t i;
+                std::int32_t num;
+                THING_INDEX found[PLAT_MAX_FIND];
+                Thing *p_person;
 
-                    PrimInfo *pi = get_prim_info(dm->ObjectId);
+                PrimInfo *pi = get_prim_info(dm->ObjectId);
 
-                    num = THING_find_sphere(
-                        p_thing->WorldPos.X >> 8,
-                        p_thing->WorldPos.Y >> 8,
-                        p_thing->WorldPos.Z >> 8,
-                        pi->radius + 0x100,
-                        found,
-                        PLAT_MAX_FIND,
-                        THING_FIND_PEOPLE);
+                num = THING_find_sphere(
+                    p_thing->WorldPos.X >> 8,
+                    p_thing->WorldPos.Y >> 8,
+                    p_thing->WorldPos.Z >> 8,
+                    pi->radius + 0x100,
+                    found,
+                    PLAT_MAX_FIND,
+                    THING_FIND_PEOPLE);
 
-                    std::int32_t y_bot = p_thing->WorldPos.Y >> 8;
-                    std::int32_t y_top = p_thing->WorldPos.Y >> 8;
+                std::int32_t y_bot = p_thing->WorldPos.Y >> 8;
+                std::int32_t y_top = p_thing->WorldPos.Y >> 8;
 
-                    y_top += pi->maxy;
-                    y_bot += pi->miny;
+                y_top += pi->maxy;
+                y_bot += pi->miny;
 
-                    for (i = 0; i < num; i++) {
-                        p_person = TO_THING(found[i]);
+                for (i = 0; i < num; i++) {
+                    p_person = TO_THING(found[i]);
 
-                        if (p_person->State == STATE_DEAD ||
-                            p_person->State == STATE_DYING) {
-                            continue;
-                        }
+                    if (p_person->State == STATE_DEAD ||
+                        p_person->State == STATE_DYING) {
+                        continue;
+                    }
 
-                        if (WITHIN(p_person->WorldPos.Y >> 8, y_bot - 0x100, y_top + 0x100)) {
-                            //
-                            // Check for collision with this person by pretending they are
-                            // moving- not the prim.
-                            //
+                    if (WITHIN(p_person->WorldPos.Y >> 8, y_bot - 0x100, y_top + 0x100)) {
+                        //
+                        // Check for collision with this person by pretending they are
+                        // moving- not the prim.
+                        //
 
-                            std::int32_t x1, y1, z1;
-                            std::int32_t x2, y2, z2;
+                        std::int32_t x1, y1, z1;
+                        std::int32_t x2, y2, z2;
 
-                            x1 = x2 = p_person->WorldPos.X;
-                            y1 = y2 = p_person->WorldPos.Y;
-                            z1 = z2 = p_person->WorldPos.Z;
+                        x1 = x2 = p_person->WorldPos.X;
+                        y1 = y2 = p_person->WorldPos.Y;
+                        z1 = z2 = p_person->WorldPos.Z;
 
-                            if (slide_along_prim(
-                                    dm->ObjectId,
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    dm->Angle,
-                                    x1, y1, z1,
-                                    &x2,
-                                    &y2,
-                                    &z2,
-                                    10,
-                                    false,
-                                    false)) {
+                        if (slide_along_prim(
+                                dm->ObjectId,
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                dm->Angle,
+                                x1, y1, z1,
+                                &x2,
+                                &y2,
+                                &z2,
+                                10,
+                                false,
+                                false)) {
 #ifndef PSX
-                                extern std::int32_t playing_level(const char *name); // eway.cpp
-                                if (playing_level("botanicc.ucm") &&
+                            extern std::int32_t playing_level(const char *name); // eway.cpp
+                            if (playing_level("botanicc.ucm") &&
 #else
-                                if ((wad_level == 19) &&
+                            if ((wad_level == 19) &&
 #endif
-                                    (p_person->SubState == SUB_STATE_STANDING_JUMP_FORWARDS ||
-                                     p_person->SubState == SUB_STATE_STANDING_JUMP_BACKWARDS ||
-                                     p_person->SubState == SUB_STATE_STANDING_JUMP ||
-                                     p_person->SubState == SUB_STATE_RUNNING_JUMP)) {
-                                    if (WITHIN(p_person->WorldPos.Y >> 8, y_bot, y_top)) {
-                                        p_person->WorldPos.Y = p_thing->WorldPos.Y + (pi->maxy << 8);
-                                    }
-                                } else {
-                                    //
-                                    // If this person is underneath the prim.
-                                    //
+                                (p_person->SubState == SUB_STATE_STANDING_JUMP_FORWARDS ||
+                                 p_person->SubState == SUB_STATE_STANDING_JUMP_BACKWARDS ||
+                                 p_person->SubState == SUB_STATE_STANDING_JUMP ||
+                                 p_person->SubState == SUB_STATE_RUNNING_JUMP)) {
+                                if (WITHIN(p_person->WorldPos.Y >> 8, y_bot, y_top)) {
+                                    p_person->WorldPos.Y = p_thing->WorldPos.Y + (pi->maxy << 8);
+                                }
+                            } else {
+                                //
+                                // If this person is underneath the prim.
+                                //
 
-                                    y_top = y_bot - 0x40;
-                                    y_bot = y_bot - 0x80;
+                                y_top = y_bot - 0x40;
+                                y_bot = y_bot - 0x80;
 
-                                    if (WITHIN(p_person->WorldPos.Y >> 8, y_bot, y_top)) {
-                                        // PANEL_new_text(NULL, 1000, "Die Die Die!");
+                                if (WITHIN(p_person->WorldPos.Y >> 8, y_bot, y_top)) {
+                                    // PANEL_new_text(NULL, 1000, "Die Die Die!");
 
-                                        set_face_thing(p_person, p_thing);
+                                    set_face_thing(p_person, p_thing);
 
-                                        p_person->Genus.Person->Health = 0;
+                                    p_person->Genus.Person->Health = 0;
 
-                                        set_person_dead(
-                                            p_person,
-                                            NULL,
-                                            PERSON_DEATH_TYPE_OTHER,
-                                            false,
-                                            0);
-                                    }
+                                    set_person_dead(
+                                        p_person,
+                                        NULL,
+                                        PERSON_DEATH_TYPE_OTHER,
+                                        false,
+                                        0);
                                 }
                             }
                         }
                     }
                 }
             }
+        }
 
-            break;
+        break;
 
-        case PLAT_STATE_PAUSE:
+    case PLAT_STATE_PAUSE:
 
-            if (plat->counter <= millisecs) {
+        if (plat->counter <= millisecs) {
+            //
+            // Finished pausing...
+            //
+
+            plat->counter = 0;
+
+            //
+            // What now?
+            //
+
+            switch (plat->state) {
+            case PLAT_MOVE_STILL:
+
                 //
-                // Finished pausing...
+                // We are doing nothing- but that is what we are meant to be doing.
                 //
 
-                plat->counter = 0;
+                break;
 
-                //
-                // What now?
-                //
+            case PLAT_MOVE_PATROL:
+            case PLAT_MOVE_PATROL_RAND:
 
-                switch (plat->state) {
-                    case PLAT_MOVE_STILL:
+                if (plat->waypoint == NULL) {
+                    //
+                    // Look for the nearest waypoint of our colour and group.
+                    //
 
-                        //
-                        // We are doing nothing- but that is what we are meant to be doing.
-                        //
-
-                        break;
-
-                    case PLAT_MOVE_PATROL:
-                    case PLAT_MOVE_PATROL_RAND:
-
-                        if (plat->waypoint == NULL) {
-                            //
-                            // Look for the nearest waypoint of our colour and group.
-                            //
-
-                            plat->waypoint = EWAY_find_nearest_waypoint(
-                                p_thing->WorldPos.X >> 8,
-                                p_thing->WorldPos.Y >> 8,
-                                p_thing->WorldPos.Z >> 8,
-                                plat->colour,
-                                plat->group);
-                        }
-
-                        waypoint = EWAY_find_waypoint(
-                            plat->waypoint + 1,
-                            EWAY_DONT_CARE,
-                            plat->colour,
-                            plat->group,
-                            true);
-
-                        if (waypoint == EWAY_NO_MATCH) {
-                            //
-                            // Couldn't find a waypoint! Wait a while before trying again.
-                            //
-
-                            plat->waypoint = NULL;
-                            plat->state = PLAT_STATE_PAUSE;
-                            plat->counter = 2 * 1000;
-                        } else {
-                            //
-                            // Start going to this waypoint.
-                            //
-
-                            plat->waypoint = waypoint;
-                            plat->state = PLAT_STATE_GOTO;
-                            plat->speed = 0;
-
-                            EWAY_get_position(
-                                waypoint,
-                                &way_x,
-                                &way_y,
-                                &way_z);
-
-                            plat->flag &= ~(PLAT_FLAG_LOCK_X | PLAT_FLAG_LOCK_Y | PLAT_FLAG_LOCK_Z);
-
-                            if (plat->flag & PLAT_FLAG_LOCK_MOVE) {
-                                //
-                                // Which direction shall we lock?
-                                //
-
-                                dx = abs((p_thing->WorldPos.X >> 8) - way_x);
-                                dy = abs((p_thing->WorldPos.Y >> 8) - way_y);
-                                dz = abs((p_thing->WorldPos.Z >> 8) - way_z);
-
-                                if (dx > dy && dx > dz) {
-                                    plat->flag |= PLAT_FLAG_LOCK_X;
-                                } else if (dy > dz && dy > dx) {
-                                    plat->flag |= PLAT_FLAG_LOCK_Y;
-                                } else {
-                                    plat->flag |= PLAT_FLAG_LOCK_Z;
-                                }
-                            }
-                        }
-
-                        break;
-
-                    default:
-                        ASSERT(0);
-                        break;
+                    plat->waypoint = EWAY_find_nearest_waypoint(
+                        p_thing->WorldPos.X >> 8,
+                        p_thing->WorldPos.Y >> 8,
+                        p_thing->WorldPos.Z >> 8,
+                        plat->colour,
+                        plat->group);
                 }
-            } else {
-                plat->counter -= millisecs;
+
+                waypoint = EWAY_find_waypoint(
+                    plat->waypoint + 1,
+                    EWAY_DONT_CARE,
+                    plat->colour,
+                    plat->group,
+                    true);
+
+                if (waypoint == EWAY_NO_MATCH) {
+                    //
+                    // Couldn't find a waypoint! Wait a while before trying again.
+                    //
+
+                    plat->waypoint = NULL;
+                    plat->state = PLAT_STATE_PAUSE;
+                    plat->counter = 2 * 1000;
+                } else {
+                    //
+                    // Start going to this waypoint.
+                    //
+
+                    plat->waypoint = waypoint;
+                    plat->state = PLAT_STATE_GOTO;
+                    plat->speed = 0;
+
+                    EWAY_get_position(
+                        waypoint,
+                        &way_x,
+                        &way_y,
+                        &way_z);
+
+                    plat->flag &= ~(PLAT_FLAG_LOCK_X | PLAT_FLAG_LOCK_Y | PLAT_FLAG_LOCK_Z);
+
+                    if (plat->flag & PLAT_FLAG_LOCK_MOVE) {
+                        //
+                        // Which direction shall we lock?
+                        //
+
+                        dx = abs((p_thing->WorldPos.X >> 8) - way_x);
+                        dy = abs((p_thing->WorldPos.Y >> 8) - way_y);
+                        dz = abs((p_thing->WorldPos.Z >> 8) - way_z);
+
+                        if (dx > dy && dx > dz) {
+                            plat->flag |= PLAT_FLAG_LOCK_X;
+                        } else if (dy > dz && dy > dx) {
+                            plat->flag |= PLAT_FLAG_LOCK_Y;
+                        } else {
+                            plat->flag |= PLAT_FLAG_LOCK_Z;
+                        }
+                    }
+                }
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
             }
+        } else {
+            plat->counter -= millisecs;
+        }
 
-            break;
+        break;
 
-        case PLAT_STATE_STOP:
-            break;
+    case PLAT_STATE_STOP:
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 

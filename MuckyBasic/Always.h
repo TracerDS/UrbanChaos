@@ -7,16 +7,6 @@
 
 #pragma warning( disable : 4200 )
 
-
-typedef signed		long			std::int32_t;
-typedef unsigned	long			std::uint32_t;
-typedef signed		short	int		std::int16_t;
-typedef unsigned	short	int		std::uint16_t;
-typedef signed		char   			std::int8_t;
-typedef unsigned 	char			std::uint8_t;
-typedef char			char;
-
-
 //
 // Standard libraries most often used.
 //
@@ -42,12 +32,12 @@ typedef char			char;
 // Useful defines.
 //
 
-#define MIN(mnx,mny)  		(((mnx) < (mny)) ? (mnx) : (mny))
-#define MAX(mnx,mny)  		(((mnx) > (mny)) ? (mnx) : (mny))
-#define MAX3(mnx,mny,mnz)	(((mnx) > (mny)) ? MAX(mnx,mnz) : MAX(mny,mnz))
-#define MIN3(mnx,mny,mnz)	(((mnx) < (mny)) ? MIN(mnx,mnz) : MIN(mny,mnz))
-#define MIN4(a,b,c,d)		(MIN(MIN(a,b), MIN(c,d)))
-#define MAX4(a,b,c,d)		(MAX(MAX(a,b), MAX(c,d)))
+#define std::min(mnx,mny)  		(((mnx) < (mny)) ? (mnx) : (mny))
+#define std::max(mnx,mny)  		(((mnx) > (mny)) ? (mnx) : (mny))
+#define MAX3(mnx,mny,mnz)	(((mnx) > (mny)) ? std::max(mnx,mnz) : std::max(mny,mnz))
+#define MIN3(mnx,mny,mnz)	(((mnx) < (mny)) ? std::min(mnx,mnz) : std::min(mny,mnz))
+#define MIN4(a,b,c,d)		(std::min(std::min(a,b), std::min(c,d)))
+#define MAX4(a,b,c,d)		(std::max(std::max(a,b), std::max(c,d)))
 #define SWAP(x,y)	   		{std::int32_t   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_UB(x,y)   		{std::uint8_t   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}
 #define SWAP_UW(x,y)   		{std::uint16_t   SWAP_spare; SWAP_spare = x; x = y; y = SWAP_spare;}

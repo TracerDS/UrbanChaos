@@ -21,11 +21,12 @@ std::int32_t person_normal_animate(Thing *p_person);
 
 StateFunction thug_states[] =
     {
-        {STATE_INIT, fn_thug_init},
-        {STATE_NORMAL, fn_thug_normal},
-        {STATE_HIT, NULL},
-        {STATE_ABOUT_TO_REMOVE, NULL},
-        {STATE_REMOVE_ME, NULL}};
+        {STATE_INIT,            fn_thug_init  },
+        {STATE_NORMAL,          fn_thug_normal},
+        {STATE_HIT,             NULL          },
+        {STATE_ABOUT_TO_REMOVE, NULL          },
+        {STATE_REMOVE_ME,       NULL          }
+};
 
 //---------------------------------------------------------------
 

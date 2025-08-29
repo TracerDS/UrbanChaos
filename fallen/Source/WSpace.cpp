@@ -173,55 +173,55 @@ bool handle_ws_dblclk(POINT *click_point) {
     if (ws_tree && click_point) {
         if (get_element_at_point(click_point, &the_element)) {
             switch (the_element->ElementType) {
-                case ET_NONE:
-                    break;
-                case ET_ROOT:
-                    break;
-                case ET_MAP:
+            case ET_NONE:
+                break;
+            case ET_ROOT:
+                break;
+            case ET_MAP:
 
-                    // Expand the workspace
-                    TreeView_Expand(ws_tree, last_clicked, TVE_EXPAND);
+                // Expand the workspace
+                TreeView_Expand(ws_tree, last_clicked, TVE_EXPAND);
 
-                    //	Set the 'busy' cursor.
-                    SetCursor(GEDIT_busy);
+                //	Set the 'busy' cursor.
+                SetCursor(GEDIT_busy);
 
-                    //	Try to open the map.
-                    SetCurrentDirectory("c:\\Fallen");
-                    // GI_init();
-                    map_valid = GI_load_map(current_map->MapName);
-                    if (map_valid) {
-                        //	Default setup for map view.
-                        cam_focus_x = 64 << 8;
-                        cam_focus_z = 64 << 8;
-                        cam_focus_dist = 14 << 8;
-                        cam_pitch = 1600;
-                        cam_yaw = 0;
-                        calc_camera_pos();
-                        GI_render_view_into_backbuffer(
-                            cam_x,
-                            cam_y,
-                            cam_z,
-                            cam_yaw,
-                            cam_pitch,
-                            0);
-                    }
-                    //	Set the 'arrow' cursor.
-                    SetCursor(GEDIT_arrow);
+                //	Try to open the map.
+                SetCurrentDirectory("c:\\Fallen");
+                // GI_init();
+                map_valid = GI_load_map(current_map->MapName);
+                if (map_valid) {
+                    //	Default setup for map view.
+                    cam_focus_x = 64 << 8;
+                    cam_focus_z = 64 << 8;
+                    cam_focus_dist = 14 << 8;
+                    cam_pitch = 1600;
+                    cam_yaw = 0;
+                    calc_camera_pos();
+                    GI_render_view_into_backbuffer(
+                        cam_x,
+                        cam_y,
+                        cam_z,
+                        cam_yaw,
+                        cam_pitch,
+                        0);
+                }
+                //	Set the 'arrow' cursor.
+                SetCursor(GEDIT_arrow);
 
-                    //  Select the first mission (if present)
-                    next = TreeView_GetChild(ws_tree, last_clicked);
-                    if (next) TreeView_SelectItem(ws_tree, next);
+                //  Select the first mission (if present)
+                next = TreeView_GetChild(ws_tree, last_clicked);
+                if (next) TreeView_SelectItem(ws_tree, next);
 
-                    return true;
+                return true;
 
-                case ET_MISSION:
-                    break;
-                case ET_LMAP:
-                    break;
-                case ET_WAYPOINT:
-                    break;
-                case ET_BRIEF:
-                    break;
+            case ET_MISSION:
+                break;
+            case ET_LMAP:
+                break;
+            case ET_WAYPOINT:
+                break;
+            case ET_BRIEF:
+                break;
             }
         }
     }
@@ -232,52 +232,52 @@ bool handle_ws_dblclk(POINT *click_point) {
 
 void handle_ws_select(WSElement *the_element) {
     switch (the_element->ElementType) {
-        case ET_NONE:
-            break;
+    case ET_NONE:
+        break;
 
-        case ET_ROOT:
-            break;
+    case ET_ROOT:
+        break;
 
-        case ET_MAP:
-            current_map = &game_maps[the_element->MapRef];
-            break;
+    case ET_MAP:
+        current_map = &game_maps[the_element->MapRef];
+        break;
 
-        case ET_MISSION:
-            if (
-                current_map &&
-                MAP_NUMBER(current_map) == TO_MISSION(the_element->MissionRef)->MapIndex) {
-                TVITEM item;
-                // clear old bold
-                item.mask = TVIF_STATE | TVIF_HANDLE;
-                item.stateMask = TVIS_BOLD;
-                if (selected_mission_doohickey) {
-                    item.hItem = selected_mission_doohickey;
-                    item.state = 0;
-                    TreeView_SetItem(ws_tree, &item);
-                }
-                // set new bold
-                item.hItem = the_element->TreeItem;
-                item.state = TVIS_BOLD;
+    case ET_MISSION:
+        if (
+            current_map &&
+            MAP_NUMBER(current_map) == TO_MISSION(the_element->MissionRef)->MapIndex) {
+            TVITEM item;
+            // clear old bold
+            item.mask = TVIF_STATE | TVIF_HANDLE;
+            item.stateMask = TVIS_BOLD;
+            if (selected_mission_doohickey) {
+                item.hItem = selected_mission_doohickey;
+                item.state = 0;
                 TreeView_SetItem(ws_tree, &item);
-                current_mission = &mission_pool[the_element->MissionRef];
-                selected_mission_doohickey = the_element->TreeItem;
-                reset_wptlist();
-                fill_wptlist(current_mission);
-            } else {
-                //	We probably need to prompt here, to open the missions associated map.
-                //				current_mission	=	NULL;
-                current_mission = &mission_pool[the_element->MissionRef];
             }
-            break;
+            // set new bold
+            item.hItem = the_element->TreeItem;
+            item.state = TVIS_BOLD;
+            TreeView_SetItem(ws_tree, &item);
+            current_mission = &mission_pool[the_element->MissionRef];
+            selected_mission_doohickey = the_element->TreeItem;
+            reset_wptlist();
+            fill_wptlist(current_mission);
+        } else {
+            //	We probably need to prompt here, to open the missions associated map.
+            //				current_mission	=	NULL;
+            current_mission = &mission_pool[the_element->MissionRef];
+        }
+        break;
 
-        case ET_LMAP:
-            break;
+    case ET_LMAP:
+        break;
 
-        case ET_WAYPOINT:
-            break;
+    case ET_WAYPOINT:
+        break;
 
-        case ET_BRIEF:
-            break;
+    case ET_BRIEF:
+        break;
     }
 }
 
@@ -382,35 +382,35 @@ bool CALLBACK new_mish_proc(
     WPARAM wParam,
     LPARAM lParam) {
     switch (message) {
-        case WM_INITDIALOG:
-            //	Make sure the edit control has the focus.
-            SetFocus(GetDlgItem(hWnd, IDC_EDIT_MNAME));
-            return false;
+    case WM_INITDIALOG:
+        //	Make sure the edit control has the focus.
+        SetFocus(GetDlgItem(hWnd, IDC_EDIT_MNAME));
+        return false;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    EndDialog(hWnd, true);
-                    return true;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            EndDialog(hWnd, true);
+            return true;
 
-                case IDCANCEL:
-                    EndDialog(hWnd, false);
-                    return true;
+        case IDCANCEL:
+            EndDialog(hWnd, false);
+            return true;
 
-                case IDC_EDIT_MNAME:
-                    if (HIWORD(wParam) == EN_CHANGE) {
-                        //	The user has changed the text, if there's any
-                        //	text in the control enable the 'Ok' button else
-                        //	disable it.
-                        if (GetWindowText((HWND) lParam, mission_name, _MAX_PATH))
-                            EnableWindow(GetDlgItem(hWnd, IDOK), true);
-                        else
-                            EnableWindow(GetDlgItem(hWnd, IDOK), false);
-                        return true;
-                    }
-                    break;
+        case IDC_EDIT_MNAME:
+            if (HIWORD(wParam) == EN_CHANGE) {
+                //	The user has changed the text, if there's any
+                //	text in the control enable the 'Ok' button else
+                //	disable it.
+                if (GetWindowText((HWND) lParam, mission_name, _MAX_PATH))
+                    EnableWindow(GetDlgItem(hWnd, IDOK), true);
+                else
+                    EnableWindow(GetDlgItem(hWnd, IDOK), false);
+                return true;
             }
             break;
+        }
+        break;
     }
     return false;
 }
@@ -1112,38 +1112,38 @@ HTREEITEM ws_root_waypoint(char *msg, std::int32_t type, LPARAM param) {
 
     if (msg[0] == 0) {
         switch (param) {
-            case 0:
-                strcpy(msg, "Create Player");
-                type = IM_PLAYER;
-                break;
-            case 1:
-                strcpy(msg, "Enemies");
-                type = IM_COP;
-                break;
-            case 2:
-                strcpy(msg, "Items");
-                type = IM_ITEM;
-                break;
-            case 3:
-                strcpy(msg, "Traps");
-                type = IM_TRAP;
-                break;
-            case 4:
-                strcpy(msg, "Cameras");
-                type = IM_CAMERA;
-                break;
-            case 5:
-                strcpy(msg, "Misc");
-                type = IM_WAYPOINT;
-                break;
-            case 6:
-                strcpy(msg, "Map exits");
-                type = IM_MAPEXIT;
-                break;
-            case 7:
-                strcpy(msg, "Text messages");
-                type = IM_MESSAGE;
-                break;
+        case 0:
+            strcpy(msg, "Create Player");
+            type = IM_PLAYER;
+            break;
+        case 1:
+            strcpy(msg, "Enemies");
+            type = IM_COP;
+            break;
+        case 2:
+            strcpy(msg, "Items");
+            type = IM_ITEM;
+            break;
+        case 3:
+            strcpy(msg, "Traps");
+            type = IM_TRAP;
+            break;
+        case 4:
+            strcpy(msg, "Cameras");
+            type = IM_CAMERA;
+            break;
+        case 5:
+            strcpy(msg, "Misc");
+            type = IM_WAYPOINT;
+            break;
+        case 6:
+            strcpy(msg, "Map exits");
+            type = IM_MAPEXIT;
+            break;
+        case 7:
+            strcpy(msg, "Text messages");
+            type = IM_MESSAGE;
+            break;
         }
     }
     tv_is.hParent = TVI_ROOT;
@@ -1178,149 +1178,149 @@ HTREEITEM ws_find_child(HTREEITEM parent, LPARAM param) {
 
 std::int32_t ws_image_from_type(EventPoint *ep) {
     switch (ep->WaypointType) {
-        case WPT_NONE:
-        case WPT_SIMPLE:
-        case WPT_CREATE_VEHICLE:
-        case WPT_VISUAL_EFFECT:
-        case WPT_END_GAME_LOSE:
-        case WPT_END_GAME_WIN:
-        case WPT_SHOUT:
-        case WPT_NAV_BEACON:
-        case WPT_CUT_SCENE:
-        case WPT_TELEPORT:
-        case WPT_TELEPORT_TARGET:
-        case WPT_ACTIVATE_PRIM:
-        case WPT_LINK_PLATFORM:
-        case WPT_BURN_PRIM:
-        case WPT_SPOT_EFFECT:
-        case WPT_INTERESTING:
-        case WPT_MAKE_SEARCHABLE:
-        case WPT_LOCK_VEHICLE:
-        case WPT_STALL_CAR:
-        case WPT_EXTEND:
-        case WPT_MOVE_THING:
-        case WPT_CONE_PENALTIES:
-        case WPT_SIGN:
-        case WPT_NO_FLOOR:
-        case WPT_SHAKE_CAMERA:
-            return IM_WAYPOINT;
+    case WPT_NONE:
+    case WPT_SIMPLE:
+    case WPT_CREATE_VEHICLE:
+    case WPT_VISUAL_EFFECT:
+    case WPT_END_GAME_LOSE:
+    case WPT_END_GAME_WIN:
+    case WPT_SHOUT:
+    case WPT_NAV_BEACON:
+    case WPT_CUT_SCENE:
+    case WPT_TELEPORT:
+    case WPT_TELEPORT_TARGET:
+    case WPT_ACTIVATE_PRIM:
+    case WPT_LINK_PLATFORM:
+    case WPT_BURN_PRIM:
+    case WPT_SPOT_EFFECT:
+    case WPT_INTERESTING:
+    case WPT_MAKE_SEARCHABLE:
+    case WPT_LOCK_VEHICLE:
+    case WPT_STALL_CAR:
+    case WPT_EXTEND:
+    case WPT_MOVE_THING:
+    case WPT_CONE_PENALTIES:
+    case WPT_SIGN:
+    case WPT_NO_FLOOR:
+    case WPT_SHAKE_CAMERA:
+        return IM_WAYPOINT;
 
-        case WPT_CREATE_PLAYER:
-            return IM_PLAYER;
+    case WPT_CREATE_PLAYER:
+        return IM_PLAYER;
 
-        case WPT_CREATE_ENEMIES:
-        case WPT_ADJUST_ENEMY:
-        case WPT_CREATE_CREATURE:
-            return IM_COP;
+    case WPT_CREATE_ENEMIES:
+    case WPT_ADJUST_ENEMY:
+    case WPT_CREATE_CREATURE:
+        return IM_COP;
 
-        case WPT_MESSAGE:
-        case WPT_CONVERSATION:
-            return IM_MESSAGE;
+    case WPT_MESSAGE:
+    case WPT_CONVERSATION:
+        return IM_MESSAGE;
 
-        case WPT_CREATE_ITEM:
-        case WPT_CREATE_BARREL:
-            return IM_ITEM;
+    case WPT_CREATE_ITEM:
+    case WPT_CREATE_BARREL:
+        return IM_ITEM;
 
-        case WPT_CREATE_CAMERA:
-        case WPT_CREATE_TARGET:
-        case WPT_CAMERA_WAYPOINT:
-        case WPT_TARGET_WAYPOINT:
-            return IM_CAMERA;
+    case WPT_CREATE_CAMERA:
+    case WPT_CREATE_TARGET:
+    case WPT_CAMERA_WAYPOINT:
+    case WPT_TARGET_WAYPOINT:
+        return IM_CAMERA;
 
-        case WPT_CREATE_MAP_EXIT:
-            return IM_MAPEXIT;
+    case WPT_CREATE_MAP_EXIT:
+        return IM_MAPEXIT;
 
-        case WPT_SOUND_EFFECT:
-        case WPT_WAREFX:
-            return IM_SOUND;
+    case WPT_SOUND_EFFECT:
+    case WPT_WAREFX:
+        return IM_SOUND;
 
-        case WPT_CREATE_TRAP:
-        case WPT_KILL_WAYPOINT:
-            return IM_TRAP;
+    case WPT_CREATE_TRAP:
+    case WPT_KILL_WAYPOINT:
+        return IM_TRAP;
 
-        case WPT_CREATE_BOMB:
-            return IM_BOMB;
+    case WPT_CREATE_BOMB:
+        return IM_BOMB;
 
-        default:
-            return IM_WAYPOINT;
+    default:
+        return IM_WAYPOINT;
     }
     return -1;
 }
 
 std::int32_t ws_category_from_type(EventPoint *ep) {
     switch (ep->WaypointType) {
-            // misc
-        case WPT_NONE:
-        case WPT_SIMPLE:
-        case WPT_CREATE_VEHICLE:
-        case WPT_VISUAL_EFFECT:
-        case WPT_END_GAME_WIN:
-        case WPT_END_GAME_LOSE:
-        case WPT_SHOUT:
-        case WPT_CUT_SCENE:
-        case WPT_TELEPORT:
-        case WPT_TELEPORT_TARGET:
-        case WPT_ACTIVATE_PRIM:
-        case WPT_SOUND_EFFECT:
-        case WPT_SPOT_EFFECT:
-        case WPT_DYNAMIC_LIGHT:
-        case WPT_LINK_PLATFORM:
-        case WPT_NAV_BEACON:
-        case WPT_BURN_PRIM:
-        case WPT_KILL_WAYPOINT:
-        case WPT_GROUP_LIFE:
-        case WPT_GROUP_DEATH:
-        case WPT_INTERESTING:
-        case WPT_GOTHERE_DOTHIS:
-        case WPT_MAKE_SEARCHABLE:
-        case WPT_LOCK_VEHICLE:
-        case WPT_GROUP_RESET:
-        case WPT_COUNT_UP_TIMER:
-        case WPT_CREATE_MIST:
-        case WPT_STALL_CAR:
-        case WPT_MOVE_THING:
-        case WPT_EXTEND:
-        case WPT_CONE_PENALTIES:
-        case WPT_SIGN:
-        case WPT_WAREFX:
-        case WPT_SHAKE_CAMERA:
-        case WPT_NO_FLOOR:
-            return 5;
-            // texty things
-        case WPT_MESSAGE:
-        case WPT_CONVERSATION:
-            return 7;
-            // player
-        case WPT_CREATE_PLAYER:
-        case WPT_AUTOSAVE:
-            return 0;
-            // enemies
-        case WPT_CREATE_ENEMIES:
-        case WPT_ADJUST_ENEMY:
-        case WPT_CREATE_CREATURE:
-        case WPT_ENEMY_FLAGS:
-            return 1;
-            // items
-        case WPT_CREATE_ITEM:
-        case WPT_CREATE_BARREL:
-        case WPT_CREATE_TREASURE:
-        case WPT_BONUS_POINTS:
-            return 2;
-            // cam stuff
-        case WPT_CREATE_CAMERA:
-        case WPT_CREATE_TARGET:
-        case WPT_CAMERA_WAYPOINT:
-        case WPT_TARGET_WAYPOINT:
-            return 4;
-            // exits
-        case WPT_CREATE_MAP_EXIT:
-            return 6;
-            // traps
-        case WPT_CREATE_TRAP:
-        case WPT_CREATE_BOMB:
-            return 3;
-        default:
-            return 5; // misc
+        // misc
+    case WPT_NONE:
+    case WPT_SIMPLE:
+    case WPT_CREATE_VEHICLE:
+    case WPT_VISUAL_EFFECT:
+    case WPT_END_GAME_WIN:
+    case WPT_END_GAME_LOSE:
+    case WPT_SHOUT:
+    case WPT_CUT_SCENE:
+    case WPT_TELEPORT:
+    case WPT_TELEPORT_TARGET:
+    case WPT_ACTIVATE_PRIM:
+    case WPT_SOUND_EFFECT:
+    case WPT_SPOT_EFFECT:
+    case WPT_DYNAMIC_LIGHT:
+    case WPT_LINK_PLATFORM:
+    case WPT_NAV_BEACON:
+    case WPT_BURN_PRIM:
+    case WPT_KILL_WAYPOINT:
+    case WPT_GROUP_LIFE:
+    case WPT_GROUP_DEATH:
+    case WPT_INTERESTING:
+    case WPT_GOTHERE_DOTHIS:
+    case WPT_MAKE_SEARCHABLE:
+    case WPT_LOCK_VEHICLE:
+    case WPT_GROUP_RESET:
+    case WPT_COUNT_UP_TIMER:
+    case WPT_CREATE_MIST:
+    case WPT_STALL_CAR:
+    case WPT_MOVE_THING:
+    case WPT_EXTEND:
+    case WPT_CONE_PENALTIES:
+    case WPT_SIGN:
+    case WPT_WAREFX:
+    case WPT_SHAKE_CAMERA:
+    case WPT_NO_FLOOR:
+        return 5;
+        // texty things
+    case WPT_MESSAGE:
+    case WPT_CONVERSATION:
+        return 7;
+        // player
+    case WPT_CREATE_PLAYER:
+    case WPT_AUTOSAVE:
+        return 0;
+        // enemies
+    case WPT_CREATE_ENEMIES:
+    case WPT_ADJUST_ENEMY:
+    case WPT_CREATE_CREATURE:
+    case WPT_ENEMY_FLAGS:
+        return 1;
+        // items
+    case WPT_CREATE_ITEM:
+    case WPT_CREATE_BARREL:
+    case WPT_CREATE_TREASURE:
+    case WPT_BONUS_POINTS:
+        return 2;
+        // cam stuff
+    case WPT_CREATE_CAMERA:
+    case WPT_CREATE_TARGET:
+    case WPT_CAMERA_WAYPOINT:
+    case WPT_TARGET_WAYPOINT:
+        return 4;
+        // exits
+    case WPT_CREATE_MAP_EXIT:
+        return 6;
+        // traps
+    case WPT_CREATE_TRAP:
+    case WPT_CREATE_BOMB:
+        return 3;
+    default:
+        return 5; // misc
     }
     return -1;
 }

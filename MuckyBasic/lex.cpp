@@ -104,225 +104,225 @@ void LEX_find_next_token() {
     //
 
     switch (*LEX_stream_upto) {
-        case '=':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_EQUALS;
-            return;
+    case '=':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_EQUALS;
+        return;
 
-        case '-':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_MINUS;
-            return;
+    case '-':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_MINUS;
+        return;
 
-        case '+':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_PLUS;
-            return;
+    case '+':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_PLUS;
+        return;
 
-        case '*':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_TIMES;
-            return;
+    case '*':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_TIMES;
+        return;
 
-        case '%':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_MOD;
-            return;
+    case '%':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_MOD;
+        return;
 
-        case '/':
+    case '/':
 
-            if (LEX_stream_upto[1] == '/') {
-                //
-                // This is the C++ comment system- bin the rest of the line.
-                //
-
-                while (1) {
-                    if (*LEX_stream_upto == '\n') {
-                        LEX_stream_upto++;
-                        LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
-
-                        LEX_last_token_newline = true;
-
-                        return;
-                    }
-
-                    if (*LEX_stream_upto == '\000') {
-                        LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
-
-                        LEX_last_token_newline = true;
-
-                        return;
-                    }
-
-                    LEX_stream_upto++;
-                }
-
-                //
-                // Never gets here
-                //
-
-                ASSERT(0);
-            }
-
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_DIVIDE;
-            return;
-
-        case ':':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_COLON;
-            return;
-
-        case '(':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_OPEN;
-            return;
-
-        case ')':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_CLOSE;
-            return;
-
-        case '[':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_OSQUARE;
-            return;
-
-        case ']':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_CSQUARE;
-            return;
-
-        case ',':
-            LEX_stream_upto++;
-            LEX_top.type = LEX_TOKEN_TYPE_COMMA;
-            return;
-
-        case '>':
-
-            if (LEX_stream_upto[1] == '=') {
-                LEX_stream_upto += 2;
-                LEX_top.type = LEX_TOKEN_TYPE_GTEQ;
-            } else {
-                LEX_stream_upto += 1;
-                LEX_top.type = LEX_TOKEN_TYPE_GT;
-            }
-
-            return;
-
-        case '<':
-
-            if (LEX_stream_upto[1] == '=') {
-                LEX_stream_upto += 2;
-                LEX_top.type = LEX_TOKEN_TYPE_LTEQ;
-            } else if (LEX_stream_upto[1] == '>') {
-                LEX_stream_upto += 2;
-                LEX_top.type = LEX_TOKEN_TYPE_NOTEQUAL;
-            } else {
-                LEX_stream_upto += 1;
-                LEX_top.type = LEX_TOKEN_TYPE_LT;
-            }
-
-            return;
-
-        case '!':
-
-            if (LEX_stream_upto[1] == '=') {
-                LEX_stream_upto += 2;
-                LEX_top.type = LEX_TOKEN_TYPE_NOTEQUAL;
-
-                return;
-            }
-
-            break;
-
-        case '.':
-
-            if (isdigit(LEX_stream_upto[1])) {
-                //
-                // This dot is part of a number.
-                //
-
-                break;
-            } else {
-                LEX_stream_upto += 1;
-                LEX_top.type = LEX_TOKEN_TYPE_DOT;
-
-                return;
-            }
-
-        case '"':
-
-            LEX_stream_upto += 1;
-            dest = LEX_string_buffer;
+        if (LEX_stream_upto[1] == '/') {
+            //
+            // This is the C++ comment system- bin the rest of the line.
+            //
 
             while (1) {
-                if (!WITHIN(dest, LEX_string_buffer, LEX_string_buffer + LEX_MAX_STRING_LENGTH - 1)) {
-                    LEX_top.type = LEX_TOKEN_TYPE_ERROR;
-                    LEX_top.error = "String constant is too long";
+                if (*LEX_stream_upto == '\n') {
+                    LEX_stream_upto++;
+                    LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
+
+                    LEX_last_token_newline = true;
 
                     return;
                 }
 
-                if (*LEX_stream_upto == '"') {
-                    *dest = '\000';
-                    LEX_stream_upto += 1;
-                    LEX_top.type = LEX_TOKEN_TYPE_STRING;
-                    LEX_top.string = LEX_string_buffer;
+                if (*LEX_stream_upto == '\000') {
+                    LEX_top.type = LEX_TOKEN_TYPE_NEWLINE;
+
+                    LEX_last_token_newline = true;
 
                     return;
-                } else if (*LEX_stream_upto == '\n') {
-                    LEX_top.type = LEX_TOKEN_TYPE_ERROR;
-                    LEX_top.error = "Newline in string constant (did you miss out a close quote on a string!)";
-
-                    return;
-                } else if (*LEX_stream_upto == '\000') {
-                    LEX_top.type = LEX_TOKEN_TYPE_ERROR;
-                    LEX_top.error = "End of file found during string constant (did you miss out a close quote on a string!)";
-
-                    return;
-                } else {
-                    *dest++ = *LEX_stream_upto++;
                 }
+
+                LEX_stream_upto++;
             }
 
             //
-            // Never gets here...
+            // Never gets here
             //
 
             ASSERT(0);
+        }
 
-        case '\'':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_DIVIDE;
+        return;
 
-            //
-            // Character constant?
-            //
+    case ':':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_COLON;
+        return;
 
+    case '(':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_OPEN;
+        return;
+
+    case ')':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_CLOSE;
+        return;
+
+    case '[':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_OSQUARE;
+        return;
+
+    case ']':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_CSQUARE;
+        return;
+
+    case ',':
+        LEX_stream_upto++;
+        LEX_top.type = LEX_TOKEN_TYPE_COMMA;
+        return;
+
+    case '>':
+
+        if (LEX_stream_upto[1] == '=') {
+            LEX_stream_upto += 2;
+            LEX_top.type = LEX_TOKEN_TYPE_GTEQ;
+        } else {
             LEX_stream_upto += 1;
+            LEX_top.type = LEX_TOKEN_TYPE_GT;
+        }
 
-            if (iscntrl(*LEX_stream_upto)) {
+        return;
+
+    case '<':
+
+        if (LEX_stream_upto[1] == '=') {
+            LEX_stream_upto += 2;
+            LEX_top.type = LEX_TOKEN_TYPE_LTEQ;
+        } else if (LEX_stream_upto[1] == '>') {
+            LEX_stream_upto += 2;
+            LEX_top.type = LEX_TOKEN_TYPE_NOTEQUAL;
+        } else {
+            LEX_stream_upto += 1;
+            LEX_top.type = LEX_TOKEN_TYPE_LT;
+        }
+
+        return;
+
+    case '!':
+
+        if (LEX_stream_upto[1] == '=') {
+            LEX_stream_upto += 2;
+            LEX_top.type = LEX_TOKEN_TYPE_NOTEQUAL;
+
+            return;
+        }
+
+        break;
+
+    case '.':
+
+        if (isdigit(LEX_stream_upto[1])) {
+            //
+            // This dot is part of a number.
+            //
+
+            break;
+        } else {
+            LEX_stream_upto += 1;
+            LEX_top.type = LEX_TOKEN_TYPE_DOT;
+
+            return;
+        }
+
+    case '"':
+
+        LEX_stream_upto += 1;
+        dest = LEX_string_buffer;
+
+        while (1) {
+            if (!WITHIN(dest, LEX_string_buffer, LEX_string_buffer + LEX_MAX_STRING_LENGTH - 1)) {
                 LEX_top.type = LEX_TOKEN_TYPE_ERROR;
-                LEX_top.error = "Bad character in character constant";
+                LEX_top.error = "String constant is too long";
 
                 return;
             }
 
-            LEX_top.type = LEX_TOKEN_TYPE_SLUMBER;
-            LEX_top.slumber = *LEX_stream_upto++;
-
-            if (*LEX_stream_upto != '\'') {
-                LEX_top.type = LEX_TOKEN_TYPE_ERROR;
-                LEX_top.error = "Character constant isn't terminated with an end quote";
+            if (*LEX_stream_upto == '"') {
+                *dest = '\000';
+                LEX_stream_upto += 1;
+                LEX_top.type = LEX_TOKEN_TYPE_STRING;
+                LEX_top.string = LEX_string_buffer;
 
                 return;
+            } else if (*LEX_stream_upto == '\n') {
+                LEX_top.type = LEX_TOKEN_TYPE_ERROR;
+                LEX_top.error = "Newline in string constant (did you miss out a close quote on a string!)";
+
+                return;
+            } else if (*LEX_stream_upto == '\000') {
+                LEX_top.type = LEX_TOKEN_TYPE_ERROR;
+                LEX_top.error = "End of file found during string constant (did you miss out a close quote on a string!)";
+
+                return;
+            } else {
+                *dest++ = *LEX_stream_upto++;
             }
+        }
 
-            LEX_stream_upto++;
+        //
+        // Never gets here...
+        //
 
-            break;
+        ASSERT(0);
 
-        default:
-            break;
+    case '\'':
+
+        //
+        // Character constant?
+        //
+
+        LEX_stream_upto += 1;
+
+        if (iscntrl(*LEX_stream_upto)) {
+            LEX_top.type = LEX_TOKEN_TYPE_ERROR;
+            LEX_top.error = "Bad character in character constant";
+
+            return;
+        }
+
+        LEX_top.type = LEX_TOKEN_TYPE_SLUMBER;
+        LEX_top.slumber = *LEX_stream_upto++;
+
+        if (*LEX_stream_upto != '\'') {
+            LEX_top.type = LEX_TOKEN_TYPE_ERROR;
+            LEX_top.error = "Character constant isn't terminated with an end quote";
+
+            return;
+        }
+
+        LEX_stream_upto++;
+
+        break;
+
+    default:
+        break;
     }
 
     //
@@ -527,7 +527,8 @@ void LEX_find_next_token() {
                 {"MID", LEX_TOKEN_TYPE_MID},
                 {"RIGHT", LEX_TOKEN_TYPE_RIGHT},
                 {"LEN", LEX_TOKEN_TYPE_LEN},
-                {"!"}};
+                {"!"}
+        };
 
         for (i = 0; keyword[i].keyword[0] != '!'; i++) {
             if (strcmp(keyword[i].keyword, LEX_string_buffer) == 0) {

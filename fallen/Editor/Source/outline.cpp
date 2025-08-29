@@ -4,6 +4,7 @@
 
 #include "../Headers/Editor.hpp"
 #include <MFStdLib.h>
+#include <algorithm>
 
 //
 // An outline.
@@ -249,7 +250,7 @@ std::int32_t OUTLINE_overlap(
     OUTLINE_Outline *oo1,
     OUTLINE_Outline *oo2) {
     std::int32_t z;
-    std::int32_t minz = MIN(oo1->max_z, oo2->max_z);
+    std::int32_t minz = std::min(oo1->max_z, oo2->max_z);
 
     for (z = 0; z < minz; z++) {
         if (OUTLINE_overlap(
@@ -318,7 +319,7 @@ std::int32_t OUTLINE_intersects(
     dx = x2 - x1;
     dz = z2 - z1;
 
-    len = MAX(abs(dx), abs(dz));
+    len = std::max(abs(dx), abs(dz));
 
     x = x1 << 8;
     z = z1 << 8;

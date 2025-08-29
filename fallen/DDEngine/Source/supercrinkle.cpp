@@ -495,10 +495,10 @@ void SUPERCRINKLE_load(std::int32_t crinkle, char *fname) {
 
         ASSERT(WITHIN(v[0] + v[1] + v[2] + v[3], 0.9F, 1.1F));
 
-        sp->i[0] = (std::uint8_t) (v[0] * 128.0F);
-        sp->i[1] = (std::uint8_t) (v[1] * 128.0F);
-        sp->i[2] = (std::uint8_t) (v[2] * 128.0F);
-        sp->i[3] = (std::uint8_t) (v[3] * 128.0F);
+        sp->i[0] = (std::uint8_t)(v[0] * 128.0F);
+        sp->i[1] = (std::uint8_t)(v[1] * 128.0F);
+        sp->i[2] = (std::uint8_t)(v[2] * 128.0F);
+        sp->i[3] = (std::uint8_t)(v[3] * 128.0F);
     }
 
     //

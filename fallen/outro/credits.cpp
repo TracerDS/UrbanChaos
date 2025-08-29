@@ -373,25 +373,26 @@ typedef struct
 CREDITS_Section CREDITS_section[CREDITS_NUM_SECTIONS] =
     {
         {"MUCKYFOOT",
-         CREDITS_muckyfoot},
+         CREDITS_muckyfoot       },
 
         {"EIDOS UK",
-         CREDITS_eidos_uk},
+         CREDITS_eidos_uk        },
 
         {"EIDOS USA",
-         CREDITS_eidos_usa},
+         CREDITS_eidos_usa       },
 
         {"EIDOS FRANCE",
-         CREDITS_eidos_france},
+         CREDITS_eidos_france    },
 
         {"EIDOS GERMANY",
-         CREDITS_eidos_germany},
+         CREDITS_eidos_germany   },
 
         {"VOICE PRODUCTION",
          CREDITS_voice_production},
 
         {"ORIGINAL CD MUSIC",
-         CREDITS_bands}};
+         CREDITS_bands           }
+};
 
 //
 // The current section and y-offset.
@@ -517,17 +518,17 @@ void CREDITS_draw() {
 
             if (text[0] == '~') {
                 switch (text[1]) {
-                    case 'B':
-                        scale = 1.0F;
-                        break;
+                case 'B':
+                    scale = 1.0F;
+                    break;
 
-                    case 'I':
-                        flag |= FONT_FLAG_ITALIC;
-                        break;
+                case 'I':
+                    flag |= FONT_FLAG_ITALIC;
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
 
                 text += 2;

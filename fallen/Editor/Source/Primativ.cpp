@@ -69,51 +69,51 @@ void EdRect::OutlineRect(std::uint32_t colour) {
 void draw_h_xord_line(std::int32_t x1, std::int32_t x2, std::int32_t y1) {
     std::uint32_t c0;
     switch (WorkScreenDepth) {
-        case 1: {
-            std::uint8_t *the_line;
-            if (y1 >= 0 && y1 < WorkWindowHeight) {
-                if (x1 < 0)
-                    x1 = 0;
-                if (x2 >= WorkWindowWidth)
-                    x2 = WorkWindowWidth - 1;
+    case 1: {
+        std::uint8_t *the_line;
+        if (y1 >= 0 && y1 < WorkWindowHeight) {
+            if (x1 < 0)
+                x1 = 0;
+            if (x2 >= WorkWindowWidth)
+                x2 = WorkWindowWidth - 1;
 
-                the_line = WorkWindow + x1 + (y1 * WorkScreenWidth);
-                for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
-                    *the_line = (std::uint8_t)(*(the_line) ^ 0xaa);
-            }
+            the_line = WorkWindow + x1 + (y1 * WorkScreenWidth);
+            for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
+                *the_line = (std::uint8_t)(*(the_line) ^ 0xaa);
         }
+    }
 
-        break;
-        case 2: {
-            std::uint16_t *the_line;
-            if (y1 >= 0 && y1 < WorkWindowHeight) {
-                if (x1 < 0)
-                    x1 = 0;
-                if (x2 >= WorkWindowWidth)
-                    x2 = WorkWindowWidth - 1;
+    break;
+    case 2: {
+        std::uint16_t *the_line;
+        if (y1 >= 0 && y1 < WorkWindowHeight) {
+            if (x1 < 0)
+                x1 = 0;
+            if (x2 >= WorkWindowWidth)
+                x2 = WorkWindowWidth - 1;
 
-                the_line = (std::uint16_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 1);
-                for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
-                    *the_line = (std::uint16_t)(*(the_line) ^ 0xaaaa);
-            }
+            the_line = (std::uint16_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 1);
+            for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
+                *the_line = (std::uint16_t)(*(the_line) ^ 0xaaaa);
         }
+    }
 
-        break;
-        case 4: {
-            std::uint32_t *the_line;
-            if (y1 >= 0 && y1 < WorkWindowHeight) {
-                if (x1 < 0)
-                    x1 = 0;
-                if (x2 >= WorkWindowWidth)
-                    x2 = WorkWindowWidth - 1;
+    break;
+    case 4: {
+        std::uint32_t *the_line;
+        if (y1 >= 0 && y1 < WorkWindowHeight) {
+            if (x1 < 0)
+                x1 = 0;
+            if (x2 >= WorkWindowWidth)
+                x2 = WorkWindowWidth - 1;
 
-                the_line = (std::uint32_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 2);
-                for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
-                    *the_line = (std::uint32_t)(*(the_line) ^ 0xaaaaaa);
-            }
+            the_line = (std::uint32_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 2);
+            for (c0 = x1; c0 < x2; c0 += 2, the_line += 2)
+                *the_line = (std::uint32_t)(*(the_line) ^ 0xaaaaaa);
         }
+    }
 
-        break;
+    break;
     }
 }
 
@@ -121,51 +121,51 @@ void draw_v_xord_line(std::int32_t x1, std::int32_t y1, std::int32_t y2) {
     std::uint32_t c0;
 
     switch (WorkScreenDepth) {
-        case 1: {
-            std::uint8_t *the_line;
+    case 1: {
+        std::uint8_t *the_line;
 
-            if (x1 >= 0 && x1 < WorkWindowWidth) {
-                if (y1 < 0)
-                    y1 = 0;
-                if (y2 >= WorkWindowHeight)
-                    y2 = WorkWindowHeight - 1;
+        if (x1 >= 0 && x1 < WorkWindowWidth) {
+            if (y1 < 0)
+                y1 = 0;
+            if (y2 >= WorkWindowHeight)
+                y2 = WorkWindowHeight - 1;
 
-                the_line = WorkWindow + x1 + (y1 * WorkScreenWidth);
-                for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth << 1))
-                    *the_line = (std::uint8_t)(*(the_line) ^ 0xaa);
-            }
-            break;
+            the_line = WorkWindow + x1 + (y1 * WorkScreenWidth);
+            for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth << 1))
+                *the_line = (std::uint8_t)(*(the_line) ^ 0xaa);
         }
-        case 2: {
-            std::uint16_t *the_line;
+        break;
+    }
+    case 2: {
+        std::uint16_t *the_line;
 
-            if (x1 >= 0 && x1 < WorkWindowWidth) {
-                if (y1 < 0)
-                    y1 = 0;
-                if (y2 >= WorkWindowHeight)
-                    y2 = WorkWindowHeight - 1;
+        if (x1 >= 0 && x1 < WorkWindowWidth) {
+            if (y1 < 0)
+                y1 = 0;
+            if (y2 >= WorkWindowHeight)
+                y2 = WorkWindowHeight - 1;
 
-                the_line = (std::uint16_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 1);
-                for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth))
-                    *the_line = (std::uint16_t)(*(the_line) ^ 0xaaaa);
-            }
-            break;
+            the_line = (std::uint16_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 1);
+            for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth))
+                *the_line = (std::uint16_t)(*(the_line) ^ 0xaaaa);
         }
-        case 4: {
-            std::uint32_t *the_line;
+        break;
+    }
+    case 4: {
+        std::uint32_t *the_line;
 
-            if (x1 >= 0 && x1 < WorkWindowWidth) {
-                if (y1 < 0)
-                    y1 = 0;
-                if (y2 >= WorkWindowHeight)
-                    y2 = WorkWindowHeight - 1;
+        if (x1 >= 0 && x1 < WorkWindowWidth) {
+            if (y1 < 0)
+                y1 = 0;
+            if (y2 >= WorkWindowHeight)
+                y2 = WorkWindowHeight - 1;
 
-                the_line = (std::uint32_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 2);
-                for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth >> 1))
-                    *the_line = (std::uint32_t)(*(the_line) ^ 0xaaaaaa);
-            }
-            break;
+            the_line = (std::uint32_t *) WorkWindow + x1 + (y1 * WorkScreenWidth >> 2);
+            for (c0 = y1; c0 < y2; c0 += 2, the_line += (WorkScreenWidth >> 1))
+                *the_line = (std::uint32_t)(*(the_line) ^ 0xaaaaaa);
         }
+        break;
+    }
     }
 }
 

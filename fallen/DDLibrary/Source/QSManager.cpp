@@ -366,39 +366,39 @@ HRESULT QSManager::PlayWave(std::int32_t wave_ref, std::int32_t wave_id, std::in
         if (the_params) {
             //	Set the channel parameters according to the user params.
             switch (the_params->Flags & WAVE_TYPE_MASK) {
-                case WAVE_STEREO:
-                    QS(SetVolume(HQMixer, channel, QMIX_USEONCE, 32767));
-                    break;
-                case WAVE_POLAR:
+            case WAVE_STEREO:
+                QS(SetVolume(HQMixer, channel, QMIX_USEONCE, 32767));
+                break;
+            case WAVE_POLAR:
 
-                    break;
-                case WAVE_CARTESIAN:
-                    f_scale = 1.0f / (float) the_params->Mode.Cartesian.Scale;
-                    wave_position.x = (float) the_params->Mode.Cartesian.X * f_scale;
-                    wave_position.y = (float) the_params->Mode.Cartesian.Y * f_scale;
-                    wave_position.z = (float) the_params->Mode.Cartesian.Z * f_scale;
-                    r = QS(SetSourcePosition(HQMixer, channel, 0, &wave_position));
+                break;
+            case WAVE_CARTESIAN:
+                f_scale = 1.0f / (float) the_params->Mode.Cartesian.Scale;
+                wave_position.x = (float) the_params->Mode.Cartesian.X * f_scale;
+                wave_position.y = (float) the_params->Mode.Cartesian.Y * f_scale;
+                wave_position.z = (float) the_params->Mode.Cartesian.Z * f_scale;
+                r = QS(SetSourcePosition(HQMixer, channel, 0, &wave_position));
 
-                    //	Report any errors.
-                    if (r) {
-                        QS(GetErrorText(r, error_text, 256));
-                        //						DebugText("PlayWave: %s\n",error_text);
-                    }
+                //	Report any errors.
+                if (r) {
+                    QS(GetErrorText(r, error_text, 256));
+                    //						DebugText("PlayWave: %s\n",error_text);
+                }
 
-                    if (the_params->Flags & WAVE_DISTANCE_MAPPING) {
-                        distances.cbSize = sizeof(QMIX_DISTANCES);
-                        distances.minDistance = 40.0f;
-                        distances.maxDistance = 56.0f;
-                        distances.scale = 8.0f;
-                        QS(SetDistanceMapping(HQMixer, channel, QMIX_USEONCE, &distances));
-                    } else {
-                        distances.cbSize = sizeof(QMIX_DISTANCES);
-                        distances.minDistance = 20.0f;
-                        distances.maxDistance = 100.0;
-                        distances.scale = 1.0f;
-                        QS(SetDistanceMapping(HQMixer, channel, QMIX_USEONCE, &distances));
-                    }
-                    break;
+                if (the_params->Flags & WAVE_DISTANCE_MAPPING) {
+                    distances.cbSize = sizeof(QMIX_DISTANCES);
+                    distances.minDistance = 40.0f;
+                    distances.maxDistance = 56.0f;
+                    distances.scale = 8.0f;
+                    QS(SetDistanceMapping(HQMixer, channel, QMIX_USEONCE, &distances));
+                } else {
+                    distances.cbSize = sizeof(QMIX_DISTANCES);
+                    distances.minDistance = 20.0f;
+                    distances.maxDistance = 100.0;
+                    distances.scale = 1.0f;
+                    QS(SetDistanceMapping(HQMixer, channel, QMIX_USEONCE, &distances));
+                }
+                break;
             }
         }
 

@@ -14,7 +14,12 @@
         ASSERT(0);                   \
     }
 
-wallhug_waypoint wallhug_dirn_steps[4] = {{0, -1}, {1, 0}, {0, 1}, {-1, 0}};
+wallhug_waypoint wallhug_dirn_steps[4] = {
+    {0,  -1},
+    {1,  0 },
+    {0,  1 },
+    {-1, 0 }
+};
 
 //----------------------------------------------------------------------------
 
@@ -162,25 +167,25 @@ inline void wallhug_hugstep(wallhug_info *hugger) {
     // and your destination, forget it.
 
     switch (WALLHUG_ADDMOD4(hugger->dirn, hugger->handed)) {
-        case WALLHUG_NORTH:
-            if (hugger->path.end.y < hugger->current.y) return;
-            break;
+    case WALLHUG_NORTH:
+        if (hugger->path.end.y < hugger->current.y) return;
+        break;
 
-        case WALLHUG_EAST:
-            if (hugger->path.end.x > hugger->current.x) return;
-            break;
+    case WALLHUG_EAST:
+        if (hugger->path.end.x > hugger->current.x) return;
+        break;
 
-        case WALLHUG_SOUTH:
-            if (hugger->path.end.y > hugger->current.y) return;
-            break;
+    case WALLHUG_SOUTH:
+        if (hugger->path.end.y > hugger->current.y) return;
+        break;
 
-        case WALLHUG_WEST:
-            if (hugger->path.end.x < hugger->current.x) return;
-            break;
+    case WALLHUG_WEST:
+        if (hugger->path.end.x < hugger->current.x) return;
+        break;
 
 #if DEBUG == 1
-        default:
-            ERROR("Wall being hugged is an invalid direction");
+    default:
+        ERROR("Wall being hugged is an invalid direction");
 #endif
     }
 
@@ -189,25 +194,25 @@ inline void wallhug_hugstep(wallhug_info *hugger) {
     // forget it.
 
     switch (hugger->dirn) {
-        case WALLHUG_NORTH:
-            if (hugger->path.end.y > hugger->current.y) return;
-            break;
+    case WALLHUG_NORTH:
+        if (hugger->path.end.y > hugger->current.y) return;
+        break;
 
-        case WALLHUG_EAST:
-            if (hugger->path.end.x < hugger->current.x) return;
-            break;
+    case WALLHUG_EAST:
+        if (hugger->path.end.x < hugger->current.x) return;
+        break;
 
-        case WALLHUG_SOUTH:
-            if (hugger->path.end.y < hugger->current.y) return;
-            break;
+    case WALLHUG_SOUTH:
+        if (hugger->path.end.y < hugger->current.y) return;
+        break;
 
-        case WALLHUG_WEST:
-            if (hugger->path.end.x > hugger->current.x) return;
-            break;
+    case WALLHUG_WEST:
+        if (hugger->path.end.x > hugger->current.x) return;
+        break;
 
 #if DEBUG == 1
-        default:
-            ERROR("Hugger is facing an invalid direction");
+    default:
+        ERROR("Hugger is facing an invalid direction");
 #endif
     }
 

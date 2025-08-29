@@ -261,59 +261,59 @@ void LL_draw_buffer(
     //
 
     switch (lb->type) {
-        case LL_BUFFER_TYPE_TLV:
+    case LL_BUFFER_TYPE_TLV:
 
-            //
-            // These are already transformed, so we can write
-            // directly into the OS_trans[] array.
-            //
+        //
+        // These are already transformed, so we can write
+        // directly into the OS_trans[] array.
+        //
 
-            for (i = 0; i < lb->num_verts; i++) {
-                ot = &OS_trans[i];
-                ov = &LL_vert[i];
-                tl = &lb->vert_tl[i];
+        for (i = 0; i < lb->num_verts; i++) {
+            ot = &OS_trans[i];
+            ov = &LL_vert[i];
+            tl = &lb->vert_tl[i];
 
-                ot->X = tl->x;
-                ot->Y = tl->y;
-                ot->Z = tl->rhw;
-                ot->z = tl->z;
-                ot->clip = OS_CLIP_TRANSFORMED;
+            ot->X = tl->x;
+            ot->Y = tl->y;
+            ot->Z = tl->rhw;
+            ot->z = tl->z;
+            ot->clip = OS_CLIP_TRANSFORMED;
 
-                ov->trans = i;
-                ov->index = 0;
-                ov->colour = tl->colour;
-                ov->specular = tl->specular;
-                ov->u1 = tl->u;
-                ov->v1 = tl->v;
-                ov->u2 = 0.0F;
-                ov->v2 = 0.0F;
+            ov->trans = i;
+            ov->index = 0;
+            ov->colour = tl->colour;
+            ov->specular = tl->specular;
+            ov->u1 = tl->u;
+            ov->v1 = tl->v;
+            ov->u2 = 0.0F;
+            ov->v2 = 0.0F;
+        }
+
+        if (lb->index) {
+            ASSERT(lb->num_indices % 3 == 0);
+
+            for (i = 0; i < lb->num_indices; i += 3) {
+                OS_buffer_add_triangle(
+                    ob,
+                    &LL_vert[lb->index[i + 0]],
+                    &LL_vert[lb->index[i + 1]],
+                    &LL_vert[lb->index[i + 2]]);
             }
-
-            if (lb->index) {
-                ASSERT(lb->num_indices % 3 == 0);
-
-                for (i = 0; i < lb->num_indices; i += 3) {
-                    OS_buffer_add_triangle(
-                        ob,
-                        &LL_vert[lb->index[i + 0]],
-                        &LL_vert[lb->index[i + 1]],
-                        &LL_vert[lb->index[i + 2]]);
-                }
-            } else {
-                for (i = 0; i < lb->num_verts; i += 3) {
-                    OS_buffer_add_triangle(
-                        ob,
-                        &LL_vert[i + 0],
-                        &LL_vert[i + 1],
-                        &LL_vert[i + 2]);
-                }
+        } else {
+            for (i = 0; i < lb->num_verts; i += 3) {
+                OS_buffer_add_triangle(
+                    ob,
+                    &LL_vert[i + 0],
+                    &LL_vert[i + 1],
+                    &LL_vert[i + 2]);
             }
+        }
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     //

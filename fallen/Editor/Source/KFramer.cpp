@@ -109,73 +109,73 @@ void KeyFrameEditor2::HandleContentClick(std::uint8_t flags, MFPoint *clicked_po
 
     local_point = *clicked_point;
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (KeyFramesRect.PointInRect(&local_point)) {
-                // Find out which frame hass been selected.
-                selected_frame = -1;
-                first_frame = ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (KeyFramesRect.PointInRect(&local_point)) {
+            // Find out which frame hass been selected.
+            selected_frame = -1;
+            first_frame = ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
 
-                for (c0 = 0; c0 < KEY_FRAME_COUNT && key_frame_count; c0++) {
-                    KeyFramesControls.SetControlDrawArea();
-                    frame_rect.SetRect(
-                        3 + (c0 * KEY_FRAME_IMAGE_SIZE),
-                        (KEY_FRAME_IMAGE_SIZE) -19,
-                        KEY_FRAME_IMAGE_SIZE, KEY_FRAME_IMAGE_SIZE);
-                    if (frame_rect.PointInRect(&local_point)) {
-                        selected_frame = first_frame + c0;
-                        break;
-                    }
-                }
-
-                // Allow selected frame to be dragged around.
-                if (selected_frame >= 0) {
-                    SetWorkWindowBounds(0, 0, WorkScreenWidth, WorkScreenHeight);
-
-                    temp_rect.SetRect(
-                        frame_rect.GetLeft(),
-                        frame_rect.GetTop(),
-                        frame_rect.GetWidth(),
-                        frame_rect.GetHeight());
-                    x_diff = clicked_point->X - temp_rect.GetLeft();
-                    y_diff = clicked_point->Y - temp_rect.GetTop();
-                    last_rect.SetRect(0, 0, 0, 0);
-                    cleanup = 0;
-                    update = 0;
-                    while (SHELL_ACTIVE && LeftButton) {
-                        temp_rect.SetRect(MouseX - x_diff, MouseY - y_diff, temp_rect.GetWidth(), temp_rect.GetHeight());
-                        if (temp_rect.GetLeft() < 0)
-                            temp_rect.MoveRect(0, temp_rect.GetTop());
-                        if (temp_rect.GetTop() < 0)
-                            temp_rect.MoveRect(temp_rect.GetLeft(), 0);
-                        if (temp_rect.GetRight() >= WorkScreenWidth)
-                            temp_rect.MoveRect(WorkScreenWidth - temp_rect.GetWidth(), temp_rect.GetTop());
-                        if (temp_rect.GetBottom() >= WorkScreenHeight)
-                            temp_rect.MoveRect(temp_rect.GetLeft(), WorkScreenHeight - temp_rect.GetHeight());
-
-                        if (MouseMoved) {
-                            MouseMoved = 0;
-
-                            // Check to see if the frame is above anything relevent here.
-
-                            if (LockWorkScreen()) {
-                                temp_rect.OutlineInvertedRect();
-                                UnlockWorkScreen();
-                            }
-                            ShowWorkScreen(0);
-                            if (LockWorkScreen()) {
-                                temp_rect.OutlineInvertedRect();
-                                UnlockWorkScreen();
-                            }
-                        }
-                    }
-                    RequestUpdate();
+            for (c0 = 0; c0 < KEY_FRAME_COUNT && key_frame_count; c0++) {
+                KeyFramesControls.SetControlDrawArea();
+                frame_rect.SetRect(
+                    3 + (c0 * KEY_FRAME_IMAGE_SIZE),
+                    (KEY_FRAME_IMAGE_SIZE) -19,
+                    KEY_FRAME_IMAGE_SIZE, KEY_FRAME_IMAGE_SIZE);
+                if (frame_rect.PointInRect(&local_point)) {
+                    selected_frame = first_frame + c0;
+                    break;
                 }
             }
-            break;
-        case RIGHT_CLICK:
-            break;
+
+            // Allow selected frame to be dragged around.
+            if (selected_frame >= 0) {
+                SetWorkWindowBounds(0, 0, WorkScreenWidth, WorkScreenHeight);
+
+                temp_rect.SetRect(
+                    frame_rect.GetLeft(),
+                    frame_rect.GetTop(),
+                    frame_rect.GetWidth(),
+                    frame_rect.GetHeight());
+                x_diff = clicked_point->X - temp_rect.GetLeft();
+                y_diff = clicked_point->Y - temp_rect.GetTop();
+                last_rect.SetRect(0, 0, 0, 0);
+                cleanup = 0;
+                update = 0;
+                while (SHELL_ACTIVE && LeftButton) {
+                    temp_rect.SetRect(MouseX - x_diff, MouseY - y_diff, temp_rect.GetWidth(), temp_rect.GetHeight());
+                    if (temp_rect.GetLeft() < 0)
+                        temp_rect.MoveRect(0, temp_rect.GetTop());
+                    if (temp_rect.GetTop() < 0)
+                        temp_rect.MoveRect(temp_rect.GetLeft(), 0);
+                    if (temp_rect.GetRight() >= WorkScreenWidth)
+                        temp_rect.MoveRect(WorkScreenWidth - temp_rect.GetWidth(), temp_rect.GetTop());
+                    if (temp_rect.GetBottom() >= WorkScreenHeight)
+                        temp_rect.MoveRect(temp_rect.GetLeft(), WorkScreenHeight - temp_rect.GetHeight());
+
+                    if (MouseMoved) {
+                        MouseMoved = 0;
+
+                        // Check to see if the frame is above anything relevent here.
+
+                        if (LockWorkScreen()) {
+                            temp_rect.OutlineInvertedRect();
+                            UnlockWorkScreen();
+                        }
+                        ShowWorkScreen(0);
+                        if (LockWorkScreen()) {
+                            temp_rect.OutlineInvertedRect();
+                            UnlockWorkScreen();
+                        }
+                    }
+                }
+                RequestUpdate();
+            }
+        }
+        break;
+    case RIGHT_CLICK:
+        break;
     }
 }
 
@@ -238,68 +238,68 @@ void KeyFrameEditor2::HandleKeyFramesControl(std::uint32_t control_id) {
     FileRequester *fr;
 
     switch (control_id) {
-        case 0:
-            break;
-        case CTRL_KF_LOAD_BUTTON:
-            fr = new FileRequester("DATA\\", "*.VUE", "Load a VUE file", ".VUE");
-            fr->Draw();
-            strcpy(test_chunk2.VUEName, fr->Path);
-            strcat(test_chunk2.VUEName, fr->FileName);
-            strcpy(test_chunk2.ASCName, test_chunk2.VUEName);
-            strcpy(test_chunk2.ANMName, test_chunk2.VUEName);
-            c0 = 0;
-            while (test_chunk2.ASCName[c0] != '.' && test_chunk2.ASCName[c0] != 0) c0++;
-            if (test_chunk2.ASCName[c0] == '.') {
-                test_chunk2.ASCName[c0 + 1] = 'A';
-                test_chunk2.ASCName[c0 + 2] = 'S';
-                test_chunk2.ASCName[c0 + 3] = 'C';
-                test_chunk2.ASCName[c0 + 4] = 0;
+    case 0:
+        break;
+    case CTRL_KF_LOAD_BUTTON:
+        fr = new FileRequester("DATA\\", "*.VUE", "Load a VUE file", ".VUE");
+        fr->Draw();
+        strcpy(test_chunk2.VUEName, fr->Path);
+        strcat(test_chunk2.VUEName, fr->FileName);
+        strcpy(test_chunk2.ASCName, test_chunk2.VUEName);
+        strcpy(test_chunk2.ANMName, test_chunk2.VUEName);
+        c0 = 0;
+        while (test_chunk2.ASCName[c0] != '.' && test_chunk2.ASCName[c0] != 0) c0++;
+        if (test_chunk2.ASCName[c0] == '.') {
+            test_chunk2.ASCName[c0 + 1] = 'A';
+            test_chunk2.ASCName[c0 + 2] = 'S';
+            test_chunk2.ASCName[c0 + 3] = 'C';
+            test_chunk2.ASCName[c0 + 4] = 0;
 
-                test_chunk2.ANMName[c0 + 1] = 'A';
-                test_chunk2.ANMName[c0 + 2] = 'N';
-                test_chunk2.ANMName[c0 + 3] = 'M';
-                test_chunk2.ANMName[c0 + 4] = 0;
-            }
-            delete fr;
-            RequestUpdate();
+            test_chunk2.ANMName[c0 + 1] = 'A';
+            test_chunk2.ANMName[c0 + 2] = 'N';
+            test_chunk2.ANMName[c0 + 3] = 'M';
+            test_chunk2.ANMName[c0 + 4] = 0;
+        }
+        delete fr;
+        RequestUpdate();
 
-            if (read_multi_asc(test_chunk2.ASCName, 0)) {
-                test_chunk2.MultiObject = next_prim_multi_object - 1;
-                test_chunk2.ElementCount = prim_multi_objects[test_chunk2.MultiObject].EndObject - prim_multi_objects[test_chunk2.MultiObject].StartObject;
+        if (read_multi_asc(test_chunk2.ASCName, 0)) {
+            test_chunk2.MultiObject = next_prim_multi_object - 1;
+            test_chunk2.ElementCount = prim_multi_objects[test_chunk2.MultiObject].EndObject - prim_multi_objects[test_chunk2.MultiObject].StartObject;
 
-                // Fudgy bit for centering.
-                {
-                    std::int32_t c1,
-                        sp, ep;
-                    struct PrimObject *p_obj;
+            // Fudgy bit for centering.
+            {
+                std::int32_t c1,
+                    sp, ep;
+                struct PrimObject *p_obj;
 
-                    for (c0 = prim_multi_objects[test_chunk2.MultiObject].StartObject; c0 <= prim_multi_objects[test_chunk2.MultiObject].EndObject; c0++) {
-                        p_obj = &prim_objects[c0];
-                        sp = p_obj->StartPoint;
-                        ep = p_obj->EndPoint;
+                for (c0 = prim_multi_objects[test_chunk2.MultiObject].StartObject; c0 <= prim_multi_objects[test_chunk2.MultiObject].EndObject; c0++) {
+                    p_obj = &prim_objects[c0];
+                    sp = p_obj->StartPoint;
+                    ep = p_obj->EndPoint;
 
-                        for (c1 = sp; c1 < ep; c1++) {
-                            prim_points[c1].X -= x_centre;
-                            prim_points[c1].Y -= y_centre;
-                            prim_points[c1].Z -= z_centre;
-                        }
+                    for (c1 = sp; c1 < ep; c1++) {
+                        prim_points[c1].X -= x_centre;
+                        prim_points[c1].Y -= y_centre;
+                        prim_points[c1].Z -= z_centre;
                     }
                 }
-                load_multi_vue(&test_chunk2);
-                ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->SetValueRange(0, key_frame_count - (KEY_FRAME_COUNT - 1));
-                /*
-                                                LoadAllAnims(&test_chunk2);
-                                                LoadChunkTextureInfo(&test_chunk2);
-                */
             }
-            break;
-        case CTRL_KF_FRAME_SLIDER:
-            if (LockWorkScreen()) {
-                DrawKeyFrames();
-                UnlockWorkScreen();
-                ShowWorkWindow(0);
-            }
-            break;
+            load_multi_vue(&test_chunk2);
+            ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->SetValueRange(0, key_frame_count - (KEY_FRAME_COUNT - 1));
+            /*
+                                            LoadAllAnims(&test_chunk2);
+                                            LoadChunkTextureInfo(&test_chunk2);
+            */
+        }
+        break;
+    case CTRL_KF_FRAME_SLIDER:
+        if (LockWorkScreen()) {
+            DrawKeyFrames();
+            UnlockWorkScreen();
+            ShowWorkWindow(0);
+        }
+        break;
     }
 }
 

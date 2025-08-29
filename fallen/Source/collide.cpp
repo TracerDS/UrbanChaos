@@ -30,6 +30,8 @@
 #include "mfx.h"
 #include "pcom.h"
 
+#include <algorithm>
+
 extern std::uint8_t cheat;
 
 #undef BLOCK_SIZE
@@ -113,7 +115,7 @@ extern void e_draw_3d_mapwho_y(std::int32_t x1, std::int32_t my_y1, std::int32_t
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS(a, b) (((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
+#define SAME_SIGNS(a, b) (((std::int32_t)((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
 
 //
 // Lines that share a point count as intersecting.
@@ -1636,22 +1638,22 @@ std::int32_t calc_height_at(std::int32_t x, std::int32_t z) {
 
 std::int32_t collision_storey(std::int32_t type) {
     switch (type) {
-        case STOREY_TYPE_NORMAL:
-        case STOREY_TYPE_NORMAL_FOUNDATION:
-        case STOREY_TYPE_WALL:
-        case STOREY_TYPE_FENCE:
-        case STOREY_TYPE_FENCE_BRICK:
-        case STOREY_TYPE_FENCE_FLAT:
-        case STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS:
-        case STOREY_TYPE_LADDER:
-        case STOREY_TYPE_TRENCH:
-        case STOREY_TYPE_SKYLIGHT:
-        case STOREY_TYPE_STAIRCASE:
-        case STOREY_TYPE_CABLE:
-        case STOREY_TYPE_OUTSIDE_DOOR:
-            return (1);
-        default:
-            return (0);
+    case STOREY_TYPE_NORMAL:
+    case STOREY_TYPE_NORMAL_FOUNDATION:
+    case STOREY_TYPE_WALL:
+    case STOREY_TYPE_FENCE:
+    case STOREY_TYPE_FENCE_BRICK:
+    case STOREY_TYPE_FENCE_FLAT:
+    case STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS:
+    case STOREY_TYPE_LADDER:
+    case STOREY_TYPE_TRENCH:
+    case STOREY_TYPE_SKYLIGHT:
+    case STOREY_TYPE_STAIRCASE:
+    case STOREY_TYPE_CABLE:
+    case STOREY_TYPE_OUTSIDE_DOOR:
+        return (1);
+    default:
+        return (0);
     }
 }
 #ifdef DOG_POO
@@ -2617,10 +2619,10 @@ std::int32_t plant_feet(Thing *p_person) {
 
 std::int32_t get_person_radius(std::int32_t type) {
     switch (type) {
-        case PERSON_COP:
-            return (40);
-        case PERSON_DARCI:
-            return (30);
+    case PERSON_COP:
+        return (40);
+    case PERSON_DARCI:
+        return (30);
     }
 
     return (50); // an average person
@@ -2628,10 +2630,10 @@ std::int32_t get_person_radius(std::int32_t type) {
 
 std::int32_t get_person_radius2(std::int32_t type) {
     switch (type) {
-        case PERSON_COP:
-            return (40);
-        case PERSON_DARCI:
-            return (30);
+    case PERSON_COP:
+        return (40);
+    case PERSON_DARCI:
+        return (30);
     }
 
     return (35); // an average person
@@ -4443,8 +4445,8 @@ std::int32_t cross_door(std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
     z2 = (z2) >> 8;
     //	add_debug_line(x1,my_y1,z1,x2,y2,z2,0xffffff);
 
-    minx = ((x2)) -radius >> PAP_SHIFT_LO;
-    minz = ((z2)) -radius >> PAP_SHIFT_LO;
+    minx = ((x2)) - radius >> PAP_SHIFT_LO;
+    minz = ((z2)) - radius >> PAP_SHIFT_LO;
 
     maxx = ((x2)) + radius >> PAP_SHIFT_LO;
     maxz = ((z2)) + radius >> PAP_SHIFT_LO;
@@ -4856,10 +4858,11 @@ void slide_along_redges(
 
             } dir[4] =
                 {
-                    {0, -1},
-                    {1, 0},
-                    {0, 1},
-                    {-1, 0}};
+                    {0,  -1},
+                    {1,  0 },
+                    {0,  1 },
+                    {-1, 0 }
+            };
 
             if (WITHIN(mx + dir[i].dx, 0, PAP_SIZE_HI - 1) &&
                 WITHIN(mz + dir[i].dz, 0, PAP_SIZE_HI - 1)) {
@@ -4875,45 +4878,45 @@ void slide_along_redges(
 #define EDGE_WIDTH 0x4000
 
             switch (i) {
-                case 0: // ZS
+            case 0: // ZS
 
-                    if ((*z2 & 0xffff) < EDGE_WIDTH) {
-                        *z2 &= ~0xffff;
-                        *z2 |= EDGE_WIDTH;
-                    }
+                if ((*z2 & 0xffff) < EDGE_WIDTH) {
+                    *z2 &= ~0xffff;
+                    *z2 |= EDGE_WIDTH;
+                }
 
-                    break;
+                break;
 
-                case 1: // XL
+            case 1: // XL
 
-                    if ((*x2 & 0xffff) > 0x10000 - EDGE_WIDTH) {
-                        *x2 &= ~0xffff;
-                        *x2 |= 0x10000 - EDGE_WIDTH;
-                    }
+                if ((*x2 & 0xffff) > 0x10000 - EDGE_WIDTH) {
+                    *x2 &= ~0xffff;
+                    *x2 |= 0x10000 - EDGE_WIDTH;
+                }
 
-                    break;
+                break;
 
-                case 2: // ZL
+            case 2: // ZL
 
-                    if ((*z2 & 0xffff) > 0x10000 - EDGE_WIDTH) {
-                        *z2 &= ~0xffff;
-                        *z2 |= 0x10000 - EDGE_WIDTH;
-                    }
+                if ((*z2 & 0xffff) > 0x10000 - EDGE_WIDTH) {
+                    *z2 &= ~0xffff;
+                    *z2 |= 0x10000 - EDGE_WIDTH;
+                }
 
-                    break;
+                break;
 
-                case 3: // XS
+            case 3: // XS
 
-                    if ((*x2 & 0xffff) < EDGE_WIDTH) {
-                        *x2 &= ~0xffff;
-                        *x2 |= EDGE_WIDTH;
-                    }
+                if ((*x2 & 0xffff) < EDGE_WIDTH) {
+                    *x2 &= ~0xffff;
+                    *x2 |= EDGE_WIDTH;
+                }
 
-                    break;
+                break;
 
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
         }
     }
@@ -5152,32 +5155,137 @@ std::int32_t collide_against_objects(
                 }
 
                 switch (prim_get_collision_model(oi->prim)) {
-                    case PRIM_COLLIDE_BOX:
-                    case PRIM_COLLIDE_SMALLBOX:
+                case PRIM_COLLIDE_BOX:
+                case PRIM_COLLIDE_SMALLBOX:
 
-                        old_x2 = *x2;
-                        old_y2 = *y2;
-                        old_z2 = *z2;
+                    old_x2 = *x2;
+                    old_y2 = *y2;
+                    old_z2 = *z2;
 
-                        if (slide_along_prim(
-                                oi->prim,
-                                oi->x,
-                                oi->y,
-                                oi->z,
-                                oi->yaw,
-                                x1, my_y1, z1,
-                                x2, y2, z2,
-                                radius,
-                                prim_get_collision_model(oi->prim) == PRIM_COLLIDE_SMALLBOX,
-                                false)) {
-                            //
-                            // Slid along this prim.
-                            //
+                    if (slide_along_prim(
+                            oi->prim,
+                            oi->x,
+                            oi->y,
+                            oi->z,
+                            oi->yaw,
+                            x1, my_y1, z1,
+                            x2, y2, z2,
+                            radius,
+                            prim_get_collision_model(oi->prim) == PRIM_COLLIDE_SMALLBOX,
+                            false)) {
+                        //
+                        // Slid along this prim.
+                        //
 
+                        ans = true;
+
+                        if (p_thing) {
+                            if (p_thing->Class == CLASS_PERSON) {
+                                if (p_thing->Genus.Person->PlayerID) {
+                                    //
+                                    // This is a player. Are they walking backwards?
+                                    //
+
+                                    if (p_thing->SubState == SUB_STATE_WALKING_BACKWARDS) {
+                                        //
+                                        // Is it a prim we can sit on?
+                                        //
+
+                                        if (oi->prim == 105 ||
+                                            oi->prim == 101 ||
+                                            oi->prim == 110 ||
+                                            oi->prim == 89 ||
+                                            oi->prim == 126 ||
+                                            oi->prim == 95 ||
+                                            oi->prim == 102) {
+                                            std::int32_t dangle = oi->yaw - p_thing->Draw.Tweened->Angle;
+
+                                            dangle &= 2047;
+
+                                            if (dangle > 1024) {
+                                                dangle -= 2048;
+                                            }
+
+                                            if (abs(dangle) < 220) {
+                                                //
+                                                // Sit on the prim!
+                                                //
+
+                                                set_person_sit_down(p_thing);
+
+                                                return ans;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    //
+                                    // This is not a player: turn to avoid the prim.
+                                    //
+
+                                    std::int32_t angle;
+                                    std::int32_t dangle;
+
+                                    angle = p_thing->Draw.Tweened->Angle;
+                                    dangle = OB_avoid(
+                                        oi->x,
+                                        oi->y,
+                                        oi->z,
+                                        oi->yaw,
+                                        oi->prim,
+                                        x1, z1,
+                                        *x2, *z2);
+
+                                    angle += dangle * 256;
+                                    angle &= 2047;
+
+                                    p_thing->Draw.Tweened->Angle = angle;
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+
+                case PRIM_COLLIDE_NONE:
+                    break;
+
+                case PRIM_COLLIDE_CYLINDER:
+
+                    //
+                    // The prim info...
+                    //
+
+                    pi = get_prim_info(oi->prim);
+
+                    y_top = oi->y + pi->maxy;
+
+                    if (oi->prim == PRIM_OBJ_SPIKE) {
+                        y_top = 0xc0;
+                    }
+
+                    if ((my_y1 >> 8) < y_top) {
+                        if (slide_around_circle(
+                                oi->x << 8,
+                                oi->z << 8,
+                                radius + 0x40 << 8,
+                                x1, z1, x2, z2)) {
                             ans = true;
 
                             if (p_thing) {
                                 if (p_thing->Class == CLASS_PERSON) {
+                                    if (oi->prim == PRIM_OBJ_SPIKE) {
+                                        //
+                                        // Too near to the spike! DEATH!
+                                        //
+
+                                        set_person_dead(
+                                            p_thing,
+                                            nullptr,
+                                            PERSON_DEATH_TYPE_OTHER,
+                                            false,
+                                            0);
+                                    }
+
                                     if (p_thing->Genus.Person->PlayerID) {
                                         //
                                         // This is a player. Are they walking backwards?
@@ -5188,22 +5296,31 @@ std::int32_t collide_against_objects(
                                             // Is it a prim we can sit on?
                                             //
 
-                                            if (oi->prim == 105 ||
-                                                oi->prim == 101 ||
-                                                oi->prim == 110 ||
-                                                oi->prim == 89 ||
-                                                oi->prim == 126 ||
-                                                oi->prim == 95 ||
-                                                oi->prim == 102) {
-                                                std::int32_t dangle = oi->yaw - p_thing->Draw.Tweened->Angle;
+                                            if (oi->prim == 70 ||
+                                                oi->prim == 30 ||
+                                                oi->prim == 208 ||
+                                                oi->prim == 215 ||
+                                                oi->prim == 250 ||
+                                                oi->prim == 251 ||
+                                                oi->prim == 252) {
+                                                //
+                                                // Are we facing the thing?
+                                                //
 
-                                                dangle &= 2047;
+                                                std::int32_t dx = oi->x - (p_thing->WorldPos.X >> 8);
+                                                std::int32_t dz = oi->z - (p_thing->WorldPos.Z >> 8);
 
-                                                if (dangle > 1024) {
-                                                    dangle -= 2048;
-                                                }
+                                                std::int32_t lx = SIN(p_thing->Draw.Tweened->Angle) >> 8;
+                                                std::int32_t lz = COS(p_thing->Draw.Tweened->Angle) >> 8;
 
-                                                if (abs(dangle) < 220) {
+                                                std::int32_t len = QDIST2(abs(dx), abs(dz)) + 1;
+
+                                                dx = dx * 256 / len;
+                                                dz = dz * 256 / len;
+
+                                                std::int32_t dprod = lx * dx + dz * lz >> 8;
+
+                                                if (dprod > 200) {
                                                     //
                                                     // Sit on the prim!
                                                     //
@@ -5214,131 +5331,17 @@ std::int32_t collide_against_objects(
                                                 }
                                             }
                                         }
-                                    } else {
-                                        //
-                                        // This is not a player: turn to avoid the prim.
-                                        //
-
-                                        std::int32_t angle;
-                                        std::int32_t dangle;
-
-                                        angle = p_thing->Draw.Tweened->Angle;
-                                        dangle = OB_avoid(
-                                            oi->x,
-                                            oi->y,
-                                            oi->z,
-                                            oi->yaw,
-                                            oi->prim,
-                                            x1, z1,
-                                            *x2, *z2);
-
-                                        angle += dangle * 256;
-                                        angle &= 2047;
-
-                                        p_thing->Draw.Tweened->Angle = angle;
                                     }
                                 }
                             }
                         }
+                    }
 
-                        break;
+                    break;
 
-                    case PRIM_COLLIDE_NONE:
-                        break;
-
-                    case PRIM_COLLIDE_CYLINDER:
-
-                        //
-                        // The prim info...
-                        //
-
-                        pi = get_prim_info(oi->prim);
-
-                        y_top = oi->y + pi->maxy;
-
-                        if (oi->prim == PRIM_OBJ_SPIKE) {
-                            y_top = 0xc0;
-                        }
-
-                        if ((my_y1 >> 8) < y_top) {
-                            if (slide_around_circle(
-                                    oi->x << 8,
-                                    oi->z << 8,
-                                    radius + 0x40 << 8,
-                                    x1, z1, x2, z2)) {
-                                ans = true;
-
-                                if (p_thing) {
-                                    if (p_thing->Class == CLASS_PERSON) {
-                                        if (oi->prim == PRIM_OBJ_SPIKE) {
-                                            //
-                                            // Too near to the spike! DEATH!
-                                            //
-
-                                            set_person_dead(
-                                                p_thing,
-                                                nullptr,
-                                                PERSON_DEATH_TYPE_OTHER,
-                                                false,
-                                                0);
-                                        }
-
-                                        if (p_thing->Genus.Person->PlayerID) {
-                                            //
-                                            // This is a player. Are they walking backwards?
-                                            //
-
-                                            if (p_thing->SubState == SUB_STATE_WALKING_BACKWARDS) {
-                                                //
-                                                // Is it a prim we can sit on?
-                                                //
-
-                                                if (oi->prim == 70 ||
-                                                    oi->prim == 30 ||
-                                                    oi->prim == 208 ||
-                                                    oi->prim == 215 ||
-                                                    oi->prim == 250 ||
-                                                    oi->prim == 251 ||
-                                                    oi->prim == 252) {
-                                                    //
-                                                    // Are we facing the thing?
-                                                    //
-
-                                                    std::int32_t dx = oi->x - (p_thing->WorldPos.X >> 8);
-                                                    std::int32_t dz = oi->z - (p_thing->WorldPos.Z >> 8);
-
-                                                    std::int32_t lx = SIN(p_thing->Draw.Tweened->Angle) >> 8;
-                                                    std::int32_t lz = COS(p_thing->Draw.Tweened->Angle) >> 8;
-
-                                                    std::int32_t len = QDIST2(abs(dx), abs(dz)) + 1;
-
-                                                    dx = dx * 256 / len;
-                                                    dz = dz * 256 / len;
-
-                                                    std::int32_t dprod = lx * dx + dz * lz >> 8;
-
-                                                    if (dprod > 200) {
-                                                        //
-                                                        // Sit on the prim!
-                                                        //
-
-                                                        set_person_sit_down(p_thing);
-
-                                                        return ans;
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-
-                        break;
-
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             }
         }
@@ -5355,34 +5358,34 @@ std::int32_t should_i_collide_against_this_anim_prim(Thing *p_aprim) {
     std::int32_t collide_or_not = false;
 
     switch (get_anim_prim_type(p_aprim->Index)) {
-        default:
-        case ANIM_PRIM_TYPE_NORMAL:
+    default:
+    case ANIM_PRIM_TYPE_NORMAL:
 
-            //
-            // Always collide with normal anim-prims.
-            //
+        //
+        // Always collide with normal anim-prims.
+        //
 
-            collide_or_not = true;
+        collide_or_not = true;
 
-            break;
+        break;
 
-        case ANIM_PRIM_TYPE_DOOR:
+    case ANIM_PRIM_TYPE_DOOR:
 
-            //
-            // Collide only if shut.
-            //
+        //
+        // Collide only if shut.
+        //
 
-            collide_or_not = !!(p_aprim->Flags & FLAGS_SWITCHED_ON);
+        collide_or_not = !!(p_aprim->Flags & FLAGS_SWITCHED_ON);
 
-            break;
+        break;
 
-        case ANIM_PRIM_TYPE_SWITCH:
+    case ANIM_PRIM_TYPE_SWITCH:
 
-            //
-            // Ignore these: never collide.
-            //
+        //
+        // Ignore these: never collide.
+        //
 
-            break;
+        break;
     }
 
     return collide_or_not;
@@ -5468,17 +5471,17 @@ std::int32_t collide_against_things(
         }
 
         switch (col_thing->Class) {
-            case CLASS_PERSON:
+        case CLASS_PERSON:
 
-                if (col_thing != p_thing) {
-                    if (p_thing->SubState == SUB_STATE_RUNNING_SKID_STOP) {
-                        std::int32_t tx2, tz2;
-                        std::int32_t radius;
+            if (col_thing != p_thing) {
+                if (p_thing->SubState == SUB_STATE_RUNNING_SKID_STOP) {
+                    std::int32_t tx2, tz2;
+                    std::int32_t radius;
 
-                        if (p_thing->Genus.Person->PlayerID)
-                            radius = 66 << 8;
-                        else
-                            radius = 50 << 8;
+                    if (p_thing->Genus.Person->PlayerID)
+                        radius = 66 << 8;
+                    else
+                        radius = 50 << 8;
 #ifndef PSX
 /*
                                                 {
@@ -5506,327 +5509,327 @@ std::int32_t collide_against_things(
 */
 #endif
 
-                        tx2 = *x2;
-                        tz2 = *z2;
-                        {
-                            if (slide_around_circle(
-                                    col_thing->WorldPos.X,
-                                    col_thing->WorldPos.Z,
-                                    radius,
-                                    x1, z1, &tx2, &tz2)) {
-                                //*x2=tx2;
-                                //*z2=tz2;
-                                sweep_feet(col_thing, p_thing, 0);
-
-                                ans = true;
-                            }
-                        }
-                    } else if (p_thing->SubState == SUB_STATE_STEP_FORWARD) {
-                        //
-                        // if your fighting people we don't want to slide round them we want them to stop you in your tracks
-                        //
-                        if (collide_with_circle(
+                    tx2 = *x2;
+                    tz2 = *z2;
+                    {
+                        if (slide_around_circle(
                                 col_thing->WorldPos.X,
                                 col_thing->WorldPos.Z,
-                                50 << 8,
-                                x2, z2)) {
-                            *x2 = x1;
-                            *z2 = z1;
+                                radius,
+                                x1, z1, &tx2, &tz2)) {
+                            //*x2=tx2;
+                            //*z2=tz2;
+                            sweep_feet(col_thing, p_thing, 0);
 
                             ans = true;
                         }
+                    }
+                } else if (p_thing->SubState == SUB_STATE_STEP_FORWARD) {
+                    //
+                    // if your fighting people we don't want to slide round them we want them to stop you in your tracks
+                    //
+                    if (collide_with_circle(
+                            col_thing->WorldPos.X,
+                            col_thing->WorldPos.Z,
+                            50 << 8,
+                            x2, z2)) {
+                        *x2 = x1;
+                        *z2 = z1;
+
+                        ans = true;
+                    }
+                } else {
+                    if (p_thing->Genus.Person->pcom_ai == PCOM_AI_CIV &&
+                        col_thing->Genus.Person->pcom_ai == PCOM_AI_CIV &&
+                        col_thing < p_thing) {
+                        //
+                        // An ordering on civs so nobody gets stuck at lamposts...
+                        //
+                    } else if (col_thing->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FOLLOWING &&
+                               col_thing->Genus.Person->pcom_ai_arg == THING_NUMBER(p_thing)) {
+                        //
+                        // Don't collide with people who are following you.
+                        //
                     } else {
-                        if (p_thing->Genus.Person->pcom_ai == PCOM_AI_CIV &&
-                            col_thing->Genus.Person->pcom_ai == PCOM_AI_CIV &&
-                            col_thing < p_thing) {
-                            //
-                            // An ordering on civs so nobody gets stuck at lamposts...
-                            //
-                        } else if (col_thing->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FOLLOWING &&
-                                   col_thing->Genus.Person->pcom_ai_arg == THING_NUMBER(p_thing)) {
-                            //
-                            // Don't collide with people who are following you.
-                            //
-                        } else {
-                            if (slide_around_circle(
-                                    col_thing->WorldPos.X,
-                                    col_thing->WorldPos.Z,
-                                    50 << 8,
-                                    x1, z1, x2, z2)) {
-                                ans = true;
-                            }
+                        if (slide_around_circle(
+                                col_thing->WorldPos.X,
+                                col_thing->WorldPos.Z,
+                                50 << 8,
+                                x1, z1, x2, z2)) {
+                            ans = true;
                         }
                     }
                 }
+            }
 
-                break;
+            break;
 
-            case CLASS_PLAT:
+        case CLASS_PLAT:
+
+            if (slide_along_prim(
+                    col_thing->Draw.Mesh->ObjectId,
+                    col_thing->WorldPos.X >> 8,
+                    col_thing->WorldPos.Y >> 8,
+                    col_thing->WorldPos.Z >> 8,
+                    col_thing->Draw.Mesh->Angle,
+                    x1, my_y1, z1,
+                    x2, y2, z2,
+                    radius,
+                    false,
+                    false)) {
+                ans = true;
+            }
+
+            break;
+
+        case CLASS_VEHICLE:
+
+        {
+            std::int32_t prim;
+
+            if (p_thing->Genus.Person->InCar == THING_NUMBER(col_thing)) {
+            } else {
+                prim = get_vehicle_body_prim(col_thing->Genus.Vehicle->Type);
 
                 if (slide_along_prim(
-                        col_thing->Draw.Mesh->ObjectId,
+                        prim,
                         col_thing->WorldPos.X >> 8,
-                        col_thing->WorldPos.Y >> 8,
+                        col_thing->WorldPos.Y - get_vehicle_body_offset(col_thing->Genus.Vehicle->Type) >> 8,
                         col_thing->WorldPos.Z >> 8,
-                        col_thing->Draw.Mesh->Angle,
+                        col_thing->Genus.Vehicle->Angle,
                         x1, my_y1, z1,
                         x2, y2, z2,
                         radius,
                         false,
                         false)) {
+                    //
+                    // Slid along this prim.
+                    //
+
                     ans = true;
+
+                    if (p_thing && p_thing->Class == CLASS_PERSON) {
+                        if (col_thing->Velocity > 200) {
+                            /*
+
+                            Thing *p_driver = get_vehicle_driver(col_thing);
+
+                            //
+                            // Run this person over.
+                            //
+
+                            knock_person_down(
+                                    p_thing,
+                                    100 + (col_thing->Velocity >> 4),
+                                    col_thing->WorldPos.X >> 8,
+                                    col_thing->WorldPos.Z >> 8,
+                                    p_driver);
+
+                            MFX_play_thing(THING_NUMBER(p_thing),S_THUMP_SQUISH,MFX_REPLACE,p_thing);
+
+                            return;
+
+                            */
+
+                        } else {
+                            if (!p_thing->Genus.Person->PlayerID) {
+                                //
+                                // Turn to avoid the prim.
+                                //
+
+                                std::int32_t angle;
+                                std::int32_t dangle;
+
+                                angle = p_thing->Draw.Tweened->Angle;
+                                dangle = OB_avoid(
+                                    col_thing->WorldPos.X >> 8,
+                                    col_thing->WorldPos.Y >> 8,
+                                    col_thing->WorldPos.Z >> 8,
+                                    col_thing->Genus.Vehicle->Angle,
+                                    prim,
+                                    x1, z1,
+                                    *x2, *z2);
+
+                                angle += dangle * 160;
+                                angle &= 2047;
+
+                                p_thing->Draw.Tweened->Angle = angle;
+                            }
+                        }
+                    }
                 }
+            }
+        }
 
-                break;
+        break;
+#ifdef ANIM_PRIMS
+        case CLASS_ANIM_PRIM:
 
-            case CLASS_VEHICLE:
+            //
+            // Do we collide with this anim-prim or not?
+            //
 
-            {
-                std::int32_t prim;
+            // collide_or_not = should_i_collide_against_this_anim_prim(col_thing);
 
-                if (p_thing->Genus.Person->InCar == THING_NUMBER(col_thing)) {
+            // if (collide_or_not)
+            if (should_i_collide_against_this_anim_prim(col_thing)) {
+                std::int32_t old_x2 = *x2;
+                std::int32_t old_z2 = *z2;
+
+                *x2 >>= 8;
+                *z2 >>= 8;
+
+                //
+                // We have to collide. What is the bounding box of this anim_prim?
+                //
+
+                AnimPrimBbox *apb = &anim_prim_bbox[col_thing->Index];
+
+                if (!slide_around_box_lowstack(
+                        col_thing->WorldPos.X >> 8,
+                        col_thing->WorldPos.Z >> 8,
+                        apb->minx,
+                        apb->minz,
+                        apb->maxx,
+                        apb->maxz,
+                        col_thing->Draw.Tweened->Angle,
+                        50,
+                        x1 >> 8, z1 >> 8,
+                        x2,
+                        z2)) {
+                    *x2 = old_x2;
+                    *z2 = old_z2;
+
+                    ans = true;
                 } else {
-                    prim = get_vehicle_body_prim(col_thing->Genus.Vehicle->Type);
+                    ASSERT(WITHIN(*x2, 0, PAP_SIZE_HI << PAP_SHIFT_HI));
+                    ASSERT(WITHIN(*z2, 0, PAP_SIZE_HI << PAP_SHIFT_HI));
 
-                    if (slide_along_prim(
-                            prim,
-                            col_thing->WorldPos.X >> 8,
-                            col_thing->WorldPos.Y - get_vehicle_body_offset(col_thing->Genus.Vehicle->Type) >> 8,
-                            col_thing->WorldPos.Z >> 8,
-                            col_thing->Genus.Vehicle->Angle,
-                            x1, my_y1, z1,
-                            x2, y2, z2,
-                            radius,
-                            false,
-                            false)) {
+                    *x2 <<= 8;
+                    *z2 <<= 8;
+                }
+            }
+
+            break;
+#endif
+        case CLASS_PYRO:
+            switch (col_thing->Genus.Pyro->PyroType) {
+            case PYRO_BONFIRE:
+            case PYRO_FLICKER:
+                if (p_thing->Class == CLASS_PERSON) {
+                    if ((p_thing->Genus.Person->Flags & FLAG2_PERSON_INVULNERABLE) ||
+                        (p_thing->Genus.Person->pcom_bent & PCOM_BENT_PLAYERKILL)) {
                         //
-                        // Slid along this prim.
+                        // This person doesn't catch alight.
                         //
+                    } else {
+                        std::int32_t dist2;
+                        std::int32_t odx, ody, odz;
 
-                        ans = true;
+                        {
+                            odx = abs((p_thing->WorldPos.X >> 8) - (col_thing->WorldPos.X >> 8));
+                            odz = abs((p_thing->WorldPos.Z >> 8) - (col_thing->WorldPos.Z >> 8));
 
-                        if (p_thing && p_thing->Class == CLASS_PERSON) {
-                            if (col_thing->Velocity > 200) {
-                                /*
+                            dist2 = QDIST2(odx, odz);
 
-                                Thing *p_driver = get_vehicle_driver(col_thing);
+                            if (p_thing->Genus.Person->pcom_ai == PCOM_AI_CIV ||
+                                p_thing->Genus.Person->pcom_move == PCOM_MOVE_WANDER) {
+                                if (dist2 < 200) {
+                                    //
+                                    // Wandering civs don't catch fire- they run away.
+                                    //
 
-                                //
-                                // Run this person over.
-                                //
+                                    extern void PCOM_set_person_ai_flee_place(
+                                        Thing * p_person,
+                                        std::int32_t scary_x,
+                                        std::int32_t scary_z);
 
-                                knock_person_down(
+                                    PCOM_set_person_ai_flee_place(
                                         p_thing,
-                                        100 + (col_thing->Velocity >> 4),
                                         col_thing->WorldPos.X >> 8,
-                                        col_thing->WorldPos.Z >> 8,
-                                        p_driver);
+                                        col_thing->WorldPos.Z >> 8);
 
-                                MFX_play_thing(THING_NUMBER(p_thing),S_THUMP_SQUISH,MFX_REPLACE,p_thing);
+                                    return ans;
+                                }
+                            }
 
-                                return;
+                            if (dist2 < 100) {
+                                std::int32_t fx;
+                                std::int32_t fy;
+                                std::int32_t fz;
 
-                                */
+                                calc_sub_objects_position(
+                                    p_thing,
+                                    p_thing->Draw.Tweened->AnimTween,
+                                    SUB_OBJECT_LEFT_FOOT,
+                                    &fx,
+                                    &fy,
+                                    &fz);
 
-                            } else {
-                                if (!p_thing->Genus.Person->PlayerID) {
-                                    //
-                                    // Turn to avoid the prim.
-                                    //
+                                fy += p_thing->WorldPos.Y >> 8;
 
-                                    std::int32_t angle;
-                                    std::int32_t dangle;
+                                ody = abs(fy - (col_thing->WorldPos.Y >> 8));
 
-                                    angle = p_thing->Draw.Tweened->Angle;
-                                    dangle = OB_avoid(
-                                        col_thing->WorldPos.X >> 8,
-                                        col_thing->WorldPos.Y >> 8,
-                                        col_thing->WorldPos.Z >> 8,
-                                        col_thing->Genus.Vehicle->Angle,
-                                        prim,
-                                        x1, z1,
-                                        *x2, *z2);
-
-                                    angle += dangle * 160;
-                                    angle &= 2047;
-
-                                    p_thing->Draw.Tweened->Angle = angle;
+                                if (ody < 0x50) {
+                                    p_thing->Flags |= FLAGS_BURNING;
                                 }
                             }
                         }
                     }
                 }
             }
-
             break;
-#ifdef ANIM_PRIMS
-            case CLASS_ANIM_PRIM:
-
-                //
-                // Do we collide with this anim-prim or not?
-                //
-
-                // collide_or_not = should_i_collide_against_this_anim_prim(col_thing);
-
-                // if (collide_or_not)
-                if (should_i_collide_against_this_anim_prim(col_thing)) {
-                    std::int32_t old_x2 = *x2;
-                    std::int32_t old_z2 = *z2;
-
-                    *x2 >>= 8;
-                    *z2 >>= 8;
-
-                    //
-                    // We have to collide. What is the bounding box of this anim_prim?
-                    //
-
-                    AnimPrimBbox *apb = &anim_prim_bbox[col_thing->Index];
-
-                    if (!slide_around_box_lowstack(
-                            col_thing->WorldPos.X >> 8,
-                            col_thing->WorldPos.Z >> 8,
-                            apb->minx,
-                            apb->minz,
-                            apb->maxx,
-                            apb->maxz,
-                            col_thing->Draw.Tweened->Angle,
-                            50,
-                            x1 >> 8, z1 >> 8,
-                            x2,
-                            z2)) {
-                        *x2 = old_x2;
-                        *z2 = old_z2;
-
-                        ans = true;
-                    } else {
-                        ASSERT(WITHIN(*x2, 0, PAP_SIZE_HI << PAP_SHIFT_HI));
-                        ASSERT(WITHIN(*z2, 0, PAP_SIZE_HI << PAP_SHIFT_HI));
-
-                        *x2 <<= 8;
-                        *z2 <<= 8;
-                    }
-                }
-
-                break;
-#endif
-            case CLASS_PYRO:
-                switch (col_thing->Genus.Pyro->PyroType) {
-                    case PYRO_BONFIRE:
-                    case PYRO_FLICKER:
-                        if (p_thing->Class == CLASS_PERSON) {
-                            if ((p_thing->Genus.Person->Flags & FLAG2_PERSON_INVULNERABLE) ||
-                                (p_thing->Genus.Person->pcom_bent & PCOM_BENT_PLAYERKILL)) {
-                                //
-                                // This person doesn't catch alight.
-                                //
-                            } else {
-                                std::int32_t dist2;
-                                std::int32_t odx, ody, odz;
-
-                                {
-                                    odx = abs((p_thing->WorldPos.X >> 8) - (col_thing->WorldPos.X >> 8));
-                                    odz = abs((p_thing->WorldPos.Z >> 8) - (col_thing->WorldPos.Z >> 8));
-
-                                    dist2 = QDIST2(odx, odz);
-
-                                    if (p_thing->Genus.Person->pcom_ai == PCOM_AI_CIV ||
-                                        p_thing->Genus.Person->pcom_move == PCOM_MOVE_WANDER) {
-                                        if (dist2 < 200) {
-                                            //
-                                            // Wandering civs don't catch fire- they run away.
-                                            //
-
-                                            extern void PCOM_set_person_ai_flee_place(
-                                                Thing * p_person,
-                                                std::int32_t scary_x,
-                                                std::int32_t scary_z);
-
-                                            PCOM_set_person_ai_flee_place(
-                                                p_thing,
-                                                col_thing->WorldPos.X >> 8,
-                                                col_thing->WorldPos.Z >> 8);
-
-                                            return ans;
-                                        }
-                                    }
-
-                                    if (dist2 < 100) {
-                                        std::int32_t fx;
-                                        std::int32_t fy;
-                                        std::int32_t fz;
-
-                                        calc_sub_objects_position(
-                                            p_thing,
-                                            p_thing->Draw.Tweened->AnimTween,
-                                            SUB_OBJECT_LEFT_FOOT,
-                                            &fx,
-                                            &fy,
-                                            &fz);
-
-                                        fy += p_thing->WorldPos.Y >> 8;
-
-                                        ody = abs(fy - (col_thing->WorldPos.Y >> 8));
-
-                                        if (ody < 0x50) {
-                                            p_thing->Flags |= FLAGS_BURNING;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                }
-                break;
 
 #if BIKE
 
-            case CLASS_BIKE:
+        case CLASS_BIKE:
 
-            {
+        {
+            std::int32_t dy = col_thing->WorldPos.Y - my_y1 >> 8;
+
+            if (abs(dy) < 0x100) {
+                slide_around_circle(
+                    col_thing->WorldPos.X,
+                    col_thing->WorldPos.Z,
+                    0x40 << 8,
+                    x1, z1, x2, z2);
+
+                ans = true;
+            }
+        }
+
+        break;
+
+#endif
+
+        case CLASS_BAT:
+
+            if (col_thing->Genus.Bat->type == BAT_TYPE_BALROG) {
                 std::int32_t dy = col_thing->WorldPos.Y - my_y1 >> 8;
 
-                if (abs(dy) < 0x100) {
-                    slide_around_circle(
-                        col_thing->WorldPos.X,
-                        col_thing->WorldPos.Z,
-                        0x40 << 8,
-                        x1, z1, x2, z2);
+                if (abs(dy) < 0x180) {
+                    std::int32_t dx = abs(col_thing->WorldPos.X - x1 >> 8);
+                    std::int32_t dz = abs(col_thing->WorldPos.Z - z1 >> 8);
 
-                    ans = true;
+                    if (QDIST2(dx, dz) < 0x100) {
+                        if (p_thing->State != STATE_JUMPING &&
+                            p_thing->State != STATE_DANGLING) {
+                            knock_person_down(
+                                p_thing,
+                                50,
+                                col_thing->WorldPos.X >> 8,
+                                col_thing->WorldPos.Z >> 8,
+                                col_thing);
+                        }
+                    }
                 }
             }
 
             break;
 
-#endif
-
-            case CLASS_BAT:
-
-                if (col_thing->Genus.Bat->type == BAT_TYPE_BALROG) {
-                    std::int32_t dy = col_thing->WorldPos.Y - my_y1 >> 8;
-
-                    if (abs(dy) < 0x180) {
-                        std::int32_t dx = abs(col_thing->WorldPos.X - x1 >> 8);
-                        std::int32_t dz = abs(col_thing->WorldPos.Z - z1 >> 8);
-
-                        if (QDIST2(dx, dz) < 0x100) {
-                            if (p_thing->State != STATE_JUMPING &&
-                                p_thing->State != STATE_DANGLING) {
-                                knock_person_down(
-                                    p_thing,
-                                    50,
-                                    col_thing->WorldPos.X >> 8,
-                                    col_thing->WorldPos.Z >> 8,
-                                    col_thing);
-                            }
-                        }
-                    }
-                }
-
-                break;
-
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -5910,8 +5913,8 @@ void drop_on_heads(Thing *p_thing) {
                         if (QDIST2(dx, dz) < 100) {
                             std::int32_t miny, maxy;
 
-                            miny = hy - (MAX(abs(p_thing->DY >> 8), 100) + 10);
-                            maxy = hy + MAX(abs(p_thing->DY >> 9), 100);
+                            miny = hy - (std::max(abs(p_thing->DY >> 8), 100) + 10);
+                            maxy = hy + std::max(abs(p_thing->DY >> 9), 100);
 
                             if (fy > miny && fy < maxy) {
                                 //
@@ -6146,8 +6149,8 @@ extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
         //		if((PAP_2HI(x2>>16,z2>>16).Height<<3)>y2)
         //			ASSERT(0);
 
-        void slide_along_edges(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t *x2, std::int32_t *z2);
-        void slide_along_edgesr(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t *x2, std::int32_t *z2);
+        void slide_along_edges(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t * x2, std::int32_t * z2);
+        void slide_along_edgesr(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t * x2, std::int32_t * z2);
 
         //
         // Should we slide along the edges?
@@ -6643,33 +6646,33 @@ extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
 
 #if MARKS_EXTRA_DEBUG
 
-    /*
+            /*
 
-    if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
-    {
-            //
-            // If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
-            //
-
-            std::int32_t ground = PAP_calc_map_height_at(
-                                                    p_thing->WorldPos.X >> 8,
-                                                    p_thing->WorldPos.Z >> 8) << 8;
-
-            if (p_thing->WorldPos.Y < ground - 0x4000)
+            if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
             {
                     //
-                    // Oh dear!
+                    // If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
                     //
 
-                    ASSERT(0);
+                    std::int32_t ground = PAP_calc_map_height_at(
+                                                            p_thing->WorldPos.X >> 8,
+                                                            p_thing->WorldPos.Z >> 8) << 8;
 
-                    p_thing->WorldPos.Y = ground + 0x1000;
+                    if (p_thing->WorldPos.Y < ground - 0x4000)
+                    {
+                            //
+                            // Oh dear!
+                            //
 
-                    plant_feet(p_thing);
+                            ASSERT(0);
+
+                            p_thing->WorldPos.Y = ground + 0x1000;
+
+                            plant_feet(p_thing);
+                    }
             }
-    }
 
-    */
+            */
 
 #endif
 
@@ -8728,11 +8731,11 @@ std::int32_t find_intersected_colvect(
 
         CollisionVect *p_vect;
 
-        std::int32_t mx1 = MIN(x1, x2) - PUSH_OUT_A_BIT >> 8;
-        std::int32_t mz1 = MIN(z2, z2) - PUSH_OUT_A_BIT >> 8;
+        std::int32_t mx1 = std::min(x1, x2) - PUSH_OUT_A_BIT >> 8;
+        std::int32_t mz1 = std::min(z2, z2) - PUSH_OUT_A_BIT >> 8;
 
-        std::int32_t mx2 = MAX(x1, x2) + PUSH_OUT_A_BIT >> 8;
-        std::int32_t mz2 = MAX(z1, z2) + PUSH_OUT_A_BIT >> 8;
+        std::int32_t mx2 = std::max(x1, x2) + PUSH_OUT_A_BIT >> 8;
+        std::int32_t mz2 = std::max(z1, z2) + PUSH_OUT_A_BIT >> 8;
 
         SATURATE(mx1, 0, MAP_WIDTH  - 1);
         SATURATE(mz1, 0, MAP_HEIGHT - 1);
@@ -9549,10 +9552,10 @@ std::int32_t slide_around_box(
                 }
             }
 
-        //
-        // We have to un-rotate the points. The inverse of the
-        // matrix is its transpose.
-        //
+            //
+            // We have to un-rotate the points. The inverse of the
+            // matrix is its transpose.
+            //
 
 #ifndef PSX
 
@@ -10209,7 +10212,7 @@ void COLLIDE_calc_fastnav_bits() {
         dx = df->x[1] - df->x[0];
         dz = df->z[1] - df->z[0];
 
-        len = MAX(abs(dx), abs(dz));
+        len = std::max(abs(dx), abs(dz));
 
         if (!(dx == 0 || dz == 0)) {
             //

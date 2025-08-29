@@ -5914,7 +5914,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
 
 #if 1
                                 FIGURE_draw_prim_tween(
-                                    255+(p_person->Draw.Tweened->PersonID>>5),
+                                    255 + (p_person->Draw.Tweened->PersonID >> 5),
                                     FIGURE_dhpr_data.world_pos->M[0],
                                     FIGURE_dhpr_data.world_pos->M[1],
                                     FIGURE_dhpr_data.world_pos->M[2],

@@ -8,21 +8,22 @@
 // JCL - Body Part parent names
 char *body_part_parent[][2] =
     {
-        {"pelvis", ""},
-        {"lfemur", "pelvis"},
-        {"ltibia", "lfemur"},
-        {"lfoot", "ltibia"},
-        {"torso", "pelvis"},
-        {"rhumorus", "torso"},
-        {"rradius", "rhumorus"},
-        {"rhand", "rradius"},
-        {"lhumorus", "torso"},
-        {"lradius", "lhumorus"},
-        {"lhand", "lradius"},
-        {"skull", "torso"},
-        {"rfemur", "pelvis"},
-        {"rtibia", "rfemur"},
-        {"rfoot", "rtibia"}};
+        {"pelvis",   ""        },
+        {"lfemur",   "pelvis"  },
+        {"ltibia",   "lfemur"  },
+        {"lfoot",    "ltibia"  },
+        {"torso",    "pelvis"  },
+        {"rhumorus", "torso"   },
+        {"rradius",  "rhumorus"},
+        {"rhand",    "rradius" },
+        {"lhumorus", "torso"   },
+        {"lradius",  "lhumorus"},
+        {"lhand",    "lradius" },
+        {"skull",    "torso"   },
+        {"rfemur",   "pelvis"  },
+        {"rtibia",   "rfemur"  },
+        {"rfoot",    "rtibia"  }
+};
 
 //**************************************************************************************************
 //! JCL - don't think this can be a permanent thing....
@@ -48,21 +49,22 @@ std::int32_t body_part_parent_numbers[] =
 //! JCL - nor this!!
 std::int32_t body_part_children[][5] =
     {
-        {1, 4, 12, -1, 0},
-        {2, -1, 0, 0, 0},
-        {3, -1, 0, 0, 0},
-        {-1, 0, 0, 0, 0},
-        {5, 8, 11, -1, 0},
-        {6, -1, 0, 0, 0},
-        {7, -1, 0, 0, 0},
-        {-1, 0, 0, 0, 0},
-        {9, -1, 0, 0, 0},
-        {10, -1, 0, 0, 0},
-        {-1, 0, 0, 0, 0},
-        {-1, 0, 0, 0, 0},
-        {13, -1, 0, 0, 0},
-        {14, -1, 0, 0, 0},
-        {-1, 0, 0, 0, 0}};
+        {1,  4,  12, -1, 0},
+        {2,  -1, 0,  0,  0},
+        {3,  -1, 0,  0,  0},
+        {-1, 0,  0,  0,  0},
+        {5,  8,  11, -1, 0},
+        {6,  -1, 0,  0,  0},
+        {7,  -1, 0,  0,  0},
+        {-1, 0,  0,  0,  0},
+        {9,  -1, 0,  0,  0},
+        {10, -1, 0,  0,  0},
+        {-1, 0,  0,  0,  0},
+        {-1, 0,  0,  0,  0},
+        {13, -1, 0,  0,  0},
+        {14, -1, 0,  0,  0},
+        {-1, 0,  0,  0,  0}
+};
 
 //**************************************************************************************************
 inline void uncompress_matrix(CMatrix33 *cm, Matrix33 *m) {

@@ -6,6 +6,7 @@
 #include "pap.h"
 #include "mfx.h"
 #include "memory.h"
+#include <algorithm>
 
 //
 // The points at the start and end of each spark.
@@ -335,7 +336,7 @@ void SPARK_new_point(
     sp->Pos.x = best_x;
     sp->Pos.y = best_y;
     sp->Pos.z = best_z;
-    sp->dist = MIN(best_dist, 255);
+    sp->dist = std::min(best_dist, 255);
     sp->type = best_type;
     sp->flag = best_flag;
 

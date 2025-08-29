@@ -69,7 +69,7 @@ LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam) {
     }
 
     // Get key scan code.
-    key_code = (std::uint8_t) ((lParam & KEYMASK_SCAN) >> 16);
+    key_code = (std::uint8_t)((lParam & KEYMASK_SCAN) >> 16);
 
     // Extended key press?
     if (lParam & KEYMASK_EXTENDED) {

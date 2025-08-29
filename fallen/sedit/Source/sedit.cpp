@@ -182,19 +182,19 @@ void SEDIT_set_state_look() {
     char* tool_name;
 
     switch (SEDIT_tool) {
-        case SEDIT_TOOL_PLACE_SEWERS: tool_name = "Place sewers"; break;
-        case SEDIT_TOOL_PLACE_GROUND: tool_name = "Place ground"; break;
-        case SEDIT_TOOL_PLACE_ROCK: tool_name = "Place rock"; break;
-        case SEDIT_TOOL_PLACE_WATER: tool_name = "Place water"; break;
-        case SEDIT_TOOL_PLACE_HOLE: tool_name = "Place hole"; break;
-        case SEDIT_TOOL_PLACE_ENTRANCE: tool_name = "Place entrance"; break;
-        case SEDIT_TOOL_PLACE_GRATING: tool_name = "Place grating"; break;
-        case SEDIT_TOOL_PLACE_PRIM: tool_name = "Place prim (Doens't work yet)"; break;
-        case SEDIT_TOOL_PLACE_LADDER: tool_name = "Place ladder"; break;
-        case SEDIT_TOOL_EDIT_LIGHT: tool_name = "Edit light"; break;
-        default:
-            tool_name = "";
-            break;
+    case SEDIT_TOOL_PLACE_SEWERS: tool_name = "Place sewers"; break;
+    case SEDIT_TOOL_PLACE_GROUND: tool_name = "Place ground"; break;
+    case SEDIT_TOOL_PLACE_ROCK: tool_name = "Place rock"; break;
+    case SEDIT_TOOL_PLACE_WATER: tool_name = "Place water"; break;
+    case SEDIT_TOOL_PLACE_HOLE: tool_name = "Place hole"; break;
+    case SEDIT_TOOL_PLACE_ENTRANCE: tool_name = "Place entrance"; break;
+    case SEDIT_TOOL_PLACE_GRATING: tool_name = "Place grating"; break;
+    case SEDIT_TOOL_PLACE_PRIM: tool_name = "Place prim (Doens't work yet)"; break;
+    case SEDIT_TOOL_PLACE_LADDER: tool_name = "Place ladder"; break;
+    case SEDIT_TOOL_EDIT_LIGHT: tool_name = "Edit light"; break;
+    default:
+        tool_name = "";
+        break;
     }
 
     sprintf(SEDIT_engine_window_text, "%s : %s", SEDIT_map_name, tool_name);
@@ -310,33 +310,33 @@ void SEDIT_set_state_look() {
         CheckMenuItem(SEDIT_main_menu, ID_VIEW_SHOW_BUILDINGS, MF_UNCHECKED);
 
         switch (SEDIT_tool) {
-            case SEDIT_TOOL_PLACE_SEWERS: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_SEWERS, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_GROUND: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_GROUND, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_ROCK: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_ROCK, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_WATER: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_WATER, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_HOLE: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_HOLE, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_ENTRANCE: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_ENTRANCE, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_GRATING: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_GRATING, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_PRIM: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_PRIM, MF_CHECKED); break;
-            case SEDIT_TOOL_PLACE_LADDER: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_LADDER, MF_CHECKED); break;
-            case SEDIT_TOOL_EDIT_LIGHT: CheckMenuItem(SEDIT_main_menu, ID_EDIT_EDIT_LIGHT, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_SEWERS: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_SEWERS, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_GROUND: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_GROUND, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_ROCK: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_ROCK, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_WATER: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_WATER, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_HOLE: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_HOLE, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_ENTRANCE: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_ENTRANCE, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_GRATING: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_GRATING, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_PRIM: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_PRIM, MF_CHECKED); break;
+        case SEDIT_TOOL_PLACE_LADDER: CheckMenuItem(SEDIT_main_menu, ID_EDIT_PLACE_LADDER, MF_CHECKED); break;
+        case SEDIT_TOOL_EDIT_LIGHT: CheckMenuItem(SEDIT_main_menu, ID_EDIT_EDIT_LIGHT, MF_CHECKED); break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         switch (SEDIT_view_type) {
-            case SEDIT_VIEW_TYPE_NONE:
-                break;
+        case SEDIT_VIEW_TYPE_NONE:
+            break;
 
-            case SEDIT_VIEW_TYPE_SEWERS: CheckMenuItem(SEDIT_main_menu, ID_VIEW_SEWER_ENGINE, MF_CHECKED); break;
-            case SEDIT_VIEW_TYPE_EDITOR: CheckMenuItem(SEDIT_main_menu, ID_VIEW_SEWER_EDITOR, MF_CHECKED); break;
-            case SEDIT_VIEW_TYPE_ENGINE: CheckMenuItem(SEDIT_main_menu, ID_VIEW_CITY_ENGINE, MF_CHECKED); break;
+        case SEDIT_VIEW_TYPE_SEWERS: CheckMenuItem(SEDIT_main_menu, ID_VIEW_SEWER_ENGINE, MF_CHECKED); break;
+        case SEDIT_VIEW_TYPE_EDITOR: CheckMenuItem(SEDIT_main_menu, ID_VIEW_SEWER_EDITOR, MF_CHECKED); break;
+        case SEDIT_VIEW_TYPE_ENGINE: CheckMenuItem(SEDIT_main_menu, ID_VIEW_CITY_ENGINE, MF_CHECKED); break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         //
@@ -585,19 +585,19 @@ void SEDIT_sewers_load() {
             "Save changes to current map?",
             "Load sewers",
             MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
-            case IDYES:
-                SEDIT_sewers_save();
-                break;
+        case IDYES:
+            SEDIT_sewers_save();
+            break;
 
-            case IDNO:
-                break;
+        case IDNO:
+            break;
 
-            case IDCANCEL:
-                return;
+        case IDCANCEL:
+            return;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -639,19 +639,19 @@ void SEDIT_request_exit() {
             "Save changes to current map?",
             "Exit sewer editor",
             MB_YESNOCANCEL | MB_ICONEXCLAMATION | MB_APPLMODAL)) {
-            case IDYES:
-                SEDIT_sewers_save();
-                break;
+        case IDYES:
+            SEDIT_sewers_save();
+            break;
 
-            case IDNO:
-                break;
+        case IDNO:
+            break;
 
-            case IDCANCEL:
-                return;
+        case IDCANCEL:
+            return;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -689,27 +689,27 @@ void SEDIT_process() {
 
         if (SEDIT_mouse_valid) {
             switch (SEDIT_tool) {
-                case SEDIT_TOOL_EDIT_LIGHT:
-                    ES_light_delete(
-                        SEDIT_mouse_world_x,
-                        SEDIT_mouse_world_z);
-                    break;
+            case SEDIT_TOOL_EDIT_LIGHT:
+                ES_light_delete(
+                    SEDIT_mouse_world_x,
+                    SEDIT_mouse_world_z);
+                break;
 
-                case SEDIT_TOOL_PLACE_LADDER:
-                    ES_ladder_delete(
-                        SEDIT_mouse_world_x,
-                        SEDIT_mouse_world_z);
-                    break;
+            case SEDIT_TOOL_PLACE_LADDER:
+                ES_ladder_delete(
+                    SEDIT_mouse_world_x,
+                    SEDIT_mouse_world_z);
+                break;
 
-                case SEDIT_TOOL_PLACE_PRIM:
-                    ES_prim_delete(
-                        SEDIT_mouse_world_x,
-                        SEDIT_mouse_world_y,
-                        SEDIT_mouse_world_z);
-                    break;
+            case SEDIT_TOOL_PLACE_PRIM:
+                ES_prim_delete(
+                    SEDIT_mouse_world_x,
+                    SEDIT_mouse_world_y,
+                    SEDIT_mouse_world_z);
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
         }
     }
@@ -815,30 +815,30 @@ void SEDIT_process() {
     std::int32_t want_focus_y;
 
     switch (SEDIT_view_type) {
-        case SEDIT_VIEW_TYPE_SEWERS:
-            want_focus_y = NS_calc_height_at(SEDIT_cam_focus_x, SEDIT_cam_focus_z);
-            break;
+    case SEDIT_VIEW_TYPE_SEWERS:
+        want_focus_y = NS_calc_height_at(SEDIT_cam_focus_x, SEDIT_cam_focus_z);
+        break;
 
-        case SEDIT_VIEW_TYPE_EDITOR:
+    case SEDIT_VIEW_TYPE_EDITOR:
 
-            if (WITHIN(SEDIT_cam_focus_x >> 8, 0, PAP_SIZE_HI - 1) &&
-                WITHIN(SEDIT_cam_focus_z >> 8, 0, PAP_SIZE_HI - 1)) {
-                ES_Hi* eh = &ES_hi[SEDIT_cam_focus_x >> 8][SEDIT_cam_focus_z >> 8];
+        if (WITHIN(SEDIT_cam_focus_x >> 8, 0, PAP_SIZE_HI - 1) &&
+            WITHIN(SEDIT_cam_focus_z >> 8, 0, PAP_SIZE_HI - 1)) {
+            ES_Hi* eh = &ES_hi[SEDIT_cam_focus_x >> 8][SEDIT_cam_focus_z >> 8];
 
-                want_focus_y = (eh->height << 5) + (-32 * 0x100);
-            } else {
-                want_focus_y = -0x200;
-            }
+            want_focus_y = (eh->height << 5) + (-32 * 0x100);
+        } else {
+            want_focus_y = -0x200;
+        }
 
-            break;
+        break;
 
-        case SEDIT_VIEW_TYPE_ENGINE:
-            want_focus_y = 0x100;
-            break;
+    case SEDIT_VIEW_TYPE_ENGINE:
+        want_focus_y = 0x100;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     std::int32_t dfocus_y;
@@ -853,93 +853,93 @@ void SEDIT_process() {
     SEDIT_calc_camera_pos();
 
     switch (SEDIT_view_type) {
-        case SEDIT_VIEW_TYPE_SEWERS:
+    case SEDIT_VIEW_TYPE_SEWERS:
 
-            //
-            // Draw the sewers.
-            //
+        //
+        // Draw the sewers.
+        //
 
-            GI_set_view(GI_VIEW_SEWERS);
+        GI_set_view(GI_VIEW_SEWERS);
 
-            GI_render_view_into_backbuffer(
-                SEDIT_cam_x,
-                SEDIT_cam_y,
-                SEDIT_cam_z,
-                SEDIT_cam_yaw,
-                SEDIT_cam_pitch,
-                0);
+        GI_render_view_into_backbuffer(
+            SEDIT_cam_x,
+            SEDIT_cam_y,
+            SEDIT_cam_z,
+            SEDIT_cam_yaw,
+            SEDIT_cam_pitch,
+            0);
 
-            SEDIT_mouse_valid = false;
+        SEDIT_mouse_valid = false;
 
-            break;
+        break;
 
-        case SEDIT_VIEW_TYPE_EDITOR:
+    case SEDIT_VIEW_TYPE_EDITOR:
 
-            GetCursorPos(&mouse);
-            ScreenToClient(SEDIT_handle_engine, &mouse);
-            GetClientRect(SEDIT_handle_engine, &clientrect);
+        GetCursorPos(&mouse);
+        ScreenToClient(SEDIT_handle_engine, &mouse);
+        GetClientRect(SEDIT_handle_engine, &clientrect);
 
-            ES_draw_editor(
-                SEDIT_cam_x,
-                SEDIT_cam_y,
-                SEDIT_cam_z,
-                SEDIT_cam_yaw,
-                SEDIT_cam_pitch,
-                0,
+        ES_draw_editor(
+            SEDIT_cam_x,
+            SEDIT_cam_y,
+            SEDIT_cam_z,
+            SEDIT_cam_yaw,
+            SEDIT_cam_pitch,
+            0,
+            mouse.x,
+            mouse.y,
+            &SEDIT_mouse_valid,
+            &SEDIT_mouse_world_x,
+            &SEDIT_mouse_world_y,
+            &SEDIT_mouse_world_z,
+            (SEDIT_tool == SEDIT_TOOL_PLACE_PRIM) && SEDIT_prim_object,
+            SEDIT_prim_object,
+            SEDIT_prim_yaw);
+
+        break;
+
+    case SEDIT_VIEW_TYPE_ENGINE:
+
+        //
+        // Draw the engine.
+        //
+
+        GI_set_view(GI_VIEW_CITY);
+
+        GI_render_view_into_backbuffer(
+            SEDIT_cam_x,
+            SEDIT_cam_y,
+            SEDIT_cam_z,
+            SEDIT_cam_yaw,
+            SEDIT_cam_pitch,
+            0);
+
+        //
+        // Is the mouse over the engine window?
+        //
+
+        GetCursorPos(&mouse);
+        ScreenToClient(SEDIT_handle_engine, &mouse);
+        GetClientRect(SEDIT_handle_engine, &clientrect);
+
+        if (WITHIN(mouse.x, clientrect.left, clientrect.right) &&
+            WITHIN(mouse.y, clientrect.top, clientrect.bottom)) {
+            SEDIT_mouse_valid = GI_get_pixel_world_pos(
                 mouse.x,
                 mouse.y,
-                &SEDIT_mouse_valid,
                 &SEDIT_mouse_world_x,
                 &SEDIT_mouse_world_y,
-                &SEDIT_mouse_world_z,
-                (SEDIT_tool == SEDIT_TOOL_PLACE_PRIM) && SEDIT_prim_object,
-                SEDIT_prim_object,
-                SEDIT_prim_yaw);
+                &SEDIT_mouse_world_z);
 
-            break;
+        } else {
+            SEDIT_mouse_valid = false;
+        }
 
-        case SEDIT_VIEW_TYPE_ENGINE:
+        break;
 
-            //
-            // Draw the engine.
-            //
-
-            GI_set_view(GI_VIEW_CITY);
-
-            GI_render_view_into_backbuffer(
-                SEDIT_cam_x,
-                SEDIT_cam_y,
-                SEDIT_cam_z,
-                SEDIT_cam_yaw,
-                SEDIT_cam_pitch,
-                0);
-
-            //
-            // Is the mouse over the engine window?
-            //
-
-            GetCursorPos(&mouse);
-            ScreenToClient(SEDIT_handle_engine, &mouse);
-            GetClientRect(SEDIT_handle_engine, &clientrect);
-
-            if (WITHIN(mouse.x, clientrect.left, clientrect.right) &&
-                WITHIN(mouse.y, clientrect.top, clientrect.bottom)) {
-                SEDIT_mouse_valid = GI_get_pixel_world_pos(
-                    mouse.x,
-                    mouse.y,
-                    &SEDIT_mouse_world_x,
-                    &SEDIT_mouse_world_y,
-                    &SEDIT_mouse_world_z);
-
-            } else {
-                SEDIT_mouse_valid = false;
-            }
-
-            break;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     if (SEDIT_mouse_valid) {
@@ -991,77 +991,77 @@ LRESULT CALLBACK SEDIT_callback_frame(
                     dheight);
             } else {
                 switch (SEDIT_tool) {
-                    case SEDIT_TOOL_EDIT_LIGHT:
+                case SEDIT_TOOL_EDIT_LIGHT:
 
-                        dheight = (dwheel < 0) ? -2 : +2;
+                    dheight = (dwheel < 0) ? -2 : +2;
 
-                        //
-                        // Change the light height.
-                        //
+                    //
+                    // Change the light height.
+                    //
 
-                        ES_light_dheight(
-                            SEDIT_mouse_world_x,
-                            SEDIT_mouse_world_z,
-                            dheight);
+                    ES_light_dheight(
+                        SEDIT_mouse_world_x,
+                        SEDIT_mouse_world_z,
+                        dheight);
 
-                        break;
+                    break;
 
-                    case SEDIT_TOOL_PLACE_LADDER:
+                case SEDIT_TOOL_PLACE_LADDER:
 
-                        dheight = (dwheel < 0) ? -4 : +4;
+                    dheight = (dwheel < 0) ? -4 : +4;
 
-                        //
-                        // Change the ladder height.
-                        //
+                    //
+                    // Change the ladder height.
+                    //
 
-                        ES_ladder_dheight(
-                            SEDIT_mouse_world_x,
-                            SEDIT_mouse_world_z,
-                            dheight);
+                    ES_ladder_dheight(
+                        SEDIT_mouse_world_x,
+                        SEDIT_mouse_world_z,
+                        dheight);
 
-                        break;
+                    break;
 
-                    case SEDIT_TOOL_PLACE_WATER:
+                case SEDIT_TOOL_PLACE_WATER:
 
-                        dheight = (dwheel < 0) ? -1 : +1;
+                    dheight = (dwheel < 0) ? -1 : +1;
 
-                        //
-                        // Change the water height.
-                        //
+                    //
+                    // Change the water height.
+                    //
 
-                        ES_sewer_water_dheight(
-                            SEDIT_mouse_world_x,
-                            SEDIT_mouse_world_z,
-                            dheight);
+                    ES_sewer_water_dheight(
+                        SEDIT_mouse_world_x,
+                        SEDIT_mouse_world_z,
+                        dheight);
 
-                        break;
+                    break;
 
-                    case SEDIT_TOOL_PLACE_PRIM:
+                case SEDIT_TOOL_PLACE_PRIM:
 
-                        dheight = (dwheel < 0) ? -2 : +2;
+                    dheight = (dwheel < 0) ? -2 : +2;
 
-                        //
-                        // Change the prim height.
-                        //
+                    //
+                    // Change the prim height.
+                    //
 
-                        ES_prim_dheight(
-                            SEDIT_mouse_world_x,
-                            SEDIT_mouse_world_y,
-                            SEDIT_mouse_world_z,
-                            dheight);
+                    ES_prim_dheight(
+                        SEDIT_mouse_world_x,
+                        SEDIT_mouse_world_y,
+                        SEDIT_mouse_world_z,
+                        dheight);
 
-                        break;
+                    break;
 
-                    default:
+                default:
 
-                        dheight = (dwheel < 0) ? -8 : +8;
+                    dheight = (dwheel < 0) ? -8 : +8;
 
-                        ES_change_height(
-                            SEDIT_mouse_map_x,
-                            SEDIT_mouse_map_z,
-                            dheight);
+                    ES_change_height(
+                        SEDIT_mouse_map_x,
+                        SEDIT_mouse_map_z,
+                        dheight);
 
-                        break;
+                    break;
                 }
             }
 
@@ -1072,184 +1072,184 @@ LRESULT CALLBACK SEDIT_callback_frame(
     }
 
     switch (message_type) {
-        case WM_DESTROY:
+    case WM_DESTROY:
+        SEDIT_request_exit();
+        return 0;
+
+    case WM_COMMAND:
+
+        switch (LOWORD(param_w)) {
+        case ID_FILE_EXIT:
             SEDIT_request_exit();
-            return 0;
+            break;
 
-        case WM_COMMAND:
+        case ID_FILE_OPEN_ARSE:
 
-            switch (LOWORD(param_w)) {
-                case ID_FILE_EXIT:
-                    SEDIT_request_exit();
-                    break;
-
-                case ID_FILE_OPEN_ARSE:
-
-                    if (GetOpenFileName(&SEDIT_ofn_map)) {
-                        SEDIT_load_map(SEDIT_ofn_file_map);
-                    }
-
-                    break;
-
-                case ID_FILE_LOAD_SEWERS:
-                    SEDIT_sewers_load();
-                    break;
-
-                case ID_FILE_SAVE_SEWERS:
-                    SEDIT_sewers_save();
-                    break;
-
-                case ID_EDIT_UNDO_ARSE:
-                    SEDIT_undo();
-                    break;
-
-                case ID_EDIT_REDO_ARSE:
-                    SEDIT_redo();
-                    break;
-
-                case ID_EDIT_PLACE_SEWERS:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_SEWERS;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_GROUND:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_GROUND;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_ROCK:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_ROCK;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_WATER:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_WATER;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_HOLE:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_HOLE;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_ENTRANCE:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_ENTRANCE;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_GRATING:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_GRATING;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_PRIM:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_PRIM;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_PLACE_LADDER:
-                    SEDIT_tool = SEDIT_TOOL_PLACE_LADDER;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_EDIT_EDIT_LIGHT:
-                    SEDIT_tool = SEDIT_TOOL_EDIT_LIGHT;
-                    SEDIT_set_state_look();
-                    break;
-
-                case ID_VIEW_SEWER_ENGINE:
-
-                    //
-                    // Prepare the game for entering the sewers- transfer the
-                    // editor map into the game data structures.
-                    //
-
-                    ES_build_sewers();
-
-                    SEDIT_view_type = SEDIT_VIEW_TYPE_SEWERS;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_VIEW_SEWER_EDITOR:
-                    SEDIT_view_type = SEDIT_VIEW_TYPE_EDITOR;
-                    SEDIT_set_state_look();
-                    break;
-                case ID_VIEW_CITY_ENGINE:
-                    SEDIT_view_type = SEDIT_VIEW_TYPE_ENGINE;
-                    SEDIT_set_state_look();
-                    break;
-
-                case ID_VIEW_SHOW_BUILDINGS:
-                    SEDIT_view_flag ^= SEDIT_VIEW_FLAG_SHOW_BUILDINGS;
-                    SEDIT_set_state_look();
-                    break;
-
-                case ID_HELP_ABOUT:
-                    MessageBox(
-                        SEDIT_handle_frame,
-                        "Mark is the guilty party!",
-                        "Urban Chaos sewer editor",
-                        MB_ICONINFORMATION | MB_OK | MB_APPLMODAL);
-                    break;
-
-                default:
-                    break;
+            if (GetOpenFileName(&SEDIT_ofn_map)) {
+                SEDIT_load_map(SEDIT_ofn_file_map);
             }
 
-            return 0;
+            break;
 
-        case WM_KEYDOWN:
+        case ID_FILE_LOAD_SEWERS:
+            SEDIT_sewers_load();
+            break;
 
-            scancode = (param_l >> 16) & 0x7f;
+        case ID_FILE_SAVE_SEWERS:
+            SEDIT_sewers_save();
+            break;
 
-            if (param_l & 0x01000000) {
-                //
-                // Exteneded key.
-                //
+        case ID_EDIT_UNDO_ARSE:
+            SEDIT_undo();
+            break;
 
-                scancode += 0x80;
-            }
+        case ID_EDIT_REDO_ARSE:
+            SEDIT_redo();
+            break;
 
-            Keys[scancode] = true;
+        case ID_EDIT_PLACE_SEWERS:
+            SEDIT_tool = SEDIT_TOOL_PLACE_SEWERS;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_GROUND:
+            SEDIT_tool = SEDIT_TOOL_PLACE_GROUND;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_ROCK:
+            SEDIT_tool = SEDIT_TOOL_PLACE_ROCK;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_WATER:
+            SEDIT_tool = SEDIT_TOOL_PLACE_WATER;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_HOLE:
+            SEDIT_tool = SEDIT_TOOL_PLACE_HOLE;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_ENTRANCE:
+            SEDIT_tool = SEDIT_TOOL_PLACE_ENTRANCE;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_GRATING:
+            SEDIT_tool = SEDIT_TOOL_PLACE_GRATING;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_PRIM:
+            SEDIT_tool = SEDIT_TOOL_PLACE_PRIM;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_PLACE_LADDER:
+            SEDIT_tool = SEDIT_TOOL_PLACE_LADDER;
+            SEDIT_set_state_look();
+            break;
+        case ID_EDIT_EDIT_LIGHT:
+            SEDIT_tool = SEDIT_TOOL_EDIT_LIGHT;
+            SEDIT_set_state_look();
+            break;
 
-            AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
-            ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
-            ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
-
-            return 0;
-
-        case WM_KEYUP:
-
-            scancode = (param_l >> 16) & 0x7f;
-
-            if (param_l & 0x01000000) {
-                //
-                // Exteneded key.
-                //
-
-                scancode += 0x80;
-            }
-
-            Keys[scancode] = false;
-
-            AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
-            ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
-            ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
-
-            return 0;
-
-        case WM_USER:
+        case ID_VIEW_SEWER_ENGINE:
 
             //
-            // The message we send to ourselves when nothing else is happening.
+            // Prepare the game for entering the sewers- transfer the
+            // editor map into the game data structures.
             //
 
-            SEDIT_process();
+            ES_build_sewers();
 
-            return 0;
+            SEDIT_view_type = SEDIT_VIEW_TYPE_SEWERS;
+            SEDIT_set_state_look();
+            break;
+        case ID_VIEW_SEWER_EDITOR:
+            SEDIT_view_type = SEDIT_VIEW_TYPE_EDITOR;
+            SEDIT_set_state_look();
+            break;
+        case ID_VIEW_CITY_ENGINE:
+            SEDIT_view_type = SEDIT_VIEW_TYPE_ENGINE;
+            SEDIT_set_state_look();
+            break;
 
-        case WM_KILLFOCUS:
+        case ID_VIEW_SHOW_BUILDINGS:
+            SEDIT_view_flag ^= SEDIT_VIEW_FLAG_SHOW_BUILDINGS;
+            SEDIT_set_state_look();
+            break;
 
-            //
-            // Stop the focus going elsewhere!
-            //
-
-            SetFocus(SEDIT_handle_frame);
-
-            return 0;
+        case ID_HELP_ABOUT:
+            MessageBox(
+                SEDIT_handle_frame,
+                "Mark is the guilty party!",
+                "Urban Chaos sewer editor",
+                MB_ICONINFORMATION | MB_OK | MB_APPLMODAL);
+            break;
 
         default:
             break;
+        }
+
+        return 0;
+
+    case WM_KEYDOWN:
+
+        scancode = (param_l >> 16) & 0x7f;
+
+        if (param_l & 0x01000000) {
+            //
+            // Exteneded key.
+            //
+
+            scancode += 0x80;
+        }
+
+        Keys[scancode] = true;
+
+        AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
+        ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
+        ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
+
+        return 0;
+
+    case WM_KEYUP:
+
+        scancode = (param_l >> 16) & 0x7f;
+
+        if (param_l & 0x01000000) {
+            //
+            // Exteneded key.
+            //
+
+            scancode += 0x80;
+        }
+
+        Keys[scancode] = false;
+
+        AltFlag = (Keys[KB_LALT] || Keys[KB_RALT]);
+        ControlFlag = (Keys[KB_LCONTROL] || Keys[KB_RCONTROL]);
+        ShiftFlag = (Keys[KB_LSHIFT] || Keys[KB_RSHIFT]);
+
+        return 0;
+
+    case WM_USER:
+
+        //
+        // The message we send to ourselves when nothing else is happening.
+        //
+
+        SEDIT_process();
+
+        return 0;
+
+    case WM_KILLFOCUS:
+
+        //
+        // Stop the focus going elsewhere!
+        //
+
+        SetFocus(SEDIT_handle_frame);
+
+        return 0;
+
+    default:
+        break;
     }
 
     return DefWindowProc(
@@ -1277,66 +1277,66 @@ LRESULT CALLBACK SEDIT_callback_choose_prim(
     static std::int32_t selection;
 
     switch (message_type) {
-        case WM_INITDIALOG:
+    case WM_INITDIALOG:
 
-            if (SEDIT_map_valid) {
-                list_handle = GetDlgItem(dialog_handle, IDC_PRIM_LIST);
+        if (SEDIT_map_valid) {
+            list_handle = GetDlgItem(dialog_handle, IDC_PRIM_LIST);
 
-                for (i = 1; i < next_prim_object; i++) {
-                    SendMessage(
-                        list_handle,
-                        LB_ADDSTRING,
-                        0,
-                        (long) prim_names[i]);
-                    //						(long) prim_objects[i].ObjectName);
-                }
-
-                selection = 0;
-
-                //
-                // Move the window to the mouse cursor position.
-                //
-
-                GetWindowRect(dialog_handle, &rect);
-                GetCursorPos(&mouse);
-                MoveWindow(dialog_handle, mouse.x, mouse.y, rect.right - rect.left, rect.bottom - rect.top, false);
-            } else {
-                EndDialog(dialog_handle, false);
+            for (i = 1; i < next_prim_object; i++) {
+                SendMessage(
+                    list_handle,
+                    LB_ADDSTRING,
+                    0,
+                    (long) prim_names[i]);
+                //						(long) prim_objects[i].ObjectName);
             }
 
-            return 0;
+            selection = 0;
 
-        case WM_COMMAND:
+            //
+            // Move the window to the mouse cursor position.
+            //
 
-            switch (LOWORD(param_w)) {
-                case IDC_PRIM_LIST:
+            GetWindowRect(dialog_handle, &rect);
+            GetCursorPos(&mouse);
+            MoveWindow(dialog_handle, mouse.x, mouse.y, rect.right - rect.left, rect.bottom - rect.top, false);
+        } else {
+            EndDialog(dialog_handle, false);
+        }
 
-                    if (HIWORD(param_w) == LBN_SELCHANGE) {
-                        list_handle = GetDlgItem(dialog_handle, IDC_PRIM_LIST);
-                        item = SendMessage(list_handle, LB_GETCURSEL, 0, 0);
-                        selection = item + 1;
+        return 0;
 
-                        return true;
-                    }
+    case WM_COMMAND:
 
-                    break;
+        switch (LOWORD(param_w)) {
+        case IDC_PRIM_LIST:
 
-                case IDOK:
-                    EndDialog(dialog_handle, selection);
-                    return true;
+            if (HIWORD(param_w) == LBN_SELCHANGE) {
+                list_handle = GetDlgItem(dialog_handle, IDC_PRIM_LIST);
+                item = SendMessage(list_handle, LB_GETCURSEL, 0, 0);
+                selection = item + 1;
 
-                case IDCANCEL:
-                    EndDialog(dialog_handle, 0);
-                    return true;
-
-                default:
-                    break;
+                return true;
             }
 
             break;
+
+        case IDOK:
+            EndDialog(dialog_handle, selection);
+            return true;
+
+        case IDCANCEL:
+            EndDialog(dialog_handle, 0);
+            return true;
 
         default:
             break;
+        }
+
+        break;
+
+    default:
+        break;
     }
 
     return false;
@@ -1360,248 +1360,248 @@ LRESULT CALLBACK SEDIT_callback_engine(
     std::int32_t ret;
 
     switch (message_type) {
-        case WM_PAINT:
+    case WM_PAINT:
 
-            //
-            // Blit across the invalid region from the back-buffer.
-            //
+        //
+        // Blit across the invalid region from the back-buffer.
+        //
 
-            hdc = BeginPaint(window_handle, &ps);
+        hdc = BeginPaint(window_handle, &ps);
 
-            clientpos.x = 0;
-            clientpos.y = 0;
+        clientpos.x = 0;
+        clientpos.y = 0;
 
-            ClientToScreen(
-                window_handle,
-                &clientpos);
+        ClientToScreen(
+            window_handle,
+            &clientpos);
 
-            dest.top = ps.rcPaint.top + clientpos.y;
-            dest.left = ps.rcPaint.left + clientpos.x;
-            dest.right = ps.rcPaint.right + clientpos.x;
-            dest.bottom = ps.rcPaint.bottom + clientpos.y;
+        dest.top = ps.rcPaint.top + clientpos.y;
+        dest.left = ps.rcPaint.left + clientpos.x;
+        dest.right = ps.rcPaint.right + clientpos.x;
+        dest.bottom = ps.rcPaint.bottom + clientpos.y;
 
-            src = ps.rcPaint;
+        src = ps.rcPaint;
 
-            the_display.lp_DD_FrontSurface->Blt(&dest, the_display.lp_DD_BackSurface, &src, DDBLT_WAIT, 0);
+        the_display.lp_DD_FrontSurface->Blt(&dest, the_display.lp_DD_BackSurface, &src, DDBLT_WAIT, 0);
 
-            EndPaint(window_handle, &ps);
+        EndPaint(window_handle, &ps);
 
-            return 0;
+        return 0;
 
-        case WM_LBUTTONDOWN:
+    case WM_LBUTTONDOWN:
 
-            if (SEDIT_mouse_valid) {
-                if (SEDIT_view_type == SEDIT_VIEW_TYPE_ENGINE) {
-                    //
-                    // Start placing down water.
-                    //
-
-                    SEDIT_city_water_place = true;
-                    SEDIT_city_water_place_state = !ES_city_water_get(SEDIT_mouse_world_x, SEDIT_mouse_world_z);
-                } else {
-                    ASSERT(WITHIN(SEDIT_mouse_map_x, 0, PAP_SIZE_HI - 1));
-                    ASSERT(WITHIN(SEDIT_mouse_map_z, 0, PAP_SIZE_HI - 1));
-
-                    eh = &ES_hi[SEDIT_mouse_map_x][SEDIT_mouse_map_z];
-
-                    switch (SEDIT_doing) {
-                        case SEDIT_DOING_NOTHING:
-
-                            switch (SEDIT_tool) {
-                                case SEDIT_TOOL_PLACE_SEWERS: SEDIT_doing = SEDIT_DOING_PAINT_SEWERS; break;
-                                case SEDIT_TOOL_PLACE_GROUND: SEDIT_doing = SEDIT_DOING_PAINT_GROUND; break;
-                                case SEDIT_TOOL_PLACE_ROCK: SEDIT_doing = SEDIT_DOING_PAINT_ROCK; break;
-                                case SEDIT_TOOL_PLACE_HOLE: SEDIT_doing = SEDIT_DOING_PAINT_HOLE; break;
-                                case SEDIT_TOOL_PLACE_WATER:
-                                    SEDIT_doing = (eh->water) ? SEDIT_DOING_PAINT_WATER_OFF : SEDIT_DOING_PAINT_WATER_ON;
-                                    break;
-                                case SEDIT_TOOL_PLACE_ENTRANCE:
-                                    SEDIT_doing = (eh->flag & ES_FLAG_ENTRANCE) ? SEDIT_DOING_PAINT_ENTRANCE_OFF : SEDIT_DOING_PAINT_ENTRANCE_ON;
-                                    break;
-                                case SEDIT_TOOL_PLACE_GRATING:
-                                    SEDIT_doing = (eh->flag & ES_FLAG_GRATING) ? SEDIT_DOING_PAINT_GRATING_OFF : SEDIT_DOING_PAINT_GRATING_ON;
-                                    break;
-                                case SEDIT_TOOL_EDIT_LIGHT:
-                                    SEDIT_doing = SEDIT_DOING_DRAG_LIGHT;
-                                    break;
-                                case SEDIT_TOOL_PLACE_LADDER:
-                                    SEDIT_doing = SEDIT_DOING_PLACE_LADDER;
-                                    SEDIT_ladder_mid_x = SEDIT_mouse_world_x;
-                                    SEDIT_ladder_mid_z = SEDIT_mouse_world_z;
-                                    break;
-
-                                case SEDIT_TOOL_PLACE_PRIM:
-
-                                    if (SEDIT_prim_object && SEDIT_mouse_valid) {
-                                        //
-                                        // Place the prim.
-                                        //
-
-                                        ES_prim_create(
-                                            SEDIT_prim_object,
-                                            SEDIT_mouse_world_x,
-                                            SEDIT_mouse_world_y,
-                                            SEDIT_mouse_world_z,
-                                            SEDIT_prim_yaw);
-                                    }
-
-                                    break;
-
-                                default:
-                                    break;
-                            }
-
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
+        if (SEDIT_mouse_valid) {
+            if (SEDIT_view_type == SEDIT_VIEW_TYPE_ENGINE) {
                 //
-                // Pretend that the mouse has moved- because the action we
-                // are doing only occurs when the mouse moves.
+                // Start placing down water.
                 //
 
-                SendMessage(SEDIT_handle_engine, WM_MOUSEMOVE, 0, 0); // Doens't care where the mouse is...
-            }
+                SEDIT_city_water_place = true;
+                SEDIT_city_water_place_state = !ES_city_water_get(SEDIT_mouse_world_x, SEDIT_mouse_world_z);
+            } else {
+                ASSERT(WITHIN(SEDIT_mouse_map_x, 0, PAP_SIZE_HI - 1));
+                ASSERT(WITHIN(SEDIT_mouse_map_z, 0, PAP_SIZE_HI - 1));
 
-            //
-            // Grab control of the mouse.
-            //
+                eh = &ES_hi[SEDIT_mouse_map_x][SEDIT_mouse_map_z];
 
-            SetCapture(SEDIT_handle_engine);
+                switch (SEDIT_doing) {
+                case SEDIT_DOING_NOTHING:
 
-            return 0;
+                    switch (SEDIT_tool) {
+                    case SEDIT_TOOL_PLACE_SEWERS: SEDIT_doing = SEDIT_DOING_PAINT_SEWERS; break;
+                    case SEDIT_TOOL_PLACE_GROUND: SEDIT_doing = SEDIT_DOING_PAINT_GROUND; break;
+                    case SEDIT_TOOL_PLACE_ROCK: SEDIT_doing = SEDIT_DOING_PAINT_ROCK; break;
+                    case SEDIT_TOOL_PLACE_HOLE: SEDIT_doing = SEDIT_DOING_PAINT_HOLE; break;
+                    case SEDIT_TOOL_PLACE_WATER:
+                        SEDIT_doing = (eh->water) ? SEDIT_DOING_PAINT_WATER_OFF : SEDIT_DOING_PAINT_WATER_ON;
+                        break;
+                    case SEDIT_TOOL_PLACE_ENTRANCE:
+                        SEDIT_doing = (eh->flag & ES_FLAG_ENTRANCE) ? SEDIT_DOING_PAINT_ENTRANCE_OFF : SEDIT_DOING_PAINT_ENTRANCE_ON;
+                        break;
+                    case SEDIT_TOOL_PLACE_GRATING:
+                        SEDIT_doing = (eh->flag & ES_FLAG_GRATING) ? SEDIT_DOING_PAINT_GRATING_OFF : SEDIT_DOING_PAINT_GRATING_ON;
+                        break;
+                    case SEDIT_TOOL_EDIT_LIGHT:
+                        SEDIT_doing = SEDIT_DOING_DRAG_LIGHT;
+                        break;
+                    case SEDIT_TOOL_PLACE_LADDER:
+                        SEDIT_doing = SEDIT_DOING_PLACE_LADDER;
+                        SEDIT_ladder_mid_x = SEDIT_mouse_world_x;
+                        SEDIT_ladder_mid_z = SEDIT_mouse_world_z;
+                        break;
 
-        case WM_LBUTTONUP:
+                    case SEDIT_TOOL_PLACE_PRIM:
 
-            switch (SEDIT_doing) {
-                case SEDIT_DOING_PAINT_SEWERS:
-                case SEDIT_DOING_PAINT_GROUND:
-                case SEDIT_DOING_PAINT_ROCK:
-                case SEDIT_DOING_PAINT_HOLE:
-                case SEDIT_DOING_PAINT_WATER_ON:
-                case SEDIT_DOING_PAINT_WATER_OFF:
-                case SEDIT_DOING_PAINT_ENTRANCE_ON:
-                case SEDIT_DOING_PAINT_ENTRANCE_OFF:
-                case SEDIT_DOING_PAINT_GRATING_ON:
-                case SEDIT_DOING_PAINT_GRATING_OFF:
-                case SEDIT_DOING_DRAG_LIGHT:
-                    SEDIT_doing = SEDIT_DOING_NOTHING;
-                    break;
+                        if (SEDIT_prim_object && SEDIT_mouse_valid) {
+                            //
+                            // Place the prim.
+                            //
 
-                case SEDIT_DOING_PLACE_LADDER:
+                            ES_prim_create(
+                                SEDIT_prim_object,
+                                SEDIT_mouse_world_x,
+                                SEDIT_mouse_world_y,
+                                SEDIT_mouse_world_z,
+                                SEDIT_prim_yaw);
+                        }
 
-                    if (SEDIT_mouse_valid) {
-                        ES_ladder_create(
-                            SEDIT_ladder_mid_x,
-                            SEDIT_ladder_mid_z,
-                            SEDIT_mouse_world_x,
-                            SEDIT_mouse_world_z);
+                        break;
+
+                    default:
+                        break;
                     }
-
-                    SEDIT_doing = SEDIT_DOING_NOTHING;
 
                     break;
 
                 default:
                     break;
-            }
-
-            SEDIT_city_water_place = false;
-
-            //
-            // Make anything the user did undoable.
-            //
-
-            SEDIT_make_undoable();
-
-            //
-            // Release the capture on the mouse.
-            //
-
-            ReleaseCapture();
-
-            return 0;
-
-        case WM_MOUSEMOVE:
-
-            if (SEDIT_mouse_valid) {
-                if (SEDIT_view_type == SEDIT_VIEW_TYPE_ENGINE) {
-                    if (SEDIT_city_water_place) {
-                        ES_city_water_set(
-                            SEDIT_mouse_world_x,
-                            SEDIT_mouse_world_z,
-                            SEDIT_city_water_place_state);
-                    }
-                } else {
-                    ASSERT(WITHIN(SEDIT_mouse_map_x, 0, PAP_SIZE_HI - 1));
-                    ASSERT(WITHIN(SEDIT_mouse_map_z, 0, PAP_SIZE_HI - 1));
-
-                    eh = &ES_hi[SEDIT_mouse_map_x][SEDIT_mouse_map_z];
-
-                    switch (SEDIT_doing) {
-                        case SEDIT_DOING_PAINT_SEWERS: eh->type = ES_TYPE_SEWER; break;
-                        case SEDIT_DOING_PAINT_GROUND: eh->type = ES_TYPE_GROUND; break;
-                        case SEDIT_DOING_PAINT_ROCK: eh->type = ES_TYPE_ROCK; break;
-                        case SEDIT_DOING_PAINT_HOLE: eh->type = ES_TYPE_HOLE; break;
-
-                        case SEDIT_DOING_PAINT_WATER_ON: eh->water = eh->height + 1; break;
-                        case SEDIT_DOING_PAINT_WATER_OFF: eh->water = 0; break;
-
-                        case SEDIT_DOING_PAINT_ENTRANCE_ON:
-                        case SEDIT_DOING_PAINT_ENTRANCE_OFF:
-                            if (ShiftFlag) {
-                                eh->flag |= ES_FLAG_NOCURBS;
-                            } else {
-                                eh->flag &= ~ES_FLAG_NOCURBS;
-                            }
-                            switch (SEDIT_doing) {
-                                case SEDIT_DOING_PAINT_ENTRANCE_ON: eh->flag |= ES_FLAG_ENTRANCE; break;
-                                case SEDIT_DOING_PAINT_ENTRANCE_OFF: eh->flag &= ~ES_FLAG_ENTRANCE; break;
-                            }
-                            break;
-
-                        case SEDIT_DOING_PAINT_GRATING_ON: eh->flag |= ES_FLAG_GRATING; break;
-                        case SEDIT_DOING_PAINT_GRATING_OFF: eh->flag &= ~ES_FLAG_GRATING; break;
-
-                        case SEDIT_DOING_DRAG_LIGHT:
-                            ES_light_move(
-                                SEDIT_mouse_world_x,
-                                SEDIT_mouse_world_z);
-                            break;
-
-                        case SEDIT_DOING_PLACE_LADDER:
-                            break;
-
-                        default:
-                            break;
-                    }
                 }
             }
 
-            return 0;
+            //
+            // Pretend that the mouse has moved- because the action we
+            // are doing only occurs when the mouse moves.
+            //
 
-        case WM_RBUTTONDOWN:
+            SendMessage(SEDIT_handle_engine, WM_MOUSEMOVE, 0, 0); // Doens't care where the mouse is...
+        }
 
-            ret = DialogBox(
-                SEDIT_hinstance,
-                MAKEINTRESOURCE(IDD_CHOOSE_PRIM),
-                SEDIT_handle_engine,
-                (DLGPROC) SEDIT_callback_choose_prim);
+        //
+        // Grab control of the mouse.
+        //
 
-            if (ret) {
-                SEDIT_prim_object = ret;
+        SetCapture(SEDIT_handle_engine);
+
+        return 0;
+
+    case WM_LBUTTONUP:
+
+        switch (SEDIT_doing) {
+        case SEDIT_DOING_PAINT_SEWERS:
+        case SEDIT_DOING_PAINT_GROUND:
+        case SEDIT_DOING_PAINT_ROCK:
+        case SEDIT_DOING_PAINT_HOLE:
+        case SEDIT_DOING_PAINT_WATER_ON:
+        case SEDIT_DOING_PAINT_WATER_OFF:
+        case SEDIT_DOING_PAINT_ENTRANCE_ON:
+        case SEDIT_DOING_PAINT_ENTRANCE_OFF:
+        case SEDIT_DOING_PAINT_GRATING_ON:
+        case SEDIT_DOING_PAINT_GRATING_OFF:
+        case SEDIT_DOING_DRAG_LIGHT:
+            SEDIT_doing = SEDIT_DOING_NOTHING;
+            break;
+
+        case SEDIT_DOING_PLACE_LADDER:
+
+            if (SEDIT_mouse_valid) {
+                ES_ladder_create(
+                    SEDIT_ladder_mid_x,
+                    SEDIT_ladder_mid_z,
+                    SEDIT_mouse_world_x,
+                    SEDIT_mouse_world_z);
             }
 
-            return 0;
+            SEDIT_doing = SEDIT_DOING_NOTHING;
 
-        case WM_COMMAND:
-            return 0;
+            break;
 
         default:
             break;
+        }
+
+        SEDIT_city_water_place = false;
+
+        //
+        // Make anything the user did undoable.
+        //
+
+        SEDIT_make_undoable();
+
+        //
+        // Release the capture on the mouse.
+        //
+
+        ReleaseCapture();
+
+        return 0;
+
+    case WM_MOUSEMOVE:
+
+        if (SEDIT_mouse_valid) {
+            if (SEDIT_view_type == SEDIT_VIEW_TYPE_ENGINE) {
+                if (SEDIT_city_water_place) {
+                    ES_city_water_set(
+                        SEDIT_mouse_world_x,
+                        SEDIT_mouse_world_z,
+                        SEDIT_city_water_place_state);
+                }
+            } else {
+                ASSERT(WITHIN(SEDIT_mouse_map_x, 0, PAP_SIZE_HI - 1));
+                ASSERT(WITHIN(SEDIT_mouse_map_z, 0, PAP_SIZE_HI - 1));
+
+                eh = &ES_hi[SEDIT_mouse_map_x][SEDIT_mouse_map_z];
+
+                switch (SEDIT_doing) {
+                case SEDIT_DOING_PAINT_SEWERS: eh->type = ES_TYPE_SEWER; break;
+                case SEDIT_DOING_PAINT_GROUND: eh->type = ES_TYPE_GROUND; break;
+                case SEDIT_DOING_PAINT_ROCK: eh->type = ES_TYPE_ROCK; break;
+                case SEDIT_DOING_PAINT_HOLE: eh->type = ES_TYPE_HOLE; break;
+
+                case SEDIT_DOING_PAINT_WATER_ON: eh->water = eh->height + 1; break;
+                case SEDIT_DOING_PAINT_WATER_OFF: eh->water = 0; break;
+
+                case SEDIT_DOING_PAINT_ENTRANCE_ON:
+                case SEDIT_DOING_PAINT_ENTRANCE_OFF:
+                    if (ShiftFlag) {
+                        eh->flag |= ES_FLAG_NOCURBS;
+                    } else {
+                        eh->flag &= ~ES_FLAG_NOCURBS;
+                    }
+                    switch (SEDIT_doing) {
+                    case SEDIT_DOING_PAINT_ENTRANCE_ON: eh->flag |= ES_FLAG_ENTRANCE; break;
+                    case SEDIT_DOING_PAINT_ENTRANCE_OFF: eh->flag &= ~ES_FLAG_ENTRANCE; break;
+                    }
+                    break;
+
+                case SEDIT_DOING_PAINT_GRATING_ON: eh->flag |= ES_FLAG_GRATING; break;
+                case SEDIT_DOING_PAINT_GRATING_OFF: eh->flag &= ~ES_FLAG_GRATING; break;
+
+                case SEDIT_DOING_DRAG_LIGHT:
+                    ES_light_move(
+                        SEDIT_mouse_world_x,
+                        SEDIT_mouse_world_z);
+                    break;
+
+                case SEDIT_DOING_PLACE_LADDER:
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        }
+
+        return 0;
+
+    case WM_RBUTTONDOWN:
+
+        ret = DialogBox(
+            SEDIT_hinstance,
+            MAKEINTRESOURCE(IDD_CHOOSE_PRIM),
+            SEDIT_handle_engine,
+            (DLGPROC) SEDIT_callback_choose_prim);
+
+        if (ret) {
+            SEDIT_prim_object = ret;
+        }
+
+        return 0;
+
+    case WM_COMMAND:
+        return 0;
+
+    default:
+        break;
     }
 
     return DefWindowProc(

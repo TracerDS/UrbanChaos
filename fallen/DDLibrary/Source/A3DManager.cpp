@@ -30,49 +30,49 @@ A3DManager the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PAT
 void Decode(std::int32_t hr) {
     TRACE("A3D Error: ");
     switch (hr) {
-        case A3DERROR_FAILED_FILE_OPEN:
-            TRACE("Failed File Open");
-            break;
+    case A3DERROR_FAILED_FILE_OPEN:
+        TRACE("Failed File Open");
+        break;
 
-        case A3DERROR_FAILED_LOCK_BUFFER:
-            TRACE("Failed Lock");
-            break;
+    case A3DERROR_FAILED_LOCK_BUFFER:
+        TRACE("Failed Lock");
+        break;
 
-        case A3DERROR_FAILED_UNLOCK_BUFFER:
-            TRACE("Failed Unlock");
-            break;
+    case A3DERROR_FAILED_UNLOCK_BUFFER:
+        TRACE("Failed Unlock");
+        break;
 
-        case A3DERROR_UNRECOGNIZED_FORMAT:
-            TRACE("Unrecongized Format");
-            break;
+    case A3DERROR_UNRECOGNIZED_FORMAT:
+        TRACE("Unrecongized Format");
+        break;
 
-        case A3DERROR_FAILED_ALLOCATE_WAVEDATA:
-            TRACE("Failed Allocate Wavedata");
-            break;
+    case A3DERROR_FAILED_ALLOCATE_WAVEDATA:
+        TRACE("Failed Allocate Wavedata");
+        break;
 
-        case E_INVALIDARG:
-            TRACE("Invalid Argument");
-            break;
+    case E_INVALIDARG:
+        TRACE("Invalid Argument");
+        break;
 
-        case A3DERROR_MEMORY_ALLOCATION:
-            TRACE("Memory Allocation Error");
-            break;
+    case A3DERROR_MEMORY_ALLOCATION:
+        TRACE("Memory Allocation Error");
+        break;
 
-        case A3DERROR_FAILED_CREATE_PRIMARY_BUFFER:
-            TRACE("Primary Buffer Create Failed");
-            break;
+    case A3DERROR_FAILED_CREATE_PRIMARY_BUFFER:
+        TRACE("Primary Buffer Create Failed");
+        break;
 
-        case A3DERROR_NO_WAVE_DATA:
-            TRACE("No Wave Data");
-            break;
+    case A3DERROR_NO_WAVE_DATA:
+        TRACE("No Wave Data");
+        break;
 
-        case A3DERROR_UNKNOWN_PLAYMODE:
-            TRACE("Unknown Play Mode");
-            break;
+    case A3DERROR_UNKNOWN_PLAYMODE:
+        TRACE("Unknown Play Mode");
+        break;
 
-        case A3DERROR_FAILED_PLAY:
-            TRACE("Failed Play");
-            break;
+    case A3DERROR_FAILED_PLAY:
+        TRACE("Failed Play");
+        break;
     }
 
     TRACE("\n");

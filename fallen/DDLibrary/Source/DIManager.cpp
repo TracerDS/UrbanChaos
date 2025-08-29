@@ -195,19 +195,19 @@ bool ReadInputDevice() {
         {
             result = primary_device->lpdiInputDevice->Poll();
             switch (result) {
-                case DIERR_INPUTLOST:
-                case DIERR_NOTACQUIRED:
-                    result = primary_device->lpdiInputDevice->Acquire();
+            case DIERR_INPUTLOST:
+            case DIERR_NOTACQUIRED:
+                result = primary_device->lpdiInputDevice->Acquire();
 
-                    if (result != DI_OK) {
-                        return read_it;
-                    }
+                if (result != DI_OK) {
+                    return read_it;
+                }
 
-                    // if(FAILED(result))
-                    //	return read_it;
-                    break;
-                case DIERR_NOTINITIALIZED:
-                    break;
+                // if(FAILED(result))
+                //	return read_it;
+                break;
+            case DIERR_NOTINITIALIZED:
+                break;
             }
         }
 #endif
@@ -219,50 +219,50 @@ bool ReadInputDevice() {
         result = primary_device->lpdiInputDevice->GetDeviceState(sizeof(the_state), &the_state);
 #endif
         switch (result) {
-            default:
-                SHARON("Primary Device fell over in some way\n");
-                result = primary_device->lpdiInputDevice->Acquire();
+        default:
+            SHARON("Primary Device fell over in some way\n");
+            result = primary_device->lpdiInputDevice->Acquire();
 
-                if (result != DI_OK) {
+            if (result != DI_OK) {
 #ifdef TARGET_DC
-                    // Start searching for primary devices again.
-                    ClearPrimaryDevice();
+                // Start searching for primary devices again.
+                ClearPrimaryDevice();
 #endif
-                    return read_it;
-                }
+                return read_it;
+            }
 
-                // if(FAILED(result))
-                //	return read_it;
+            // if(FAILED(result))
+            //	return read_it;
 
-                break;
-            case DI_OK:
+            break;
+        case DI_OK:
 
 #if ENABLE_REMAPPING
-                // Remap from DI internals to my standard mappings.
+            // Remap from DI internals to my standard mappings.
 
-                // Can't be arsed to remap the axis.
-                // But, if there aren't enough (e.g. lightgun, which has no axis),
-                // set them to mid-way to stop them interfereing.
+            // Can't be arsed to remap the axis.
+            // But, if there aren't enough (e.g. lightgun, which has no axis),
+            // set them to mid-way to stop them interfereing.
 
-                if (primary_device->NumAxis >= 1) {
-                    the_state.lX = temp_state.lX;
-                } else {
-                    the_state.lX = 128;
-                }
-                if (primary_device->NumAxis >= 2) {
-                    the_state.lY = temp_state.lY;
-                } else {
-                    the_state.lY = 128;
-                }
+            if (primary_device->NumAxis >= 1) {
+                the_state.lX = temp_state.lX;
+            } else {
+                the_state.lX = 128;
+            }
+            if (primary_device->NumAxis >= 2) {
+                the_state.lY = temp_state.lY;
+            } else {
+                the_state.lY = 128;
+            }
 
-                for (int i = 0; i < primary_device->NumButtons; i++) {
-                    ASSERT(primary_device->ButtonMappings[i] != (std::uint8_t) -1);
-                    the_state.rgbButtons[primary_device->ButtonMappings[i]] = temp_state.rgbButtons[i];
-                }
+            for (int i = 0; i < primary_device->NumButtons; i++) {
+                ASSERT(primary_device->ButtonMappings[i] != (std::uint8_t) -1);
+                the_state.rgbButtons[primary_device->ButtonMappings[i]] = temp_state.rgbButtons[i];
+            }
 #endif
 
-                read_it = true;
-                break;
+            read_it = true;
+            break;
         }
     }
     return read_it;
@@ -471,31 +471,31 @@ bool DIDeviceInfo::DIEnumDeviceObjectsProc(LPCDIDEVICEOBJECTINSTANCE pDIDOI) {
         if (NumButtons < 32) {
             int iMapping = -1;
             switch (pDIDOI->wUsage) {
-                case USAGE_A_BUTTON: iMapping = MY_DC_BUTTON_A; break;
-                case USAGE_B_BUTTON: iMapping = MY_DC_BUTTON_B; break;
-                case USAGE_C_BUTTON: iMapping = MY_DC_BUTTON_C; break;
-                case USAGE_D_BUTTON: iMapping = MY_DC_BUTTON_D; break;
-                case USAGE_START_BUTTON: iMapping = MY_DC_BUTTON_START; break;
-                case USAGE_LA_BUTTON: iMapping = MY_DC_BUTTON_LEFT; break;
-                case USAGE_RA_BUTTON: iMapping = MY_DC_BUTTON_RIGHT; break;
-                case USAGE_DA_BUTTON: iMapping = MY_DC_BUTTON_DOWN; break;
-                case USAGE_UA_BUTTON: iMapping = MY_DC_BUTTON_UP; break;
-                case USAGE_X_BUTTON: iMapping = MY_DC_BUTTON_X; break;
-                case USAGE_Y_BUTTON: iMapping = MY_DC_BUTTON_Y; break;
-                case USAGE_Z_BUTTON: iMapping = MY_DC_BUTTON_Z; break;
-                case USAGE_LB_BUTTON: iMapping = MY_DC_BUTTON_2_LEFT; break;
-                case USAGE_RB_BUTTON: iMapping = MY_DC_BUTTON_2_RIGHT; break;
-                case USAGE_DB_BUTTON: iMapping = MY_DC_BUTTON_2_DOWN; break;
-                case USAGE_UB_BUTTON: iMapping = MY_DC_BUTTON_2_UP; break;
-                case USAGE_RTRIG_BUTTON: iMapping = MY_DC_BUTTON_RTRIGGER; break;
-                case USAGE_LTRIG_BUTTON: iMapping = MY_DC_BUTTON_LTRIGGER; break;
-                case USAGE_AN3_BUTTON: iMapping = MY_DC_BUTTON_AN3; break;
-                case USAGE_AN4_BUTTON: iMapping = MY_DC_BUTTON_AN4; break;
-                case USAGE_AN5_BUTTON: iMapping = MY_DC_BUTTON_AN5; break;
-                case USAGE_AN6_BUTTON: iMapping = MY_DC_BUTTON_AN6; break;
-                default:
-                    SHARON("Eh? Unknown button number\n");
-                    break;
+            case USAGE_A_BUTTON: iMapping = MY_DC_BUTTON_A; break;
+            case USAGE_B_BUTTON: iMapping = MY_DC_BUTTON_B; break;
+            case USAGE_C_BUTTON: iMapping = MY_DC_BUTTON_C; break;
+            case USAGE_D_BUTTON: iMapping = MY_DC_BUTTON_D; break;
+            case USAGE_START_BUTTON: iMapping = MY_DC_BUTTON_START; break;
+            case USAGE_LA_BUTTON: iMapping = MY_DC_BUTTON_LEFT; break;
+            case USAGE_RA_BUTTON: iMapping = MY_DC_BUTTON_RIGHT; break;
+            case USAGE_DA_BUTTON: iMapping = MY_DC_BUTTON_DOWN; break;
+            case USAGE_UA_BUTTON: iMapping = MY_DC_BUTTON_UP; break;
+            case USAGE_X_BUTTON: iMapping = MY_DC_BUTTON_X; break;
+            case USAGE_Y_BUTTON: iMapping = MY_DC_BUTTON_Y; break;
+            case USAGE_Z_BUTTON: iMapping = MY_DC_BUTTON_Z; break;
+            case USAGE_LB_BUTTON: iMapping = MY_DC_BUTTON_2_LEFT; break;
+            case USAGE_RB_BUTTON: iMapping = MY_DC_BUTTON_2_RIGHT; break;
+            case USAGE_DB_BUTTON: iMapping = MY_DC_BUTTON_2_DOWN; break;
+            case USAGE_UB_BUTTON: iMapping = MY_DC_BUTTON_2_UP; break;
+            case USAGE_RTRIG_BUTTON: iMapping = MY_DC_BUTTON_RTRIGGER; break;
+            case USAGE_LTRIG_BUTTON: iMapping = MY_DC_BUTTON_LTRIGGER; break;
+            case USAGE_AN3_BUTTON: iMapping = MY_DC_BUTTON_AN3; break;
+            case USAGE_AN4_BUTTON: iMapping = MY_DC_BUTTON_AN4; break;
+            case USAGE_AN5_BUTTON: iMapping = MY_DC_BUTTON_AN5; break;
+            case USAGE_AN6_BUTTON: iMapping = MY_DC_BUTTON_AN6; break;
+            default:
+                SHARON("Eh? Unknown button number\n");
+                break;
             }
             ButtonMappings[NumButtons] = (std::uint8_t) iMapping;
         }
@@ -598,21 +598,21 @@ bool DIDeviceInfo::GetThisDevice(std::uint8_t type) {
         (strstr(Product, "Fishing") != nullptr)) {
         for (int j = 0; j < 32; j++) {
             switch (ButtonMappings[j]) {
-                case MY_DC_BUTTON_C: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_Z: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_2_LEFT: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_2_RIGHT: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_2_DOWN: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_2_UP: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_RTRIGGER: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_LTRIGGER: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_AN3: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_AN4: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_AN5: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                case MY_DC_BUTTON_AN6: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
-                default:
-                    // Fine.
-                    break;
+            case MY_DC_BUTTON_C: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_Z: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_2_LEFT: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_2_RIGHT: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_2_DOWN: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_2_UP: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_RTRIGGER: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_LTRIGGER: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_AN3: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_AN4: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_AN5: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            case MY_DC_BUTTON_AN6: ButtonMappings[j] = MY_DC_BUTTON_BOGUS; break;
+            default:
+                // Fine.
+                break;
             }
         }
     }
@@ -685,16 +685,16 @@ HRESULT DIDriverManager::Init() {
 #endif
         if (FAILED(result)) {
             switch (result) {
-                case DIERR_BETADIRECTINPUTVERSION:
-                    return result;
-                    break;
+            case DIERR_BETADIRECTINPUTVERSION:
+                return result;
+                break;
 
-                case DIERR_OLDDIRECTINPUTVERSION:
-                    return result;
-                    break;
+            case DIERR_OLDDIRECTINPUTVERSION:
+                return result;
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
 
             return result;
@@ -985,20 +985,20 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
             if (current_device->NeedsPoll()) {
                 HRESULT result = current_device->lpdiInputDevice->Poll();
                 switch (result) {
-                    case DIERR_INPUTLOST:
-                    case DIERR_NOTACQUIRED:
-                        result = current_device->lpdiInputDevice->Acquire();
-                        if (result != DI_OK) {
-                            // Don't care.
-                        }
-                        result = current_device->lpdiInputDevice->Poll();
-                        if (result != DI_OK) {
-                            // Don't care.
-                        }
-                        break;
-                    case DIERR_NOTINITIALIZED:
+                case DIERR_INPUTLOST:
+                case DIERR_NOTACQUIRED:
+                    result = current_device->lpdiInputDevice->Acquire();
+                    if (result != DI_OK) {
                         // Don't care.
-                        break;
+                    }
+                    result = current_device->lpdiInputDevice->Poll();
+                    if (result != DI_OK) {
+                        // Don't care.
+                    }
+                    break;
+                case DIERR_NOTINITIALIZED:
+                    // Don't care.
+                    break;
                 }
             }
 #endif
@@ -1007,98 +1007,98 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
 
             HRESULT result = current_device->lpdiInputDevice->GetDeviceState(sizeof(dijoyState), &dijoyState);
             switch (result) {
-                default:
-                    result = current_device->lpdiInputDevice->Acquire();
-                    if (result != DI_OK) {
-                        // OK, maybe it hasn't been set up.
-                        if (!current_device->GetThisDevice(last_type)) {
-                            // Nope - really stuffed. Right - bin this device - probably doesn't exist any more.
-                            DIDeviceInfo *next_device = current_device->Next;
-                            SHARON("FFWBP:Device 0x%x is toast - destroying it\n", current_device);
-                            SHARON("FFWBP:Device said it was a <%s>\n", current_device->Product);
-                            DestroyDevice(current_device);
+            default:
+                result = current_device->lpdiInputDevice->Acquire();
+                if (result != DI_OK) {
+                    // OK, maybe it hasn't been set up.
+                    if (!current_device->GetThisDevice(last_type)) {
+                        // Nope - really stuffed. Right - bin this device - probably doesn't exist any more.
+                        DIDeviceInfo *next_device = current_device->Next;
+                        SHARON("FFWBP:Device 0x%x is toast - destroying it\n", current_device);
+                        SHARON("FFWBP:Device said it was a <%s>\n", current_device->Product);
+                        DestroyDevice(current_device);
 
-                            current_device = next_device;
-                            continue;
-                        }
+                        current_device = next_device;
+                        continue;
                     }
-                    break;
-                case DI_OK:
+                }
+                break;
+            case DI_OK:
 
-                    // See if any of the buttons were pressed.
-                    for (int i = 0; i < current_device->NumButtons; i++) {
-                        if ((dijoyState.rgbButtons[i] & 0x80) != 0) {
+                // See if any of the buttons were pressed.
+                for (int i = 0; i < current_device->NumButtons; i++) {
+                    if ((dijoyState.rgbButtons[i] & 0x80) != 0) {
 #if LOOK_FOR_START_NOT_JUST_ANY_BUTTON
-                            // Ignore non-Start buttons.
-                            if (current_device->ButtonMappings[i] == MY_DC_BUTTON_START) {
+                        // Ignore non-Start buttons.
+                        if (current_device->ButtonMappings[i] == MY_DC_BUTTON_START) {
 #else
-                            // Ignore ones remapped to BOGUS.
-                            if (current_device->ButtonMappings[i] != MY_DC_BUTTON_BOGUS) {
+                        // Ignore ones remapped to BOGUS.
+                        if (current_device->ButtonMappings[i] != MY_DC_BUTTON_BOGUS) {
 #endif
 
-                                // Got one.
-                                SHARON("FFWBP:Found down button %i on 0x%x\n", i, current_device);
-                                SHARON("FFWBP:Device says it's a <%s>\n", current_device->Product);
+                            // Got one.
+                            SHARON("FFWBP:Found down button %i on 0x%x\n", i, current_device);
+                            SHARON("FFWBP:Device says it's a <%s>\n", current_device->Product);
 
 #ifdef DEBUG
-                                {
-                                    // Dump out the full controller/VMU info.
-                                    SHARON("Controller/VMU dump.\n");
-                                    DIDeviceInfo *curdev = DeviceList;
-                                    while (curdev) {
-                                        SHARON("Port %i: device <%s>, %i axis, %i buttons.\n", curdev->PortNumber, curdev->Product, curdev->NumAxis, curdev->NumButtons);
-                                        MapleVMU *pVMU = curdev->pFirstVMU;
-                                        while (pVMU != nullptr) {
-                                            SHARON("  Maple device number %i, type <", pVMU->iEnumNumber);
-
-                                            if ((pVMU->type & MDT_CONTROLLER) != 0) SHARON("controller ");
-                                            if ((pVMU->type & MDT_STORAGE) != 0) SHARON("storage ");
-                                            if ((pVMU->type & MDT_LCD) != 0) SHARON("lcd ");
-                                            if ((pVMU->type & MDT_TIMER) != 0) SHARON("timer ");
-                                            if ((pVMU->type & MDT_AUDIO_IN) != 0) SHARON("audio-in ");
-                                            if ((pVMU->type & MDT_LIGHTGUN) != 0) SHARON("lightgun ");
-                                            if ((pVMU->type & MDT_VIBRATION) != 0) SHARON("vibration ");
-
-                                            // In theory, no device should have more than one bit set.
-                                            ASSERT((pVMU->type & (pVMU->type - 1)) == 0);
-
-                                            SHARON(">\n");
-
-                                            pVMU = pVMU->pNextVMU;
-                                        }
-                                        curdev = curdev->Next;
-                                    }
-                                    SHARON("Dump end.\n");
-                                }
-#endif
-
-                                // Clear all VMU screens, apart from the ones on the device we are using.
-                                // On that, put the standard logo.
+                            {
+                                // Dump out the full controller/VMU info.
+                                SHARON("Controller/VMU dump.\n");
                                 DIDeviceInfo *curdev = DeviceList;
-                                while (curdev != nullptr) {
+                                while (curdev) {
+                                    SHARON("Port %i: device <%s>, %i axis, %i buttons.\n", curdev->PortNumber, curdev->Product, curdev->NumAxis, curdev->NumButtons);
                                     MapleVMU *pVMU = curdev->pFirstVMU;
                                     while (pVMU != nullptr) {
-                                        if (pVMU->type == MDT_LCD) {
-                                            BYTE bTest[192];
-                                            if (curdev == current_device) {
-                                                // Display the UC logo.
-                                                extern VMU_Screen *pvmuscreenUCLogo;
-                                                pVMU->Lcd_WriteScreen(pvmuscreenUCLogo, true);
-                                            } else {
-                                                // Blank all the other screens.
-                                                memset(bTest, 0, 192);
-                                                pVMU->Lcd_WriteScreen(bTest, true);
-                                            }
-                                        }
+                                        SHARON("  Maple device number %i, type <", pVMU->iEnumNumber);
+
+                                        if ((pVMU->type & MDT_CONTROLLER) != 0) SHARON("controller ");
+                                        if ((pVMU->type & MDT_STORAGE) != 0) SHARON("storage ");
+                                        if ((pVMU->type & MDT_LCD) != 0) SHARON("lcd ");
+                                        if ((pVMU->type & MDT_TIMER) != 0) SHARON("timer ");
+                                        if ((pVMU->type & MDT_AUDIO_IN) != 0) SHARON("audio-in ");
+                                        if ((pVMU->type & MDT_LIGHTGUN) != 0) SHARON("lightgun ");
+                                        if ((pVMU->type & MDT_VIBRATION) != 0) SHARON("vibration ");
+
+                                        // In theory, no device should have more than one bit set.
+                                        ASSERT((pVMU->type & (pVMU->type - 1)) == 0);
+
+                                        SHARON(">\n");
+
                                         pVMU = pVMU->pNextVMU;
                                     }
                                     curdev = curdev->Next;
                                 }
-                                return (current_device);
+                                SHARON("Dump end.\n");
                             }
+#endif
+
+                            // Clear all VMU screens, apart from the ones on the device we are using.
+                            // On that, put the standard logo.
+                            DIDeviceInfo *curdev = DeviceList;
+                            while (curdev != nullptr) {
+                                MapleVMU *pVMU = curdev->pFirstVMU;
+                                while (pVMU != nullptr) {
+                                    if (pVMU->type == MDT_LCD) {
+                                        BYTE bTest[192];
+                                        if (curdev == current_device) {
+                                            // Display the UC logo.
+                                            extern VMU_Screen *pvmuscreenUCLogo;
+                                            pVMU->Lcd_WriteScreen(pvmuscreenUCLogo, true);
+                                        } else {
+                                            // Blank all the other screens.
+                                            memset(bTest, 0, 192);
+                                            pVMU->Lcd_WriteScreen(bTest, true);
+                                        }
+                                    }
+                                    pVMU = pVMU->pNextVMU;
+                                }
+                                curdev = curdev->Next;
+                            }
+                            return (current_device);
                         }
                     }
-                    break;
+                }
+                break;
             }
         }
 
@@ -1185,26 +1185,26 @@ void MapleVMU::EnsureDevicePtr() {
 
     HRESULT hres;
     switch (type) {
-        case MDT_STORAGE:
-            hres = MapleCreateDevice(&guid, (IUnknown **) &pFlash);
-            break;
-        case MDT_LCD:
-            hres = MapleCreateDevice(&guid, (IUnknown **) &pLcd);
-            break;
-        case MDT_TIMER:
-            hres = MapleCreateDevice(&guid, (IUnknown **) &pTimer);
-            break;
-        case MDT_VIBRATION:
-            hres = MapleCreateDevice(&guid, (IUnknown **) &pVib);
-            break;
-        case MDT_CONTROLLER:
-        case MDT_AUDIO_IN:
-        case MDT_LIGHTGUN:
-        default:
-            ASSERT(false);
-            pUnknown = nullptr;
-            return;
-            break;
+    case MDT_STORAGE:
+        hres = MapleCreateDevice(&guid, (IUnknown **) &pFlash);
+        break;
+    case MDT_LCD:
+        hres = MapleCreateDevice(&guid, (IUnknown **) &pLcd);
+        break;
+    case MDT_TIMER:
+        hres = MapleCreateDevice(&guid, (IUnknown **) &pTimer);
+        break;
+    case MDT_VIBRATION:
+        hres = MapleCreateDevice(&guid, (IUnknown **) &pVib);
+        break;
+    case MDT_CONTROLLER:
+    case MDT_AUDIO_IN:
+    case MDT_LIGHTGUN:
+    default:
+        ASSERT(false);
+        pUnknown = nullptr;
+        return;
+        break;
     }
 
     if (FAILED(hres)) {
@@ -1483,7 +1483,7 @@ bool MapleVMU::Flash_WriteFile(char *pcFilename, char *pcGameName, char *pcComme
 
     if (pcGameName != nullptr) {
         char pcTemp[MAX_VMS_COMMENT];
-        DWORD dwMaxLength = MIN(MAX_VMS_COMMENT, MIN(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
+        DWORD dwMaxLength = std::min(MAX_VMS_COMMENT, std::min(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
         dwMaxLength--;
         strncpy(pcTemp, pcGameName, dwMaxLength);
         pcTemp[dwMaxLength] = '\0';
@@ -1500,7 +1500,7 @@ bool MapleVMU::Flash_WriteFile(char *pcFilename, char *pcGameName, char *pcComme
 
     if (pcComment != nullptr) {
         char pcTemp[MAX_VMS_COMMENT];
-        DWORD dwMaxLength = MIN(MAX_VMS_COMMENT, MIN(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
+        DWORD dwMaxLength = std::min(MAX_VMS_COMMENT, std::min(MAX_BOOT_ROM_COMMENT, MAX_GAME_NAME));
         dwMaxLength--;
         strncpy(pcTemp, pcComment, dwMaxLength);
         pcTemp[dwMaxLength] = '\0';

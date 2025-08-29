@@ -1,8 +1,8 @@
 // Bucket.cpp
 // Guy Simmons, 24th October 1997.
 
-#include "Bucket.h"
-#include "Engine.h"
+#include <DDEngine/Headers/Bucket.h>
+#include <DDEngine/Headers/Engine.h>
 
 std::uint8_t e_bucket_pool[BUCKET_POOL_SIZE],
     *e_buckets,

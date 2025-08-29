@@ -8,8 +8,8 @@
 
 #ifdef VERSION_D3D
 
-typedef struct
-{
+
+struct Camera {
     float CameraX,
         CameraY,
         CameraZ;
@@ -17,7 +17,7 @@ typedef struct
         CameraRoll,
         CameraTilt,
         CameraRAngle;
-} Camera;
+};
 
 #elif defined(VERSION_GLIDE)
 

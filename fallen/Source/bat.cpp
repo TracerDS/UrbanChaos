@@ -260,8 +260,9 @@ void BAT_set_anim(Thing *p_thing, std::int32_t anim) {
     if (anim < 0) {
         static std::uint8_t generic_bat_anim[2][2] =
             {
-                {BAT_ANIM_BAT_FLY, BAT_ANIM_BAT_FLY},
-                {BAT_ANIM_GARGOYLE_FLY, BAT_ANIM_GARGOYLE_TAKE_HIT}};
+                {BAT_ANIM_BAT_FLY,      BAT_ANIM_BAT_FLY          },
+                {BAT_ANIM_GARGOYLE_FLY, BAT_ANIM_GARGOYLE_TAKE_HIT}
+        };
 
         ASSERT(WITHIN(p_thing->Genus.Bat->type - 1, 0, 1));
         ASSERT(WITHIN(-anim - 1, 0, 1));
@@ -792,206 +793,206 @@ void BAT_change_state(Thing *p_thing) {
 
     switch (new_state) {
 #ifndef PSX
-        case BAT_STATE_IDLE:
+    case BAT_STATE_IDLE:
 
-            p_bat->timer = BAT_TICKS_PER_SECOND * (1 + (Random() & 0x1));
+        p_bat->timer = BAT_TICKS_PER_SECOND * (1 + (Random() & 0x1));
 
-            BAT_set_anim(p_thing, BAT_ANIM_GENERIC_FLY);
-
-            break;
-
-        case BAT_STATE_GOTO:
-
-            want_x = p_bat->home_x << 8;
-            want_z = p_bat->home_z << 8;
-
-            want_x += Random() & 0x3ff;
-            want_z += Random() & 0x3ff;
-
-            want_x -= 0x1ff;
-            want_z -= 0x1ff;
-
-            want_y = PAP_calc_map_height_at(want_x, want_z) + 0x80 + (Random() & 0x7f);
-
-            p_bat->want_x = want_x;
-            p_bat->want_y = want_y;
-            p_bat->want_z = want_z;
-
-            p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x1));
-
-            BAT_set_anim(p_thing, BAT_ANIM_GENERIC_FLY);
-
-            break;
-
-        case BAT_STATE_CIRCLE:
-
-            if (p_bat->target) {
-                p_bat->substate = BAT_SUBSTATE_CIRCLE_TARGET;
-            } else {
-                p_bat->substate = BAT_SUBSTATE_CIRCLE_HOME;
-            }
-
-            p_bat->timer = BAT_TICKS_PER_SECOND * (3 + (Random() & 0x3));
-
-            BAT_set_anim(p_thing, BAT_ANIM_GENERIC_FLY);
-
-            break;
-
-        case BAT_STATE_ATTACK:
-
-            ASSERT(p_bat->type == BAT_TYPE_GARGOYLE);
-
-            BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_ATTACK);
-
-            break;
-#endif
-        case BAT_STATE_BALROG_WANDER:
-
-        {
-            std::int32_t want_x;
-            std::int32_t want_z;
-
-            MAV_Action ma;
-
-            WAND_get_next_place(
-                p_thing,
-                &want_x,
-                &want_z);
-
-            ma = MAV_do(
-                p_thing->WorldPos.X >> 16,
-                p_thing->WorldPos.Z >> 16,
-                want_x >> 8,
-                want_z >> 8,
-                MAV_CAPS_GOTO);
-
-            p_bat->want_x = (ma.dest_x << 8) + 0x80;
-            p_bat->want_z = (ma.dest_z << 8) + 0x80;
-
-            p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x1));
-
-            BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP_START);
-
-            p_bat->substate = BAT_SUBSTATE_YOMP_START;
-        }
+        BAT_set_anim(p_thing, BAT_ANIM_GENERIC_FLY);
 
         break;
 
-        case BAT_STATE_BALROG_ROAR:
+    case BAT_STATE_GOTO:
 
-            //
-            // We don't have a roar anim! Do a swipe instead...
-            //
+        want_x = p_bat->home_x << 8;
+        want_z = p_bat->home_z << 8;
 
-            BAT_set_anim(p_thing, BAT_ANIM_BALROG_ROAR);
+        want_x += Random() & 0x3ff;
+        want_z += Random() & 0x3ff;
 
-            MFX_play_thing(THING_NUMBER(p_thing), S_BALROG_ROAR, 0, p_thing);
+        want_x -= 0x1ff;
+        want_z -= 0x1ff;
 
-            p_bat->dx = 0;
-            p_bat->dz = 0;
+        want_y = PAP_calc_map_height_at(want_x, want_z) + 0x80 + (Random() & 0x7f);
 
-            break;
+        p_bat->want_x = want_x;
+        p_bat->want_y = want_y;
+        p_bat->want_z = want_z;
 
-        case BAT_STATE_BALROG_CHARGE:
-        case BAT_STATE_BALROG_FOLLOW:
+        p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x1));
 
-            ASSERT(p_bat->target);
+        BAT_set_anim(p_thing, BAT_ANIM_GENERIC_FLY);
 
-            BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP_START);
+        break;
 
-            p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x1));
+    case BAT_STATE_CIRCLE:
 
-            p_bat->substate = BAT_SUBSTATE_YOMP_START;
+        if (p_bat->target) {
+            p_bat->substate = BAT_SUBSTATE_CIRCLE_TARGET;
+        } else {
+            p_bat->substate = BAT_SUBSTATE_CIRCLE_HOME;
+        }
 
-            break;
+        p_bat->timer = BAT_TICKS_PER_SECOND * (3 + (Random() & 0x3));
 
-        case BAT_STATE_BALROG_SWIPE:
+        BAT_set_anim(p_thing, BAT_ANIM_GENERIC_FLY);
+
+        break;
+
+    case BAT_STATE_ATTACK:
+
+        ASSERT(p_bat->type == BAT_TYPE_GARGOYLE);
+
+        BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_ATTACK);
+
+        break;
+#endif
+    case BAT_STATE_BALROG_WANDER:
+
+    {
+        std::int32_t want_x;
+        std::int32_t want_z;
+
+        MAV_Action ma;
+
+        WAND_get_next_place(
+            p_thing,
+            &want_x,
+            &want_z);
+
+        ma = MAV_do(
+            p_thing->WorldPos.X >> 16,
+            p_thing->WorldPos.Z >> 16,
+            want_x >> 8,
+            want_z >> 8,
+            MAV_CAPS_GOTO);
+
+        p_bat->want_x = (ma.dest_x << 8) + 0x80;
+        p_bat->want_z = (ma.dest_z << 8) + 0x80;
+
+        p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x1));
+
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP_START);
+
+        p_bat->substate = BAT_SUBSTATE_YOMP_START;
+    }
+
+    break;
+
+    case BAT_STATE_BALROG_ROAR:
+
+        //
+        // We don't have a roar anim! Do a swipe instead...
+        //
+
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_ROAR);
+
+        MFX_play_thing(THING_NUMBER(p_thing), S_BALROG_ROAR, 0, p_thing);
+
+        p_bat->dx = 0;
+        p_bat->dz = 0;
+
+        break;
+
+    case BAT_STATE_BALROG_CHARGE:
+    case BAT_STATE_BALROG_FOLLOW:
+
+        ASSERT(p_bat->target);
+
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP_START);
+
+        p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x1));
+
+        p_bat->substate = BAT_SUBSTATE_YOMP_START;
+
+        break;
+
+    case BAT_STATE_BALROG_SWIPE:
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_SWIPE);
+        MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_GROWL_START, S_BALROG_GROWL_END), 0, p_thing);
+        p_bat->dx = 0;
+        p_bat->dz = 0;
+        break;
+
+    case BAT_STATE_BALROG_STOMP:
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_STOMP);
+        MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_GROWL_START, S_BALROG_GROWL_END), 0, p_thing);
+        p_bat->dx = 0;
+        p_bat->dz = 0;
+        break;
+
+    case BAT_STATE_BALROG_FIREBALL:
+
+        if (dangle < 256) {
             BAT_set_anim(p_thing, BAT_ANIM_BALROG_SWIPE);
+
+            p_bat->substate = BAT_SUBSTATE_FIREBALL_FIRE;
             MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_GROWL_START, S_BALROG_GROWL_END), 0, p_thing);
-            p_bat->dx = 0;
-            p_bat->dz = 0;
-            break;
+        } else {
+            BAT_set_anim(p_thing, BAT_ANIM_BALROG_TURN);
 
-        case BAT_STATE_BALROG_STOMP:
-            BAT_set_anim(p_thing, BAT_ANIM_BALROG_STOMP);
-            MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_GROWL_START, S_BALROG_GROWL_END), 0, p_thing);
-            p_bat->dx = 0;
-            p_bat->dz = 0;
-            break;
+            p_bat->substate = BAT_SUBSTATE_FIREBALL_TURN;
+        }
 
-        case BAT_STATE_BALROG_FIREBALL:
+        p_bat->dx = 0;
+        p_bat->dz = 0;
 
-            if (dangle < 256) {
-                BAT_set_anim(p_thing, BAT_ANIM_BALROG_SWIPE);
+        break;
 
-                p_bat->substate = BAT_SUBSTATE_FIREBALL_FIRE;
-                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_GROWL_START, S_BALROG_GROWL_END), 0, p_thing);
-            } else {
-                BAT_set_anim(p_thing, BAT_ANIM_BALROG_TURN);
+    case BAT_STATE_BALROG_IDLE:
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_IDLE);
+        p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x3));
+        p_bat->dx = 0;
+        p_bat->dz = 0;
+        break;
 
-                p_bat->substate = BAT_SUBSTATE_FIREBALL_TURN;
-            }
+    case BAT_STATE_BANE_IDLE:
+        BAT_set_anim(p_thing, BAT_ANIM_BANE_IDLE);
+        p_bat->timer = BAT_TICKS_PER_SECOND * (3 + (Random() & 0x3));
+        p_bat->dx = 0;
+        p_bat->dz = 0;
+        break;
 
-            p_bat->dx = 0;
-            p_bat->dz = 0;
+    case BAT_STATE_BANE_ATTACK:
+        BAT_set_anim(p_thing, BAT_ANIM_BANE_ATTACK);
+        p_bat->dx = 0;
+        p_bat->dz = 0;
+        break;
 
-            break;
+    case BAT_STATE_BANE_START:
 
-        case BAT_STATE_BALROG_IDLE:
-            BAT_set_anim(p_thing, BAT_ANIM_BALROG_IDLE);
-            p_bat->timer = BAT_TICKS_PER_SECOND * (2 + (Random() & 0x3));
-            p_bat->dx = 0;
-            p_bat->dz = 0;
-            break;
+        //
+        // Look for the people to summon.
+        //
 
-        case BAT_STATE_BANE_IDLE:
-            BAT_set_anim(p_thing, BAT_ANIM_BANE_IDLE);
-            p_bat->timer = BAT_TICKS_PER_SECOND * (3 + (Random() & 0x3));
-            p_bat->dx = 0;
-            p_bat->dz = 0;
-            break;
+        BAT_find_summon_people(p_thing);
 
-        case BAT_STATE_BANE_ATTACK:
-            BAT_set_anim(p_thing, BAT_ANIM_BANE_ATTACK);
-            p_bat->dx = 0;
-            p_bat->dz = 0;
-            break;
+        //
+        // Make them start floating.
+        //
 
-        case BAT_STATE_BANE_START:
+        {
+            std::int32_t i;
 
-            //
-            // Look for the people to summon.
-            //
+            for (i = 0; i < BAT_SUMMON_NUM_BODIES; i++) {
+                if (BAT_summon[i]) {
+                    Thing *p_summon = TO_THING(BAT_summon[i]);
 
-            BAT_find_summon_people(p_thing);
-
-            //
-            // Make them start floating.
-            //
-
-            {
-                std::int32_t i;
-
-                for (i = 0; i < BAT_SUMMON_NUM_BODIES; i++) {
-                    if (BAT_summon[i]) {
-                        Thing *p_summon = TO_THING(BAT_summon[i]);
-
-                        set_person_float_up(p_summon);
-                    }
+                    set_person_float_up(p_summon);
                 }
             }
+        }
 
-            BAT_set_anim(p_thing, BAT_ANIM_BANE_IDLE);
+        BAT_set_anim(p_thing, BAT_ANIM_BANE_IDLE);
 
-            // make some funky noises
+        // make some funky noises
 
-            MFX_play_thing(THING_NUMBER(p_thing), S_RECKONING_LOOP, MFX_LOOPED, p_thing);
+        MFX_play_thing(THING_NUMBER(p_thing), S_RECKONING_LOOP, MFX_LOOPED, p_thing);
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1595,420 +1596,525 @@ void BAT_normal(Thing *p_thing) {
 
     switch (p_bat->state) {
 #ifndef PSX
-        case BAT_STATE_IDLE:
+    case BAT_STATE_IDLE:
 
-            p_bat->dx -= p_bat->dx / 16;
-            p_bat->dy -= p_bat->dy / 16;
-            p_bat->dz -= p_bat->dz / 16;
+        p_bat->dx -= p_bat->dx / 16;
+        p_bat->dy -= p_bat->dy / 16;
+        p_bat->dz -= p_bat->dz / 16;
 
-            if (p_bat->target) {
-                BAT_turn_to_target(p_thing);
-            }
+        if (p_bat->target) {
+            BAT_turn_to_target(p_thing);
+        }
 
-            end = BAT_animate(p_thing);
+        end = BAT_animate(p_thing);
 
+        break;
+
+    case BAT_STATE_GOTO:
+
+        want_dx = p_bat->want_x - (p_thing->WorldPos.X >> 8) << 5;
+        want_dy = p_bat->want_y - (p_thing->WorldPos.Y >> 8) << 5;
+        want_dz = p_bat->want_z - (p_thing->WorldPos.Z >> 8) << 5;
+
+        SATURATE(want_dx, -0x2000, +0x2000);
+        SATURATE(want_dy, -0x0800, +0x0800);
+        SATURATE(want_dz, -0x2000, +0x2000);
+
+        p_bat->dx += want_dx - p_bat->dx >> 4;
+        p_bat->dy += want_dy - p_bat->dy >> 4;
+        p_bat->dz += want_dz - p_bat->dz >> 4;
+
+        p_bat->dx -= p_bat->dx / 16;
+        p_bat->dy -= p_bat->dy / 16;
+        p_bat->dz -= p_bat->dz / 16;
+
+        if (p_bat->target) {
+            BAT_turn_to_target(p_thing);
+        }
+
+        end = BAT_animate(p_thing);
+
+        break;
+
+    case BAT_STATE_CIRCLE:
+
+        //
+        // Where do we want to go?
+        //
+
+        switch (p_bat->substate) {
+        case BAT_SUBSTATE_CIRCLE_HOME:
+            want_x = (p_bat->home_x << 8) + 0x80;
+            want_z = (p_bat->home_z << 8) + 0x80;
+            want_y = PAP_calc_map_height_at(want_x, want_z) + 0x100;
             break;
 
-        case BAT_STATE_GOTO:
-
-            want_dx = p_bat->want_x - (p_thing->WorldPos.X >> 8) << 5;
-            want_dy = p_bat->want_y - (p_thing->WorldPos.Y >> 8) << 5;
-            want_dz = p_bat->want_z - (p_thing->WorldPos.Z >> 8) << 5;
-
-            SATURATE(want_dx, -0x2000, +0x2000);
-            SATURATE(want_dy, -0x0800, +0x0800);
-            SATURATE(want_dz, -0x2000, +0x2000);
-
-            p_bat->dx += want_dx - p_bat->dx >> 4;
-            p_bat->dy += want_dy - p_bat->dy >> 4;
-            p_bat->dz += want_dz - p_bat->dz >> 4;
-
-            p_bat->dx -= p_bat->dx / 16;
-            p_bat->dy -= p_bat->dy / 16;
-            p_bat->dz -= p_bat->dz / 16;
-
-            if (p_bat->target) {
-                BAT_turn_to_target(p_thing);
-            }
-
-            end = BAT_animate(p_thing);
-
+        case BAT_SUBSTATE_CIRCLE_WANT:
+            want_x = p_bat->want_x;
+            want_y = p_bat->want_y;
+            want_z = p_bat->want_z;
             break;
 
-        case BAT_STATE_CIRCLE:
+        case BAT_SUBSTATE_CIRCLE_TARGET:
 
-            //
-            // Where do we want to go?
-            //
+            ASSERT(p_bat->target);
 
-            switch (p_bat->substate) {
-                case BAT_SUBSTATE_CIRCLE_HOME:
-                    want_x = (p_bat->home_x << 8) + 0x80;
-                    want_z = (p_bat->home_z << 8) + 0x80;
-                    want_y = PAP_calc_map_height_at(want_x, want_z) + 0x100;
-                    break;
+            p_target = TO_THING(p_bat->target);
 
-                case BAT_SUBSTATE_CIRCLE_WANT:
-                    want_x = p_bat->want_x;
-                    want_y = p_bat->want_y;
-                    want_z = p_bat->want_z;
-                    break;
+            switch (p_target->Class) {
+            case CLASS_PERSON:
 
-                case BAT_SUBSTATE_CIRCLE_TARGET:
-
-                    ASSERT(p_bat->target);
-
-                    p_target = TO_THING(p_bat->target);
-
-                    switch (p_target->Class) {
-                        case CLASS_PERSON:
-
-                            calc_sub_objects_position(
-                                p_target,
-                                0,
-                                SUB_OBJECT_HEAD,
-                                &want_x,
-                                &want_y,
-                                &want_z);
-
-                            want_x += p_target->WorldPos.X >> 8;
-                            want_y += p_target->WorldPos.Y >> 8;
-                            want_z += p_target->WorldPos.Z >> 8;
-
-                            break;
-
-                        case CLASS_BAT:
-                            want_x = p_target->WorldPos.X >> 8;
-                            want_y = p_target->WorldPos.Y >> 8;
-                            want_z = p_target->WorldPos.Z >> 8;
-                            break;
-
-                        default:
-                            ASSERT(0);
-                            break;
-                    }
-
-                    break;
-            }
-
-            //
-            // Circle around (want_x,want_y,want_z). Turn towards there slowly.
-            //
-
-            dx = want_x - (p_thing->WorldPos.X >> 8);
-            dz = want_z - (p_thing->WorldPos.Z >> 8);
-
-            wangle = calc_angle(dx, dz);
-            dangle = wangle - p_thing->Draw.Tweened->Angle;
-
-            if (dangle > +1024) {
-                dangle -= 2048;
-            }
-            if (dangle < -1024) {
-                dangle += 2048;
-            }
-
-            if (p_bat->substate == BAT_SUBSTATE_CIRCLE_TARGET) {
-                //
-                // If we are flying towards our target... then swoop down to attack!
-                //
-
-                if (abs(dangle) < 300) {
-                    //
-                    // The swoop down... make sure you don't stop.
-                    //
-
-                    p_bat->timer += ticks;
-
-                    dy = want_y - (p_thing->WorldPos.Y >> 8);
-
-                    if (QDIST3(abs(dx), abs(dy), abs(dz)) < 0x40) {
-                        if (p_target->Class == CLASS_PERSON && p_target->Genus.Person->PlayerID && EWAY_stop_player_moving()) {
-                            //
-                            // cut scene so don't hurt player
-                            //
-                        } else if (!(p_bat->flag & BAT_FLAG_ATTACKED)) {
-                            //
-                            // Hurt our target!
-                            //
-
-                            PainSound(p_target); // scream yer lungs out!
-
-                            p_target->Genus.Person->Health -= 60;
-
-                            if (p_target->Genus.Person->Health <= 0) {
-                                set_person_dead(
-                                    p_target,
-                                    nullptr,
-                                    PERSON_DEATH_TYPE_OTHER,
-                                    false,
-                                    false);
-                            }
-
-                            p_bat->flag |= BAT_FLAG_ATTACKED; // Don't do this until the next swoop.
-                        }
-                    } else {
-                        p_bat->flag &= ~BAT_FLAG_ATTACKED; // Allowed to attack again.
-                    }
-                } else {
-                    want_y = p_bat->want_y;
-                }
-            }
-
-            dangle >>= 2;
-            dist = QDIST2(abs(dx), abs(dz)) >> 4;
-
-            if (dist < 10) {
-                dist = 10;
-            }
-
-            SATURATE(dangle, -dist, +dist);
-
-            p_thing->Draw.Tweened->Angle += dangle;
-            p_thing->Draw.Tweened->Angle &= 2047;
-
-            //
-            // Fly in the direction you are facing.
-            //
-
-            want_dx = SIN(p_thing->Draw.Tweened->Angle) >> 2;
-            want_dz = COS(p_thing->Draw.Tweened->Angle) >> 2;
-
-            // want_dx += want_dx >> 1;
-            // want_dz += want_dz >> 1;
-
-            ddx = want_dx - p_bat->dx >> 4;
-            ddz = want_dz - p_bat->dz >> 4;
-
-            SATURATE(ddx, -0x800, +0x800);
-            SATURATE(ddz, -0x800, +0x800);
-
-            p_bat->dx += ddx;
-            p_bat->dz += ddz;
-
-            p_bat->dx -= p_bat->dx / 32;
-            p_bat->dy -= p_bat->dy / 4;
-            p_bat->dz -= p_bat->dz / 32;
-
-            //
-            // Do 'dy' differently!
-            //
-
-            dy = want_y - (p_thing->WorldPos.Y >> 8);
-
-            p_bat->dy += dy << 2;
-
-            /*
-
-            AENG_world_line(
-                    p_thing->WorldPos.X >> 8,
-                    p_thing->WorldPos.Y >> 8,
-                    p_thing->WorldPos.Z >> 8,
-                    16,
-                    0xffffff,
-                    want_x,
-                    want_y,
-                    want_z,
+                calc_sub_objects_position(
+                    p_target,
                     0,
-                    0xff0000,
-                    false);
+                    SUB_OBJECT_HEAD,
+                    &want_x,
+                    &want_y,
+                    &want_z);
 
-            */
-
-            end = BAT_animate(p_thing);
-
-            break;
-
-        case BAT_STATE_ATTACK:
-
-            if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 6) {
-                BAT_emit_fireball(p_thing);
-
-                p_bat->flag |= BAT_FLAG_ATTACKED;
-            }
-
-            if (p_bat->target) {
-                BAT_turn_to_target(p_thing);
-            }
-
-            end = BAT_animate(p_thing);
-            p_bat->timer = 0;
-
-            break;
-#endif
-        case BAT_STATE_DYING:
-
-            switch (p_bat->substate) {
-#ifndef PSX
-                case BAT_SUBSTATE_DEAD_INITIAL:
-
-                    //
-                    // Only gargoyles have this state for now...
-                    //
-
-                    //					ASSERT(p_bat->type == BAT_TYPE_GARGOYLE); not anymore
-
-                    if (BAT_animate(p_thing)) {
-                        p_bat->substate = BAT_SUBSTATE_DEAD_LOOP;
-
-                        BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_FALL_LOOP);
-                    }
-
-                    break;
-
-                case BAT_SUBSTATE_DEAD_LOOP:
-
-                    BAT_animate(p_thing);
-
-                    //
-                    // Fall out of the sky!
-                    //
-
-                    p_bat->dy -= 0x180;
-
-                    p_bat->dx -= p_bat->dx / 32;
-                    p_bat->dz -= p_bat->dz / 32;
-
-                    ground = PAP_calc_map_height_at(
-                                 p_thing->WorldPos.X >> 8,
-                                 p_thing->WorldPos.Z >> 8)
-                             << 8;
-
-                    if (p_thing->WorldPos.Y <= ground + 0x4000) {
-                        //
-                        // Hit the ground.
-                        //
-
-                        if (p_bat->type == BAT_TYPE_BAT && abs(p_bat->dy) > 0x1000) {
-                            //
-                            // Bounce!
-                            //
-
-                            p_bat->dy = abs(p_bat->dy) >> 2;
-                        } else {
-                            //
-                            // Dead!
-                            //
-
-                            p_bat->dx = 0;
-                            p_bat->dy = 0;
-                            p_bat->dz = 0;
-
-                            if (p_bat->type == BAT_TYPE_BAT) {
-                                p_bat->state = BAT_STATE_DEAD;
-                            } else {
-                                p_bat->substate = BAT_SUBSTATE_DEAD_FINAL;
-
-                                BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_HIT_GROUND);
-                            }
-                        }
-                    }
-
-                    break;
-#endif
-                case BAT_SUBSTATE_DEAD_FINAL:
-
-                    //
-                    // Only gargoyles and balrogshave this state for now...
-                    //
-
-                    //					ASSERT(p_bat->type == BAT_TYPE_GARGOYLE); balrogs too
-
-                    if (BAT_animate(p_thing)) {
-                        p_bat->state = BAT_STATE_DEAD;
-                        p_thing->State = STATE_DEAD;
-                    }
-
-                    break;
-
-                default:
-                    ASSERT(0);
-                    break;
-            }
-
-            //
-            // Don't change state!
-            //
-
-            end = false;
-
-            break;
-        case BAT_STATE_DEAD:
-
-            //
-            // NO MORE PROCESSING!
-            //
-
-            return;
-            // #ifndef PSX
-        case BAT_STATE_GROUND:
-
-            switch (p_bat->substate) {
-                case BAT_SUBSTATE_GROUND_WAIT:
-
-                {
-                    Thing *darci = NET_PERSON(0);
-
-                    //
-                    // Wake up when the player gets too near.
-                    //
-
-                    std::int32_t dx = abs(darci->WorldPos.X - p_thing->WorldPos.X);
-                    std::int32_t dz = abs(darci->WorldPos.Z - p_thing->WorldPos.Z);
-
-                    std::int32_t dist = QDIST2(dx, dz);
-
-                    if (dist < 0xa0000) {
-                        BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_WAKE_UP);
-
-                        p_bat->substate = BAT_SUBSTATE_GROUND_WAKE_UP;
-                    }
-                }
+                want_x += p_target->WorldPos.X >> 8;
+                want_y += p_target->WorldPos.Y >> 8;
+                want_z += p_target->WorldPos.Z >> 8;
 
                 break;
 
-                case BAT_SUBSTATE_GROUND_WAKE_UP:
+            case CLASS_BAT:
+                want_x = p_target->WorldPos.X >> 8;
+                want_y = p_target->WorldPos.Y >> 8;
+                want_z = p_target->WorldPos.Z >> 8;
+                break;
 
-                    if (BAT_animate(p_thing)) {
-                        BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_FLY_UP);
-
-                        p_bat->substate = BAT_SUBSTATE_GROUND_FLY_UP;
-                    }
-
-                    break;
-
-                case BAT_SUBSTATE_GROUND_FLY_UP:
-
-                    if (BAT_animate(p_thing)) {
-                        BAT_change_state(p_thing);
-                    }
-
-                    break;
-
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
 
-            end = false;
-            p_bat->timer = 0;
+            break;
+        }
+
+        //
+        // Circle around (want_x,want_y,want_z). Turn towards there slowly.
+        //
+
+        dx = want_x - (p_thing->WorldPos.X >> 8);
+        dz = want_z - (p_thing->WorldPos.Z >> 8);
+
+        wangle = calc_angle(dx, dz);
+        dangle = wangle - p_thing->Draw.Tweened->Angle;
+
+        if (dangle > +1024) {
+            dangle -= 2048;
+        }
+        if (dangle < -1024) {
+            dangle += 2048;
+        }
+
+        if (p_bat->substate == BAT_SUBSTATE_CIRCLE_TARGET) {
+            //
+            // If we are flying towards our target... then swoop down to attack!
+            //
+
+            if (abs(dangle) < 300) {
+                //
+                // The swoop down... make sure you don't stop.
+                //
+
+                p_bat->timer += ticks;
+
+                dy = want_y - (p_thing->WorldPos.Y >> 8);
+
+                if (QDIST3(abs(dx), abs(dy), abs(dz)) < 0x40) {
+                    if (p_target->Class == CLASS_PERSON && p_target->Genus.Person->PlayerID && EWAY_stop_player_moving()) {
+                        //
+                        // cut scene so don't hurt player
+                        //
+                    } else if (!(p_bat->flag & BAT_FLAG_ATTACKED)) {
+                        //
+                        // Hurt our target!
+                        //
+
+                        PainSound(p_target); // scream yer lungs out!
+
+                        p_target->Genus.Person->Health -= 60;
+
+                        if (p_target->Genus.Person->Health <= 0) {
+                            set_person_dead(
+                                p_target,
+                                nullptr,
+                                PERSON_DEATH_TYPE_OTHER,
+                                false,
+                                false);
+                        }
+
+                        p_bat->flag |= BAT_FLAG_ATTACKED; // Don't do this until the next swoop.
+                    }
+                } else {
+                    p_bat->flag &= ~BAT_FLAG_ATTACKED; // Allowed to attack again.
+                }
+            } else {
+                want_y = p_bat->want_y;
+            }
+        }
+
+        dangle >>= 2;
+        dist = QDIST2(abs(dx), abs(dz)) >> 4;
+
+        if (dist < 10) {
+            dist = 10;
+        }
+
+        SATURATE(dangle, -dist, +dist);
+
+        p_thing->Draw.Tweened->Angle += dangle;
+        p_thing->Draw.Tweened->Angle &= 2047;
+
+        //
+        // Fly in the direction you are facing.
+        //
+
+        want_dx = SIN(p_thing->Draw.Tweened->Angle) >> 2;
+        want_dz = COS(p_thing->Draw.Tweened->Angle) >> 2;
+
+        // want_dx += want_dx >> 1;
+        // want_dz += want_dz >> 1;
+
+        ddx = want_dx - p_bat->dx >> 4;
+        ddz = want_dz - p_bat->dz >> 4;
+
+        SATURATE(ddx, -0x800, +0x800);
+        SATURATE(ddz, -0x800, +0x800);
+
+        p_bat->dx += ddx;
+        p_bat->dz += ddz;
+
+        p_bat->dx -= p_bat->dx / 32;
+        p_bat->dy -= p_bat->dy / 4;
+        p_bat->dz -= p_bat->dz / 32;
+
+        //
+        // Do 'dy' differently!
+        //
+
+        dy = want_y - (p_thing->WorldPos.Y >> 8);
+
+        p_bat->dy += dy << 2;
+
+        /*
+
+        AENG_world_line(
+                p_thing->WorldPos.X >> 8,
+                p_thing->WorldPos.Y >> 8,
+                p_thing->WorldPos.Z >> 8,
+                16,
+                0xffffff,
+                want_x,
+                want_y,
+                want_z,
+                0,
+                0xff0000,
+                false);
+
+        */
+
+        end = BAT_animate(p_thing);
+
+        break;
+
+    case BAT_STATE_ATTACK:
+
+        if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 6) {
+            BAT_emit_fireball(p_thing);
+
+            p_bat->flag |= BAT_FLAG_ATTACKED;
+        }
+
+        if (p_bat->target) {
+            BAT_turn_to_target(p_thing);
+        }
+
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
+
+        break;
+#endif
+    case BAT_STATE_DYING:
+
+        switch (p_bat->substate) {
+#ifndef PSX
+        case BAT_SUBSTATE_DEAD_INITIAL:
+
+            //
+            // Only gargoyles have this state for now...
+            //
+
+            //					ASSERT(p_bat->type == BAT_TYPE_GARGOYLE); not anymore
+
+            if (BAT_animate(p_thing)) {
+                p_bat->substate = BAT_SUBSTATE_DEAD_LOOP;
+
+                BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_FALL_LOOP);
+            }
 
             break;
-#ifndef PSX
 
-        case BAT_STATE_RECOIL:
-            end = BAT_animate(p_thing);
-            p_bat->timer = 0;
+        case BAT_SUBSTATE_DEAD_LOOP:
+
+            BAT_animate(p_thing);
+
+            //
+            // Fall out of the sky!
+            //
+
+            p_bat->dy -= 0x180;
+
+            p_bat->dx -= p_bat->dx / 32;
+            p_bat->dz -= p_bat->dz / 32;
+
+            ground = PAP_calc_map_height_at(
+                         p_thing->WorldPos.X >> 8,
+                         p_thing->WorldPos.Z >> 8)
+                     << 8;
+
+            if (p_thing->WorldPos.Y <= ground + 0x4000) {
+                //
+                // Hit the ground.
+                //
+
+                if (p_bat->type == BAT_TYPE_BAT && abs(p_bat->dy) > 0x1000) {
+                    //
+                    // Bounce!
+                    //
+
+                    p_bat->dy = abs(p_bat->dy) >> 2;
+                } else {
+                    //
+                    // Dead!
+                    //
+
+                    p_bat->dx = 0;
+                    p_bat->dy = 0;
+                    p_bat->dz = 0;
+
+                    if (p_bat->type == BAT_TYPE_BAT) {
+                        p_bat->state = BAT_STATE_DEAD;
+                    } else {
+                        p_bat->substate = BAT_SUBSTATE_DEAD_FINAL;
+
+                        BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_HIT_GROUND);
+                    }
+                }
+            }
+
             break;
 #endif
-        case BAT_STATE_BALROG_WANDER:
+        case BAT_SUBSTATE_DEAD_FINAL:
+
+            //
+            // Only gargoyles and balrogshave this state for now...
+            //
+
+            //					ASSERT(p_bat->type == BAT_TYPE_GARGOYLE); balrogs too
+
+            if (BAT_animate(p_thing)) {
+                p_bat->state = BAT_STATE_DEAD;
+                p_thing->State = STATE_DEAD;
+            }
+
+            break;
+
+        default:
+            ASSERT(0);
+            break;
+        }
+
+        //
+        // Don't change state!
+        //
+
+        end = false;
+
+        break;
+    case BAT_STATE_DEAD:
+
+        //
+        // NO MORE PROCESSING!
+        //
+
+        return;
+        // #ifndef PSX
+    case BAT_STATE_GROUND:
+
+        switch (p_bat->substate) {
+        case BAT_SUBSTATE_GROUND_WAIT:
 
         {
+            Thing *darci = NET_PERSON(0);
+
+            //
+            // Wake up when the player gets too near.
+            //
+
+            std::int32_t dx = abs(darci->WorldPos.X - p_thing->WorldPos.X);
+            std::int32_t dz = abs(darci->WorldPos.Z - p_thing->WorldPos.Z);
+
+            std::int32_t dist = QDIST2(dx, dz);
+
+            if (dist < 0xa0000) {
+                BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_WAKE_UP);
+
+                p_bat->substate = BAT_SUBSTATE_GROUND_WAKE_UP;
+            }
+        }
+
+        break;
+
+        case BAT_SUBSTATE_GROUND_WAKE_UP:
+
+            if (BAT_animate(p_thing)) {
+                BAT_set_anim(p_thing, BAT_ANIM_GARGOYLE_FLY_UP);
+
+                p_bat->substate = BAT_SUBSTATE_GROUND_FLY_UP;
+            }
+
+            break;
+
+        case BAT_SUBSTATE_GROUND_FLY_UP:
+
+            if (BAT_animate(p_thing)) {
+                BAT_change_state(p_thing);
+            }
+
+            break;
+
+        default:
+            ASSERT(0);
+            break;
+        }
+
+        end = false;
+        p_bat->timer = 0;
+
+        break;
+#ifndef PSX
+
+    case BAT_STATE_RECOIL:
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
+        break;
+#endif
+    case BAT_STATE_BALROG_WANDER:
+
+    {
+        std::int32_t dangle;
+
+        //
+        // Turn towards where you are going.
+        //
+
+        dangle = BAT_turn_to_place(
+            p_thing,
+            p_bat->want_x,
+            p_bat->want_z);
+
+        if (abs(dangle) > 256 || p_bat->substate == BAT_SUBSTATE_YOMP_END) {
+            //
+            // Don't move!
+            //
+
+            p_bat->dx -= p_bat->dx >> 2;
+            p_bat->dz -= p_bat->dz >> 2;
+        } else {
+            //
+            // Accelerate to moving speed.
+            //
+
+            want_dx = -SIN(p_thing->Draw.Tweened->Angle) >> 4;
+            want_dz = -COS(p_thing->Draw.Tweened->Angle) >> 4;
+
+            want_dx += want_dx >> 1;
+            want_dz += want_dz >> 1;
+
+            want_dx -= want_dx >> 5;
+            want_dz -= want_dz >> 5;
+
+            p_bat->dx += (want_dx - p_bat->dx) >> 3;
+            p_bat->dz += (want_dz - p_bat->dz) >> 3;
+        }
+
+        end = BAT_animate(p_thing);
+
+        if (end) {
+            if (p_bat->substate == BAT_SUBSTATE_YOMP_START) {
+                end = false;
+
+                BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP);
+
+                p_bat->substate = BAT_SUBSTATE_YOMP_MIDDLE;
+            } else if (p_bat->substate == BAT_SUBSTATE_YOMP_MIDDLE) {
+                end = false;
+
+                if (p_bat->timer == 0) {
+                    BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP_END);
+
+                    p_bat->substate = BAT_SUBSTATE_YOMP_END;
+                }
+            }
+        }
+    }
+
+    break;
+
+    case BAT_STATE_BALROG_ROAR:
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
+        break;
+
+    case BAT_STATE_BALROG_FOLLOW:
+    case BAT_STATE_BALROG_CHARGE:
+
+    {
+        if (!p_bat->target) {
+            //
+            // Emergency! How has this happened? Quick fix for now!
+            //
+
+            end = true;
+            p_bat->timer = 0;
+        } else {
+            ASSERT(p_bat->target); // triggered
+
+            Thing *p_target = TO_THING(p_bat->target);
+
             std::int32_t dangle;
 
             //
             // Turn towards where you are going.
             //
+
+            extern std::int32_t there_is_a_los_mav(
+                std::int32_t x1, std::int32_t y1, std::int32_t z1,
+                std::int32_t x2, std::int32_t y2, std::int32_t z2);
+
+            if (!there_is_a_los_mav(
+                    p_thing->WorldPos.X >> 8,
+                    p_thing->WorldPos.Y + 0x4000 >> 8,
+                    p_thing->WorldPos.Z >> 8,
+                    p_target->WorldPos.X >> 8,
+                    p_target->WorldPos.Y + 0x4000 >> 8,
+                    p_target->WorldPos.Z >> 8)) {
+                p_bat->want_x = p_target->WorldPos.X >> 8;
+                p_bat->want_z = p_target->WorldPos.Z >> 8;
+            } else {
+                MAV_Action ma = MAV_do(
+                    p_thing->WorldPos.X >> 16,
+                    p_thing->WorldPos.Z >> 16,
+                    p_target->WorldPos.X >> 16,
+                    p_target->WorldPos.Z >> 16,
+                    MAV_CAPS_GOTO);
+
+                p_bat->want_x = (ma.dest_x << 8) + 0x80;
+                p_bat->want_z = (ma.dest_z << 8) + 0x80;
+            }
 
             dangle = BAT_turn_to_place(
                 p_thing,
@@ -2020,8 +2126,8 @@ void BAT_normal(Thing *p_thing) {
                 // Don't move!
                 //
 
-                p_bat->dx -= p_bat->dx >> 2;
-                p_bat->dz -= p_bat->dz >> 2;
+                p_bat->dx -= p_bat->dx >> 3;
+                p_bat->dz -= p_bat->dz >> 3;
             } else {
                 //
                 // Accelerate to moving speed.
@@ -2060,295 +2166,74 @@ void BAT_normal(Thing *p_thing) {
                 }
             }
         }
+    }
 
-        break;
+    break;
 
-        case BAT_STATE_BALROG_ROAR:
-            end = BAT_animate(p_thing);
-            p_bat->timer = 0;
-            break;
+    case BAT_STATE_BALROG_SWIPE:
 
-        case BAT_STATE_BALROG_FOLLOW:
-        case BAT_STATE_BALROG_CHARGE:
+        if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 4) {
+            create_shockwave(
+                p_thing->WorldPos.X >> 8,
+                p_thing->WorldPos.Y >> 8,
+                p_thing->WorldPos.Z >> 8,
+                0x200,
+                100,
+                p_thing);
 
-        {
-            if (!p_bat->target) {
-                //
-                // Emergency! How has this happened? Quick fix for now!
-                //
-
-                end = true;
-                p_bat->timer = 0;
-            } else {
-                ASSERT(p_bat->target); // triggered
-
-                Thing *p_target = TO_THING(p_bat->target);
-
-                std::int32_t dangle;
-
-                //
-                // Turn towards where you are going.
-                //
-
-                extern std::int32_t there_is_a_los_mav(
-                    std::int32_t x1, std::int32_t y1, std::int32_t z1,
-                    std::int32_t x2, std::int32_t y2, std::int32_t z2);
-
-                if (!there_is_a_los_mav(
-                        p_thing->WorldPos.X >> 8,
-                        p_thing->WorldPos.Y + 0x4000 >> 8,
-                        p_thing->WorldPos.Z >> 8,
-                        p_target->WorldPos.X >> 8,
-                        p_target->WorldPos.Y + 0x4000 >> 8,
-                        p_target->WorldPos.Z >> 8)) {
-                    p_bat->want_x = p_target->WorldPos.X >> 8;
-                    p_bat->want_z = p_target->WorldPos.Z >> 8;
-                } else {
-                    MAV_Action ma = MAV_do(
-                        p_thing->WorldPos.X >> 16,
-                        p_thing->WorldPos.Z >> 16,
-                        p_target->WorldPos.X >> 16,
-                        p_target->WorldPos.Z >> 16,
-                        MAV_CAPS_GOTO);
-
-                    p_bat->want_x = (ma.dest_x << 8) + 0x80;
-                    p_bat->want_z = (ma.dest_z << 8) + 0x80;
-                }
-
-                dangle = BAT_turn_to_place(
-                    p_thing,
-                    p_bat->want_x,
-                    p_bat->want_z);
-
-                if (abs(dangle) > 256 || p_bat->substate == BAT_SUBSTATE_YOMP_END) {
-                    //
-                    // Don't move!
-                    //
-
-                    p_bat->dx -= p_bat->dx >> 3;
-                    p_bat->dz -= p_bat->dz >> 3;
-                } else {
-                    //
-                    // Accelerate to moving speed.
-                    //
-
-                    want_dx = -SIN(p_thing->Draw.Tweened->Angle) >> 4;
-                    want_dz = -COS(p_thing->Draw.Tweened->Angle) >> 4;
-
-                    want_dx += want_dx >> 1;
-                    want_dz += want_dz >> 1;
-
-                    want_dx -= want_dx >> 5;
-                    want_dz -= want_dz >> 5;
-
-                    p_bat->dx += (want_dx - p_bat->dx) >> 3;
-                    p_bat->dz += (want_dz - p_bat->dz) >> 3;
-                }
-
-                end = BAT_animate(p_thing);
-
-                if (end) {
-                    if (p_bat->substate == BAT_SUBSTATE_YOMP_START) {
-                        end = false;
-
-                        BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP);
-
-                        p_bat->substate = BAT_SUBSTATE_YOMP_MIDDLE;
-                    } else if (p_bat->substate == BAT_SUBSTATE_YOMP_MIDDLE) {
-                        end = false;
-
-                        if (p_bat->timer == 0) {
-                            BAT_set_anim(p_thing, BAT_ANIM_BALROG_YOMP_END);
-
-                            p_bat->substate = BAT_SUBSTATE_YOMP_END;
-                        }
-                    }
-                }
-            }
+            p_bat->flag |= BAT_FLAG_ATTACKED;
         }
 
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
+
         break;
 
-        case BAT_STATE_BALROG_SWIPE:
+    case BAT_STATE_BALROG_STOMP:
 
-            if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 4) {
-                create_shockwave(
-                    p_thing->WorldPos.X >> 8,
-                    p_thing->WorldPos.Y >> 8,
-                    p_thing->WorldPos.Z >> 8,
-                    0x200,
-                    100,
-                    p_thing);
+        if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 12) {
+            create_shockwave(
+                p_thing->WorldPos.X >> 8,
+                p_thing->WorldPos.Y >> 8,
+                p_thing->WorldPos.Z >> 8,
+                0x300,
+                150,
+                p_thing);
 
-                p_bat->flag |= BAT_FLAG_ATTACKED;
-            }
+            p_bat->flag |= BAT_FLAG_ATTACKED;
 
-            end = BAT_animate(p_thing);
-            p_bat->timer = 0;
+            PYRO_create(p_thing->WorldPos, PYRO_DUSTWAVE);
+        }
 
-            break;
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
 
-        case BAT_STATE_BALROG_STOMP:
+        break;
 
-            if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 12) {
-                create_shockwave(
-                    p_thing->WorldPos.X >> 8,
-                    p_thing->WorldPos.Y >> 8,
-                    p_thing->WorldPos.Z >> 8,
-                    0x300,
-                    150,
-                    p_thing);
+    case BAT_STATE_BALROG_FIREBALL:
 
-                p_bat->flag |= BAT_FLAG_ATTACKED;
-
-                PYRO_create(p_thing->WorldPos, PYRO_DUSTWAVE);
-            }
+        switch (p_bat->substate) {
+        case BAT_SUBSTATE_FIREBALL_TURN:
 
             end = BAT_animate(p_thing);
-            p_bat->timer = 0;
 
-            break;
+            if (abs(BAT_turn_to_target(p_thing)) < 128) {
+                if (end) {
+                    p_bat->substate = BAT_SUBSTATE_FIREBALL_FIRE;
 
-        case BAT_STATE_BALROG_FIREBALL:
-
-            switch (p_bat->substate) {
-                case BAT_SUBSTATE_FIREBALL_TURN:
-
-                    end = BAT_animate(p_thing);
-
-                    if (abs(BAT_turn_to_target(p_thing)) < 128) {
-                        if (end) {
-                            p_bat->substate = BAT_SUBSTATE_FIREBALL_FIRE;
-
-                            BAT_set_anim(p_thing, BAT_ANIM_BALROG_SWIPE);
-                        }
-                    }
-
-                    break;
-
-                case BAT_SUBSTATE_FIREBALL_FIRE:
-
-                    if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 4) {
-                        BAT_emit_fireball(p_thing);
-
-                        p_bat->flag |= BAT_FLAG_ATTACKED;
-                    }
-
-                    end = BAT_animate(p_thing);
-                    p_bat->timer = 0;
-
-                    break;
-
-                default:
-                    ASSERT(0);
-                    break;
-            }
-
-            break;
-
-        case BAT_STATE_BALROG_IDLE:
-            end = BAT_animate(p_thing);
-            break;
-
-        case BAT_STATE_BANE_IDLE:
-            end = BAT_animate(p_thing);
-
-            //
-            // Make sparks connect to the summoning people.
-            //
-
-            BAT_process_bane_sparks(p_thing);
-
-            p_bat->glow += 64 * TICK_RATIO >> TICK_SHIFT;
-
-            if (p_bat->glow > 0xff00) {
-                p_bat->glow = 0xff00;
-            }
-
-            break;
-
-        case BAT_STATE_BANE_ATTACK:
-
-            if (!(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 12) {
-                create_shockwave(
-                    p_thing->WorldPos.X >> 8,
-                    p_thing->WorldPos.Y >> 8,
-                    p_thing->WorldPos.Z >> 8,
-                    0x300,
-                    150,
-                    p_thing);
-
-                p_bat->flag |= BAT_FLAG_ATTACKED;
-
-                PYRO_create(p_thing->WorldPos, PYRO_DUSTWAVE);
-
-                {
-                    Thing *darci = NET_PERSON(0);
-
-                    extern std::int32_t is_person_dead(Thing * p_person);
-
-                    if (!is_person_dead(darci)) {
-                        if (THING_dist_between(p_thing, NET_PERSON(0)) < 0x600) {
-                            if (there_is_a_los(
-                                    p_thing->WorldPos.X >> 8,
-                                    p_thing->WorldPos.Y + 0xc000 >> 8,
-                                    p_thing->WorldPos.Z >> 8,
-                                    darci->WorldPos.X >> 8,
-                                    darci->WorldPos.Y + 0x6000 >> 8,
-                                    darci->WorldPos.Z >> 8,
-                                    0)) {
-                                SPARK_Pinfo p1;
-                                SPARK_Pinfo p2;
-
-                                p1.type = SPARK_TYPE_LIMB;
-                                p1.flag = 0;
-                                p1.person = THING_NUMBER(p_thing);
-                                p1.limb = 0;
-
-                                p2.type = SPARK_TYPE_LIMB;
-                                p2.flag = 0;
-                                p2.person = THING_NUMBER(darci);
-                                p2.limb = SUB_OBJECT_HEAD;
-
-                                SPARK_create(
-                                    &p1,
-                                    &p2,
-                                    50);
-
-                                if (darci->State != STATE_DANGLING &&
-                                    darci->State != STATE_JUMPING) {
-                                    set_face_thing(
-                                        darci,
-                                        p_thing);
-                                }
-
-                                darci->Genus.Person->Health -= 50;
-
-                                if (darci->Genus.Person->Health <= 0) {
-                                    set_person_dead(
-                                        darci,
-                                        nullptr,
-                                        PERSON_DEATH_TYPE_OTHER,
-                                        false,
-                                        0);
-                                } else {
-                                    set_person_recoil(
-                                        darci,
-                                        ANIM_HIT_FRONT_MID,
-                                        0);
-                                }
-                            }
-                        }
-                    }
+                    BAT_set_anim(p_thing, BAT_ANIM_BALROG_SWIPE);
                 }
             }
 
-            end = BAT_animate(p_thing);
-            p_bat->timer = 0;
-
             break;
 
-        case BAT_STATE_BANE_START:
+        case BAT_SUBSTATE_FIREBALL_FIRE:
+
+            if (p_bat->target && !(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 4) {
+                BAT_emit_fireball(p_thing);
+
+                p_bat->flag |= BAT_FLAG_ATTACKED;
+            }
 
             end = BAT_animate(p_thing);
             p_bat->timer = 0;
@@ -2358,6 +2243,122 @@ void BAT_normal(Thing *p_thing) {
         default:
             ASSERT(0);
             break;
+        }
+
+        break;
+
+    case BAT_STATE_BALROG_IDLE:
+        end = BAT_animate(p_thing);
+        break;
+
+    case BAT_STATE_BANE_IDLE:
+        end = BAT_animate(p_thing);
+
+        //
+        // Make sparks connect to the summoning people.
+        //
+
+        BAT_process_bane_sparks(p_thing);
+
+        p_bat->glow += 64 * TICK_RATIO >> TICK_SHIFT;
+
+        if (p_bat->glow > 0xff00) {
+            p_bat->glow = 0xff00;
+        }
+
+        break;
+
+    case BAT_STATE_BANE_ATTACK:
+
+        if (!(p_bat->flag & BAT_FLAG_ATTACKED) && p_thing->Draw.Tweened->FrameIndex > 12) {
+            create_shockwave(
+                p_thing->WorldPos.X >> 8,
+                p_thing->WorldPos.Y >> 8,
+                p_thing->WorldPos.Z >> 8,
+                0x300,
+                150,
+                p_thing);
+
+            p_bat->flag |= BAT_FLAG_ATTACKED;
+
+            PYRO_create(p_thing->WorldPos, PYRO_DUSTWAVE);
+
+            {
+                Thing *darci = NET_PERSON(0);
+
+                extern std::int32_t is_person_dead(Thing * p_person);
+
+                if (!is_person_dead(darci)) {
+                    if (THING_dist_between(p_thing, NET_PERSON(0)) < 0x600) {
+                        if (there_is_a_los(
+                                p_thing->WorldPos.X >> 8,
+                                p_thing->WorldPos.Y + 0xc000 >> 8,
+                                p_thing->WorldPos.Z >> 8,
+                                darci->WorldPos.X >> 8,
+                                darci->WorldPos.Y + 0x6000 >> 8,
+                                darci->WorldPos.Z >> 8,
+                                0)) {
+                            SPARK_Pinfo p1;
+                            SPARK_Pinfo p2;
+
+                            p1.type = SPARK_TYPE_LIMB;
+                            p1.flag = 0;
+                            p1.person = THING_NUMBER(p_thing);
+                            p1.limb = 0;
+
+                            p2.type = SPARK_TYPE_LIMB;
+                            p2.flag = 0;
+                            p2.person = THING_NUMBER(darci);
+                            p2.limb = SUB_OBJECT_HEAD;
+
+                            SPARK_create(
+                                &p1,
+                                &p2,
+                                50);
+
+                            if (darci->State != STATE_DANGLING &&
+                                darci->State != STATE_JUMPING) {
+                                set_face_thing(
+                                    darci,
+                                    p_thing);
+                            }
+
+                            darci->Genus.Person->Health -= 50;
+
+                            if (darci->Genus.Person->Health <= 0) {
+                                set_person_dead(
+                                    darci,
+                                    nullptr,
+                                    PERSON_DEATH_TYPE_OTHER,
+                                    false,
+                                    0);
+                            } else {
+                                set_person_recoil(
+                                    darci,
+                                    ANIM_HIT_FRONT_MID,
+                                    0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
+
+        break;
+
+    case BAT_STATE_BANE_START:
+
+        end = BAT_animate(p_thing);
+        p_bat->timer = 0;
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 
     newpos.X = p_thing->WorldPos.X + (p_bat->dx * TICK_RATIO >> TICK_SHIFT);
@@ -2397,32 +2398,32 @@ void BAT_normal(Thing *p_thing) {
         #define BAT_ANIM_BALROG_YOMP_END		6
         */
         switch (p_thing->Draw.Tweened->CurrentAnim) {
-            case BAT_ANIM_BALROG_YOMP:
-                if (
-                    (((p_thing->Draw.Tweened->FrameIndex >= 1) && (p_thing->Draw.Tweened->FrameIndex < 6)) || ((p_thing->Draw.Tweened->FrameIndex >= 11) && (p_thing->Draw.Tweened->FrameIndex < 16))) && !(p_bat->flag & BAT_FLAG_SYNC_FX)) {
-                    MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
-                    p_bat->flag &= ~BAT_FLAG_SYNC_FX2;
-                    p_bat->flag |= BAT_FLAG_SYNC_FX;
-                }
-                if ((p_thing->Draw.Tweened->FrameIndex >= 6) && (p_thing->Draw.Tweened->FrameIndex <= 11) && !(p_bat->flag & BAT_FLAG_SYNC_FX2)) {
-                    MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
-                    p_bat->flag &= ~BAT_FLAG_SYNC_FX;
-                    p_bat->flag |= BAT_FLAG_SYNC_FX2;
-                }
-                break;
-            case BAT_ANIM_BALROG_YOMP_END:
-                if (
-                    (((p_thing->Draw.Tweened->FrameIndex >= 1) && (p_thing->Draw.Tweened->FrameIndex < 5)) || ((p_thing->Draw.Tweened->FrameIndex >= 11) && (p_thing->Draw.Tweened->FrameIndex < 16))) && !(p_bat->flag & BAT_FLAG_SYNC_FX)) {
-                    MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
-                    p_bat->flag &= ~BAT_FLAG_SYNC_FX2;
-                    p_bat->flag |= BAT_FLAG_SYNC_FX;
-                }
-                if ((p_thing->Draw.Tweened->FrameIndex >= 5) && (p_thing->Draw.Tweened->FrameIndex <= 11) && !(p_bat->flag & BAT_FLAG_SYNC_FX2)) {
-                    MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
-                    p_bat->flag &= ~BAT_FLAG_SYNC_FX;
-                    p_bat->flag |= BAT_FLAG_SYNC_FX2;
-                }
-                break;
+        case BAT_ANIM_BALROG_YOMP:
+            if (
+                (((p_thing->Draw.Tweened->FrameIndex >= 1) && (p_thing->Draw.Tweened->FrameIndex < 6)) || ((p_thing->Draw.Tweened->FrameIndex >= 11) && (p_thing->Draw.Tweened->FrameIndex < 16))) && !(p_bat->flag & BAT_FLAG_SYNC_FX)) {
+                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
+                p_bat->flag &= ~BAT_FLAG_SYNC_FX2;
+                p_bat->flag |= BAT_FLAG_SYNC_FX;
+            }
+            if ((p_thing->Draw.Tweened->FrameIndex >= 6) && (p_thing->Draw.Tweened->FrameIndex <= 11) && !(p_bat->flag & BAT_FLAG_SYNC_FX2)) {
+                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
+                p_bat->flag &= ~BAT_FLAG_SYNC_FX;
+                p_bat->flag |= BAT_FLAG_SYNC_FX2;
+            }
+            break;
+        case BAT_ANIM_BALROG_YOMP_END:
+            if (
+                (((p_thing->Draw.Tweened->FrameIndex >= 1) && (p_thing->Draw.Tweened->FrameIndex < 5)) || ((p_thing->Draw.Tweened->FrameIndex >= 11) && (p_thing->Draw.Tweened->FrameIndex < 16))) && !(p_bat->flag & BAT_FLAG_SYNC_FX)) {
+                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
+                p_bat->flag &= ~BAT_FLAG_SYNC_FX2;
+                p_bat->flag |= BAT_FLAG_SYNC_FX;
+            }
+            if ((p_thing->Draw.Tweened->FrameIndex >= 5) && (p_thing->Draw.Tweened->FrameIndex <= 11) && !(p_bat->flag & BAT_FLAG_SYNC_FX2)) {
+                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_BALROG_STEP_START, S_BALROG_STEP_END), 0, p_thing);
+                p_bat->flag &= ~BAT_FLAG_SYNC_FX;
+                p_bat->flag |= BAT_FLAG_SYNC_FX2;
+            }
+            break;
         }
     }
 
@@ -2579,48 +2580,48 @@ found_unused_bat:;
 
     switch (type) {
 #ifndef PSX
-        case BAT_TYPE_BAT:
-            p_bat->state = BAT_STATE_IDLE;
-            p_bat->substate = BAT_SUBSTATE_NONE;
-            p_thing->WorldPos.Y += 0x100 << 8;
-            break;
+    case BAT_TYPE_BAT:
+        p_bat->state = BAT_STATE_IDLE;
+        p_bat->substate = BAT_SUBSTATE_NONE;
+        p_thing->WorldPos.Y += 0x100 << 8;
+        break;
 
-        case BAT_TYPE_GARGOYLE:
-            p_bat->state = BAT_STATE_GROUND;
-            p_bat->substate = BAT_SUBSTATE_GROUND_WAIT;
-            break;
+    case BAT_TYPE_GARGOYLE:
+        p_bat->state = BAT_STATE_GROUND;
+        p_bat->substate = BAT_SUBSTATE_GROUND_WAIT;
+        break;
 #endif
-        case BAT_TYPE_BALROG:
-            p_bat->state = BAT_STATE_BALROG_ROAR;
-            p_bat->substate = BAT_SUBSTATE_NONE;
-            p_bat->health = 255;
-            BAT_set_anim(p_thing, BAT_ANIM_BALROG_ROAR);
-            // let's set this mutha alight
-            {
-                Thing *pyro;
-                pyro = PYRO_create(p_thing->WorldPos, PYRO_IMMOLATE);
-                if (pyro) {
-                    pyro->Genus.Pyro->victim = p_thing;
-                    pyro->Genus.Pyro->Flags = PYRO_FLAGS_FLICKER;
-                }
-                // darci->Genus.Person->BurnIndex=PYRO_NUMBER(pyro->Genus.Pyro)+1;
+    case BAT_TYPE_BALROG:
+        p_bat->state = BAT_STATE_BALROG_ROAR;
+        p_bat->substate = BAT_SUBSTATE_NONE;
+        p_bat->health = 255;
+        BAT_set_anim(p_thing, BAT_ANIM_BALROG_ROAR);
+        // let's set this mutha alight
+        {
+            Thing *pyro;
+            pyro = PYRO_create(p_thing->WorldPos, PYRO_IMMOLATE);
+            if (pyro) {
+                pyro->Genus.Pyro->victim = p_thing;
+                pyro->Genus.Pyro->Flags = PYRO_FLAGS_FLICKER;
             }
-            // and cast some light nearby...
-            p_bat->glow = NIGHT_dlight_create(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 200, 32, 28, 10);
+            // darci->Genus.Person->BurnIndex=PYRO_NUMBER(pyro->Genus.Pyro)+1;
+        }
+        // and cast some light nearby...
+        p_bat->glow = NIGHT_dlight_create(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 200, 32, 28, 10);
 
-            break;
+        break;
 
-        case BAT_TYPE_BANE:
-            p_bat->state = BAT_STATE_BANE_IDLE;
-            p_bat->substate = BAT_SUBSTATE_NONE;
-            p_bat->glow = 0x7f00;
-            p_thing->WorldPos.Y += 0x60 << 8;
-            BAT_set_anim(p_thing, BAT_ANIM_BANE_IDLE);
-            break;
+    case BAT_TYPE_BANE:
+        p_bat->state = BAT_STATE_BANE_IDLE;
+        p_bat->substate = BAT_SUBSTATE_NONE;
+        p_bat->glow = 0x7f00;
+        p_thing->WorldPos.Y += 0x60 << 8;
+        BAT_set_anim(p_thing, BAT_ANIM_BANE_IDLE);
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     return THING_NUMBER(p_thing);
@@ -2656,22 +2657,22 @@ void BAT_apply_hit(
         blood_z = p_me->WorldPos.Z;
 
         switch (p_me->Genus.Bat->type) {
-            case BAT_TYPE_BAT:
-                blood_y += 0x2000;
-                towards = 0x40;
-                break;
-            case BAT_TYPE_GARGOYLE:
-                blood_y += 0x5000;
-                towards = 0x60;
-                break;
-            case BAT_TYPE_BALROG:
-                blood_y += 0x8000;
-                towards = 0x90;
-                break;
+        case BAT_TYPE_BAT:
+            blood_y += 0x2000;
+            towards = 0x40;
+            break;
+        case BAT_TYPE_GARGOYLE:
+            blood_y += 0x5000;
+            towards = 0x60;
+            break;
+        case BAT_TYPE_BALROG:
+            blood_y += 0x8000;
+            towards = 0x90;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         dx = p_aggressor->WorldPos.X - p_me->WorldPos.X;

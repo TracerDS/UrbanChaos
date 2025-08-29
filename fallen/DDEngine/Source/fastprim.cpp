@@ -12,6 +12,8 @@
 #include "texture.h"
 #include "matrix.h"
 
+#include <algorithm>
+
 // #define FASTPRIM_PERFORMANCE
 
 #ifdef FASTPRIM_PERFORMANCE
@@ -489,7 +491,7 @@ std::int32_t FASTPRIM_draw(
         float dz = z - AENG_cam_z;
 
         float dist = dx * dx + dz * dz;
-        float radius = float(MAX(pi->maxx - pi->minx, pi->maxz - pi->minz)) + 16.0f;
+        float radius = float(std::max(pi->maxx - pi->minx, pi->maxz - pi->minz)) + 16.0f;
 
         if (dist < radius * radius) {
             //

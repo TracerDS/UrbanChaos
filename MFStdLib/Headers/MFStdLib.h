@@ -4,7 +4,6 @@
 
 #pragma once
 
-
 //---------------------------------------------------------------
 
 // Standard 'C' includes.
@@ -109,15 +108,15 @@ void ClearWorkScreen(std::uint8_t colour);
 
 struct MFTime
 {
-	std::int32_t		Hours,
-				Minutes,
-				Seconds,
-				MSeconds;
-	std::int32_t		DayOfWeek,		//	0 - 6;		Sunday		=	0
-				Day,
-				Month,			//	1 - 12;		January		=	1
-				Year;
-	std::int32_t		Ticks;			// Number of ticks(milliseconds) since windows started.
+	std::int32_t Hours;
+	std::int32_t Minutes;
+	std::int32_t Seconds;
+	std::int32_t MSeconds;
+	std::int32_t DayOfWeek; // 0 - 6; Sunday = 0
+	std::int32_t Day;
+	std::int32_t Month; // 1 - 12; January = 1
+	std::int32_t Year;
+	std::int32_t Ticks; // Number of ticks(milliseconds) since windows started.
 };
 
 std::int32_t main(std::uint16_t argc, TCHAR** argv);
@@ -177,13 +176,6 @@ bool ReadInputDevice();
 #define	mfstdlib_swap(a,b)			{a^=b;b^=a;a^=b;}
 
 #define	in_range(a,min,max)	{if(a>(max))a=(max);else if(a<(min))a=(min);}
-#ifndef	min
-#define	min(a,b)			(((a)<(b)) ? (a) : (b))
-#endif
-
-#ifndef	max
-#define	max(a,b)			(((a)>(b)) ? (a) : (b))
-#endif
 
 //---------------------------------------------------------------
 
@@ -197,8 +189,6 @@ bool ReadInputDevice();
 #define SATURATE(x,a,b)	{if ((x) < (a)) {(x) = (a);} else if ((x) > (b)) {(x) = (b);}}
 #define SWAP(a,b)		{std::int32_t temp; temp = (a); (a) = (b); (b) = temp;}
 #define SWAP_FL(a,b)	{float temp; temp = (a); (a) = (b); (b) = temp;}
-#define MIN(a,b)		(((a) < (b)) ? (a) : (b))
-#define MAX(a,b)		(((a) > (b)) ? (a) : (b))
 #define SIGN(x)			(((x)) ? (((x) > 0) ? +1 : -1) : 0)
 
 //

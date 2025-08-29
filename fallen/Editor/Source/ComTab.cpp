@@ -55,21 +55,22 @@ extern char *class_text[],
 
 std::uint16_t command_field_widths[][MAX_FIELDS] =
     {
-        {COM_LIST_WIDTH - 2, 0, 0, 0},                                //	COM_NONE
-        {FIELD_1_WIDTH, 0, FIELD_3_WIDTH, FIELD_4_WIDTH},             //	COM_ATTACK_PLAYER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_THING
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_GROUP
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_CLASS
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_PLAYER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_THING
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_GROUP
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_CLASS
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_PATROL_WAYPOINT
-        {FIELD_1_WIDTH, 0, FIELD_3_WIDTH, FIELD_4_WIDTH},             //	COM_START_TIMER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_WAIT_FOR_TRIGGER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_WAIT_FOR_CLIST
-        {FIELD_1_WIDTH, 0, FIELD_3_WIDTH, FIELD_4_WIDTH},             //	COM_FOLLOW_PLAYER
-        {0, 0, 0, 0}};
+        {COM_LIST_WIDTH - 2, 0,             0,             0            }, //	COM_NONE
+        {FIELD_1_WIDTH,      0,             FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_PLAYER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_THING
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_GROUP
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_ATTACK_CLASS
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_PLAYER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_THING
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_GROUP
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_DEFEND_CLASS
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_PATROL_WAYPOINT
+        {FIELD_1_WIDTH,      0,             FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_START_TIMER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_WAIT_FOR_TRIGGER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_WAIT_FOR_CLIST
+        {FIELD_1_WIDTH,      0,             FIELD_3_WIDTH, FIELD_4_WIDTH}, //	COM_FOLLOW_PLAYER
+        {0,                  0,             0,             0            }
+};
 
 CommandTab *the_com_tab;
 
@@ -121,55 +122,55 @@ void CommandTab::DrawTabContent() {
     DrawCurrentList();
 
     switch (TabMode) {
-        case COM_MODE_NONE:
-            break;
-        case COM_MODE_SELECT_THING:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Thing") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Thing",
-                0);
-            break;
-        case COM_MODE_SELECT_WAYPOINT:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Waypoint") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Waypoint",
-                0);
-        case COM_MODE_SELECT_SWITCH:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Trigger") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Trigger",
-                0);
-            break;
+    case COM_MODE_NONE:
+        break;
+    case COM_MODE_SELECT_THING:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Thing") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Thing",
+            0);
+        break;
+    case COM_MODE_SELECT_WAYPOINT:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Waypoint") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Waypoint",
+            0);
+    case COM_MODE_SELECT_SWITCH:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Trigger") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Trigger",
+            0);
+        break;
     }
 }
 
@@ -179,15 +180,15 @@ void CommandTab::UpdateTab(std::uint8_t update_level) {
     if (update_level) {
         if (LockWorkScreen()) {
             switch (update_level) {
-                case UPDATE_ALL:
-                    DrawTabContent();
-                    break;
-                case UPDATE_LISTS_BOX:
-                    DrawListsBox();
-                    break;
-                case UPDATE_CURRENT_LIST:
-                    DrawCurrentList();
-                    break;
+            case UPDATE_ALL:
+                DrawTabContent();
+                break;
+            case UPDATE_LISTS_BOX:
+                DrawListsBox();
+                break;
+            case UPDATE_CURRENT_LIST:
+                DrawCurrentList();
+                break;
             }
             UnlockWorkScreen();
             ShowWorkWindow(0);
@@ -209,15 +210,15 @@ std::uint16_t CommandTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_po
     }
     if (TabData) {
         switch (DataField) {
-            case 1:
-                DataCommand->Data1 = TabData;
-                break;
-            case 2:
-                DataCommand->Data2 = TabData;
-                break;
-            case 3:
-                DataCommand->Data3 = TabData;
-                break;
+        case 1:
+            DataCommand->Data1 = TabData;
+            break;
+        case 2:
+            DataCommand->Data2 = TabData;
+            break;
+        case 3:
+            DataCommand->Data3 = TabData;
+            break;
         }
         TabData = 0;
     }
@@ -227,43 +228,43 @@ std::uint16_t CommandTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_po
     local_point = *clicked_point;
     GlobalToLocal(&local_point);
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            select_pos = ListsHilitePos(&local_point);
-            if (select_pos) {
-                CurrentComList = HilitetedList(select_pos);
-                if (CurrentComList) {
-                    ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
-                    if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
-                        ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
-                    } else {
-                        ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, 0);
-                    }
-                }
-            } else {
-                local_point = *clicked_point;
-                control_id = HandleControlSetClick(flags, &local_point);
-                HandleControl(control_id);
-            }
-            update = UPDATE_ALL;
-            break;
-        case RIGHT_CLICK:
-            select_pos = ListsHilitePos(&local_point);
-            if (select_pos) {
-                the_comlist = HilitetedList(select_pos);
-                if (the_comlist) {
-                    DoComListPopup(&local_point, the_comlist);
-                    update = UPDATE_ALL;
-                }
-            } else {
-                select_pos = CurrentListHilitePos(&local_point);
-                if (select_pos) {
-                    DoCommandPopup(&local_point, select_pos);
-                    update = UPDATE_ALL;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        select_pos = ListsHilitePos(&local_point);
+        if (select_pos) {
+            CurrentComList = HilitetedList(select_pos);
+            if (CurrentComList) {
+                ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
+                if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
+                    ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
+                } else {
+                    ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, 0);
                 }
             }
-            break;
+        } else {
+            local_point = *clicked_point;
+            control_id = HandleControlSetClick(flags, &local_point);
+            HandleControl(control_id);
+        }
+        update = UPDATE_ALL;
+        break;
+    case RIGHT_CLICK:
+        select_pos = ListsHilitePos(&local_point);
+        if (select_pos) {
+            the_comlist = HilitetedList(select_pos);
+            if (the_comlist) {
+                DoComListPopup(&local_point, the_comlist);
+                update = UPDATE_ALL;
+            }
+        } else {
+            select_pos = CurrentListHilitePos(&local_point);
+            if (select_pos) {
+                DoCommandPopup(&local_point, select_pos);
+                update = UPDATE_ALL;
+            }
+        }
+        break;
     }
 
     UpdateTab(update);
@@ -286,15 +287,15 @@ void CommandTab::HandleTab(MFPoint *current_point) {
     }
     if (TabData) {
         switch (DataField) {
-            case 1:
-                DataCommand->Data1 = TabData;
-                break;
-            case 2:
-                DataCommand->Data2 = TabData;
-                break;
-            case 3:
-                DataCommand->Data3 = TabData;
-                break;
+        case 1:
+            DataCommand->Data1 = TabData;
+            break;
+        case 2:
+            DataCommand->Data2 = TabData;
+            break;
+        case 3:
+            DataCommand->Data3 = TabData;
+            break;
         }
         TabData = 0;
     }
@@ -328,35 +329,35 @@ void CommandTab::HandleControl(std::uint16_t control_id) {
     std::int32_t control = control_id & 0xff;
 
     switch (control) {
-        case CTRL_NEW_COMLIST:
-            CurrentComList = alloc_ed_comlist();
-            if (CurrentComList) {
-                // set up the new command list.
-                if (ed_comlist_count > MAX_VIEW_LISTS) {
-                    ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_comlist_count - MAX_VIEW_LISTS);
-                }
-                ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
+    case CTRL_NEW_COMLIST:
+        CurrentComList = alloc_ed_comlist();
+        if (CurrentComList) {
+            // set up the new command list.
+            if (ed_comlist_count > MAX_VIEW_LISTS) {
+                ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_comlist_count - MAX_VIEW_LISTS);
+            }
+            ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
 
-                // Allocate the first command.
-                add_command(CurrentComList, alloc_ed_command());
+            // Allocate the first command.
+            add_command(CurrentComList, alloc_ed_command());
+        }
+        break;
+    case CTRL_LISTS_SLIDER:
+        break;
+    case CTRL_COMLIST_EDIT:
+        strcpy(CurrentComList->ComListName, ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->GetEditString());
+        break;
+    case CTRL_COMLIST_SLIDER:
+        break;
+    case CTRL_NEW_COMMAND:
+        if (CurrentComList) {
+            // Create a new command.
+            add_command(CurrentComList, alloc_ed_command());
+            if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
+                ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
             }
-            break;
-        case CTRL_LISTS_SLIDER:
-            break;
-        case CTRL_COMLIST_EDIT:
-            strcpy(CurrentComList->ComListName, ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->GetEditString());
-            break;
-        case CTRL_COMLIST_SLIDER:
-            break;
-        case CTRL_NEW_COMMAND:
-            if (CurrentComList) {
-                // Create a new command.
-                add_command(CurrentComList, alloc_ed_command());
-                if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
-                    ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
-                }
-            }
-            break;
+        }
+        break;
     }
 }
 
@@ -374,18 +375,18 @@ void CommandTab::DoComListPopup(MFPoint *clicked_point, EditComList *the_comlist
     control_id = the_control->TrackControl(clicked_point);
 
     switch (control_id >> 8) {
-        case 0:
-            break;
-        case 1:
-            if (CurrentComList == the_comlist) {
-                CurrentComList = nullptr;
-                ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString("");
-            }
-            if (ed_comlist_count > MAX_VIEW_LISTS) {
-                ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_comlist_count - MAX_VIEW_LISTS) - 1);
-            }
-            free_ed_comlist(the_comlist);
-            break;
+    case 0:
+        break;
+    case 1:
+        if (CurrentComList == the_comlist) {
+            CurrentComList = nullptr;
+            ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString("");
+        }
+        if (ed_comlist_count > MAX_VIEW_LISTS) {
+            ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_comlist_count - MAX_VIEW_LISTS) - 1);
+        }
+        free_ed_comlist(the_comlist);
+        break;
     }
 }
 
@@ -406,21 +407,21 @@ void CommandTab::DoCommandPopup(MFPoint *clicked_point, std::uint16_t select_pos
         field = (select_pos & 0x00ff) - 1;
         if (field == 3) {
             switch (the_command->Data2) {
-                case COM_S_NONE:
-                    command_popup_def.TheMenuDef = generic_popup2;
-                    break;
-                case COM_S_UNTIL_TRIGGER:
-                    command_popup_def.TheMenuDef = select_switch_popup2;
-                    break;
-                case COM_S_UNTIL_CLIST:
-                    command_popup_def.TheMenuDef = select_clist_popup;
-                    break;
-                case COM_S_WHILE_TRIGGER:
-                    command_popup_def.TheMenuDef = select_switch_popup2;
-                    break;
-                case COM_S_WHILE_CLIST:
-                    command_popup_def.TheMenuDef = select_clist_popup;
-                    break;
+            case COM_S_NONE:
+                command_popup_def.TheMenuDef = generic_popup2;
+                break;
+            case COM_S_UNTIL_TRIGGER:
+                command_popup_def.TheMenuDef = select_switch_popup2;
+                break;
+            case COM_S_UNTIL_CLIST:
+                command_popup_def.TheMenuDef = select_clist_popup;
+                break;
+            case COM_S_WHILE_TRIGGER:
+                command_popup_def.TheMenuDef = select_switch_popup2;
+                break;
+            case COM_S_WHILE_CLIST:
+                command_popup_def.TheMenuDef = select_clist_popup;
+                break;
             }
         } else
             command_popup_def.TheMenuDef = command_defs[the_command->CommandType][field];
@@ -438,68 +439,68 @@ void CommandTab::DoCommandPopup(MFPoint *clicked_point, std::uint16_t select_pos
                     the_command->Data3 = 0;
                 } else if (field == 3) {
                     switch (the_command->Data2) {
-                        case COM_S_NONE:
-                            break;
-                        case COM_S_UNTIL_TRIGGER:
-                        case COM_S_WHILE_TRIGGER:
-                            TabMode = COM_MODE_SELECT_SWITCH;
-                            DataCommand = the_command;
-                            DataField = 3;
-                            break;
-                        case COM_S_UNTIL_CLIST:
-                        case COM_S_WHILE_CLIST:
-                            the_cond_list = SelectConditionList();
-                            if (the_cond_list) {
-                                the_command->Data3 = ED_CONLIST_NUMBER(the_cond_list);
-                            }
-                            break;
+                    case COM_S_NONE:
+                        break;
+                    case COM_S_UNTIL_TRIGGER:
+                    case COM_S_WHILE_TRIGGER:
+                        TabMode = COM_MODE_SELECT_SWITCH;
+                        DataCommand = the_command;
+                        DataField = 3;
+                        break;
+                    case COM_S_UNTIL_CLIST:
+                    case COM_S_WHILE_CLIST:
+                        the_cond_list = SelectConditionList();
+                        if (the_cond_list) {
+                            the_command->Data3 = ED_CONLIST_NUMBER(the_cond_list);
+                        }
+                        break;
                     }
                 } else {
                     switch (the_command->CommandType) {
-                        case COM_NONE:
-                            break;
-                        case COM_ATTACK_PLAYER:
-                            break;
-                        case COM_ATTACK_THING:
-                            TabMode = COM_MODE_SELECT_THING;
-                            DataCommand = the_command;
-                            DataField = 1;
-                            break;
-                        case COM_ATTACK_GROUP:
-                            break;
-                        case COM_ATTACK_CLASS:
-                            break;
-                        case COM_DEFEND_PLAYER:
-                            break;
-                        case COM_DEFEND_THING:
-                            TabMode = COM_MODE_SELECT_THING;
-                            DataCommand = the_command;
-                            DataField = 1;
-                            break;
-                        case COM_DEFEND_GROUP:
-                            break;
-                        case COM_DEFEND_CLASS:
-                            break;
-                        case COM_PATROL_WAYPOINT:
-                            TabMode = COM_MODE_SELECT_WAYPOINT;
-                            DataCommand = the_command;
-                            DataField = 1;
-                            break;
-                        case COM_START_TIMER:
-                            break;
-                        case COM_WAIT_FOR_TRIGGER:
-                            TabMode = COM_MODE_SELECT_SWITCH;
-                            DataCommand = the_command;
-                            DataField = 1;
-                            break;
-                        case COM_WAIT_FOR_CLIST:
-                            the_cond_list = SelectConditionList();
-                            if (the_cond_list) {
-                                the_command->Data1 = ED_CONLIST_NUMBER(the_cond_list);
-                            }
-                            break;
-                        case COM_FOLLOW_PLAYER:
-                            break;
+                    case COM_NONE:
+                        break;
+                    case COM_ATTACK_PLAYER:
+                        break;
+                    case COM_ATTACK_THING:
+                        TabMode = COM_MODE_SELECT_THING;
+                        DataCommand = the_command;
+                        DataField = 1;
+                        break;
+                    case COM_ATTACK_GROUP:
+                        break;
+                    case COM_ATTACK_CLASS:
+                        break;
+                    case COM_DEFEND_PLAYER:
+                        break;
+                    case COM_DEFEND_THING:
+                        TabMode = COM_MODE_SELECT_THING;
+                        DataCommand = the_command;
+                        DataField = 1;
+                        break;
+                    case COM_DEFEND_GROUP:
+                        break;
+                    case COM_DEFEND_CLASS:
+                        break;
+                    case COM_PATROL_WAYPOINT:
+                        TabMode = COM_MODE_SELECT_WAYPOINT;
+                        DataCommand = the_command;
+                        DataField = 1;
+                        break;
+                    case COM_START_TIMER:
+                        break;
+                    case COM_WAIT_FOR_TRIGGER:
+                        TabMode = COM_MODE_SELECT_SWITCH;
+                        DataCommand = the_command;
+                        DataField = 1;
+                        break;
+                    case COM_WAIT_FOR_CLIST:
+                        the_cond_list = SelectConditionList();
+                        if (the_cond_list) {
+                            the_command->Data1 = ED_CONLIST_NUMBER(the_cond_list);
+                        }
+                        break;
+                    case COM_FOLLOW_PLAYER:
+                        break;
                     }
                 }
             } else {
@@ -513,25 +514,25 @@ void CommandTab::DoCommandPopup(MFPoint *clicked_point, std::uint16_t select_pos
 
 void CommandTab::CommonCommandOptions(std::uint32_t id, EditCommand *the_command) {
     switch (id) {
-        case 0: // nullptr.
-            break;
-        case 1: // Delete Condition.
-            if (the_command) {
-                if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
-                    ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) - 1);
-                }
+    case 0: // nullptr.
+        break;
+    case 1: // Delete Condition.
+        if (the_command) {
+            if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
+                ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) - 1);
             }
-            remove_command(CurrentComList, the_command);
-            free_ed_command(the_command);
-            break;
-        case 2: // Blank.
-            break;
-        case 3: // Group Commands.
-            break;
-        case 4: // Ungroup Commands.
-            break;
-        case 5: // Blank.
-            break;
+        }
+        remove_command(CurrentComList, the_command);
+        free_ed_command(the_command);
+        break;
+    case 2: // Blank.
+        break;
+    case 3: // Group Commands.
+        break;
+    case 4: // Ungroup Commands.
+        break;
+    case 5: // Blank.
+        break;
     }
 }
 
@@ -782,43 +783,43 @@ void CommandTab::DrawCurrentList() {
 
                 // & it's data.
                 switch (current_command->CommandType) {
-                    case COM_NONE:
-                        break;
-                    case COM_ATTACK_PLAYER:
-                        break;
-                    case COM_ATTACK_THING:
-                        sprintf(&field_text[1][0], "Thing %d", current_command->Data1);
-                        break;
-                    case COM_ATTACK_GROUP:
-                        break;
-                    case COM_ATTACK_CLASS:
-                        break;
-                    case COM_DEFEND_PLAYER:
-                        break;
-                    case COM_DEFEND_THING:
-                        sprintf(&field_text[1][0], "Thing %d", current_command->Data1);
-                        break;
-                    case COM_DEFEND_GROUP:
-                        break;
-                    case COM_DEFEND_CLASS:
-                        break;
-                    case COM_PATROL_WAYPOINT:
-                        sprintf(&field_text[1][0], "Waypoint %d", current_command->Data1);
-                        break;
-                    case COM_START_TIMER:
-                        break;
-                    case COM_WAIT_FOR_TRIGGER:
-                        sprintf(&field_text[1][0], "%d", current_command->Data1);
-                        break;
-                    case COM_WAIT_FOR_CLIST:
-                        if (current_command->Data1) {
-                            sprintf(&field_text[1][0], "%s", edit_clists[current_command->Data1].CListName);
-                        } else {
-                            sprintf(&field_text[1][0], "None");
-                        }
-                        break;
-                    case COM_FOLLOW_PLAYER:
-                        break;
+                case COM_NONE:
+                    break;
+                case COM_ATTACK_PLAYER:
+                    break;
+                case COM_ATTACK_THING:
+                    sprintf(&field_text[1][0], "Thing %d", current_command->Data1);
+                    break;
+                case COM_ATTACK_GROUP:
+                    break;
+                case COM_ATTACK_CLASS:
+                    break;
+                case COM_DEFEND_PLAYER:
+                    break;
+                case COM_DEFEND_THING:
+                    sprintf(&field_text[1][0], "Thing %d", current_command->Data1);
+                    break;
+                case COM_DEFEND_GROUP:
+                    break;
+                case COM_DEFEND_CLASS:
+                    break;
+                case COM_PATROL_WAYPOINT:
+                    sprintf(&field_text[1][0], "Waypoint %d", current_command->Data1);
+                    break;
+                case COM_START_TIMER:
+                    break;
+                case COM_WAIT_FOR_TRIGGER:
+                    sprintf(&field_text[1][0], "%d", current_command->Data1);
+                    break;
+                case COM_WAIT_FOR_CLIST:
+                    if (current_command->Data1) {
+                        sprintf(&field_text[1][0], "%s", edit_clists[current_command->Data1].CListName);
+                    } else {
+                        sprintf(&field_text[1][0], "None");
+                    }
+                    break;
+                case COM_FOLLOW_PLAYER:
+                    break;
                 }
 
                 if (current_command->CommandType) {
@@ -827,21 +828,21 @@ void CommandTab::DrawCurrentList() {
 
                     //	& it's data.
                     switch (current_command->Data2) {
-                        case COM_S_NONE:
-                            break;
-                        case COM_S_UNTIL_TRIGGER:
-                        case COM_S_WHILE_TRIGGER:
-                            sprintf(&field_text[3][0], "    %d", current_command->Data3);
-                            break;
-                        case COM_S_UNTIL_CLIST:
-                        case COM_S_WHILE_CLIST:
-                            if (current_command->Data3) {
-                                sprintf(&field_text[3][0], "%s", edit_clists[current_command->Data3].CListName);
-                            } else {
-                                sprintf(&field_text[3][0], "None");
-                            }
-                            break;
-                            break;
+                    case COM_S_NONE:
+                        break;
+                    case COM_S_UNTIL_TRIGGER:
+                    case COM_S_WHILE_TRIGGER:
+                        sprintf(&field_text[3][0], "    %d", current_command->Data3);
+                        break;
+                    case COM_S_UNTIL_CLIST:
+                    case COM_S_WHILE_CLIST:
+                        if (current_command->Data3) {
+                            sprintf(&field_text[3][0], "%s", edit_clists[current_command->Data3].CListName);
+                        } else {
+                            sprintf(&field_text[3][0], "None");
+                        }
+                        break;
+                        break;
                     }
                 }
 

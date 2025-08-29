@@ -42,7 +42,6 @@ ControlDef controls[] =
     {
         {V_SLIDER, 0, "", 270, 40, 0, 255},
         {0}
-
 };
 
 char a_cunning_plan = 0;

@@ -53,22 +53,23 @@ extern char *condition_text[];
 
 std::uint16_t field_widths[][MAX_FIELDS] =
     {
-        {CON_LIST_WIDTH - 2, 0, 0, 0},                                //	CON_NONE
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, 0, 0},                         //	CON_THING_DEAD
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, 0, 0},                         //	CON_ALL_GROUP_DEAD
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_PERCENT_GROUP_DEAD
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, 0},             //	CON_THING_NEAR_PLAYER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, 0},             //	CON_GROUP_NEAR_PLAYER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, 0},             //	CON_CLASS_NEAR_PLAYER
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_THING_NEAR_THING
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_GROUP_NEAR_THING
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_CLASS_NEAR_THING
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, 0},             //	CON_CLASS_COUNT
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, FIELD_3_WIDTH, 0},             //	CON_GROUP_COUNT
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, 0, 0},                         //	CON_SWITCH_TRIGGERED
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, 0, 0},                         //	CON_TIME
-        {FIELD_1_WIDTH, FIELD_2_WIDTH, 0, 0},                         //	CON_CLIST_FULFILLED
-        {0, 0, 0, 0}};
+        {CON_LIST_WIDTH - 2, 0,             0,             0            }, //	CON_NONE
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, 0,             0            }, //	CON_THING_DEAD
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, 0,             0            }, //	CON_ALL_GROUP_DEAD
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_PERCENT_GROUP_DEAD
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, 0            }, //	CON_THING_NEAR_PLAYER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, 0            }, //	CON_GROUP_NEAR_PLAYER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, 0            }, //	CON_CLASS_NEAR_PLAYER
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_THING_NEAR_THING
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_GROUP_NEAR_THING
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, FIELD_4_WIDTH}, //	CON_CLASS_NEAR_THING
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, 0            }, //	CON_CLASS_COUNT
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, FIELD_3_WIDTH, 0            }, //	CON_GROUP_COUNT
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, 0,             0            }, //	CON_SWITCH_TRIGGERED
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, 0,             0            }, //	CON_TIME
+        {FIELD_1_WIDTH,      FIELD_2_WIDTH, 0,             0            }, //	CON_CLIST_FULFILLED
+        {0,                  0,             0,             0            }
+};
 ConditionTab *the_con_tab;
 
 //---------------------------------------------------------------
@@ -119,40 +120,40 @@ void ConditionTab::DrawTabContent() {
     DrawCurrentList();
 
     switch (TabMode) {
-        case COND_MODE_NONE:
-            break;
-        case COND_MODE_SELECT_THING:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Thing") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Thing",
-                0);
-            break;
-        case COND_MODE_SELECT_SWITCH:
-            message_height = QTStringHeight() + 12;
-            message_width = QTStringWidth("Select A Trigger") + 12;
-            message_rect.SetRect(
-                150 - (message_width >> 1),
-                220 - (message_height >> 1),
-                message_width,
-                message_height);
-            message_rect.FillRect(RED_COL);
-            message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
-            QuickTextC(
-                message_rect.GetLeft() + 6,
-                message_rect.GetTop() + 6,
-                "Select A Trigger",
-                0);
-            break;
+    case COND_MODE_NONE:
+        break;
+    case COND_MODE_SELECT_THING:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Thing") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Thing",
+            0);
+        break;
+    case COND_MODE_SELECT_SWITCH:
+        message_height = QTStringHeight() + 12;
+        message_width = QTStringWidth("Select A Trigger") + 12;
+        message_rect.SetRect(
+            150 - (message_width >> 1),
+            220 - (message_height >> 1),
+            message_width,
+            message_height);
+        message_rect.FillRect(RED_COL);
+        message_rect.HiliteRect(HILITE_COL, LOLITE_COL);
+        QuickTextC(
+            message_rect.GetLeft() + 6,
+            message_rect.GetTop() + 6,
+            "Select A Trigger",
+            0);
+        break;
     }
 }
 
@@ -162,15 +163,15 @@ void ConditionTab::UpdateTab(std::uint8_t update_level) {
     if (update_level) {
         if (LockWorkScreen()) {
             switch (update_level) {
-                case UPDATE_ALL:
-                    DrawTabContent();
-                    break;
-                case UPDATE_LISTS_BOX:
-                    DrawListsBox();
-                    break;
-                case UPDATE_CURRENT_LIST:
-                    DrawCurrentList();
-                    break;
+            case UPDATE_ALL:
+                DrawTabContent();
+                break;
+            case UPDATE_LISTS_BOX:
+                DrawListsBox();
+                break;
+            case UPDATE_CURRENT_LIST:
+                DrawCurrentList();
+                break;
             }
             UnlockWorkScreen();
             ShowWorkWindow(0);
@@ -192,15 +193,15 @@ std::uint16_t ConditionTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_
     }
     if (TabData) {
         switch (DataField) {
-            case 1:
-                DataCondition->Data1 = TabData;
-                break;
-            case 2:
-                DataCondition->Data2 = TabData;
-                break;
-            case 3:
-                DataCondition->Data3 = TabData;
-                break;
+        case 1:
+            DataCondition->Data1 = TabData;
+            break;
+        case 2:
+            DataCondition->Data2 = TabData;
+            break;
+        case 3:
+            DataCondition->Data3 = TabData;
+            break;
         }
         TabData = 0;
     }
@@ -210,43 +211,43 @@ std::uint16_t ConditionTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_
     local_point = *clicked_point;
     GlobalToLocal(&local_point);
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            select_pos = ListsHilitePos(&local_point);
-            if (select_pos) {
-                CurrentCList = HilitetedList(select_pos);
-                if (CurrentCList) {
-                    ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
-                    if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
-                        ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
-                    } else {
-                        ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, 0);
-                    }
-                }
-            } else {
-                local_point = *clicked_point;
-                control_id = HandleControlSetClick(flags, &local_point);
-                HandleControl(control_id);
-            }
-            update = UPDATE_ALL;
-            break;
-        case RIGHT_CLICK:
-            select_pos = ListsHilitePos(&local_point);
-            if (select_pos) {
-                the_clist = HilitetedList(select_pos);
-                if (the_clist) {
-                    DoCListPopup(&local_point, the_clist);
-                    update = UPDATE_ALL;
-                }
-            } else {
-                select_pos = CurrentListHilitePos(&local_point);
-                if (select_pos) {
-                    DoConditionPopup(&local_point, select_pos);
-                    update = UPDATE_ALL;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        select_pos = ListsHilitePos(&local_point);
+        if (select_pos) {
+            CurrentCList = HilitetedList(select_pos);
+            if (CurrentCList) {
+                ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
+                if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
+                    ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
+                } else {
+                    ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, 0);
                 }
             }
-            break;
+        } else {
+            local_point = *clicked_point;
+            control_id = HandleControlSetClick(flags, &local_point);
+            HandleControl(control_id);
+        }
+        update = UPDATE_ALL;
+        break;
+    case RIGHT_CLICK:
+        select_pos = ListsHilitePos(&local_point);
+        if (select_pos) {
+            the_clist = HilitetedList(select_pos);
+            if (the_clist) {
+                DoCListPopup(&local_point, the_clist);
+                update = UPDATE_ALL;
+            }
+        } else {
+            select_pos = CurrentListHilitePos(&local_point);
+            if (select_pos) {
+                DoConditionPopup(&local_point, select_pos);
+                update = UPDATE_ALL;
+            }
+        }
+        break;
     }
 
     UpdateTab(update);
@@ -269,15 +270,15 @@ void ConditionTab::HandleTab(MFPoint *current_point) {
     }
     if (TabData) {
         switch (DataField) {
-            case 1:
-                DataCondition->Data1 = TabData;
-                break;
-            case 2:
-                DataCondition->Data2 = TabData;
-                break;
-            case 3:
-                DataCondition->Data3 = TabData;
-                break;
+        case 1:
+            DataCondition->Data1 = TabData;
+            break;
+        case 2:
+            DataCondition->Data2 = TabData;
+            break;
+        case 3:
+            DataCondition->Data3 = TabData;
+            break;
         }
         TabData = 0;
     }
@@ -311,35 +312,35 @@ void ConditionTab::HandleControl(std::uint16_t control_id) {
     std::int32_t control = control_id & 0xff;
 
     switch (control) {
-        case CTRL_NEW_CLIST:
-            CurrentCList = alloc_ed_clist();
-            if (CurrentCList) {
-                // set up the new condition list.
-                if (ed_clist_count > MAX_VIEW_LISTS) {
-                    ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
-                }
-                ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
+    case CTRL_NEW_CLIST:
+        CurrentCList = alloc_ed_clist();
+        if (CurrentCList) {
+            // set up the new condition list.
+            if (ed_clist_count > MAX_VIEW_LISTS) {
+                ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
+            }
+            ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
 
-                // Allocate the first condition.
-                add_condition(CurrentCList, alloc_ed_condition());
+            // Allocate the first condition.
+            add_condition(CurrentCList, alloc_ed_condition());
+        }
+        break;
+    case CTRL_LISTS_SLIDER:
+        break;
+    case CTRL_CLIST_EDIT:
+        strcpy(CurrentCList->CListName, ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->GetEditString());
+        break;
+    case CTRL_CLIST_SLIDER:
+        break;
+    case CTRL_NEW_COND:
+        if (CurrentCList) {
+            // Create a new condition.
+            add_condition(CurrentCList, alloc_ed_condition());
+            if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
+                ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
             }
-            break;
-        case CTRL_LISTS_SLIDER:
-            break;
-        case CTRL_CLIST_EDIT:
-            strcpy(CurrentCList->CListName, ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->GetEditString());
-            break;
-        case CTRL_CLIST_SLIDER:
-            break;
-        case CTRL_NEW_COND:
-            if (CurrentCList) {
-                // Create a new condition.
-                add_condition(CurrentCList, alloc_ed_condition());
-                if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
-                    ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
-                }
-            }
-            break;
+        }
+        break;
     }
 }
 
@@ -363,18 +364,18 @@ void ConditionTab::DoCListPopup(MFPoint *clicked_point, EditCondList *the_clist)
     control_id = the_control->TrackControl(clicked_point);
 
     switch (control_id >> 8) {
-        case 0:
-            break;
-        case 1:
-            if (CurrentCList == the_clist) {
-                CurrentCList = nullptr;
-                ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString("");
-            }
-            if (ed_clist_count > MAX_VIEW_LISTS) {
-                ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_clist_count - MAX_VIEW_LISTS) - 1);
-            }
-            free_ed_clist(the_clist);
-            break;
+    case 0:
+        break;
+    case 1:
+        if (CurrentCList == the_clist) {
+            CurrentCList = nullptr;
+            ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString("");
+        }
+        if (ed_clist_count > MAX_VIEW_LISTS) {
+            ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_clist_count - MAX_VIEW_LISTS) - 1);
+        }
+        free_ed_clist(the_clist);
+        break;
     }
 }
 
@@ -404,74 +405,74 @@ void ConditionTab::DoConditionPopup(MFPoint *clicked_point, std::uint16_t select
             // Set the data fields.
             if (field) {
                 switch (the_condition->ConditionType) {
-                    case CON_NONE:
-                        break;
-                    case CON_THING_DEAD:
+                case CON_NONE:
+                    break;
+                case CON_THING_DEAD:
+                    TabMode = COND_MODE_SELECT_THING;
+                    DataCondition = the_condition;
+                    DataField = 1;
+                    break;
+                case CON_ALL_GROUP_DEAD:
+                    the_condition->Data1 = control_id - 6;
+                    break;
+                case CON_PERCENT_GROUP_DEAD:
+                    the_condition->Data1 = control_id - 6;
+                    break;
+                case CON_THING_NEAR_PLAYER:
+                    TabMode = COND_MODE_SELECT_THING;
+                    DataCondition = the_condition;
+                    DataField = 1;
+                    break;
+                case CON_GROUP_NEAR_PLAYER:
+                    the_condition->Data1 = (control_id - 6) + 1;
+                    break;
+                case CON_CLASS_NEAR_PLAYER:
+                    the_condition->Data1 = (control_id - 6) + 1;
+                    break;
+                case CON_THING_NEAR_THING:
+                    if (field <= 2) {
                         TabMode = COND_MODE_SELECT_THING;
                         DataCondition = the_condition;
-                        DataField = 1;
-                        break;
-                    case CON_ALL_GROUP_DEAD:
+                        DataField = field;
+                    }
+                    break;
+                case CON_GROUP_NEAR_THING:
+                    if (field == 1) {
                         the_condition->Data1 = control_id - 6;
-                        break;
-                    case CON_PERCENT_GROUP_DEAD:
-                        the_condition->Data1 = control_id - 6;
-                        break;
-                    case CON_THING_NEAR_PLAYER:
+                    } else if (field == 2) {
                         TabMode = COND_MODE_SELECT_THING;
                         DataCondition = the_condition;
-                        DataField = 1;
-                        break;
-                    case CON_GROUP_NEAR_PLAYER:
+                        DataField = 2;
+                    }
+                    break;
+                case CON_CLASS_NEAR_THING:
+                    if (field == 1) {
                         the_condition->Data1 = (control_id - 6) + 1;
-                        break;
-                    case CON_CLASS_NEAR_PLAYER:
-                        the_condition->Data1 = (control_id - 6) + 1;
-                        break;
-                    case CON_THING_NEAR_THING:
-                        if (field <= 2) {
-                            TabMode = COND_MODE_SELECT_THING;
-                            DataCondition = the_condition;
-                            DataField = field;
-                        }
-                        break;
-                    case CON_GROUP_NEAR_THING:
-                        if (field == 1) {
-                            the_condition->Data1 = control_id - 6;
-                        } else if (field == 2) {
-                            TabMode = COND_MODE_SELECT_THING;
-                            DataCondition = the_condition;
-                            DataField = 2;
-                        }
-                        break;
-                    case CON_CLASS_NEAR_THING:
-                        if (field == 1) {
-                            the_condition->Data1 = (control_id - 6) + 1;
-                        } else if (field == 2) {
-                            TabMode = COND_MODE_SELECT_THING;
-                            DataCondition = the_condition;
-                            DataField = 2;
-                        }
-                        break;
-                    case CON_CLASS_COUNT:
-                        break;
-                    case CON_GROUP_COUNT:
-                        break;
-                    case CON_SWITCH_TRIGGERED:
-                        TabMode = COND_MODE_SELECT_SWITCH;
+                    } else if (field == 2) {
+                        TabMode = COND_MODE_SELECT_THING;
                         DataCondition = the_condition;
-                        DataField = 1;
-                        break;
-                    case CON_TIME:
-                        break;
-                    case CON_CLIST_FULFILLED:
-                        if (field == 1) {
-                            the_cond_list = SelectConditionList();
-                            if (the_cond_list) {
-                                the_condition->Data1 = ED_CONLIST_NUMBER(the_cond_list);
-                            }
+                        DataField = 2;
+                    }
+                    break;
+                case CON_CLASS_COUNT:
+                    break;
+                case CON_GROUP_COUNT:
+                    break;
+                case CON_SWITCH_TRIGGERED:
+                    TabMode = COND_MODE_SELECT_SWITCH;
+                    DataCondition = the_condition;
+                    DataField = 1;
+                    break;
+                case CON_TIME:
+                    break;
+                case CON_CLIST_FULFILLED:
+                    if (field == 1) {
+                        the_cond_list = SelectConditionList();
+                        if (the_cond_list) {
+                            the_condition->Data1 = ED_CONLIST_NUMBER(the_cond_list);
                         }
-                        break;
+                    }
+                    break;
                 }
             } else {
                 the_condition->ConditionType = control_id - 6;
@@ -484,25 +485,25 @@ void ConditionTab::DoConditionPopup(MFPoint *clicked_point, std::uint16_t select
 
 void ConditionTab::CommonConditionOptions(std::uint32_t id, EditCondition *the_condition) {
     switch (id) {
-        case 0: // nullptr.
-            break;
-        case 1: // Delete Condition.
-            if (the_condition) {
-                if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
-                    ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, (CurrentCList->ConditionCount > MAX_VIEW_CONDS) - 1);
-                }
+    case 0: // nullptr.
+        break;
+    case 1: // Delete Condition.
+        if (the_condition) {
+            if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
+                ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, (CurrentCList->ConditionCount > MAX_VIEW_CONDS) - 1);
             }
-            remove_condition(CurrentCList, the_condition);
-            free_ed_condition(the_condition);
-            break;
-        case 2: // Blank.
-            break;
-        case 3: // Group Conditions.
-            break;
-        case 4: // Ungroup Conditons.
-            break;
-        case 5: // Blank.
-            break;
+        }
+        remove_condition(CurrentCList, the_condition);
+        free_ed_condition(the_condition);
+        break;
+    case 2: // Blank.
+        break;
+    case 3: // Group Conditions.
+        break;
+    case 4: // Ungroup Conditons.
+        break;
+    case 5: // Blank.
+        break;
     }
 }
 
@@ -753,66 +754,66 @@ void ConditionTab::DrawCurrentList() {
 
                 // Now set the data fields text.
                 switch (current_condition->ConditionType) {
-                    case CON_NONE:
-                        break;
-                    case CON_THING_DEAD:
-                        sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
-                        break;
-                    case CON_ALL_GROUP_DEAD:
-                        sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
-                        break;
-                    case CON_PERCENT_GROUP_DEAD:
-                        sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
-                        sprintf(&field_text[2][0], "%d%%", current_condition->Data2);
-                        break;
-                    case CON_THING_NEAR_PLAYER:
-                        sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
-                        sprintf(&field_text[2][0], "%d", current_condition->Data3);
-                        break;
-                    case CON_GROUP_NEAR_PLAYER:
-                        sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
-                        sprintf(&field_text[2][0], "%d", current_condition->Data3);
-                        break;
-                    case CON_CLASS_NEAR_PLAYER:
-                        sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
-                        sprintf(&field_text[2][0], "%d", current_condition->Data3);
-                        break;
-                    case CON_THING_NEAR_THING:
-                        sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
-                        sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
-                        sprintf(&field_text[3][0], "%d", current_condition->Data3);
-                        break;
-                    case CON_GROUP_NEAR_THING:
-                        sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
-                        sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
-                        sprintf(&field_text[3][0], "%d", current_condition->Data3);
-                        break;
-                    case CON_CLASS_NEAR_THING:
-                        sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
-                        sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
-                        sprintf(&field_text[3][0], "%d", current_condition->Data3);
-                        break;
-                    case CON_CLASS_COUNT:
-                        sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
-                        sprintf(&field_text[2][0], "%d", current_condition->Data2);
-                        break;
-                    case CON_GROUP_COUNT:
-                        sprintf(&field_text[1][0], "Group %s", genus_text[current_condition->Data3][current_condition->Data1]);
-                        sprintf(&field_text[2][0], "%d", current_condition->Data2);
-                        break;
-                    case CON_SWITCH_TRIGGERED:
-                        sprintf(&field_text[1][0], "%d", current_condition->Data1);
-                        break;
-                    case CON_TIME:
-                        sprintf(&field_text[1][0], "0");
-                        break;
-                    case CON_CLIST_FULFILLED:
-                        if (current_condition->Data1) {
-                            sprintf(&field_text[1][0], "%s", edit_clists[current_condition->Data1].CListName);
-                        } else {
-                            sprintf(&field_text[1][0], "None");
-                        }
-                        break;
+                case CON_NONE:
+                    break;
+                case CON_THING_DEAD:
+                    sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
+                    break;
+                case CON_ALL_GROUP_DEAD:
+                    sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
+                    break;
+                case CON_PERCENT_GROUP_DEAD:
+                    sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
+                    sprintf(&field_text[2][0], "%d%%", current_condition->Data2);
+                    break;
+                case CON_THING_NEAR_PLAYER:
+                    sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
+                    sprintf(&field_text[2][0], "%d", current_condition->Data3);
+                    break;
+                case CON_GROUP_NEAR_PLAYER:
+                    sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
+                    sprintf(&field_text[2][0], "%d", current_condition->Data3);
+                    break;
+                case CON_CLASS_NEAR_PLAYER:
+                    sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
+                    sprintf(&field_text[2][0], "%d", current_condition->Data3);
+                    break;
+                case CON_THING_NEAR_THING:
+                    sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
+                    sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
+                    sprintf(&field_text[3][0], "%d", current_condition->Data3);
+                    break;
+                case CON_GROUP_NEAR_THING:
+                    sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
+                    sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
+                    sprintf(&field_text[3][0], "%d", current_condition->Data3);
+                    break;
+                case CON_CLASS_NEAR_THING:
+                    sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
+                    sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
+                    sprintf(&field_text[3][0], "%d", current_condition->Data3);
+                    break;
+                case CON_CLASS_COUNT:
+                    sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
+                    sprintf(&field_text[2][0], "%d", current_condition->Data2);
+                    break;
+                case CON_GROUP_COUNT:
+                    sprintf(&field_text[1][0], "Group %s", genus_text[current_condition->Data3][current_condition->Data1]);
+                    sprintf(&field_text[2][0], "%d", current_condition->Data2);
+                    break;
+                case CON_SWITCH_TRIGGERED:
+                    sprintf(&field_text[1][0], "%d", current_condition->Data1);
+                    break;
+                case CON_TIME:
+                    sprintf(&field_text[1][0], "0");
+                    break;
+                case CON_CLIST_FULFILLED:
+                    if (current_condition->Data1) {
+                        sprintf(&field_text[1][0], "%s", edit_clists[current_condition->Data1].CListName);
+                    } else {
+                        sprintf(&field_text[1][0], "None");
+                    }
+                    break;
                 }
 
                 // Draw all field text.

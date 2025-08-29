@@ -75,14 +75,14 @@ bool ChooseD3DDevice(std::uint32_t flags) {
         dd_result = lp_DD_FrontSurface->GetSurfaceDesc(&dd_sd);
         if (dd_result == DD_OK) {
             switch (dd_sd.ddpfPixelFormat.dwRGBBitCount) {
-                case 1: DeviceBitDepth = DDBD_1; break;
-                case 2: DeviceBitDepth = DDBD_2; break;
-                case 4: DeviceBitDepth = DDBD_4; break;
-                case 8: DeviceBitDepth = DDBD_8; break;
-                case 16: DeviceBitDepth = DDBD_16; break;
-                case 24: DeviceBitDepth = DDBD_24; break;
-                case 32: DeviceBitDepth = DDBD_32; break;
-                default: DeviceBitDepth = 0;
+            case 1: DeviceBitDepth = DDBD_1; break;
+            case 2: DeviceBitDepth = DDBD_2; break;
+            case 4: DeviceBitDepth = DDBD_4; break;
+            case 8: DeviceBitDepth = DDBD_8; break;
+            case 16: DeviceBitDepth = DDBD_16; break;
+            case 24: DeviceBitDepth = DDBD_24; break;
+            case 32: DeviceBitDepth = DDBD_32; break;
+            default: DeviceBitDepth = 0;
             }
             DeviceFound = false;
             RequestFlags = flags;

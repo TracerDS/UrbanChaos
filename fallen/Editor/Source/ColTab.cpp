@@ -45,7 +45,8 @@ ControlDef col_tab_def[] =
         {BUTTON, 0, "Recalc Collision", 10, 50, 0, 0},
         {BUTTON, 0, "CLEAR Collision", 90, 200, 0, 0},
         {CHECK_BOX, 0, "Clipped View", 20, 300 - 10, 0, 10},
-        {0}};
+        {0}
+};
 
 ColTab *the_coltab;
 
@@ -98,10 +99,10 @@ void ColTab::Recalc() {
         for (c0 = 1; c0 < next_col_info; c0++) {
             p_col = &col_info[c0];
             switch (p_col->Type) {
-                case COL_TYPE_BEZIER:
-                case COL_TYPE_PLANE:
-                    //				calc_collision_info(p_col); //->Plane.Left,p_col->Plane.Right,p_col->Plane.Top,p_col->Plane.Bottom,p_col->Plane.Depth,1);
-                    break;
+            case COL_TYPE_BEZIER:
+            case COL_TYPE_PLANE:
+                //				calc_collision_info(p_col); //->Plane.Left,p_col->Plane.Right,p_col->Plane.Top,p_col->Plane.Bottom,p_col->Plane.Depth,1);
+                break;
             }
         }
 }
@@ -120,15 +121,15 @@ void ColTab::DrawTabContent() {
 
 void redraw_col_tab() {
     switch (the_coltab->Mode) {
-        default:
+    default:
 
-            the_coltab->DrawTabContent();
-            the_coltab->Parent->DrawContent();
-            SetWorkWindowBounds(the_coltab->Parent->GetLeft(),
-                                the_coltab->Parent->GetTop(),
-                                the_coltab->Parent->GetWidth(),
-                                the_coltab->Parent->GetHeight());
-            break;
+        the_coltab->DrawTabContent();
+        the_coltab->Parent->DrawContent();
+        SetWorkWindowBounds(the_coltab->Parent->GetLeft(),
+                            the_coltab->Parent->GetTop(),
+                            the_coltab->Parent->GetWidth(),
+                            the_coltab->Parent->GetHeight());
+        break;
     }
 }
 
@@ -188,14 +189,14 @@ void ColTab::HandleTab(MFPoint *current_point) {
         struct ColInfo *p_col;
         p_col = &col_info[CurrentCol];
         switch (p_col->Type) {
-            case COL_TYPE_PLANE:
-                engine.ClipMinY = p_col->Plane.Top;
-                engine.ClipMaxY = p_col->Plane.Bottom;
-                break;
-            case COL_TYPE_BEZIER:
-                engine.ClipMinY = p_col->Bezier.Top;
-                engine.ClipMaxY = p_col->Bezier.Bottom;
-                break;
+        case COL_TYPE_PLANE:
+            engine.ClipMinY = p_col->Plane.Top;
+            engine.ClipMaxY = p_col->Plane.Bottom;
+            break;
+        case COL_TYPE_BEZIER:
+            engine.ClipMinY = p_col->Bezier.Top;
+            engine.ClipMaxY = p_col->Bezier.Bottom;
+            break;
         }
 
         engine.ClipFlag = ENGINE_CLIPY_FLAG;
@@ -217,30 +218,30 @@ std::int32_t ColTab::KeyboardInterface() {
         if (AxisMode > 3)
             AxisMode = 0;
         switch (AxisMode) {
-            case 0:
-                SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = X_AXIS;
-                break;
-            case 1:
-                SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = Y_AXIS;
-                break;
-            case 2:
-                SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = Z_AXIS;
-                break;
-            case 3:
-                SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = X_AXIS | Y_AXIS | Z_AXIS;
-                break;
+        case 0:
+            SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = X_AXIS;
+            break;
+        case 1:
+            SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = Y_AXIS;
+            break;
+        case 2:
+            SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = Z_AXIS;
+            break;
+        case 3:
+            SetControlState(CTRL_COL_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_COL_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_COL_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = X_AXIS | Y_AXIS | Z_AXIS;
+            break;
         }
 
         SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
@@ -368,35 +369,35 @@ void draw_a_col_info(std::uint16_t index) {
     EdRect rect;
     p_col = &col_info[index];
     switch (p_col->Type) {
-        case COL_TYPE_PLANE:
-            draw_3d_line(p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth, col);
-            draw_3d_line(p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth, col);
-            draw_3d_line(p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth, col);
-            draw_3d_line(p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, col);
-            break;
+    case COL_TYPE_PLANE:
+        draw_3d_line(p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth, col);
+        draw_3d_line(p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth, col);
+        draw_3d_line(p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth, col);
+        draw_3d_line(p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, col);
+        break;
 
-        case COL_TYPE_BEZIER:
-            std::int32_t mid_y, temp;
-            temp = engine.ClipFlag;
-            engine.ClipFlag = 0;
+    case COL_TYPE_BEZIER:
+        std::int32_t mid_y, temp;
+        temp = engine.ClipFlag;
+        engine.ClipFlag = 0;
 
-            mid_y = p_col->Bezier.Top + p_col->Bezier.Bottom;
-            mid_y >>= 1;
+        mid_y = p_col->Bezier.Top + p_col->Bezier.Bottom;
+        mid_y >>= 1;
 
-            set_screen_box(p_col->Bezier.X[0], mid_y, p_col->Bezier.Z[0], &rect, 5, 5);
-            rect.OutlineRect(WHITE_COL);
-            set_screen_box(p_col->Bezier.X[1], mid_y, p_col->Bezier.Z[1], &rect, 5, 5);
-            rect.OutlineRect(WHITE_COL);
-            set_screen_box(p_col->Bezier.X[2], mid_y, p_col->Bezier.Z[2], &rect, 5, 5);
-            rect.OutlineRect(WHITE_COL);
-            set_screen_box(p_col->Bezier.X[3], mid_y, p_col->Bezier.Z[3], &rect, 5, 5);
-            rect.OutlineRect(WHITE_COL);
-            draw_bezier(p_col->Bezier.X[0], p_col->Bezier.Z[0], p_col->Bezier.X[1], p_col->Bezier.Z[1], p_col->Bezier.X[2], p_col->Bezier.Z[2], p_col->Bezier.X[3], p_col->Bezier.Z[3]);
+        set_screen_box(p_col->Bezier.X[0], mid_y, p_col->Bezier.Z[0], &rect, 5, 5);
+        rect.OutlineRect(WHITE_COL);
+        set_screen_box(p_col->Bezier.X[1], mid_y, p_col->Bezier.Z[1], &rect, 5, 5);
+        rect.OutlineRect(WHITE_COL);
+        set_screen_box(p_col->Bezier.X[2], mid_y, p_col->Bezier.Z[2], &rect, 5, 5);
+        rect.OutlineRect(WHITE_COL);
+        set_screen_box(p_col->Bezier.X[3], mid_y, p_col->Bezier.Z[3], &rect, 5, 5);
+        rect.OutlineRect(WHITE_COL);
+        draw_bezier(p_col->Bezier.X[0], p_col->Bezier.Z[0], p_col->Bezier.X[1], p_col->Bezier.Z[1], p_col->Bezier.X[2], p_col->Bezier.Z[2], p_col->Bezier.X[3], p_col->Bezier.Z[3]);
 
-            draw_3d_line(p_col->Bezier.X[0], p_col->Bezier.Top, 9999, p_col->Bezier.X[3], p_col->Bezier.Top, 9999, col);
-            draw_3d_line(p_col->Bezier.X[0], p_col->Bezier.Bottom, 9999, p_col->Bezier.X[3], p_col->Bezier.Bottom, 9999, col);
-            engine.ClipFlag = temp;
-            break;
+        draw_3d_line(p_col->Bezier.X[0], p_col->Bezier.Top, 9999, p_col->Bezier.X[3], p_col->Bezier.Top, 9999, col);
+        draw_3d_line(p_col->Bezier.X[0], p_col->Bezier.Bottom, 9999, p_col->Bezier.X[3], p_col->Bezier.Bottom, 9999, col);
+        engine.ClipFlag = temp;
+        break;
     }
 }
 
@@ -460,59 +461,59 @@ std::int32_t select_this_col_info(std::int32_t index, MFPoint *mouse) {
 
     p_col = &col_info[index];
     switch (p_col->Type) {
-        case COL_TYPE_PLANE:
-            // corners
-            create_box_from_point(&rect, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (5);
-            create_box_from_point(&rect, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (6);
-            create_box_from_point(&rect, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (7);
-            create_box_from_point(&rect, p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (8);
+    case COL_TYPE_PLANE:
+        // corners
+        create_box_from_point(&rect, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (5);
+        create_box_from_point(&rect, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (6);
+        create_box_from_point(&rect, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (7);
+        create_box_from_point(&rect, p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (8);
 
-            // edges
-            create_box_from_vect(&rect, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (1);
-            create_box_from_vect(&rect, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (2);
-            create_box_from_vect(&rect, p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (3);
-            create_box_from_vect(&rect, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth);
-            if (rect.PointInRect(mouse))
-                return (4);
+        // edges
+        create_box_from_vect(&rect, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (1);
+        create_box_from_vect(&rect, p_col->Plane.Right, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (2);
+        create_box_from_vect(&rect, p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth, p_col->Plane.Right, p_col->Plane.Bottom, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (3);
+        create_box_from_vect(&rect, p_col->Plane.Left, p_col->Plane.Top, p_col->Plane.Depth, p_col->Plane.Left, p_col->Plane.Bottom, p_col->Plane.Depth);
+        if (rect.PointInRect(mouse))
+            return (4);
 
-            break;
-        case COL_TYPE_BEZIER:
-            set_screen_box(p_col->Bezier.X[0], 0, p_col->Bezier.Z[0], &rect, 10, 10);
-            if (rect.PointInRect(mouse))
-                return (1);
-            set_screen_box(p_col->Bezier.X[1], 0, p_col->Bezier.Z[1], &rect, 10, 10);
-            if (rect.PointInRect(mouse))
-                return (2);
-            set_screen_box(p_col->Bezier.X[2], 0, p_col->Bezier.Z[2], &rect, 10, 10);
-            if (rect.PointInRect(mouse))
-                return (3);
-            set_screen_box(p_col->Bezier.X[3], 0, p_col->Bezier.Z[3], &rect, 10, 10);
-            if (rect.PointInRect(mouse))
-                return (4);
+        break;
+    case COL_TYPE_BEZIER:
+        set_screen_box(p_col->Bezier.X[0], 0, p_col->Bezier.Z[0], &rect, 10, 10);
+        if (rect.PointInRect(mouse))
+            return (1);
+        set_screen_box(p_col->Bezier.X[1], 0, p_col->Bezier.Z[1], &rect, 10, 10);
+        if (rect.PointInRect(mouse))
+            return (2);
+        set_screen_box(p_col->Bezier.X[2], 0, p_col->Bezier.Z[2], &rect, 10, 10);
+        if (rect.PointInRect(mouse))
+            return (3);
+        set_screen_box(p_col->Bezier.X[3], 0, p_col->Bezier.Z[3], &rect, 10, 10);
+        if (rect.PointInRect(mouse))
+            return (4);
 
-            create_box_from_vect(&rect, p_col->Bezier.X[0], p_col->Bezier.Top, 9999, p_col->Bezier.X[3], p_col->Bezier.Top, 9999);
-            if (rect.PointInRect(mouse))
-                return (5);
+        create_box_from_vect(&rect, p_col->Bezier.X[0], p_col->Bezier.Top, 9999, p_col->Bezier.X[3], p_col->Bezier.Top, 9999);
+        if (rect.PointInRect(mouse))
+            return (5);
 
-            create_box_from_vect(&rect, p_col->Bezier.X[0], p_col->Bezier.Bottom, 9999, p_col->Bezier.X[3], p_col->Bezier.Bottom, 9999);
-            if (rect.PointInRect(mouse))
-                return (6);
+        create_box_from_vect(&rect, p_col->Bezier.X[0], p_col->Bezier.Bottom, 9999, p_col->Bezier.X[3], p_col->Bezier.Bottom, 9999);
+        if (rect.PointInRect(mouse))
+            return (6);
 
-            break;
+        break;
     }
     return (0);
 }
@@ -589,70 +590,70 @@ std::int32_t ColTab::DragACol(std::uint8_t flags, MFPoint *clicked_point, std::u
 
             if (last_world_mouse) {
                 switch (drag_type) {
-                    case COL_TYPE_PLANE:
-                        if (window == 0) {
-                            if (side)
-                                col_info[CurrentCol].Plane.Depth = engine.MousePosZ;
-                        }
-                        switch (side) {
-                            case 1: // top
-                                col_info[CurrentCol].Plane.Top = engine.MousePosY;
-                                break;
-                            case 3: // bot
-                                col_info[CurrentCol].Plane.Bottom = engine.MousePosY;
-                                break;
-                            case 2: // right
-                                col_info[CurrentCol].Plane.Right = engine.MousePosX;
-                                break;
-                            case 4: // left
-                                col_info[CurrentCol].Plane.Left = engine.MousePosX;
-                                break;
-                            case 5: // topleft
-                                col_info[CurrentCol].Plane.Top = engine.MousePosY;
-                                col_info[CurrentCol].Plane.Left = engine.MousePosX;
-                                break;
-                            case 6: // topright
-                                col_info[CurrentCol].Plane.Right = engine.MousePosX;
-                                col_info[CurrentCol].Plane.Top = engine.MousePosY;
-                                break;
-                            case 7: // botright
-                                col_info[CurrentCol].Plane.Right = engine.MousePosX;
-                                col_info[CurrentCol].Plane.Bottom = engine.MousePosY;
-                                break;
-                            case 8: // botleft
-                                col_info[CurrentCol].Plane.Left = engine.MousePosX;
-                                col_info[CurrentCol].Plane.Bottom = engine.MousePosY;
-                                break;
+                case COL_TYPE_PLANE:
+                    if (window == 0) {
+                        if (side)
+                            col_info[CurrentCol].Plane.Depth = engine.MousePosZ;
+                    }
+                    switch (side) {
+                    case 1: // top
+                        col_info[CurrentCol].Plane.Top = engine.MousePosY;
+                        break;
+                    case 3: // bot
+                        col_info[CurrentCol].Plane.Bottom = engine.MousePosY;
+                        break;
+                    case 2: // right
+                        col_info[CurrentCol].Plane.Right = engine.MousePosX;
+                        break;
+                    case 4: // left
+                        col_info[CurrentCol].Plane.Left = engine.MousePosX;
+                        break;
+                    case 5: // topleft
+                        col_info[CurrentCol].Plane.Top = engine.MousePosY;
+                        col_info[CurrentCol].Plane.Left = engine.MousePosX;
+                        break;
+                    case 6: // topright
+                        col_info[CurrentCol].Plane.Right = engine.MousePosX;
+                        col_info[CurrentCol].Plane.Top = engine.MousePosY;
+                        break;
+                    case 7: // botright
+                        col_info[CurrentCol].Plane.Right = engine.MousePosX;
+                        col_info[CurrentCol].Plane.Bottom = engine.MousePosY;
+                        break;
+                    case 8: // botleft
+                        col_info[CurrentCol].Plane.Left = engine.MousePosX;
+                        col_info[CurrentCol].Plane.Bottom = engine.MousePosY;
+                        break;
+                    }
+                    break;
+                case COL_TYPE_BEZIER:
+                    switch (side) {
+                    case 5:
+                        p_col->Bezier.Top = engine.MousePosY;
+                        break;
+                    case 6:
+                        p_col->Bezier.Bottom = engine.MousePosY;
+                        break;
+                    default:
+                        if (!ShiftFlag) {
+                            p_col->Bezier.X[side - 1] = engine.MousePosX;
+                            p_col->Bezier.Z[side - 1] = engine.MousePosZ;
+                        } else {
+                            std::int32_t dx, dz;
+                            dx = p_col->Bezier.X[side - 1] - engine.MousePosX;
+                            dz = p_col->Bezier.Z[side - 1] - engine.MousePosZ;
+                            p_col->Bezier.X[0] -= dx;
+                            p_col->Bezier.Z[0] -= dz;
+                            p_col->Bezier.X[1] -= dx;
+                            p_col->Bezier.Z[1] -= dz;
+                            p_col->Bezier.X[2] -= dx;
+                            p_col->Bezier.Z[2] -= dz;
+                            p_col->Bezier.X[3] -= dx;
+                            p_col->Bezier.Z[3] -= dz;
                         }
                         break;
-                    case COL_TYPE_BEZIER:
-                        switch (side) {
-                            case 5:
-                                p_col->Bezier.Top = engine.MousePosY;
-                                break;
-                            case 6:
-                                p_col->Bezier.Bottom = engine.MousePosY;
-                                break;
-                            default:
-                                if (!ShiftFlag) {
-                                    p_col->Bezier.X[side - 1] = engine.MousePosX;
-                                    p_col->Bezier.Z[side - 1] = engine.MousePosZ;
-                                } else {
-                                    std::int32_t dx, dz;
-                                    dx = p_col->Bezier.X[side - 1] - engine.MousePosX;
-                                    dz = p_col->Bezier.Z[side - 1] - engine.MousePosZ;
-                                    p_col->Bezier.X[0] -= dx;
-                                    p_col->Bezier.Z[0] -= dz;
-                                    p_col->Bezier.X[1] -= dx;
-                                    p_col->Bezier.Z[1] -= dz;
-                                    p_col->Bezier.X[2] -= dx;
-                                    p_col->Bezier.Z[2] -= dz;
-                                    p_col->Bezier.X[3] -= dx;
-                                    p_col->Bezier.Z[3] -= dz;
-                                }
-                                break;
-                        }
-                        break;
+                    }
+                    break;
                 }
             }
 
@@ -745,39 +746,39 @@ std::int32_t ColTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8
     std::int16_t thing;
     std::int16_t bright;
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
 
-            switch (Mode) {
-                case COL_MODE_PLACE_PLANE:
-                    if (SetWorldMouse(1)) {
-                        CurrentCol = CreateColPlane(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                        Mode = 0;
-                    }
-                    return (1);
-
-                    break;
-                case COL_MODE_WAIT:
-                    DragACol(flags, clicked_point, 0);
-                    break;
-
-                case COL_MODE_PLACE_BEZIER:
-                    if (SetWorldMouse(1)) {
-                        CurrentCol = CreateColBezier(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                        Mode = 0;
-                    }
-                    return (1);
+        switch (Mode) {
+        case COL_MODE_PLACE_PLANE:
+            if (SetWorldMouse(1)) {
+                CurrentCol = CreateColPlane(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
+                Mode = 0;
             }
+            return (1);
+
             break;
-        case RIGHT_CLICK:
-            switch (Mode) {
+        case COL_MODE_WAIT:
+            DragACol(flags, clicked_point, 0);
+            break;
+
+        case COL_MODE_PLACE_BEZIER:
+            if (SetWorldMouse(1)) {
+                CurrentCol = CreateColBezier(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
+                Mode = 0;
             }
-            // Right click in content.
-            break;
-        case MIDDLE_CLICK:
-            DragEngine(flags, clicked_point);
-            break;
+            return (1);
+        }
+        break;
+    case RIGHT_CLICK:
+        switch (Mode) {
+        }
+        // Right click in content.
+        break;
+    case MIDDLE_CLICK:
+        DragEngine(flags, clicked_point);
+        break;
     }
     return (0);
 }
@@ -791,39 +792,39 @@ std::uint16_t ColTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point)
     ShowWorkScreen(0);
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            {
-                current_control = GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        control_id = current_control->TrackControl(&local_point);
-                        HandleControl(control_id);
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        {
+            current_control = GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    control_id = current_control->TrackControl(&local_point);
+                    HandleControl(control_id);
 
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        return control_id;
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        DrawTab();
+                        UnlockWorkScreen();
                     }
-                    current_control = current_control->GetNextControl();
-                }
-            }
+                    ShowWorkWindow(0);
 
-            break;
-        case RIGHT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            break;
+                    return control_id;
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+
+        break;
+    case RIGHT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        break;
     }
     return 0;
 }
@@ -877,72 +878,72 @@ std::int32_t ColTab::SetWorldMouse(std::uint32_t flag) {
 
 void ColTab::HandleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        case CTRL_COL_X_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_COL_X_AXIS_FREE);
-            if (Axis & X_AXIS)
-                Axis &= ~X_AXIS;
-            else
-                Axis |= X_AXIS;
-            break;
-        case CTRL_COL_Y_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_COL_Y_AXIS_FREE);
-            if (Axis & Y_AXIS)
-                Axis &= ~Y_AXIS;
-            else
-                Axis |= Y_AXIS;
-            break;
-        case CTRL_COL_Z_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_COL_Z_AXIS_FREE);
-            if (Axis & Z_AXIS)
-                Axis &= ~Z_AXIS;
-            else
-                Axis |= Z_AXIS;
-            break;
-        case CTRL_COL_PLACE_PLANE:
-            Mode = COL_MODE_PLACE_PLANE;
-            break;
-        case CTRL_COL_PLACE_BEZIER:
-            Mode = COL_MODE_PLACE_BEZIER;
-            break;
-        case CTRL_COL_RECALC:
-            Recalc();
+    case CTRL_COL_X_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_COL_X_AXIS_FREE);
+        if (Axis & X_AXIS)
+            Axis &= ~X_AXIS;
+        else
+            Axis |= X_AXIS;
+        break;
+    case CTRL_COL_Y_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_COL_Y_AXIS_FREE);
+        if (Axis & Y_AXIS)
+            Axis &= ~Y_AXIS;
+        else
+            Axis |= Y_AXIS;
+        break;
+    case CTRL_COL_Z_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_COL_Z_AXIS_FREE);
+        if (Axis & Z_AXIS)
+            Axis &= ~Z_AXIS;
+        else
+            Axis |= Z_AXIS;
+        break;
+    case CTRL_COL_PLACE_PLANE:
+        Mode = COL_MODE_PLACE_PLANE;
+        break;
+    case CTRL_COL_PLACE_BEZIER:
+        Mode = COL_MODE_PLACE_BEZIER;
+        break;
+    case CTRL_COL_RECALC:
+        Recalc();
 
-            break;
-        case CTRL_COL_CLEAR_COL:
-            Clear();
+        break;
+    case CTRL_COL_CLEAR_COL:
+        Clear();
 
-            break;
-        case CTRL_COL_CLIPPED_VIEW:
-            ToggleControlSelectedState(CTRL_COL_CLIPPED_VIEW);
-            if (ClipView) {
-                ClipView = 0;
-                engine.ClipFlag = 0;
-            } else {
-                struct ColInfo *p_col;
-                ClipView = 1;
-                p_col = &col_info[CurrentCol];
-                switch (p_col->Type) {
-                    case COL_TYPE_PLANE:
-                        engine.ClipMinY = p_col->Plane.Top;
-                        engine.ClipMaxY = p_col->Plane.Bottom;
-                        break;
-                    case COL_TYPE_BEZIER:
-                        engine.ClipMinY = p_col->Bezier.Top;
-                        engine.ClipMaxY = p_col->Bezier.Bottom;
-                        break;
-                }
-
-                engine.ClipFlag = ENGINE_CLIPY_FLAG;
+        break;
+    case CTRL_COL_CLIPPED_VIEW:
+        ToggleControlSelectedState(CTRL_COL_CLIPPED_VIEW);
+        if (ClipView) {
+            ClipView = 0;
+            engine.ClipFlag = 0;
+        } else {
+            struct ColInfo *p_col;
+            ClipView = 1;
+            p_col = &col_info[CurrentCol];
+            switch (p_col->Type) {
+            case COL_TYPE_PLANE:
+                engine.ClipMinY = p_col->Plane.Top;
+                engine.ClipMaxY = p_col->Plane.Bottom;
+                break;
+            case COL_TYPE_BEZIER:
+                engine.ClipMinY = p_col->Bezier.Top;
+                engine.ClipMaxY = p_col->Bezier.Bottom;
+                break;
             }
-            //			RequestRedraw();
-            break;
-            /*
-                            case	CTRL_COL_DELETE:
-                                    delete_all_lights();
-                                    RequestUpdate();
-                                    Mode=0;
-                                    break;
-            */
+
+            engine.ClipFlag = ENGINE_CLIPY_FLAG;
+        }
+        //			RequestRedraw();
+        break;
+        /*
+                        case	CTRL_COL_DELETE:
+                                delete_all_lights();
+                                RequestUpdate();
+                                Mode=0;
+                                break;
+        */
     }
 }
 

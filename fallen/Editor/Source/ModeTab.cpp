@@ -140,12 +140,12 @@ void ModeTab::HandleTab(MFPoint *current_point) {
 std::uint16_t ModeTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
     clicked_point = clicked_point;
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            break;
-        case RIGHT_CLICK:
-            break;
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        break;
+    case RIGHT_CLICK:
+        break;
     }
     return 0;
 }

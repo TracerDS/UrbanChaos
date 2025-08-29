@@ -63,109 +63,109 @@ void CAM_process() {
 #define CAM_SPEED_TURN (0.060F)
 
     switch (CAM_type) {
-        case CAM_TYPE_LOCKED:
+    case CAM_TYPE_LOCKED:
 
-            if (KEY_on[KEY_HOME]) {
-                CAM_dist -= CAM_SPEED_MOVE;
+        if (KEY_on[KEY_HOME]) {
+            CAM_dist -= CAM_SPEED_MOVE;
+        }
+        if (KEY_on[KEY_END]) {
+            CAM_dist += CAM_SPEED_MOVE;
+        }
+
+        if (KEY_on[KEY_UP]) {
+            CAM_pitch += CAM_SPEED_TURN;
+        }
+        if (KEY_on[KEY_DOWN]) {
+            CAM_pitch -= CAM_SPEED_TURN;
+        }
+
+        if (KEY_on[KEY_LEFT]) {
+            CAM_yaw -= CAM_SPEED_TURN;
+        }
+        if (KEY_on[KEY_RIGHT]) {
+            CAM_yaw += CAM_SPEED_TURN;
+        }
+
+        MATRIX_calc(
+            CAM_matrix,
+            CAM_yaw,
+            CAM_pitch,
+            0.0F);
+
+        CAM_x = CAM_focus_x - CAM_matrix[6] * CAM_dist;
+        CAM_y = CAM_focus_y - CAM_matrix[7] * CAM_dist;
+        CAM_z = CAM_focus_z - CAM_matrix[8] * CAM_dist;
+
+        break;
+
+    case CAM_TYPE_FREE:
+
+        MATRIX_calc(
+            CAM_matrix,
+            CAM_yaw,
+            CAM_pitch,
+            0.0F);
+
+        if (KEY_on[KEY_UP]) {
+            if (KEY_shift) {
+                CAM_x += CAM_matrix[3] * CAM_SPEED_MOVE;
+                CAM_y += CAM_matrix[4] * CAM_SPEED_MOVE;
+                CAM_z += CAM_matrix[5] * CAM_SPEED_MOVE;
+            } else {
+                CAM_x += CAM_matrix[6] * CAM_SPEED_MOVE;
+                CAM_y += CAM_matrix[7] * CAM_SPEED_MOVE;
+                CAM_z += CAM_matrix[8] * CAM_SPEED_MOVE;
             }
-            if (KEY_on[KEY_END]) {
-                CAM_dist += CAM_SPEED_MOVE;
+        }
+
+        if (KEY_on[KEY_DOWN]) {
+            if (KEY_shift) {
+                CAM_x -= CAM_matrix[3] * CAM_SPEED_MOVE;
+                CAM_y -= CAM_matrix[4] * CAM_SPEED_MOVE;
+                CAM_z -= CAM_matrix[5] * CAM_SPEED_MOVE;
+            } else {
+                CAM_x -= CAM_matrix[6] * CAM_SPEED_MOVE;
+                CAM_y -= CAM_matrix[7] * CAM_SPEED_MOVE;
+                CAM_z -= CAM_matrix[8] * CAM_SPEED_MOVE;
             }
+        }
 
-            if (KEY_on[KEY_UP]) {
-                CAM_pitch += CAM_SPEED_TURN;
-            }
-            if (KEY_on[KEY_DOWN]) {
-                CAM_pitch -= CAM_SPEED_TURN;
-            }
+        if (KEY_on[KEY_LEFT]) {
+            CAM_x -= CAM_matrix[0] * CAM_SPEED_MOVE;
+            CAM_y -= CAM_matrix[1] * CAM_SPEED_MOVE;
+            CAM_z -= CAM_matrix[2] * CAM_SPEED_MOVE;
+        }
 
-            if (KEY_on[KEY_LEFT]) {
-                CAM_yaw -= CAM_SPEED_TURN;
-            }
-            if (KEY_on[KEY_RIGHT]) {
-                CAM_yaw += CAM_SPEED_TURN;
-            }
+        if (KEY_on[KEY_RIGHT]) {
+            CAM_x += CAM_matrix[0] * CAM_SPEED_MOVE;
+            CAM_y += CAM_matrix[1] * CAM_SPEED_MOVE;
+            CAM_z += CAM_matrix[2] * CAM_SPEED_MOVE;
+        }
 
-            MATRIX_calc(
-                CAM_matrix,
-                CAM_yaw,
-                CAM_pitch,
-                0.0F);
+        if (KEY_on[KEY_HOME]) {
+            CAM_pitch -= CAM_SPEED_TURN;
+        }
+        if (KEY_on[KEY_END]) {
+            CAM_pitch += CAM_SPEED_TURN;
+        }
 
-            CAM_x = CAM_focus_x - CAM_matrix[6] * CAM_dist;
-            CAM_y = CAM_focus_y - CAM_matrix[7] * CAM_dist;
-            CAM_z = CAM_focus_z - CAM_matrix[8] * CAM_dist;
+        if (KEY_on[KEY_DELETE]) {
+            CAM_yaw -= CAM_SPEED_TURN;
+        }
+        if (KEY_on[KEY_PAGEDOWN]) {
+            CAM_yaw += CAM_SPEED_TURN;
+        }
 
-            break;
+        MATRIX_calc(
+            CAM_matrix,
+            CAM_yaw,
+            CAM_pitch,
+            0.0F);
 
-        case CAM_TYPE_FREE:
+        break;
 
-            MATRIX_calc(
-                CAM_matrix,
-                CAM_yaw,
-                CAM_pitch,
-                0.0F);
-
-            if (KEY_on[KEY_UP]) {
-                if (KEY_shift) {
-                    CAM_x += CAM_matrix[3] * CAM_SPEED_MOVE;
-                    CAM_y += CAM_matrix[4] * CAM_SPEED_MOVE;
-                    CAM_z += CAM_matrix[5] * CAM_SPEED_MOVE;
-                } else {
-                    CAM_x += CAM_matrix[6] * CAM_SPEED_MOVE;
-                    CAM_y += CAM_matrix[7] * CAM_SPEED_MOVE;
-                    CAM_z += CAM_matrix[8] * CAM_SPEED_MOVE;
-                }
-            }
-
-            if (KEY_on[KEY_DOWN]) {
-                if (KEY_shift) {
-                    CAM_x -= CAM_matrix[3] * CAM_SPEED_MOVE;
-                    CAM_y -= CAM_matrix[4] * CAM_SPEED_MOVE;
-                    CAM_z -= CAM_matrix[5] * CAM_SPEED_MOVE;
-                } else {
-                    CAM_x -= CAM_matrix[6] * CAM_SPEED_MOVE;
-                    CAM_y -= CAM_matrix[7] * CAM_SPEED_MOVE;
-                    CAM_z -= CAM_matrix[8] * CAM_SPEED_MOVE;
-                }
-            }
-
-            if (KEY_on[KEY_LEFT]) {
-                CAM_x -= CAM_matrix[0] * CAM_SPEED_MOVE;
-                CAM_y -= CAM_matrix[1] * CAM_SPEED_MOVE;
-                CAM_z -= CAM_matrix[2] * CAM_SPEED_MOVE;
-            }
-
-            if (KEY_on[KEY_RIGHT]) {
-                CAM_x += CAM_matrix[0] * CAM_SPEED_MOVE;
-                CAM_y += CAM_matrix[1] * CAM_SPEED_MOVE;
-                CAM_z += CAM_matrix[2] * CAM_SPEED_MOVE;
-            }
-
-            if (KEY_on[KEY_HOME]) {
-                CAM_pitch -= CAM_SPEED_TURN;
-            }
-            if (KEY_on[KEY_END]) {
-                CAM_pitch += CAM_SPEED_TURN;
-            }
-
-            if (KEY_on[KEY_DELETE]) {
-                CAM_yaw -= CAM_SPEED_TURN;
-            }
-            if (KEY_on[KEY_PAGEDOWN]) {
-                CAM_yaw += CAM_SPEED_TURN;
-            }
-
-            MATRIX_calc(
-                CAM_matrix,
-                CAM_yaw,
-                CAM_pitch,
-                0.0F);
-
-            break;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }

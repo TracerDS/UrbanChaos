@@ -76,32 +76,32 @@ struct FightTree {
 // struct	FighTree fight_tree[]=
 std::int16_t fight_tree[][10] =
     {
-        {0, 0, 1, 1, 6, 6, 0, 0, 0, COMBAT_NONE},
-        {ANIM_PUNCH_COMBO1, 2, 3, 0, 11, 11, 0, 0, 10, COMBAT_PUNCH}, // 1
-        {ANIM_PUNCH_RETURN1, 0, 1, 1, 0, 0, 0, 0, 0, COMBAT_NONE},    // 2
-        {ANIM_PUNCH_COMBO2, 4, 5, 1, 12, 12, 0, 0, 30, COMBAT_PUNCH}, // 3
-        {ANIM_PUNCH_RETURN2, 0, 1, 1, 0, 0, 0, 0, 0, COMBAT_NONE},    // 4
-        {ANIM_PUNCH_COMBO3, 0, 0, 0, 0, 0, 0, 0, 60, COMBAT_PUNCH},   // 5
+        {0,                      0,  1,  1,  6,  6,  0, 0, 0,  COMBAT_NONE },
+        {ANIM_PUNCH_COMBO1,      2,  3,  0,  11, 11, 0, 0, 10, COMBAT_PUNCH}, // 1
+        {ANIM_PUNCH_RETURN1,     0,  1,  1,  0,  0,  0, 0, 0,  COMBAT_NONE }, // 2
+        {ANIM_PUNCH_COMBO2,      4,  5,  1,  12, 12, 0, 0, 30, COMBAT_PUNCH}, // 3
+        {ANIM_PUNCH_RETURN2,     0,  1,  1,  0,  0,  0, 0, 0,  COMBAT_NONE }, // 4
+        {ANIM_PUNCH_COMBO3,      0,  0,  0,  0,  0,  0, 0, 60, COMBAT_PUNCH}, // 5
 
-        {ANIM_KICK_COMBO1, 7, 7, 7, 8, 0, 0, 0, 10, COMBAT_KICK},    // 6
-        {ANIM_KICK_RETURN1, 0, 1, 0, 6, 0, 0, 0, 0, COMBAT_NONE},    // 7
-        {ANIM_KICK_COMBO2, 9, 13, 13, 10, 0, 0, 0, 30, COMBAT_KICK}, // 8
-        {ANIM_KICK_RETURN2, 0, 1, 0, 6, 0, 0, 0, 0, COMBAT_NONE},    // 9
-        {ANIM_KICK_COMBO3, 0, 0, 0, 6, 0, 0, 0, 60, COMBAT_KICK},    // 10
+        {ANIM_KICK_COMBO1,       7,  7,  7,  8,  0,  0, 0, 10, COMBAT_KICK }, // 6
+        {ANIM_KICK_RETURN1,      0,  1,  0,  6,  0,  0, 0, 0,  COMBAT_NONE }, // 7
+        {ANIM_KICK_COMBO2,       9,  13, 13, 10, 0,  0, 0, 30, COMBAT_KICK }, // 8
+        {ANIM_KICK_RETURN2,      0,  1,  0,  6,  0,  0, 0, 0,  COMBAT_NONE }, // 9
+        {ANIM_KICK_COMBO3,       0,  0,  0,  6,  0,  0, 0, 60, COMBAT_KICK }, // 10
 
-        {ANIM_PUNCH_COMBO2b, 0, 0, 0, 0, 0, 0, 0, 30, COMBAT_KICK}, // 11
-        {ANIM_PUNCH_COMBO3b, 0, 0, 0, 0, 0, 0, 0, 80, COMBAT_KICK}, // 12
-        {ANIM_KICK_COMBO3b, 0, 0, 0, 0, 0, 0, 0, 80, COMBAT_PUNCH}, // 13
+        {ANIM_PUNCH_COMBO2b,     0,  0,  0,  0,  0,  0, 0, 30, COMBAT_KICK }, // 11
+        {ANIM_PUNCH_COMBO3b,     0,  0,  0,  0,  0,  0, 0, 80, COMBAT_KICK }, // 12
+        {ANIM_KICK_COMBO3b,      0,  0,  0,  0,  0,  0, 0, 80, COMBAT_PUNCH}, // 13
 
-        {ANIM_KNIFE_ATTACK1, 15, 16, 0, 0, 0, 0, 0, 30, COMBAT_KNIFE},   // 14
-        {ANIM_KNIFE_ATTACK1_RET, 0, 14, 14, 0, 0, 0, 0, 0, COMBAT_NONE}, // 15
-        {ANIM_KNIFE_ATTACK2, 17, 18, 14, 0, 0, 0, 0, 60, COMBAT_KNIFE},  // 16
-        {ANIM_KNIFE_ATTACK2_RET, 0, 14, 14, 0, 0, 0, 0, 0, COMBAT_NONE}, // 17
-        {ANIM_KNIFE_ATTACK3, 0, 0, 0, 0, 0, 0, 0, 80, COMBAT_KNIFE},     // 18
+        {ANIM_KNIFE_ATTACK1,     15, 16, 0,  0,  0,  0, 0, 30, COMBAT_KNIFE}, // 14
+        {ANIM_KNIFE_ATTACK1_RET, 0,  14, 14, 0,  0,  0, 0, 0,  COMBAT_NONE }, // 15
+        {ANIM_KNIFE_ATTACK2,     17, 18, 14, 0,  0,  0, 0, 60, COMBAT_KNIFE}, // 16
+        {ANIM_KNIFE_ATTACK2_RET, 0,  14, 14, 0,  0,  0, 0, 0,  COMBAT_NONE }, // 17
+        {ANIM_KNIFE_ATTACK3,     0,  0,  0,  0,  0,  0, 0, 80, COMBAT_KNIFE}, // 18
 
-        {ANIM_BAT_HIT1, 20, 21, 0, 0, 0, 0, 0, 60, COMBAT_KNIFE},  // 19
-        {ANIM_BAT_HIT1_RET, 0, 19, 0, 0, 0, 0, 0, 0, COMBAT_NONE}, // 20
-        {ANIM_BAT_HIT2, 0, 0, 0, 0, 0, 0, 0, 90, COMBAT_KNIFE},    // 21
+        {ANIM_BAT_HIT1,          20, 21, 0,  0,  0,  0, 0, 60, COMBAT_KNIFE}, // 19
+        {ANIM_BAT_HIT1_RET,      0,  19, 0,  0,  0,  0, 0, 0,  COMBAT_NONE }, // 20
+        {ANIM_BAT_HIT2,          0,  0,  0,  0,  0,  0, 0, 90, COMBAT_KNIFE}, // 21
 };
 
 // front  upper
@@ -114,13 +114,14 @@ std::int16_t fight_tree[][10] =
 
 std::uint8_t take_hit[7][2] =
     {
-        {ANIM_KD_FRONT_LOW, 1},
+        {ANIM_KD_FRONT_LOW,  1},
         {ANIM_HIT_FRONT_MID, 0},
-        {ANIM_HIT_FRONT_HI, 0},
-        {ANIM_KD_BACK_LOW, 1},
-        {ANIM_HIT_BACK_MID, 0},
-        {ANIM_HIT_BACK_HI, 0},
-        {0, 0}};
+        {ANIM_HIT_FRONT_HI,  0},
+        {ANIM_KD_BACK_LOW,   1},
+        {ANIM_HIT_BACK_MID,  0},
+        {ANIM_HIT_BACK_HI,   0},
+        {0,                  0}
+};
 
 //
 // Data Hiding
@@ -140,16 +141,18 @@ std::int32_t get_combat_type_for_node(std::uint8_t current_node) {
 std::int16_t punches[4][5] =
     {
         {ANIM_PUNCH_COMBO1, ANIM_PUNCH_COMBO2, ANIM_PUNCH_COMBO3, 0, 0},
-        {ANIM_PUNCH3, ANIM_PUNCH1, 0, 0, 0},
-        {ANIM_PUNCH2, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0}};
+        {ANIM_PUNCH3,       ANIM_PUNCH1,       0,                 0, 0},
+        {ANIM_PUNCH2,       0,                 0,                 0, 0},
+        {0,                 0,                 0,                 0, 0}
+};
 
 std::int16_t kicks[4][5] =
     {
         {ANIM_KICK_COMBO1, ANIM_KICK_COMBO2, ANIM_KICK_COMBO3, 0, 0},
-        {ANIM_KICK2, ANIM_KICK_ROUND1, 0, 0, 0},
-        {ANIM_KICK3, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0}};
+        {ANIM_KICK2,       ANIM_KICK_ROUND1, 0,                0, 0},
+        {ANIM_KICK3,       0,                0,                0, 0},
+        {0,                0,                0,                0, 0}
+};
 
 struct Grapples {
     std::uint16_t Anim;
@@ -539,51 +542,51 @@ std::int32_t set_grapple(Thing *p_person, Thing *p_victim, std::int32_t anim, st
     ASSERT(TO_THING(p_victim->Genus.Person->Target)->Class == CLASS_PERSON);
 
     switch (anim) {
-        case ANIM_SNAP_KNECK:
-            //			if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
-            set_anim(p_victim, ANIM_DIE_KNECK);
+    case ANIM_SNAP_KNECK:
+        //			if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
+        set_anim(p_victim, ANIM_DIE_KNECK);
 
-            set_grapple_pos(p_person, p_victim, 70, anim, grapple);
-            p_victim->SubState = SUB_STATE_GRAPPLEE;
-            p_person->SubState = SUB_STATE_GRAPPLE;
+        set_grapple_pos(p_person, p_victim, 70, anim, grapple);
+        p_victim->SubState = SUB_STATE_GRAPPLEE;
+        p_person->SubState = SUB_STATE_GRAPPLE;
 
-            break;
-        case ANIM_PISTOL_WHIP:
-            set_anim(p_victim, ANIM_PISTOL_WHIP_TAKE);
-            set_grapple_pos(p_person, p_victim, 70, anim, grapple);
-            p_victim->SubState = SUB_STATE_GRAPPLEE;
-            p_person->SubState = SUB_STATE_GRAPPLE;
-            break;
+        break;
+    case ANIM_PISTOL_WHIP:
+        set_anim(p_victim, ANIM_PISTOL_WHIP_TAKE);
+        set_grapple_pos(p_person, p_victim, 70, anim, grapple);
+        p_victim->SubState = SUB_STATE_GRAPPLEE;
+        p_person->SubState = SUB_STATE_GRAPPLE;
+        break;
 
-        case ANIM_GRAB_ARM:
-            set_grapple_pos(p_person, p_victim, 90, anim, grapple);
+    case ANIM_GRAB_ARM:
+        set_grapple_pos(p_person, p_victim, 90, anim, grapple);
 
-            set_anim(p_victim, ANIM_GRAB_ARMV);
-            p_victim->Genus.Person->Action = ACTION_GRAPPLEE;
-            p_victim->Genus.Person->Escape = 0;
-            p_victim->SubState = SUB_STATE_GRAPPLE_HELD;
-            p_person->SubState = SUB_STATE_GRAPPLE;
-            break;
-        case ANIM_STRANGLE:
-            set_grapple_pos(p_person, p_victim, 100, anim, grapple);
+        set_anim(p_victim, ANIM_GRAB_ARMV);
+        p_victim->Genus.Person->Action = ACTION_GRAPPLEE;
+        p_victim->Genus.Person->Escape = 0;
+        p_victim->SubState = SUB_STATE_GRAPPLE_HELD;
+        p_person->SubState = SUB_STATE_GRAPPLE;
+        break;
+    case ANIM_STRANGLE:
+        set_grapple_pos(p_person, p_victim, 100, anim, grapple);
 
-            set_anim(p_victim, ANIM_STRANGLE_VICTIM);
-            p_victim->Genus.Person->Action = ACTION_GRAPPLEE;
-            p_victim->Genus.Person->Escape = 0;
-            p_victim->SubState = SUB_STATE_STRANGLEV;
-            p_person->SubState = SUB_STATE_STRANGLE;
-            taunt_prob = 50;
-            break;
-        case ANIM_HEADBUTT:
-            set_grapple_pos(p_person, p_victim, 100, anim, grapple);
+        set_anim(p_victim, ANIM_STRANGLE_VICTIM);
+        p_victim->Genus.Person->Action = ACTION_GRAPPLEE;
+        p_victim->Genus.Person->Escape = 0;
+        p_victim->SubState = SUB_STATE_STRANGLEV;
+        p_person->SubState = SUB_STATE_STRANGLE;
+        taunt_prob = 50;
+        break;
+    case ANIM_HEADBUTT:
+        set_grapple_pos(p_person, p_victim, 100, anim, grapple);
 
-            set_anim(p_victim, ANIM_HEADBUTT_VICTIM);
-            p_victim->Genus.Person->Action = ACTION_GRAPPLEE;
-            p_victim->Genus.Person->Escape = 0;
-            p_victim->SubState = SUB_STATE_HEADBUTTV;
-            p_person->SubState = SUB_STATE_HEADBUTT;
-            taunt_prob = 50;
-            break;
+        set_anim(p_victim, ANIM_HEADBUTT_VICTIM);
+        p_victim->Genus.Person->Action = ACTION_GRAPPLEE;
+        p_victim->Genus.Person->Escape = 0;
+        p_victim->SubState = SUB_STATE_HEADBUTTV;
+        p_person->SubState = SUB_STATE_HEADBUTT;
+        taunt_prob = 50;
+        break;
     }
     set_generic_person_state_function(p_person, STATE_FIGHTING);
 
@@ -598,18 +601,18 @@ std::int32_t set_grapple(Thing *p_person, Thing *p_victim, std::int32_t anim, st
         std::int32_t sound = 0;
 
         switch (p_person->Genus.Person->PersonType) {
-                /*		case PERSON_DARCI:
-                                        if (Random()&3)
-                                                sound=SOUND_Range(S_DARCI_FIGHT_TAUNT_START,S_DARCI_FIGHT_TAUNT_END);
-                                        else
-                                                sound=SOUND_Range(S_DARCI_DEADSAFE_TAUNT_START,S_DARCI_DEADSAFE_TAUNT_END);
-                                        break;*/
-            case PERSON_ROPER: // Only Roper moves currently have a taunt_prob greater than zero...
-                if (Random() & 2)
-                    sound = SOUND_Range(S_ROPER_FIGHT_TAUNT_START, S_ROPER_FIGHT_TAUNT_END);
-                else
-                    sound = SOUND_Range(S_ROPER_DEADSAFE_TAUNT_START, S_ROPER_DEADSAFE_TAUNT_END);
-                break;
+            /*		case PERSON_DARCI:
+                                    if (Random()&3)
+                                            sound=SOUND_Range(S_DARCI_FIGHT_TAUNT_START,S_DARCI_FIGHT_TAUNT_END);
+                                    else
+                                            sound=SOUND_Range(S_DARCI_DEADSAFE_TAUNT_START,S_DARCI_DEADSAFE_TAUNT_END);
+                                    break;*/
+        case PERSON_ROPER: // Only Roper moves currently have a taunt_prob greater than zero...
+            if (Random() & 2)
+                sound = SOUND_Range(S_ROPER_FIGHT_TAUNT_START, S_ROPER_FIGHT_TAUNT_END);
+            else
+                sound = SOUND_Range(S_ROPER_DEADSAFE_TAUNT_START, S_ROPER_DEADSAFE_TAUNT_END);
+            break;
         }
         if (sound) MFX_play_thing(THING_NUMBER(p_person), sound, MFX_QUEUED | MFX_SHORT_QUEUE, p_person);
     }
@@ -1641,16 +1644,16 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
     std::int32_t nad = 0, taunt_prob = 15;
 
     switch (type) {
-        case HIT_TYPE_GUN_SHOT_H:
-        case HIT_TYPE_GUN_SHOT_M:
-        case HIT_TYPE_GUN_SHOT_L:
+    case HIT_TYPE_GUN_SHOT_H:
+    case HIT_TYPE_GUN_SHOT_M:
+    case HIT_TYPE_GUN_SHOT_L:
 
-        case HIT_TYPE_GUN_SHOT_PISTOL:
-        case HIT_TYPE_GUN_SHOT_SHOTGUN:
-        case HIT_TYPE_GUN_SHOT_AK47:
-            shot = 1;
-            if (!p_thing->Genus.Person->PlayerID)
-                p_thing->Flags |= FLAGS_PERSON_BEEN_SHOT;
+    case HIT_TYPE_GUN_SHOT_PISTOL:
+    case HIT_TYPE_GUN_SHOT_SHOTGUN:
+    case HIT_TYPE_GUN_SHOT_AK47:
+        shot = 1;
+        if (!p_thing->Genus.Person->PlayerID)
+            p_thing->Flags |= FLAGS_PERSON_BEEN_SHOT;
     }
 
     if (p_thing->Genus.Person->PlayerID) {
@@ -1687,87 +1690,87 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
 
         hit_anim = p_aggressor->Draw.Tweened->CurrentAnim;
         switch (hit_anim) {
-            case ANIM_KICK_NAD:
-                if (SOUND_Gender(p_thing) == 1) {
-                    // has nads
-                    damage += 50;
-                    nad = 1;
-                    taunt_prob = 75; // a lot more common for comedic effect
-                } else {
-                    damage += 10;
-                }
-                break;
-            case ANIM_BAT_HIT1:
-            case ANIM_BAT_HIT2:
-                batted = 1; // fall through
-            case ANIM_FLYKICK_START:
-            case ANIM_FLYKICK_LAND:
-            case ANIM_FLYKICK_FALL:
-                // these are all fancy moves so let's taunt more often
-                taunt_prob += 10;
-                // fall through
-            case ANIM_KICK_BEHIND:
-                damage += 20; // fall through
-            case ANIM_KICK_RIGHT:
-            case ANIM_KICK_LEFT:
-                damage += 30; // fall through
-            case ANIM_PUNCH_COMBO3:
-            case ANIM_PUNCH_COMBO3b:
-            case ANIM_KICK_COMBO3:
-            case ANIM_KICK_COMBO3b:
-
-                if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
-                    p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
-                    p_thing->Genus.Person->PersonType == PERSON_MIB3) {
-                    //
-                    // You can't knock out MIB! They're too hard.
-                    //
-                } else if (p_thing->Genus.Person->Flags2 & FLAG2_PERSON_INVULNERABLE) {
-                    //
-                    // Invulnerable people can't be knocked out!
-                    //
-                } else {
-                    ko = true;
-                }
-
-                if (p_thing->Genus.Person->pcom_ai == PCOM_AI_FIGHT_TEST) {
-                    //
-                    // Fight test dummys can die from special moves. Even if they
-                    // are invulnerable.
-                    //
-
-                    if (((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_COMBO_PPP) && (hit_anim == ANIM_PUNCH_COMBO3)) ||
-                        ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_COMBO_KKK) && (hit_anim == ANIM_KICK_COMBO3)) ||
-                        ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_COMBO_ANY) && is_combo_anim(hit_anim)) ||
-                        ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_SIDE_KICK) && (hit_anim == ANIM_KICK_RIGHT || hit_anim == ANIM_KICK_LEFT)) ||
-                        ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_BACK_KICK) && (hit_anim == ANIM_KICK_BEHIND))) {
-                        ko = true;
-
-                        p_thing->Genus.Person->Health = 0;
-                    }
-                }
-
-                //				damage+=4;
-                break;
-            case ANIM_FIGHT_STOMP:
+        case ANIM_KICK_NAD:
+            if (SOUND_Gender(p_thing) == 1) {
+                // has nads
                 damage += 50;
-                stomped = 1;
-                break;
-            case ANIM_KICK_NEAR:
-                damage = 40;
-                break;
-            case ANIM_KNIFE_ATTACK1:
-                damage = 30;
-                knifed = 1;
-                break;
-            case ANIM_KNIFE_ATTACK2:
-                damage = 50;
-                knifed = 1;
-                break;
-            case ANIM_KNIFE_ATTACK3:
-                damage = 70;
-                knifed = 1;
-                break;
+                nad = 1;
+                taunt_prob = 75; // a lot more common for comedic effect
+            } else {
+                damage += 10;
+            }
+            break;
+        case ANIM_BAT_HIT1:
+        case ANIM_BAT_HIT2:
+            batted = 1; // fall through
+        case ANIM_FLYKICK_START:
+        case ANIM_FLYKICK_LAND:
+        case ANIM_FLYKICK_FALL:
+            // these are all fancy moves so let's taunt more often
+            taunt_prob += 10;
+            // fall through
+        case ANIM_KICK_BEHIND:
+            damage += 20; // fall through
+        case ANIM_KICK_RIGHT:
+        case ANIM_KICK_LEFT:
+            damage += 30; // fall through
+        case ANIM_PUNCH_COMBO3:
+        case ANIM_PUNCH_COMBO3b:
+        case ANIM_KICK_COMBO3:
+        case ANIM_KICK_COMBO3b:
+
+            if (p_thing->Genus.Person->PersonType == PERSON_MIB1 ||
+                p_thing->Genus.Person->PersonType == PERSON_MIB2 ||
+                p_thing->Genus.Person->PersonType == PERSON_MIB3) {
+                //
+                // You can't knock out MIB! They're too hard.
+                //
+            } else if (p_thing->Genus.Person->Flags2 & FLAG2_PERSON_INVULNERABLE) {
+                //
+                // Invulnerable people can't be knocked out!
+                //
+            } else {
+                ko = true;
+            }
+
+            if (p_thing->Genus.Person->pcom_ai == PCOM_AI_FIGHT_TEST) {
+                //
+                // Fight test dummys can die from special moves. Even if they
+                // are invulnerable.
+                //
+
+                if (((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_COMBO_PPP) && (hit_anim == ANIM_PUNCH_COMBO3)) ||
+                    ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_COMBO_KKK) && (hit_anim == ANIM_KICK_COMBO3)) ||
+                    ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_COMBO_ANY) && is_combo_anim(hit_anim)) ||
+                    ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_SIDE_KICK) && (hit_anim == ANIM_KICK_RIGHT || hit_anim == ANIM_KICK_LEFT)) ||
+                    ((p_thing->Genus.Person->pcom_ai_other & PCOM_COMBAT_BACK_KICK) && (hit_anim == ANIM_KICK_BEHIND))) {
+                    ko = true;
+
+                    p_thing->Genus.Person->Health = 0;
+                }
+            }
+
+            //				damage+=4;
+            break;
+        case ANIM_FIGHT_STOMP:
+            damage += 50;
+            stomped = 1;
+            break;
+        case ANIM_KICK_NEAR:
+            damage = 40;
+            break;
+        case ANIM_KNIFE_ATTACK1:
+            damage = 30;
+            knifed = 1;
+            break;
+        case ANIM_KNIFE_ATTACK2:
+            damage = 50;
+            knifed = 1;
+            break;
+        case ANIM_KNIFE_ATTACK3:
+            damage = 70;
+            knifed = 1;
+            break;
         }
 
         if ((Random() & 0xff) < taunt_prob) // not too often or it gets annoying
@@ -1775,35 +1778,35 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
             std::int32_t sound = 0;
 
             switch (p_aggressor->Genus.Person->PersonType) {
-                case PERSON_DARCI:
-                    if (Random() & 3)
-                        sound = SOUND_Range(S_DARCI_FIGHT_TAUNT_START, S_DARCI_FIGHT_TAUNT_END);
-                    else
-                        sound = SOUND_Range(S_DARCI_DEADSAFE_TAUNT_START, S_DARCI_DEADSAFE_TAUNT_END);
-                    break;
-                case PERSON_ROPER:
-                    if (Random() & 2)
-                        sound = SOUND_Range(S_ROPER_FIGHT_TAUNT_START, S_ROPER_FIGHT_TAUNT_END);
-                    else
-                        sound = SOUND_Range(S_ROPER_DEADSAFE_TAUNT_START, S_ROPER_DEADSAFE_TAUNT_END);
-                    break;
-                case PERSON_COP:
-                    sound = SOUND_Range(S_COP_TAUNT_START, S_COP_TAUNT_END);
-                    break;
-                case PERSON_CIV:
-                    break;
-                case PERSON_THUG_RASTA:
-                    sound = SOUND_Range(S_RASTA_TAUNT_START, S_RASTA_TAUNT_END);
-                    break;
-                case PERSON_THUG_GREY:
-                    sound = SOUND_Range(S_GGREY_TAUNT_START, S_GGREY_TAUNT_END);
-                    break;
-                case PERSON_THUG_RED:
-                    if (THING_NUMBER(p_aggressor) & 1)
-                        sound = SOUND_Range(S_GRED_TAUNT_START, S_GRED_TAUNT_END);
-                    else
-                        sound = SOUND_Range(S_GRED2_TAUNT_START, S_GRED2_TAUNT_END);
-                    break;
+            case PERSON_DARCI:
+                if (Random() & 3)
+                    sound = SOUND_Range(S_DARCI_FIGHT_TAUNT_START, S_DARCI_FIGHT_TAUNT_END);
+                else
+                    sound = SOUND_Range(S_DARCI_DEADSAFE_TAUNT_START, S_DARCI_DEADSAFE_TAUNT_END);
+                break;
+            case PERSON_ROPER:
+                if (Random() & 2)
+                    sound = SOUND_Range(S_ROPER_FIGHT_TAUNT_START, S_ROPER_FIGHT_TAUNT_END);
+                else
+                    sound = SOUND_Range(S_ROPER_DEADSAFE_TAUNT_START, S_ROPER_DEADSAFE_TAUNT_END);
+                break;
+            case PERSON_COP:
+                sound = SOUND_Range(S_COP_TAUNT_START, S_COP_TAUNT_END);
+                break;
+            case PERSON_CIV:
+                break;
+            case PERSON_THUG_RASTA:
+                sound = SOUND_Range(S_RASTA_TAUNT_START, S_RASTA_TAUNT_END);
+                break;
+            case PERSON_THUG_GREY:
+                sound = SOUND_Range(S_GGREY_TAUNT_START, S_GGREY_TAUNT_END);
+                break;
+            case PERSON_THUG_RED:
+                if (THING_NUMBER(p_aggressor) & 1)
+                    sound = SOUND_Range(S_GRED_TAUNT_START, S_GRED_TAUNT_END);
+                else
+                    sound = SOUND_Range(S_GRED2_TAUNT_START, S_GRED2_TAUNT_END);
+                break;
             }
             if (sound) MFX_play_thing(THING_NUMBER(p_aggressor), sound, MFX_QUEUED | MFX_SHORT_QUEUE, p_aggressor);
         }
@@ -1965,22 +1968,82 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
         //
 
         switch (type) {
-            case HIT_TYPE_GUN_SHOT_H:
-            case HIT_TYPE_GUN_SHOT_M:
-            case HIT_TYPE_GUN_SHOT_L:
-            case HIT_TYPE_GUN_SHOT_PISTOL:
-            case HIT_TYPE_GUN_SHOT_SHOTGUN:
-            case HIT_TYPE_GUN_SHOT_AK47:
-                /*				hit_wave	=	((rand()*(S_PUNCH_END-S_PUNCH_START))>>16)+S_PUNCH_START;
-                                                hit_wave = S_MALE_DIE_1;
-                                                MFX_play_xyz(0,hit_wave,0,p_thing->WorldPos.X,p_thing->WorldPos.Y,p_thing->WorldPos.Z);*/
+        case HIT_TYPE_GUN_SHOT_H:
+        case HIT_TYPE_GUN_SHOT_M:
+        case HIT_TYPE_GUN_SHOT_L:
+        case HIT_TYPE_GUN_SHOT_PISTOL:
+        case HIT_TYPE_GUN_SHOT_SHOTGUN:
+        case HIT_TYPE_GUN_SHOT_AK47:
+            /*				hit_wave	=	((rand()*(S_PUNCH_END-S_PUNCH_START))>>16)+S_PUNCH_START;
+                                            hit_wave = S_MALE_DIE_1;
+                                            MFX_play_xyz(0,hit_wave,0,p_thing->WorldPos.X,p_thing->WorldPos.Y,p_thing->WorldPos.Z);*/
 
-                break;
-            default:
-                // a droplet of blood
+            break;
+        default:
+            // a droplet of blood
+            calc_sub_objects_position(
+                p_aggressor,
+                p_aggressor->Draw.Tweened->AnimTween,
+                SUB_OBJECT_LEFT_HAND,
+                &vec.X,
+                &vec.Y,
+                &vec.Z);
+            vec.X += (Random() & 0x1f);
+            vec.Y += (Random() & 0x1f);
+            vec.Z += (Random() & 0x1f);
+            vec.X <<= 8;
+            vec.Y <<= 8;
+            vec.Z <<= 8;
+            vec.X += p_thing->WorldPos.X;
+            vec.Y += p_thing->WorldPos.Y;
+            vec.Z += p_thing->WorldPos.Z;
+
+            // #ifndef VERSION_GERMAN
+            if (VIOLENCE)
+                DIRT_new_water(vec.X >> 8, vec.Y >> 8, vec.Z >> 8, (Random() & 0xf) - 7, 0, (Random() & 0xf) - 7, DIRT_TYPE_BLOOD);
+            // #endif
+            if (knifed) {
+                // #ifndef	PSX
+                hit_wave = SOUND_Range(S_STAB_START, S_STAB_END);
+                MFX_play_xyz(0, hit_wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+                // #else
+
+#ifdef PSX
+                MFX_play_thing(THING_NUMBER(p_aggressor), S_KNIFE_START + (Random() & 1), 0, p_aggressor);
+#endif
+                // #endif
+
+                // #ifndef VERSION_GERMAN
+                if (VIOLENCE)
+                    for (hit_wave = 0; hit_wave < 5; hit_wave++)
+                        DIRT_new_water(vec.X >> 8, vec.Y >> 8, vec.Z >> 8, (Random() & 0xf) - 7, 0, (Random() & 0xf) - 7, DIRT_TYPE_BLOOD);
+                // #endif
+            } else if (batted) {
+                // #ifndef	PSX
+                if (SOUND_Gender(p_thing) == 1)
+                    hit_wave = SOUND_Range(S_BAT_MALE_START, S_BAT_MALE_END);
+                else
+                    hit_wave = SOUND_Range(S_BAT_FEMALE_START, S_BAT_FEMALE_END);
+
+                // #else
+                //							hit_wave = S_BAT_MALE_START;
+                // #endif
+                MFX_play_xyz(0, hit_wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+
+            } else if (nad)
+                MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_KICK_IN_THE_NUTS_START, S_KICK_IN_THE_NUTS_END), 0, p_thing);
+            else {
+                hit_wave = S_PUNCH_START + (GAME_TURN & 3);
+                MFX_play_xyz(0, hit_wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
+                if (!pain)
+                    PainSound(p_thing);
+            }
+            // do a lil bloodsplat
+
+            if (VIOLENCE) {
                 calc_sub_objects_position(
-                    p_aggressor,
-                    p_aggressor->Draw.Tweened->AnimTween,
+                    p_thing,
+                    p_thing->Draw.Tweened->AnimTween,
                     SUB_OBJECT_LEFT_HAND,
                     &vec.X,
                     &vec.Y,
@@ -1994,72 +2057,12 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
                 vec.X += p_thing->WorldPos.X;
                 vec.Y += p_thing->WorldPos.Y;
                 vec.Z += p_thing->WorldPos.Z;
-
                 // #ifndef VERSION_GERMAN
-                if (VIOLENCE)
-                    DIRT_new_water(vec.X >> 8, vec.Y >> 8, vec.Z >> 8, (Random() & 0xf) - 7, 0, (Random() & 0xf) - 7, DIRT_TYPE_BLOOD);
+                PARTICLE_Add(vec.X, vec.Y, vec.Z, 0, 0, 0,
+                             POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFF0000,
+                             PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE, 10, 75, 1, 20, 5);
                 // #endif
-                if (knifed) {
-                    // #ifndef	PSX
-                    hit_wave = SOUND_Range(S_STAB_START, S_STAB_END);
-                    MFX_play_xyz(0, hit_wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
-                    // #else
-
-#ifdef PSX
-                    MFX_play_thing(THING_NUMBER(p_aggressor), S_KNIFE_START + (Random() & 1), 0, p_aggressor);
-#endif
-                    // #endif
-
-                    // #ifndef VERSION_GERMAN
-                    if (VIOLENCE)
-                        for (hit_wave = 0; hit_wave < 5; hit_wave++)
-                            DIRT_new_water(vec.X >> 8, vec.Y >> 8, vec.Z >> 8, (Random() & 0xf) - 7, 0, (Random() & 0xf) - 7, DIRT_TYPE_BLOOD);
-                    // #endif
-                } else if (batted) {
-                    // #ifndef	PSX
-                    if (SOUND_Gender(p_thing) == 1)
-                        hit_wave = SOUND_Range(S_BAT_MALE_START, S_BAT_MALE_END);
-                    else
-                        hit_wave = SOUND_Range(S_BAT_FEMALE_START, S_BAT_FEMALE_END);
-
-                    // #else
-                    //							hit_wave = S_BAT_MALE_START;
-                    // #endif
-                    MFX_play_xyz(0, hit_wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
-
-                } else if (nad)
-                    MFX_play_thing(THING_NUMBER(p_thing), SOUND_Range(S_KICK_IN_THE_NUTS_START, S_KICK_IN_THE_NUTS_END), 0, p_thing);
-                else {
-                    hit_wave = S_PUNCH_START + (GAME_TURN & 3);
-                    MFX_play_xyz(0, hit_wave, 0, p_thing->WorldPos.X, p_thing->WorldPos.Y, p_thing->WorldPos.Z);
-                    if (!pain)
-                        PainSound(p_thing);
-                }
-                // do a lil bloodsplat
-
-                if (VIOLENCE) {
-                    calc_sub_objects_position(
-                        p_thing,
-                        p_thing->Draw.Tweened->AnimTween,
-                        SUB_OBJECT_LEFT_HAND,
-                        &vec.X,
-                        &vec.Y,
-                        &vec.Z);
-                    vec.X += (Random() & 0x1f);
-                    vec.Y += (Random() & 0x1f);
-                    vec.Z += (Random() & 0x1f);
-                    vec.X <<= 8;
-                    vec.Y <<= 8;
-                    vec.Z <<= 8;
-                    vec.X += p_thing->WorldPos.X;
-                    vec.Y += p_thing->WorldPos.Y;
-                    vec.Z += p_thing->WorldPos.Z;
-                    // #ifndef VERSION_GERMAN
-                    PARTICLE_Add(vec.X, vec.Y, vec.Z, 0, 0, 0,
-                                 POLY_PAGE_SMOKECLOUD2, 2 + ((Random() & 3) << 2), 0x7FFF0000,
-                                 PFLAG_SPRITEANI | PFLAG_SPRITELOOP | PFLAG_FADE, 10, 75, 1, 20, 5);
-                    // #endif
-                }
+            }
         }
 
         if ((p_thing->Genus.Person->pcom_bent & PCOM_BENT_PLAYERKILL) && (!p_aggressor || !p_aggressor->Genus.Person->PlayerID)) {
@@ -2090,19 +2093,19 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
             }
             if (p_aggressor->Genus.Person->PlayerID) {
                 switch (type) {
-                    case HIT_TYPE_GUN_SHOT_H:
-                    case HIT_TYPE_GUN_SHOT_M:
-                    case HIT_TYPE_GUN_SHOT_L:
-                    case HIT_TYPE_GUN_SHOT_PISTOL:
-                    case HIT_TYPE_GUN_SHOT_SHOTGUN:
-                    case HIT_TYPE_GUN_SHOT_AK47:
-                        // You don't get a vibro from hitting someone with a gun (just from shooting it, done elsewhere).
-                        break;
-                    default:
-                        // Hand-to-hand combat. Feel the knuckles crunch into their nose.
-                        // Less damage-dependant jolt this time.
-                        Vibrate(5.0f, (float) ((damage << 2) + 120) * 0.004f, 0.0f);
-                        break;
+                case HIT_TYPE_GUN_SHOT_H:
+                case HIT_TYPE_GUN_SHOT_M:
+                case HIT_TYPE_GUN_SHOT_L:
+                case HIT_TYPE_GUN_SHOT_PISTOL:
+                case HIT_TYPE_GUN_SHOT_SHOTGUN:
+                case HIT_TYPE_GUN_SHOT_AK47:
+                    // You don't get a vibro from hitting someone with a gun (just from shooting it, done elsewhere).
+                    break;
+                default:
+                    // Hand-to-hand combat. Feel the knuckles crunch into their nose.
+                    // Less damage-dependant jolt this time.
+                    Vibrate(5.0f, (float) ((damage << 2) + 120) * 0.004f, 0.0f);
+                    break;
                 }
             }
 #endif
@@ -2156,15 +2159,15 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
                 if (shot) {
                     if (person_on_floor(p_thing) && p_thing->OnFace == 0 && really_on_floor(p_thing)) {
                         switch (type) {
-                            case HIT_TYPE_GUN_SHOT_PISTOL:
-                                death_type = PERSON_DEATH_TYPE_SHOT_PISTOL;
-                                break;
-                            case HIT_TYPE_GUN_SHOT_SHOTGUN:
-                                death_type = PERSON_DEATH_TYPE_SHOT_SHOTGUN;
-                                break;
-                            case HIT_TYPE_GUN_SHOT_AK47:
-                                death_type = PERSON_DEATH_TYPE_SHOT_AK47;
-                                break;
+                        case HIT_TYPE_GUN_SHOT_PISTOL:
+                            death_type = PERSON_DEATH_TYPE_SHOT_PISTOL;
+                            break;
+                        case HIT_TYPE_GUN_SHOT_SHOTGUN:
+                            death_type = PERSON_DEATH_TYPE_SHOT_SHOTGUN;
+                            break;
+                        case HIT_TYPE_GUN_SHOT_AK47:
+                            death_type = PERSON_DEATH_TYPE_SHOT_AK47;
+                            break;
                         }
                     } else {
                         //						ASSERT(0);
@@ -2300,18 +2303,18 @@ std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_
         //
 
         switch (person_is_lying_on_what(p_thing)) {
-            case PERSON_ON_HIS_FRONT:
-                anim = ANIM_FIGHT_STOMPED_BACK;
-                break;
+        case PERSON_ON_HIS_FRONT:
+            anim = ANIM_FIGHT_STOMPED_BACK;
+            break;
 
-            case PERSON_ON_HIS_BACK:
-                anim = ANIM_FIGHT_STOMPED_FRONT;
-                break;
+        case PERSON_ON_HIS_BACK:
+            anim = ANIM_FIGHT_STOMPED_FRONT;
+            break;
 
-            default:
-                // headbutted people cause a crash
-                ASSERT(0);
-                break;
+        default:
+            // headbutted people cause a crash
+            ASSERT(0);
+            break;
         }
 
         set_person_ko_recoil(p_thing, anim, 0);
@@ -2381,137 +2384,137 @@ std::int32_t people_allowed_to_hit_each_other(Thing *p_victim, Thing *p_agressor
     }
 
     switch (p_agressor->Genus.Person->PersonType) {
-        case PERSON_DARCI:
-            //
-            // won't hit cops or roper
-            //
+    case PERSON_DARCI:
+        //
+        // won't hit cops or roper
+        //
 
-            if (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_GUILTY)
-                return (1);
+        if (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_GUILTY)
+            return (1);
 
-            if (VIOLENCE == 0) {
-                if (p_victim->Genus.Person->PersonType == PERSON_CIV && (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)) {
-                    return (0);
-                }
-                if ((p_victim->Genus.Person->PersonType == PERSON_CIV && p_victim->Genus.Person->pcom_ai == PCOM_AI_CIV) || p_victim->Genus.Person->PersonType == PERSON_HOSTAGE) {
-                    return (0);
-                }
+        if (VIOLENCE == 0) {
+            if (p_victim->Genus.Person->PersonType == PERSON_CIV && (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)) {
+                return (0);
             }
+            if ((p_victim->Genus.Person->PersonType == PERSON_CIV && p_victim->Genus.Person->pcom_ai == PCOM_AI_CIV) || p_victim->Genus.Person->PersonType == PERSON_HOSTAGE) {
+                return (0);
+            }
+        }
 
 #if DARCI_HITS_COPS
-            will_hit ^= (/*(1<<PERSON_COP)|*/ (1 << PERSON_ROPER));
+        will_hit ^= (/*(1<<PERSON_COP)|*/ (1 << PERSON_ROPER));
 #else
-            will_hit ^= (1 << PERSON_COP) | (1 << PERSON_ROPER);
+        will_hit ^= (1 << PERSON_COP) | (1 << PERSON_ROPER);
 #endif
 
-            if (semtex)
-                will_hit ^= (1 << PERSON_TRAMP);
+        if (semtex)
+            will_hit ^= (1 << PERSON_TRAMP);
 
-            break;
+        break;
 
-        case PERSON_TRAMP:
-            if (semtex) {
-                will_hit ^= (1 << PERSON_DARCI);
-                will_hit ^= ((1 << PERSON_THUG_GREY) | (1 << PERSON_THUG_RASTA) | (1 << PERSON_THUG_RED));
-            }
+    case PERSON_TRAMP:
+        if (semtex) {
+            will_hit ^= (1 << PERSON_DARCI);
+            will_hit ^= ((1 << PERSON_THUG_GREY) | (1 << PERSON_THUG_RASTA) | (1 << PERSON_THUG_RED));
+        }
 
-            break;
+        break;
 
-        case PERSON_ROPER:
+    case PERSON_ROPER:
 
-            if (p_agressor->Genus.Person->PlayerID == 0)
-                if (p_victim->Genus.Person->PersonType == PERSON_TRAMP) {
-                    extern std::uint8_t estate;
-                    if (estate) {
-                        return (0);
-                    }
-                }
-
-            if (VIOLENCE == 0) {
-                if (p_victim->Genus.Person->PersonType == PERSON_CIV && (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)) {
-                    return (0);
-                }
-                if ((p_victim->Genus.Person->PersonType == PERSON_CIV && p_victim->Genus.Person->pcom_ai == PCOM_AI_CIV) || p_victim->Genus.Person->PersonType == PERSON_HOSTAGE) {
+        if (p_agressor->Genus.Person->PlayerID == 0)
+            if (p_victim->Genus.Person->PersonType == PERSON_TRAMP) {
+                extern std::uint8_t estate;
+                if (estate) {
                     return (0);
                 }
             }
+
+        if (VIOLENCE == 0) {
+            if (p_victim->Genus.Person->PersonType == PERSON_CIV && (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)) {
+                return (0);
+            }
+            if ((p_victim->Genus.Person->PersonType == PERSON_CIV && p_victim->Genus.Person->pcom_ai == PCOM_AI_CIV) || p_victim->Genus.Person->PersonType == PERSON_HOSTAGE) {
+                return (0);
+            }
+        }
 
 //
 // won't hit darci or cops
 //
 #if DARCI_HITS_COPS
-            will_hit ^= (/*(1<<PERSON_COP)|*/ (1 << PERSON_DARCI));
+        will_hit ^= (/*(1<<PERSON_COP)|*/ (1 << PERSON_DARCI));
 #else
-            will_hit ^= ((1 << PERSON_COP) | (1 << PERSON_DARCI));
+        will_hit ^= ((1 << PERSON_COP) | (1 << PERSON_DARCI));
 #endif
-            break;
+        break;
 
-        case PERSON_COP:
-            //
-            // will hit any fellon
-            //
-            //			ASSERT(p_victim->Genus.Person->PersonType!=PERSON_COP);
-            if (p_victim->Genus.Person->Flags & FLAG_PERSON_FELON) {
-                ASSERT(p_victim->Genus.Person->PersonType != PERSON_COP);
-                return (1);
-            }
-            if (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_GUILTY) {
-                ASSERT(p_victim->Genus.Person->PersonType != PERSON_COP);
-                return (1);
-            }
+    case PERSON_COP:
+        //
+        // will hit any fellon
+        //
+        //			ASSERT(p_victim->Genus.Person->PersonType!=PERSON_COP);
+        if (p_victim->Genus.Person->Flags & FLAG_PERSON_FELON) {
+            ASSERT(p_victim->Genus.Person->PersonType != PERSON_COP);
+            return (1);
+        }
+        if (p_victim->Genus.Person->Flags2 & FLAG2_PERSON_GUILTY) {
+            ASSERT(p_victim->Genus.Person->PersonType != PERSON_COP);
+            return (1);
+        }
 
+        //
+        // won't hit darci, other cops,roper or civilians
+        //
+        will_hit ^= ((1 << PERSON_COP) | (1 << PERSON_DARCI) | (1 << PERSON_ROPER));
+        /*
+                                #if DARCI_HITS_COPS
+                                will_hit^=((1<<PERSON_COP));
+                                #else
+                                will_hit^=((1<<PERSON_COP)|(1<<PERSON_DARCI)|(1<<PERSON_ROPER)|(1<<PERSON_CIV));
+                                #endif
+        */
+        break;
+    case PERSON_THUG_GREY:
+    case PERSON_THUG_RASTA:
+    case PERSON_THUG_RED:
+        if (p_agressor->Genus.Person->PlayerID) {
             //
-            // won't hit darci, other cops,roper or civilians
-            //
-            will_hit ^= ((1 << PERSON_COP) | (1 << PERSON_DARCI) | (1 << PERSON_ROPER));
-            /*
-                                    #if DARCI_HITS_COPS
-                                    will_hit^=((1<<PERSON_COP));
-                                    #else
-                                    will_hit^=((1<<PERSON_COP)|(1<<PERSON_DARCI)|(1<<PERSON_ROPER)|(1<<PERSON_CIV));
-                                    #endif
-            */
-            break;
-        case PERSON_THUG_GREY:
-        case PERSON_THUG_RASTA:
-        case PERSON_THUG_RED:
-            if (p_agressor->Genus.Person->PlayerID) {
-                //
-                // player is a thug, they can hit anyone
-                //
-
-                return (1);
-            }
-            //
-            // can't hit other thugs or MIB's
-            //
-            will_hit ^= ((1 << PERSON_THUG_GREY) | (1 << PERSON_THUG_RASTA) | (1 << PERSON_THUG_RED));
-            will_hit ^= ((1 << PERSON_MIB1) | (1 << PERSON_MIB2) | (1 << PERSON_MIB3));
-            if (semtex)
-                will_hit ^= (1 << PERSON_TRAMP);
-
-            break;
-        case PERSON_MIB1:
-        case PERSON_MIB2:
-        case PERSON_MIB3:
-
-            //
-            // won't hit someone of same group && colour, unless it's deliberate see above
+            // player is a thug, they can hit anyone
             //
 
-            /*
-                                    if(p_victim->Genus.Person->pcom_colour==p_agressor->Genus.Person->pcom_colour &&
-                                            p_victim->Genus.Person->pcom_group==p_agressor->Genus.Person->pcom_group)
-                                    {
-                                            return(0);
-                                    }
-            */
+            return (1);
+        }
+        //
+        // can't hit other thugs or MIB's
+        //
+        will_hit ^= ((1 << PERSON_THUG_GREY) | (1 << PERSON_THUG_RASTA) | (1 << PERSON_THUG_RED));
+        will_hit ^= ((1 << PERSON_MIB1) | (1 << PERSON_MIB2) | (1 << PERSON_MIB3));
+        if (semtex)
+            will_hit ^= (1 << PERSON_TRAMP);
 
-            //
-            // won't hit other MIB's
-            //
-            will_hit ^= ((1 << PERSON_MIB1) | (1 << PERSON_MIB2) | (1 << PERSON_MIB3));
-            break;
+        break;
+    case PERSON_MIB1:
+    case PERSON_MIB2:
+    case PERSON_MIB3:
+
+        //
+        // won't hit someone of same group && colour, unless it's deliberate see above
+        //
+
+        /*
+                                if(p_victim->Genus.Person->pcom_colour==p_agressor->Genus.Person->pcom_colour &&
+                                        p_victim->Genus.Person->pcom_group==p_agressor->Genus.Person->pcom_group)
+                                {
+                                        return(0);
+                                }
+        */
+
+        //
+        // won't hit other MIB's
+        //
+        will_hit ^= ((1 << PERSON_MIB1) | (1 << PERSON_MIB2) | (1 << PERSON_MIB3));
+        break;
     }
     if (will_hit & (1 << p_victim->Genus.Person->PersonType)) {
         //
@@ -2728,16 +2731,16 @@ std::int32_t find_attack_stance(
     wangle = p_person->Draw.Tweened->Angle;
 
     switch (attack_direction) {
-        case FIND_DIR_FRONT: wangle += 0; break;
-        case FIND_DIR_BACK: wangle += 1024; break;
-        case FIND_DIR_LEFT: wangle += 512; break;
-        case FIND_DIR_RIGHT: wangle -= 512; break;
-        case FIND_DIR_TURN_LEFT: wangle += 256; break;
-        case FIND_DIR_TURN_RIGHT: wangle -= 256; break;
+    case FIND_DIR_FRONT: wangle += 0; break;
+    case FIND_DIR_BACK: wangle += 1024; break;
+    case FIND_DIR_LEFT: wangle += 512; break;
+    case FIND_DIR_RIGHT: wangle -= 512; break;
+    case FIND_DIR_TURN_LEFT: wangle += 256; break;
+    case FIND_DIR_TURN_RIGHT: wangle -= 256; break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     wangle &= 2047;
@@ -2796,60 +2799,60 @@ std::int32_t find_attack_stance(
         //
 
         switch (attack_direction) {
-            case FIND_DIR_FRONT:
-            case FIND_DIR_BACK:
-            case FIND_DIR_LEFT:
-            case FIND_DIR_RIGHT:
+        case FIND_DIR_FRONT:
+        case FIND_DIR_BACK:
+        case FIND_DIR_LEFT:
+        case FIND_DIR_RIGHT:
 
-                if (abs(dangle) > 300) {
-                    //
-                    // Out of range dangle.
-                    //
+            if (abs(dangle) > 300) {
+                //
+                // Out of range dangle.
+                //
 
-                    score = -INFINITY;
-                } else {
-                    score = 0;
-                    score -= dist;
-                    score -= abs(dangle) << STANCE_DANGLE_IMPORTANCE;
-                }
+                score = -INFINITY;
+            } else {
+                score = 0;
+                score -= dist;
+                score -= abs(dangle) << STANCE_DANGLE_IMPORTANCE;
+            }
 
-                break;
+            break;
 
-            case FIND_DIR_TURN_LEFT:
+        case FIND_DIR_TURN_LEFT:
 
-                if (0 && !WITHIN(dangle, -512, 256)) {
-                    //
-                    // Out of range dangle.
-                    //
+            if (0 && !WITHIN(dangle, -512, 256)) {
+                //
+                // Out of range dangle.
+                //
 
-                    score = -INFINITY;
-                } else {
-                    score = 0;
-                    score -= dist;
-                    score -= abs(dangle) << STANCE_DANGLE_IMPORTANCE;
-                }
+                score = -INFINITY;
+            } else {
+                score = 0;
+                score -= dist;
+                score -= abs(dangle) << STANCE_DANGLE_IMPORTANCE;
+            }
 
-                break;
+            break;
 
-            case FIND_DIR_TURN_RIGHT:
+        case FIND_DIR_TURN_RIGHT:
 
-                if (0 && !WITHIN(dangle, -256, +512)) {
-                    //
-                    // Out of range dangle.
-                    //
+            if (0 && !WITHIN(dangle, -256, +512)) {
+                //
+                // Out of range dangle.
+                //
 
-                    score = -INFINITY;
-                } else {
-                    score = 0;
-                    score -= dist;
-                    score -= abs(dangle) << STANCE_DANGLE_IMPORTANCE;
-                }
+                score = -INFINITY;
+            } else {
+                score = 0;
+                score -= dist;
+                score -= abs(dangle) << STANCE_DANGLE_IMPORTANCE;
+            }
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         //
@@ -2872,16 +2875,16 @@ std::int32_t find_attack_stance(
         //
 
         switch (attack_direction) {
-            case FIND_DIR_FRONT: dangle = 0; break;
-            case FIND_DIR_BACK: dangle = 1024; break;
-            case FIND_DIR_LEFT: dangle = -512; break;
-            case FIND_DIR_RIGHT: dangle = +512; break;
-            case FIND_DIR_TURN_LEFT: dangle = 0; break;
-            case FIND_DIR_TURN_RIGHT: dangle = 0; break;
+        case FIND_DIR_FRONT: dangle = 0; break;
+        case FIND_DIR_BACK: dangle = 1024; break;
+        case FIND_DIR_LEFT: dangle = -512; break;
+        case FIND_DIR_RIGHT: dangle = +512; break;
+        case FIND_DIR_TURN_LEFT: dangle = 0; break;
+        case FIND_DIR_TURN_RIGHT: dangle = 0; break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         angle = best_angle + dangle;
@@ -3003,15 +3006,15 @@ std::int32_t turn_to_direction_and_find_target(Thing *p_person, std::int32_t fin
     //
 
     switch (find_dir & FIND_DIR_MASK) {
-        case FIND_DIR_LEFT:
-            stance_angle += 512;
-            break;
-        case FIND_DIR_RIGHT:
-            stance_angle -= 512;
-            break;
-        case FIND_DIR_BACK:
-            stance_angle += 1024;
-            break;
+    case FIND_DIR_LEFT:
+        stance_angle += 512;
+        break;
+    case FIND_DIR_RIGHT:
+        stance_angle -= 512;
+        break;
+    case FIND_DIR_BACK:
+        stance_angle += 1024;
+        break;
     }
 
     //	reset_gang_attack(p_person);

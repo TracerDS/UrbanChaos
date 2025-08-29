@@ -11,9 +11,10 @@
 
 GenusFunctions player_functions[] =
     {
-        {PLAYER_NONE, NULL},
+        {PLAYER_NONE,  NULL        },
         {PLAYER_DARCI, darci_states},
-        {PLAYER_ROPER, roper_states}};
+        {PLAYER_ROPER, roper_states}
+};
 
 GameCoord player_pos;
 
@@ -110,11 +111,11 @@ Thing *create_player(std::uint8_t type, MAPCO16 x, MAPCO16 y, MAPCO16 z, std::in
         // Got one, now create the players 'person'.
 
         switch (type) {
-            case PLAYER_NONE: return NULL;
-            case PLAYER_DARCI: person_type = PERSON_DARCI; break;
-            case PLAYER_ROPER: person_type = PERSON_ROPER; break;
-            case PLAYER_COP: person_type = PERSON_COP; break;
-            case PLAYER_THUG: person_type = PERSON_THUG_RASTA; break;
+        case PLAYER_NONE: return NULL;
+        case PLAYER_DARCI: person_type = PERSON_DARCI; break;
+        case PLAYER_ROPER: person_type = PERSON_ROPER; break;
+        case PLAYER_COP: person_type = PERSON_COP; break;
+        case PLAYER_THUG: person_type = PERSON_THUG_RASTA; break;
         }
 
         person_index = create_person(
@@ -244,20 +245,20 @@ std::int32_t should_i_sneak(Thing *p_person) {
         }
 
         switch (col_thing->Class) {
-            case CLASS_PERSON:
+        case CLASS_PERSON:
 
-                if (col_thing != p_person) {
-                    found_people++;
+            if (col_thing != p_person) {
+                found_people++;
 
-                    if (can_a_see_b(col_thing, p_person)) {
-                        //
-                        // this person can see me so why bother to sneak
-                        //
-                        return (0);
-                    }
+                if (can_a_see_b(col_thing, p_person)) {
+                    //
+                    // this person can see me so why bother to sneak
+                    //
+                    return (0);
                 }
+            }
 
-                break;
+            break;
         }
     }
 

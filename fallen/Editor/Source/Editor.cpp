@@ -39,38 +39,39 @@ ControlDef module_def[] =
         {BUTTON, 0, "Key Frame Editor", 68, 2, 0, 10},
         {BUTTON, 0, "Game Editor", 159, 2, 0, 10},
 
-        {0}};
+        {0}
+};
 
 //---------------------------------------------------------------
 
 void handle_front_module(std::uint32_t clicked_area, MFPoint *clicked_point) {
     switch (clicked_area) {
-        case OUTSIDE_WINDOW: // Invalid click.
-            break;
-        case IN_WINDOW: // Clicked in non relevant part of window.
-            break;
-        case IN_TITLE:
-            FRONT_MODULE->MoveModule(clicked_point);
-            update_modules();
-            break;
-        case IN_GROW:
-            FRONT_MODULE->SizeModule(clicked_point);
-            update_modules();
-            break;
-        case IN_ICONS:
-            FRONT_MODULE->TopIcons.HandleIconClick(0, clicked_point);
-            update_modules(); // Only really need to redraw the icon strip
-            break;
-        case IN_HSCROLL:
-            break;
-        case IN_VSCROLL:
-            break;
-        case IN_CONTENT:
-            FRONT_MODULE->HandleContentClick(LEFT_CLICK, clicked_point);
-            break;
-        case IN_CONTROLS:
-            FRONT_MODULE->HandleControlClick(LEFT_CLICK, clicked_point);
-            break;
+    case OUTSIDE_WINDOW: // Invalid click.
+        break;
+    case IN_WINDOW: // Clicked in non relevant part of window.
+        break;
+    case IN_TITLE:
+        FRONT_MODULE->MoveModule(clicked_point);
+        update_modules();
+        break;
+    case IN_GROW:
+        FRONT_MODULE->SizeModule(clicked_point);
+        update_modules();
+        break;
+    case IN_ICONS:
+        FRONT_MODULE->TopIcons.HandleIconClick(0, clicked_point);
+        update_modules(); // Only really need to redraw the icon strip
+        break;
+    case IN_HSCROLL:
+        break;
+    case IN_VSCROLL:
+        break;
+    case IN_CONTENT:
+        FRONT_MODULE->HandleContentClick(LEFT_CLICK, clicked_point);
+        break;
+    case IN_CONTROLS:
+        FRONT_MODULE->HandleControlClick(LEFT_CLICK, clicked_point);
+        break;
     }
 }
 
@@ -476,18 +477,18 @@ void editor() {
                 if (module_set.PointInControlSet(&mouse_point)) {
                     clicked = module_set.HandleControlSetClick(LEFT_CLICK, &mouse_point);
                     switch (clicked) {
-                        case 1:
-                            bring_module_to_front(level_editor);
-                            update = 1;
-                            break;
-                        case 2:
-                            bring_module_to_front(key_frame_editor);
-                            update = 1;
-                            break;
-                        case 3:
-                            bring_module_to_front(game_editor);
-                            update = 1;
-                            break;
+                    case 1:
+                        bring_module_to_front(level_editor);
+                        update = 1;
+                        break;
+                    case 2:
+                        bring_module_to_front(key_frame_editor);
+                        update = 1;
+                        break;
+                    case 3:
+                        bring_module_to_front(game_editor);
+                        update = 1;
+                        break;
                     }
                 } else {
                     clicked_module = point_in_module(&mouse_point);

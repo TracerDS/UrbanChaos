@@ -36,21 +36,21 @@ bool CALLBACK warefx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
+    case WM_INITDIALOG:
 
-            INIT_COMBO_BOX(IDC_COMBO1, wwarefx_strings, warefx_type);
+        INIT_COMBO_BOX(IDC_COMBO1, wwarefx_strings, warefx_type);
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            warefx_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+
+        case IDCANCEL:
+            EndDialog(hWnd, 0);
             return true;
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    warefx_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-
-                case IDCANCEL:
-                    EndDialog(hWnd, 0);
-                    return true;
-            }
-            break;
+        }
+        break;
     }
     return false;
 }
