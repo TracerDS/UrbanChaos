@@ -5347,58 +5347,58 @@ extern DWORD m_dwFogTableDebugFogTableMode;
 #endif
     }
 
-#ifndef TARGET_DC
-
-    extern std::int32_t FARFACET_num_squares_drawn;
-
-    {
-        char text[64];
-
-        sprintf(text, "FARFACET squares drawn: %d", FARFACET_num_squares_drawn);
-
-        FONT2D_DrawString(
-            text,
-            51,
-            51,
-            0x000000,
-            256,
-            POLY_PAGE_FONT2D,
-            0);
-
-        FONT2D_DrawString(
-            text,
-            50,
-            50,
-            0xffffff,
-            256,
-            POLY_PAGE_FONT2D,
-            0);
-    }
-
-    extern std::uint8_t just_asked_for_mode_now;
-    extern std::uint8_t just_asked_for_mode_number;
-    extern float music_volume;
-    extern std::int32_t MUSIC_is_playing();
-
-#ifdef _DEBUG
-    if (just_asked_for_mode_now) {
-        just_asked_for_mode_now = false;
-
-        char text[64];
-
-        sprintf(text, "music mode %d vol %f %s", just_asked_for_mode_number, music_volume, (MUSIC_is_playing()) ? "Playing" : "Silence");
-
-        FONT2D_DrawString(
-            text,
-            320,
-            200,
-            0xffff,
-            256,
-            POLY_PAGE_FONT2D,
-            0);
-    }
-#endif
-#endif
+//#ifndef TARGET_DC
+//
+//    extern std::int32_t FARFACET_num_squares_drawn;
+//
+//    {
+//        char text[64];
+//
+//        sprintf(text, "FARFACET squares drawn: %d", FARFACET_num_squares_drawn);
+//
+//        FONT2D_DrawString(
+//            text,
+//            51,
+//            51,
+//            0x000000,
+//            256,
+//            POLY_PAGE_FONT2D,
+//            0);
+//
+//        FONT2D_DrawString(
+//            text,
+//            50,
+//            50,
+//            0xffffff,
+//            256,
+//            POLY_PAGE_FONT2D,
+//            0);
+//    }
+//
+//    extern std::uint8_t just_asked_for_mode_now;
+//    extern std::uint8_t just_asked_for_mode_number;
+//    extern float music_volume;
+//    extern std::int32_t MUSIC_is_playing();
+//
+//#ifdef _DEBUG
+//    if (just_asked_for_mode_now) {
+//        just_asked_for_mode_now = false;
+//
+//        char text[64];
+//
+//        sprintf(text, "music mode %d vol %f %s", just_asked_for_mode_number, music_volume, (MUSIC_is_playing()) ? "Playing" : "Silence");
+//
+//        FONT2D_DrawString(
+//            text,
+//            320,
+//            200,
+//            0xffff,
+//            256,
+//            POLY_PAGE_FONT2D,
+//            0);
+//    }
+//#endif
+//#endif
 
 #ifndef TARGET_DC
     static std::int32_t i_know = 0;
