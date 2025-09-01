@@ -295,7 +295,7 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     if (flags & FLAGS_USE_WORKSCREEN)
         the_display.UseWorkOn();
 
-    the_display.FullScreenOff();
+    the_display.FullScreenOn();
 
     result = SetDisplay(width, height, depth);
 

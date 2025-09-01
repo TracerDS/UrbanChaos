@@ -117,7 +117,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <WarningLevel>Level2</WarningLevel>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PreprocessorDefinitions>_WINDOWS;WIN32;VERSION_D3D;TEX_EMBED;NOMINMAX;WIN32_LEAN_AND_MEAN;_DEBUG;DEBUG;WINDOWS_IGNORE_PACKING_MISMATCH;HIGH_REZ_PEOPLE_PLEASE_BOB</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINDOWS;WIN32;_DEBUG;NDEBUG;VERSION_D3D;TEX_EMBED;WINDOWS_IGNORE_PACKING_MISMATCH;HIGH_REZ_PEOPLE_PLEASE_BOB;NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <PrecompiledHeaderOutputFile>.\Debug\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>$(IntDir)</ObjectFileName>

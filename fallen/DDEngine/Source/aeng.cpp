@@ -2955,17 +2955,17 @@ void AENG_draw_dirt() {
 #else
     std::uint32_t leaf_colour_choice_rgb[4] =
         {
-            0xffffff,
-            0xffffff,
-            0xffffff,
-            0xffffff};
+            0x332d1d,
+            0x243224,
+            0x123320,
+            0x332f07};
 
     std::uint32_t leaf_colour_choice_grey[4] =
         {
-            0xffffff,
-            0xffffff,
-            0xffffff,
-            0xffffff};
+            0x333333,
+            0x444444,
+            0x222222,
+            0x383838};
 #endif
 
     if (AENG_dirt_uvlookup_valid && AENG_dirt_uvlookup_world_type == world_type) {
