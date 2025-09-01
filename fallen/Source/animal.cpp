@@ -21,8 +21,9 @@
 
 GenusFunctions ANIMAL_functions[ANIMAL_NUMBER] =
     {
-        {ANIMAL_NONE, nullptr},
-        {ANIMAL_CANID, CANID_state_function}};
+        {ANIMAL_NONE,  nullptr             },
+        {ANIMAL_CANID, CANID_state_function}
+};
 /*
 struct AnimalBody {
         std::int8_t	start;

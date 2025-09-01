@@ -27,14 +27,15 @@ void FURN_door(Thing *);
 
 StateFunction FURN_statefunctions[] =
     {
-        {STATE_INIT, nullptr},
-        {STATE_NORMAL, FURN_process_normal},
-        {STATE_COLLISION, nullptr},
-        {STATE_ABOUT_TO_REMOVE, nullptr},
-        {STATE_REMOVE_ME, nullptr},
-        {STATE_MOVEING, FURN_process_moveing},
-        {STATE_FDRIVING, nullptr},
-        {STATE_FDOOR, FURN_door}};
+        {STATE_INIT,            nullptr             },
+        {STATE_NORMAL,          FURN_process_normal },
+        {STATE_COLLISION,       nullptr             },
+        {STATE_ABOUT_TO_REMOVE, nullptr             },
+        {STATE_REMOVE_ME,       nullptr             },
+        {STATE_MOVEING,         FURN_process_moveing},
+        {STATE_FDRIVING,        nullptr             },
+        {STATE_FDOOR,           FURN_door           }
+};
 
 //
 // Initialises the furniture structures. If dx == FURN_NULL_DX then

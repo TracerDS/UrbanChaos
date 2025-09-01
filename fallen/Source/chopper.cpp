@@ -33,8 +33,9 @@
 
 GenusFunctions CHOPPER_functions[CHOPPER_NUMB] =
     {
-        {CHOPPER_NONE, nullptr},
-        {CHOPPER_CIVILIAN, CIVILIAN_state_function}};
+        {CHOPPER_NONE,     nullptr                },
+        {CHOPPER_CIVILIAN, CIVILIAN_state_function}
+};
 
 //
 // Zeros out the choppers in the 'the_game' structure.
@@ -445,8 +446,9 @@ void CHOPPER_fn_normal(Thing *);
 
 StateFunction CIVILIAN_state_function[] =
     {
-        {STATE_INIT, CHOPPER_fn_init},
-        {STATE_NORMAL, CHOPPER_fn_normal}};
+        {STATE_INIT,   CHOPPER_fn_init  },
+        {STATE_NORMAL, CHOPPER_fn_normal}
+};
 
 // ========================================================
 //
@@ -538,165 +540,165 @@ void CHOPPER_fn_normal(Thing *thing) {
     // State specific stuff
 
     switch (chopper->substate) {
-        case CHOPPER_substate_idle:
-            CHOPPER_damp(chopper, 1);
-            if (chopper->victim)
-                CHOPPER_init_state(thing, CHOPPER_substate_tracking);
-            else if (!CHOPPER_radius_broken(darci->WorldPos, thing->WorldPos, DETECTION_RADIUS)) {
-                if ((!chopper->target) && !chopper->victim) chopper->target = darci;
-                CHOPPER_init_state(thing, CHOPPER_substate_tracking);
+    case CHOPPER_substate_idle:
+        CHOPPER_damp(chopper, 1);
+        if (chopper->victim)
+            CHOPPER_init_state(thing, CHOPPER_substate_tracking);
+        else if (!CHOPPER_radius_broken(darci->WorldPos, thing->WorldPos, DETECTION_RADIUS)) {
+            if ((!chopper->target) && !chopper->victim) chopper->target = darci;
+            CHOPPER_init_state(thing, CHOPPER_substate_tracking);
+        }
+        break;
+
+    case CHOPPER_substate_takeoff:
+        CHOPPER_damp(chopper, 1);
+        if (chopper->rotorspeed < 500) {
+            chopper->rotorspeed += 10; // was 2
+
+            if (chopper->rotorspeed > 150) {
+                chopper->dy += chopper->rotorspeed - 150 >> 6;
+                chopper->dy += 2;
             }
-            break;
+        } else if (altitude < (170 << 8)) {
+            chopper->dy += 10; // was 2
 
-        case CHOPPER_substate_takeoff:
-            CHOPPER_damp(chopper, 1);
-            if (chopper->rotorspeed < 500) {
-                chopper->rotorspeed += 10; // was 2
-
-                if (chopper->rotorspeed > 150) {
-                    chopper->dy += chopper->rotorspeed - 150 >> 6;
-                    chopper->dy += 2;
-                }
-            } else if (altitude < (170 << 8)) {
-                chopper->dy += 10; // was 2
-
-                if (chopper->light < 250) {
-                    chopper->light += 5;
-                }
-
-                // chopper->light=255;
-            } else
-            /*
-                    if (chopper->dy>0)
-                            chopper->dy--;
-                    else
-            */
-            {
-                //
-                // Don't slow down before you start chasing Darci!
-                //
-
-                CHOPPER_init_state(thing, CHOPPER_substate_idle);
+            if (chopper->light < 250) {
+                chopper->light += 5;
             }
 
-            break;
-
-        case CHOPPER_substate_landing:
-            CHOPPER_damp(chopper, 4);
-            if (altitude > 0) {
-                chopper->dy = ((chopper->dy + chopper->dy + chopper->dy - (altitude >> 6)) * 0.25f) - 1.0f;
-            } else {
-                chopper->dy = 0;
-                if (chopper->light > 3) chopper->light -= 3;
-                if (chopper->light) chopper->light--;
-                if (chopper->rotorspeed > 200)
-                    chopper->rotorspeed--;
-                if (chopper->rotorspeed > 0)
-                    chopper->rotorspeed--;
+            // chopper->light=255;
+        } else
+        /*
+                if (chopper->dy>0)
+                        chopper->dy--;
                 else
-                    CHOPPER_init_state(thing, CHOPPER_substate_landed);
+        */
+        {
+            //
+            // Don't slow down before you start chasing Darci!
+            //
+
+            CHOPPER_init_state(thing, CHOPPER_substate_idle);
+        }
+
+        break;
+
+    case CHOPPER_substate_landing:
+        CHOPPER_damp(chopper, 4);
+        if (altitude > 0) {
+            chopper->dy = ((chopper->dy + chopper->dy + chopper->dy - (altitude >> 6)) * 0.25f) - 1.0f;
+        } else {
+            chopper->dy = 0;
+            if (chopper->light > 3) chopper->light -= 3;
+            if (chopper->light) chopper->light--;
+            if (chopper->rotorspeed > 200)
+                chopper->rotorspeed--;
+            if (chopper->rotorspeed > 0)
+                chopper->rotorspeed--;
+            else
+                CHOPPER_init_state(thing, CHOPPER_substate_landed);
+        }
+        break;
+        /*		if (altitude>(40<<8)) {
+                                chopper->dy--;
+                        } else
+                                if (chopper->dy<0) {
+                                        chopper->dy+=2;
+                                        if (chopper->dy>0) chopper->dy=0;
+                                } else {
+                                        if (chopper->light>3) chopper->light-=3;
+                                        if (chopper->light) chopper->light--;
+                                        if (altitude>0) thing->WorldPos.Y--;
+                                        if (chopper->rotorspeed > 200)
+                                                chopper->rotorspeed--;
+                                        if (chopper->rotorspeed > 0)
+                                                chopper->rotorspeed--;
+                                        else
+                                                CHOPPER_init_state(thing,CHOPPER_substate_landed);
+                                }
+                        break;*/
+
+    case CHOPPER_substate_landed:
+        if (chopper->victim || !CHOPPER_radius_broken(darci->WorldPos, thing->WorldPos, DETECTION_RADIUS)) {
+            //				chopper->target=darci;
+            CHOPPER_init_state(thing, CHOPPER_substate_takeoff);
+        }
+        // heh.
+        break;
+
+    case CHOPPER_substate_tracking:
+
+        if (chopper->victim) {
+            chopper->victim = EWAY_get_person(chopper->victim);
+            chopper->target = TO_THING(chopper->victim);
+            chopper->victim = 0;
+        }
+
+        /*		// no idea what this does y'know
+                        if (altitude<(200<<8)) {
+                                chopper->dy*=1.5;
+                        }
+
+                        // Safety thing -- always ramp over buildings:
+                        if (altitude<(100<<8)) {
+                                std::int32_t alt_wanted;
+
+                                alt_wanted=(750<<8)+(PAP_calc_map_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
+
+                                thing->WorldPos.Y=(thing->WorldPos.Y+thing->WorldPos.Y+thing->WorldPos.Y+alt_wanted)*0.25;
+                        }
+
+                        // nor this. i bet it's important tho.
+                        if (altitude>(600<<8)) {
+                                chopper->dy*=0.6;
+                        }
+        */
+        CHOPPER_predict_altitude(thing, chopper);
+
+        CHOPPER_home(thing, chopper->target->WorldPos);
+        CHOPPER_limit(chopper);
+
+        if (chopper->target->Class == CLASS_PERSON) {
+            if ((chopper->target->Genus.Person->PlayerID > 0) &&
+                (CHOPPER_radius_broken(thing->WorldPos, chopper->home, chopper->radius)))
+                CHOPPER_init_state(thing, CHOPPER_substate_homing);
+        }
+
+        break;
+
+    case CHOPPER_substate_patrolling:
+        GameCoord targ;
+        std::int32_t rot;
+
+        chopper->patrol++;
+        // rot=chopper->patrol>>2;
+        rot = chopper->patrol;
+        rot &= 2047;
+        targ.X = chopper->home.X + (SIN(rot) * 5);
+        targ.Z = chopper->home.Z + (COS(rot) * 5);
+        targ.Y = thing->WorldPos.Y;
+        CHOPPER_home(thing, targ);
+        //		DIRT_new_water(targ.X>>8, PAP_calc_height_at(targ.X>>8,targ.Z>>8)+0x10, targ.Z>>8,     -1, 28,  0);
+        break;
+
+    case CHOPPER_substate_homing:
+        CHOPPER_predict_altitude(thing, chopper);
+        CHOPPER_home(thing, chopper->home);
+        CHOPPER_limit(chopper);
+
+        // blatant ects hack
+        if (!CHOPPER_radius_broken(thing->WorldPos, chopper->home, IGNORAMUS_RADIUS)) {
+            if (!CHOPPER_radius_broken(darci->WorldPos, thing->WorldPos, DETECTION_RADIUS)) {
+                chopper->target = darci;
+                CHOPPER_init_state(thing, CHOPPER_substate_tracking);
             }
-            break;
-            /*		if (altitude>(40<<8)) {
-                                    chopper->dy--;
-                            } else
-                                    if (chopper->dy<0) {
-                                            chopper->dy+=2;
-                                            if (chopper->dy>0) chopper->dy=0;
-                                    } else {
-                                            if (chopper->light>3) chopper->light-=3;
-                                            if (chopper->light) chopper->light--;
-                                            if (altitude>0) thing->WorldPos.Y--;
-                                            if (chopper->rotorspeed > 200)
-                                                    chopper->rotorspeed--;
-                                            if (chopper->rotorspeed > 0)
-                                                    chopper->rotorspeed--;
-                                            else
-                                                    CHOPPER_init_state(thing,CHOPPER_substate_landed);
-                                    }
-                            break;*/
+        }
 
-        case CHOPPER_substate_landed:
-            if (chopper->victim || !CHOPPER_radius_broken(darci->WorldPos, thing->WorldPos, DETECTION_RADIUS)) {
-                //				chopper->target=darci;
-                CHOPPER_init_state(thing, CHOPPER_substate_takeoff);
-            }
-            // heh.
-            break;
+        break;
 
-        case CHOPPER_substate_tracking:
-
-            if (chopper->victim) {
-                chopper->victim = EWAY_get_person(chopper->victim);
-                chopper->target = TO_THING(chopper->victim);
-                chopper->victim = 0;
-            }
-
-            /*		// no idea what this does y'know
-                            if (altitude<(200<<8)) {
-                                    chopper->dy*=1.5;
-                            }
-
-                            // Safety thing -- always ramp over buildings:
-                            if (altitude<(100<<8)) {
-                                    std::int32_t alt_wanted;
-
-                                    alt_wanted=(750<<8)+(PAP_calc_map_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
-
-                                    thing->WorldPos.Y=(thing->WorldPos.Y+thing->WorldPos.Y+thing->WorldPos.Y+alt_wanted)*0.25;
-                            }
-
-                            // nor this. i bet it's important tho.
-                            if (altitude>(600<<8)) {
-                                    chopper->dy*=0.6;
-                            }
-            */
-            CHOPPER_predict_altitude(thing, chopper);
-
-            CHOPPER_home(thing, chopper->target->WorldPos);
-            CHOPPER_limit(chopper);
-
-            if (chopper->target->Class == CLASS_PERSON) {
-                if ((chopper->target->Genus.Person->PlayerID > 0) &&
-                    (CHOPPER_radius_broken(thing->WorldPos, chopper->home, chopper->radius)))
-                    CHOPPER_init_state(thing, CHOPPER_substate_homing);
-            }
-
-            break;
-
-        case CHOPPER_substate_patrolling:
-            GameCoord targ;
-            std::int32_t rot;
-
-            chopper->patrol++;
-            // rot=chopper->patrol>>2;
-            rot = chopper->patrol;
-            rot &= 2047;
-            targ.X = chopper->home.X + (SIN(rot) * 5);
-            targ.Z = chopper->home.Z + (COS(rot) * 5);
-            targ.Y = thing->WorldPos.Y;
-            CHOPPER_home(thing, targ);
-            //		DIRT_new_water(targ.X>>8, PAP_calc_height_at(targ.X>>8,targ.Z>>8)+0x10, targ.Z>>8,     -1, 28,  0);
-            break;
-
-        case CHOPPER_substate_homing:
-            CHOPPER_predict_altitude(thing, chopper);
-            CHOPPER_home(thing, chopper->home);
-            CHOPPER_limit(chopper);
-
-            // blatant ects hack
-            if (!CHOPPER_radius_broken(thing->WorldPos, chopper->home, IGNORAMUS_RADIUS)) {
-                if (!CHOPPER_radius_broken(darci->WorldPos, thing->WorldPos, DETECTION_RADIUS)) {
-                    chopper->target = darci;
-                    CHOPPER_init_state(thing, CHOPPER_substate_tracking);
-                }
-            }
-
-            break;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     //	sprintf(msg,"X:%d  Y:%d  Z:%d  MWHO:%d\n",thing->WorldPos.X,thing->WorldPos.Y,thing->WorldPos.Z,thing->State&FLAGS_ON_MAPWHO);
@@ -714,46 +716,46 @@ void CHOPPER_init_state(Thing *chopper_thing, std::uint8_t new_state) {
 
     TRACE("Chopper: ");
     switch (new_state) {
-        case CHOPPER_substate_idle:
-            TRACE("Idle\n");
-            break;
-        case CHOPPER_substate_takeoff:
-            TRACE("Takeoff\n");
-            chopper->counter = 0;
-            chopper->since_takeoff = 0;
-            break;
-        case CHOPPER_substate_landing:
-            TRACE("Landing\n");
-            chopper->counter = 0;
-            break;
-        case CHOPPER_substate_landed:
-            TRACE("Landed\n");
-            chopper->counter = 0;
-            break;
-        case CHOPPER_substate_tracking:
-            if (chopper->victim) {
-                chopper->victim = EWAY_get_person(chopper->victim);
-                chopper->target = TO_THING(chopper->victim);
-                chopper->victim = 0;
-            }
-            if (!(chopper->target)) {
-                TRACE("Tracking failed, no target\n");
-                CHOPPER_init_state(chopper_thing, CHOPPER_substate_idle);
-            } else {
-                TRACE("Tracking\n");
-            }
-            chopper->counter = 0;
-            break;
-        case CHOPPER_substate_homing:
-            chopper->target = 0;
-            chopper->counter = 0;
-            TRACE("Homing\n");
-            break;
-        case CHOPPER_substate_patrolling:
-            chopper->target = 0;
-            chopper->patrol = 0;
-            TRACE("Patrolling\n");
-            break;
+    case CHOPPER_substate_idle:
+        TRACE("Idle\n");
+        break;
+    case CHOPPER_substate_takeoff:
+        TRACE("Takeoff\n");
+        chopper->counter = 0;
+        chopper->since_takeoff = 0;
+        break;
+    case CHOPPER_substate_landing:
+        TRACE("Landing\n");
+        chopper->counter = 0;
+        break;
+    case CHOPPER_substate_landed:
+        TRACE("Landed\n");
+        chopper->counter = 0;
+        break;
+    case CHOPPER_substate_tracking:
+        if (chopper->victim) {
+            chopper->victim = EWAY_get_person(chopper->victim);
+            chopper->target = TO_THING(chopper->victim);
+            chopper->victim = 0;
+        }
+        if (!(chopper->target)) {
+            TRACE("Tracking failed, no target\n");
+            CHOPPER_init_state(chopper_thing, CHOPPER_substate_idle);
+        } else {
+            TRACE("Tracking\n");
+        }
+        chopper->counter = 0;
+        break;
+    case CHOPPER_substate_homing:
+        chopper->target = 0;
+        chopper->counter = 0;
+        TRACE("Homing\n");
+        break;
+    case CHOPPER_substate_patrolling:
+        chopper->target = 0;
+        chopper->patrol = 0;
+        TRACE("Patrolling\n");
+        break;
     }
     chopper->substate = new_state;
 }

@@ -51,60 +51,60 @@ bool load_thing_def(MFFileHandle the_file) {
     }
 
     switch (the_def.Class) {
-        case CLASS_NONE:
-            break;
-        case CLASS_PLAYER:
-            store_player_pos(&the_def);
-            break;
-        case CLASS_CAMERA:
-            break;
-        case CLASS_PROJECTILE:
-            break;
-        case CLASS_BUILDING:
-            b_thing = TO_THING(building_list[the_def.Data[0]].ThingIndex);
+    case CLASS_NONE:
+        break;
+    case CLASS_PLAYER:
+        store_player_pos(&the_def);
+        break;
+    case CLASS_CAMERA:
+        break;
+    case CLASS_PROJECTILE:
+        break;
+    case CLASS_BUILDING:
+        b_thing = TO_THING(building_list[the_def.Data[0]].ThingIndex);
 
-            if (the_def.Data[1])
-                b_thing->Flags |= FLAGS_LOCKED;
-            b_thing->SwitchThing = the_def.Data[2];
-            break;
-        case CLASS_PERSON:
-            thing_map[the_def.EdThingRef] = create_person(&the_def);
-            break;
-        case CLASS_FURNITURE:
-            break;
-        case CLASS_SWITCH:
-            thing_map[the_def.EdThingRef] = create_switch(&the_def);
-            break;
-        case CLASS_VEHICLE:
-            //	Mark	-	Create a vehicle here.
+        if (the_def.Data[1])
+            b_thing->Flags |= FLAGS_LOCKED;
+        b_thing->SwitchThing = the_def.Data[2];
+        break;
+    case CLASS_PERSON:
+        thing_map[the_def.EdThingRef] = create_person(&the_def);
+        break;
+    case CLASS_FURNITURE:
+        break;
+    case CLASS_SWITCH:
+        thing_map[the_def.EdThingRef] = create_switch(&the_def);
+        break;
+    case CLASS_VEHICLE:
+        //	Mark	-	Create a vehicle here.
 
-            {
-                std::int32_t prim;
+        {
+            std::int32_t prim;
 
-                if (the_def.Genus == 1) {
-                    prim = 48; // PRIM_OBJ_CAR;
-                } else if (the_def.Genus == 2) {
-                    prim = 48; // PRIM_OBJ_VAN;
-                } else {
-                    prim = 48; // PRIM_OBJ_LION;
-                }
-                /*
-                                                thing_map[the_def.EdThingRef] = VEH_create(
-                                                                                                                        the_def.X << 8,
-                                                                                                                        the_def.Y << 8,
-                                                                                                                        the_def.Z << 8,
-                                                                                                                        0,0,0,
-                                                                                                                        1); //1 is van
-
-
-                                                TO_THING(thing_map[the_def.EdThingRef])->Genus.Furniture->Command = the_def.Data[0];
-                */
+            if (the_def.Genus == 1) {
+                prim = 48; // PRIM_OBJ_CAR;
+            } else if (the_def.Genus == 2) {
+                prim = 48; // PRIM_OBJ_VAN;
+            } else {
+                prim = 48; // PRIM_OBJ_LION;
             }
+            /*
+                                            thing_map[the_def.EdThingRef] = VEH_create(
+                                                                                                                    the_def.X << 8,
+                                                                                                                    the_def.Y << 8,
+                                                                                                                    the_def.Z << 8,
+                                                                                                                    0,0,0,
+                                                                                                                    1); //1 is van
 
-            break;
-        case CLASS_SPECIAL:
-            thing_map[the_def.EdThingRef] = create_special(&the_def);
-            break;
+
+                                            TO_THING(thing_map[the_def.EdThingRef])->Genus.Furniture->Command = the_def.Data[0];
+            */
+        }
+
+        break;
+    case CLASS_SPECIAL:
+        thing_map[the_def.EdThingRef] = create_special(&the_def);
+        break;
     }
 
     return true;
@@ -316,44 +316,44 @@ bool load_level(std::uint32_t level) {
                 if (conditions[c0].Used) {
                     the_condition = &conditions[c0];
                     switch (the_condition->ConditionType) {
-                        case CON_NONE:
-                            break;
-                        case CON_THING_DEAD:
-                            the_condition->Data1 = thing_map[the_condition->Data1];
-                            break;
-                        case CON_ALL_GROUP_DEAD:
-                            break;
-                        case CON_PERCENT_GROUP_DEAD:
-                            break;
-                        case CON_THING_NEAR_PLAYER:
-                            the_condition->Data1 = thing_map[the_condition->Data1];
-                            the_condition->Data2 = 65536;
-                            break;
-                        case CON_GROUP_NEAR_PLAYER:
-                            break;
-                        case CON_CLASS_NEAR_PLAYER:
-                            break;
-                        case CON_THING_NEAR_THING:
-                            the_condition->Data1 = thing_map[the_condition->Data1];
-                            the_condition->Data2 = thing_map[the_condition->Data2];
-                            the_condition->Data3 = 65536;
-                            break;
-                        case CON_GROUP_NEAR_THING:
-                            break;
-                        case CON_CLASS_NEAR_THING:
-                            break;
-                        case CON_CLASS_COUNT:
-                            break;
-                        case CON_GROUP_COUNT:
-                            break;
-                        case CON_SWITCH_TRIGGERED:
-                            the_condition->Data1 = thing_map[the_condition->Data1];
-                            break;
-                        case CON_TIME:
-                            break;
-                        case CON_CLIST_FULFILLED:
-                            the_condition->Data1 = conlist_map[the_condition->Data1];
-                            break;
+                    case CON_NONE:
+                        break;
+                    case CON_THING_DEAD:
+                        the_condition->Data1 = thing_map[the_condition->Data1];
+                        break;
+                    case CON_ALL_GROUP_DEAD:
+                        break;
+                    case CON_PERCENT_GROUP_DEAD:
+                        break;
+                    case CON_THING_NEAR_PLAYER:
+                        the_condition->Data1 = thing_map[the_condition->Data1];
+                        the_condition->Data2 = 65536;
+                        break;
+                    case CON_GROUP_NEAR_PLAYER:
+                        break;
+                    case CON_CLASS_NEAR_PLAYER:
+                        break;
+                    case CON_THING_NEAR_THING:
+                        the_condition->Data1 = thing_map[the_condition->Data1];
+                        the_condition->Data2 = thing_map[the_condition->Data2];
+                        the_condition->Data3 = 65536;
+                        break;
+                    case CON_GROUP_NEAR_THING:
+                        break;
+                    case CON_CLASS_NEAR_THING:
+                        break;
+                    case CON_CLASS_COUNT:
+                        break;
+                    case CON_GROUP_COUNT:
+                        break;
+                    case CON_SWITCH_TRIGGERED:
+                        the_condition->Data1 = thing_map[the_condition->Data1];
+                        break;
+                    case CON_TIME:
+                        break;
+                    case CON_CLIST_FULFILLED:
+                        the_condition->Data1 = conlist_map[the_condition->Data1];
+                        break;
                     }
                 }
             }
@@ -373,48 +373,48 @@ bool load_level(std::uint32_t level) {
                 if (commands[c0].Used) {
                     the_command = &commands[c0];
                     switch (the_command->CommandType) {
-                        case COM_NONE:
-                            break;
-                        case COM_ATTACK_PLAYER:
-                            break;
-                        case COM_ATTACK_THING:
-                        case COM_DEFEND_THING:
-                        case COM_WAIT_FOR_TRIGGER:
-                            the_command->Data1 = thing_map[the_command->Data1];
-                            break;
-                        case COM_ATTACK_GROUP:
-                            break;
-                        case COM_ATTACK_CLASS:
-                            break;
-                        case COM_DEFEND_PLAYER:
-                            break;
-                        case COM_DEFEND_GROUP:
-                            break;
-                        case COM_DEFEND_CLASS:
-                            break;
-                        case COM_PATROL_WAYPOINT:
-                            //	I think a waypoint needs remapping here.
-                            break;
-                        case COM_START_TIMER:
-                            break;
-                        case COM_WAIT_FOR_CLIST:
-                            the_command->Data1 = conlist_map[the_command->Data1];
-                            break;
-                        case COM_FOLLOW_PLAYER:
-                            break;
+                    case COM_NONE:
+                        break;
+                    case COM_ATTACK_PLAYER:
+                        break;
+                    case COM_ATTACK_THING:
+                    case COM_DEFEND_THING:
+                    case COM_WAIT_FOR_TRIGGER:
+                        the_command->Data1 = thing_map[the_command->Data1];
+                        break;
+                    case COM_ATTACK_GROUP:
+                        break;
+                    case COM_ATTACK_CLASS:
+                        break;
+                    case COM_DEFEND_PLAYER:
+                        break;
+                    case COM_DEFEND_GROUP:
+                        break;
+                    case COM_DEFEND_CLASS:
+                        break;
+                    case COM_PATROL_WAYPOINT:
+                        //	I think a waypoint needs remapping here.
+                        break;
+                    case COM_START_TIMER:
+                        break;
+                    case COM_WAIT_FOR_CLIST:
+                        the_command->Data1 = conlist_map[the_command->Data1];
+                        break;
+                    case COM_FOLLOW_PLAYER:
+                        break;
                     }
 
                     switch (the_command->Data2) {
-                        case COM_S_NONE:
-                            break;
-                        case COM_S_UNTIL_TRIGGER:
-                        case COM_S_WHILE_TRIGGER:
-                            the_command->Data3 = thing_map[the_command->Data3];
-                            break;
-                        case COM_S_UNTIL_CLIST:
-                        case COM_S_WHILE_CLIST:
-                            the_command->Data3 = conlist_map[the_command->Data3];
-                            break;
+                    case COM_S_NONE:
+                        break;
+                    case COM_S_UNTIL_TRIGGER:
+                    case COM_S_WHILE_TRIGGER:
+                        the_command->Data3 = thing_map[the_command->Data3];
+                        break;
+                    case COM_S_UNTIL_CLIST:
+                    case COM_S_WHILE_CLIST:
+                        the_command->Data3 = conlist_map[the_command->Data3];
+                        break;
                     }
                 }
             }
@@ -425,69 +425,69 @@ bool load_level(std::uint32_t level) {
             for (c0 = 1; c0 < MAX_THINGS; c0++) {
                 current_thing = TO_THING(c0);
                 switch (current_thing->Class) {
-                    case CLASS_NONE:
+                case CLASS_NONE:
+                    break;
+                case CLASS_PLAYER:
+                    break;
+                case CLASS_CAMERA:
+                    break;
+                case CLASS_PROJECTILE:
+                    break;
+                case CLASS_BUILDING:
+                    current_thing->SwitchThing = thing_map[current_thing->SwitchThing];
+                    break;
+                case CLASS_PERSON:
+                    if (current_thing->Genus.Person->Command) {
+                        current_thing->Genus.Person->ComList = &com_lists[comlist_map[current_thing->Genus.Person->Command]];
+                    }
+                    break;
+                case CLASS_FURNITURE:
+                    break;
+                case CLASS_SWITCH:
+                    switch (current_thing->Genus.Switch->SwitchType) {
+                    case SWITCH_NONE:
                         break;
-                    case CLASS_PLAYER:
+                    case SWITCH_PLAYER:
                         break;
-                    case CLASS_CAMERA:
+                    case SWITCH_THING:
+                        current_thing->Genus.Switch->Scanee = thing_map[current_thing->Genus.Switch->Scanee];
                         break;
-                    case CLASS_PROJECTILE:
+                    case SWITCH_GROUP:
                         break;
-                    case CLASS_BUILDING:
-                        current_thing->SwitchThing = thing_map[current_thing->SwitchThing];
+                    case SWITCH_CLASS:
                         break;
-                    case CLASS_PERSON:
-                        if (current_thing->Genus.Person->Command) {
-                            current_thing->Genus.Person->ComList = &com_lists[comlist_map[current_thing->Genus.Person->Command]];
-                        }
-                        break;
-                    case CLASS_FURNITURE:
-                        break;
-                    case CLASS_SWITCH:
-                        switch (current_thing->Genus.Switch->SwitchType) {
-                            case SWITCH_NONE:
-                                break;
-                            case SWITCH_PLAYER:
-                                break;
-                            case SWITCH_THING:
-                                current_thing->Genus.Switch->Scanee = thing_map[current_thing->Genus.Switch->Scanee];
-                                break;
-                            case SWITCH_GROUP:
-                                break;
-                            case SWITCH_CLASS:
-                                break;
-                        }
-                        break;
-                    case CLASS_VEHICLE:
+                    }
+                    break;
+                case CLASS_VEHICLE:
+
+                    if (current_thing->Genus.Furniture->Command) {
+                        current_thing->Genus.Furniture->Command = COMMAND_NUMBER(com_lists[comlist_map[current_thing->Genus.Furniture->Command]].TheList);
 
                         if (current_thing->Genus.Furniture->Command) {
-                            current_thing->Genus.Furniture->Command = COMMAND_NUMBER(com_lists[comlist_map[current_thing->Genus.Furniture->Command]].TheList);
+                            struct Command *com = TO_COMMAND(current_thing->Genus.Furniture->Command);
 
-                            if (current_thing->Genus.Furniture->Command) {
-                                struct Command *com = TO_COMMAND(current_thing->Genus.Furniture->Command);
-
-                                if (com->CommandType == COM_PATROL_WAYPOINT) {
-                                    current_thing->Genus.Furniture->Waypoint = waypoint_map[com->Data1];
-                                }
+                            if (com->CommandType == COM_PATROL_WAYPOINT) {
+                                current_thing->Genus.Furniture->Waypoint = waypoint_map[com->Data1];
                             }
-
-                            //
-                            // A car must be driving to execute commands... with all its wheels on
-                            // the ground!
-                            //
-
-                            set_state_function(current_thing, STATE_FDRIVING);
-
-                            current_thing->Genus.Furniture->Flags |= FLAG_FURN_DRIVING;
-                            current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL1_GRIP;
-                            current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL2_GRIP;
-                            current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL3_GRIP;
-                            current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL4_GRIP;
                         }
 
-                        break;
-                    case CLASS_SPECIAL:
-                        break;
+                        //
+                        // A car must be driving to execute commands... with all its wheels on
+                        // the ground!
+                        //
+
+                        set_state_function(current_thing, STATE_FDRIVING);
+
+                        current_thing->Genus.Furniture->Flags |= FLAG_FURN_DRIVING;
+                        current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL1_GRIP;
+                        current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL2_GRIP;
+                        current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL3_GRIP;
+                        current_thing->Genus.Furniture->Flags |= FLAG_FURN_WHEEL4_GRIP;
+                    }
+
+                    break;
+                case CLASS_SPECIAL:
+                    break;
                 }
             }
         }

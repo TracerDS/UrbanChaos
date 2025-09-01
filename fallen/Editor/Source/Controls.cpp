@@ -65,8 +65,7 @@ void Control::TrackKey() {
         UnlockWorkScreen();
         ShowWorkWindow(0);
     }
-    while (SHELL_ACTIVE && Keys[GetHotKey()])
-        ;
+    while (SHELL_ACTIVE && Keys[GetHotKey()]);
     Flags &= ~CONTROL_HILITED;
 }
 
@@ -894,12 +893,12 @@ std::uint16_t CPopUp::TrackControl(MFPoint *down_point) {
 
 void CPopUp::SetItemState(std::uint16_t item, std::uint8_t state) {
     switch (state) {
-        case CTRL_ACTIVE:
-            SetItemFlags(item, (std::uint8_t)(GetItemFlags(item) & ~(MENU_INACTIVE)));
-            break;
-        case CTRL_INACTIVE:
-            SetItemFlags(item, (std::uint8_t)(GetItemFlags(item) | MENU_INACTIVE));
-            break;
+    case CTRL_ACTIVE:
+        SetItemFlags(item, (std::uint8_t)(GetItemFlags(item) & ~(MENU_INACTIVE)));
+        break;
+    case CTRL_INACTIVE:
+        SetItemFlags(item, (std::uint8_t)(GetItemFlags(item) | MENU_INACTIVE));
+        break;
     }
 }
 

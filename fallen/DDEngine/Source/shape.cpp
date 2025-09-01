@@ -1293,21 +1293,21 @@ void SHAPE_waterfall(
 
     for (i = 0; i < 3; i++) {
         switch (i) {
-            case 0:
-                y = top;
-                colour = 0xaa4488aa;
-                break;
-            case 1:
-                y = top - 0x10;
-                colour = 0x884488aa;
-                break;
-            case 2:
-                y = top - 0x40;
-                colour = 0x004488aa;
-                break;
-            default:
-                ASSERT(0);
-                break;
+        case 0:
+            y = top;
+            colour = 0xaa4488aa;
+            break;
+        case 1:
+            y = top - 0x10;
+            colour = 0x884488aa;
+            break;
+        case 2:
+            y = top - 0x40;
+            colour = 0x004488aa;
+            break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         POLY_transform(
@@ -1579,215 +1579,97 @@ void SHAPE_prim_shadow(OB_Info *oi) {
     POLY_Point *pp_upto;
 
     switch (prim_get_shadow_type(oi->prim)) {
-        case PRIM_SHADOW_NONE:
-            return;
+    case PRIM_SHADOW_NONE:
+        return;
 
-        case PRIM_SHADOW_CYLINDER:
+    case PRIM_SHADOW_CYLINDER:
 
-            //
-            // Circular shadow.
-            //
+        //
+        // Circular shadow.
+        //
 
-            SHADOW_cylindrical_shadow(
-                px, py, pz,
-                SHAPE_PRIM_SHADOW_RADIUS,
-                SHAPE_PRIM_SHADOW_LENGTH);
+        SHADOW_cylindrical_shadow(
+            px, py, pz,
+            SHAPE_PRIM_SHADOW_RADIUS,
+            SHAPE_PRIM_SHADOW_LENGTH);
 
-            break;
+        break;
 
-        case PRIM_SHADOW_FULLBOX:
+    case PRIM_SHADOW_FULLBOX:
 
-            //
-            // A shadow of shadow under the prim.
-            //
+        //
+        // A shadow of shadow under the prim.
+        //
 
-            pi = get_prim_info(oi->prim);
+        pi = get_prim_info(oi->prim);
 
-            angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
+        angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
 
-            sin_yaw = sin(angle);
-            cos_yaw = cos(angle);
+        sin_yaw = sin(angle);
+        cos_yaw = cos(angle);
 
-            matrix[0] = cos_yaw;
-            matrix[1] = -sin_yaw;
-            matrix[2] = sin_yaw;
-            matrix[3] = cos_yaw;
+        matrix[0] = cos_yaw;
+        matrix[1] = -sin_yaw;
+        matrix[2] = sin_yaw;
+        matrix[3] = cos_yaw;
 
-            for (i = 0; i < 4; i++) {
-                wx = (i & 0x1) ? float(pi->maxx) : float(pi->minx);
-                wz = (i & 0x2) ? float(pi->maxz) : float(pi->minz);
+        for (i = 0; i < 4; i++) {
+            wx = (i & 0x1) ? float(pi->maxx) : float(pi->minx);
+            wz = (i & 0x2) ? float(pi->maxz) : float(pi->minz);
 
-                world[i].x = wx * matrix[0] + wz * matrix[1];
-                world[i].z = wx * matrix[2] + wz * matrix[3];
+            world[i].x = wx * matrix[0] + wz * matrix[1];
+            world[i].z = wx * matrix[2] + wz * matrix[3];
 
-                world[i].x += px;
-                world[i].z += pz;
+            world[i].x += px;
+            world[i].z += pz;
 
-                POLY_transform(
-                    world[i].x,
-                    py,
-                    world[i].z,
-                    &pp[i],
-                    true);
+            POLY_transform(
+                world[i].x,
+                py,
+                world[i].z,
+                &pp[i],
+                true);
 
-                if (!pp[i].MaybeValid()) {
-                    //
-                    // Abandon the prim shadow.
-                    //
-
-                    return;
-                }
-
-                pp[i].colour = 0x88000000;
-                pp[i].specular = 0xff000000;
-                pp[i].u = 0.0F;
-                pp[i].v = 0.0F;
-                pp[i].Z += DC_SHADOW_Z_ADJUST;
-            }
-
-            quad[0] = &pp[0];
-            quad[1] = &pp[1];
-            quad[2] = &pp[2];
-            quad[3] = &pp[3];
-
-            if (POLY_valid_quad(quad)) {
-                POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
-            }
-
-            //
-            // FALLTHROUGH!
-            //
-
-        case PRIM_SHADOW_BOXEDGE:
-
-            //
-            // Bounding box shadow.
-            //
-
-            if (prim_get_shadow_type(oi->prim) == PRIM_SHADOW_FULLBOX) {
+            if (!pp[i].MaybeValid()) {
                 //
-                // We've fallen through from the case: above...
-                // no need to work out this stuff.
+                // Abandon the prim shadow.
                 //
-            } else {
-                pi = get_prim_info(oi->prim);
 
-                angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
-
-                sin_yaw = sin(angle);
-                cos_yaw = cos(angle);
-
-                matrix[0] = cos_yaw;
-                matrix[1] = -sin_yaw;
-                matrix[2] = sin_yaw;
-                matrix[3] = cos_yaw;
-
-                for (i = 0; i < 4; i++) {
-                    wx = (i & 0x1) ? float(pi->maxx) : float(pi->minx);
-                    wz = (i & 0x2) ? float(pi->maxz) : float(pi->minz);
-
-                    world[i].x = wx * matrix[0] + wz * matrix[1];
-                    world[i].z = wx * matrix[2] + wz * matrix[3];
-
-                    world[i].x += px;
-                    world[i].z += pz;
-                }
+                return;
             }
 
-            switch (((oi->yaw + 256) & 2047) >> 9) {
-                case 0:
-                    order[0] = 0;
-                    order[1] = 1;
-                    order[2] = 3;
-                    break;
-                case 1:
-                    order[0] = 1;
-                    order[1] = 3;
-                    order[2] = 2;
-                    break;
-                case 2:
-                    order[0] = 3;
-                    order[1] = 2;
-                    order[2] = 0;
-                    break;
-                case 3:
-                    order[0] = 2;
-                    order[1] = 0;
-                    order[2] = 1;
-                    break;
+            pp[i].colour = 0x88000000;
+            pp[i].specular = 0xff000000;
+            pp[i].u = 0.0F;
+            pp[i].v = 0.0F;
+            pp[i].Z += DC_SHADOW_Z_ADJUST;
+        }
 
-                default:
-                    ASSERT(0);
-                    break;
-            }
+        quad[0] = &pp[0];
+        quad[1] = &pp[1];
+        quad[2] = &pp[2];
+        quad[3] = &pp[3];
 
-            pp_upto = &pp[0];
+        if (POLY_valid_quad(quad)) {
+            POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
+        }
 
-            for (i = 0; i < 3; i++) {
-                POLY_transform(
-                    world[order[i]].x,
-                    py + 2.0F,
-                    world[order[i]].z,
-                    pp_upto,
-                    true);
+        //
+        // FALLTHROUGH!
+        //
 
-                if (!pp_upto->MaybeValid()) {
-                    return;
-                }
+    case PRIM_SHADOW_BOXEDGE:
 
-                pp_upto->colour = 0x88000000;
-                pp_upto->specular = 0xff000000;
-                pp_upto->u = 0.0F;
-                pp_upto->v = 0.0F;
-                pp_upto->Z += DC_SHADOW_Z_ADJUST;
+        //
+        // Bounding box shadow.
+        //
 
-                pp_upto++;
-
-                POLY_transform(
-                    world[order[i]].x + SHAPE_PRIM_SHADOW_LENGTH * +0.707F,
-                    py + 2.0F,
-                    world[order[i]].z + SHAPE_PRIM_SHADOW_LENGTH * -0.707F,
-                    pp_upto);
-
-                if (!pp_upto->MaybeValid()) {
-                    return;
-                }
-
-                pp_upto->colour = 0x00000000;
-                pp_upto->specular = 0xff000000;
-                pp_upto->u = 0.0F;
-                pp_upto->v = 0.0F;
-                pp_upto->Z += DC_SHADOW_Z_ADJUST;
-
-                pp_upto++;
-            }
-
-            quad[0] = &pp[0];
-            quad[1] = &pp[1];
-            quad[2] = &pp[2];
-            quad[3] = &pp[3];
-
-            if (POLY_valid_quad(quad)) {
-                POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
-            }
-
-            quad[0] = &pp[2];
-            quad[1] = &pp[3];
-            quad[2] = &pp[4];
-            quad[3] = &pp[5];
-
-            if (POLY_valid_quad(quad)) {
-                POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
-            }
-
-            break;
-
-        case PRIM_SHADOW_FOURLEGS:
-
+        if (prim_get_shadow_type(oi->prim) == PRIM_SHADOW_FULLBOX) {
             //
-            // Find the four corner points of the prim.
+            // We've fallen through from the case: above...
+            // no need to work out this stuff.
             //
-
+        } else {
             pi = get_prim_info(oi->prim);
 
             angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
@@ -1810,25 +1692,143 @@ void SHAPE_prim_shadow(OB_Info *oi) {
                 world[i].x += px;
                 world[i].z += pz;
             }
+        }
 
-            //
-            // Draw a circular shadow at each corner.
-            //
-
-            for (i = 0; i < 4; i++) {
-                SHADOW_cylindrical_shadow(
-                    world[i].x,
-                    py,
-                    world[i].z,
-                    SHAPE_PRIM_SHADOW_RADIUS,
-                    SHAPE_PRIM_SHADOW_LENGTH);
-            }
-
+        switch (((oi->yaw + 256) & 2047) >> 9) {
+        case 0:
+            order[0] = 0;
+            order[1] = 1;
+            order[2] = 3;
+            break;
+        case 1:
+            order[0] = 1;
+            order[1] = 3;
+            order[2] = 2;
+            break;
+        case 2:
+            order[0] = 3;
+            order[1] = 2;
+            order[2] = 0;
+            break;
+        case 3:
+            order[0] = 2;
+            order[1] = 0;
+            order[2] = 1;
             break;
 
         default:
             ASSERT(0);
             break;
+        }
+
+        pp_upto = &pp[0];
+
+        for (i = 0; i < 3; i++) {
+            POLY_transform(
+                world[order[i]].x,
+                py + 2.0F,
+                world[order[i]].z,
+                pp_upto,
+                true);
+
+            if (!pp_upto->MaybeValid()) {
+                return;
+            }
+
+            pp_upto->colour = 0x88000000;
+            pp_upto->specular = 0xff000000;
+            pp_upto->u = 0.0F;
+            pp_upto->v = 0.0F;
+            pp_upto->Z += DC_SHADOW_Z_ADJUST;
+
+            pp_upto++;
+
+            POLY_transform(
+                world[order[i]].x + SHAPE_PRIM_SHADOW_LENGTH * +0.707F,
+                py + 2.0F,
+                world[order[i]].z + SHAPE_PRIM_SHADOW_LENGTH * -0.707F,
+                pp_upto);
+
+            if (!pp_upto->MaybeValid()) {
+                return;
+            }
+
+            pp_upto->colour = 0x00000000;
+            pp_upto->specular = 0xff000000;
+            pp_upto->u = 0.0F;
+            pp_upto->v = 0.0F;
+            pp_upto->Z += DC_SHADOW_Z_ADJUST;
+
+            pp_upto++;
+        }
+
+        quad[0] = &pp[0];
+        quad[1] = &pp[1];
+        quad[2] = &pp[2];
+        quad[3] = &pp[3];
+
+        if (POLY_valid_quad(quad)) {
+            POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
+        }
+
+        quad[0] = &pp[2];
+        quad[1] = &pp[3];
+        quad[2] = &pp[4];
+        quad[3] = &pp[5];
+
+        if (POLY_valid_quad(quad)) {
+            POLY_add_quad(quad, POLY_PAGE_ALPHA, false);
+        }
+
+        break;
+
+    case PRIM_SHADOW_FOURLEGS:
+
+        //
+        // Find the four corner points of the prim.
+        //
+
+        pi = get_prim_info(oi->prim);
+
+        angle = float(-oi->yaw) * (2.0F * PI / 2048.0F);
+
+        sin_yaw = sin(angle);
+        cos_yaw = cos(angle);
+
+        matrix[0] = cos_yaw;
+        matrix[1] = -sin_yaw;
+        matrix[2] = sin_yaw;
+        matrix[3] = cos_yaw;
+
+        for (i = 0; i < 4; i++) {
+            wx = (i & 0x1) ? float(pi->maxx) : float(pi->minx);
+            wz = (i & 0x2) ? float(pi->maxz) : float(pi->minz);
+
+            world[i].x = wx * matrix[0] + wz * matrix[1];
+            world[i].z = wx * matrix[2] + wz * matrix[3];
+
+            world[i].x += px;
+            world[i].z += pz;
+        }
+
+        //
+        // Draw a circular shadow at each corner.
+        //
+
+        for (i = 0; i < 4; i++) {
+            SHADOW_cylindrical_shadow(
+                world[i].x,
+                py,
+                world[i].z,
+                SHAPE_PRIM_SHADOW_RADIUS,
+                SHAPE_PRIM_SHADOW_LENGTH);
+        }
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 }
 

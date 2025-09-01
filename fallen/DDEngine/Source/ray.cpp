@@ -104,8 +104,8 @@ void RAY_pixel_calc()
 
 		if (dy > -0x1400)
 		{
-			sky_r = MAX(0, ((dy + 0x1400 + 0x200) >> 8)  - 1);
-			sky_b = MAX(0, ((dy + 0x1400 + 0x588) >> 10) - 1);
+			sky_r = std::max(0, ((dy + 0x1400 + 0x200) >> 8)  - 1);
+			sky_b = std::max(0, ((dy + 0x1400 + 0x588) >> 10) - 1);
 		}
 		else
 		{
@@ -949,7 +949,7 @@ void RAY_render_scene()
 				span_maxx = rs->sxmax;
 
 				//
-				// Insert MIN span
+				// Insert min span
 				//
 
 				span[span_upto].in  = 1 << i;
@@ -986,7 +986,7 @@ void RAY_render_scene()
 				span_upto += 1;
 
 				//
-				// Insert MAX span.
+				// Insert max span.
 				//
 
 				span[span_upto].in  = 0;

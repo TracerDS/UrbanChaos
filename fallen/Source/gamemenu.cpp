@@ -88,7 +88,8 @@ GAMEMENU_Menu GAMEMENU_menu[GAMEMENU_MENU_TYPE_NUMBER] =
         {X_GAME_PAUSED, X_RESUME_LEVEL, X_RESTART_LEVEL, X_ABANDON_GAME},
         {X_LEVEL_COMPLETE},
         {X_LEVEL_LOST, X_RESTART_LEVEL, X_ABANDON_GAME},
-        {X_ARE_YOU_SURE, X_OKAY, X_CANCEL}};
+        {X_ARE_YOU_SURE, X_OKAY, X_CANCEL}
+};
 
 //
 // Initialises a new menu.
@@ -257,34 +258,34 @@ std::int32_t GAMEMENU_process() {
 #endif
 
         switch (GAMEMENU_menu_type) {
-            case GAMEMENU_MENU_TYPE_NONE:
-                // Stop all sounds
+        case GAMEMENU_MENU_TYPE_NONE:
+            // Stop all sounds
 
-                // Which one of these should I use?
-                MFX_stop(MFX_CHANNEL_ALL, MFX_WAVE_ALL);
-                // stop_all_fx_and_music();
+            // Which one of these should I use?
+            MFX_stop(MFX_CHANNEL_ALL, MFX_WAVE_ALL);
+            // stop_all_fx_and_music();
 
-                // And enter the pause menu.
-                GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
-                break;
+            // And enter the pause menu.
+            GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
+            break;
 
-            case GAMEMENU_MENU_TYPE_PAUSE:
-                GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
-                break;
+        case GAMEMENU_MENU_TYPE_PAUSE:
+            GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
+            break;
 
-            case GAMEMENU_MENU_TYPE_WON:
-                return GAMEMENU_DO_NEXT_LEVEL;
+        case GAMEMENU_MENU_TYPE_WON:
+            return GAMEMENU_DO_NEXT_LEVEL;
 
-            case GAMEMENU_MENU_TYPE_LOST:
-                return GAMEMENU_DO_CHOOSE_NEW_MISSION;
+        case GAMEMENU_MENU_TYPE_LOST:
+            return GAMEMENU_DO_CHOOSE_NEW_MISSION;
 
-            case GAMEMENU_MENU_TYPE_SURE:
-                GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
-                break;
+        case GAMEMENU_MENU_TYPE_SURE:
+            GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 
@@ -386,43 +387,43 @@ std::int32_t GAMEMENU_process() {
                 MFX_play_stereo(1, S_MENU_CLICK_END, MFX_REPLACE);
 
                 switch (GAMEMENU_menu[GAMEMENU_menu_type].word[GAMEMENU_menu_selection]) {
-                    case 0:
-                        return GAMEMENU_DO_NEXT_LEVEL;
+                case 0:
+                    return GAMEMENU_DO_NEXT_LEVEL;
 
-                    case X_RESUME_LEVEL:
-                        GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
-                        break;
+                case X_RESUME_LEVEL:
+                    GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
+                    break;
 
-                    case X_RESTART_LEVEL:
-                        return GAMEMENU_DO_RESTART;
+                case X_RESTART_LEVEL:
+                    return GAMEMENU_DO_RESTART;
 
-                    case X_ABANDON_GAME:
-                        GAMEMENU_initialise(GAMEMENU_MENU_TYPE_SURE);
-                        break;
+                case X_ABANDON_GAME:
+                    GAMEMENU_initialise(GAMEMENU_MENU_TYPE_SURE);
+                    break;
 
-                    case X_OKAY:
-                        return GAMEMENU_DO_CHOOSE_NEW_MISSION;
+                case X_OKAY:
+                    return GAMEMENU_DO_CHOOSE_NEW_MISSION;
 
-                    case X_CANCEL:
-                        GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
-                        break;
+                case X_CANCEL:
+                    GAMEMENU_initialise(GAMEMENU_MENU_TYPE_PAUSE);
+                    break;
 
 #ifndef TARGET_DC
-                    case X_SAVE_GAME:
-                        MEMORY_quick_save();
-                        GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
-                        break;
+                case X_SAVE_GAME:
+                    MEMORY_quick_save();
+                    GAMEMENU_initialise(GAMEMENU_MENU_TYPE_NONE);
+                    break;
 
-                    case X_LOAD_GAME:
-                        if (!MEMORY_quick_load()) {
-                            return GAMEMENU_DO_RESTART;
-                        }
-                        break;
+                case X_LOAD_GAME:
+                    if (!MEMORY_quick_load()) {
+                        return GAMEMENU_DO_RESTART;
+                    }
+                    break;
 #endif
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             }
         }

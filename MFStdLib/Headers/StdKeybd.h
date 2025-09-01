@@ -1,10 +1,9 @@
 // StdKeybd.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	STD_KEYBD_H
-#define	STD_KEYBD_H
+#pragma once
 
-//---------------------------------------------------------------
+#include <cstdint>
 
 // Row1
 #define	KB_ESC			0x01
@@ -148,5 +147,3 @@ extern volatile std::uint8_t	Keys[256],
 #endif
 
 //---------------------------------------------------------------
-
-#endif

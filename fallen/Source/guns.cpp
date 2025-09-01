@@ -40,23 +40,23 @@ std::int32_t get_gun_aim_stats(Thing *p_person, std::int32_t *range, std::int32_
         //
 
         switch (p_special->Genus.Special->SpecialType) {
-            case SPECIAL_AK47:
-                *range = 8 << 8;
-                *spread = 20;
-                return (1);
+        case SPECIAL_AK47:
+            *range = 8 << 8;
+            *spread = 20;
+            return (1);
 
-            case SPECIAL_SHOTGUN:
-                *range = 6 << 8;
-                *spread = 30;
-                return (1);
+        case SPECIAL_SHOTGUN:
+            *range = 6 << 8;
+            *spread = 30;
+            return (1);
 
-            default:
+        default:
 
-                //
-                // This isn't a weapon you shoot!
-                //
+            //
+            // This isn't a weapon you shoot!
+            //
 
-                return (0);
+            return (0);
         }
     }
     return (0);
@@ -411,23 +411,23 @@ std::int32_t calc_target_score_new(Thing *darci, Thing *p_target) {
                 }
 
                 switch (p_target->Genus.Person->PersonType) {
-                    case PERSON_THUG_RASTA:
-                    case PERSON_THUG_GREY:
-                    case PERSON_THUG_RED:
-                    case PERSON_MIB1:
-                    case PERSON_MIB2:
-                    case PERSON_MIB3:
+                case PERSON_THUG_RASTA:
+                case PERSON_THUG_GREY:
+                case PERSON_THUG_RED:
+                case PERSON_MIB1:
+                case PERSON_MIB2:
+                case PERSON_MIB3:
 
+                    score += score;
+                    break;
+
+                default:
+                    if (p_target->Genus.Person->pcom_ai == PCOM_AI_GANG ||
+                        p_target->Genus.Person->pcom_ai == PCOM_AI_MIB ||
+                        p_target->Genus.Person->pcom_ai == PCOM_AI_GUARD) {
                         score += score;
-                        break;
-
-                    default:
-                        if (p_target->Genus.Person->pcom_ai == PCOM_AI_GANG ||
-                            p_target->Genus.Person->pcom_ai == PCOM_AI_MIB ||
-                            p_target->Genus.Person->pcom_ai == PCOM_AI_GUARD) {
-                            score += score;
-                        }
-                        break;
+                    }
+                    break;
                 }
             }
         }

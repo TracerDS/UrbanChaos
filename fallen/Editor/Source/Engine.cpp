@@ -850,18 +850,18 @@ void render_buckets(std::uint8_t highlight) {
                 std::uint16_t temp;
                 count++;
                 switch (((struct BucketGeneric *) bucket)->BucketType) {
-                    case BT_QUAD:
-                        draw_quad_bucket((struct BucketQuad *) bucket, engine.BucketSize - c0);
-                        break;
-                    case BT_TRI:
-                        draw_tri_bucket((struct BucketTri *) bucket);
-                        break;
-                    case BT_VECT:
-                        draw_vect_bucket((struct BucketVect *) bucket);
-                        break;
-                    case BT_RECT:
-                        draw_rect_bucket((struct BucketRect *) bucket);
-                        break;
+                case BT_QUAD:
+                    draw_quad_bucket((struct BucketQuad *) bucket, engine.BucketSize - c0);
+                    break;
+                case BT_TRI:
+                    draw_tri_bucket((struct BucketTri *) bucket);
+                    break;
+                case BT_VECT:
+                    draw_vect_bucket((struct BucketVect *) bucket);
+                    break;
+                case BT_RECT:
+                    draw_rect_bucket((struct BucketRect *) bucket);
+                    break;
                 }
                 bucket = ((struct BucketGeneric *) bucket)->BucketPtr;
             }
@@ -928,15 +928,15 @@ void render_view(std::uint8_t highlight) {
 
     //	LogText(" render view scale %d enginex %d \n",engine.Scale,engine.X);
     switch (WorkScreenDepth) {
-        case 1:
-            render_span = render_span8;
-            break;
-        case 2:
-            render_span = render_span16;
-            break;
-        case 4:
-            render_span = render_span32;
-            break;
+    case 1:
+        render_span = render_span8;
+        break;
+    case 2:
+        render_span = render_span16;
+        break;
+    case 4:
+        render_span = render_span32;
+        break;
     }
     //	draw_blocks(1);
 
@@ -1297,35 +1297,35 @@ void split_explode_face(std::int16_t index) {
 
     if (face1) {
         switch (b_index) {
-            case 0:
-                tri1[0] = 0;
-                tri1[1] = -1;
-                tri1[2] = 2;
+        case 0:
+            tri1[0] = 0;
+            tri1[1] = -1;
+            tri1[2] = 2;
 
-                tri2[0] = -1;
-                tri2[1] = 1;
-                tri2[2] = 2;
-                break;
+            tri2[0] = -1;
+            tri2[1] = 1;
+            tri2[2] = 2;
+            break;
 
-            case 1:
-                tri1[0] = -1;
-                tri1[1] = 0;
-                tri1[2] = 1;
+        case 1:
+            tri1[0] = -1;
+            tri1[1] = 0;
+            tri1[2] = 1;
 
-                tri2[0] = -1;
-                tri2[1] = 2;
-                tri2[2] = 0;
-                break;
+            tri2[0] = -1;
+            tri2[1] = 2;
+            tri2[2] = 0;
+            break;
 
-            case 2:
-                tri1[0] = -1;
-                tri1[1] = 0;
-                tri1[2] = 1;
+        case 2:
+            tri1[0] = -1;
+            tri1[1] = 0;
+            tri1[2] = 1;
 
-                tri2[0] = -1;
-                tri2[1] = 1;
-                tri2[2] = 2;
-                break;
+            tri2[0] = -1;
+            tri2[1] = 1;
+            tri2[2] = 2;
+            break;
         }
 
         tri = tri1;

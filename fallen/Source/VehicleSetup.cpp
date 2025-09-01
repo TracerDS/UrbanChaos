@@ -45,73 +45,73 @@ bool CALLBACK vs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     char msg[_MAX_PATH], str[_MAX_PATH];
 
     switch (message) {
-        case WM_INITDIALOG:
-            INIT_COMBO_BOX(IDC_COMBO1, wvehicle_strings, veh_type - 1);
-            INIT_COMBO_BOX(IDC_COMBO2, wvehicle_behaviour_strings, veh_move);
-            INIT_COMBO_BOX(IDC_COMBO4, wvehicle_key_strings, veh_key);
-            PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO2, CBN_SELCHANGE), (LPARAM) the_ctrl);
+    case WM_INITDIALOG:
+        INIT_COMBO_BOX(IDC_COMBO1, wvehicle_strings, veh_type - 1);
+        INIT_COMBO_BOX(IDC_COMBO2, wvehicle_behaviour_strings, veh_move);
+        INIT_COMBO_BOX(IDC_COMBO4, wvehicle_key_strings, veh_key);
+        PostMessage(hWnd, WM_COMMAND, MAKELONG(IDC_COMBO2, CBN_SELCHANGE), (LPARAM) the_ctrl);
 
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO3);
-            ep = current_mission->UsedEPoints;
-            c0 = 0;
-            while (ep) {
-                ep_ptr = TO_EVENTPOINT(ep_base, ep);
-                if ((ep_ptr->WaypointType == WPT_CREATE_PLAYER) || (ep_ptr->WaypointType == WPT_CREATE_ENEMIES)) {
-                    WaypointExtra(ep_ptr, msg);
-                    sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
-                    SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
-                    if (ep == veh_targ) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
-                    c0++;
-                }
-                ep = ep_ptr->Next;
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO3);
+        ep = current_mission->UsedEPoints;
+        c0 = 0;
+        while (ep) {
+            ep_ptr = TO_EVENTPOINT(ep_base, ep);
+            if ((ep_ptr->WaypointType == WPT_CREATE_PLAYER) || (ep_ptr->WaypointType == WPT_CREATE_ENEMIES)) {
+                WaypointExtra(ep_ptr, msg);
+                sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
+                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+                if (ep == veh_targ) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
+                c0++;
             }
+            ep = ep_ptr->Next;
+        }
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-                case IDC_COMBO2:
-                    c0 = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0);
-                    en = (c0 == 3);
-                    EnableWindow(GetDlgItem(hWnd, IDC_COMBO3), en);
-                    EnableWindow(GetDlgItem(hWnd, IDC_LABEL1), en);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            //	Get the 'type'.
-            veh_type = SendMessage(
-                           GetDlgItem(hWnd, IDC_COMBO1),
-                           CB_GETCURSEL,
-                           0, 0) +
-                       1;
-            veh_move = SendMessage(
-                GetDlgItem(hWnd, IDC_COMBO2),
-                CB_GETCURSEL,
-                0, 0);
-            veh_targ = SendMessage(
-                GetDlgItem(hWnd, IDC_COMBO3),
-                CB_GETCURSEL,
-                0, 0);
-            veh_key = SendMessage(
-                GetDlgItem(hWnd, IDC_COMBO4),
-                CB_GETCURSEL,
-                0, 0);
-            // now translate phoney veh_targ to real one
-            if (veh_targ == -1) {
-                veh_targ = 0;
-            } else {
-                memset(msg, 0, _MAX_PATH);
-                SendMessage(GetDlgItem(hWnd, IDC_COMBO3), CB_GETLBTEXT, veh_targ, (long) msg);
-                sscanf(msg, "%d", &veh_targ);
-            }
-
-            EndDialog(hWnd, 0);
+        case IDC_COMBO2:
+            c0 = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0);
+            en = (c0 == 3);
+            EnableWindow(GetDlgItem(hWnd, IDC_COMBO3), en);
+            EnableWindow(GetDlgItem(hWnd, IDC_LABEL1), en);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        //	Get the 'type'.
+        veh_type = SendMessage(
+                       GetDlgItem(hWnd, IDC_COMBO1),
+                       CB_GETCURSEL,
+                       0, 0) +
+                   1;
+        veh_move = SendMessage(
+            GetDlgItem(hWnd, IDC_COMBO2),
+            CB_GETCURSEL,
+            0, 0);
+        veh_targ = SendMessage(
+            GetDlgItem(hWnd, IDC_COMBO3),
+            CB_GETCURSEL,
+            0, 0);
+        veh_key = SendMessage(
+            GetDlgItem(hWnd, IDC_COMBO4),
+            CB_GETCURSEL,
+            0, 0);
+        // now translate phoney veh_targ to real one
+        if (veh_targ == -1) {
+            veh_targ = 0;
+        } else {
+            memset(msg, 0, _MAX_PATH);
+            SendMessage(GetDlgItem(hWnd, IDC_COMBO3), CB_GETLBTEXT, veh_targ, (long) msg);
+            sscanf(msg, "%d", &veh_targ);
+        }
+
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

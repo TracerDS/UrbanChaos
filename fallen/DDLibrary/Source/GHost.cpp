@@ -355,15 +355,15 @@ bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLi
     result = false;
     the_display.toGDI();
     switch (MessageBox(hDDLibWindow, buff2, "Mucky Foot Message", flag)) {
-        case IDABORT:
-            exit(1);
-            break;
-        case IDCANCEL:
-        case IDIGNORE:
-            break;
-        case IDRETRY:
-            DebugBreak();
-            break;
+    case IDABORT:
+        exit(1);
+        break;
+    case IDCANCEL:
+    case IDIGNORE:
+        break;
+    case IDRETRY:
+        DebugBreak();
+        break;
     }
 
     the_display.fromGDI();

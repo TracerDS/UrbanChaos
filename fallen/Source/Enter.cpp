@@ -634,14 +634,14 @@ std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8
     ground_floor = (height == building_bot);
 
     switch (db->Type) {
-        case BUILDING_TYPE_HOUSE: id_storey_type = (ground_floor) ? ID_STOREY_TYPE_HOUSE_GROUND : ID_STOREY_TYPE_HOUSE_UPPER; break;
-        case BUILDING_TYPE_OFFICE: id_storey_type = (ground_floor) ? ID_STOREY_TYPE_OFFICE_GROUND : ID_STOREY_TYPE_OFFICE_UPPER; break;
-        case BUILDING_TYPE_WAREHOUSE: id_storey_type = ID_STOREY_TYPE_WAREHOUSE; break;
-        case BUILDING_TYPE_APARTEMENT: id_storey_type = (ground_floor) ? ID_STOREY_TYPE_APARTEMENT_GROUND : ID_STOREY_TYPE_APARTEMENT_UPPER; break;
+    case BUILDING_TYPE_HOUSE: id_storey_type = (ground_floor) ? ID_STOREY_TYPE_HOUSE_GROUND : ID_STOREY_TYPE_HOUSE_UPPER; break;
+    case BUILDING_TYPE_OFFICE: id_storey_type = (ground_floor) ? ID_STOREY_TYPE_OFFICE_GROUND : ID_STOREY_TYPE_OFFICE_UPPER; break;
+    case BUILDING_TYPE_WAREHOUSE: id_storey_type = ID_STOREY_TYPE_WAREHOUSE; break;
+    case BUILDING_TYPE_APARTEMENT: id_storey_type = (ground_floor) ? ID_STOREY_TYPE_APARTEMENT_GROUND : ID_STOREY_TYPE_APARTEMENT_UPPER; break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     if (id_storey_type == ID_STOREY_TYPE_WAREHOUSE) {

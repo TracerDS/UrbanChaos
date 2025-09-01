@@ -640,32 +640,32 @@ void HOOK_process_spinning() {
 
 void HOOK_process() {
     switch (HOOK_state) {
-        case HOOK_STATE_STILL:
+    case HOOK_STATE_STILL:
 
-            //
-            // Process for a while after coming to a standstill-
-            // to give the string a chance to settle.
-            //
+        //
+        // Process for a while after coming to a standstill-
+        // to give the string a chance to settle.
+        //
 
-            if (HOOK_countdown) {
-                HOOK_process_flying();
-                HOOK_countdown -= 1;
-            }
-
-            break;
-
-        case HOOK_STATE_SPINNING:
-            HOOK_process_spinning();
-            break;
-
-        case HOOK_STATE_FLYING:
+        if (HOOK_countdown) {
             HOOK_process_flying();
-            HOOK_process_flying();
-            break;
+            HOOK_countdown -= 1;
+        }
 
-        default:
-            ASSERT(0);
-            break;
+        break;
+
+    case HOOK_STATE_SPINNING:
+        HOOK_process_spinning();
+        break;
+
+    case HOOK_STATE_FLYING:
+        HOOK_process_flying();
+        HOOK_process_flying();
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 }
 

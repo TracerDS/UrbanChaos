@@ -68,40 +68,40 @@ std::int32_t GI_load_map(char *name) {
 
 void GI_set_view(std::int32_t view) {
     switch (view) {
-        case GI_VIEW_CITY:
+    case GI_VIEW_CITY:
 
-            if (GI_view == GI_VIEW_SEWERS) {
-                //
-                // Clean up sewer stuff and initialise the city view.
-                //
+        if (GI_view == GI_VIEW_SEWERS) {
+            //
+            // Clean up sewer stuff and initialise the city view.
+            //
 
-                GAME_FLAGS &= ~GF_SEWERS;
+            GAME_FLAGS &= ~GF_SEWERS;
 
-                NS_cache_fini();
-                DIRT_init(100, 3, 3, INFINITY, INFINITY, INFINITY, INFINITY);
-            }
+            NS_cache_fini();
+            DIRT_init(100, 3, 3, INFINITY, INFINITY, INFINITY, INFINITY);
+        }
 
-            break;
+        break;
 
-        case GI_VIEW_SEWERS:
+    case GI_VIEW_SEWERS:
 
-            if (GI_view == GI_VIEW_CITY) {
-                //
-                // Clean up city stuff and initialise the sewer view.
-                //
+        if (GI_view == GI_VIEW_CITY) {
+            //
+            // Clean up city stuff and initialise the sewer view.
+            //
 
-                GAME_FLAGS |= GF_SEWERS;
+            GAME_FLAGS |= GF_SEWERS;
 
-                DIRT_init(0, 0, 0, INFINITY, INFINITY, INFINITY, INFINITY);
-                NIGHT_destroy_all_cached_info();
-                NS_cache_init();
-            }
+            DIRT_init(0, 0, 0, INFINITY, INFINITY, INFINITY, INFINITY);
+            NIGHT_destroy_all_cached_info();
+            NS_cache_init();
+        }
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     GI_view = view;

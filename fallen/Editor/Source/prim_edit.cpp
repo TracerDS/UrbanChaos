@@ -1077,7 +1077,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
                                                                                                     sxcy = F
                                                                                                            cx(-C) cz +
                                                                                                            sxsz = G
-                                                                                                                  cx(-C) sz -
+                                                                                                                      cx(-C) sz -
                                                                                                                   sxcz = H
                                                                                                                       cxcy = I
 
@@ -1091,7 +1091,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
                                                                                                                                                                        (cz * I) /
                                                                                                                                                                        A = cx
 
-                                                                                                                                                                           cx(-C) cz +
+                                                                                                                                                                               cx(-C) cz +
                                                                                                                                                                            sxsz = G
 
                                                                                                                                                                                       (cz * I(-C) * cz) /
@@ -1100,7 +1100,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
 #endif
 
     void
-    comma_to_dot(char *str) {
+        comma_to_dot(char *str) {
     while (*str) {
         if (*str == ',')
             *str = '.';
@@ -2043,8 +2043,7 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
             {
                 char *ch;
 
-                for (ch = mat[num_m].name; *ch; ch++)
-                    ;
+                for (ch = mat[num_m].name; *ch; ch++);
 
                 while (1) {
                     ch -= 1;
@@ -3777,9 +3776,9 @@ extern std::int16_t CreateALightThing(std::int32_t x, std::int32_t y, std::int32
 
 void apply_map_thing(std::int32_t dx, std::int32_t dy, std::int32_t dz, struct MapThing *p_thing) {
     switch (p_thing->Type) {
-        case MAP_THING_TYPE_LIGHT:
-            CreateALightThing(dx + p_thing->X, dy + p_thing->Y, dz + p_thing->Z, p_thing->IndexOther);
-            break;
+    case MAP_THING_TYPE_LIGHT:
+        CreateALightThing(dx + p_thing->X, dy + p_thing->Y, dz + p_thing->Z, p_thing->IndexOther);
+        break;
     }
 }
 

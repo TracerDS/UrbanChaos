@@ -100,9 +100,9 @@ void delete_thing(std::int16_t index) {
     p_mthing = TO_MTHING(index);
 
     switch (p_mthing->Type) {
-        case MAP_THING_TYPE_LIGHT:
-            apply_light_to_map(p_mthing->X, p_mthing->Y, p_mthing->Z, -p_mthing->IndexOther);
-            break;
+    case MAP_THING_TYPE_LIGHT:
+        apply_light_to_map(p_mthing->X, p_mthing->Y, p_mthing->Z, -p_mthing->IndexOther);
+        break;
     }
     delete_thing_from_edit_map(p_mthing->X >> ELE_SHIFT, p_mthing->Z >> ELE_SHIFT, index);
     p_mthing->Type = 0;

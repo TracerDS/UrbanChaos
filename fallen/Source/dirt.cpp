@@ -25,6 +25,7 @@
 #include "mfx.h"
 #include "pow.h"
 #include "mav.h"
+#include <algorithm>
 
 #ifndef PSX
 #include "..\DDLibrary\headers\D3DTexture.h"
@@ -339,13 +340,14 @@ void DIRT_set_focus(
     } order[8] =
         {
             {-1, -1},
-            {0, -1},
+            {0,  -1},
             {+1, -1},
-            {-1, 0},
-            {+1, 0},
+            {-1, 0 },
+            {+1, 0 },
             {-1, +1},
-            {0, +1},
-            {+1, +1}};
+            {0,  +1},
+            {+1, +1}
+    };
 
     DIRT_focus_x = x;
     DIRT_focus_z = z;
@@ -560,85 +562,85 @@ void DIRT_set_focus(
                 type = DIRT_get_new_type(cx, cz);
 
                 switch (type) {
-                    case DIRT_TYPE_UNUSED:
-                        dd->type = DIRT_TYPE_UNUSED;
-                        break;
+                case DIRT_TYPE_UNUSED:
+                    dd->type = DIRT_TYPE_UNUSED;
+                    break;
 
-                    case DIRT_TYPE_SNOW:
-                    case DIRT_TYPE_LEAF:
+                case DIRT_TYPE_SNOW:
+                case DIRT_TYPE_LEAF:
 #ifdef PSX
-                        dd->UU.Leaf.col = floor_psx_col[mx][mz];
+                    dd->UU.Leaf.col = floor_psx_col[mx][mz];
 #endif
-                        dd->type = type;
-                        dd->owner = 255;
-                        dd->flag = DIRT_FLAG_STILL;
-                        dd->x = cx;
-                        dd->z = cz;
-                        dd->y = PAP_calc_height_at(cx, cz);
-                        if (type == DIRT_TYPE_SNOW) {
-                            if ((GAME_TURN > 100) && (Random() & 1)) {
-                                dd->y = NET_PERSON(0)->WorldPos.Y >> 8;
-                                dd->y += 700 + (Random() & 0x1ff);
-                                dd->flag = 0;
-                                dd->UU.Leaf.fade = 0xff;
-                            } else
-                                dd->UU.Leaf.fade = Random() & 0xff;
-                        }
-                        dd->dx = 0;
-                        dd->dz = 0;
-                        dd->dy = 0;
-                        dd->yaw = 0;
-                        dd->pitch = 0;
-                        dd->roll = 0;
-                        dd->dyaw = 0;
-                        dd->dpitch = 0;
-                        dd->droll = 0;
-                        break;
+                    dd->type = type;
+                    dd->owner = 255;
+                    dd->flag = DIRT_FLAG_STILL;
+                    dd->x = cx;
+                    dd->z = cz;
+                    dd->y = PAP_calc_height_at(cx, cz);
+                    if (type == DIRT_TYPE_SNOW) {
+                        if ((GAME_TURN > 100) && (Random() & 1)) {
+                            dd->y = NET_PERSON(0)->WorldPos.Y >> 8;
+                            dd->y += 700 + (Random() & 0x1ff);
+                            dd->flag = 0;
+                            dd->UU.Leaf.fade = 0xff;
+                        } else
+                            dd->UU.Leaf.fade = Random() & 0xff;
+                    }
+                    dd->dx = 0;
+                    dd->dz = 0;
+                    dd->dy = 0;
+                    dd->yaw = 0;
+                    dd->pitch = 0;
+                    dd->roll = 0;
+                    dd->dyaw = 0;
+                    dd->dpitch = 0;
+                    dd->droll = 0;
+                    break;
 
-                    case DIRT_TYPE_CAN:
-                        dd->type = DIRT_TYPE_CAN;
-                        dd->flag = DIRT_FLAG_STILL;
-                        dd->x = cx;
-                        dd->y = PAP_calc_height_at(cx, cz) + 4;
-                        dd->z = cz;
-                        dd->dx = 0;
-                        dd->dy = 0;
-                        dd->dz = 0;
-                        dd->yaw = Random() & 2047;
-                        dd->pitch = 0;
-                        dd->roll = 0;
-                        dd->dyaw = 0;
-                        dd->dpitch = 0;
-                        dd->droll = 0;
-                        break;
+                case DIRT_TYPE_CAN:
+                    dd->type = DIRT_TYPE_CAN;
+                    dd->flag = DIRT_FLAG_STILL;
+                    dd->x = cx;
+                    dd->y = PAP_calc_height_at(cx, cz) + 4;
+                    dd->z = cz;
+                    dd->dx = 0;
+                    dd->dy = 0;
+                    dd->dz = 0;
+                    dd->yaw = Random() & 2047;
+                    dd->pitch = 0;
+                    dd->roll = 0;
+                    dd->dyaw = 0;
+                    dd->dpitch = 0;
+                    dd->droll = 0;
+                    break;
 
-                    case DIRT_TYPE_PIGEON:
+                case DIRT_TYPE_PIGEON:
 #ifndef PSX
-                        dd->type = DIRT_TYPE_PIGEON;
-                        dd->flag = 0;
-                        dd->x = cx;
-                        dd->y = PAP_calc_height_at(cx, cz);
-                        dd->z = cz;
-                        dd->UU.Pidgeon.state = DIRT_PIGEON_WAIT;
-                        dd->counter = 16;
-                        dd->UU.Pidgeon.morph1 = MORPH_PIGEON_STAND;
-                        dd->UU.Pidgeon.morph2 = MORPH_PIGEON_STAND;
-                        dd->UU.Pidgeon.tween = 0;
-                        dd->dx = 0;
-                        dd->dy = 0;
-                        dd->dz = 0;
-                        dd->yaw = Random() & 2047;
-                        dd->pitch = 0;
-                        dd->roll = 0;
-                        dd->dyaw = 0;
-                        dd->dpitch = 0;
-                        dd->droll = 0;
+                    dd->type = DIRT_TYPE_PIGEON;
+                    dd->flag = 0;
+                    dd->x = cx;
+                    dd->y = PAP_calc_height_at(cx, cz);
+                    dd->z = cz;
+                    dd->UU.Pidgeon.state = DIRT_PIGEON_WAIT;
+                    dd->counter = 16;
+                    dd->UU.Pidgeon.morph1 = MORPH_PIGEON_STAND;
+                    dd->UU.Pidgeon.morph2 = MORPH_PIGEON_STAND;
+                    dd->UU.Pidgeon.tween = 0;
+                    dd->dx = 0;
+                    dd->dy = 0;
+                    dd->dz = 0;
+                    dd->yaw = Random() & 2047;
+                    dd->pitch = 0;
+                    dd->roll = 0;
+                    dd->dyaw = 0;
+                    dd->dpitch = 0;
+                    dd->droll = 0;
 #endif
-                        break;
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             } else {
                 //
@@ -800,10 +802,10 @@ void DIRT_pigeon_init_hop(DIRT_Dirt *dd, std::uint8_t upordown) {
     dd->UU.Pidgeon.tween = 10;
 
     switch (upordown) {
-        case DIRT_PIGEON_HOPUP: dd->dy = 20 << TICK_SHIFT; break;
-        case DIRT_PIGEON_HOPDOWN: dd->dy = 8 << TICK_SHIFT; break;
-        default:
-            ASSERT(0);
+    case DIRT_PIGEON_HOPUP: dd->dy = 20 << TICK_SHIFT; break;
+    case DIRT_PIGEON_HOPDOWN: dd->dy = 8 << TICK_SHIFT; break;
+    default:
+        ASSERT(0);
     }
 }
 
@@ -1007,37 +1009,37 @@ void DIRT_pigeon_start_doing_something_new(DIRT_Dirt *dd) {
     memset(chance, 0, sizeof(chance));
 
     switch (dd->UU.Pidgeon.state) {
-        case DIRT_PIGEON_WAIT:
-            chance[DIRT_PIGEON_WAIT] = 2;
-            chance[DIRT_PIGEON_PECK] = 2;
-            chance[DIRT_PIGEON_WALK] = 2;
-            break;
+    case DIRT_PIGEON_WAIT:
+        chance[DIRT_PIGEON_WAIT] = 2;
+        chance[DIRT_PIGEON_PECK] = 2;
+        chance[DIRT_PIGEON_WALK] = 2;
+        break;
 
-        case DIRT_PIGEON_PECK:
-            chance[DIRT_PIGEON_WAIT] = 1;
-            chance[DIRT_PIGEON_PECK] = 3;
-            break;
+    case DIRT_PIGEON_PECK:
+        chance[DIRT_PIGEON_WAIT] = 1;
+        chance[DIRT_PIGEON_PECK] = 3;
+        break;
 
-        case DIRT_PIGEON_WALK:
-            chance[DIRT_PIGEON_WAIT] = 1;
-            chance[DIRT_PIGEON_PECK] = 1;
-            break;
+    case DIRT_PIGEON_WALK:
+        chance[DIRT_PIGEON_WAIT] = 1;
+        chance[DIRT_PIGEON_PECK] = 1;
+        break;
 
-        case DIRT_PIGEON_HOP:
+    case DIRT_PIGEON_HOP:
 
-            //
-            // Oh dear!
-            //
+        //
+        // Oh dear!
+        //
 
-            return;
+        return;
 
-        case DIRT_PIGEON_RUN:
-            chance[DIRT_PIGEON_WALK] = 1;
-            break;
+    case DIRT_PIGEON_RUN:
+        chance[DIRT_PIGEON_WALK] = 1;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     //
@@ -1066,12 +1068,12 @@ void DIRT_pigeon_start_doing_something_new(DIRT_Dirt *dd) {
     //
 
     switch (state) {
-        case DIRT_PIGEON_WAIT: DIRT_pigeon_init_wait(dd); break;
-        case DIRT_PIGEON_PECK: DIRT_pigeon_init_peck(dd); break;
-        case DIRT_PIGEON_WALK: DIRT_pigeon_init_walk(dd); break;
-        default:
-            ASSERT(0);
-            break;
+    case DIRT_PIGEON_WAIT: DIRT_pigeon_init_wait(dd); break;
+    case DIRT_PIGEON_PECK: DIRT_pigeon_init_peck(dd); break;
+    case DIRT_PIGEON_WALK: DIRT_pigeon_init_walk(dd); break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1093,26 +1095,26 @@ void DIRT_pigeon_process(DIRT_Dirt *dd) {
     }
 
     switch (dd->UU.Pidgeon.state) {
-        case DIRT_PIGEON_WAIT:
-            DIRT_pigeon_process_wait(dd);
-            break;
+    case DIRT_PIGEON_WAIT:
+        DIRT_pigeon_process_wait(dd);
+        break;
 
-        case DIRT_PIGEON_PECK:
-            DIRT_pigeon_process_peck(dd);
-            break;
+    case DIRT_PIGEON_PECK:
+        DIRT_pigeon_process_peck(dd);
+        break;
 
-        case DIRT_PIGEON_WALK:
-        case DIRT_PIGEON_RUN:
-            DIRT_pigeon_process_walkrun(dd);
-            break;
+    case DIRT_PIGEON_WALK:
+    case DIRT_PIGEON_RUN:
+        DIRT_pigeon_process_walkrun(dd);
+        break;
 
-        case DIRT_PIGEON_HOP:
-            DIRT_pigeon_process_hop(dd);
-            break;
+    case DIRT_PIGEON_HOP:
+        DIRT_pigeon_process_hop(dd);
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 #endif
@@ -1205,36 +1207,36 @@ void DIRT_new_sparks(std::int32_t px, std::int32_t py, std::int32_t pz, std::uin
         boost = 0;
     for (i = 0; i < 4; i++) {
         switch (dir) {
-            case 0: // X+
-                dx = 5 + (Random() & 3);
-                dy = (Random() & 7) - 3;
-                dz = (Random() & 7) - 3;
-                break;
-            case 1: // X-
-                dx = -(5 + (Random() & 3));
-                dy = (Random() & 7) - 3;
-                dz = (Random() & 7) - 3;
-                break;
-            case 2: // Y+
-                dy = 5 + (Random() & 3);
-                dx = (Random() & 7) - 3;
-                dz = (Random() & 7) - 3;
-                break;
-            case 3: // Y-
-                dy = -(5 + (Random() & 3));
-                dx = (Random() & 7) - 3;
-                dz = (Random() & 7) - 3;
-                break;
-            case 4: // Z+
-                dz = 5 + (Random() & 3);
-                dx = (Random() & 7) - 3;
-                dy = (Random() & 7) - 3;
-                break;
-            case 5: // Z-
-                dz = -(5 + (Random() & 3));
-                dx = (Random() & 7) - 2;
-                dy = (Random() & 7) - 2;
-                break;
+        case 0: // X+
+            dx = 5 + (Random() & 3);
+            dy = (Random() & 7) - 3;
+            dz = (Random() & 7) - 3;
+            break;
+        case 1: // X-
+            dx = -(5 + (Random() & 3));
+            dy = (Random() & 7) - 3;
+            dz = (Random() & 7) - 3;
+            break;
+        case 2: // Y+
+            dy = 5 + (Random() & 3);
+            dx = (Random() & 7) - 3;
+            dz = (Random() & 7) - 3;
+            break;
+        case 3: // Y-
+            dy = -(5 + (Random() & 3));
+            dx = (Random() & 7) - 3;
+            dz = (Random() & 7) - 3;
+            break;
+        case 4: // Z+
+            dz = 5 + (Random() & 3);
+            dx = (Random() & 7) - 3;
+            dy = (Random() & 7) - 3;
+            break;
+        case 5: // Z-
+            dz = -(5 + (Random() & 3));
+            dx = (Random() & 7) - 2;
+            dy = (Random() & 7) - 2;
+            break;
         }
         if (boost) {
             dx <<= boost;
@@ -1319,264 +1321,440 @@ void DIRT_process() {
         }
 
         switch (dd->type) {
-            case DIRT_TYPE_LEAF:
-            case DIRT_TYPE_SNOW:
+        case DIRT_TYPE_LEAF:
+        case DIRT_TYPE_SNOW:
 
-                oldx = dd->x;
-                oldy = dd->y;
-                oldz = dd->z;
+            oldx = dd->x;
+            oldy = dd->y;
+            oldz = dd->z;
 
-                dd->x += (TICK_RATIO * dd->dx) >> TICK_SHIFT;
-                dd->y += (TICK_RATIO * (dd->dy >> TICK_SHIFT)) >> TICK_SHIFT;
-                dd->z += (TICK_RATIO * dd->dz) >> TICK_SHIFT;
+            dd->x += (TICK_RATIO * dd->dx) >> TICK_SHIFT;
+            dd->y += (TICK_RATIO * (dd->dy >> TICK_SHIFT)) >> TICK_SHIFT;
+            dd->z += (TICK_RATIO * dd->dz) >> TICK_SHIFT;
 
-                dd->yaw += (TICK_RATIO * dd->dyaw) >> TICK_SHIFT;
-                dd->pitch += (TICK_RATIO * dd->dpitch) >> TICK_SHIFT;
-                dd->roll += (TICK_RATIO * dd->droll) >> TICK_SHIFT;
+            dd->yaw += (TICK_RATIO * dd->dyaw) >> TICK_SHIFT;
+            dd->pitch += (TICK_RATIO * dd->dpitch) >> TICK_SHIFT;
+            dd->roll += (TICK_RATIO * dd->droll) >> TICK_SHIFT;
 
-                mx = dd->x >> 8;
-                mz = dd->z >> 8;
+            mx = dd->x >> 8;
+            mz = dd->z >> 8;
 
-                if (((oldx >> 8) != (dd->x >> 8)) || (oldz >> 8) != (dd->z >> 8)) {
+            if (((oldx >> 8) != (dd->x >> 8)) || (oldz >> 8) != (dd->z >> 8)) {
+                //
+                // we have changed hires map cells
+                //
+                if (PAP_on_map_hi(mx, mz) && (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) {
                     //
-                    // we have changed hires map cells
+                    // The leaf has hit a wall... not touched the ground.
                     //
-                    if (PAP_on_map_hi(mx, mz) && (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) {
-                        //
-                        // The leaf has hit a wall... not touched the ground.
-                        //
 
-                        dd->x = oldx;
-                        dd->dx = -dd->dx;
-                        dd->z = oldz;
-                        dd->dz = -dd->dz;
-                    } else {
+                    dd->x = oldx;
+                    dd->dx = -dd->dx;
+                    dd->z = oldz;
+                    dd->dz = -dd->dz;
+                } else {
 #ifdef PSX
-                        dd->UU.Leaf.col = floor_psx_col[dd->x >> 8][dd->z >> 8];
+                    dd->UU.Leaf.col = floor_psx_col[dd->x >> 8][dd->z >> 8];
 #endif
-                    }
                 }
-                //
-                // Don't go underground.
-                //
+            }
+            //
+            // Don't go underground.
+            //
 
-                floor = PAP_calc_height_at(dd->x, dd->z);
+            floor = PAP_calc_height_at(dd->x, dd->z);
 
-                if (dd->y <= floor) {
-                    dd->y = floor;
-                    dd->dy = 0;
-                    dd->yaw = 0;
-                    dd->roll = 0;
-                    dd->pitch = 0;
-                    dd->dyaw = 0;
-                    dd->dpitch = 0;
-                    dd->droll = 0;
+            if (dd->y <= floor) {
+                dd->y = floor;
+                dd->dy = 0;
+                dd->yaw = 0;
+                dd->roll = 0;
+                dd->pitch = 0;
+                dd->dyaw = 0;
+                dd->dpitch = 0;
+                dd->droll = 0;
 
-                    if (abs(dd->dx) <= 3) {
-                        dd->dx = 0;
-                    }
-                    if (abs(dd->dz) <= 3) {
-                        dd->dz = 0;
-                    }
-
-                    if (dd->dx == 0 && dd->dz == 0) {
-                        dd->flag |= DIRT_FLAG_STILL;
-                    }
+                if (abs(dd->dx) <= 3) {
+                    dd->dx = 0;
+                }
+                if (abs(dd->dz) <= 3) {
+                    dd->dz = 0;
                 }
 
-                //
-                // A leaf has lots of resistance to moving and rotating.
-                //
-
-                dd->dx -= dd->dx / 4;
-                dd->dy -= dd->dy / 2;
-                dd->dz -= dd->dz / 4;
-
-                dd->dpitch -= dd->dpitch / 32;
-                dd->droll -= dd->droll / 32;
-
-                //
-                // Make it float downwards in a leaf-like fashion.
-                //
-
-                waftz = dd->pitch / 32;
-                waftx = dd->roll / 32;
-
-                SATURATE(waftz, -0x5, +0x5);
-                SATURATE(waftx, -0x5, +0x5);
-
-                dd->dz -= waftz;
-                dd->dx += waftx;
-
-                dd->dpitch -= 0xa * SIGN(dd->pitch);
-                dd->droll -= 0xa * SIGN(dd->roll);
-
-                dd->dy -= 4 << TICK_SHIFT;
-                dd->dy += MIN(abs(dd->pitch), 180) << (TICK_SHIFT - 5);
-                dd->dy += MIN(abs(dd->roll), 180) << (TICK_SHIFT - 5);
-
-                break;
-
-            case DIRT_TYPE_CAN:
-            case DIRT_TYPE_HEAD:
-            case DIRT_TYPE_BRASS:
-
-                dd->yaw += dd->dyaw;
-                dd->pitch += dd->dpitch;
-
-                dd->yaw &= 2047;
-                dd->pitch &= 2047;
-
-                oldx = dd->x;
-                oldz = dd->z;
-
-                dd->x += dd->dx >> 8;
-                dd->z += dd->dz >> 8;
-
-                mx = dd->x >> 8;
-                mz = dd->z >> 8;
-
-                newy = PAP_calc_map_height_at(dd->x, dd->z) + 6;
-
-                if (dd->type == DIRT_TYPE_BRASS) {
-                    newy -= 3;
-                } else if (dd->type == DIRT_TYPE_HEAD) {
-                    newy += 5;
-                }
-
-                dy = newy - dd->y;
-
-                if (PAP_on_map_hi(mx, mz)) {
-                    if ((dy > 8) && (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) {
-                        //
-                        // Make it bounce and start spinning.
-                        //
-
-                        if ((dd->x - (dd->dx >> 8) >> 8) != mx) {
-                            dd->dx = -dd->dx;
-                        }
-                        if ((dd->z - (dd->dz >> 8) >> 8) != mz) {
-                            dd->dz = -dd->dz;
-                        }
-
-                        dd->x += dd->dx >> 7;
-                        dd->z += dd->dz >> 7;
-
-                        dd->dyaw += 200;
-                        dd->dpitch = 0;
-
-                        // newy=dd->y; // um.
-                        break;
-                    }
-                }
-
-                if (dd->y > newy) {
-                    dd->dy -= 4 << TICK_SHIFT;
-                    dd->y += dd->dy >> TICK_SHIFT;
-                } // no else in case it drops thru floor this frame
-                if (dd->y < newy) {
-                    dd->y = newy;
-                    if (dd->type != DIRT_TYPE_BRASS)
-                        if (dd->dy < -8 << TICK_SHIFT) {
-#ifdef MIKE
-                            ASSERT(0);
-#endif
-                            MFX_play_xyz(i, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
-                        }
-
-                    dd->dy = 0;
-                }
-
-                dd->dx -= dd->dx / 16;
-                dd->dz -= dd->dz / 16;
-
-                dd->dx -= SIGN(dd->dx);
-                dd->dz -= SIGN(dd->dz);
-
-                dd->dyaw -= dd->dyaw / 32;
-                dd->dpitch -= dd->dpitch / 32;
-
-                dd->dyaw -= SIGN(dd->dyaw);
-                dd->dpitch -= SIGN(dd->dpitch);
-
-                if (dd->dx == 0 &&
-                    dd->dz == 0 &&
-                    dd->dyaw == 0 &&
-                    dd->dpitch == 0) {
+                if (dd->dx == 0 && dd->dz == 0) {
                     dd->flag |= DIRT_FLAG_STILL;
                 }
+            }
 
-                break;
+            //
+            // A leaf has lots of resistance to moving and rotating.
+            //
 
-            case DIRT_TYPE_PIGEON:
-#if !defined(PSX) && !defined(TARGET_DC)
-                DIRT_pigeon_process(dd);
-#endif
-                break;
+            dd->dx -= dd->dx / 4;
+            dd->dy -= dd->dy / 2;
+            dd->dz -= dd->dz / 4;
 
-            case DIRT_TYPE_SPARKS:
+            dd->dpitch -= dd->dpitch / 32;
+            dd->droll -= dd->droll / 32;
 
-                if (--dd->UU.ThingWithTime.timer < 1) {
-                    DIRT_spark_shower(dd);
-                    dd->type = DIRT_TYPE_UNUSED;
+            //
+            // Make it float downwards in a leaf-like fashion.
+            //
+
+            waftz = dd->pitch / 32;
+            waftx = dd->roll / 32;
+
+            SATURATE(waftz, -0x5, +0x5);
+            SATURATE(waftx, -0x5, +0x5);
+
+            dd->dz -= waftz;
+            dd->dx += waftx;
+
+            dd->dpitch -= 0xa * SIGN(dd->pitch);
+            dd->droll -= 0xa * SIGN(dd->roll);
+
+            dd->dy -= 4 << TICK_SHIFT;
+            dd->dy += std::min(abs(dd->pitch), 180) << (TICK_SHIFT - 5);
+            dd->dy += std::min(abs(dd->roll), 180) << (TICK_SHIFT - 5);
+
+            break;
+
+        case DIRT_TYPE_CAN:
+        case DIRT_TYPE_HEAD:
+        case DIRT_TYPE_BRASS:
+
+            dd->yaw += dd->dyaw;
+            dd->pitch += dd->dpitch;
+
+            dd->yaw &= 2047;
+            dd->pitch &= 2047;
+
+            oldx = dd->x;
+            oldz = dd->z;
+
+            dd->x += dd->dx >> 8;
+            dd->z += dd->dz >> 8;
+
+            mx = dd->x >> 8;
+            mz = dd->z >> 8;
+
+            newy = PAP_calc_map_height_at(dd->x, dd->z) + 6;
+
+            if (dd->type == DIRT_TYPE_BRASS) {
+                newy -= 3;
+            } else if (dd->type == DIRT_TYPE_HEAD) {
+                newy += 5;
+            }
+
+            dy = newy - dd->y;
+
+            if (PAP_on_map_hi(mx, mz)) {
+                if ((dy > 8) && (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN)) {
+                    //
+                    // Make it bounce and start spinning.
+                    //
+
+                    if ((dd->x - (dd->dx >> 8) >> 8) != mx) {
+                        dd->dx = -dd->dx;
+                    }
+                    if ((dd->z - (dd->dz >> 8) >> 8) != mz) {
+                        dd->dz = -dd->dz;
+                    }
+
+                    dd->x += dd->dx >> 7;
+                    dd->z += dd->dz >> 7;
+
+                    dd->dyaw += 200;
+                    dd->dpitch = 0;
+
+                    // newy=dd->y; // um.
                     break;
                 }
+            }
 
-                // FALL THRU!
-            case DIRT_TYPE_WATER:
-            case DIRT_TYPE_URINE:
-            case DIRT_TYPE_BLOOD:
-
-                //
-                // Gravity.
-                //
-
-                dy = dd->dy;
-                dy -= 15 * TICK_RATIO >> 2;
-
-                if ((dy >> TICK_SHIFT_LOWRES) < -511)
-                    dy = -511 << TICK_SHIFT_LOWRES;
-
-                dd->dy = dy;
-
-                oldx = dd->x;
-                oldy = dd->y;
-                oldz = dd->z;
-
-                dd->x += (TICK_RATIO * (dd->dx + ((Random() & 0x1f) - 0xf))) / (1 << (TICK_SHIFT + 4));
-                dd->y += (TICK_RATIO * ((dd->dy >> TICK_SHIFT_LOWRES) + ((Random() & 0x1f) - 0xf))) / (1 << (TICK_SHIFT + 4));
-                dd->z += (TICK_RATIO * (dd->dz + ((Random() & 0x1f) - 0xf))) / (1 << (TICK_SHIFT + 4));
-
-                mx = dd->x >> 8;
-                mz = dd->z >> 8;
-
-                collided = false;
-
-                if (PAP_on_map_hi(mx, mz)) {
-                    /*
-#if !defined(PSX) && !defined(TARGET_DC)
-                    if (GAME_FLAGS & GF_SEWERS)
-                    {
-                            collided = (dd->y < NS_calc_height_at(dd->x, dd->z) - 0x40);
-                    }
-                    else
+            if (dd->y > newy) {
+                dd->dy -= 4 << TICK_SHIFT;
+                dd->y += dd->dy >> TICK_SHIFT;
+            } // no else in case it drops thru floor this frame
+            if (dd->y < newy) {
+                dd->y = newy;
+                if (dd->type != DIRT_TYPE_BRASS)
+                    if (dd->dy < -8 << TICK_SHIFT) {
+#ifdef MIKE
+                        ASSERT(0);
 #endif
-                    */
-
-                    {
-                        collided = (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN);
+                        MFX_play_xyz(i, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
                     }
-                } else {
+
+                dd->dy = 0;
+            }
+
+            dd->dx -= dd->dx / 16;
+            dd->dz -= dd->dz / 16;
+
+            dd->dx -= SIGN(dd->dx);
+            dd->dz -= SIGN(dd->dz);
+
+            dd->dyaw -= dd->dyaw / 32;
+            dd->dpitch -= dd->dpitch / 32;
+
+            dd->dyaw -= SIGN(dd->dyaw);
+            dd->dpitch -= SIGN(dd->dpitch);
+
+            if (dd->dx == 0 &&
+                dd->dz == 0 &&
+                dd->dyaw == 0 &&
+                dd->dpitch == 0) {
+                dd->flag |= DIRT_FLAG_STILL;
+            }
+
+            break;
+
+        case DIRT_TYPE_PIGEON:
+#if !defined(PSX) && !defined(TARGET_DC)
+            DIRT_pigeon_process(dd);
+#endif
+            break;
+
+        case DIRT_TYPE_SPARKS:
+
+            if (--dd->UU.ThingWithTime.timer < 1) {
+                DIRT_spark_shower(dd);
+                dd->type = DIRT_TYPE_UNUSED;
+                break;
+            }
+
+            // FALL THRU!
+        case DIRT_TYPE_WATER:
+        case DIRT_TYPE_URINE:
+        case DIRT_TYPE_BLOOD:
+
+            //
+            // Gravity.
+            //
+
+            dy = dd->dy;
+            dy -= 15 * TICK_RATIO >> 2;
+
+            if ((dy >> TICK_SHIFT_LOWRES) < -511)
+                dy = -511 << TICK_SHIFT_LOWRES;
+
+            dd->dy = dy;
+
+            oldx = dd->x;
+            oldy = dd->y;
+            oldz = dd->z;
+
+            dd->x += (TICK_RATIO * (dd->dx + ((Random() & 0x1f) - 0xf))) / (1 << (TICK_SHIFT + 4));
+            dd->y += (TICK_RATIO * ((dd->dy >> TICK_SHIFT_LOWRES) + ((Random() & 0x1f) - 0xf))) / (1 << (TICK_SHIFT + 4));
+            dd->z += (TICK_RATIO * (dd->dz + ((Random() & 0x1f) - 0xf))) / (1 << (TICK_SHIFT + 4));
+
+            mx = dd->x >> 8;
+            mz = dd->z >> 8;
+
+            collided = false;
+
+            if (PAP_on_map_hi(mx, mz)) {
+                /*
+#if !defined(PSX) && !defined(TARGET_DC)
+                if (GAME_FLAGS & GF_SEWERS)
+                {
+                        collided = (dd->y < NS_calc_height_at(dd->x, dd->z) - 0x40);
+                }
+                else
+#endif
+                */
+
+                {
+                    collided = (PAP_2HI(mx, mz).Flags & PAP_FLAG_HIDDEN);
+                }
+            } else {
+                //
+                // Stop the water going off the map.
+                //
+
+                collided = true;
+            }
+
+            if (collided) {
+                //
+                // The water has hit a wall... not touched the ground.
+                //
+
+                if ((oldx >> 8) != (dd->x >> 8)) {
                     //
-                    // Stop the water going off the map.
+                    // Travel in the dx direction must be stopped
                     //
 
-                    collided = true;
+                    dd->x = oldx;
+                    dd->dx = -dd->dx >> 2;
+                    // dd->dy =  SIN((i*97)&2047)>>(10-TICK_SHIFT_LOWRES);
+                    dd->dz = COS((i * 97) & 2047) >> 10;
                 }
 
-                if (collided) {
+                if ((oldz >> 8) != (dd->z >> 8)) {
                     //
-                    // The water has hit a wall... not touched the ground.
+                    // Travel in the dz direction must be stopped
+                    //
+
+                    dd->z = oldz;
+                    dd->dz = -dd->dz >> 2;
+                    // dd->dy =  SIN((i*97)&2047)>>(10-TICK_SHIFT_LOWRES);
+                    dd->dx = COS((i * 97) & 2047) >> 10;
+                }
+            }
+
+#if !defined(PSX) && !defined(TARGET_DC)
+            if (GAME_FLAGS & GF_SEWERS) {
+                floor = NS_calc_splash_height_at(dd->x, dd->z);
+            } else
+#endif
+            {
+                floor = PAP_calc_map_height_at(dd->x, dd->z);
+            }
+
+            if (dd->y <= floor) {
+                static int tick = 0;
+
+                dd->y = floor + 1;
+
+                if (dd->flag & DIRT_FLAG_HIT_FLOOR) {
+                    //
+                    // Create a drip.
+                    //
+#ifndef PSX
+                    if (dd->type != DIRT_TYPE_BLOOD) {
+                        if (dd->type != DIRT_TYPE_SPARKS) {
+                            if (tick++ & 1) DRIP_create(dd->x, dd->y, dd->z, 0);
+                        } else
+                            DIRT_spark_shower(dd);
+                    }
+#endif
+                    //
+                    // Kill it. This is the second time it's hit
+                    // the floor.
+                    //
+
+                    dd->type = DIRT_TYPE_UNUSED;
+
+                } else {
+                    dd->dy = abs(dd->dy) >> 1;
+                    dd->dx = SIN((i * 97) & 2047) >> 10;
+                    dd->dz = COS((i * 97) & 2047) >> 10;
+
+                    dd->flag |= DIRT_FLAG_HIT_FLOOR;
+
+                    //
+                    // Create a drip.
+                    //
+#ifndef PSX
+                    if (dd->type != DIRT_TYPE_BLOOD) {
+                        if (dd->type != DIRT_TYPE_SPARKS) {
+                            if (tick++ & 1) DRIP_create(dd->x, dd->y, dd->z, 0);
+                        } else
+                            DIRT_spark_shower(dd);
+                    }
+
+#endif
+                }
+            }
+
+            break;
+
+        case DIRT_TYPE_HELDCAN:
+        case DIRT_TYPE_HELDHEAD:
+
+            //
+            // Take values from the position of owner's right hand.
+            //
+
+            {
+                std::int32_t px;
+                std::int32_t py;
+                std::int32_t pz;
+
+                Thing *p_person = TO_THING(dd->droll); // droll => owner
+
+                calc_sub_objects_position(
+                    p_person,
+                    p_person->Draw.Tweened->AnimTween,
+                    SUB_OBJECT_PREFERRED_HAND,
+                    &px,
+                    &py,
+                    &pz);
+
+                px += p_person->WorldPos.X >> 8;
+                py += p_person->WorldPos.Y >> 8;
+                pz += p_person->WorldPos.Z >> 8;
+
+                dd->x = px;
+                dd->y = py;
+                dd->z = pz;
+
+                dd->yaw = p_person->Draw.Tweened->Angle;
+                dd->pitch = 0;
+                dd->roll = 0;
+            }
+
+            break;
+
+        case DIRT_TYPE_THROWCAN:
+        case DIRT_TYPE_THROWHEAD:
+        case DIRT_TYPE_MINE:
+
+        {
+            dd->dy -= TICK_RATIO;
+
+            if (dd->dy < -0x20 << TICK_SHIFT) {
+                dd->dy = -0x20 << TICK_SHIFT;
+            }
+
+            oldx = dd->x;
+            oldy = dd->y;
+            oldz = dd->z;
+
+            dd->x += dd->dx * TICK_RATIO >> TICK_SHIFT;
+            dd->y += (dd->dy >> TICK_SHIFT) * TICK_RATIO >> TICK_SHIFT;
+            dd->z += dd->dz * TICK_RATIO >> TICK_SHIFT;
+
+            dd->yaw += dd->dyaw;
+            dd->pitch += dd->dpitch;
+
+            floor = PAP_calc_map_height_at(dd->x, dd->z) + 6;
+
+            if (dd->type != DIRT_TYPE_THROWCAN) {
+                //
+                // The head needs to be further off the ground.
+                //
+
+                floor += 5;
+            }
+
+            if (dd->y < floor) {
+                under = floor - dd->y;
+
+                if (abs(dd->dy) > 8 << TICK_SHIFT) {
+                    //
+                    // Make a can sound.
+                    //
+
+                    MFX_play_xyz(i, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
+
+                    //
+                    // Alert guards.
+                    //
+
+                    PCOM_oscillate_tympanum(
+                        PCOM_SOUND_UNUSUAL,
+                        TO_THING(dd->droll), // droll => who threw the coke can.
+                        oldx,
+                        oldy,
+                        oldz);
+                }
+
+                if ((under > 0x40) || (dd->dy > 0)) {
+                    //
+                    // Hit a building- but from which direction?
                     //
 
                     if ((oldx >> 8) != (dd->x >> 8)) {
@@ -1585,9 +1763,7 @@ void DIRT_process() {
                         //
 
                         dd->x = oldx;
-                        dd->dx = -dd->dx >> 2;
-                        // dd->dy =  SIN((i*97)&2047)>>(10-TICK_SHIFT_LOWRES);
-                        dd->dz = COS((i * 97) & 2047) >> 10;
+                        dd->dx = -dd->dx >> 1;
                     }
 
                     if ((oldz >> 8) != (dd->z >> 8)) {
@@ -1596,248 +1772,74 @@ void DIRT_process() {
                         //
 
                         dd->z = oldz;
-                        dd->dz = -dd->dz >> 2;
-                        // dd->dy =  SIN((i*97)&2047)>>(10-TICK_SHIFT_LOWRES);
-                        dd->dx = COS((i * 97) & 2047) >> 10;
+                        dd->dz = -dd->dz >> 1;
                     }
-                }
-
-#if !defined(PSX) && !defined(TARGET_DC)
-                if (GAME_FLAGS & GF_SEWERS) {
-                    floor = NS_calc_splash_height_at(dd->x, dd->z);
-                } else
-#endif
-                {
-                    floor = PAP_calc_map_height_at(dd->x, dd->z);
-                }
-
-                if (dd->y <= floor) {
-                    static int tick = 0;
-
-                    dd->y = floor + 1;
-
-                    if (dd->flag & DIRT_FLAG_HIT_FLOOR) {
-                        //
-                        // Create a drip.
-                        //
-#ifndef PSX
-                        if (dd->type != DIRT_TYPE_BLOOD) {
-                            if (dd->type != DIRT_TYPE_SPARKS) {
-                                if (tick++ & 1) DRIP_create(dd->x, dd->y, dd->z, 0);
-                            } else
-                                DIRT_spark_shower(dd);
-                        }
-#endif
-                        //
-                        // Kill it. This is the second time it's hit
-                        // the floor.
-                        //
-
-                        dd->type = DIRT_TYPE_UNUSED;
-
-                    } else {
-                        dd->dy = abs(dd->dy) >> 1;
-                        dd->dx = SIN((i * 97) & 2047) >> 10;
-                        dd->dz = COS((i * 97) & 2047) >> 10;
-
-                        dd->flag |= DIRT_FLAG_HIT_FLOOR;
-
-                        //
-                        // Create a drip.
-                        //
-#ifndef PSX
-                        if (dd->type != DIRT_TYPE_BLOOD) {
-                            if (dd->type != DIRT_TYPE_SPARKS) {
-                                if (tick++ & 1) DRIP_create(dd->x, dd->y, dd->z, 0);
-                            } else
-                                DIRT_spark_shower(dd);
-                        }
-
-#endif
-                    }
-                }
-
-                break;
-
-            case DIRT_TYPE_HELDCAN:
-            case DIRT_TYPE_HELDHEAD:
-
-                //
-                // Take values from the position of owner's right hand.
-                //
-
-                {
-                    std::int32_t px;
-                    std::int32_t py;
-                    std::int32_t pz;
-
-                    Thing *p_person = TO_THING(dd->droll); // droll => owner
-
-                    calc_sub_objects_position(
-                        p_person,
-                        p_person->Draw.Tweened->AnimTween,
-                        SUB_OBJECT_PREFERRED_HAND,
-                        &px,
-                        &py,
-                        &pz);
-
-                    px += p_person->WorldPos.X >> 8;
-                    py += p_person->WorldPos.Y >> 8;
-                    pz += p_person->WorldPos.Z >> 8;
-
-                    dd->x = px;
-                    dd->y = py;
-                    dd->z = pz;
-
-                    dd->yaw = p_person->Draw.Tweened->Angle;
-                    dd->pitch = 0;
-                    dd->roll = 0;
-                }
-
-                break;
-
-            case DIRT_TYPE_THROWCAN:
-            case DIRT_TYPE_THROWHEAD:
-            case DIRT_TYPE_MINE:
-
-            {
-                dd->dy -= TICK_RATIO;
-
-                if (dd->dy < -0x20 << TICK_SHIFT) {
-                    dd->dy = -0x20 << TICK_SHIFT;
-                }
-
-                oldx = dd->x;
-                oldy = dd->y;
-                oldz = dd->z;
-
-                dd->x += dd->dx * TICK_RATIO >> TICK_SHIFT;
-                dd->y += (dd->dy >> TICK_SHIFT) * TICK_RATIO >> TICK_SHIFT;
-                dd->z += dd->dz * TICK_RATIO >> TICK_SHIFT;
-
-                dd->yaw += dd->dyaw;
-                dd->pitch += dd->dpitch;
-
-                floor = PAP_calc_map_height_at(dd->x, dd->z) + 6;
-
-                if (dd->type != DIRT_TYPE_THROWCAN) {
+                } else {
                     //
-                    // The head needs to be further off the ground.
+                    // Hit the floor.
                     //
 
-                    floor += 5;
-                }
+                    dd->dy = abs(dd->dy) >> 1;
+                    dd->y = 2 * floor - dd->y;
 
-                if (dd->y < floor) {
-                    under = floor - dd->y;
-
-                    if (abs(dd->dy) > 8 << TICK_SHIFT) {
-                        //
-                        // Make a can sound.
-                        //
-
-                        MFX_play_xyz(i, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
-
-                        //
-                        // Alert guards.
-                        //
-
-                        PCOM_oscillate_tympanum(
-                            PCOM_SOUND_UNUSUAL,
-                            TO_THING(dd->droll), // droll => who threw the coke can.
-                            oldx,
-                            oldy,
-                            oldz);
-                    }
-
-                    if ((under > 0x40) || (dd->dy > 0)) {
-                        //
-                        // Hit a building- but from which direction?
-                        //
-
-                        if ((oldx >> 8) != (dd->x >> 8)) {
+                    if (abs(dd->dy) < 10 << TICK_SHIFT) {
+                        if (dd->type == DIRT_TYPE_THROWCAN) {
                             //
-                            // Travel in the dx direction must be stopped
+                            // Become a normal coke-can.
                             //
 
-                            dd->x = oldx;
-                            dd->dx = -dd->dx >> 1;
-                        }
+                            dd->dy = 0;
+                            dd->type = DIRT_TYPE_CAN;
 
-                        if ((oldz >> 8) != (dd->z >> 8)) {
-                            //
-                            // Travel in the dz direction must be stopped
-                            //
-
-                            dd->z = oldz;
-                            dd->dz = -dd->dz >> 1;
-                        }
-                    } else {
-                        //
-                        // Hit the floor.
-                        //
-
-                        dd->dy = abs(dd->dy) >> 1;
-                        dd->y = 2 * floor - dd->y;
-
-                        if (abs(dd->dy) < 10 << TICK_SHIFT) {
-                            if (dd->type == DIRT_TYPE_THROWCAN) {
-                                //
-                                // Become a normal coke-can.
-                                //
-
-                                dd->dy = 0;
-                                dd->type = DIRT_TYPE_CAN;
-
-                                dd->dx += (Random() & 0xf) - 0x7;
-                                dd->dz += (Random() & 0xf) - 0x7;
-
-                                dd->dx <<= 8;
-                                dd->dz <<= 8;
-
-                                dd->dyaw = (Random() & 0x7f) + 0x7f;
-                                dd->dpitch = (Random() & 0x3f) + 0x3f;
-                            } else if (dd->type == DIRT_TYPE_THROWHEAD) {
-                                //
-                                // Become a head resting on the ground.
-                                //
-
-                                dd->type = DIRT_TYPE_HEAD;
-
-                                dd->dx = 0;
-                                dd->dy = 0;
-                                dd->dz = 0;
-
-                                dd->dyaw = 0;
-                                dd->dpitch = 0;
-                            }
-                        } else {
                             dd->dx += (Random() & 0xf) - 0x7;
                             dd->dz += (Random() & 0xf) - 0x7;
 
-                            dd->dyaw += (Random() & 0x7f) - 0x3f;
-                            dd->dpitch += (Random() & 0x3f);
+                            dd->dx <<= 8;
+                            dd->dz <<= 8;
+
+                            dd->dyaw = (Random() & 0x7f) + 0x7f;
+                            dd->dpitch = (Random() & 0x3f) + 0x3f;
+                        } else if (dd->type == DIRT_TYPE_THROWHEAD) {
+                            //
+                            // Become a head resting on the ground.
+                            //
+
+                            dd->type = DIRT_TYPE_HEAD;
+
+                            dd->dx = 0;
+                            dd->dy = 0;
+                            dd->dz = 0;
+
+                            dd->dyaw = 0;
+                            dd->dpitch = 0;
                         }
+                    } else {
+                        dd->dx += (Random() & 0xf) - 0x7;
+                        dd->dz += (Random() & 0xf) - 0x7;
+
+                        dd->dyaw += (Random() & 0x7f) - 0x3f;
+                        dd->dpitch += (Random() & 0x3f);
                     }
                 }
-
-                /*
-
-                if ((GAME_TURN & 0x7) == 0)
-                {
-                        if (abs(dd->dx) < 8) {if (dd->dx) dd->dx--;} else {dd->dx -= dd->dx / 8;}
-                        if (abs(dd->dy) < 8) {if (dd->dy) dd->dy--;} else {dd->dy -= dd->dy / 8;}
-                        if (abs(dd->dz) < 8) {if (dd->dz) dd->dz--;} else {dd->dz -= dd->dz / 8;}
-                }
-
-                */
             }
 
-            break;
+            /*
 
-            default:
-                ASSERT(0);
-                break;
+            if ((GAME_TURN & 0x7) == 0)
+            {
+                    if (abs(dd->dx) < 8) {if (dd->dx) dd->dx--;} else {dd->dx -= dd->dx / 8;}
+                    if (abs(dd->dy) < 8) {if (dd->dy) dd->dy--;} else {dd->dy -= dd->dy / 8;}
+                    if (abs(dd->dz) < 8) {if (dd->dz) dd->dz--;} else {dd->dz -= dd->dz / 8;}
+            }
+
+            */
+        }
+
+        break;
+
+        default:
+            ASSERT(0);
+            break;
         }
     }
 }
@@ -1927,140 +1929,140 @@ void DIRT_gust(
             //
 
             switch (dd->type) {
-                case DIRT_TYPE_SNOW:
-                    //	  				break; // fall thru -- (un)comment this to toggle snow being affected by gusts
+            case DIRT_TYPE_SNOW:
+                //	  				break; // fall thru -- (un)comment this to toggle snow being affected by gusts
 
-                case DIRT_TYPE_LEAF:
+            case DIRT_TYPE_LEAF:
+
+                //
+                // Move the leaf away from the gust and
+                // in the direction of the gust.
+                //
+
+                pushx = dx * 32 / dist;
+                pushz = dz * 32 / dist;
+
+                pushx += dgx;
+                pushz += dgz;
+
+                push = 256 - dist * 256 / strength;
+
+                if (push) {
+                    //
+                    // Push the leaf.
+                    //
+
+                    pushx = pushx * push >> 12;
+                    pushz = pushz * push >> 12;
+
+                    pushy = abs(pushx) + abs(pushz);
+                    pushy <<= 1;
 
                     //
-                    // Move the leaf away from the gust and
-                    // in the direction of the gust.
+                    // Set the leaf spinning.
                     //
 
-                    pushx = dx * 32 / dist;
-                    pushz = dz * 32 / dist;
+                    dpitch = (Random() & 0x3f) - 0x1f;
+                    droll = (Random() & 0x3f) - 0x1f;
 
-                    pushx += dgx;
-                    pushz += dgz;
+                    //
+                    // Depending on the frame speed...
+                    //
 
-                    push = 256 - dist * 256 / strength;
+                    pushx = pushx * TICK_INV_RATIO >> TICK_SHIFT;
+                    pushy = pushy * TICK_INV_RATIO >> TICK_SHIFT;
+                    pushz = pushz * TICK_INV_RATIO >> TICK_SHIFT;
 
-                    if (push) {
+                    dpitch = dpitch * TICK_INV_RATIO >> TICK_SHIFT;
+                    droll = droll * TICK_INV_RATIO >> TICK_SHIFT;
+
+                    dd->dx += pushx;
+                    dd->dy += pushy << TICK_SHIFT;
+                    dd->dz += pushz;
+
+                    dd->dpitch += dpitch;
+                    dd->droll += droll;
+
+                    dd->flag &= ~DIRT_FLAG_STILL;
+                }
+
+                break;
+
+            case DIRT_TYPE_CAN:
+            case DIRT_TYPE_HEAD:
+            case DIRT_TYPE_BRASS:
+
+                if (dist < 32) {
+                    //
+                    // Kick the can...
+                    //
+
+                    dd->dx = (dx << 13) / dist;
+                    dd->dz = (dz << 13) / dist;
+                    dd->dyaw = Random() & 0xff;
+                    dd->dyaw += 0x7f;
+                    dd->dpitch = -400;
+                    dd->flag = 0;
+
+                    if (dd->type != DIRT_TYPE_BRASS) {
+                        MFX_play_xyz(i, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
+                        //							MFX_play_xyz(i,S_DARCI_ARREST,MFX_REPLACE,dd->x<<8,dd->y<<8,dd->z<<8);
+
                         //
-                        // Push the leaf.
+                        // Alert guards.
                         //
 
-                        pushx = pushx * push >> 12;
-                        pushz = pushz * push >> 12;
-
-                        pushy = abs(pushx) + abs(pushz);
-                        pushy <<= 1;
-
-                        //
-                        // Set the leaf spinning.
-                        //
-
-                        dpitch = (Random() & 0x3f) - 0x1f;
-                        droll = (Random() & 0x3f) - 0x1f;
-
-                        //
-                        // Depending on the frame speed...
-                        //
-
-                        pushx = pushx * TICK_INV_RATIO >> TICK_SHIFT;
-                        pushy = pushy * TICK_INV_RATIO >> TICK_SHIFT;
-                        pushz = pushz * TICK_INV_RATIO >> TICK_SHIFT;
-
-                        dpitch = dpitch * TICK_INV_RATIO >> TICK_SHIFT;
-                        droll = droll * TICK_INV_RATIO >> TICK_SHIFT;
-
-                        dd->dx += pushx;
-                        dd->dy += pushy << TICK_SHIFT;
-                        dd->dz += pushz;
-
-                        dd->dpitch += dpitch;
-                        dd->droll += droll;
-
-                        dd->flag &= ~DIRT_FLAG_STILL;
+                        PCOM_oscillate_tympanum(
+                            PCOM_SOUND_UNUSUAL,
+                            p_thing,
+                            x1,
+                            0, // The y-altitude is ignored anyway!
+                            z1);
                     }
+                }
 
-                    break;
+                break;
 
-                case DIRT_TYPE_CAN:
-                case DIRT_TYPE_HEAD:
-                case DIRT_TYPE_BRASS:
+            case DIRT_TYPE_PIGEON:
 
-                    if (dist < 32) {
-                        //
-                        // Kick the can...
-                        //
-
-                        dd->dx = (dx << 13) / dist;
-                        dd->dz = (dz << 13) / dist;
-                        dd->dyaw = Random() & 0xff;
-                        dd->dyaw += 0x7f;
-                        dd->dpitch = -400;
-                        dd->flag = 0;
-
-                        if (dd->type != DIRT_TYPE_BRASS) {
-                            MFX_play_xyz(i, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
-                            //							MFX_play_xyz(i,S_DARCI_ARREST,MFX_REPLACE,dd->x<<8,dd->y<<8,dd->z<<8);
-
-                            //
-                            // Alert guards.
-                            //
-
-                            PCOM_oscillate_tympanum(
-                                PCOM_SOUND_UNUSUAL,
-                                p_thing,
-                                x1,
-                                0, // The y-altitude is ignored anyway!
-                                z1);
-                        }
-                    }
-
-                    break;
-
-                case DIRT_TYPE_PIGEON:
-
-                    //
-                    // Scare the pigeon?
-                    //
+                //
+                // Scare the pigeon?
+                //
 #ifndef PSX
-                    DIRT_pigeon_init_flee(dd, x1, z1);
+                DIRT_pigeon_init_flee(dd, x1, z1);
 #endif
-                    break;
+                break;
 
-                case DIRT_TYPE_WATER:
-                    break;
+            case DIRT_TYPE_WATER:
+                break;
 
-                case DIRT_TYPE_HELDCAN:
-                    break;
+            case DIRT_TYPE_HELDCAN:
+                break;
 
-                case DIRT_TYPE_THROWCAN:
-                    break;
+            case DIRT_TYPE_THROWCAN:
+                break;
 
-                case DIRT_TYPE_HELDHEAD:
-                    break;
+            case DIRT_TYPE_HELDHEAD:
+                break;
 
-                case DIRT_TYPE_THROWHEAD:
-                    break;
+            case DIRT_TYPE_THROWHEAD:
+                break;
 
-                case DIRT_TYPE_MINE:
-                    break;
+            case DIRT_TYPE_MINE:
+                break;
 
-                case DIRT_TYPE_URINE:
-                    break;
+            case DIRT_TYPE_URINE:
+                break;
 
-                case DIRT_TYPE_SPARKS:
-                    break;
+            case DIRT_TYPE_SPARKS:
+                break;
 
-                case DIRT_TYPE_BLOOD:
-                    break;
+            case DIRT_TYPE_BLOOD:
+                break;
 
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
         }
     }
@@ -2210,137 +2212,137 @@ std::int32_t DIRT_get_info(std::int32_t which, DIRT_Info *ans) {
     dd->flag &= ~DIRT_FLAG_DELETE_OK;
 
     switch (dd->type) {
-        case DIRT_TYPE_UNUSED:
-            return (0);
-            ans->type = DIRT_INFO_TYPE_UNUSED;
-            break;
+    case DIRT_TYPE_UNUSED:
+        return (0);
+        ans->type = DIRT_INFO_TYPE_UNUSED;
+        break;
 
-        case DIRT_TYPE_WATER:
-            ans->type = DIRT_INFO_TYPE_WATER;
-            // FALL THRU
-        case DIRT_TYPE_SPARKS:
-            if (dd->type == DIRT_TYPE_SPARKS) {
-                ans->type = DIRT_INFO_TYPE_SPARKS;
-            }
-            // FALL THRU
-        case DIRT_TYPE_BLOOD:
-            if (dd->type == DIRT_TYPE_BLOOD) {
-                ans->type = DIRT_INFO_TYPE_BLOOD;
-            }
-            // FALL THRU
-        case DIRT_TYPE_URINE:
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
-            ans->dx = dd->dx >> 4;
-            ans->dy = dd->dy >> (TICK_SHIFT_LOWRES + 4);
-            ans->dz = dd->dz >> 4;
+    case DIRT_TYPE_WATER:
+        ans->type = DIRT_INFO_TYPE_WATER;
+        // FALL THRU
+    case DIRT_TYPE_SPARKS:
+        if (dd->type == DIRT_TYPE_SPARKS) {
+            ans->type = DIRT_INFO_TYPE_SPARKS;
+        }
+        // FALL THRU
+    case DIRT_TYPE_BLOOD:
+        if (dd->type == DIRT_TYPE_BLOOD) {
+            ans->type = DIRT_INFO_TYPE_BLOOD;
+        }
+        // FALL THRU
+    case DIRT_TYPE_URINE:
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+        ans->dx = dd->dx >> 4;
+        ans->dy = dd->dy >> (TICK_SHIFT_LOWRES + 4);
+        ans->dz = dd->dz >> 4;
 
-            if (dd->type == DIRT_TYPE_URINE) {
-                ans->type = DIRT_INFO_TYPE_URINE;
-            }
-
-            break;
-
-        case DIRT_TYPE_LEAF:
-        case DIRT_TYPE_SNOW:
-            ans->tween = dd->UU.Leaf.col;
-            if (dd->type == DIRT_TYPE_LEAF)
-                ans->type = DIRT_INFO_TYPE_LEAF;
-            else
-                ans->type = DIRT_INFO_TYPE_SNOW;
-            ans->yaw = dd->yaw;
-            ans->pitch = dd->pitch;
-            ans->roll = dd->roll;
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
-            ans->morph1 = dd->UU.Leaf.fade;
-            break;
-
-        case DIRT_TYPE_CAN:
-        case DIRT_TYPE_THROWCAN:
-            ans->type = DIRT_INFO_TYPE_PRIM;
-            ans->prim = PRIM_OBJ_CAN;
-            ans->held = false;
-            ans->yaw = dd->yaw;
-            ans->pitch = dd->pitch;
-            ans->roll = dd->roll;
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
-            break;
-
-        case DIRT_TYPE_HELDCAN: {
-            Thing *p_person = TO_THING(dd->droll); // droll => owner
-
-            if (p_person->Genus.Person->InCar)
-                return (0);
-
-            ans->type = DIRT_INFO_TYPE_PRIM;
-            ans->prim = PRIM_OBJ_CAN;
-            ans->held = true;
-            ans->yaw = dd->yaw;
-            ans->pitch = dd->pitch;
-            ans->roll = dd->roll;
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
-            break;
+        if (dd->type == DIRT_TYPE_URINE) {
+            ans->type = DIRT_INFO_TYPE_URINE;
         }
 
-        case DIRT_TYPE_PIGEON:
-#ifndef PSX
-            ans->type = DIRT_INFO_TYPE_MORPH;
-            ans->prim = PRIM_OBJ_ITEM_KEY;
-            ans->morph1 = dd->UU.Pidgeon.morph1;
-            ans->morph2 = dd->UU.Pidgeon.morph2;
-            ans->tween = dd->UU.Pidgeon.tween;
-            ans->yaw = dd->yaw;
-            ans->pitch = dd->pitch;
-            ans->roll = dd->roll;
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
+        break;
 
-            if (ans->tween == 255) {
-                //
-                // Tween is only a std::uint8_t where it should really be a std::uint16_t.
-                //
+    case DIRT_TYPE_LEAF:
+    case DIRT_TYPE_SNOW:
+        ans->tween = dd->UU.Leaf.col;
+        if (dd->type == DIRT_TYPE_LEAF)
+            ans->type = DIRT_INFO_TYPE_LEAF;
+        else
+            ans->type = DIRT_INFO_TYPE_SNOW;
+        ans->yaw = dd->yaw;
+        ans->pitch = dd->pitch;
+        ans->roll = dd->roll;
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+        ans->morph1 = dd->UU.Leaf.fade;
+        break;
 
-                ans->tween = 256;
-            }
-#endif
-            break;
+    case DIRT_TYPE_CAN:
+    case DIRT_TYPE_THROWCAN:
+        ans->type = DIRT_INFO_TYPE_PRIM;
+        ans->prim = PRIM_OBJ_CAN;
+        ans->held = false;
+        ans->yaw = dd->yaw;
+        ans->pitch = dd->pitch;
+        ans->roll = dd->roll;
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+        break;
 
-        case DIRT_TYPE_HEAD:
-        case DIRT_TYPE_THROWHEAD:
-        case DIRT_TYPE_HELDHEAD:
-        case DIRT_TYPE_BRASS:
-            ans->type = DIRT_INFO_TYPE_PRIM;
-            ans->prim = dd->UU.Head.prim;
-            ans->held = false;
-            ans->yaw = dd->yaw;
-            ans->pitch = dd->pitch;
-            ans->roll = dd->roll;
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
-            break;
+    case DIRT_TYPE_HELDCAN: {
+        Thing *p_person = TO_THING(dd->droll); // droll => owner
 
-        case DIRT_TYPE_MINE:
-            ans->type = DIRT_INFO_TYPE_UNUSED;
-            ans->yaw = dd->yaw;
-            ans->pitch = dd->pitch;
-            ans->roll = dd->roll;
-            ans->x = dd->x;
-            ans->y = dd->y;
-            ans->z = dd->z;
+        if (p_person->Genus.Person->InCar)
             return (0);
 
-        default:
-            ASSERT(0);
-            break;
+        ans->type = DIRT_INFO_TYPE_PRIM;
+        ans->prim = PRIM_OBJ_CAN;
+        ans->held = true;
+        ans->yaw = dd->yaw;
+        ans->pitch = dd->pitch;
+        ans->roll = dd->roll;
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+        break;
+    }
+
+    case DIRT_TYPE_PIGEON:
+#ifndef PSX
+        ans->type = DIRT_INFO_TYPE_MORPH;
+        ans->prim = PRIM_OBJ_ITEM_KEY;
+        ans->morph1 = dd->UU.Pidgeon.morph1;
+        ans->morph2 = dd->UU.Pidgeon.morph2;
+        ans->tween = dd->UU.Pidgeon.tween;
+        ans->yaw = dd->yaw;
+        ans->pitch = dd->pitch;
+        ans->roll = dd->roll;
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+
+        if (ans->tween == 255) {
+            //
+            // Tween is only a std::uint8_t where it should really be a std::uint16_t.
+            //
+
+            ans->tween = 256;
+        }
+#endif
+        break;
+
+    case DIRT_TYPE_HEAD:
+    case DIRT_TYPE_THROWHEAD:
+    case DIRT_TYPE_HELDHEAD:
+    case DIRT_TYPE_BRASS:
+        ans->type = DIRT_INFO_TYPE_PRIM;
+        ans->prim = dd->UU.Head.prim;
+        ans->held = false;
+        ans->yaw = dd->yaw;
+        ans->pitch = dd->pitch;
+        ans->roll = dd->roll;
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+        break;
+
+    case DIRT_TYPE_MINE:
+        ans->type = DIRT_INFO_TYPE_UNUSED;
+        ans->yaw = dd->yaw;
+        ans->pitch = dd->pitch;
+        ans->roll = dd->roll;
+        ans->x = dd->x;
+        ans->y = dd->y;
+        ans->z = dd->z;
+        return (0);
+
+    default:
+        ASSERT(0);
+        break;
     }
 
     return (1);
@@ -2564,38 +2566,38 @@ std::int32_t DIRT_shoot(Thing *p_person) {
         dd = &DIRT_dirt[best_dirt];
 
         switch (dd->type) {
-            case DIRT_TYPE_THROWCAN:
-            case DIRT_TYPE_THROWHEAD:
+        case DIRT_TYPE_THROWCAN:
+        case DIRT_TYPE_THROWHEAD:
 
-                dd->dx = (Random() & 0x1f) - 0xf;
-                dd->dz = (Random() & 0x1f) - 0xf;
+            dd->dx = (Random() & 0x1f) - 0xf;
+            dd->dz = (Random() & 0x1f) - 0xf;
 
-                dd->dy += (Random() & 0xf) << TICK_SHIFT;
-                dd->dy += 0xf << TICK_SHIFT;
+            dd->dy += (Random() & 0xf) << TICK_SHIFT;
+            dd->dy += 0xf << TICK_SHIFT;
 
-                dd->dyaw = Random() & 0x3f;
-                dd->dyaw += 0x7f;
+            dd->dyaw = Random() & 0x3f;
+            dd->dyaw += 0x7f;
 
-                if (Random() & 0x2) {
-                    dd->yaw = -dd->yaw;
-                }
+            if (Random() & 0x2) {
+                dd->yaw = -dd->yaw;
+            }
 #ifndef PSX
-                // apply a hitspang to the can
-                PYRO_hitspang(p_person, dd->x << 8, dd->y << 8, dd->z << 8);
+            // apply a hitspang to the can
+            PYRO_hitspang(p_person, dd->x << 8, dd->y << 8, dd->z << 8);
 #endif
-                MFX_play_xyz(best_dirt, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
-                /*				play_quick_wave_xyz(
-                                                        dd->x << 8,
-                                                        dd->y << 8,
-                                                        dd->z << 8,
-                                                        S_KICK_CAN,
-                                                        best_dirt,
-                                                        WAVE_PLAY_INTERUPT);*/
+            MFX_play_xyz(best_dirt, S_KICK_CAN, MFX_REPLACE, dd->x << 8, dd->y << 8, dd->z << 8);
+            /*				play_quick_wave_xyz(
+                                                    dd->x << 8,
+                                                    dd->y << 8,
+                                                    dd->z << 8,
+                                                    S_KICK_CAN,
+                                                    best_dirt,
+                                                    WAVE_PLAY_INTERUPT);*/
 
-                break;
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
 
         return true;

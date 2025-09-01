@@ -36,28 +36,28 @@ bool CALLBACK spotfx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
+    case WM_INITDIALOG:
 
-            INIT_LIST_BOX(IDC_LIST1, wspotfx_strings, spotfx_type);
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
-                        UDM_SETRANGE,
-                        0,
-                        MAKELONG(1024, 0));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(spotfx_scale, 0));
+        INIT_LIST_BOX(IDC_LIST1, wspotfx_strings, spotfx_type);
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1),
+                    UDM_SETRANGE,
+                    0,
+                    MAKELONG(1024, 0));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(spotfx_scale, 0));
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            spotfx_type = SendMessage(GetDlgItem(hWnd, IDC_LIST1), LB_GETCURSEL, 0, 0);
+            spotfx_scale = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+
+        case IDCANCEL:
+            EndDialog(hWnd, 0);
             return true;
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    spotfx_type = SendMessage(GetDlgItem(hWnd, IDC_LIST1), LB_GETCURSEL, 0, 0);
-                    spotfx_scale = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-
-                case IDCANCEL:
-                    EndDialog(hWnd, 0);
-                    return true;
-            }
-            break;
+        }
+        break;
     }
     return false;
 }

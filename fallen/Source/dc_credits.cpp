@@ -1053,58 +1053,58 @@ void DreamCastCredits(void) {
             bool bRightJustify = false;
             while (true) {
                 switch (*pcCredits) {
-                    case '\\':
-                        // Escape character.
-                        {
+                case '\\':
+                    // Escape character.
+                    {
+                        pcCredits++;
+                        switch (*pcCredits) {
+                        case 's':
+                            // New section - do a blank line.
+                            bSectionBreak = true;
                             pcCredits++;
-                            switch (*pcCredits) {
-                                case 's':
-                                    // New section - do a blank line.
-                                    bSectionBreak = true;
-                                    pcCredits++;
-                                    bFoundSomething = true;
-                                    break;
-                                case 'h':
-                                    // Heading.
-                                    bHeading = true;
-                                    break;
-                                case 'r':
-                                case 't':
-                                    // Right-justify
-                                    bRightJustify = true;
-                                    break;
-                                case 'l':
-                                    // Half-line gap.
-                                    fCreditsCountdown += fCreditsPeriod * 0.5f;
-                                    break;
-                                default:
-                                    break;
-                            }
+                            bFoundSomething = true;
+                            break;
+                        case 'h':
+                            // Heading.
+                            bHeading = true;
+                            break;
+                        case 'r':
+                        case 't':
+                            // Right-justify
+                            bRightJustify = true;
+                            break;
+                        case 'l':
+                            // Half-line gap.
+                            fCreditsCountdown += fCreditsPeriod * 0.5f;
+                            break;
+                        default:
+                            break;
                         }
-                        break;
-                    case ' ':
-                    case '\t':
-                    case '\n':
-                    case '\r':
-                        // Whitespace - ignore.
-                        break;
-                    case '\0':
-                        // Hit the end of the file!
+                    }
+                    break;
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+                    // Whitespace - ignore.
+                    break;
+                case '\0':
+                    // Hit the end of the file!
 #if 0
 					// Start again from the beginning.
 					pcCredits = pcCreditsText;
 #else
-                        // Er... no. Eidos want us to exit. Whatever...
-                        pcCredits = pcCreditsText;
-                        // Start the fadeout.
-                        fCreditsFade = 1.0001f;
+                    // Er... no. Eidos want us to exit. Whatever...
+                    pcCredits = pcCreditsText;
+                    // Start the fadeout.
+                    fCreditsFade = 1.0001f;
 #endif
-                        bFoundSomething = true;
-                        break;
-                    default:
-                        // Found something to print.
-                        bFoundSomething = true;
-                        break;
+                    bFoundSomething = true;
+                    break;
+                default:
+                    // Found something to print.
+                    bFoundSomething = true;
+                    break;
                 }
 
                 if (bFoundSomething) {
@@ -1120,36 +1120,36 @@ void DreamCastCredits(void) {
             bool bFoundTheEndOfTheLine = false;
             while (!bFoundTheEndOfTheLine) {
                 switch (*pcCredits) {
-                    case '\\': {
-                        // Escape sequence
-                        pcCredits++;
-                        switch (*pcCredits) {
-                            case 't':
-                                // Tab.
-                                iTabCount++;
-                                break;
-                            case 's':
-                                // Some sort of break.
-                                bFoundTheEndOfTheLine = true;
-                                break;
-                            default:
-                                // Something else - ignore.
-                                break;
-                        }
-                    } break;
-
-                    case '\r':
-                        // Ignore.
+                case '\\': {
+                    // Escape sequence
+                    pcCredits++;
+                    switch (*pcCredits) {
+                    case 't':
+                        // Tab.
+                        iTabCount++;
                         break;
-
-                    case '\n':
-                        // End of line.
+                    case 's':
+                        // Some sort of break.
                         bFoundTheEndOfTheLine = true;
                         break;
-
                     default:
-                        iTotalWidth += GetLetterWidth(*pcCredits);
+                        // Something else - ignore.
                         break;
+                    }
+                } break;
+
+                case '\r':
+                    // Ignore.
+                    break;
+
+                case '\n':
+                    // End of line.
+                    bFoundTheEndOfTheLine = true;
+                    break;
+
+                default:
+                    iTotalWidth += GetLetterWidth(*pcCredits);
+                    break;
                 }
 
                 pcCredits++;
@@ -1184,55 +1184,55 @@ void DreamCastCredits(void) {
 
             while (pcStart != pcCredits) {
                 switch (*pcStart) {
-                    case '\\':
-                        // Escape sequence;
-                        {
-                            pcStart++;
-                            switch (*pcStart) {
-                                case 't':
-                                    // Tab.
-                                    iXPos += iTabSize;
-                                    break;
-                                default:
-                                    // Ignore.
-                                    break;
-                            }
+                case '\\':
+                    // Escape sequence;
+                    {
+                        pcStart++;
+                        switch (*pcStart) {
+                        case 't':
+                            // Tab.
+                            iXPos += iTabSize;
+                            break;
+                        default:
+                            // Ignore.
+                            break;
                         }
-                        break;
-                    case '\r':
-                    case '\n':
-                        // Ignore.
-                        break;
+                    }
+                    break;
+                case '\r':
+                case '\n':
+                    // Ignore.
+                    break;
 
-                    case ' ':
-                        // Space - not a particle.
-                        iXPos += GetLetterWidth(*pcStart);
-                        break;
+                case ' ':
+                    // Space - not a particle.
+                    iXPos += GetLetterWidth(*pcStart);
+                    break;
 
-                    default:
-                        // Normal letter - print it.
+                default:
+                    // Normal letter - print it.
 
-                        // Find a free letter.
-                        while (true) {
-                            if (!tpCur->IsAlive()) {
-                                // Got one.
-                                break;
-                            }
-                            tpCur++;
-                            iCurTPNum++;
-                            if (iCurTPNum == MAX_PARTICLES) {
-                                // Need more particles!
-                                ASSERT(false);
-                                tpCur = nullptr;
-                                break;
-                            }
+                    // Find a free letter.
+                    while (true) {
+                        if (!tpCur->IsAlive()) {
+                            // Got one.
+                            break;
                         }
+                        tpCur++;
+                        iCurTPNum++;
+                        if (iCurTPNum == MAX_PARTICLES) {
+                            // Need more particles!
+                            ASSERT(false);
+                            tpCur = nullptr;
+                            break;
+                        }
+                    }
 
-                        if (tpCur != nullptr) {
-                            // Create this particle then.
+                    if (tpCur != nullptr) {
+                        // Create this particle then.
 
 #if 1
-                            // Old style.
+                        // Old style.
 
 #if 0
 						CharData *pci = &(FontInfo[*pcStart]);
@@ -1247,73 +1247,73 @@ void DreamCastCredits(void) {
 												pci->oy
 												);
 #else
-                            int iLetter = FONT2D_GetIndex(*pcStart);
-                            FONT2D_Letter *fl = &FONT2D_letter[iLetter];
+                        int iLetter = FONT2D_GetIndex(*pcStart);
+                        FONT2D_Letter *fl = &FONT2D_letter[iLetter];
 
-                            // Check out the magic number 18. Not my fault - copied from font2d.cpp
-                            tpCur->CreateStandard(iXPos + ((fl->width * GLOBAL_TEXT_SCALE) * 0.5f),
-                                                  fl->width * GLOBAL_TEXT_SCALE,
-                                                  18 * GLOBAL_TEXT_SCALE,
-                                                  fl->u,
-                                                  fl->v,
-                                                  fl->u + float(fl->width) * (1.0F / 256.0F),
-                                                  fl->v + 18.0F * (1.0F / 256.0F));
+                        // Check out the magic number 18. Not my fault - copied from font2d.cpp
+                        tpCur->CreateStandard(iXPos + ((fl->width * GLOBAL_TEXT_SCALE) * 0.5f),
+                                              fl->width * GLOBAL_TEXT_SCALE,
+                                              18 * GLOBAL_TEXT_SCALE,
+                                              fl->u,
+                                              fl->v,
+                                              fl->u + float(fl->width) * (1.0F / 256.0F),
+                                              fl->v + 18.0F * (1.0F / 256.0F));
 
 #endif
 
 #else
-                            // Dodgy new style.
-                            int iLetter = FONT2D_GetIndex(*pcStart);
-                            FONT2D_Letter *fl = &FONT2D_letter[iLetter];
+                        // Dodgy new style.
+                        int iLetter = FONT2D_GetIndex(*pcStart);
+                        FONT2D_Letter *fl = &FONT2D_letter[iLetter];
 
-                            for (int iWC = 0; iWC < NUM_WCS; iWC++) {
-                                float fValue = wcDelta[iWC].EvalAt((float) (iXPos - 320));
-                                switch (wcwWibbled[iWC]) {
-                                    case WCW_OFFSET: wcBase[iWC].fOffset = fValue; break;
-                                    case WCW_COS1AMP: wcBase[iWC].fCos1Amp = fValue; break;
-                                    case WCW_COS1OFF: wcBase[iWC].fCos1Off = fValue; break;
-                                    case WCW_COS1POS: wcBase[iWC].fCos1Pos = fValue; break;
-                                    case WCW_COS1INC: wcBase[iWC].fCos1Inc = fValue; break;
-                                    case WCW_COS2AMP: wcBase[iWC].fCos2Amp = fValue; break;
-                                    case WCW_COS2OFF: wcBase[iWC].fCos2Off = fValue; break;
-                                    case WCW_COS2POS: wcBase[iWC].fCos2Pos = fValue; break;
-                                    case WCW_COS2INC: wcBase[iWC].fCos2Inc = fValue; break;
-                                    case WCW_RAMPTIME: wcBase[iWC].fRampTime = fValue; break;
-                                    case WCW_RAMPTIMEINC: wcBase[iWC].fRampTimeInc = fValue; break;
-                                    case WCW_RAMPUPSTART: wcBase[iWC].fRampUpStart = fValue; break;
-                                    case WCW_RAMPUPEND: wcBase[iWC].fRampUpEnd = fValue; break;
-                                    case WCW_RAMPMIDVALUE: wcBase[iWC].fRampMidValue = fValue; break;
-                                    case WCW_RAMPDOWNSTART: wcBase[iWC].fRampDownStart = fValue; break;
-                                    case WCW_RAMPDOWNEND: wcBase[iWC].fRampDownEnd = fValue; break;
-                                    case WCW_RAMPBASEVALUE: wcBase[iWC].fRampBaseValue = fValue; break;
-                                    default:
-                                        ASSERT(false);
-                                        break;
-                                }
-
-                                wcBase[iWC].ChangedSomething();
+                        for (int iWC = 0; iWC < NUM_WCS; iWC++) {
+                            float fValue = wcDelta[iWC].EvalAt((float) (iXPos - 320));
+                            switch (wcwWibbled[iWC]) {
+                            case WCW_OFFSET: wcBase[iWC].fOffset = fValue; break;
+                            case WCW_COS1AMP: wcBase[iWC].fCos1Amp = fValue; break;
+                            case WCW_COS1OFF: wcBase[iWC].fCos1Off = fValue; break;
+                            case WCW_COS1POS: wcBase[iWC].fCos1Pos = fValue; break;
+                            case WCW_COS1INC: wcBase[iWC].fCos1Inc = fValue; break;
+                            case WCW_COS2AMP: wcBase[iWC].fCos2Amp = fValue; break;
+                            case WCW_COS2OFF: wcBase[iWC].fCos2Off = fValue; break;
+                            case WCW_COS2POS: wcBase[iWC].fCos2Pos = fValue; break;
+                            case WCW_COS2INC: wcBase[iWC].fCos2Inc = fValue; break;
+                            case WCW_RAMPTIME: wcBase[iWC].fRampTime = fValue; break;
+                            case WCW_RAMPTIMEINC: wcBase[iWC].fRampTimeInc = fValue; break;
+                            case WCW_RAMPUPSTART: wcBase[iWC].fRampUpStart = fValue; break;
+                            case WCW_RAMPUPEND: wcBase[iWC].fRampUpEnd = fValue; break;
+                            case WCW_RAMPMIDVALUE: wcBase[iWC].fRampMidValue = fValue; break;
+                            case WCW_RAMPDOWNSTART: wcBase[iWC].fRampDownStart = fValue; break;
+                            case WCW_RAMPDOWNEND: wcBase[iWC].fRampDownEnd = fValue; break;
+                            case WCW_RAMPBASEVALUE: wcBase[iWC].fRampBaseValue = fValue; break;
+                            default:
+                                ASSERT(false);
+                                break;
                             }
 
-                            tpCur->CreateWibbling(
-                                fl->u,
-                                fl->v,
-                                fl->u + float(fl->width) * (1.0F / 256.0F),
-                                fl->v + 18.0F * (1.0F / 256.0F),
-                                wcBase[WC_X],
-                                wcBase[WC_Y],
-                                wcBase[WC_Z],
-                                wcBase[WC_XSIZE],
-                                wcBase[WC_YSIZE],
-                                wcBase[WC_ROTATION],
-                                wcBase[WC_SHADE],
-                                wcBase[WC_BRIGHTNESS]);
-
-#endif
+                            wcBase[iWC].ChangedSomething();
                         }
 
-                        iXPos += GetLetterWidth(*pcStart);
+                        tpCur->CreateWibbling(
+                            fl->u,
+                            fl->v,
+                            fl->u + float(fl->width) * (1.0F / 256.0F),
+                            fl->v + 18.0F * (1.0F / 256.0F),
+                            wcBase[WC_X],
+                            wcBase[WC_Y],
+                            wcBase[WC_Z],
+                            wcBase[WC_XSIZE],
+                            wcBase[WC_YSIZE],
+                            wcBase[WC_ROTATION],
+                            wcBase[WC_SHADE],
+                            wcBase[WC_BRIGHTNESS]);
 
-                        break;
+#endif
+                    }
+
+                    iXPos += GetLetterWidth(*pcStart);
+
+                    break;
                 }
 
                 pcStart++;

@@ -127,25 +127,25 @@ void RenderState::SetRenderState(DWORD ix, DWORD value) {
     }
 
     switch (ix) {
-        // things we can set
-        case D3DRENDERSTATE_TEXTUREADDRESS: TextureAddress = value; break;
-        case D3DRENDERSTATE_TEXTUREMAG: TextureMag = value; break;
-        case D3DRENDERSTATE_TEXTUREMIN: TextureMin = value; break;
-        case D3DRENDERSTATE_TEXTUREMAPBLEND: TextureMapBlend = value; break;
-        case D3DRENDERSTATE_ZENABLE: ZEnable = value; break;
-        case D3DRENDERSTATE_ZWRITEENABLE: ZWriteEnable = value; break;
-        case D3DRENDERSTATE_ZFUNC: ZFunc = value; break;
-        case D3DRENDERSTATE_COLORKEYENABLE: ColorKeyEnable = value; break;
+    // things we can set
+    case D3DRENDERSTATE_TEXTUREADDRESS: TextureAddress = value; break;
+    case D3DRENDERSTATE_TEXTUREMAG: TextureMag = value; break;
+    case D3DRENDERSTATE_TEXTUREMIN: TextureMin = value; break;
+    case D3DRENDERSTATE_TEXTUREMAPBLEND: TextureMapBlend = value; break;
+    case D3DRENDERSTATE_ZENABLE: ZEnable = value; break;
+    case D3DRENDERSTATE_ZWRITEENABLE: ZWriteEnable = value; break;
+    case D3DRENDERSTATE_ZFUNC: ZFunc = value; break;
+    case D3DRENDERSTATE_COLORKEYENABLE: ColorKeyEnable = value; break;
 
-        case D3DRENDERSTATE_FOGENABLE: FogEnable = value; break;
-        case D3DRENDERSTATE_ALPHATESTENABLE: AlphaTestEnable = value; break;
-        case D3DRENDERSTATE_SRCBLEND: SrcBlend = value; break;
-        case D3DRENDERSTATE_DESTBLEND: DestBlend = value; break;
-        case D3DRENDERSTATE_ALPHABLENDENABLE: AlphaBlendEnable = value; break;
-        case D3DRENDERSTATE_ZBIAS: ZBias = value; break;
-        case D3DRENDERSTATE_CULLMODE: CullMode = value; break;
+    case D3DRENDERSTATE_FOGENABLE: FogEnable = value; break;
+    case D3DRENDERSTATE_ALPHATESTENABLE: AlphaTestEnable = value; break;
+    case D3DRENDERSTATE_SRCBLEND: SrcBlend = value; break;
+    case D3DRENDERSTATE_DESTBLEND: DestBlend = value; break;
+    case D3DRENDERSTATE_ALPHABLENDENABLE: AlphaBlendEnable = value; break;
+    case D3DRENDERSTATE_ZBIAS: ZBias = value; break;
+    case D3DRENDERSTATE_CULLMODE: CullMode = value; break;
 
-        default: ASSERT(0);
+    default: ASSERT(0);
     }
 }
 
@@ -157,22 +157,22 @@ void RenderState::SetEffect(DWORD effect) {
     Effect = effect;
 
     switch (effect) {
-        case RS_AlphaPremult:
-        case RS_InvAlphaPremult:
-            SrcBlend = D3DBLEND_ONE;
-            DestBlend = D3DBLEND_ONE;
-            TextureMapBlend = D3DTBLEND_MODULATE;
-            break;
+    case RS_AlphaPremult:
+    case RS_InvAlphaPremult:
+        SrcBlend = D3DBLEND_ONE;
+        DestBlend = D3DBLEND_ONE;
+        TextureMapBlend = D3DTBLEND_MODULATE;
+        break;
 
-        case RS_BlackWithAlpha:
-            SrcBlend = D3DBLEND_SRCALPHA;
-            DestBlend = D3DBLEND_INVSRCALPHA;
-            TextureMapBlend = D3DTBLEND_MODULATEALPHA;
-            break;
+    case RS_BlackWithAlpha:
+        SrcBlend = D3DBLEND_SRCALPHA;
+        DestBlend = D3DBLEND_INVSRCALPHA;
+        TextureMapBlend = D3DTBLEND_MODULATEALPHA;
+        break;
 
-        case RS_DecalMode:
-            TextureMapBlend = D3DTBLEND_MODULATE;
-            break;
+    case RS_DecalMode:
+        TextureMapBlend = D3DTBLEND_MODULATE;
+        break;
     }
 }
 

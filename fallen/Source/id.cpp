@@ -386,13 +386,14 @@ typedef struct
 
 ID_Texture ID_texture[ID_MAX_TEXTURES] =
     {
-        {0.0, 0.0, ID_TEXTURE_SIZE, 0.0, 0.0, ID_TEXTURE_SIZE, ID_TEXTURE_SIZE, ID_TEXTURE_SIZE}, // Square.
+        {0.0,                                           0.0,                     ID_TEXTURE_SIZE,                                 0.0,                     0.0,                                           ID_TEXTURE_SIZE,         ID_TEXTURE_SIZE,                                 ID_TEXTURE_SIZE        }, // Square.
 
-        {0.0, 0.0, ID_TEXTURE_SIZE, 0.0, ID_TEXTURE_FRAME_START, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_END, ID_TEXTURE_FRAME_HEIGHT},
-        {0.0, 0.0, ID_TEXTURE_FRAME_START, ID_TEXTURE_FRAME_HEIGHT, 0.0, ID_TEXTURE_SIZE, ID_TEXTURE_FRAME_START, ID_TEXTURE_SIZE},
-        {ID_TEXTURE_FRAME_END, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_SIZE, 0.0, ID_TEXTURE_FRAME_END, ID_TEXTURE_SIZE, ID_TEXTURE_SIZE, ID_TEXTURE_SIZE},
-        {ID_TEXTURE_FRAME_START, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_START + ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_START, ID_TEXTURE_SIZE, ID_TEXTURE_FRAME_START + ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_SIZE},
-        {ID_TEXTURE_FRAME_END - ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_END, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_END - ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_SIZE, ID_TEXTURE_FRAME_END, ID_TEXTURE_SIZE}};
+        {0.0,                                           0.0,                     ID_TEXTURE_SIZE,                                 0.0,                     ID_TEXTURE_FRAME_START,                        ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_END,                            ID_TEXTURE_FRAME_HEIGHT},
+        {0.0,                                           0.0,                     ID_TEXTURE_FRAME_START,                          ID_TEXTURE_FRAME_HEIGHT, 0.0,                                           ID_TEXTURE_SIZE,         ID_TEXTURE_FRAME_START,                          ID_TEXTURE_SIZE        },
+        {ID_TEXTURE_FRAME_END,                          ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_SIZE,                                 0.0,                     ID_TEXTURE_FRAME_END,                          ID_TEXTURE_SIZE,         ID_TEXTURE_SIZE,                                 ID_TEXTURE_SIZE        },
+        {ID_TEXTURE_FRAME_START,                        ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_START + ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_START,                        ID_TEXTURE_SIZE,         ID_TEXTURE_FRAME_START + ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_SIZE        },
+        {ID_TEXTURE_FRAME_END - ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_END,                            ID_TEXTURE_FRAME_HEIGHT, ID_TEXTURE_FRAME_END - ID_TEXTURE_FRAME_DEPTH, ID_TEXTURE_SIZE,         ID_TEXTURE_FRAME_END,                            ID_TEXTURE_SIZE        }
+};
 
 //
 // The texture std::uint16_t is a packed (baseu, basev, poly_number)
@@ -410,38 +411,38 @@ std::uint16_t ID_get_texture(std::int32_t room_type, std::int32_t texture_type, 
     std::int32_t base_v;
 
     switch (room_type) {
-        case ID_ROOM_TYPE_LOO:
-            base_u = 0;
-            base_v = 0;
-            break;
-        case ID_ROOM_TYPE_KITCHEN:
-            base_u = 4;
-            base_v = 0;
-            break;
-        case ID_ROOM_TYPE_LOUNGE:
-            base_u = 0;
-            base_v = 1;
-            break;
-        case ID_ROOM_TYPE_LOBBY:
-            base_u = 4;
-            base_v = 1;
-            break;
-        case ID_ROOM_TYPE_DINING:
-            base_u = 0;
-            base_v = 2;
-            break;
-        case ID_ROOM_TYPE_WAREHOUSE:
-        case ID_ROOM_TYPE_OFFICE:
-        case ID_ROOM_TYPE_MEETING:
-        case ID_ROOM_TYPE_CORRIDOR:
-        case ID_ROOM_TYPE_BEDROOM:
-            base_u = 4;
-            base_v = 2;
-            break;
+    case ID_ROOM_TYPE_LOO:
+        base_u = 0;
+        base_v = 0;
+        break;
+    case ID_ROOM_TYPE_KITCHEN:
+        base_u = 4;
+        base_v = 0;
+        break;
+    case ID_ROOM_TYPE_LOUNGE:
+        base_u = 0;
+        base_v = 1;
+        break;
+    case ID_ROOM_TYPE_LOBBY:
+        base_u = 4;
+        base_v = 1;
+        break;
+    case ID_ROOM_TYPE_DINING:
+        base_u = 0;
+        base_v = 2;
+        break;
+    case ID_ROOM_TYPE_WAREHOUSE:
+    case ID_ROOM_TYPE_OFFICE:
+    case ID_ROOM_TYPE_MEETING:
+    case ID_ROOM_TYPE_CORRIDOR:
+    case ID_ROOM_TYPE_BEDROOM:
+        base_u = 4;
+        base_v = 2;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     if (texture_type == ID_TEXTURE_TYPE_DOOR) {
@@ -866,95 +867,95 @@ void ID_wall_colvects_insert() {
         iw = &ID_wall[i];
 
         switch (iw->type) {
-            case ID_WALL_T_OUTSIDE:
+        case ID_WALL_T_OUTSIDE:
+
+            insert_collision_vect(
+                iw->x2 << 8, INDOORS_HEIGHT_FLOOR, iw->z2 << 8,
+                iw->x1 << 8, INDOORS_HEIGHT_FLOOR, iw->z1 << 8,
+                STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS,
+                wall_height_outside, 0);
+
+            break;
+
+        case ID_WALL_T_INSIDE:
+
+            point[0].x = iw->x1 << 8;
+            point[0].z = iw->z1 << 8;
+
+            point[1].x = iw->x2 << 8;
+            point[1].z = iw->z2 << 8;
+
+            point_upto = 2;
+
+            dx = SIGN(iw->x2 - iw->x1);
+            dz = SIGN(iw->z2 - iw->z1);
+
+            for (j = 0; j < 3; j++) {
+                if (iw->door[j] != 255) {
+                    doorway_x = iw->x1 + dx * iw->door[j] << 8;
+                    doorway_z = iw->z1 + dz * iw->door[j] << 8;
+
+                    point[point_upto + 0].x = doorway_x + dx * ID_FRAME_START;
+                    point[point_upto + 0].z = doorway_z + dz * ID_FRAME_START;
+
+                    point[point_upto + 1].x = doorway_x + dx * ID_FRAME_END;
+                    point[point_upto + 1].z = doorway_z + dz * ID_FRAME_END;
+
+                    point_upto += 2;
+                }
+            }
+
+            //
+            // Find the distance of each point from point 1.
+            //
+
+            for (j = 0; j < point_upto; j++) {
+                dx = point[j].x - (iw->x1 << 8);
+                dz = point[j].z - (iw->z1 << 8);
+
+                dist = abs(dx) + abs(dz);
+
+                point[j].dist = dist;
+            }
+
+            //
+            // Sort the points in order of distance from the first point.
+            //
+
+            do {
+                changed = false;
+
+                for (j = 0; j < point_upto - 1; j++) {
+                    if (point[j + 0].dist > point[j + 1].dist) {
+                        SWAP(point[j + 0].x, point[j + 1].x);
+                        SWAP(point[j + 0].z, point[j + 1].z);
+                        SWAP(point[j + 0].dist, point[j + 1].dist);
+
+                        changed = true;
+                    }
+                }
+
+            } while (changed);
+
+            for (j = 0; j < point_upto - 1; j += 2) {
+                insert_collision_vect(
+                    point[j + 0].x, INDOORS_HEIGHT_FLOOR, point[j + 0].z,
+                    point[j + 1].x, INDOORS_HEIGHT_FLOOR, point[j + 1].z,
+                    STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS,
+                    wall_height_inside, 0);
 
                 insert_collision_vect(
-                    iw->x2 << 8, INDOORS_HEIGHT_FLOOR, iw->z2 << 8,
-                    iw->x1 << 8, INDOORS_HEIGHT_FLOOR, iw->z1 << 8,
+                    point[j + 1].x, INDOORS_HEIGHT_FLOOR, point[j + 1].z,
+                    point[j + 0].x, INDOORS_HEIGHT_FLOOR, point[j + 0].z,
                     STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS,
-                    wall_height_outside, 0);
+                    wall_height_inside, 0);
+            }
 
-                break;
+            break;
 
-            case ID_WALL_T_INSIDE:
-
-                point[0].x = iw->x1 << 8;
-                point[0].z = iw->z1 << 8;
-
-                point[1].x = iw->x2 << 8;
-                point[1].z = iw->z2 << 8;
-
-                point_upto = 2;
-
-                dx = SIGN(iw->x2 - iw->x1);
-                dz = SIGN(iw->z2 - iw->z1);
-
-                for (j = 0; j < 3; j++) {
-                    if (iw->door[j] != 255) {
-                        doorway_x = iw->x1 + dx * iw->door[j] << 8;
-                        doorway_z = iw->z1 + dz * iw->door[j] << 8;
-
-                        point[point_upto + 0].x = doorway_x + dx * ID_FRAME_START;
-                        point[point_upto + 0].z = doorway_z + dz * ID_FRAME_START;
-
-                        point[point_upto + 1].x = doorway_x + dx * ID_FRAME_END;
-                        point[point_upto + 1].z = doorway_z + dz * ID_FRAME_END;
-
-                        point_upto += 2;
-                    }
-                }
-
-                //
-                // Find the distance of each point from point 1.
-                //
-
-                for (j = 0; j < point_upto; j++) {
-                    dx = point[j].x - (iw->x1 << 8);
-                    dz = point[j].z - (iw->z1 << 8);
-
-                    dist = abs(dx) + abs(dz);
-
-                    point[j].dist = dist;
-                }
-
-                //
-                // Sort the points in order of distance from the first point.
-                //
-
-                do {
-                    changed = false;
-
-                    for (j = 0; j < point_upto - 1; j++) {
-                        if (point[j + 0].dist > point[j + 1].dist) {
-                            SWAP(point[j + 0].x, point[j + 1].x);
-                            SWAP(point[j + 0].z, point[j + 1].z);
-                            SWAP(point[j + 0].dist, point[j + 1].dist);
-
-                            changed = true;
-                        }
-                    }
-
-                } while (changed);
-
-                for (j = 0; j < point_upto - 1; j += 2) {
-                    insert_collision_vect(
-                        point[j + 0].x, INDOORS_HEIGHT_FLOOR, point[j + 0].z,
-                        point[j + 1].x, INDOORS_HEIGHT_FLOOR, point[j + 1].z,
-                        STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS,
-                        wall_height_inside, 0);
-
-                    insert_collision_vect(
-                        point[j + 1].x, INDOORS_HEIGHT_FLOOR, point[j + 1].z,
-                        point[j + 0].x, INDOORS_HEIGHT_FLOOR, point[j + 0].z,
-                        STOREY_TYPE_NOT_REALLY_A_STOREY_TYPE_BUT_A_VALUE_TO_PUT_IN_THE_PRIM_TYPE_FIELD_OF_COLVECTS_GENERATED_BY_INSIDE_BUILDINGS,
-                        wall_height_inside, 0);
-                }
-
-                break;
-
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
 }
@@ -1674,7 +1675,7 @@ void ID_find_segment_wall(
         //
 
         *wall = i;
-        *length = MAX(abs(dx), abs(dz));
+        *length = std::max(abs(dx), abs(dz));
 
         return;
     }
@@ -1964,8 +1965,8 @@ void ID_add_room_faces(std::int32_t room) {
             std::int32_t x2, std::int32_t z2,
             std::int32_t x3, std::int32_t z3,
             std::int32_t width,
-            std::int32_t *res_x,
-            std::int32_t *res_z);
+            std::int32_t * res_x,
+            std::int32_t * res_z);
 
         //
         // Use fixed-point 8 from now on.
@@ -2020,12 +2021,12 @@ void ID_add_room_faces(std::int32_t room) {
                 block_type = ID_get_type(iw->id, bw);
 
                 switch (block_type) {
-                    case ID_BLOCK_TYPE_WALL: wall_faces_type = ID_WALL_FACES_NORMAL; break;
-                    case ID_BLOCK_TYPE_WINDOW: wall_faces_type = ID_WALL_FACES_OUT_WINDOW; break;
-                    case ID_BLOCK_TYPE_DOOR: wall_faces_type = ID_WALL_FACES_OUT_FRAME; break;
-                    default:
-                        ASSERT(0);
-                        break;
+                case ID_BLOCK_TYPE_WALL: wall_faces_type = ID_WALL_FACES_NORMAL; break;
+                case ID_BLOCK_TYPE_WINDOW: wall_faces_type = ID_WALL_FACES_OUT_WINDOW; break;
+                case ID_BLOCK_TYPE_DOOR: wall_faces_type = ID_WALL_FACES_OUT_FRAME; break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
             } else {
                 //
@@ -2186,7 +2187,7 @@ std::int32_t ID_get_wall_start(std::int32_t *x, std::int32_t *z) {
                 // diagonals.
                 //
             } else {
-                length = MAX(abs(dx), abs(dz));
+                length = std::max(abs(dx), abs(dz));
                 along = ID_rand() % length;
 
                 dx = SIGN(dx);
@@ -2654,10 +2655,11 @@ void ID_find_rooms() {
 
     } udlr[4] =
         {
-            {+1, 0, ID_FLOOR_FLAG_WALL_XL, 0},
-            {-1, 0, ID_FLOOR_FLAG_WALL_XS, 0},
-            {0, +1, ID_FLOOR_FLAG_WALL_ZL, 0},
-            {0, -1, ID_FLOOR_FLAG_WALL_ZS, 0}};
+            {+1, 0,  ID_FLOOR_FLAG_WALL_XL, 0},
+            {-1, 0,  ID_FLOOR_FLAG_WALL_XS, 0},
+            {0,  +1, ID_FLOOR_FLAG_WALL_ZL, 0},
+            {0,  -1, ID_FLOOR_FLAG_WALL_ZS, 0}
+    };
 
     for (x = ID_floor_x1; x < ID_floor_x2; x++)
         for (z = ID_floor_z1; z < ID_floor_z2; z++) {
@@ -3109,31 +3111,31 @@ void ID_assign_flat_room_types(std::int32_t flat) {
     //
 
     switch (num_rooms) {
-        case 1:
-        case 2:
-            ID_room[smallest].type = ID_ROOM_TYPE_LOO;
-            ID_room[biggest].type = ID_ROOM_TYPE_LOUNGE;
-            break;
+    case 1:
+    case 2:
+        ID_room[smallest].type = ID_ROOM_TYPE_LOO;
+        ID_room[biggest].type = ID_ROOM_TYPE_LOUNGE;
+        break;
 
-        case 3:
-            ID_room[smallest].type = ID_ROOM_TYPE_LOO;
-            ID_room[order[1]].type = ID_ROOM_TYPE_BEDROOM;
-            ID_room[biggest].type = ID_ROOM_TYPE_LOUNGE;
-            break;
+    case 3:
+        ID_room[smallest].type = ID_ROOM_TYPE_LOO;
+        ID_room[order[1]].type = ID_ROOM_TYPE_BEDROOM;
+        ID_room[biggest].type = ID_ROOM_TYPE_LOUNGE;
+        break;
 
-        default:
+    default:
 
-            ASSERT(num_rooms > 3);
+        ASSERT(num_rooms > 3);
 
-            ID_room[smallest].type = ID_ROOM_TYPE_LOO;
-            ID_room[order[1]].type = ID_ROOM_TYPE_KITCHEN;
-            ID_room[order[2]].type = ID_ROOM_TYPE_BEDROOM;
+        ID_room[smallest].type = ID_ROOM_TYPE_LOO;
+        ID_room[order[1]].type = ID_ROOM_TYPE_KITCHEN;
+        ID_room[order[2]].type = ID_ROOM_TYPE_BEDROOM;
 
-            for (i = 3; i < num_rooms; i++) {
-                ID_room[order[i]].type = ID_ROOM_TYPE_LOUNGE;
-            }
+        for (i = 3; i < num_rooms; i++) {
+            ID_room[order[i]].type = ID_ROOM_TYPE_LOUNGE;
+        }
 
-            break;
+        break;
     }
 }
 
@@ -3215,203 +3217,203 @@ void ID_assign_room_types(std::int32_t storey_type) {
     num_rooms = ID_room_upto - 1;
 
     switch (storey_type) {
-        case ID_STOREY_TYPE_HOUSE_GROUND:
-        case ID_STOREY_TYPE_HOUSE_UPPER:
-        case ID_STOREY_TYPE_OFFICE_GROUND:
-        case ID_STOREY_TYPE_OFFICE_UPPER:
+    case ID_STOREY_TYPE_HOUSE_GROUND:
+    case ID_STOREY_TYPE_HOUSE_UPPER:
+    case ID_STOREY_TYPE_OFFICE_GROUND:
+    case ID_STOREY_TYPE_OFFICE_UPPER:
 
-            //
-            // Make the biggest room a lounge.
-            //
+        //
+        // Make the biggest room a lounge.
+        //
 
-            ASSERT(WITHIN(biggest, 1, ID_room_upto - 1));
+        ASSERT(WITHIN(biggest, 1, ID_room_upto - 1));
 
-            ID_room[biggest].type = ID_ROOM_TYPE_LOUNGE;
+        ID_room[biggest].type = ID_ROOM_TYPE_LOUNGE;
 
-            num_rooms -= 1;
+        num_rooms -= 1;
 
-            //
-            // Look for any room other than the biggeset connected
-            // to the outside.  Make that room a lobby.
-            //
+        //
+        // Look for any room other than the biggeset connected
+        // to the outside.  Make that room a lobby.
+        //
 
-            for (i = 1; i <= num_rooms; i++) {
-                ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
+        for (i = 1; i <= num_rooms; i++) {
+            ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
 
-                if (ID_room[order[i]].flag & ID_ROOM_FLAG_LOBBY) {
-                    ID_room[order[i]].type = ID_ROOM_TYPE_LOBBY;
+            if (ID_room[order[i]].flag & ID_ROOM_FLAG_LOBBY) {
+                ID_room[order[i]].type = ID_ROOM_TYPE_LOBBY;
 
-                    SWAP(size[i], size[num_rooms]);
-                    SWAP(order[i], order[num_rooms]);
+                SWAP(size[i], size[num_rooms]);
+                SWAP(order[i], order[num_rooms]);
 
-                    num_rooms -= 1;
+                num_rooms -= 1;
 
-                    break;
-                }
+                break;
             }
+        }
 
-            //
-            // Is the smallest room a good size for a loo?
-            //
+        //
+        // Is the smallest room a good size for a loo?
+        //
 
 #define ID_LOO_AREA 4
 
-            have_loo = (size[1] <= ID_LOO_AREA);
+        have_loo = (size[1] <= ID_LOO_AREA);
 
-            if (num_rooms > 2) {
-                //
-                // Lots of rooms, might as well have a loo.
-                //
-
-                have_loo = true;
-            }
-
-            if (have_loo) {
-                //
-                // Fill in the rooms in the given order.
-                //
-
-                for (i = 1; i <= num_rooms; i++) {
-                    switch (i) {
-                        case 1: type = ID_ROOM_TYPE_LOO; break;
-                        case 2: type = ID_ROOM_TYPE_KITCHEN; break;
-                        case 3: type = ID_ROOM_TYPE_DINING; break;
-                        default: type = ID_ROOM_TYPE_LOUNGE; break;
-                    }
-
-                    ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
-
-                    ID_room[order[i]].type = type;
-                }
-            } else {
-                for (i = 1; i <= num_rooms; i++) {
-                    ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
-
-                    if (i == 1) {
-                        ID_room[order[i]].type = ID_ROOM_TYPE_KITCHEN;
-                    } else {
-                        ID_room[order[i]].type = ID_ROOM_TYPE_DINING;
-                    }
-                }
-            }
-            break;
-
-        case ID_STOREY_TYPE_WAREHOUSE:
-
+        if (num_rooms > 2) {
             //
-            // Make the biggest room a warehouse.
+            // Lots of rooms, might as well have a loo.
             //
 
-            ASSERT(WITHIN(biggest, 1, ID_room_upto - 1));
+            have_loo = true;
+        }
 
-            ID_room[biggest].type = ID_ROOM_TYPE_WAREHOUSE;
-
-            num_rooms -= 1;
-
+        if (have_loo) {
             //
-            // A room that leads onto the outside is a lobby.
+            // Fill in the rooms in the given order.
             //
 
             for (i = 1; i <= num_rooms; i++) {
-                ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
-
-                ir = &ID_room[order[i]];
-
-                for (x = ir->x1; x <= ir->x2; x++)
-                    for (z = ir->z1; z <= ir->z2; z++) {
-                        if (ID_FLOOR(x, z)->room == order[i]) {
-                            if (ID_FLOOR(x, z)->flag & ID_FLOOR_FLAG_DOORMAT) {
-                                //
-                                // Make this room a lobby.
-                                //
-
-                                ir->type = ID_ROOM_TYPE_LOBBY;
-
-                                //
-                                // Take this room out of the list.
-                                //
-
-                                for (j = i; j < num_rooms; j++) {
-                                    order[j] = order[j + 1];
-                                    size[j] = size[j + 1];
-                                }
-
-                                i -= 1;
-                                num_rooms -= 1;
-
-                                goto lobbify_next_room;
-                            }
-                        }
-                    }
-
-            lobbify_next_room:;
-            }
-
-            //
-            // The smallest room is a loo, the middle ones are offices and
-            // the largest is a meeting room... but we only have a meeting
-            // room if there are at least 3 rooms.
-            //
-
-            for (i = 1; i <= num_rooms; i++) {
-                type = ID_ROOM_TYPE_OFFICE;
-
-                if (i == 1) {
-                    type = ID_ROOM_TYPE_LOO;
-                }
-                if (i != 2 && i == num_rooms) {
-                    type = ID_ROOM_TYPE_MEETING;
+                switch (i) {
+                case 1: type = ID_ROOM_TYPE_LOO; break;
+                case 2: type = ID_ROOM_TYPE_KITCHEN; break;
+                case 3: type = ID_ROOM_TYPE_DINING; break;
+                default: type = ID_ROOM_TYPE_LOUNGE; break;
                 }
 
                 ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
 
                 ID_room[order[i]].type = type;
             }
+        } else {
+            for (i = 1; i <= num_rooms; i++) {
+                ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
 
-            break;
-
-        case ID_STOREY_TYPE_APARTEMENT_GROUND:
-        case ID_STOREY_TYPE_APARTEMENT_UPPER:
-
-            //
-            // The room that contains the stairs is the corridor.
-            //
-
-            if (ID_num_stairs == 0) {
-                //
-                // Argh! I'm confused if I can't make a corridor.
-                //
-
-                for (i = 1; i < ID_room_upto; i++) {
-                    ID_room[i].type = ID_ROOM_TYPE_LOO;
-                }
-            } else {
-                corridor = ID_FLOOR(ID_stair[0].x1, ID_stair[0].z1)->room;
-
-                ASSERT(WITHIN(corridor, 1, ID_room_upto - 1));
-
-                ID_room[corridor].type = ID_ROOM_TYPE_CORRIDOR;
-
-                //
-                // Partition the rooms into flats.
-                //
-
-                ID_find_flats();
-
-                //
-                // Assign the room types for each flat independently.
-                //
-
-                for (i = 1; i < ID_flat_upto; i++) {
-                    ID_assign_flat_room_types(i);
+                if (i == 1) {
+                    ID_room[order[i]].type = ID_ROOM_TYPE_KITCHEN;
+                } else {
+                    ID_room[order[i]].type = ID_ROOM_TYPE_DINING;
                 }
             }
+        }
+        break;
 
-            break;
+    case ID_STOREY_TYPE_WAREHOUSE:
 
-        default:
-            ASSERT(0);
-            break;
+        //
+        // Make the biggest room a warehouse.
+        //
+
+        ASSERT(WITHIN(biggest, 1, ID_room_upto - 1));
+
+        ID_room[biggest].type = ID_ROOM_TYPE_WAREHOUSE;
+
+        num_rooms -= 1;
+
+        //
+        // A room that leads onto the outside is a lobby.
+        //
+
+        for (i = 1; i <= num_rooms; i++) {
+            ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
+
+            ir = &ID_room[order[i]];
+
+            for (x = ir->x1; x <= ir->x2; x++)
+                for (z = ir->z1; z <= ir->z2; z++) {
+                    if (ID_FLOOR(x, z)->room == order[i]) {
+                        if (ID_FLOOR(x, z)->flag & ID_FLOOR_FLAG_DOORMAT) {
+                            //
+                            // Make this room a lobby.
+                            //
+
+                            ir->type = ID_ROOM_TYPE_LOBBY;
+
+                            //
+                            // Take this room out of the list.
+                            //
+
+                            for (j = i; j < num_rooms; j++) {
+                                order[j] = order[j + 1];
+                                size[j] = size[j + 1];
+                            }
+
+                            i -= 1;
+                            num_rooms -= 1;
+
+                            goto lobbify_next_room;
+                        }
+                    }
+                }
+
+        lobbify_next_room:;
+        }
+
+        //
+        // The smallest room is a loo, the middle ones are offices and
+        // the largest is a meeting room... but we only have a meeting
+        // room if there are at least 3 rooms.
+        //
+
+        for (i = 1; i <= num_rooms; i++) {
+            type = ID_ROOM_TYPE_OFFICE;
+
+            if (i == 1) {
+                type = ID_ROOM_TYPE_LOO;
+            }
+            if (i != 2 && i == num_rooms) {
+                type = ID_ROOM_TYPE_MEETING;
+            }
+
+            ASSERT(WITHIN(order[i], 1, ID_room_upto - 1));
+
+            ID_room[order[i]].type = type;
+        }
+
+        break;
+
+    case ID_STOREY_TYPE_APARTEMENT_GROUND:
+    case ID_STOREY_TYPE_APARTEMENT_UPPER:
+
+        //
+        // The room that contains the stairs is the corridor.
+        //
+
+        if (ID_num_stairs == 0) {
+            //
+            // Argh! I'm confused if I can't make a corridor.
+            //
+
+            for (i = 1; i < ID_room_upto; i++) {
+                ID_room[i].type = ID_ROOM_TYPE_LOO;
+            }
+        } else {
+            corridor = ID_FLOOR(ID_stair[0].x1, ID_stair[0].z1)->room;
+
+            ASSERT(WITHIN(corridor, 1, ID_room_upto - 1));
+
+            ID_room[corridor].type = ID_ROOM_TYPE_CORRIDOR;
+
+            //
+            // Partition the rooms into flats.
+            //
+
+            ID_find_flats();
+
+            //
+            // Assign the room types for each flat independently.
+            //
+
+            for (i = 1; i < ID_flat_upto; i++) {
+                ID_assign_flat_room_types(i);
+            }
+        }
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 
     //
@@ -3571,7 +3573,7 @@ std::int32_t ID_make_connecting_doors(std::int32_t storey_type) {
                 // so we don't put any doors there.
                 //
             } else {
-                length = MAX(abs(dx), abs(dz)) >> 8;
+                length = std::max(abs(dx), abs(dz)) >> 8;
 
                 dx /= length;
                 dz /= length;
@@ -4090,60 +4092,60 @@ void ID_fit_doors() {
             }
 
             switch (door) {
-                case ID_DOOR_NONE:
-                    break;
+            case ID_DOOR_NONE:
+                break;
 
-                case ID_DOOR_INOUT:
+            case ID_DOOR_INOUT:
 
-                    door_x = x1 + dwx * (ID_FRAME_END - 1);
-                    door_z = z1 + dwz * (ID_FRAME_END - 1);
+                door_x = x1 + dwx * (ID_FRAME_END - 1);
+                door_z = z1 + dwz * (ID_FRAME_END - 1);
 
-                    door_y = INDOORS_HEIGHT_FLOOR;
+                door_y = INDOORS_HEIGHT_FLOOR;
 
-                    door_thing = ID_add_furniture(
-                        door_x,
-                        door_y,
-                        door_z,
-                        (angle + 1024) & 2047,
-                        PRIM_OBJ_DOOR);
+                door_thing = ID_add_furniture(
+                    door_x,
+                    door_y,
+                    door_z,
+                    (angle + 1024) & 2047,
+                    PRIM_OBJ_DOOR);
 
-                    if (door_thing) {
-                        FURN_turn_into_door(
-                            door_thing,
-                            angle,
-                            ajar,
-                            false);
-                    }
-
-                    break;
-
-                case ID_DOOR_OUTIN:
-
-                    door_x = x1 + dwx * (ID_FRAME_START + 1);
-                    door_z = z1 + dwz * (ID_FRAME_START + 1);
-
-                    door_y = INDOORS_HEIGHT_FLOOR;
-
-                    door_thing = ID_add_furniture(
-                        door_x,
-                        door_y,
-                        door_z,
+                if (door_thing) {
+                    FURN_turn_into_door(
+                        door_thing,
                         angle,
-                        PRIM_OBJ_DOOR);
+                        ajar,
+                        false);
+                }
 
-                    if (door_thing) {
-                        FURN_turn_into_door(
-                            door_thing,
-                            angle,
-                            ajar,
-                            false);
-                    }
+                break;
 
-                    break;
+            case ID_DOOR_OUTIN:
 
-                default:
-                    ASSERT(0);
-                    break;
+                door_x = x1 + dwx * (ID_FRAME_START + 1);
+                door_z = z1 + dwz * (ID_FRAME_START + 1);
+
+                door_y = INDOORS_HEIGHT_FLOOR;
+
+                door_thing = ID_add_furniture(
+                    door_x,
+                    door_y,
+                    door_z,
+                    angle,
+                    PRIM_OBJ_DOOR);
+
+                if (door_thing) {
+                    FURN_turn_into_door(
+                        door_thing,
+                        angle,
+                        ajar,
+                        false);
+                }
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
             }
         }
     }
@@ -4220,12 +4222,12 @@ void ID_fit_stairs() {
         //
 
         switch (it->type) {
-            case ID_STAIR_TYPE_BOTTOM: stairprim = PRIM_OBJ_STAIR_BOTTOM; break;
-            case ID_STAIR_TYPE_MIDDLE: stairprim = PRIM_OBJ_STAIR_MIDDLE; break;
-            case ID_STAIR_TYPE_TOP: stairprim = PRIM_OBJ_STAIR_TOP; break;
-            default:
-                ASSERT(0);
-                break;
+        case ID_STAIR_TYPE_BOTTOM: stairprim = PRIM_OBJ_STAIR_BOTTOM; break;
+        case ID_STAIR_TYPE_MIDDLE: stairprim = PRIM_OBJ_STAIR_MIDDLE; break;
+        case ID_STAIR_TYPE_TOP: stairprim = PRIM_OBJ_STAIR_TOP; break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         //
@@ -4297,7 +4299,7 @@ std::int32_t ID_fit_kitchen(std::int32_t room) {
             // Ignore non-orthogonal walls.
             //
         } else {
-            length = MAX(abs(dx), abs(dz));
+            length = std::max(abs(dx), abs(dz));
 
             if (length > best_length) {
                 //
@@ -4887,10 +4889,10 @@ std::int32_t ID_fit_lounge(std::int32_t room) {
         z = (i & 2) ? ir->z1 : ir->z2;
 
         switch (i) {
-            case 0: dir = 256; break;
-            case 1: dir = 1792; break;
-            case 2: dir = 768; break;
-            case 3: dir = 1280; break;
+        case 0: dir = 256; break;
+        case 1: dir = 1792; break;
+        case 2: dir = 768; break;
+        case 3: dir = 1280; break;
         }
 
         if (ID_FLOOR(x, z)->room == room) {
@@ -5502,32 +5504,32 @@ void ID_place_furniture() {
         ir = &ID_room[i];
 
         switch (ir->type) {
-            case ID_ROOM_TYPE_LOO:
-                ID_fit_loo(i);
-                break;
-            case ID_ROOM_TYPE_KITCHEN:
-                ID_fit_kitchen(i);
-                break;
-            case ID_ROOM_TYPE_LOUNGE:
-                ID_fit_lounge(i);
-                break;
-            case ID_ROOM_TYPE_LOBBY:
-                break;
-            case ID_ROOM_TYPE_DINING:
-                break;
-            case ID_ROOM_TYPE_WAREHOUSE:
-                break;
-            case ID_ROOM_TYPE_OFFICE:
-                break;
-            case ID_ROOM_TYPE_MEETING:
-                break;
-            case ID_ROOM_TYPE_BEDROOM:
-                break;
-            case ID_ROOM_TYPE_CORRIDOR:
-                break;
+        case ID_ROOM_TYPE_LOO:
+            ID_fit_loo(i);
+            break;
+        case ID_ROOM_TYPE_KITCHEN:
+            ID_fit_kitchen(i);
+            break;
+        case ID_ROOM_TYPE_LOUNGE:
+            ID_fit_lounge(i);
+            break;
+        case ID_ROOM_TYPE_LOBBY:
+            break;
+        case ID_ROOM_TYPE_DINING:
+            break;
+        case ID_ROOM_TYPE_WAREHOUSE:
+            break;
+        case ID_ROOM_TYPE_OFFICE:
+            break;
+        case ID_ROOM_TYPE_MEETING:
+            break;
+        case ID_ROOM_TYPE_BEDROOM:
+            break;
+        case ID_ROOM_TYPE_CORRIDOR:
+            break;
 
-            default:
-                ASSERT(0);
+        default:
+            ASSERT(0);
         }
     }
 
@@ -5965,7 +5967,7 @@ std::int32_t ID_generate_inside_walls(std::int32_t storey_type) {
                 ID_wall[ID_wall_upto].z1 = z1;
                 ID_wall[ID_wall_upto].x2 = x2;
                 ID_wall[ID_wall_upto].z2 = z2;
-                ID_wall[ID_wall_upto].num_blocks = MAX(abs(x2 - x1), abs(z2 - z1));
+                ID_wall[ID_wall_upto].num_blocks = std::max(abs(x2 - x1), abs(z2 - z1));
 
                 ID_wall_upto += 1;
 
@@ -6040,7 +6042,12 @@ std::int32_t ID_is_there_a_room_accessible_from_only_one_other_room() {
         std::int8_t dx;
         std::int8_t dz;
 
-    } dir[4] = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    } dir[4] = {
+        {1,  0 },
+        {-1, 0 },
+        {0,  1 },
+        {0,  -1}
+    };
 
     for (i = 1; i < ID_room_upto; i++) {
         ir = &ID_room[i];
@@ -6377,25 +6384,25 @@ std::int32_t ID_score_layout(std::int32_t storey_type) {
     std::int32_t ans;
 
     switch (storey_type) {
-        case ID_STOREY_TYPE_HOUSE_GROUND:
-        case ID_STOREY_TYPE_HOUSE_UPPER:
-        case ID_STOREY_TYPE_OFFICE_GROUND:
-        case ID_STOREY_TYPE_OFFICE_UPPER:
-            ans = ID_score_layout_house_ground();
-            break;
+    case ID_STOREY_TYPE_HOUSE_GROUND:
+    case ID_STOREY_TYPE_HOUSE_UPPER:
+    case ID_STOREY_TYPE_OFFICE_GROUND:
+    case ID_STOREY_TYPE_OFFICE_UPPER:
+        ans = ID_score_layout_house_ground();
+        break;
 
-        case ID_STOREY_TYPE_WAREHOUSE:
-            ans = ID_score_layout_warehouse();
-            break;
+    case ID_STOREY_TYPE_WAREHOUSE:
+        ans = ID_score_layout_warehouse();
+        break;
 
-        case ID_STOREY_TYPE_APARTEMENT_GROUND:
-        case ID_STOREY_TYPE_APARTEMENT_UPPER:
-            ans = ID_score_layout_apartement();
-            break;
+    case ID_STOREY_TYPE_APARTEMENT_GROUND:
+    case ID_STOREY_TYPE_APARTEMENT_UPPER:
+        ans = ID_score_layout_apartement();
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     return ans;
@@ -6492,12 +6499,12 @@ void ID_calculate_in_squares() {
 
         while (z < z2) {
             switch (wall_type) {
-                case ID_LINK_T_ENTER: pos = MIN(x, x + dxdz); break;
-                case ID_LINK_T_LEAVE: pos = MAX(x, x + dxdz); break;
+            case ID_LINK_T_ENTER: pos = std::min(x, x + dxdz); break;
+            case ID_LINK_T_LEAVE: pos = std::max(x, x + dxdz); break;
 
-                default:
-                    ASSERT(0);
-                    break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             //
@@ -7313,19 +7320,19 @@ std::int32_t ID_change_floor(
 
                 if (quadrant == 2) {
                     switch (it->type) {
-                        case ID_STAIR_TYPE_BOTTOM:
-                            ans = +1;
-                            break;
-                        case ID_STAIR_TYPE_MIDDLE:
-                            ans = (sz > 0x140) ? -1 : +1;
-                            break;
-                        case ID_STAIR_TYPE_TOP:
-                            ans = -1;
-                            break;
-                        default:
-                            ans = 0;
-                            ASSERT(0);
-                            break;
+                    case ID_STAIR_TYPE_BOTTOM:
+                        ans = +1;
+                        break;
+                    case ID_STAIR_TYPE_MIDDLE:
+                        ans = (sz > 0x140) ? -1 : +1;
+                        break;
+                    case ID_STAIR_TYPE_TOP:
+                        ans = -1;
+                        break;
+                    default:
+                        ans = 0;
+                        ASSERT(0);
+                        break;
                     }
 
                     //
@@ -7465,12 +7472,12 @@ void ID_this_is_where_i_am(std::int32_t x, std::int32_t z) {
                     dz = 0;
 
                     switch (i) {
-                        case 0: dx = -1; break;
-                        case 1: dx = +1; break;
-                        case 2: dz = -1; break;
-                        case 3: dz = +1; break;
-                        default:
-                            ASSERT(0);
+                    case 0: dx = -1; break;
+                    case 1: dx = +1; break;
+                    case 2: dz = -1; break;
+                    case 3: dz = +1; break;
+                    default:
+                        ASSERT(0);
                     }
 
                     mx = x + dx;
@@ -7854,50 +7861,50 @@ found_stairs:
     //
 
     switch (it->type) {
-        case ID_STAIR_TYPE_BOTTOM:
+    case ID_STAIR_TYPE_BOTTOM:
 
-            //	   _
-            //	  /
-            //  _/	  Ground
+        //	   _
+        //	  /
+        //  _/	  Ground
 
-            ans = sz - 0x80 + INDOORS_HEIGHT_FLOOR;
+        ans = sz - 0x80 + INDOORS_HEIGHT_FLOOR;
 
-            SATURATE(ans, INDOORS_HEIGHT_FLOOR, INDOORS_HEIGHT_CEILING);
+        SATURATE(ans, INDOORS_HEIGHT_FLOOR, INDOORS_HEIGHT_CEILING);
 
-            break;
+        break;
 
-        case ID_STAIR_TYPE_MIDDLE:
+    case ID_STAIR_TYPE_MIDDLE:
 
-            //
-            //  _/ _  Ground
-            //	  /
+        //
+        //  _/ _  Ground
+        //	  /
 
-            ans = sz - 0x80 + INDOORS_HEIGHT_FLOOR;
+        ans = sz - 0x80 + INDOORS_HEIGHT_FLOOR;
 
-            SATURATE(ans, INDOORS_HEIGHT_FLOOR, INDOORS_HEIGHT_CEILING);
+        SATURATE(ans, INDOORS_HEIGHT_FLOOR, INDOORS_HEIGHT_CEILING);
 
-            if (sz >= 0x100) {
-                ans -= INDOORS_HEIGHT_CEILING - INDOORS_HEIGHT_FLOOR;
-            }
+        if (sz >= 0x100) {
+            ans -= INDOORS_HEIGHT_CEILING - INDOORS_HEIGHT_FLOOR;
+        }
 
-            break;
+        break;
 
-        case ID_STAIR_TYPE_TOP:
+    case ID_STAIR_TYPE_TOP:
 
-            //  _	_ Ground
-            // 	   /
-            //	  /
+        //  _	_ Ground
+        // 	   /
+        //	  /
 
-            if (WITHIN(sz, 0x80, 0x180)) {
-                ans = INDOORS_HEIGHT_FLOOR - 0x100 + sz;
-            } else {
-                ans = INDOORS_HEIGHT_FLOOR;
-            }
+        if (WITHIN(sz, 0x80, 0x180)) {
+            ans = INDOORS_HEIGHT_FLOOR - 0x100 + sz;
+        } else {
+            ans = INDOORS_HEIGHT_FLOOR;
+        }
 
-            break;
-        default:
-            ASSERT(0);
-            break;
+        break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     return ans;
@@ -8503,20 +8510,20 @@ std::int32_t ID_editor_get_room(ID_Roominfo *ans) {
                     ans->z = z;
 
                     switch (ir->type) {
-                        case ID_ROOM_TYPE_LOO: ans->what = "Loo"; break;
-                        case ID_ROOM_TYPE_KITCHEN: ans->what = "Kitchen"; break;
-                        case ID_ROOM_TYPE_LOUNGE: ans->what = "Lounge"; break;
-                        case ID_ROOM_TYPE_LOBBY: ans->what = "Lobby"; break;
-                        case ID_ROOM_TYPE_DINING: ans->what = "Dining"; break;
-                        case ID_ROOM_TYPE_WAREHOUSE: ans->what = "Warehouse"; break;
-                        case ID_ROOM_TYPE_OFFICE: ans->what = "Office"; break;
-                        case ID_ROOM_TYPE_MEETING: ans->what = "Meeting room"; break;
-                        case ID_ROOM_TYPE_BEDROOM: ans->what = "Bedroom"; break;
-                        case ID_ROOM_TYPE_CORRIDOR: ans->what = "Corridor"; break;
+                    case ID_ROOM_TYPE_LOO: ans->what = "Loo"; break;
+                    case ID_ROOM_TYPE_KITCHEN: ans->what = "Kitchen"; break;
+                    case ID_ROOM_TYPE_LOUNGE: ans->what = "Lounge"; break;
+                    case ID_ROOM_TYPE_LOBBY: ans->what = "Lobby"; break;
+                    case ID_ROOM_TYPE_DINING: ans->what = "Dining"; break;
+                    case ID_ROOM_TYPE_WAREHOUSE: ans->what = "Warehouse"; break;
+                    case ID_ROOM_TYPE_OFFICE: ans->what = "Office"; break;
+                    case ID_ROOM_TYPE_MEETING: ans->what = "Meeting room"; break;
+                    case ID_ROOM_TYPE_BEDROOM: ans->what = "Bedroom"; break;
+                    case ID_ROOM_TYPE_CORRIDOR: ans->what = "Corridor"; break;
 
-                        default:
-                            ASSERT(0);
-                            break;
+                    default:
+                        ASSERT(0);
+                        break;
                     }
 
                     //

@@ -58,8 +58,9 @@ void CANID_init_chase(Thing *canid, Thing *victim);
 
 StateFunction CANID_state_function[] =
     {
-        {STATE_INIT, CANID_fn_init},
-        {STATE_NORMAL, CANID_fn_normal}};
+        {STATE_INIT,   CANID_fn_init  },
+        {STATE_NORMAL, CANID_fn_normal}
+};
 
 //--------------------------------------------------------------------------
 // Functions
@@ -193,20 +194,20 @@ int CANID_6sense(Thing *canid) {
         p_sense = TO_THING(sense[i]);
 
         switch (p_sense->Class) {
-            case CLASS_ANIMAL:
+        case CLASS_ANIMAL:
 
-                sense_animal = ANIMAL_get_animal(p_sense);
-                // add reactions here ....?
-                break;
+            sense_animal = ANIMAL_get_animal(p_sense);
+            // add reactions here ....?
+            break;
 
-            case CLASS_PERSON:
-                CANID_init_chase(canid, p_sense);
-                return 1;
-                break;
+        case CLASS_PERSON:
+            CANID_init_chase(canid, p_sense);
+            return 1;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
     return 0;
@@ -267,20 +268,20 @@ int CANID_LOS(Thing *canid) {
         p_sense = TO_THING(sense[i]);
 
         switch (p_sense->Class) {
-            case CLASS_ANIMAL:
+        case CLASS_ANIMAL:
 
-                sense_animal = ANIMAL_get_animal(p_sense);
-                // add reactions here ....?
-                break;
+            sense_animal = ANIMAL_get_animal(p_sense);
+            // add reactions here ....?
+            break;
 
-            case CLASS_PERSON:
-                if (CANID_can_see(canid, p_sense)) CANID_init_chase(canid, p_sense);
-                return 1;
-                break;
+        case CLASS_PERSON:
+            if (CANID_can_see(canid, p_sense)) CANID_init_chase(canid, p_sense);
+            return 1;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
     }
     return 0;
@@ -323,22 +324,22 @@ void CANID_init_prowl(Thing *canid) {
     TRACE("canid: prowl mode\n");
 
     switch (Random() & 0x3) {
-        case 0:
-            i = 0;
-            j = 4;
-            break;
-        case 1:
-            i = 4;
-            j = 0;
-            break;
-        case 2:
-            i = 0;
-            j = -4;
-            break;
-        case 3:
-            i = -4;
-            j = 0;
-            break;
+    case 0:
+        i = 0;
+        j = 4;
+        break;
+    case 1:
+        i = 4;
+        j = 0;
+        break;
+    case 2:
+        i = 0;
+        j = -4;
+        break;
+    case 3:
+        i = -4;
+        j = 0;
+        break;
     }
 
     animal->substate = CANID_SUBSTATE_PROWL;
@@ -382,17 +383,17 @@ void CANID_init_chase(Thing *canid, Thing *victim) {
 
 void CANID_start_doing_something(Thing *canid) {
     switch (Random() & 0x3) {
-        case 0:
-        case 1:
-        case 2:
-            CANID_init_prowl(canid);
-            break;
-        case 3:
-            CANID_init_sleep(canid);
-            break;
-        default:
-            ASSERT(0);
-            break;
+    case 0:
+    case 1:
+    case 2:
+        CANID_init_prowl(canid);
+        break;
+    case 3:
+        CANID_init_sleep(canid);
+        break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1147,7 +1148,7 @@ std::uint16_t CANID_find_perch(Thing *canid, std::uint16_t ignore_this_vect)
 
                                         dist2 = dx*dx + dz*dz;
 
-                                        score = MIN(dist1, dist2);
+                                        score = std::min(dist1, dist2);
 
                                         if (score < best_score)
                                         {

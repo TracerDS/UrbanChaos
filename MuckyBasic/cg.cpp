@@ -336,117 +336,102 @@ std::int32_t CG_add_string(char *string) {
 
 std::int32_t CG_callback_add_labels_and_variables(PARSE_Node *pn) {
     switch (pn->type) {
-        case PARSE_NODE_TYPE_LABEL:
+    case PARSE_NODE_TYPE_LABEL:
 
-            if (ST_find(pn->label)) {
-                //
-                // ERROR!
-                //
-
-                ASSERT(0);
-
-                return false;
-            } else {
-                ST_add(ST_TABLE_GLOBAL, pn->label, CG_generating_line, 0);
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_VAR_ADDRESS:
-        case PARSE_NODE_TYPE_VAR_VALUE:
-
-            if (ST_find(pn->variable)) {
-                //
-                // We've already added this variable to the symbol table
-                // and assigned it a 'global' memory number.
-                //
-            } else {
-                ST_add(ST_TABLE_GLOBAL, pn->variable, CG_global_upto++, 0);
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_FIELD:
-
-            if (ST_find(pn->field)) {
-                //
-                // Already assigned this structure field a field_id.
-                //
-            } else {
-                ST_add(ST_TABLE_GLOBAL, pn->field, CG_field_id_upto++, 0);
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_FUNCTION:
-
-            if (CG_in_function) {
-                //
-                // ERROR! Two function definitions in a row without an ENDFUNC.
-                //
-
-                ASSERT(0);
-            }
-
-            CG_in_function = CG_func_upto;
-
+        if (ST_find(pn->label)) {
             //
-            // Allocate a new function structure.
+            // ERROR!
             //
 
-            ASSERT(WITHIN(CG_func_upto, 1, CG_MAX_FUNCS - 1));
+            ASSERT(0);
 
-            CG_func[CG_func_upto].name = pn->variable;
-            CG_func[CG_func_upto].num_args = 0;
-            CG_func[CG_func_upto].line = CG_generating_line;
+            return false;
+        } else {
+            ST_add(ST_TABLE_GLOBAL, pn->label, CG_generating_line, 0);
+        }
 
+        break;
+
+    case PARSE_NODE_TYPE_VAR_ADDRESS:
+    case PARSE_NODE_TYPE_VAR_VALUE:
+
+        if (ST_find(pn->variable)) {
             //
-            // Add the function to the string table.
+            // We've already added this variable to the symbol table
+            // and assigned it a 'global' memory number.
+            //
+        } else {
+            ST_add(ST_TABLE_GLOBAL, pn->variable, CG_global_upto++, 0);
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_FIELD:
+
+        if (ST_find(pn->field)) {
+            //
+            // Already assigned this structure field a field_id.
+            //
+        } else {
+            ST_add(ST_TABLE_GLOBAL, pn->field, CG_field_id_upto++, 0);
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_FUNCTION:
+
+        if (CG_in_function) {
+            //
+            // ERROR! Two function definitions in a row without an ENDFUNC.
             //
 
-            ST_add(ST_TABLE_GLOBAL, pn->variable, CG_func_upto, 0);
+            ASSERT(0);
+        }
 
-            CG_func_upto += 1;
+        CG_in_function = CG_func_upto;
 
-            break;
+        //
+        // Allocate a new function structure.
+        //
 
-        case PARSE_NODE_TYPE_ARGUMENT:
+        ASSERT(WITHIN(CG_func_upto, 1, CG_MAX_FUNCS - 1));
 
+        CG_func[CG_func_upto].name = pn->variable;
+        CG_func[CG_func_upto].num_args = 0;
+        CG_func[CG_func_upto].line = CG_generating_line;
+
+        //
+        // Add the function to the string table.
+        //
+
+        ST_add(ST_TABLE_GLOBAL, pn->variable, CG_func_upto, 0);
+
+        CG_func_upto += 1;
+
+        break;
+
+    case PARSE_NODE_TYPE_ARGUMENT:
+
+        //
+        // We must be inside a function!
+        //
+
+        if (!CG_in_function) {
             //
-            // We must be inside a function!
+            // ERROR!
             //
 
-            if (!CG_in_function) {
-                //
-                // ERROR!
-                //
+            ASSERT(0);
+        }
 
-                ASSERT(0);
-            }
+        ASSERT(CG_in_function == CG_func_upto - 1);
 
-            ASSERT(CG_in_function == CG_func_upto - 1);
+        //
+        // Add this argument to the local variables for this function.
+        //
 
-            //
-            // Add this argument to the local variables for this function.
-            //
-
-            if (ST_find(pn->variable)) {
-                if (ST_found_table != ST_TABLE_LOCAL) {
-                    //
-                    // Add this variable to the local symbol table.
-                    //
-
-                    ST_add(ST_TABLE_LOCAL, pn->variable, 0, 0);
-
-                    CG_func[CG_in_function].num_args += 1;
-                } else if (ST_found_table == ST_TABLE_LOCAL) {
-                    //
-                    // ERROR! Mutliple defined arguements!
-                    //
-
-                    ASSERT(0);
-                }
-            } else {
+        if (ST_find(pn->variable)) {
+            if (ST_found_table != ST_TABLE_LOCAL) {
                 //
                 // Add this variable to the local symbol table.
                 //
@@ -454,82 +439,83 @@ std::int32_t CG_callback_add_labels_and_variables(PARSE_Node *pn) {
                 ST_add(ST_TABLE_LOCAL, pn->variable, 0, 0);
 
                 CG_func[CG_in_function].num_args += 1;
+            } else if (ST_found_table == ST_TABLE_LOCAL) {
+                //
+                // ERROR! Mutliple defined arguements!
+                //
+
+                ASSERT(0);
             }
-
-            break;
-
-        case PARSE_NODE_TYPE_ENDFUNC:
-
+        } else {
             //
-            // Remember the line where this function ends.
+            // Add this variable to the local symbol table.
+            //
+
+            ST_add(ST_TABLE_LOCAL, pn->variable, 0, 0);
+
+            CG_func[CG_in_function].num_args += 1;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_ENDFUNC:
+
+        //
+        // Remember the line where this function ends.
+        //
+
+        ASSERT(WITHIN(CG_in_function, 1, CG_MAX_FUNCS - 1));
+
+        CG_func[CG_in_function].endline = CG_generating_line;
+
+        //
+        // Not in a function any more.
+        //
+
+        CG_in_function = false;
+
+        //
+        // We've lost all the symbols in the local symbol table.
+        //
+
+        ST_clear(ST_TABLE_LOCAL);
+
+        break;
+
+    case PARSE_NODE_TYPE_EXPORT:
+
+        //
+        // Add this variable (manged with a "->" on the front) to
+        // the symbol, to denote that it should be exported in the
+        // object file.
+        //
+
+        {
+            char export[LEX_MAX_STRING_LENGTH + 2];
+
+            sprintf(export, "->%s", pn->variable);
+
+            ST_add(ST_TABLE_GLOBAL, export, 0, 0);
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_LOCAL:
+
+        if (CG_in_function) {
+            //
+            // Add this local to the function.
             //
 
             ASSERT(WITHIN(CG_in_function, 1, CG_MAX_FUNCS - 1));
 
-            CG_func[CG_in_function].endline = CG_generating_line;
+            if (ST_find(pn->variable)) {
+                if (ST_found_table == ST_TABLE_LOCAL) {
+                    //
+                    // ERROR! Multiply defined locals/args
+                    //
 
-            //
-            // Not in a function any more.
-            //
-
-            CG_in_function = false;
-
-            //
-            // We've lost all the symbols in the local symbol table.
-            //
-
-            ST_clear(ST_TABLE_LOCAL);
-
-            break;
-
-        case PARSE_NODE_TYPE_EXPORT:
-
-            //
-            // Add this variable (manged with a "->" on the front) to
-            // the symbol, to denote that it should be exported in the
-            // object file.
-            //
-
-            {
-                char export[LEX_MAX_STRING_LENGTH + 2];
-
-                sprintf(export, "->%s", pn->variable);
-
-                ST_add(ST_TABLE_GLOBAL, export, 0, 0);
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_LOCAL:
-
-            if (CG_in_function) {
-                //
-                // Add this local to the function.
-                //
-
-                ASSERT(WITHIN(CG_in_function, 1, CG_MAX_FUNCS - 1));
-
-                if (ST_find(pn->variable)) {
-                    if (ST_found_table == ST_TABLE_LOCAL) {
-                        //
-                        // ERROR! Multiply defined locals/args
-                        //
-
-                        ASSERT(0);
-                    } else {
-                        //
-                        // Add this local to the funcion.
-                        //
-
-                        CG_func[CG_in_function].num_args += 1;
-                        CG_func[CG_in_function].num_locals += 1;
-
-                        //
-                        // Add this variable to the local symbol table.
-                        //
-
-                        ST_add(ST_TABLE_LOCAL, pn->variable, 0, 0);
-                    }
+                    ASSERT(0);
                 } else {
                     //
                     // Add this local to the funcion.
@@ -546,23 +532,37 @@ std::int32_t CG_callback_add_labels_and_variables(PARSE_Node *pn) {
                 }
             } else {
                 //
-                // A local declaration outside of a function
-                // means that the variable is local to the file.
-                // Add it to the symbol table with "<-" on the front
-                // if it.
+                // Add this local to the funcion.
                 //
 
-                char local[LEX_MAX_STRING_LENGTH + 2];
+                CG_func[CG_in_function].num_args += 1;
+                CG_func[CG_in_function].num_locals += 1;
 
-                sprintf(local, "<-%s", pn->variable);
+                //
+                // Add this variable to the local symbol table.
+                //
 
-                ST_add(ST_TABLE_GLOBAL, local, 0, 0);
+                ST_add(ST_TABLE_LOCAL, pn->variable, 0, 0);
             }
+        } else {
+            //
+            // A local declaration outside of a function
+            // means that the variable is local to the file.
+            // Add it to the symbol table with "<-" on the front
+            // if it.
+            //
 
-            break;
+            char local[LEX_MAX_STRING_LENGTH + 2];
 
-        default:
-            break;
+            sprintf(local, "<-%s", pn->variable);
+
+            ST_add(ST_TABLE_GLOBAL, local, 0, 0);
+        }
+
+        break;
+
+    default:
+        break;
     }
 
     return true;
@@ -586,540 +586,644 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
     }
 
     switch (pn->type) {
-        case PARSE_NODE_TYPE_NOP:
-            break;
+    case PARSE_NODE_TYPE_NOP:
+        break;
 
-        case PARSE_NODE_TYPE_EQUALS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_EQUALS;
-            break;
+    case PARSE_NODE_TYPE_EQUALS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_EQUALS;
+        break;
 
-        case PARSE_NODE_TYPE_PLUS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ADD;
-            break;
+    case PARSE_NODE_TYPE_PLUS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ADD;
+        break;
 
-        case PARSE_NODE_TYPE_MINUS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_MINUS;
-            break;
+    case PARSE_NODE_TYPE_MINUS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_MINUS;
+        break;
 
-        case PARSE_NODE_TYPE_UMINUS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_UMINUS;
-            break;
+    case PARSE_NODE_TYPE_UMINUS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_UMINUS;
+        break;
 
-        case PARSE_NODE_TYPE_TIMES:
-            CG_instruction[CG_instruction_upto++] = ML_DO_TIMES;
-            break;
+    case PARSE_NODE_TYPE_TIMES:
+        CG_instruction[CG_instruction_upto++] = ML_DO_TIMES;
+        break;
 
-        case PARSE_NODE_TYPE_DIVIDE:
-            CG_instruction[CG_instruction_upto++] = ML_DO_DIVIDE;
-            break;
+    case PARSE_NODE_TYPE_DIVIDE:
+        CG_instruction[CG_instruction_upto++] = ML_DO_DIVIDE;
+        break;
 
-        case PARSE_NODE_TYPE_MOD:
-            CG_instruction[CG_instruction_upto++] = ML_DO_MOD;
-            break;
+    case PARSE_NODE_TYPE_MOD:
+        CG_instruction[CG_instruction_upto++] = ML_DO_MOD;
+        break;
 
-        case PARSE_NODE_TYPE_SLUMBER:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
-            CG_instruction[CG_instruction_upto++] = pn->slumber;
-            break;
+    case PARSE_NODE_TYPE_SLUMBER:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
+        CG_instruction[CG_instruction_upto++] = pn->slumber;
+        break;
 
-        case PARSE_NODE_TYPE_FLUMBER:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_FLUMBER;
-            ((float *) CG_instruction)[CG_instruction_upto++] = pn->flumber;
-            break;
+    case PARSE_NODE_TYPE_FLUMBER:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_FLUMBER;
+        ((float *) CG_instruction)[CG_instruction_upto++] = pn->flumber;
+        break;
 
-        case PARSE_NODE_TYPE_STRING:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_STRCONST;
-            CG_instruction[CG_instruction_upto++] = CG_add_string(pn->string);
+    case PARSE_NODE_TYPE_STRING:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_STRCONST;
+        CG_instruction[CG_instruction_upto++] = CG_add_string(pn->string);
+
+        //
+        // Remember the reference into the data table.
+        //
+
+        ASSERT(WITHIN(CG_datatableref_upto, 0, CG_MAX_DATATABLEREFS - 1));
+
+        CG_datatableref[CG_datatableref_upto++].instruction = CG_instruction_upto - 1;
+
+        break;
+
+    case PARSE_NODE_TYPE_VAR_VALUE:
+
+        if (!ST_find(pn->variable)) {
+            ASSERT(0);
+        } else {
+            std::int32_t local = (ST_found_table == ST_TABLE_LOCAL);
+            std::int32_t quick = (pn->flag & PARSE_NODE_FLAG_EXTRACT);
+            std::int32_t instruction;
 
             //
-            // Remember the reference into the data table.
+            // Can't be both these types...
             //
 
-            ASSERT(WITHIN(CG_datatableref_upto, 0, CG_MAX_DATATABLEREFS - 1));
-
-            CG_datatableref[CG_datatableref_upto++].instruction = CG_instruction_upto - 1;
-
-            break;
-
-        case PARSE_NODE_TYPE_VAR_VALUE:
-
-            if (!ST_find(pn->variable)) {
-                ASSERT(0);
-            } else {
-                std::int32_t local = (ST_found_table == ST_TABLE_LOCAL);
-                std::int32_t quick = (pn->flag & PARSE_NODE_FLAG_EXTRACT);
-                std::int32_t instruction;
-
-                //
-                // Can't be both these types...
-                //
-
-                if (local) {
-                    if (quick) {
-                        instruction = ML_DO_PUSH_LOCAL_QUICK;
-                    } else {
-                        instruction = ML_DO_PUSH_LOCAL_VALUE;
-                    }
+            if (local) {
+                if (quick) {
+                    instruction = ML_DO_PUSH_LOCAL_QUICK;
                 } else {
-                    if (quick) {
-                        instruction = ML_DO_PUSH_GLOBAL_QUICK;
-                    } else {
-                        instruction = ML_DO_PUSH_GLOBAL_VALUE;
-                    }
-
-                    //
-                    // Remember the reference to the global.
-                    //
-
-                    ASSERT(WITHIN(CG_globalref_upto, 0, CG_MAX_GLOBALREFS - 1));
-
-                    CG_globalref[CG_globalref_upto++].instruction = CG_instruction_upto + 1;
+                    instruction = ML_DO_PUSH_LOCAL_VALUE;
+                }
+            } else {
+                if (quick) {
+                    instruction = ML_DO_PUSH_GLOBAL_QUICK;
+                } else {
+                    instruction = ML_DO_PUSH_GLOBAL_VALUE;
                 }
 
-                CG_instruction[CG_instruction_upto++] = instruction;
-                CG_instruction[CG_instruction_upto++] = ST_found_value;
+                //
+                // Remember the reference to the global.
+                //
+
+                ASSERT(WITHIN(CG_globalref_upto, 0, CG_MAX_GLOBALREFS - 1));
+
+                CG_globalref[CG_globalref_upto++].instruction = CG_instruction_upto + 1;
             }
 
-            break;
+            CG_instruction[CG_instruction_upto++] = instruction;
+            CG_instruction[CG_instruction_upto++] = ST_found_value;
+        }
 
-        case PARSE_NODE_TYPE_IF:
+        break;
+
+    case PARSE_NODE_TYPE_IF:
+
+        //
+        // Store where this if instruction is so we can set the
+        // if condition goto to be after the 'then' code.
+        //
+
+        ASSERT(WITHIN(CG_if_upto, 0, CG_MAX_IFS_PER_LINE - 1));
+
+        CG_if[CG_if_upto].ifcode = pn->ifcode;
+        CG_if[CG_if_upto].instruction = CG_instruction_upto + 1;
+
+        CG_if_upto++;
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
+        CG_instruction[CG_instruction_upto++] = 0; // To be filled in when we get the corresponding PARSE_NODE_TYPE_FAKE_THEN node.
+
+        //
+        // Remember the jump instruction.
+        //
+
+        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+        break;
+
+    case PARSE_NODE_TYPE_FAKE_THEN:
+
+        //
+        // Look for the corresponding IF.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = 0; i < CG_if_upto; i++) {
+                if (CG_if[i].ifcode == pn->ifcode) {
+                    //
+                    // Found it! Make the IF_FALSE_GOTO point to the current instruction.
+                    //
+
+                    ASSERT(WITHIN(CG_if[i].instruction, 0, CG_instruction_upto - 1));
+
+                    CG_instruction[CG_if[i].instruction] = CG_instruction_upto;
+
+                    break;
+                }
+            }
 
             //
-            // Store where this if instruction is so we can set the
-            // if condition goto to be after the 'then' code.
+            // THEN found without matching IF?
             //
 
-            ASSERT(WITHIN(CG_if_upto, 0, CG_MAX_IFS_PER_LINE - 1));
+            ASSERT(i != CG_if_upto);
+        }
 
-            CG_if[CG_if_upto].ifcode = pn->ifcode;
-            CG_if[CG_if_upto].instruction = CG_instruction_upto + 1;
+        break;
 
-            CG_if_upto++;
+    case PARSE_NODE_TYPE_FAKE_ELSE:
 
-            CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
-            CG_instruction[CG_instruction_upto++] = 0; // To be filled in when we get the corresponding PARSE_NODE_TYPE_FAKE_THEN node.
+        //
+        // Look for the corresponding IF.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = 0; i < CG_if_upto; i++) {
+                if (CG_if[i].ifcode == pn->ifcode) {
+                    //
+                    // Found it! This IF_FALSE_GOTO instruction must
+                    // jump an instruction further to skip over the
+                    // goto we are just about to put in...
+                    //
+
+                    ASSERT(WITHIN(CG_if[i].instruction, 0, CG_instruction_upto - 1));
+
+                    CG_instruction[CG_if[i].instruction] = CG_instruction_upto + 2;
+
+                    //
+                    // Insert a GOTO so that the THEN code doesn't
+                    // leak into the ELSE code.
+                    //
+
+                    CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
+                    CG_instruction[CG_instruction_upto++] = 0; // To be filled in when we get the corresponding PARSE_NODE_TYPE_FAKE_ENDIF node.
+
+                    CG_if[i].instruction = CG_instruction_upto - 1;
+
+                    //
+                    // Remember where the jump instruction is.
+                    //
+
+                    ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+                    CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+                    break;
+                }
+            }
 
             //
-            // Remember the jump instruction.
+            // ELSE found without matching IF?
+            //
+
+            ASSERT(i != CG_if_upto);
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_FAKE_END_ELSE:
+
+        //
+        // Look for the corresponding IF.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = 0; i < CG_if_upto; i++) {
+                if (CG_if[i].ifcode == pn->ifcode) {
+                    //
+                    // Found it! Make the GOTO after the 'THEN' code point to the current instruction.
+                    //
+
+                    ASSERT(WITHIN(CG_if[i].instruction, 0, CG_instruction_upto - 1));
+
+                    CG_instruction[CG_if[i].instruction] = CG_instruction_upto;
+
+                    break;
+                }
+            }
+
+            //
+            // ENDELSE found without matching IF?
+            //
+
+            ASSERT(i != CG_if_upto);
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_GOTO:
+    case PARSE_NODE_TYPE_GOSUB:
+
+        if (!ST_find(pn->label)) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+
+            return false;
+        } else {
+            switch (pn->type) {
+            case PARSE_NODE_TYPE_GOTO: CG_instruction[CG_instruction_upto++] = ML_DO_GOTO; break;
+            case PARSE_NODE_TYPE_GOSUB: CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB; break;
+
+            default:
+                ASSERT(0);
+                break;
+            }
+
+            //
+            // If this is a backwards goto or gosub then we can put the instruction
+            // index here.
+            //
+
+            if (ST_found_value <= CG_generating_line) {
+                CG_instruction[CG_instruction_upto++] = CG_line[ST_found_value].code;
+            } else {
+                //
+                // The line number to be converted to instruction after code generation.
+                //
+
+                CG_instruction[CG_instruction_upto++] = ST_found_value;
+
+                //
+                // Remember all the line numbers we must convert.
+                //
+
+                ASSERT(WITHIN(CG_forward_goto_upto, 0, CG_MAX_FORWARD_GOTOS - 1));
+
+                CG_forward_goto[CG_forward_goto_upto].instruction = CG_instruction_upto - 1;
+
+                switch (pn->type) {
+                case PARSE_NODE_TYPE_GOTO: CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_GOTO; break;
+                case PARSE_NODE_TYPE_GOSUB: CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_GOSUB; break;
+
+                default:
+                    ASSERT(0);
+                    break;
+                }
+
+                CG_forward_goto_upto++;
+            }
+
+            //
+            // Remember where the jump instruction is.
             //
 
             ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
 
             CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+        }
 
-            break;
+        break;
 
-        case PARSE_NODE_TYPE_FAKE_THEN:
+    case PARSE_NODE_TYPE_LABEL:
+        break;
+
+    case PARSE_NODE_TYPE_GT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_GT;
+        break;
+
+    case PARSE_NODE_TYPE_LT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_LT;
+        break;
+
+    case PARSE_NODE_TYPE_GTEQ:
+        CG_instruction[CG_instruction_upto++] = ML_DO_GTEQ;
+        break;
+
+    case PARSE_NODE_TYPE_LTEQ:
+        CG_instruction[CG_instruction_upto++] = ML_DO_LTEQ;
+        break;
+
+    case PARSE_NODE_TYPE_AND:
+        CG_instruction[CG_instruction_upto++] = ML_DO_AND;
+        break;
+
+    case PARSE_NODE_TYPE_OR:
+        CG_instruction[CG_instruction_upto++] = ML_DO_OR;
+        break;
+
+    case PARSE_NODE_TYPE_NOT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_NOT;
+        break;
+
+    case PARSE_NODE_TYPE_DOT:
+        break;
+
+    case PARSE_NODE_TYPE_LOCAL:
+
+        //
+        // LOCAL statement outside of functions have already been
+        // handled (they've added their variable with "<-" at the start
+        // to the symbol table).
+        //
+
+        if (CG_in_function) {
+            //
+            // There shouldn't already be a local with this name.
+            //
+
+            ASSERT(!(ST_find(pn->variable) && ST_found_table == ST_TABLE_LOCAL));
 
             //
-            // Look for the corresponding IF.
+            // Add the local to the symbol table.
             //
 
-            {
-                std::int32_t i;
+            ST_add(ST_TABLE_LOCAL, pn->variable, CG_func[CG_in_function].arg_upto, 0);
 
-                for (i = 0; i < CG_if_upto; i++) {
-                    if (CG_if[i].ifcode == pn->ifcode) {
-                        //
-                        // Found it! Make the IF_FALSE_GOTO point to the current instruction.
-                        //
+            CG_func[CG_in_function].arg_upto += 1;
+        }
 
-                        ASSERT(WITHIN(CG_if[i].instruction, 0, CG_instruction_upto - 1));
+        break;
 
-                        CG_instruction[CG_if[i].instruction] = CG_instruction_upto;
+    case PARSE_NODE_TYPE_PRINT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PRINT;
+        break;
 
-                        break;
-                    }
-                }
+    case PARSE_NODE_TYPE_ASSIGN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ASSIGN;
+        break;
 
+    case PARSE_NODE_TYPE_VAR_ADDRESS:
+
+        if (!ST_find(pn->variable)) {
+            ASSERT(0);
+        } else {
+            CG_instruction[CG_instruction_upto++] = (ST_found_table == ST_TABLE_LOCAL) ? ML_DO_PUSH_LOCAL_ADDRESS : ML_DO_PUSH_GLOBAL_ADDRESS;
+            CG_instruction[CG_instruction_upto++] = ST_found_value;
+
+            if (ST_found_table != ST_TABLE_LOCAL) {
                 //
-                // THEN found without matching IF?
+                // Remember the reference to the global.
                 //
 
-                ASSERT(i != CG_if_upto);
+                ASSERT(WITHIN(CG_globalref_upto, 0, CG_MAX_GLOBALREFS - 1));
+
+                CG_globalref[CG_globalref_upto++].instruction = CG_instruction_upto - 1;
+            }
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_BOOLEAN:
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_BOOLEAN;
+        CG_instruction[CG_instruction_upto++] = pn->boolean;
+
+        break;
+
+    case PARSE_NODE_TYPE_SQRT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_SQRT;
+        break;
+
+    case PARSE_NODE_TYPE_NEWLINE:
+        CG_instruction[CG_instruction_upto++] = ML_DO_NEWLINE;
+        break;
+
+    case PARSE_NODE_TYPE_ABS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ABS;
+        break;
+
+    case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_FIELD_ADDRESS;
+        break;
+
+    case PARSE_NODE_TYPE_FIELD:
+
+        if (!ST_find(pn->field)) {
+            ASSERT(0);
+        } else {
+            CG_instruction[CG_instruction_upto++] = ST_found_value;
+
+            //
+            // Remember the reference to the field.
+            //
+
+            ASSERT(WITHIN(CG_fieldref_upto, 0, CG_MAX_FIELDREFS - 1));
+
+            CG_fieldref[CG_fieldref_upto++].instruction = CG_instruction_upto - 1;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
+
+        if (pn->flag & PARSE_NODE_FLAG_EXTRACT) {
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_FIELD_QUICK;
+        } else {
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_FIELD_VALUE;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_EXP_LIST:
+        break;
+
+    case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ARRAY_ADDRESS;
+        CG_instruction[CG_instruction_upto++] = pn->dimensions;
+        break;
+
+    case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
+
+        if (pn->flag & PARSE_NODE_FLAG_EXTRACT) {
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ARRAY_QUICK;
+        } else {
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ARRAY_VALUE;
+        }
+
+        CG_instruction[CG_instruction_upto++] = pn->dimensions;
+
+        break;
+
+    case PARSE_NODE_TYPE_INPUT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_INPUT;
+        break;
+
+    case PARSE_NODE_TYPE_UNDEFINED:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
+        CG_instruction[CG_instruction_upto++] = 0;
+        break;
+
+    case PARSE_NODE_TYPE_STATEMENT_LIST:
+        break;
+
+    case PARSE_NODE_TYPE_EXIT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_EXIT;
+        break;
+
+    case PARSE_NODE_TYPE_RETURN:
+
+        if (CG_in_function) {
+            ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
+
+            if (!pn->child1) {
+                //
+                // The function doesn't return anything. Make it
+                // return UNDEFINED.
+                //
+
+                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+                CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
+                CG_instruction[CG_instruction_upto++] = 0;
             }
 
-            break;
-
-        case PARSE_NODE_TYPE_FAKE_ELSE:
-
             //
-            // Look for the corresponding IF.
+            // A return from function rather than a simple GOSUB.
             //
 
-            {
-                std::int32_t i;
+            CG_instruction[CG_instruction_upto++] = ML_DO_ENDFUNC;
+            CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].num_args;
+        } else {
+            CG_instruction[CG_instruction_upto++] = ML_DO_RETURN;
 
-                for (i = 0; i < CG_if_upto; i++) {
-                    if (CG_if[i].ifcode == pn->ifcode) {
-                        //
-                        // Found it! This IF_FALSE_GOTO instruction must
-                        // jump an instruction further to skip over the
-                        // goto we are just about to put in...
-                        //
-
-                        ASSERT(WITHIN(CG_if[i].instruction, 0, CG_instruction_upto - 1));
-
-                        CG_instruction[CG_if[i].instruction] = CG_instruction_upto + 2;
-
-                        //
-                        // Insert a GOTO so that the THEN code doesn't
-                        // leak into the ELSE code.
-                        //
-
-                        CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
-                        CG_instruction[CG_instruction_upto++] = 0; // To be filled in when we get the corresponding PARSE_NODE_TYPE_FAKE_ENDIF node.
-
-                        CG_if[i].instruction = CG_instruction_upto - 1;
-
-                        //
-                        // Remember where the jump instruction is.
-                        //
-
-                        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-                        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
-
-                        break;
-                    }
-                }
-
+            if (pn->child1) {
                 //
-                // ELSE found without matching IF?
-                //
-
-                ASSERT(i != CG_if_upto);
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_FAKE_END_ELSE:
-
-            //
-            // Look for the corresponding IF.
-            //
-
-            {
-                std::int32_t i;
-
-                for (i = 0; i < CG_if_upto; i++) {
-                    if (CG_if[i].ifcode == pn->ifcode) {
-                        //
-                        // Found it! Make the GOTO after the 'THEN' code point to the current instruction.
-                        //
-
-                        ASSERT(WITHIN(CG_if[i].instruction, 0, CG_instruction_upto - 1));
-
-                        CG_instruction[CG_if[i].instruction] = CG_instruction_upto;
-
-                        break;
-                    }
-                }
-
-                //
-                // ENDELSE found without matching IF?
-                //
-
-                ASSERT(i != CG_if_upto);
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_GOTO:
-        case PARSE_NODE_TYPE_GOSUB:
-
-            if (!ST_find(pn->label)) {
-                //
-                // ERROR!
+                // ERROR! Only RETURNs inside functions can return values.
                 //
 
                 ASSERT(0);
+            }
+        }
 
-                return false;
-            } else {
-                switch (pn->type) {
-                    case PARSE_NODE_TYPE_GOTO: CG_instruction[CG_instruction_upto++] = ML_DO_GOTO; break;
-                    case PARSE_NODE_TYPE_GOSUB: CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB; break;
+        break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+    case PARSE_NODE_TYPE_XOR:
+        CG_instruction[CG_instruction_upto++] = ML_DO_XOR;
+        break;
+
+    case PARSE_NODE_TYPE_FOR:
+
+        //
+        // This is a forward goto so we skip over the STEP code.
+        //
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
+        CG_instruction[CG_instruction_upto++] = 0; // To be filled in later by the FAKE_ENDFOR parse node.
+
+        //
+        // Remember where the jump instruction is.
+        //
+
+        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+        //
+        // This is where we GOTO to for another iteration.
+        //
+
+        ASSERT(WITHIN(CG_for_upto, 0, CG_MAX_FORS - 1));
+
+        CG_for[CG_for_upto].type = CG_FOR_TYPE_ANON;
+        CG_for[CG_for_upto].lvalue = nullptr;
+        CG_for[CG_for_upto].loopto = CG_instruction_upto;
+        CG_for[CG_for_upto].overstep = CG_instruction_upto - 1;
+        CG_for[CG_for_upto].forcode = pn->forcode;
+
+        if (pn->lvalue) {
+            CG_for[CG_for_upto].type = CG_FOR_TYPE_LVALUE;
+            CG_for[CG_for_upto].lvalue = pn->lvalue;
+        }
+
+        CG_for_upto += 1;
+
+        break;
+
+    case PARSE_NODE_TYPE_FAKE_END_FOR:
+
+        //
+        // Find the FOR statement corresponding to this ENDFOR node.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = CG_for_upto - 1; i >= 0; i--) {
+                if (CG_for[i].forcode == pn->forcode) {
+                    ASSERT(WITHIN(CG_for[i].overstep, 0, CG_instruction_upto - 1));
+
+                    CG_instruction[CG_for[i].overstep] = CG_instruction_upto;
+
+                    goto found_corresponding_for;
                 }
+            }
 
+            ASSERT(0);
+
+        found_corresponding_for:;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_NEXT:
+
+    {
+        std::int32_t i;
+
+        for (i = CG_for_upto - 1; i >= 0; i--) {
+            if (CG_for[i].forcode == 0) {
                 //
-                // If this is a backwards goto or gosub then we can put the instruction
-                // index here.
+                // This FOR has alreay been matched by a next...
                 //
 
-                if (ST_found_value <= CG_generating_line) {
-                    CG_instruction[CG_instruction_upto++] = CG_line[ST_found_value].code;
+                continue;
+            }
+
+            if (!pn->lvalue) {
+                //
+                // Match this FOR loop...
+                //
+            } else {
+                //
+                // Only match a FOR loop with the correct variable.
+                //
+
+                if (CG_for[i].type == CG_FOR_TYPE_LVALUE && PARSE_trees_the_same(CG_for[i].lvalue, pn->lvalue)) {
+                    //
+                    // This is our FOR loop!
+                    //
                 } else {
                     //
-                    // The line number to be converted to instruction after code generation.
+                    // This is not our FOR loop.
                     //
 
-                    CG_instruction[CG_instruction_upto++] = ST_found_value;
-
-                    //
-                    // Remember all the line numbers we must convert.
-                    //
-
-                    ASSERT(WITHIN(CG_forward_goto_upto, 0, CG_MAX_FORWARD_GOTOS - 1));
-
-                    CG_forward_goto[CG_forward_goto_upto].instruction = CG_instruction_upto - 1;
-
-                    switch (pn->type) {
-                        case PARSE_NODE_TYPE_GOTO: CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_GOTO; break;
-                        case PARSE_NODE_TYPE_GOSUB: CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_GOSUB; break;
-
-                        default:
-                            ASSERT(0);
-                            break;
-                    }
-
-                    CG_forward_goto_upto++;
+                    continue;
                 }
-
-                //
-                // Remember where the jump instruction is.
-                //
-
-                ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-                CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
             }
-
-            break;
-
-        case PARSE_NODE_TYPE_LABEL:
-            break;
-
-        case PARSE_NODE_TYPE_GT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_GT;
-            break;
-
-        case PARSE_NODE_TYPE_LT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_LT;
-            break;
-
-        case PARSE_NODE_TYPE_GTEQ:
-            CG_instruction[CG_instruction_upto++] = ML_DO_GTEQ;
-            break;
-
-        case PARSE_NODE_TYPE_LTEQ:
-            CG_instruction[CG_instruction_upto++] = ML_DO_LTEQ;
-            break;
-
-        case PARSE_NODE_TYPE_AND:
-            CG_instruction[CG_instruction_upto++] = ML_DO_AND;
-            break;
-
-        case PARSE_NODE_TYPE_OR:
-            CG_instruction[CG_instruction_upto++] = ML_DO_OR;
-            break;
-
-        case PARSE_NODE_TYPE_NOT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_NOT;
-            break;
-
-        case PARSE_NODE_TYPE_DOT:
-            break;
-
-        case PARSE_NODE_TYPE_LOCAL:
 
             //
-            // LOCAL statement outside of functions have already been
-            // handled (they've added their variable with "<-" at the start
-            // to the symbol table).
+            // This is the FOR-LOOP to match up with- free it up.
             //
 
-            if (CG_in_function) {
-                //
-                // There shouldn't already be a local with this name.
-                //
-
-                ASSERT(!(ST_find(pn->variable) && ST_found_table == ST_TABLE_LOCAL));
-
-                //
-                // Add the local to the symbol table.
-                //
-
-                ST_add(ST_TABLE_LOCAL, pn->variable, CG_func[CG_in_function].arg_upto, 0);
-
-                CG_func[CG_in_function].arg_upto += 1;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_PRINT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PRINT;
-            break;
-
-        case PARSE_NODE_TYPE_ASSIGN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ASSIGN;
-            break;
-
-        case PARSE_NODE_TYPE_VAR_ADDRESS:
-
-            if (!ST_find(pn->variable)) {
-                ASSERT(0);
-            } else {
-                CG_instruction[CG_instruction_upto++] = (ST_found_table == ST_TABLE_LOCAL) ? ML_DO_PUSH_LOCAL_ADDRESS : ML_DO_PUSH_GLOBAL_ADDRESS;
-                CG_instruction[CG_instruction_upto++] = ST_found_value;
-
-                if (ST_found_table != ST_TABLE_LOCAL) {
-                    //
-                    // Remember the reference to the global.
-                    //
-
-                    ASSERT(WITHIN(CG_globalref_upto, 0, CG_MAX_GLOBALREFS - 1));
-
-                    CG_globalref[CG_globalref_upto++].instruction = CG_instruction_upto - 1;
-                }
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_BOOLEAN:
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_BOOLEAN;
-            CG_instruction[CG_instruction_upto++] = pn->boolean;
-
-            break;
-
-        case PARSE_NODE_TYPE_SQRT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_SQRT;
-            break;
-
-        case PARSE_NODE_TYPE_NEWLINE:
-            CG_instruction[CG_instruction_upto++] = ML_DO_NEWLINE;
-            break;
-
-        case PARSE_NODE_TYPE_ABS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ABS;
-            break;
-
-        case PARSE_NODE_TYPE_PUSH_FIELD_ADDRESS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_FIELD_ADDRESS;
-            break;
-
-        case PARSE_NODE_TYPE_FIELD:
-
-            if (!ST_find(pn->field)) {
-                ASSERT(0);
-            } else {
-                CG_instruction[CG_instruction_upto++] = ST_found_value;
-
-                //
-                // Remember the reference to the field.
-                //
-
-                ASSERT(WITHIN(CG_fieldref_upto, 0, CG_MAX_FIELDREFS - 1));
-
-                CG_fieldref[CG_fieldref_upto++].instruction = CG_instruction_upto - 1;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_PUSH_FIELD_VALUE:
-
-            if (pn->flag & PARSE_NODE_FLAG_EXTRACT) {
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_FIELD_QUICK;
-            } else {
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_FIELD_VALUE;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_EXP_LIST:
-            break;
-
-        case PARSE_NODE_TYPE_PUSH_ARRAY_ADDRESS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ARRAY_ADDRESS;
-            CG_instruction[CG_instruction_upto++] = pn->dimensions;
-            break;
-
-        case PARSE_NODE_TYPE_PUSH_ARRAY_VALUE:
-
-            if (pn->flag & PARSE_NODE_FLAG_EXTRACT) {
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ARRAY_QUICK;
-            } else {
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ARRAY_VALUE;
-            }
-
-            CG_instruction[CG_instruction_upto++] = pn->dimensions;
-
-            break;
-
-        case PARSE_NODE_TYPE_INPUT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_INPUT;
-            break;
-
-        case PARSE_NODE_TYPE_UNDEFINED:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
-            CG_instruction[CG_instruction_upto++] = 0;
-            break;
-
-        case PARSE_NODE_TYPE_STATEMENT_LIST:
-            break;
-
-        case PARSE_NODE_TYPE_EXIT:
-            CG_instruction[CG_instruction_upto++] = ML_DO_EXIT;
-            break;
-
-        case PARSE_NODE_TYPE_RETURN:
-
-            if (CG_in_function) {
-                ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
-
-                if (!pn->child1) {
-                    //
-                    // The function doesn't return anything. Make it
-                    // return UNDEFINED.
-                    //
-
-                    CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-                    CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
-                    CG_instruction[CG_instruction_upto++] = 0;
-                }
-
-                //
-                // A return from function rather than a simple GOSUB.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_ENDFUNC;
-                CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].num_args;
-            } else {
-                CG_instruction[CG_instruction_upto++] = ML_DO_RETURN;
-
-                if (pn->child1) {
-                    //
-                    // ERROR! Only RETURNs inside functions can return values.
-                    //
-
-                    ASSERT(0);
-                }
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_XOR:
-            CG_instruction[CG_instruction_upto++] = ML_DO_XOR;
-            break;
-
-        case PARSE_NODE_TYPE_FOR:
+            CG_for[i].forcode = 0;
 
             //
-            // This is a forward goto so we skip over the STEP code.
+            // Loop back to the increment and condition.
             //
 
             CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
-            CG_instruction[CG_instruction_upto++] = 0; // To be filled in later by the FAKE_ENDFOR parse node.
+            CG_instruction[CG_instruction_upto++] = CG_for[i].loopto;
 
             //
             // Remember where the jump instruction is.
@@ -1130,125 +1234,65 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
             CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
 
             //
-            // This is where we GOTO to for another iteration.
+            // Fill in the jump for the condition.
             //
 
-            ASSERT(WITHIN(CG_for_upto, 0, CG_MAX_FORS - 1));
+            ASSERT(WITHIN(CG_for[i].afternext, 0, CG_instruction_upto - 1));
 
-            CG_for[CG_for_upto].type = CG_FOR_TYPE_ANON;
-            CG_for[CG_for_upto].lvalue = nullptr;
-            CG_for[CG_for_upto].loopto = CG_instruction_upto;
-            CG_for[CG_for_upto].overstep = CG_instruction_upto - 1;
-            CG_for[CG_for_upto].forcode = pn->forcode;
-
-            if (pn->lvalue) {
-                CG_for[CG_for_upto].type = CG_FOR_TYPE_LVALUE;
-                CG_for[CG_for_upto].lvalue = pn->lvalue;
-            }
-
-            CG_for_upto += 1;
-
-            break;
-
-        case PARSE_NODE_TYPE_FAKE_END_FOR:
+            CG_instruction[CG_for[i].afternext] = CG_instruction_upto;
 
             //
-            // Find the FOR statement corresponding to this ENDFOR node.
+            // Get rid of the lvalue node so the tree traversal doesn't
+            // generate code for it.
             //
 
-            {
-                std::int32_t i;
+            pn->lvalue = nullptr;
 
-                for (i = CG_for_upto - 1; i >= 0; i--) {
-                    if (CG_for[i].forcode == pn->forcode) {
-                        ASSERT(WITHIN(CG_for[i].overstep, 0, CG_instruction_upto - 1));
+            goto found_matching_for;
+        }
 
-                        CG_instruction[CG_for[i].overstep] = CG_instruction_upto;
+        //
+        // ERROR! No matching FOR loop for the NEXT statement.
+        //
 
-                        goto found_corresponding_for;
-                    }
-                }
+        ASSERT(0);
 
-                ASSERT(0);
+    found_matching_for:;
+    }
 
-            found_corresponding_for:;
-            }
+    break;
 
-            break;
+    case PARSE_NODE_TYPE_FAKE_FOR_COND:
 
-        case PARSE_NODE_TYPE_NEXT:
+        //
+        // Find the FOR statement corresponding to this FOR_COND node.
+        //
 
         {
             std::int32_t i;
 
             for (i = CG_for_upto - 1; i >= 0; i--) {
-                if (CG_for[i].forcode == 0) {
+                if (CG_for[i].forcode == pn->forcode) {
                     //
-                    // This FOR has alreay been matched by a next...
+                    // Generate code to jump to after the NEXT in the
+                    // condition is true.
                     //
 
-                    continue;
+                    CG_instruction[CG_instruction_upto++] = ML_DO_IF_TRUE_GOTO;
+                    CG_instruction[CG_instruction_upto++] = 0;
+
+                    CG_for[i].afternext = CG_instruction_upto - 1;
+
+                    //
+                    // Remember the jump instruction.
+                    //
+
+                    ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+                    CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+                    goto found_the_for;
                 }
-
-                if (!pn->lvalue) {
-                    //
-                    // Match this FOR loop...
-                    //
-                } else {
-                    //
-                    // Only match a FOR loop with the correct variable.
-                    //
-
-                    if (CG_for[i].type == CG_FOR_TYPE_LVALUE && PARSE_trees_the_same(CG_for[i].lvalue, pn->lvalue)) {
-                        //
-                        // This is our FOR loop!
-                        //
-                    } else {
-                        //
-                        // This is not our FOR loop.
-                        //
-
-                        continue;
-                    }
-                }
-
-                //
-                // This is the FOR-LOOP to match up with- free it up.
-                //
-
-                CG_for[i].forcode = 0;
-
-                //
-                // Loop back to the increment and condition.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
-                CG_instruction[CG_instruction_upto++] = CG_for[i].loopto;
-
-                //
-                // Remember where the jump instruction is.
-                //
-
-                ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-                CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
-
-                //
-                // Fill in the jump for the condition.
-                //
-
-                ASSERT(WITHIN(CG_for[i].afternext, 0, CG_instruction_upto - 1));
-
-                CG_instruction[CG_for[i].afternext] = CG_instruction_upto;
-
-                //
-                // Get rid of the lvalue node so the tree traversal doesn't
-                // generate code for it.
-                //
-
-                pn->lvalue = nullptr;
-
-                goto found_matching_for;
             }
 
             //
@@ -1257,378 +1301,90 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
 
             ASSERT(0);
 
-        found_matching_for:;
+        found_the_for:;
         }
 
         break;
 
-        case PARSE_NODE_TYPE_FAKE_FOR_COND:
+    case PARSE_NODE_TYPE_NOTEQUAL:
+        CG_instruction[CG_instruction_upto++] = ML_DO_NOTEQUAL;
+        break;
 
-            //
-            // Find the FOR statement corresponding to this FOR_COND node.
-            //
+    case PARSE_NODE_TYPE_RANDOM:
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_RANDOM_SLUMBER;
+        break;
 
-            {
-                std::int32_t i;
+    case PARSE_NODE_TYPE_SWAP:
+        CG_instruction[CG_instruction_upto++] = ML_DO_SWAP;
+        break;
 
-                for (i = CG_for_upto - 1; i >= 0; i--) {
-                    if (CG_for[i].forcode == pn->forcode) {
-                        //
-                        // Generate code to jump to after the NEXT in the
-                        // condition is true.
-                        //
+    case PARSE_NODE_TYPE_MIF:
 
-                        CG_instruction[CG_instruction_upto++] = ML_DO_IF_TRUE_GOTO;
-                        CG_instruction[CG_instruction_upto++] = 0;
+        //
+        // Create code to jump over the THEN code if the condition
+        // code evaluates to false.
+        //
 
-                        CG_for[i].afternext = CG_instruction_upto - 1;
+        CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
+        CG_instruction[CG_instruction_upto++] = 0; // To be filled in later when we get the MELSE or MENDIF node.
 
-                        //
-                        // Remember the jump instruction.
-                        //
+        //
+        // Remember the jump instruction.
+        //
 
-                        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
 
-                        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
 
-                        goto found_the_for;
-                    }
-                }
+        //
+        // Create a new entry in the multi-line IF array.
+        //
 
-                //
-                // ERROR! No matching FOR loop for the NEXT statement.
-                //
+        ASSERT(WITHIN(CG_mif_upto, 0, CG_MAX_MIFS - 1));
 
-                ASSERT(0);
+        CG_mif[CG_mif_upto].flag = 0;
+        CG_mif[CG_mif_upto].iffalsejump = CG_instruction_upto - 1;
+        CG_mif[CG_mif_upto].afterthenjump = 0;
 
-            found_the_for:;
-            }
+        CG_mif_upto += 1;
 
-            break;
+        break;
 
-        case PARSE_NODE_TYPE_NOTEQUAL:
-            CG_instruction[CG_instruction_upto++] = ML_DO_NOTEQUAL;
-            break;
+    case PARSE_NODE_TYPE_MELSE:
 
-        case PARSE_NODE_TYPE_RANDOM:
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_RANDOM_SLUMBER;
-            break;
+        //
+        // An ELSE instruction in a multi-line IF. Match it up with
+        // the nearest MIF.
+        //
 
-        case PARSE_NODE_TYPE_SWAP:
-            CG_instruction[CG_instruction_upto++] = ML_DO_SWAP;
-            break;
+        {
+            std::int32_t i;
 
-        case PARSE_NODE_TYPE_MIF:
-
-            //
-            // Create code to jump over the THEN code if the condition
-            // code evaluates to false.
-            //
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
-            CG_instruction[CG_instruction_upto++] = 0; // To be filled in later when we get the MELSE or MENDIF node.
-
-            //
-            // Remember the jump instruction.
-            //
-
-            ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-            CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
-
-            //
-            // Create a new entry in the multi-line IF array.
-            //
-
-            ASSERT(WITHIN(CG_mif_upto, 0, CG_MAX_MIFS - 1));
-
-            CG_mif[CG_mif_upto].flag = 0;
-            CG_mif[CG_mif_upto].iffalsejump = CG_instruction_upto - 1;
-            CG_mif[CG_mif_upto].afterthenjump = 0;
-
-            CG_mif_upto += 1;
-
-            break;
-
-        case PARSE_NODE_TYPE_MELSE:
-
-            //
-            // An ELSE instruction in a multi-line IF. Match it up with
-            // the nearest MIF.
-            //
-
-            {
-                std::int32_t i;
-
-                for (i = CG_mif_upto - 1; i >= 0; i--) {
-                    if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MENDIF) {
-                        //
-                        // This MIF has already been matched with an ENDIF.
-                        //
-                    } else {
-                        //
-                        // This is our MIF instruction.
-                        //
-
-                        if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MELSE) {
-                            //
-                            // ERROR! Badly formed, nested multi-line ifs...
-                            //
-
-                            ASSERT(0);
-                        }
-
-                        //
-                        // Add instructions to jump over the ELSE code to
-                        // the end of the THEN code.
-                        //
-
-                        CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
-                        CG_instruction[CG_instruction_upto++] = 0; // To be filled in later when we get the MENDIF node.
-
-                        //
-                        // Remember where the jump instruction is.
-                        //
-
-                        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-                        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
-
-                        //
-                        // Update the multiline-if structure now we have found the else.
-                        //
-
-                        CG_mif[i].flag |= CG_MIF_FLAG_FOUND_MELSE;
-                        CG_mif[i].afterthenjump = CG_instruction_upto - 1;
-
-                        //
-                        // Set the target of the IF_FALSE_GOTO jump instruction
-                        // inserted by the MIF node.
-                        //
-
-                        ASSERT(WITHIN(CG_mif[i].iffalsejump, 0, CG_instruction_upto - 2));
-
-                        CG_instruction[CG_mif[i].iffalsejump] = CG_instruction_upto;
-
-                        goto found_mif_for_melse;
-                    }
-                }
-
-                //
-                // ERROR!
-                //
-
-                ASSERT(0);
-
-            found_mif_for_melse:;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_MENDIF:
-
-            //
-            // An ENDIF instruction in a multi-line IF. Match it up with
-            // the nearest MIF.
-            //
-
-            {
-                std::int32_t i;
-
-                for (i = CG_mif_upto - 1; i >= 0; i--) {
-                    if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MENDIF) {
-                        //
-                        // This MIF has already been matched with an ENDIF.
-                        //
-                    } else {
-                        CG_mif[i].flag |= CG_MIF_FLAG_FOUND_MENDIF;
-
-                        if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MELSE) {
-                            //
-                            // Set the target of the jump put in by the MELSE node.
-                            //
-
-                            ASSERT(WITHIN(CG_mif[i].afterthenjump, 0, CG_instruction_upto - 2));
-
-                            CG_instruction[CG_mif[i].afterthenjump] = CG_instruction_upto;
-                        } else {
-                            //
-                            // Set the target of the jump put in by the MIF node.
-                            //
-
-                            ASSERT(WITHIN(CG_mif[i].iffalsejump, 0, CG_instruction_upto - 2));
-
-                            CG_instruction[CG_mif[i].iffalsejump] = CG_instruction_upto;
-                        }
-
-                        goto found_mif_for_endif;
-                    }
-                }
-
-                //
-                // ERROR!
-                //
-
-                ASSERT(0);
-
-            found_mif_for_endif:;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_WHILE:
-
-            //
-            // Create a new entry in the while array.
-            //
-
-            ASSERT(WITHIN(CG_while_upto, 0, CG_MAX_WHILES - 1));
-
-            CG_while[CG_while_upto].flag = 0;
-            CG_while[CG_while_upto].iffalsejump = 0;
-            CG_while[CG_while_upto].whilecode = pn->whilecode;
-            CG_while[CG_while_upto].loopto = CG_instruction_upto;
-
-            CG_while_upto += 1;
-
-            break;
-
-        case PARSE_NODE_TYPE_FAKE_WHILE_COND:
-
-            //
-            // Create code to jump over the body of the While-loop if the condition
-            // code evaluates to false.
-            //
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
-            CG_instruction[CG_instruction_upto++] = 0; // To be filled in later when we LOOP node.
-
-            //
-            // Remember the jump instruction.
-            //
-
-            ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-            CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
-
-            //
-            // Find our while loop.
-            //
-
-            {
-                std::int32_t i;
-
-                for (i = CG_while_upto - 1; i >= 0; i--) {
-                    if (CG_while[i].whilecode == pn->whilecode) {
-                        //
-                        // Found our while loop!
-                        //
-
-                        CG_while[i].iffalsejump = CG_instruction_upto - 1;
-
-                        goto found_our_while_loop;
-                    }
-                }
-
-                //
-                // Oh dear...
-                //
-
-                ASSERT(0);
-
-            found_our_while_loop:;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_LOOP:
-
-            //
-            // Look for the nearest unmatched while loop.
-            //
-
-            {
-                std::int32_t i;
-
-                for (i = CG_while_upto - 1; i >= 0; i--) {
-                    if (CG_while[i].flag & CG_WHILE_FLAG_FOUND_LOOP) {
-                        //
-                        // Already been matched up.
-                        //
-                    } else {
-                        ASSERT(WITHIN(CG_while[i].loopto, 0, CG_instruction_upto - 1));
-                        ASSERT(WITHIN(CG_while[i].iffalsejump, 0, CG_instruction_upto - 1));
-
-                        CG_while[i].flag |= CG_WHILE_FLAG_FOUND_LOOP;
-
-                        //
-                        // Loop back to the beginning of the while loop.
-                        //
-
-                        CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
-                        CG_instruction[CG_instruction_upto++] = CG_while[i].loopto;
-
-                        //
-                        // Remember where the jump instruction is.
-                        //
-
-                        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
-
-                        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
-
-                        //
-                        // Set the target of the jump put in by the WHILE node.
-                        //
-
-                        CG_instruction[CG_while[i].iffalsejump] = CG_instruction_upto;
-
-                        goto found_while;
-                    }
-                }
-
-                //
-                // ERROR!
-                //
-
-                ASSERT(0);
-
-            found_while:;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_FUNCTION:
-
-            if (CG_in_function) {
-                //
-                // ERROR!
-                //
-
-                ASSERT(0);
-            } else {
-                //
-                // Find our function.
-                //
-
-                if (!ST_find(pn->variable)) {
+            for (i = CG_mif_upto - 1; i >= 0; i--) {
+                if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MENDIF) {
                     //
-                    // ERROR!
+                    // This MIF has already been matched with an ENDIF.
                     //
-
-                    ASSERT(0);
                 } else {
-                    CG_in_function = ST_found_value;
+                    //
+                    // This is our MIF instruction.
+                    //
 
-                    ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
-                    ASSERT(strcmp(CG_func[CG_in_function].name, pn->variable) == 0);
+                    if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MELSE) {
+                        //
+                        // ERROR! Badly formed, nested multi-line ifs...
+                        //
+
+                        ASSERT(0);
+                    }
 
                     //
-                    // Code to jump over the body of the function if execution
-                    // leaks down to the function.
+                    // Add instructions to jump over the ELSE code to
+                    // the end of the THEN code.
                     //
 
                     CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
-                    CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].endline + 1;
+                    CG_instruction[CG_instruction_upto++] = 0; // To be filled in later when we get the MENDIF node.
 
                     //
                     // Remember where the jump instruction is.
@@ -1639,151 +1395,240 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
                     CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
 
                     //
-                    // This is a forward goto..
+                    // Update the multiline-if structure now we have found the else.
                     //
 
-                    ASSERT(WITHIN(CG_forward_goto_upto, 0, CG_MAX_FORWARD_GOTOS - 1));
-
-                    CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_GOTO;
-                    CG_forward_goto[CG_forward_goto_upto].instruction = CG_instruction_upto - 1;
-
-                    CG_forward_goto_upto++;
+                    CG_mif[i].flag |= CG_MIF_FLAG_FOUND_MELSE;
+                    CG_mif[i].afterthenjump = CG_instruction_upto - 1;
 
                     //
-                    // The numbering of our arugments and local variables
+                    // Set the target of the IF_FALSE_GOTO jump instruction
+                    // inserted by the MIF node.
                     //
 
-                    CG_func[CG_in_function].arg_upto = 0;
+                    ASSERT(WITHIN(CG_mif[i].iffalsejump, 0, CG_instruction_upto - 2));
 
-                    //
-                    // Enter the function. Easy!
-                    //
+                    CG_instruction[CG_mif[i].iffalsejump] = CG_instruction_upto;
 
-                    CG_instruction[CG_instruction_upto++] = ML_DO_ENTERFUNC;
-                    CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].num_args;
+                    goto found_mif_for_melse;
                 }
             }
 
-            break;
-
-        case PARSE_NODE_TYPE_ARGUMENT:
-
             //
-            // We must be inside a function!
+            // ERROR!
             //
 
-            if (!CG_in_function) {
+            ASSERT(0);
+
+        found_mif_for_melse:;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_MENDIF:
+
+        //
+        // An ENDIF instruction in a multi-line IF. Match it up with
+        // the nearest MIF.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = CG_mif_upto - 1; i >= 0; i--) {
+                if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MENDIF) {
+                    //
+                    // This MIF has already been matched with an ENDIF.
+                    //
+                } else {
+                    CG_mif[i].flag |= CG_MIF_FLAG_FOUND_MENDIF;
+
+                    if (CG_mif[i].flag & CG_MIF_FLAG_FOUND_MELSE) {
+                        //
+                        // Set the target of the jump put in by the MELSE node.
+                        //
+
+                        ASSERT(WITHIN(CG_mif[i].afterthenjump, 0, CG_instruction_upto - 2));
+
+                        CG_instruction[CG_mif[i].afterthenjump] = CG_instruction_upto;
+                    } else {
+                        //
+                        // Set the target of the jump put in by the MIF node.
+                        //
+
+                        ASSERT(WITHIN(CG_mif[i].iffalsejump, 0, CG_instruction_upto - 2));
+
+                        CG_instruction[CG_mif[i].iffalsejump] = CG_instruction_upto;
+                    }
+
+                    goto found_mif_for_endif;
+                }
+            }
+
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+
+        found_mif_for_endif:;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_WHILE:
+
+        //
+        // Create a new entry in the while array.
+        //
+
+        ASSERT(WITHIN(CG_while_upto, 0, CG_MAX_WHILES - 1));
+
+        CG_while[CG_while_upto].flag = 0;
+        CG_while[CG_while_upto].iffalsejump = 0;
+        CG_while[CG_while_upto].whilecode = pn->whilecode;
+        CG_while[CG_while_upto].loopto = CG_instruction_upto;
+
+        CG_while_upto += 1;
+
+        break;
+
+    case PARSE_NODE_TYPE_FAKE_WHILE_COND:
+
+        //
+        // Create code to jump over the body of the While-loop if the condition
+        // code evaluates to false.
+        //
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_IF_FALSE_GOTO;
+        CG_instruction[CG_instruction_upto++] = 0; // To be filled in later when we LOOP node.
+
+        //
+        // Remember the jump instruction.
+        //
+
+        ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+        CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+        //
+        // Find our while loop.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = CG_while_upto - 1; i >= 0; i--) {
+                if (CG_while[i].whilecode == pn->whilecode) {
+                    //
+                    // Found our while loop!
+                    //
+
+                    CG_while[i].iffalsejump = CG_instruction_upto - 1;
+
+                    goto found_our_while_loop;
+                }
+            }
+
+            //
+            // Oh dear...
+            //
+
+            ASSERT(0);
+
+        found_our_while_loop:;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_LOOP:
+
+        //
+        // Look for the nearest unmatched while loop.
+        //
+
+        {
+            std::int32_t i;
+
+            for (i = CG_while_upto - 1; i >= 0; i--) {
+                if (CG_while[i].flag & CG_WHILE_FLAG_FOUND_LOOP) {
+                    //
+                    // Already been matched up.
+                    //
+                } else {
+                    ASSERT(WITHIN(CG_while[i].loopto, 0, CG_instruction_upto - 1));
+                    ASSERT(WITHIN(CG_while[i].iffalsejump, 0, CG_instruction_upto - 1));
+
+                    CG_while[i].flag |= CG_WHILE_FLAG_FOUND_LOOP;
+
+                    //
+                    // Loop back to the beginning of the while loop.
+                    //
+
+                    CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
+                    CG_instruction[CG_instruction_upto++] = CG_while[i].loopto;
+
+                    //
+                    // Remember where the jump instruction is.
+                    //
+
+                    ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+                    CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+                    //
+                    // Set the target of the jump put in by the WHILE node.
+                    //
+
+                    CG_instruction[CG_while[i].iffalsejump] = CG_instruction_upto;
+
+                    goto found_while;
+                }
+            }
+
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+
+        found_while:;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_FUNCTION:
+
+        if (CG_in_function) {
+            //
+            // ERROR!
+            //
+
+            ASSERT(0);
+        } else {
+            //
+            // Find our function.
+            //
+
+            if (!ST_find(pn->variable)) {
                 //
                 // ERROR!
                 //
 
                 ASSERT(0);
-            }
-
-            //
-            // There shouldn't already be a local with this name.
-            //
-
-            ASSERT(!(ST_find(pn->variable) && ST_found_table == ST_TABLE_LOCAL));
-
-            //
-            // Add this argument to the local variables for this function.
-            //
-
-            ST_add(ST_TABLE_LOCAL, pn->variable, CG_func[CG_in_function].arg_upto, 0);
-
-            CG_func[CG_in_function].arg_upto += 1;
-
-            break;
-
-        case PARSE_NODE_TYPE_ENDFUNC:
-
-            //
-            // The function doesn't return anything. Make it
-            // return UNDEFINED.
-            //
-
-            ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
-            CG_instruction[CG_instruction_upto++] = 0;
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_ENDFUNC;
-            CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].num_args;
-
-            //
-            // Not in a function any more.
-            //
-
-            CG_in_function = false;
-
-            //
-            // We've lost all the symbols in the local symbol table.
-            //
-
-            ST_clear(ST_TABLE_LOCAL);
-
-            break;
-
-        case PARSE_NODE_TYPE_CALL:
-
-            //
-            // Push the number of arguments in the function call onto the stack.
-            // The function will check for the correct number and insert
-            // extra UNDEFINED locals as required.
-            //
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-            CG_instruction[CG_instruction_upto++] = ML_TYPE_NUM_ARGS;
-            CG_instruction[CG_instruction_upto++] = pn->args;
-
-            if (!ST_find(pn->variable)) {
-                //
-                // This is an undeclared function.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB;
-                CG_instruction[CG_instruction_upto++] = 0;
-
-                //
-                // Remember where the reference to the function is.
-                //
-
-                ASSERT(WITHIN(CG_undefref_upto, 0, CG_MAX_UNDEFREFS - 1));
-
-                CG_undefref[CG_undefref_upto].name = CG_add_string_to_debug_data(pn->variable);
-                CG_undefref[CG_undefref_upto].instruction = CG_instruction_upto - 1;
-
-                CG_undefref_upto += 1;
             } else {
-                ASSERT(WITHIN(ST_found_value, 0, CG_func_upto - 1));
-                ASSERT(strcmp(CG_func[ST_found_value].name, pn->variable) == 0);
+                CG_in_function = ST_found_value;
 
-                if (CG_generating_line > CG_func[ST_found_value].line) {
-                    //
-                    // This is a backwards goto so we can fill in the instruction
-                    // right away.  We add 2 to the instruction to jump over the GOTO
-                    // over the function...
-                    //
+                ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
+                ASSERT(strcmp(CG_func[CG_in_function].name, pn->variable) == 0);
 
-                    CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB;
-                    CG_instruction[CG_instruction_upto++] = CG_line[CG_func[ST_found_value].line].code + 2;
-                } else {
-                    //
-                    // This is a forward goto.
-                    //
+                //
+                // Code to jump over the body of the function if execution
+                // leaks down to the function.
+                //
 
-                    CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB;
-                    CG_instruction[CG_instruction_upto++] = CG_func[ST_found_value].line;
-
-                    ASSERT(WITHIN(CG_forward_goto_upto, 0, CG_MAX_FORWARD_GOTOS - 1));
-
-                    CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_CALL;
-                    CG_forward_goto[CG_forward_goto_upto].instruction = CG_instruction_upto - 1;
-
-                    CG_forward_goto_upto++;
-                }
+                CG_instruction[CG_instruction_upto++] = ML_DO_GOTO;
+                CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].endline + 1;
 
                 //
                 // Remember where the jump instruction is.
@@ -1792,238 +1637,393 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
                 ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
 
                 CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+
+                //
+                // This is a forward goto..
+                //
+
+                ASSERT(WITHIN(CG_forward_goto_upto, 0, CG_MAX_FORWARD_GOTOS - 1));
+
+                CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_GOTO;
+                CG_forward_goto[CG_forward_goto_upto].instruction = CG_instruction_upto - 1;
+
+                CG_forward_goto_upto++;
+
+                //
+                // The numbering of our arugments and local variables
+                //
+
+                CG_func[CG_in_function].arg_upto = 0;
+
+                //
+                // Enter the function. Easy!
+                //
+
+                CG_instruction[CG_instruction_upto++] = ML_DO_ENTERFUNC;
+                CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].num_args;
             }
-
-            if (!(pn->flag & PARSE_NODE_FLAG_EXPRESSION)) {
-                //
-                // If this function call isn't part of an expression, the
-                // return value isn't needed.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_POP;
-            }
-
-            break;
-
-        case PARSE_NODE_TYPE_TEXTURE:
-        case PARSE_NODE_TYPE_BUFFER:
-        case PARSE_NODE_TYPE_DRAW:
-        case PARSE_NODE_TYPE_CLS:
-
-        {
-            std::int32_t num_args;
-            std::int32_t func_code;
-
-            //
-            // How many arguments do we want and what is the function code?
-            //
-
-            switch (pn->type) {
-                case PARSE_NODE_TYPE_TEXTURE:
-                    num_args = 2;
-                    func_code = ML_DO_TEXTURE;
-                    break;
-                case PARSE_NODE_TYPE_BUFFER:
-                    num_args = 4;
-                    func_code = ML_DO_BUFFER;
-                    break;
-                case PARSE_NODE_TYPE_DRAW:
-                    num_args = 3;
-                    func_code = ML_DO_DRAW;
-                    break;
-                case PARSE_NODE_TYPE_CLS:
-                    num_args = 2;
-                    func_code = ML_DO_CLS;
-                    break;
-
-                default:
-                    ASSERT(0);
-                    break;
-            }
-
-            //
-            // Do we have the right number of arguments for the function?
-            //
-
-            if (num_args == pn->args) {
-                //
-                // The right number of arguements!
-                //
-            } else if (num_args > pn->args) {
-                //
-                // Need to push some undefined members onto the stack.
-                //
-
-                std::int32_t i;
-
-                for (i = pn->args; i < num_args; i++) {
-                    CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-                    CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
-                    CG_instruction[CG_instruction_upto++] = 0;
-                }
-            } else {
-                //
-                // ERROR! More arguments than the function needs?!
-                //
-
-                ASSERT(0);
-            }
-
-            //
-            // The function code.
-            //
-
-            CG_instruction[CG_instruction_upto++] = func_code;
         }
 
         break;
 
-        case PARSE_NODE_TYPE_FLIP:
-            CG_instruction[CG_instruction_upto++] = ML_DO_FLIP;
-            break;
+    case PARSE_NODE_TYPE_ARGUMENT:
 
-        case PARSE_NODE_TYPE_KEY_VALUE:
-            CG_instruction[CG_instruction_upto++] = ML_DO_KEY_VALUE;
-            break;
+        //
+        // We must be inside a function!
+        //
 
-        case PARSE_NODE_TYPE_KEY_ASSIGN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_KEY_ASSIGN;
-            break;
+        if (!CG_in_function) {
+            //
+            // ERROR!
+            //
 
-        case PARSE_NODE_TYPE_INKEY_VALUE:
-            CG_instruction[CG_instruction_upto++] = ML_DO_INKEY_VALUE;
-            break;
+            ASSERT(0);
+        }
 
-        case PARSE_NODE_TYPE_INKEY_ASSIGN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_INKEY_ASSIGN;
-            break;
+        //
+        // There shouldn't already be a local with this name.
+        //
 
-        case PARSE_NODE_TYPE_TIMER:
-            CG_instruction[CG_instruction_upto++] = ML_DO_TIMER;
-            break;
+        ASSERT(!(ST_find(pn->variable) && ST_found_table == ST_TABLE_LOCAL));
 
-        case PARSE_NODE_TYPE_SIN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_SIN;
-            break;
+        //
+        // Add this argument to the local variables for this function.
+        //
 
-        case PARSE_NODE_TYPE_COS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_COS;
-            break;
+        ST_add(ST_TABLE_LOCAL, pn->variable, CG_func[CG_in_function].arg_upto, 0);
 
-        case PARSE_NODE_TYPE_TAN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_TAN;
-            break;
+        CG_func[CG_in_function].arg_upto += 1;
 
-        case PARSE_NODE_TYPE_ASIN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ASIN;
-            break;
+        break;
 
-        case PARSE_NODE_TYPE_ACOS:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ACOS;
-            break;
+    case PARSE_NODE_TYPE_ENDFUNC:
 
-        case PARSE_NODE_TYPE_ATAN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ATAN;
-            break;
+        //
+        // The function doesn't return anything. Make it
+        // return UNDEFINED.
+        //
 
-        case PARSE_NODE_TYPE_ATAN2:
-            CG_instruction[CG_instruction_upto++] = ML_DO_ATAN2;
-            break;
+        ASSERT(WITHIN(CG_in_function, 0, CG_func_upto - 1));
 
-        case PARSE_NODE_TYPE_EXPORT:
-            break;
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
+        CG_instruction[CG_instruction_upto++] = 0;
 
-        case PARSE_NODE_TYPE_LEFT:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ENDFUNC;
+        CG_instruction[CG_instruction_upto++] = CG_func[CG_in_function].num_args;
 
-            if (!pn->child2) {
+        //
+        // Not in a function any more.
+        //
+
+        CG_in_function = false;
+
+        //
+        // We've lost all the symbols in the local symbol table.
+        //
+
+        ST_clear(ST_TABLE_LOCAL);
+
+        break;
+
+    case PARSE_NODE_TYPE_CALL:
+
+        //
+        // Push the number of arguments in the function call onto the stack.
+        // The function will check for the correct number and insert
+        // extra UNDEFINED locals as required.
+        //
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+        CG_instruction[CG_instruction_upto++] = ML_TYPE_NUM_ARGS;
+        CG_instruction[CG_instruction_upto++] = pn->args;
+
+        if (!ST_find(pn->variable)) {
+            //
+            // This is an undeclared function.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB;
+            CG_instruction[CG_instruction_upto++] = 0;
+
+            //
+            // Remember where the reference to the function is.
+            //
+
+            ASSERT(WITHIN(CG_undefref_upto, 0, CG_MAX_UNDEFREFS - 1));
+
+            CG_undefref[CG_undefref_upto].name = CG_add_string_to_debug_data(pn->variable);
+            CG_undefref[CG_undefref_upto].instruction = CG_instruction_upto - 1;
+
+            CG_undefref_upto += 1;
+        } else {
+            ASSERT(WITHIN(ST_found_value, 0, CG_func_upto - 1));
+            ASSERT(strcmp(CG_func[ST_found_value].name, pn->variable) == 0);
+
+            if (CG_generating_line > CG_func[ST_found_value].line) {
                 //
-                // This is a one-argument version. Push the constant 1 onto the stack.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-                CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
-                CG_instruction[CG_instruction_upto++] = 1;
-            }
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_LEFT;
-
-            break;
-
-        case PARSE_NODE_TYPE_RIGHT:
-
-            if (!pn->child2) {
-                //
-                // This is a one-argument version. Push the constant 1 onto the stack.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-                CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
-                CG_instruction[CG_instruction_upto++] = 1;
-            }
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_RIGHT;
-
-            break;
-
-        case PARSE_NODE_TYPE_MID:
-
-            if (!pn->child3) {
-                //
-                // This is a two-argument version. Push the constant 1 onto the stack.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
-                CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
-                CG_instruction[CG_instruction_upto++] = 1;
-            }
-
-            CG_instruction[CG_instruction_upto++] = ML_DO_MID;
-
-            break;
-
-        case PARSE_NODE_TYPE_LEN:
-            CG_instruction[CG_instruction_upto++] = ML_DO_LEN;
-            break;
-
-        case PARSE_NODE_TYPE_MATRIX:
-
-            if (pn->child1) {
-                //
-                // Constructing a matrix from three vectors.
+                // This is a backwards goto so we can fill in the instruction
+                // right away.  We add 2 to the instruction to jump over the GOTO
+                // over the function...
                 //
 
-                CG_instruction[CG_instruction_upto++] = ML_DO_MATRIX;
+                CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB;
+                CG_instruction[CG_instruction_upto++] = CG_line[CG_func[ST_found_value].line].code + 2;
             } else {
                 //
-                // The identity matrix.
+                // This is a forward goto.
                 //
 
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_IDENTITY_MATRIX;
+                CG_instruction[CG_instruction_upto++] = ML_DO_GOSUB;
+                CG_instruction[CG_instruction_upto++] = CG_func[ST_found_value].line;
+
+                ASSERT(WITHIN(CG_forward_goto_upto, 0, CG_MAX_FORWARD_GOTOS - 1));
+
+                CG_forward_goto[CG_forward_goto_upto].type = CG_FORWARD_GOTO_TYPE_CALL;
+                CG_forward_goto[CG_forward_goto_upto].instruction = CG_instruction_upto - 1;
+
+                CG_forward_goto_upto++;
             }
 
+            //
+            // Remember where the jump instruction is.
+            //
+
+            ASSERT(WITHIN(CG_jump_upto, 0, CG_MAX_JUMPS - 1));
+
+            CG_jump[CG_jump_upto++].instruction = CG_instruction_upto - 1;
+        }
+
+        if (!(pn->flag & PARSE_NODE_FLAG_EXPRESSION)) {
+            //
+            // If this function call isn't part of an expression, the
+            // return value isn't needed.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_POP;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_TEXTURE:
+    case PARSE_NODE_TYPE_BUFFER:
+    case PARSE_NODE_TYPE_DRAW:
+    case PARSE_NODE_TYPE_CLS:
+
+    {
+        std::int32_t num_args;
+        std::int32_t func_code;
+
+        //
+        // How many arguments do we want and what is the function code?
+        //
+
+        switch (pn->type) {
+        case PARSE_NODE_TYPE_TEXTURE:
+            num_args = 2;
+            func_code = ML_DO_TEXTURE;
             break;
-
-        case PARSE_NODE_TYPE_VECTOR:
-
-            if (pn->child1) {
-                //
-                // Constructing a vector from three numbers.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_VECTOR;
-            } else {
-                //
-                // The zero vector.
-                //
-
-                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ZERO_VECTOR;
-            }
-
+        case PARSE_NODE_TYPE_BUFFER:
+            num_args = 4;
+            func_code = ML_DO_BUFFER;
+            break;
+        case PARSE_NODE_TYPE_DRAW:
+            num_args = 3;
+            func_code = ML_DO_DRAW;
+            break;
+        case PARSE_NODE_TYPE_CLS:
+            num_args = 2;
+            func_code = ML_DO_CLS;
             break;
 
         default:
             ASSERT(0);
             break;
+        }
+
+        //
+        // Do we have the right number of arguments for the function?
+        //
+
+        if (num_args == pn->args) {
+            //
+            // The right number of arguements!
+            //
+        } else if (num_args > pn->args) {
+            //
+            // Need to push some undefined members onto the stack.
+            //
+
+            std::int32_t i;
+
+            for (i = pn->args; i < num_args; i++) {
+                CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+                CG_instruction[CG_instruction_upto++] = ML_TYPE_UNDEFINED;
+                CG_instruction[CG_instruction_upto++] = 0;
+            }
+        } else {
+            //
+            // ERROR! More arguments than the function needs?!
+            //
+
+            ASSERT(0);
+        }
+
+        //
+        // The function code.
+        //
+
+        CG_instruction[CG_instruction_upto++] = func_code;
+    }
+
+    break;
+
+    case PARSE_NODE_TYPE_FLIP:
+        CG_instruction[CG_instruction_upto++] = ML_DO_FLIP;
+        break;
+
+    case PARSE_NODE_TYPE_KEY_VALUE:
+        CG_instruction[CG_instruction_upto++] = ML_DO_KEY_VALUE;
+        break;
+
+    case PARSE_NODE_TYPE_KEY_ASSIGN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_KEY_ASSIGN;
+        break;
+
+    case PARSE_NODE_TYPE_INKEY_VALUE:
+        CG_instruction[CG_instruction_upto++] = ML_DO_INKEY_VALUE;
+        break;
+
+    case PARSE_NODE_TYPE_INKEY_ASSIGN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_INKEY_ASSIGN;
+        break;
+
+    case PARSE_NODE_TYPE_TIMER:
+        CG_instruction[CG_instruction_upto++] = ML_DO_TIMER;
+        break;
+
+    case PARSE_NODE_TYPE_SIN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_SIN;
+        break;
+
+    case PARSE_NODE_TYPE_COS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_COS;
+        break;
+
+    case PARSE_NODE_TYPE_TAN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_TAN;
+        break;
+
+    case PARSE_NODE_TYPE_ASIN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ASIN;
+        break;
+
+    case PARSE_NODE_TYPE_ACOS:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ACOS;
+        break;
+
+    case PARSE_NODE_TYPE_ATAN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ATAN;
+        break;
+
+    case PARSE_NODE_TYPE_ATAN2:
+        CG_instruction[CG_instruction_upto++] = ML_DO_ATAN2;
+        break;
+
+    case PARSE_NODE_TYPE_EXPORT:
+        break;
+
+    case PARSE_NODE_TYPE_LEFT:
+
+        if (!pn->child2) {
+            //
+            // This is a one-argument version. Push the constant 1 onto the stack.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+            CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
+            CG_instruction[CG_instruction_upto++] = 1;
+        }
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_LEFT;
+
+        break;
+
+    case PARSE_NODE_TYPE_RIGHT:
+
+        if (!pn->child2) {
+            //
+            // This is a one-argument version. Push the constant 1 onto the stack.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+            CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
+            CG_instruction[CG_instruction_upto++] = 1;
+        }
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_RIGHT;
+
+        break;
+
+    case PARSE_NODE_TYPE_MID:
+
+        if (!pn->child3) {
+            //
+            // This is a two-argument version. Push the constant 1 onto the stack.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
+            CG_instruction[CG_instruction_upto++] = ML_TYPE_SLUMBER;
+            CG_instruction[CG_instruction_upto++] = 1;
+        }
+
+        CG_instruction[CG_instruction_upto++] = ML_DO_MID;
+
+        break;
+
+    case PARSE_NODE_TYPE_LEN:
+        CG_instruction[CG_instruction_upto++] = ML_DO_LEN;
+        break;
+
+    case PARSE_NODE_TYPE_MATRIX:
+
+        if (pn->child1) {
+            //
+            // Constructing a matrix from three vectors.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_MATRIX;
+        } else {
+            //
+            // The identity matrix.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_IDENTITY_MATRIX;
+        }
+
+        break;
+
+    case PARSE_NODE_TYPE_VECTOR:
+
+        if (pn->child1) {
+            //
+            // Constructing a vector from three numbers.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_VECTOR;
+        } else {
+            //
+            // The zero vector.
+            //
+
+            CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_ZERO_VECTOR;
+        }
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 
     return true;

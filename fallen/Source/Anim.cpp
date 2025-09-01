@@ -1618,7 +1618,7 @@ void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the
                 reqd_step = ((tweak_speed + 128) / (keyframe->TweenStep + 1)) >> 1;
 
                 p_chunk->AnimKeyFrames[count_frame].TweenStep = reqd_step; // keyframe->TweenStep;
-                ele_pos = (std::uint16_t) (keyframe->FirstElement - the_chunk->FirstElement);
+                ele_pos = (std::uint16_t)(keyframe->FirstElement - the_chunk->FirstElement);
                 if (p_reloc[ele_pos] != 0xffff) {
                     ele_pos = p_reloc[ele_pos];
                 } else {

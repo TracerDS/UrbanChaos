@@ -27,58 +27,58 @@ bool CALLBACK cams_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
 
     switch (message) {
-        case WM_INITDIALOG:
+    case WM_INITDIALOG:
 
-            //	Set up the 'waypoint' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(250, 1));
+        //	Set up the 'waypoint' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(250, 1));
 
-            //	Set the current player type.
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            lbitem_str = wcammove_strings[0];
-            while (*lbitem_str != '!') {
-                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
-                lbitem_str = wcammove_strings[++c0];
-            }
-            SendMessage(the_ctrl, CB_SETCURSEL, camera_move - 1, 0);
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO2);
-            lbitem_str = wcamtype_strings[c0 = 0];
-            while (*lbitem_str != '!') {
-                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
-                lbitem_str = wcamtype_strings[++c0];
-            }
-            SendMessage(the_ctrl, CB_SETCURSEL, camera_type - 1, 0);
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, camera_speed);
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETPOS, 0, camera_delay);
-            CheckDlgButton(hWnd, IDC_CHECK1, camera_freeze);
-            CheckDlgButton(hWnd, IDC_LOCK_DIRECTION, camera_lock);
-            CheckDlgButton(hWnd, IDC_CANT_INTERRUPT, camera_cant_interrupt);
+        //	Set the current player type.
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        lbitem_str = wcammove_strings[0];
+        while (*lbitem_str != '!') {
+            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
+            lbitem_str = wcammove_strings[++c0];
+        }
+        SendMessage(the_ctrl, CB_SETCURSEL, camera_move - 1, 0);
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO2);
+        lbitem_str = wcamtype_strings[c0 = 0];
+        while (*lbitem_str != '!') {
+            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
+            lbitem_str = wcamtype_strings[++c0];
+        }
+        SendMessage(the_ctrl, CB_SETCURSEL, camera_type - 1, 0);
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, camera_speed);
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETPOS, 0, camera_delay);
+        CheckDlgButton(hWnd, IDC_CHECK1, camera_freeze);
+        CheckDlgButton(hWnd, IDC_LOCK_DIRECTION, camera_lock);
+        CheckDlgButton(hWnd, IDC_CANT_INTERRUPT, camera_cant_interrupt);
 
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            camera_move = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
+            camera_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETCURSEL, 0, 0) + 1;
+            camera_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            camera_delay = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
+            camera_freeze = IsDlgButtonChecked(hWnd, IDC_CHECK1);
+            camera_lock = IsDlgButtonChecked(hWnd, IDC_LOCK_DIRECTION);
+            camera_cant_interrupt = IsDlgButtonChecked(hWnd, IDC_CANT_INTERRUPT);
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    camera_move = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
-                    camera_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETCURSEL, 0, 0) + 1;
-                    camera_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    camera_delay = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
-                    camera_freeze = IsDlgButtonChecked(hWnd, IDC_CHECK1);
-                    camera_lock = IsDlgButtonChecked(hWnd, IDC_LOCK_DIRECTION);
-                    camera_cant_interrupt = IsDlgButtonChecked(hWnd, IDC_CANT_INTERRUPT);
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
-            EndDialog(hWnd, 0);
-            return true;
+    case WM_CLOSE:
+        //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

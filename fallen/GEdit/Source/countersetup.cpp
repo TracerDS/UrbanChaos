@@ -21,22 +21,22 @@ bool CALLBACK counter_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
     HWND the_ctrl;
 
     switch (message) {
-        case WM_INITDIALOG:
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETRANGE, 0, MAKELONG(0, 256));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(counter_value, 0));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETRANGE, 0, MAKELONG(1, 10));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETPOS, 0, MAKELONG(counter_index, 0));
+    case WM_INITDIALOG:
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETRANGE, 0, MAKELONG(0, 256));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, MAKELONG(counter_value, 0));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETRANGE, 0, MAKELONG(1, 10));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETPOS, 0, MAKELONG(counter_index, 0));
+        return true;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            counter_value = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            counter_index = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
+        case IDCANCEL:
+            EndDialog(hWnd, 0);
             return true;
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    counter_value = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    counter_index = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
-                case IDCANCEL:
-                    EndDialog(hWnd, 0);
-                    return true;
-            }
-            break;
+        }
+        break;
     }
     return false;
 }

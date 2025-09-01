@@ -11,7 +11,8 @@ ControlDef buttons[] =
         {BUTTON, KB_ENTER, "Okay", 10, BOX_HEIGHT - 26, 50, 0},
         {BUTTON, KB_ESC, "Cancel", BOX_WIDTH - (70 - 10), BOX_HEIGHT - 26, 50, 0},
 
-        {0}};
+        {0}
+};
 
 //---------------------------------------------------------------
 

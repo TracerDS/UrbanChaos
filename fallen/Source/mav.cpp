@@ -13,6 +13,7 @@
 #include "memory.h"
 #include "ware.h"
 #include "ob.h"
+#include <algorithm>
 
 //
 // A prototype here never hurt anyone
@@ -302,10 +303,11 @@ void MAV_turn_off_square(
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     std::uint8_t opt[4];
 
@@ -354,10 +356,11 @@ void MAV_turn_off_whole_square(
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     std::uint8_t opt[4];
 
@@ -404,10 +407,11 @@ void MAV_turn_off_whole_square_car(
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     std::uint8_t opt[4];
 
@@ -563,10 +567,11 @@ void MAV_precalculate() {
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     std::uint8_t opt[4];
 
@@ -700,7 +705,7 @@ void MAV_precalculate() {
                             y1 = PAP_calc_map_height_at(x1, z1) + 0x50;
                             y2 = PAP_calc_map_height_at(x2, z2) + 0x50;
 
-                            y = MAX(y1, y2);
+                            y = std::max(y1, y2);
 
                             if (there_is_a_los(
                                     x1, y, z1,
@@ -811,7 +816,7 @@ void MAV_precalculate() {
                         y1 = PAP_calc_map_height_at(x1, z1) + 0x50;
                         y2 = PAP_calc_map_height_at(x2, z2) + 0x50;
 
-                        y = MAX(y1, y2);
+                        y = std::max(y1, y2);
 
                         if (there_is_a_los(
                                 x1, y, z1,
@@ -1115,7 +1120,7 @@ void MAV_precalculate() {
         }
 
     {
-        extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t *angle);
+        extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t * angle);
 
         //
         // Take all slippy squares out of the mav.
@@ -1318,10 +1323,11 @@ void MAV_draw(
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     std::uint32_t colour[8] =
         {
@@ -1763,10 +1769,11 @@ void MAV_create_nodelist_from_pos(std::uint8_t end_x, std::uint8_t end_z) {
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     x = end_x;
     z = end_z;
@@ -1905,10 +1912,11 @@ MAV_Action MAV_do(
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     //
     // Remember the destination.
@@ -2438,10 +2446,11 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
 
     } order[4] =
         {
-            {-1, 0},
-            {+1, 0},
-            {0, -1},
-            {0, +1}};
+            {-1, 0 },
+            {+1, 0 },
+            {0,  -1},
+            {0,  +1}
+    };
 
     std::uint8_t opt[4];
 
@@ -2602,7 +2611,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                         y1 = (MAVHEIGHT(x, z) << 6) + 0x50;
                         y2 = (MAVHEIGHT(tx, tz) << 6) + 0x50;
 
-                        y = MAX(y1, y2);
+                        y = std::max(y1, y2);
 
                         if (there_is_a_los(
                                 x1, y, z1,
@@ -2683,7 +2692,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                     y1 = (MAVHEIGHT(x, z) << 6) + 0x50;
                     y2 = (MAVHEIGHT(tx, tz) << 6) + 0x50;
 
-                    y = MAX(y1, y2);
+                    y = std::max(y1, y2);
 
                     if (there_is_a_los(
                             x1, y, z1,

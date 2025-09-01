@@ -267,96 +267,96 @@ bool process_condition(Condition *the_condition) {
     Switch *the_switch;
 
     switch (the_condition->ConditionType) {
-        case CON_NONE:
-            break;
-        case CON_THING_DEAD:
-            if (the_condition->Flags & CONDITION_TRUE)
+    case CON_NONE:
+        break;
+    case CON_THING_DEAD:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+            if (TO_THING(the_condition->Data1)->State == STATE_DYING || TO_THING(the_condition->Data1)->State == STATE_DEAD) {
+                the_condition->Flags = CONDITION_TRUE;
                 result = true;
-            else {
-                if (TO_THING(the_condition->Data1)->State == STATE_DYING || TO_THING(the_condition->Data1)->State == STATE_DEAD) {
+            }
+        }
+        break;
+    case CON_ALL_GROUP_DEAD:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+        }
+        break;
+    case CON_PERCENT_GROUP_DEAD:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+        }
+        break;
+    case CON_THING_NEAR_PLAYER:
+        start_coord = &NET_PERSON(0)->WorldPos;
+        end_coord = &TO_THING(the_condition->Data1)->WorldPos;
+        distance = SDIST3(
+            (start_coord->X - end_coord->X) >> 8,
+            (start_coord->Y - end_coord->Y) >> 8,
+            (start_coord->Z - end_coord->Z) >> 8);
+        if (distance <= the_condition->Data2) {
+            result = true;
+        }
+        break;
+    case CON_GROUP_NEAR_PLAYER:
+        break;
+    case CON_CLASS_NEAR_PLAYER:
+        break;
+    case CON_THING_NEAR_THING:
+        start_coord = &TO_THING(the_condition->Data1)->WorldPos;
+        end_coord = &TO_THING(the_condition->Data2)->WorldPos;
+        distance = SDIST3(
+            (start_coord->X - end_coord->X) >> 8,
+            (start_coord->Y - end_coord->Y) >> 8,
+            (start_coord->Z - end_coord->Z) >> 8);
+        if (distance <= the_condition->Data3) {
+            result = true;
+        }
+        break;
+    case CON_GROUP_NEAR_THING:
+        break;
+    case CON_CLASS_NEAR_THING:
+        break;
+    case CON_CLASS_COUNT:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+        }
+        break;
+    case CON_GROUP_COUNT:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+        }
+        break;
+    case CON_SWITCH_TRIGGERED:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+            the_switch = TO_THING(the_condition->Data1)->Genus.Switch;
+            if (the_switch->Flags & SWITCH_FLAGS_TRIGGERED) {
+                if (!(the_switch->Flags & SWITCH_FLAGS_RESET))
                     the_condition->Flags = CONDITION_TRUE;
-                    result = true;
-                }
-            }
-            break;
-        case CON_ALL_GROUP_DEAD:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-            }
-            break;
-        case CON_PERCENT_GROUP_DEAD:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-            }
-            break;
-        case CON_THING_NEAR_PLAYER:
-            start_coord = &NET_PERSON(0)->WorldPos;
-            end_coord = &TO_THING(the_condition->Data1)->WorldPos;
-            distance = SDIST3(
-                (start_coord->X - end_coord->X) >> 8,
-                (start_coord->Y - end_coord->Y) >> 8,
-                (start_coord->Z - end_coord->Z) >> 8);
-            if (distance <= the_condition->Data2) {
                 result = true;
             }
-            break;
-        case CON_GROUP_NEAR_PLAYER:
-            break;
-        case CON_CLASS_NEAR_PLAYER:
-            break;
-        case CON_THING_NEAR_THING:
-            start_coord = &TO_THING(the_condition->Data1)->WorldPos;
-            end_coord = &TO_THING(the_condition->Data2)->WorldPos;
-            distance = SDIST3(
-                (start_coord->X - end_coord->X) >> 8,
-                (start_coord->Y - end_coord->Y) >> 8,
-                (start_coord->Z - end_coord->Z) >> 8);
-            if (distance <= the_condition->Data3) {
-                result = true;
-            }
-            break;
-        case CON_GROUP_NEAR_THING:
-            break;
-        case CON_CLASS_NEAR_THING:
-            break;
-        case CON_CLASS_COUNT:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-            }
-            break;
-        case CON_GROUP_COUNT:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-            }
-            break;
-        case CON_SWITCH_TRIGGERED:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-                the_switch = TO_THING(the_condition->Data1)->Genus.Switch;
-                if (the_switch->Flags & SWITCH_FLAGS_TRIGGERED) {
-                    if (!(the_switch->Flags & SWITCH_FLAGS_RESET))
-                        the_condition->Flags = CONDITION_TRUE;
-                    result = true;
-                }
-            }
-            break;
-        case CON_TIME:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-            }
-            break;
-        case CON_CLIST_FULFILLED:
-            if (the_condition->Flags & CONDITION_TRUE)
-                result = true;
-            else {
-            }
-            break;
+        }
+        break;
+    case CON_TIME:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+        }
+        break;
+    case CON_CLIST_FULFILLED:
+        if (the_condition->Flags & CONDITION_TRUE)
+            result = true;
+        else {
+        }
+        break;
     }
     return result;
 }
@@ -418,23 +418,23 @@ void advance_person_command(Thing *p_person) {
 
     com = TO_COMMAND(p_person->Genus.Person->Command);
     switch (com->CommandType) {
-        case COM_PATROL_WAYPOINT:
+    case COM_PATROL_WAYPOINT:
+        if (p_person->Genus.Person->NavIndex) {
+            std::int32_t dest_x, dest_z;
+            std::int32_t index;
+
+            p_person->Genus.Person->NavIndex = waypoints[p_person->Genus.Person->NavIndex].Next;
             if (p_person->Genus.Person->NavIndex) {
-                std::int32_t dest_x, dest_z;
-                std::int32_t index;
+                index = p_person->Genus.Person->NavIndex;
 
-                p_person->Genus.Person->NavIndex = waypoints[p_person->Genus.Person->NavIndex].Next;
-                if (p_person->Genus.Person->NavIndex) {
-                    index = p_person->Genus.Person->NavIndex;
-
-                    dest_x = waypoints[index].X;
-                    dest_z = waypoints[index].Z;
-                    set_person_mav_to_xz(p_person, dest_x, dest_z);
-                    return;
-                }
+                dest_x = waypoints[index].X;
+                dest_z = waypoints[index].Z;
+                set_person_mav_to_xz(p_person, dest_x, dest_z);
+                return;
             }
+        }
 
-            break;
+        break;
     }
     if (com && com->Next) {
         p_person->Genus.Person->Command = COMMAND_NUMBER(com->Next);

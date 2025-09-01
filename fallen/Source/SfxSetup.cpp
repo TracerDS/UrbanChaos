@@ -74,42 +74,42 @@ bool CALLBACK sfx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t sel;
 
     switch (message) {
-        case WM_INITDIALOG:
-            INIT_COMBO_BOX(IDC_COMBO1, sfxtypes, sfx_type);
+    case WM_INITDIALOG:
+        INIT_COMBO_BOX(IDC_COMBO1, sfxtypes, sfx_type);
 
-            FillList(hWnd, IDC_LIST1, sfx_type);
-            //			SendMessage(GetDlgItem(hWnd,IDC_LIST1),LB_SETCURSEL,sfx_id,0);
-            IDToSelect(hWnd, sfx_id);
+        FillList(hWnd, IDC_LIST1, sfx_type);
+        //			SendMessage(GetDlgItem(hWnd,IDC_LIST1),LB_SETCURSEL,sfx_id,0);
+        IDToSelect(hWnd, sfx_id);
 
-            return true;
+        return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDC_COMBO1:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        sel = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0);
-                        FillList(hWnd, IDC_LIST1, sel);
-                    }
-                    break;
-                case IDC_BUTTON1:
-                    sel = SendMessage(the_ctrl = GetDlgItem(hWnd, IDC_LIST1), LB_GETCURSEL, 0, 0);
-                    SendMessage(the_ctrl, LB_GETTEXT, sel, (std::int32_t) pc2);
-                    strcpy(pc, "data\\sfx\\1622\\");
-                    strcat(pc, pc2);
-                    //					PlaySound(pc,0,SND_FILENAME|SND_ASYNC);
-                    break;
-                case IDC_BUTTON2:
-                    //					PlaySound(NULL,0,SND_PURGE);
-                    break;
-                case IDOK:
-                    sfx_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-                    sfx_id = SelectToID(hWnd);
-
-                case IDCANCEL:
-                    EndDialog(hWnd, 0);
-                    return true;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDC_COMBO1:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                sel = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0);
+                FillList(hWnd, IDC_LIST1, sel);
             }
             break;
+        case IDC_BUTTON1:
+            sel = SendMessage(the_ctrl = GetDlgItem(hWnd, IDC_LIST1), LB_GETCURSEL, 0, 0);
+            SendMessage(the_ctrl, LB_GETTEXT, sel, (std::int32_t) pc2);
+            strcpy(pc, "data\\sfx\\1622\\");
+            strcat(pc, pc2);
+            //					PlaySound(pc,0,SND_FILENAME|SND_ASYNC);
+            break;
+        case IDC_BUTTON2:
+            //					PlaySound(NULL,0,SND_PURGE);
+            break;
+        case IDOK:
+            sfx_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            sfx_id = SelectToID(hWnd);
+
+        case IDCANCEL:
+            EndDialog(hWnd, 0);
+            return true;
+        }
+        break;
     }
     return false;
 }

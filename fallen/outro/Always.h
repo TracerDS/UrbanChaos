@@ -31,12 +31,10 @@
 // Useful defines.
 //
 
-#define MIN(mnx, mny) (((mnx) < (mny)) ? (mnx) : (mny))
-#define MAX(mnx, mny) (((mnx) > (mny)) ? (mnx) : (mny))
-#define MAX3(mnx, mny, mnz) (((mnx) > (mny)) ? MAX(mnx, mnz) : MAX(mny, mnz))
-#define MIN3(mnx, mny, mnz) (((mnx) < (mny)) ? MIN(mnx, mnz) : MIN(mny, mnz))
-#define MIN4(a, b, c, d) (MIN(MIN(a, b), MIN(c, d)))
-#define MAX4(a, b, c, d) (MAX(MAX(a, b), MAX(c, d)))
+#define MAX3(mnx, mny, mnz) std::max({mnx, mny, mnz})
+#define MIN3(mnx, mny, mnz) std::min({mnx, mny, mnz})
+#define MIN4(a, b, c, d) std::min({a, b, c, d})
+#define MAX4(a, b, c, d) std::max({a, b, c, d})
 #define SWAP(x, y)               \
     {                            \
         std::int32_t SWAP_spare; \

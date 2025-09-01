@@ -1,8 +1,7 @@
 // StdFile.h
 // Guy Simmons, 18th December 1997.
 
-#ifndef	STD_FILE_H
-#define	STD_FILE_H
+#pragma once
 
 //---------------------------------------------------------------
 
@@ -41,8 +40,3 @@ void FileSetBasePath(char* path_name);
 // whereas the above can't.
 FILE *MF_Fopen ( const char *file_name, const char *mode );
 int MF_Fclose( FILE *stream );
-
-
-//---------------------------------------------------------------
-
-#endif

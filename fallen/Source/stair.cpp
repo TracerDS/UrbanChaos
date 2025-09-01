@@ -5,6 +5,7 @@
 #include "game.h"
 #include "id.h"
 #include "stair.h"
+#include <algorithm>
 
 //
 // The bounding box of the building.
@@ -424,21 +425,21 @@ void STAIR_storey_wall(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::u
 
     while (z < z2) {
         switch (link_t) {
-            case STAIR_LINK_T_ENTER:
-                pos = x >> 8; // 8-bit fixed point.
-                square = MAX(x, x + dxdz);
-                square += 0xffff;
-                square >>= 16;
-                break;
-            case STAIR_LINK_T_LEAVE:
-                pos = x >> 8; // 8-bit fixed point.
-                square = MIN(x, x + dxdz);
-                square >>= 16;
-                break;
+        case STAIR_LINK_T_ENTER:
+            pos = x >> 8; // 8-bit fixed point.
+            square = std::max(x, x + dxdz);
+            square += 0xffff;
+            square >>= 16;
+            break;
+        case STAIR_LINK_T_LEAVE:
+            pos = x >> 8; // 8-bit fixed point.
+            square = std::min(x, x + dxdz);
+            square >>= 16;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         //
@@ -918,13 +919,13 @@ void STAIR_calculate(std::uint16_t seed) {
                             z2 = z1;
 
                             switch (k) {
-                                case 0: x2 += 1; break;
-                                case 1: x2 -= 1; break;
-                                case 2: z2 += 1; break;
-                                case 3: z2 -= 1; break;
-                                default:
-                                    ASSERT(0);
-                                    break;
+                            case 0: x2 += 1; break;
+                            case 1: x2 -= 1; break;
+                            case 2: z2 += 1; break;
+                            case 3: z2 -= 1; break;
+                            default:
+                                ASSERT(0);
+                                break;
                             }
 
                             if (!WITHIN(x2, STAIR_x1, STAIR_x2 - 1) ||
@@ -961,17 +962,17 @@ void STAIR_calculate(std::uint16_t seed) {
 
                                 for (l = 0; l < 2; l++) {
                                     switch (l) {
-                                        case 0:
-                                            ox = x1 + (+dz);
-                                            oz = z1 + (-dx);
-                                            break;
-                                        case 1:
-                                            ox = x2 + (+dz);
-                                            oz = z2 + (-dx);
-                                            break;
-                                        default:
-                                            ASSERT(0);
-                                            break;
+                                    case 0:
+                                        ox = x1 + (+dz);
+                                        oz = z1 + (-dx);
+                                        break;
+                                    case 1:
+                                        ox = x2 + (+dz);
+                                        oz = z2 + (-dx);
+                                        break;
+                                    default:
+                                        ASSERT(0);
+                                        break;
                                     }
 
                                     if (!WITHIN(ox, STAIR_x1, STAIR_x2 - 1) ||
@@ -1000,12 +1001,12 @@ void STAIR_calculate(std::uint16_t seed) {
                                 //
 
                                 switch (outside) {
-                                    case 0: score = 0x0; break;
-                                    case 1: score -= 0x10000; break;
-                                    case 2: score += 0x10000; break;
-                                    default:
-                                        ASSERT(0);
-                                        break;
+                                case 0: score = 0x0; break;
+                                case 1: score -= 0x10000; break;
+                                case 2: score += 0x10000; break;
+                                default:
+                                    ASSERT(0);
+                                    break;
                                 }
 
                                 //

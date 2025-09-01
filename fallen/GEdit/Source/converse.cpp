@@ -35,95 +35,95 @@ bool CALLBACK cv_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the edit text.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                EM_SETLIMITTEXT,
-                2550, 0);
+    case WM_INITDIALOG:
+        //	Set up the edit text.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            EM_SETLIMITTEXT,
+            2550, 0);
 
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                WM_SETTEXT,
-                0, (LPARAM) converse_text);
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            WM_SETTEXT,
+            0, (LPARAM) converse_text);
 
-            // fill the two list boxes
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            the_ctrl2 = GetDlgItem(hWnd, IDC_COMBO2);
-            ep = current_mission->UsedEPoints;
-            c0 = 0;
-            while (ep) {
-                ep_ptr = TO_EVENTPOINT(ep_base, ep);
-                if ((ep_ptr->WaypointType == WPT_CREATE_PLAYER) || (ep_ptr->WaypointType == WPT_CREATE_ENEMIES)) {
-                    WaypointExtra(ep_ptr, msg);
-                    sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
-                    SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
-                    SendMessage(the_ctrl2, CB_ADDSTRING, 0, (LPARAM) str);
-                    if (ep == converse_p1) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
-                    if (ep == converse_p2) SendMessage(the_ctrl2, CB_SETCURSEL, c0, 0);
-                    c0++;
-                }
-                ep = ep_ptr->Next;
+        // fill the two list boxes
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        the_ctrl2 = GetDlgItem(hWnd, IDC_COMBO2);
+        ep = current_mission->UsedEPoints;
+        c0 = 0;
+        while (ep) {
+            ep_ptr = TO_EVENTPOINT(ep_base, ep);
+            if ((ep_ptr->WaypointType == WPT_CREATE_PLAYER) || (ep_ptr->WaypointType == WPT_CREATE_ENEMIES)) {
+                WaypointExtra(ep_ptr, msg);
+                sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
+                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+                SendMessage(the_ctrl2, CB_ADDSTRING, 0, (LPARAM) str);
+                if (ep == converse_p1) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
+                if (ep == converse_p2) SendMessage(the_ctrl2, CB_SETCURSEL, c0, 0);
+                c0++;
             }
+            ep = ep_ptr->Next;
+        }
 
-            SetFocus(GetDlgItem(hWnd, IDC_EDIT1));
+        SetFocus(GetDlgItem(hWnd, IDC_EDIT1));
 
-            CheckDlgButton(hWnd, IDC_GRAB_CAMERA, converse_grab_camera);
+        CheckDlgButton(hWnd, IDC_GRAB_CAMERA, converse_grab_camera);
 
-            return false;
+        return false;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            len = SendMessage(
-                      GetDlgItem(hWnd, IDC_EDIT1),
-                      WM_GETTEXTLENGTH,
-                      0, 0) +
-                  1;
-            if (converse_text) free(converse_text);
-            converse_text = (char *) malloc(len);
-            ZeroMemory(converse_text, len);
-
-            SendMessage(
-                GetDlgItem(hWnd, IDC_EDIT1),
-                WM_GETTEXT,
-                len,
-                (LPARAM) converse_text);
-
-            converse_p1 = SendMessage(
-                GetDlgItem(hWnd, IDC_COMBO1),
-                CB_GETCURSEL,
-                0, 0);
-            converse_p2 = SendMessage(
-                GetDlgItem(hWnd, IDC_COMBO2),
-                CB_GETCURSEL,
-                0, 0);
-            // now translate phoney people indices to real one
-            if (converse_p1 == -1) {
-                converse_p1 = 0;
-            } else {
-                memset(msg, 0, STR_LEN);
-                SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETLBTEXT, converse_p1, (long) msg);
-                sscanf(msg, "%d", &converse_p1);
-            }
-            if (converse_p2 == -1) {
-                converse_p2 = 0;
-            } else {
-                memset(msg, 0, STR_LEN);
-                SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETLBTEXT, converse_p2, (long) msg);
-                sscanf(msg, "%d", &converse_p2);
-            }
-
-            converse_grab_camera = IsDlgButtonChecked(hWnd, IDC_GRAB_CAMERA);
-
-            EndDialog(hWnd, 0);
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        len = SendMessage(
+                  GetDlgItem(hWnd, IDC_EDIT1),
+                  WM_GETTEXTLENGTH,
+                  0, 0) +
+              1;
+        if (converse_text) free(converse_text);
+        converse_text = (char *) malloc(len);
+        ZeroMemory(converse_text, len);
+
+        SendMessage(
+            GetDlgItem(hWnd, IDC_EDIT1),
+            WM_GETTEXT,
+            len,
+            (LPARAM) converse_text);
+
+        converse_p1 = SendMessage(
+            GetDlgItem(hWnd, IDC_COMBO1),
+            CB_GETCURSEL,
+            0, 0);
+        converse_p2 = SendMessage(
+            GetDlgItem(hWnd, IDC_COMBO2),
+            CB_GETCURSEL,
+            0, 0);
+        // now translate phoney people indices to real one
+        if (converse_p1 == -1) {
+            converse_p1 = 0;
+        } else {
+            memset(msg, 0, STR_LEN);
+            SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETLBTEXT, converse_p1, (long) msg);
+            sscanf(msg, "%d", &converse_p1);
+        }
+        if (converse_p2 == -1) {
+            converse_p2 = 0;
+        } else {
+            memset(msg, 0, STR_LEN);
+            SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETLBTEXT, converse_p2, (long) msg);
+            sscanf(msg, "%d", &converse_p2);
+        }
+
+        converse_grab_camera = IsDlgButtonChecked(hWnd, IDC_GRAB_CAMERA);
+
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

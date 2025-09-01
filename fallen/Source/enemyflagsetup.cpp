@@ -43,62 +43,62 @@ bool CALLBACK efs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     char msg[STR_LEN], str[STR_LEN];
 
     switch (message) {
-        case WM_INITDIALOG: {
-            // fill the list box
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            ep = current_mission->UsedEPoints;
-            c0 = 0;
-            while (ep) {
-                ep_ptr = TO_EVENTPOINT(ep_base, ep);
-                if (ep_ptr->WaypointType == WPT_CREATE_ENEMIES) {
-                    WaypointExtra(ep_ptr, msg);
-                    sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
-                    SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
-                    if (ep == enemyf_to_change) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
-                    c0++;
-                }
-                ep = ep_ptr->Next;
+    case WM_INITDIALOG: {
+        // fill the list box
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        ep = current_mission->UsedEPoints;
+        c0 = 0;
+        while (ep) {
+            ep_ptr = TO_EVENTPOINT(ep_base, ep);
+            if (ep_ptr->WaypointType == WPT_CREATE_ENEMIES) {
+                WaypointExtra(ep_ptr, msg);
+                sprintf(str, "%d%c: %s", ep, 'A' + ep_ptr->Group, msg);
+                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) str);
+                if (ep == enemyf_to_change) SendMessage(the_ctrl, CB_SETCURSEL, c0, 0);
+                c0++;
             }
-
-            //  Subclass and init the listbox
-            ticklist_init(hWnd, IDC_LIST1, wenemy_flag_strings, enemyf_flags);
-
-            return true;
+            ep = ep_ptr->Next;
         }
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
+        //  Subclass and init the listbox
+        ticklist_init(hWnd, IDC_LIST1, wenemy_flag_strings, enemyf_flags);
 
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
+        return true;
+    }
 
-        case WM_CLOSE:
-            enemyf_flags = ticklist_bitmask(hWnd, IDC_LIST1);
-
-            enemyf_to_change = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
-                                           CB_GETCURSEL,
-                                           0, 0);
-            // now translate phoney people indices to real one
-            if (enemyf_to_change == -1) {
-                enemyf_to_change = 0;
-            } else {
-                memset(msg, 0, STR_LEN);
-                SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETLBTEXT, enemyf_to_change, (long) msg);
-                sscanf(msg, "%d", &enemyf_to_change);
-            }
-
-            ticklist_close(hWnd, IDC_LIST1);
-
-            EndDialog(hWnd, 0);
-
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
+
+    case WM_CLOSE:
+        enemyf_flags = ticklist_bitmask(hWnd, IDC_LIST1);
+
+        enemyf_to_change = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
+                                       CB_GETCURSEL,
+                                       0, 0);
+        // now translate phoney people indices to real one
+        if (enemyf_to_change == -1) {
+            enemyf_to_change = 0;
+        } else {
+            memset(msg, 0, STR_LEN);
+            SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETLBTEXT, enemyf_to_change, (long) msg);
+            sscanf(msg, "%d", &enemyf_to_change);
+        }
+
+        ticklist_close(hWnd, IDC_LIST1);
+
+        EndDialog(hWnd, 0);
+
+        return true;
     }
     return false;
 }

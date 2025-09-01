@@ -150,14 +150,14 @@ std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z) {
 //
 std::int32_t PAP_calc_height_at_thing(Thing *p_thing, std::int32_t x, std::int32_t z) {
     switch (p_thing->Class) {
-        case CLASS_PERSON:
+    case CLASS_PERSON:
 
-            if (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
-                return WARE_calc_height_at(
-                    p_thing->Genus.Person->Ware,
-                    p_thing->WorldPos.X >> 8,
-                    p_thing->WorldPos.Z >> 8);
-            }
+        if (p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE) {
+            return WARE_calc_height_at(
+                p_thing->Genus.Person->Ware,
+                p_thing->WorldPos.X >> 8,
+                p_thing->WorldPos.Z >> 8);
+        }
 #if 0
 			else
 			if(p_thing->Genus.Person->InsideIndex)
@@ -187,7 +187,7 @@ std::int32_t PAP_calc_height_at_thing(Thing *p_thing, std::int32_t x, std::int32
 				return(NS_calc_height_at(x,z)); //p_thing->WorldPos.X>>8,p_thing->WorldPos.Z>>8));
 			}
 #endif
-            break;
+        break;
     }
     return (PAP_calc_map_height_at(x, z));
 }

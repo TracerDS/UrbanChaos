@@ -40,37 +40,37 @@ bool CALLBACK skills_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     std::int32_t sel;
 
     switch (message) {
-        case WM_INITDIALOG:
-            INIT_COMBO_BOX(IDC_COMBO1, wenemy_ai_strings, 0);
-            INIT_LIST_BOX(IDC_LIST1, wenemy_ability_strings, 0);
+    case WM_INITDIALOG:
+        INIT_COMBO_BOX(IDC_COMBO1, wenemy_ai_strings, 0);
+        INIT_LIST_BOX(IDC_LIST1, wenemy_ability_strings, 0);
 
-            PostMessage(hWnd, CBN_SELCHANGE, 0, (LONG) GetDlgItem(hWnd, IDC_COMBO1));
+        PostMessage(hWnd, CBN_SELCHANGE, 0, (LONG) GetDlgItem(hWnd, IDC_COMBO1));
 
-            return true;
+        return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDC_COMBO1:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        sel = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) + 1;
-                        SendMessage(GetDlgItem(hWnd, IDC_LIST1), LB_SETCURSEL, skills_list[sel] - 1, 0);
-                        //						FillList(hWnd,IDC_LIST1,sel);
-                    }
-                    break;
-                case IDC_LIST1:
-                    if (HIWORD(wParam) == LBN_SELCHANGE) {
-                        sel = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
-                        skills_list[sel] = SendMessage((HWND) lParam, LB_GETCURSEL, 0, 0) + 1;
-                    }
-                    break;
-                case IDOK:
-                    EndDialog(hWnd, 1);
-                    return true;
-                case IDCANCEL:
-                    EndDialog(hWnd, 0);
-                    return true;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDC_COMBO1:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                sel = SendMessage((HWND) lParam, CB_GETCURSEL, 0, 0) + 1;
+                SendMessage(GetDlgItem(hWnd, IDC_LIST1), LB_SETCURSEL, skills_list[sel] - 1, 0);
+                //						FillList(hWnd,IDC_LIST1,sel);
             }
             break;
+        case IDC_LIST1:
+            if (HIWORD(wParam) == LBN_SELCHANGE) {
+                sel = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
+                skills_list[sel] = SendMessage((HWND) lParam, LB_GETCURSEL, 0, 0) + 1;
+            }
+            break;
+        case IDOK:
+            EndDialog(hWnd, 1);
+            return true;
+        case IDCANCEL:
+            EndDialog(hWnd, 0);
+            return true;
+        }
+        break;
     }
     return false;
 }

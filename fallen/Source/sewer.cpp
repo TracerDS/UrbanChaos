@@ -92,10 +92,10 @@ void SEWER_precalc() {
                     dz = 0;
 
                     switch (i) {
-                        case 0: dx = -1; break;
-                        case 1: dx = +1; break;
-                        case 2: dz = -1; break;
-                        case 3: dz = +1; break;
+                    case 0: dx = -1; break;
+                    case 1: dx = +1; break;
+                    case 2: dz = -1; break;
+                    case 3: dz = +1; break;
                     }
 
                     nx = x + dx;
@@ -110,15 +110,15 @@ void SEWER_precalc() {
                 }
 
                 switch (on) {
-                    case 0: SEWER_square[x][z] = SEWER_TYPE_OFF; break;
-                    case 1: SEWER_square[x][z] = SEWER_TYPE_WALL_XS; break;
-                    case 2: SEWER_square[x][z] = SEWER_TYPE_WALL_XL; break;
-                    case 4: SEWER_square[x][z] = SEWER_TYPE_WALL_ZS; break;
-                    case 8: SEWER_square[x][z] = SEWER_TYPE_WALL_ZL; break;
-                    case 1 | 4: SEWER_square[x][z] = SEWER_TYPE_WALL_CSS; break;
-                    case 1 | 8: SEWER_square[x][z] = SEWER_TYPE_WALL_CSL; break;
-                    case 2 | 4: SEWER_square[x][z] = SEWER_TYPE_WALL_CLS; break;
-                    case 2 | 8: SEWER_square[x][z] = SEWER_TYPE_WALL_CLL; break;
+                case 0: SEWER_square[x][z] = SEWER_TYPE_OFF; break;
+                case 1: SEWER_square[x][z] = SEWER_TYPE_WALL_XS; break;
+                case 2: SEWER_square[x][z] = SEWER_TYPE_WALL_XL; break;
+                case 4: SEWER_square[x][z] = SEWER_TYPE_WALL_ZS; break;
+                case 8: SEWER_square[x][z] = SEWER_TYPE_WALL_ZL; break;
+                case 1 | 4: SEWER_square[x][z] = SEWER_TYPE_WALL_CSS; break;
+                case 1 | 8: SEWER_square[x][z] = SEWER_TYPE_WALL_CSL; break;
+                case 2 | 4: SEWER_square[x][z] = SEWER_TYPE_WALL_CLS; break;
+                case 2 | 8: SEWER_square[x][z] = SEWER_TYPE_WALL_CLL; break;
                 }
             }
         }
@@ -135,22 +135,22 @@ void SEWER_precalc() {
 
                 for (i = 0; i < 4; i++) {
                     switch (i) {
-                        case 0:
-                            dx = -1;
-                            dz = -1;
-                            break;
-                        case 1:
-                            dx = +1;
-                            dz = -1;
-                            break;
-                        case 2:
-                            dx = -1;
-                            dz = +1;
-                            break;
-                        case 3:
-                            dx = +1;
-                            dz = +1;
-                            break;
+                    case 0:
+                        dx = -1;
+                        dz = -1;
+                        break;
+                    case 1:
+                        dx = +1;
+                        dz = -1;
+                        break;
+                    case 2:
+                        dx = -1;
+                        dz = +1;
+                        break;
+                    case 3:
+                        dx = +1;
+                        dz = +1;
+                        break;
                     }
 
                     nx = x + dx;
@@ -165,10 +165,10 @@ void SEWER_precalc() {
                 }
 
                 switch (on) {
-                    case 1: SEWER_square[x][z] = SEWER_TYPE_WALL_PSS; break;
-                    case 2: SEWER_square[x][z] = SEWER_TYPE_WALL_PLS; break;
-                    case 4: SEWER_square[x][z] = SEWER_TYPE_WALL_PSL; break;
-                    case 8: SEWER_square[x][z] = SEWER_TYPE_WALL_PLL; break;
+                case 1: SEWER_square[x][z] = SEWER_TYPE_WALL_PSS; break;
+                case 2: SEWER_square[x][z] = SEWER_TYPE_WALL_PLS; break;
+                case 4: SEWER_square[x][z] = SEWER_TYPE_WALL_PSL; break;
+                case 8: SEWER_square[x][z] = SEWER_TYPE_WALL_PLL; break;
                 }
             }
         }
@@ -1110,321 +1110,321 @@ SEWER_Face *SEWER_get_next() {
             }
 
             switch (SEWER_get_type) {
-                    //
-                    // Initialise the simple
-                    //
-
-                case SEWER_TYPE_WALL_XS:
-
-                    x[0] = SEWER_get_x << 8;
-                    x[2] = SEWER_get_x << 8;
-                    x[1] = x[0] + SEWER_WALL_WIDTH;
-                    x[3] = x[2] + SEWER_WALL_WIDTH;
-
-                    z[0] = SEWER_get_z + 1 << 8;
-                    z[1] = SEWER_get_z + 1 << 8;
-                    z[2] = SEWER_get_z + 0 << 8;
-                    z[3] = SEWER_get_z + 0 << 8;
-
-                    SEWER_set_control_points(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        0,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        0);
-
-                    SEWER_got_wall2_count = SEWER_CURVE_STEPS;
-
-                    break;
-
-                case SEWER_TYPE_WALL_XL:
-
-                    x[0] = SEWER_get_x + 1 << 8;
-                    x[2] = SEWER_get_x + 1 << 8;
-                    x[1] = x[0] - SEWER_WALL_WIDTH;
-                    x[3] = x[2] - SEWER_WALL_WIDTH;
-
-                    z[0] = SEWER_get_z + 1 << 8;
-                    z[1] = SEWER_get_z + 1 << 8;
-                    z[2] = SEWER_get_z + 0 << 8;
-                    z[3] = SEWER_get_z + 0 << 8;
-
-                    SEWER_set_control_points(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        0,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        0);
-
-                    SEWER_got_wall2_count = SEWER_CURVE_STEPS;
-
-                    break;
-
-                case SEWER_TYPE_WALL_ZS:
-
-                    x[0] = SEWER_get_x + 1 << 8;
-                    x[1] = SEWER_get_x + 1 << 8;
-                    x[2] = SEWER_get_x + 0 << 8;
-                    x[3] = SEWER_get_x + 0 << 8;
-
-                    z[0] = SEWER_get_z + 0 << 8;
-                    z[2] = SEWER_get_z + 0 << 8;
-                    z[1] = z[0] + SEWER_WALL_WIDTH;
-                    z[3] = z[2] + SEWER_WALL_WIDTH;
-
-                    SEWER_set_control_points(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        0,
-                        -SEWER_WALL_CURVE,
-                        SEWER_WALL_CURVE,
-                        0,
-                        -SEWER_WALL_CURVE,
-                        SEWER_WALL_CURVE);
-
-                    SEWER_got_wall2_count = SEWER_CURVE_STEPS;
-
-                    break;
-
-                case SEWER_TYPE_WALL_ZL:
-
-                    x[0] = SEWER_get_x + 1 << 8;
-                    x[1] = SEWER_get_x + 1 << 8;
-                    x[2] = SEWER_get_x + 0 << 8;
-                    x[3] = SEWER_get_x + 0 << 8;
-
-                    z[0] = SEWER_get_z + 1 << 8;
-                    z[2] = SEWER_get_z + 1 << 8;
-                    z[1] = z[0] - SEWER_WALL_WIDTH;
-                    z[3] = z[2] - SEWER_WALL_WIDTH;
-
-                    SEWER_set_control_points(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        0,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        0,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE);
-
-                    SEWER_got_wall2_count = SEWER_CURVE_STEPS;
-
-                    break;
-
-                case SEWER_TYPE_WALL_CSS:
-
-                    x[1] = SEWER_get_x + 0 << 8;
-                    z[1] = SEWER_get_z + 0 << 8;
-                    x[0] = SEWER_get_x + 0 << 8;
-                    z[0] = SEWER_get_z + 1 << 8;
-                    x[4] = SEWER_get_x + 1 << 8;
-                    z[4] = SEWER_get_z + 0 << 8;
-
-                    x[2] = x[0] + SEWER_WALL_WIDTH;
-                    z[2] = z[0];
-                    x[3] = x[4];
-                    z[3] = z[4] + SEWER_WALL_WIDTH;
-
-                    SEWER_super_curve_corner(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_CCURVE,
-                        0,
-                        -SEWER_WALL_CCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_CSL:
-
-                    x[1] = SEWER_get_x + 0 << 8;
-                    z[1] = SEWER_get_z + 1 << 8;
-                    x[0] = SEWER_get_x + 1 << 8;
-                    z[0] = SEWER_get_z + 1 << 8;
-                    x[4] = SEWER_get_x + 0 << 8;
-                    z[4] = SEWER_get_z + 0 << 8;
-
-                    x[2] = x[0];
-                    z[2] = z[0] - SEWER_WALL_WIDTH;
-                    x[3] = x[4] + SEWER_WALL_WIDTH;
-                    z[3] = z[4];
-
-                    SEWER_super_curve_corner(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_CCURVE,
-                        0,
-                        SEWER_WALL_CCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_CLS:
-
-                    x[1] = SEWER_get_x + 1 << 8;
-                    z[1] = SEWER_get_z + 0 << 8;
-                    x[0] = SEWER_get_x + 0 << 8;
-                    z[0] = SEWER_get_z + 0 << 8;
-                    x[4] = SEWER_get_x + 1 << 8;
-                    z[4] = SEWER_get_z + 1 << 8;
-
-                    x[2] = x[0];
-                    z[2] = z[0] + SEWER_WALL_WIDTH;
-                    x[3] = x[4] - SEWER_WALL_WIDTH;
-                    z[3] = z[4];
-
-                    SEWER_super_curve_corner(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        +SEWER_WALL_CCURVE,
-                        0,
-                        -SEWER_WALL_CCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_CLL:
-
-                    x[1] = SEWER_get_x + 1 << 8;
-                    z[1] = SEWER_get_z + 1 << 8;
-                    x[0] = SEWER_get_x + 0 << 8;
-                    z[0] = SEWER_get_z + 1 << 8;
-                    x[4] = SEWER_get_x + 1 << 8;
-                    z[4] = SEWER_get_z + 0 << 8;
-
-                    x[2] = x[0];
-                    z[2] = z[0] - SEWER_WALL_WIDTH;
-                    x[3] = x[4] - SEWER_WALL_WIDTH;
-                    z[3] = z[4];
-
-                    SEWER_super_curve_corner(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        +SEWER_WALL_CCURVE,
-                        0,
-                        +SEWER_WALL_CCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_PSS:
-
-                    x[0] = SEWER_get_x + 0 << 8;
-                    z[0] = SEWER_get_z + 0 << 8;
-                    x[1] = SEWER_get_x + 0 << 8;
-                    z[1] = SEWER_get_z + 0 << 8;
-                    x[2] = x[0];
-                    z[2] = z[0] + SEWER_WALL_WIDTH;
-                    x[3] = x[1] + SEWER_WALL_WIDTH;
-                    z[3] = z[1];
-
-                    SEWER_super_curve(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        SEWER_WALL_PCURVE,
-                        0,
-                        SEWER_WALL_PCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_PLS:
-
-                    x[0] = SEWER_get_x + 1 << 8;
-                    z[0] = SEWER_get_z + 0 << 8;
-                    x[1] = SEWER_get_x + 1 << 8;
-                    z[1] = SEWER_get_z + 0 << 8;
-                    x[2] = x[0] - SEWER_WALL_WIDTH;
-                    z[2] = z[0];
-                    x[3] = x[1];
-                    z[3] = z[1] + SEWER_WALL_WIDTH;
-
-                    SEWER_super_curve(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_PCURVE,
-                        0,
-                        SEWER_WALL_PCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_PSL:
-
-                    x[0] = SEWER_get_x + 0 << 8;
-                    z[0] = SEWER_get_z + 1 << 8;
-                    x[1] = SEWER_get_x + 0 << 8;
-                    z[1] = SEWER_get_z + 1 << 8;
-                    x[2] = x[0] + SEWER_WALL_WIDTH;
-                    z[2] = z[0];
-                    x[3] = x[1];
-                    z[3] = z[1] - SEWER_WALL_WIDTH;
-
-                    SEWER_super_curve(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        SEWER_WALL_PCURVE,
-                        0,
-                        -SEWER_WALL_PCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                case SEWER_TYPE_WALL_PLL:
-
-                    x[0] = SEWER_get_x + 1 << 8;
-                    z[0] = SEWER_get_z + 1 << 8;
-                    x[1] = SEWER_get_x + 1 << 8;
-                    z[1] = SEWER_get_z + 1 << 8;
-                    x[2] = x[0] - SEWER_WALL_WIDTH;
-                    z[2] = z[0];
-                    x[3] = x[1];
-                    z[3] = z[1] - SEWER_WALL_WIDTH;
-
-                    SEWER_super_curve(
-                        x, y, z, u, v, r, g, b,
-                        SEWER_PAGE_WALL,
-                        SEWER_WALL_CURVE,
-                        -SEWER_WALL_CURVE,
-                        -SEWER_WALL_PCURVE,
-                        0,
-                        -SEWER_WALL_PCURVE);
-
-                    SEWER_super_set();
-
-                    break;
-
-                default:
-                    ASSERT(0);
-                    break;
+                //
+                // Initialise the simple
+                //
+
+            case SEWER_TYPE_WALL_XS:
+
+                x[0] = SEWER_get_x << 8;
+                x[2] = SEWER_get_x << 8;
+                x[1] = x[0] + SEWER_WALL_WIDTH;
+                x[3] = x[2] + SEWER_WALL_WIDTH;
+
+                z[0] = SEWER_get_z + 1 << 8;
+                z[1] = SEWER_get_z + 1 << 8;
+                z[2] = SEWER_get_z + 0 << 8;
+                z[3] = SEWER_get_z + 0 << 8;
+
+                SEWER_set_control_points(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    0,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    0);
+
+                SEWER_got_wall2_count = SEWER_CURVE_STEPS;
+
+                break;
+
+            case SEWER_TYPE_WALL_XL:
+
+                x[0] = SEWER_get_x + 1 << 8;
+                x[2] = SEWER_get_x + 1 << 8;
+                x[1] = x[0] - SEWER_WALL_WIDTH;
+                x[3] = x[2] - SEWER_WALL_WIDTH;
+
+                z[0] = SEWER_get_z + 1 << 8;
+                z[1] = SEWER_get_z + 1 << 8;
+                z[2] = SEWER_get_z + 0 << 8;
+                z[3] = SEWER_get_z + 0 << 8;
+
+                SEWER_set_control_points(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    0,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    0);
+
+                SEWER_got_wall2_count = SEWER_CURVE_STEPS;
+
+                break;
+
+            case SEWER_TYPE_WALL_ZS:
+
+                x[0] = SEWER_get_x + 1 << 8;
+                x[1] = SEWER_get_x + 1 << 8;
+                x[2] = SEWER_get_x + 0 << 8;
+                x[3] = SEWER_get_x + 0 << 8;
+
+                z[0] = SEWER_get_z + 0 << 8;
+                z[2] = SEWER_get_z + 0 << 8;
+                z[1] = z[0] + SEWER_WALL_WIDTH;
+                z[3] = z[2] + SEWER_WALL_WIDTH;
+
+                SEWER_set_control_points(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    0,
+                    -SEWER_WALL_CURVE,
+                    SEWER_WALL_CURVE,
+                    0,
+                    -SEWER_WALL_CURVE,
+                    SEWER_WALL_CURVE);
+
+                SEWER_got_wall2_count = SEWER_CURVE_STEPS;
+
+                break;
+
+            case SEWER_TYPE_WALL_ZL:
+
+                x[0] = SEWER_get_x + 1 << 8;
+                x[1] = SEWER_get_x + 1 << 8;
+                x[2] = SEWER_get_x + 0 << 8;
+                x[3] = SEWER_get_x + 0 << 8;
+
+                z[0] = SEWER_get_z + 1 << 8;
+                z[2] = SEWER_get_z + 1 << 8;
+                z[1] = z[0] - SEWER_WALL_WIDTH;
+                z[3] = z[2] - SEWER_WALL_WIDTH;
+
+                SEWER_set_control_points(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    0,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    0,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE);
+
+                SEWER_got_wall2_count = SEWER_CURVE_STEPS;
+
+                break;
+
+            case SEWER_TYPE_WALL_CSS:
+
+                x[1] = SEWER_get_x + 0 << 8;
+                z[1] = SEWER_get_z + 0 << 8;
+                x[0] = SEWER_get_x + 0 << 8;
+                z[0] = SEWER_get_z + 1 << 8;
+                x[4] = SEWER_get_x + 1 << 8;
+                z[4] = SEWER_get_z + 0 << 8;
+
+                x[2] = x[0] + SEWER_WALL_WIDTH;
+                z[2] = z[0];
+                x[3] = x[4];
+                z[3] = z[4] + SEWER_WALL_WIDTH;
+
+                SEWER_super_curve_corner(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_CCURVE,
+                    0,
+                    -SEWER_WALL_CCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_CSL:
+
+                x[1] = SEWER_get_x + 0 << 8;
+                z[1] = SEWER_get_z + 1 << 8;
+                x[0] = SEWER_get_x + 1 << 8;
+                z[0] = SEWER_get_z + 1 << 8;
+                x[4] = SEWER_get_x + 0 << 8;
+                z[4] = SEWER_get_z + 0 << 8;
+
+                x[2] = x[0];
+                z[2] = z[0] - SEWER_WALL_WIDTH;
+                x[3] = x[4] + SEWER_WALL_WIDTH;
+                z[3] = z[4];
+
+                SEWER_super_curve_corner(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_CCURVE,
+                    0,
+                    SEWER_WALL_CCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_CLS:
+
+                x[1] = SEWER_get_x + 1 << 8;
+                z[1] = SEWER_get_z + 0 << 8;
+                x[0] = SEWER_get_x + 0 << 8;
+                z[0] = SEWER_get_z + 0 << 8;
+                x[4] = SEWER_get_x + 1 << 8;
+                z[4] = SEWER_get_z + 1 << 8;
+
+                x[2] = x[0];
+                z[2] = z[0] + SEWER_WALL_WIDTH;
+                x[3] = x[4] - SEWER_WALL_WIDTH;
+                z[3] = z[4];
+
+                SEWER_super_curve_corner(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    +SEWER_WALL_CCURVE,
+                    0,
+                    -SEWER_WALL_CCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_CLL:
+
+                x[1] = SEWER_get_x + 1 << 8;
+                z[1] = SEWER_get_z + 1 << 8;
+                x[0] = SEWER_get_x + 0 << 8;
+                z[0] = SEWER_get_z + 1 << 8;
+                x[4] = SEWER_get_x + 1 << 8;
+                z[4] = SEWER_get_z + 0 << 8;
+
+                x[2] = x[0];
+                z[2] = z[0] - SEWER_WALL_WIDTH;
+                x[3] = x[4] - SEWER_WALL_WIDTH;
+                z[3] = z[4];
+
+                SEWER_super_curve_corner(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    +SEWER_WALL_CCURVE,
+                    0,
+                    +SEWER_WALL_CCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_PSS:
+
+                x[0] = SEWER_get_x + 0 << 8;
+                z[0] = SEWER_get_z + 0 << 8;
+                x[1] = SEWER_get_x + 0 << 8;
+                z[1] = SEWER_get_z + 0 << 8;
+                x[2] = x[0];
+                z[2] = z[0] + SEWER_WALL_WIDTH;
+                x[3] = x[1] + SEWER_WALL_WIDTH;
+                z[3] = z[1];
+
+                SEWER_super_curve(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    SEWER_WALL_PCURVE,
+                    0,
+                    SEWER_WALL_PCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_PLS:
+
+                x[0] = SEWER_get_x + 1 << 8;
+                z[0] = SEWER_get_z + 0 << 8;
+                x[1] = SEWER_get_x + 1 << 8;
+                z[1] = SEWER_get_z + 0 << 8;
+                x[2] = x[0] - SEWER_WALL_WIDTH;
+                z[2] = z[0];
+                x[3] = x[1];
+                z[3] = z[1] + SEWER_WALL_WIDTH;
+
+                SEWER_super_curve(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_PCURVE,
+                    0,
+                    SEWER_WALL_PCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_PSL:
+
+                x[0] = SEWER_get_x + 0 << 8;
+                z[0] = SEWER_get_z + 1 << 8;
+                x[1] = SEWER_get_x + 0 << 8;
+                z[1] = SEWER_get_z + 1 << 8;
+                x[2] = x[0] + SEWER_WALL_WIDTH;
+                z[2] = z[0];
+                x[3] = x[1];
+                z[3] = z[1] - SEWER_WALL_WIDTH;
+
+                SEWER_super_curve(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    SEWER_WALL_PCURVE,
+                    0,
+                    -SEWER_WALL_PCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            case SEWER_TYPE_WALL_PLL:
+
+                x[0] = SEWER_get_x + 1 << 8;
+                z[0] = SEWER_get_z + 1 << 8;
+                x[1] = SEWER_get_x + 1 << 8;
+                z[1] = SEWER_get_z + 1 << 8;
+                x[2] = x[0] - SEWER_WALL_WIDTH;
+                z[2] = z[0];
+                x[3] = x[1];
+                z[3] = z[1] - SEWER_WALL_WIDTH;
+
+                SEWER_super_curve(
+                    x, y, z, u, v, r, g, b,
+                    SEWER_PAGE_WALL,
+                    SEWER_WALL_CURVE,
+                    -SEWER_WALL_CURVE,
+                    -SEWER_WALL_PCURVE,
+                    0,
+                    -SEWER_WALL_PCURVE);
+
+                SEWER_super_set();
+
+                break;
+
+            default:
+                ASSERT(0);
+                break;
             }
         }
 
@@ -1516,97 +1516,97 @@ SEWER_Face *SEWER_get_next() {
                 zm = SEWER_get_z + SEWER_get_z + 1 << 7;
 
                 switch (SEWER_got_pillar_count) {
-                    case 0:
+                case 0:
 
-                        x[0] = xm - SEWER_PILLAR_WIDTH_BOT;
-                        z[0] = zm - SEWER_PILLAR_WIDTH_BOT;
-                        x[1] = xm - SEWER_PILLAR_WIDTH_TOP;
-                        z[1] = zm - SEWER_PILLAR_WIDTH_TOP;
+                    x[0] = xm - SEWER_PILLAR_WIDTH_BOT;
+                    z[0] = zm - SEWER_PILLAR_WIDTH_BOT;
+                    x[1] = xm - SEWER_PILLAR_WIDTH_TOP;
+                    z[1] = zm - SEWER_PILLAR_WIDTH_TOP;
 
-                        x[2] = xm - SEWER_PILLAR_WIDTH_BOT;
-                        z[2] = zm + SEWER_PILLAR_WIDTH_BOT;
-                        x[3] = xm - SEWER_PILLAR_WIDTH_TOP;
-                        z[3] = zm + SEWER_PILLAR_WIDTH_TOP;
+                    x[2] = xm - SEWER_PILLAR_WIDTH_BOT;
+                    z[2] = zm + SEWER_PILLAR_WIDTH_BOT;
+                    x[3] = xm - SEWER_PILLAR_WIDTH_TOP;
+                    z[3] = zm + SEWER_PILLAR_WIDTH_TOP;
 
-                        curve_x1 = SEWER_PILLAR_CURVE;
-                        curve_y1 = -SEWER_PILLAR_CURVE;
-                        curve_z1 = SEWER_PILLAR_CURVE;
+                    curve_x1 = SEWER_PILLAR_CURVE;
+                    curve_y1 = -SEWER_PILLAR_CURVE;
+                    curve_z1 = SEWER_PILLAR_CURVE;
 
-                        curve_x2 = SEWER_PILLAR_CURVE;
-                        curve_y2 = -SEWER_PILLAR_CURVE;
-                        curve_z2 = -SEWER_PILLAR_CURVE;
+                    curve_x2 = SEWER_PILLAR_CURVE;
+                    curve_y2 = -SEWER_PILLAR_CURVE;
+                    curve_z2 = -SEWER_PILLAR_CURVE;
 
-                        break;
+                    break;
 
-                    case 1:
+                case 1:
 
-                        x[0] = xm - SEWER_PILLAR_WIDTH_BOT;
-                        z[0] = zm + SEWER_PILLAR_WIDTH_BOT;
-                        x[1] = xm - SEWER_PILLAR_WIDTH_TOP;
-                        z[1] = zm + SEWER_PILLAR_WIDTH_TOP;
+                    x[0] = xm - SEWER_PILLAR_WIDTH_BOT;
+                    z[0] = zm + SEWER_PILLAR_WIDTH_BOT;
+                    x[1] = xm - SEWER_PILLAR_WIDTH_TOP;
+                    z[1] = zm + SEWER_PILLAR_WIDTH_TOP;
 
-                        x[2] = xm + SEWER_PILLAR_WIDTH_BOT;
-                        z[2] = zm + SEWER_PILLAR_WIDTH_BOT;
-                        x[3] = xm + SEWER_PILLAR_WIDTH_TOP;
-                        z[3] = zm + SEWER_PILLAR_WIDTH_TOP;
+                    x[2] = xm + SEWER_PILLAR_WIDTH_BOT;
+                    z[2] = zm + SEWER_PILLAR_WIDTH_BOT;
+                    x[3] = xm + SEWER_PILLAR_WIDTH_TOP;
+                    z[3] = zm + SEWER_PILLAR_WIDTH_TOP;
 
-                        curve_x1 = SEWER_PILLAR_CURVE;
-                        curve_y1 = -SEWER_PILLAR_CURVE;
-                        curve_z1 = -SEWER_PILLAR_CURVE;
+                    curve_x1 = SEWER_PILLAR_CURVE;
+                    curve_y1 = -SEWER_PILLAR_CURVE;
+                    curve_z1 = -SEWER_PILLAR_CURVE;
 
-                        curve_x2 = -SEWER_PILLAR_CURVE;
-                        curve_y2 = -SEWER_PILLAR_CURVE;
-                        curve_z2 = -SEWER_PILLAR_CURVE;
+                    curve_x2 = -SEWER_PILLAR_CURVE;
+                    curve_y2 = -SEWER_PILLAR_CURVE;
+                    curve_z2 = -SEWER_PILLAR_CURVE;
 
-                        break;
+                    break;
 
-                    case 2:
+                case 2:
 
-                        x[0] = xm + SEWER_PILLAR_WIDTH_BOT;
-                        z[0] = zm + SEWER_PILLAR_WIDTH_BOT;
-                        x[1] = xm + SEWER_PILLAR_WIDTH_TOP;
-                        z[1] = zm + SEWER_PILLAR_WIDTH_TOP;
+                    x[0] = xm + SEWER_PILLAR_WIDTH_BOT;
+                    z[0] = zm + SEWER_PILLAR_WIDTH_BOT;
+                    x[1] = xm + SEWER_PILLAR_WIDTH_TOP;
+                    z[1] = zm + SEWER_PILLAR_WIDTH_TOP;
 
-                        x[2] = xm + SEWER_PILLAR_WIDTH_BOT;
-                        z[2] = zm - SEWER_PILLAR_WIDTH_BOT;
-                        x[3] = xm + SEWER_PILLAR_WIDTH_TOP;
-                        z[3] = zm - SEWER_PILLAR_WIDTH_TOP;
+                    x[2] = xm + SEWER_PILLAR_WIDTH_BOT;
+                    z[2] = zm - SEWER_PILLAR_WIDTH_BOT;
+                    x[3] = xm + SEWER_PILLAR_WIDTH_TOP;
+                    z[3] = zm - SEWER_PILLAR_WIDTH_TOP;
 
-                        curve_x1 = -SEWER_PILLAR_CURVE;
-                        curve_y1 = -SEWER_PILLAR_CURVE;
-                        curve_z1 = -SEWER_PILLAR_CURVE;
+                    curve_x1 = -SEWER_PILLAR_CURVE;
+                    curve_y1 = -SEWER_PILLAR_CURVE;
+                    curve_z1 = -SEWER_PILLAR_CURVE;
 
-                        curve_x2 = -SEWER_PILLAR_CURVE;
-                        curve_y2 = -SEWER_PILLAR_CURVE;
-                        curve_z2 = SEWER_PILLAR_CURVE;
+                    curve_x2 = -SEWER_PILLAR_CURVE;
+                    curve_y2 = -SEWER_PILLAR_CURVE;
+                    curve_z2 = SEWER_PILLAR_CURVE;
 
-                        break;
+                    break;
 
-                    case 3:
+                case 3:
 
-                        x[0] = xm + SEWER_PILLAR_WIDTH_BOT;
-                        z[0] = zm - SEWER_PILLAR_WIDTH_BOT;
-                        x[1] = xm + SEWER_PILLAR_WIDTH_TOP;
-                        z[1] = zm - SEWER_PILLAR_WIDTH_TOP;
+                    x[0] = xm + SEWER_PILLAR_WIDTH_BOT;
+                    z[0] = zm - SEWER_PILLAR_WIDTH_BOT;
+                    x[1] = xm + SEWER_PILLAR_WIDTH_TOP;
+                    z[1] = zm - SEWER_PILLAR_WIDTH_TOP;
 
-                        x[2] = xm - SEWER_PILLAR_WIDTH_BOT;
-                        z[2] = zm - SEWER_PILLAR_WIDTH_BOT;
-                        x[3] = xm - SEWER_PILLAR_WIDTH_TOP;
-                        z[3] = zm - SEWER_PILLAR_WIDTH_TOP;
+                    x[2] = xm - SEWER_PILLAR_WIDTH_BOT;
+                    z[2] = zm - SEWER_PILLAR_WIDTH_BOT;
+                    x[3] = xm - SEWER_PILLAR_WIDTH_TOP;
+                    z[3] = zm - SEWER_PILLAR_WIDTH_TOP;
 
-                        curve_x1 = -SEWER_PILLAR_CURVE;
-                        curve_y1 = -SEWER_PILLAR_CURVE;
-                        curve_z1 = SEWER_PILLAR_CURVE;
+                    curve_x1 = -SEWER_PILLAR_CURVE;
+                    curve_y1 = -SEWER_PILLAR_CURVE;
+                    curve_z1 = SEWER_PILLAR_CURVE;
 
-                        curve_x2 = SEWER_PILLAR_CURVE;
-                        curve_y2 = -SEWER_PILLAR_CURVE;
-                        curve_z2 = SEWER_PILLAR_CURVE;
+                    curve_x2 = SEWER_PILLAR_CURVE;
+                    curve_y2 = -SEWER_PILLAR_CURVE;
+                    curve_z2 = SEWER_PILLAR_CURVE;
 
-                        break;
+                    break;
 
-                    default:
-                        ASSERT(0);
-                        break;
+                default:
+                    ASSERT(0);
+                    break;
                 }
 
                 SEWER_set_control_points(
@@ -1663,147 +1663,147 @@ SEWER_Face *SEWER_get_water() {
     SEWER_face.c[3] = SEWER_WATER_COLOUR;
 
     switch (SEWER_get_type) {
-        case SEWER_TYPE_ON:
-        case SEWER_TYPE_LADDER_XS:
-        case SEWER_TYPE_LADDER_XL:
-        case SEWER_TYPE_LADDER_ZS:
-        case SEWER_TYPE_LADDER_ZL:
-        case SEWER_TYPE_PILLAR:
+    case SEWER_TYPE_ON:
+    case SEWER_TYPE_LADDER_XS:
+    case SEWER_TYPE_LADDER_XL:
+    case SEWER_TYPE_LADDER_ZS:
+    case SEWER_TYPE_LADDER_ZL:
+    case SEWER_TYPE_PILLAR:
 
-            if (SEWER_got_water_count == 0) {
-                SEWER_face.x[0] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[0] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[1] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[1] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[2] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[2] = SEWER_get_z + 1 << 8;
-                SEWER_face.x[3] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[3] = SEWER_get_z + 1 << 8;
-                SEWER_face.u[0] = 0x00000000;
-                SEWER_face.v[0] = 0x00000000;
-                SEWER_face.u[1] = 0x01000000;
-                SEWER_face.v[1] = 0x00000000;
-                SEWER_face.u[2] = 0x00000000;
-                SEWER_face.v[2] = 0x01000000;
-                SEWER_face.u[3] = 0x01000000;
-                SEWER_face.v[3] = 0x01000000;
+        if (SEWER_got_water_count == 0) {
+            SEWER_face.x[0] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[0] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[1] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[1] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[2] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[2] = SEWER_get_z + 1 << 8;
+            SEWER_face.x[3] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[3] = SEWER_get_z + 1 << 8;
+            SEWER_face.u[0] = 0x00000000;
+            SEWER_face.v[0] = 0x00000000;
+            SEWER_face.u[1] = 0x01000000;
+            SEWER_face.v[1] = 0x00000000;
+            SEWER_face.u[2] = 0x00000000;
+            SEWER_face.v[2] = 0x01000000;
+            SEWER_face.u[3] = 0x01000000;
+            SEWER_face.v[3] = 0x01000000;
 
-                return &SEWER_face;
-            }
+            return &SEWER_face;
+        }
 
-            break;
+        break;
 
-        case SEWER_TYPE_WALL_XS:
+    case SEWER_TYPE_WALL_XS:
 
-            if (SEWER_got_water_count == 0) {
-                SEWER_face.x[0] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[0] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[1] = SEWER_get_x + 0 << 8;
-                SEWER_face.x[1] += SEWER_WATER_WALL;
-                SEWER_face.z[1] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[2] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[2] = SEWER_get_z + 1 << 8;
-                SEWER_face.x[3] = SEWER_get_x + 0 << 8;
-                SEWER_face.x[3] += SEWER_WATER_WALL;
-                SEWER_face.z[3] = SEWER_get_z + 1 << 8;
-                SEWER_face.u[0] = 0x00000000;
-                SEWER_face.v[0] = 0x00000000;
-                SEWER_face.u[1] = SEWER_WATER_WALL_UV1;
-                SEWER_face.v[1] = 0x00000000;
-                SEWER_face.u[2] = 0x00000000;
-                SEWER_face.v[2] = 0x01000000;
-                SEWER_face.u[3] = SEWER_WATER_WALL_UV1;
-                SEWER_face.v[3] = 0x01000000;
+        if (SEWER_got_water_count == 0) {
+            SEWER_face.x[0] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[0] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[1] = SEWER_get_x + 0 << 8;
+            SEWER_face.x[1] += SEWER_WATER_WALL;
+            SEWER_face.z[1] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[2] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[2] = SEWER_get_z + 1 << 8;
+            SEWER_face.x[3] = SEWER_get_x + 0 << 8;
+            SEWER_face.x[3] += SEWER_WATER_WALL;
+            SEWER_face.z[3] = SEWER_get_z + 1 << 8;
+            SEWER_face.u[0] = 0x00000000;
+            SEWER_face.v[0] = 0x00000000;
+            SEWER_face.u[1] = SEWER_WATER_WALL_UV1;
+            SEWER_face.v[1] = 0x00000000;
+            SEWER_face.u[2] = 0x00000000;
+            SEWER_face.v[2] = 0x01000000;
+            SEWER_face.u[3] = SEWER_WATER_WALL_UV1;
+            SEWER_face.v[3] = 0x01000000;
 
-                return &SEWER_face;
-            }
+            return &SEWER_face;
+        }
 
-            break;
+        break;
 
-        case SEWER_TYPE_WALL_XL:
+    case SEWER_TYPE_WALL_XL:
 
-            if (SEWER_got_water_count == 0) {
-                SEWER_face.x[0] = SEWER_get_x + 1 << 8;
-                SEWER_face.x[0] -= SEWER_WATER_WALL;
-                SEWER_face.z[0] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[1] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[1] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[2] = SEWER_get_x + 1 << 8;
-                SEWER_face.x[2] -= SEWER_WATER_WALL;
-                SEWER_face.z[2] = SEWER_get_z + 1 << 8;
-                SEWER_face.x[3] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[3] = SEWER_get_z + 1 << 8;
-                SEWER_face.u[0] = SEWER_WATER_WALL_UV2;
-                SEWER_face.v[0] = 0x00000000;
-                SEWER_face.u[1] = 0x01000000;
-                SEWER_face.v[1] = 0x00000000;
-                SEWER_face.u[2] = SEWER_WATER_WALL_UV2;
-                SEWER_face.v[2] = 0x01000000;
-                SEWER_face.u[3] = 0x01000000;
-                SEWER_face.v[3] = 0x01000000;
+        if (SEWER_got_water_count == 0) {
+            SEWER_face.x[0] = SEWER_get_x + 1 << 8;
+            SEWER_face.x[0] -= SEWER_WATER_WALL;
+            SEWER_face.z[0] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[1] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[1] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[2] = SEWER_get_x + 1 << 8;
+            SEWER_face.x[2] -= SEWER_WATER_WALL;
+            SEWER_face.z[2] = SEWER_get_z + 1 << 8;
+            SEWER_face.x[3] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[3] = SEWER_get_z + 1 << 8;
+            SEWER_face.u[0] = SEWER_WATER_WALL_UV2;
+            SEWER_face.v[0] = 0x00000000;
+            SEWER_face.u[1] = 0x01000000;
+            SEWER_face.v[1] = 0x00000000;
+            SEWER_face.u[2] = SEWER_WATER_WALL_UV2;
+            SEWER_face.v[2] = 0x01000000;
+            SEWER_face.u[3] = 0x01000000;
+            SEWER_face.v[3] = 0x01000000;
 
-                return &SEWER_face;
-            }
+            return &SEWER_face;
+        }
 
-            break;
+        break;
 
-        case SEWER_TYPE_WALL_ZS:
+    case SEWER_TYPE_WALL_ZS:
 
-            if (SEWER_got_water_count == 0) {
-                SEWER_face.x[0] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[0] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[1] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[1] = SEWER_get_z + 0 << 8;
-                SEWER_face.x[2] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[2] = SEWER_get_z + 0 << 8;
-                SEWER_face.z[2] += SEWER_WATER_WALL;
-                SEWER_face.x[3] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[3] = SEWER_get_z + 0 << 8;
-                SEWER_face.z[3] += SEWER_WATER_WALL;
-                SEWER_face.u[0] = 0x00000000;
-                SEWER_face.v[0] = 0x00000000;
-                SEWER_face.u[1] = 0x01000000;
-                SEWER_face.v[1] = 0x00000000;
-                SEWER_face.u[2] = 0x00000000;
-                SEWER_face.v[2] = SEWER_WATER_WALL_UV1;
-                SEWER_face.u[3] = 0x01000000;
-                SEWER_face.v[3] = SEWER_WATER_WALL_UV1;
+        if (SEWER_got_water_count == 0) {
+            SEWER_face.x[0] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[0] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[1] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[1] = SEWER_get_z + 0 << 8;
+            SEWER_face.x[2] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[2] = SEWER_get_z + 0 << 8;
+            SEWER_face.z[2] += SEWER_WATER_WALL;
+            SEWER_face.x[3] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[3] = SEWER_get_z + 0 << 8;
+            SEWER_face.z[3] += SEWER_WATER_WALL;
+            SEWER_face.u[0] = 0x00000000;
+            SEWER_face.v[0] = 0x00000000;
+            SEWER_face.u[1] = 0x01000000;
+            SEWER_face.v[1] = 0x00000000;
+            SEWER_face.u[2] = 0x00000000;
+            SEWER_face.v[2] = SEWER_WATER_WALL_UV1;
+            SEWER_face.u[3] = 0x01000000;
+            SEWER_face.v[3] = SEWER_WATER_WALL_UV1;
 
-                return &SEWER_face;
-            }
+            return &SEWER_face;
+        }
 
-            break;
+        break;
 
-        case SEWER_TYPE_WALL_ZL:
+    case SEWER_TYPE_WALL_ZL:
 
-            if (SEWER_got_water_count == 0) {
-                SEWER_face.x[0] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[0] = SEWER_get_z + 1 << 8;
-                SEWER_face.z[0] -= SEWER_WATER_WALL;
-                SEWER_face.x[1] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[1] = SEWER_get_z + 1 << 8;
-                SEWER_face.z[1] -= SEWER_WATER_WALL;
-                SEWER_face.x[2] = SEWER_get_x + 0 << 8;
-                SEWER_face.z[2] = SEWER_get_z + 1 << 8;
-                SEWER_face.x[3] = SEWER_get_x + 1 << 8;
-                SEWER_face.z[3] = SEWER_get_z + 1 << 8;
-                SEWER_face.u[0] = 0x00000000;
-                SEWER_face.v[0] = SEWER_WATER_WALL_UV2;
-                SEWER_face.u[1] = 0x01000000;
-                SEWER_face.v[1] = SEWER_WATER_WALL_UV2;
-                SEWER_face.u[2] = 0x00000000;
-                SEWER_face.v[2] = 0x01000000;
-                SEWER_face.u[3] = 0x01000000;
-                SEWER_face.v[3] = 0x01000000;
+        if (SEWER_got_water_count == 0) {
+            SEWER_face.x[0] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[0] = SEWER_get_z + 1 << 8;
+            SEWER_face.z[0] -= SEWER_WATER_WALL;
+            SEWER_face.x[1] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[1] = SEWER_get_z + 1 << 8;
+            SEWER_face.z[1] -= SEWER_WATER_WALL;
+            SEWER_face.x[2] = SEWER_get_x + 0 << 8;
+            SEWER_face.z[2] = SEWER_get_z + 1 << 8;
+            SEWER_face.x[3] = SEWER_get_x + 1 << 8;
+            SEWER_face.z[3] = SEWER_get_z + 1 << 8;
+            SEWER_face.u[0] = 0x00000000;
+            SEWER_face.v[0] = SEWER_WATER_WALL_UV2;
+            SEWER_face.u[1] = 0x01000000;
+            SEWER_face.v[1] = SEWER_WATER_WALL_UV2;
+            SEWER_face.u[2] = 0x00000000;
+            SEWER_face.v[2] = 0x01000000;
+            SEWER_face.u[3] = 0x01000000;
+            SEWER_face.v[3] = 0x01000000;
 
-                return &SEWER_face;
-            }
+            return &SEWER_face;
+        }
 
-            break;
+        break;
 
-        default:
-            return NULL;
-            break;
+    default:
+        return NULL;
+        break;
     }
 
     return NULL;

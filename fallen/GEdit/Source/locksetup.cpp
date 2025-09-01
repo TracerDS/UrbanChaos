@@ -37,50 +37,50 @@ bool CALLBACK lock_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the 'speed' spin.
+    case WM_INITDIALOG:
+        //	Set up the 'speed' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(2048, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(which_vehicle, 0));
+
+        if (lock_unlock) {
             SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(2048, 1));
+                GetDlgItem(hWnd, IDC_LOCKED),
+                BM_SETCHECK,
+                (WPARAM) BST_CHECKED,
+                0);
+        } else {
             SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(which_vehicle, 0));
+                GetDlgItem(hWnd, IDC_UNLOCKED),
+                BM_SETCHECK,
+                (WPARAM) BST_CHECKED,
+                0);
+        }
 
-            if (lock_unlock) {
-                SendMessage(
-                    GetDlgItem(hWnd, IDC_LOCKED),
-                    BM_SETCHECK,
-                    (WPARAM) BST_CHECKED,
-                    0);
-            } else {
-                SendMessage(
-                    GetDlgItem(hWnd, IDC_UNLOCKED),
-                    BM_SETCHECK,
-                    (WPARAM) BST_CHECKED,
-                    0);
-            }
+        return true;
 
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            which_vehicle = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            lock_unlock = (SendMessage(GetDlgItem(hWnd, IDC_LOCKED), BM_GETCHECK, 0, 0) == BST_CHECKED);
+
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    which_vehicle = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    lock_unlock = (SendMessage(GetDlgItem(hWnd, IDC_LOCKED), BM_GETCHECK, 0, 0) == BST_CHECKED);
-
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            EndDialog(hWnd, 0);
-            return true;
+    case WM_CLOSE:
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

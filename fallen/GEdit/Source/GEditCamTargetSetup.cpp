@@ -26,47 +26,47 @@ bool CALLBACK camts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     std::int32_t c0 = 0;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set the current player type.
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
-            lbitem_str = wcammove_strings[0];
-            while (*lbitem_str != '!') {
-                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
-                lbitem_str = wcammove_strings[++c0];
-            }
-            SendMessage(the_ctrl, CB_SETCURSEL, target_move - 1, 0);
-            the_ctrl = GetDlgItem(hWnd, IDC_COMBO2);
-            lbitem_str = wcamtarg_strings[c0 = 0];
-            while (*lbitem_str != '!') {
-                SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
-                lbitem_str = wcamtarg_strings[++c0];
-            }
-            SendMessage(the_ctrl, CB_SETCURSEL, target_type - 1, 0);
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, target_speed);
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETPOS, 0, target_delay);
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN3), UDM_SETPOS, 0, camera_zoom);
-            SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_SETCHECK, camera_rotate, 0);
-            return true;
+    case WM_INITDIALOG:
+        //	Set the current player type.
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO1);
+        lbitem_str = wcammove_strings[0];
+        while (*lbitem_str != '!') {
+            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
+            lbitem_str = wcammove_strings[++c0];
+        }
+        SendMessage(the_ctrl, CB_SETCURSEL, target_move - 1, 0);
+        the_ctrl = GetDlgItem(hWnd, IDC_COMBO2);
+        lbitem_str = wcamtarg_strings[c0 = 0];
+        while (*lbitem_str != '!') {
+            SendMessage(the_ctrl, CB_ADDSTRING, 0, (LPARAM) lbitem_str);
+            lbitem_str = wcamtarg_strings[++c0];
+        }
+        SendMessage(the_ctrl, CB_SETCURSEL, target_type - 1, 0);
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, target_speed);
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_SETPOS, 0, target_delay);
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN3), UDM_SETPOS, 0, camera_zoom);
+        SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_SETCHECK, camera_rotate, 0);
+        return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    target_move = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
-                    target_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETCURSEL, 0, 0) + 1;
-                    target_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    target_delay = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
-                    camera_zoom = SendMessage(GetDlgItem(hWnd, IDC_SPIN3), UDM_GETPOS, 0, 0);
-                    camera_rotate = SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_GETCHECK, 0, 0);
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
-            EndDialog(hWnd, 0);
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            target_move = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0) + 1;
+            target_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO2), CB_GETCURSEL, 0, 0) + 1;
+            target_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            target_delay = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
+            camera_zoom = SendMessage(GetDlgItem(hWnd, IDC_SPIN3), UDM_GETPOS, 0, 0);
+            camera_rotate = SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_GETCHECK, 0, 0);
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

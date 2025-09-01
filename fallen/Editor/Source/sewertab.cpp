@@ -156,7 +156,8 @@ ControlDef inside_tab_def[] =
                 {	BUTTON,		0,	"Storey Height normal",			180,	405,	0,	0		},
                 {	BUTTON,		0,	"Toggle Flat Tiled Roof",		170,		120,	0,	0		},
         */
-        {0}};
+        {0}
+};
 
 SewerTab *the_build;
 
@@ -502,26 +503,26 @@ std::int32_t SewerTab::ClickInVertex(std::int32_t x, std::int32_t y, std::int32_
 
                 dir = GET_STAIR_DIR(room_ids[index].StairFlags[c0]);
                 switch (dir) {
-                    case 0:
-                        // north
-                        dx = 256;
-                        dz = -512;
-                        break;
-                    case 1:
-                        // east
-                        dx = 512;
-                        dz = 256;
-                        break;
-                    case 2:
-                        // south
-                        dx = -256;
-                        dz = 512;
-                        break;
-                    case 3:
-                        // west
-                        dx = -512;
-                        dz = -256;
-                        break;
+                case 0:
+                    // north
+                    dx = 256;
+                    dz = -512;
+                    break;
+                case 1:
+                    // east
+                    dx = 512;
+                    dz = 256;
+                    break;
+                case 2:
+                    // south
+                    dx = -256;
+                    dz = 512;
+                    break;
+                case 3:
+                    // west
+                    dx = -512;
+                    dz = -256;
+                    break;
                 }
                 x1 = room_ids[index].StairsX[c0] << 8;
                 z1 = room_ids[index].StairsY[c0] << 8;
@@ -967,26 +968,26 @@ void SewerTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
                     dir = GET_STAIR_DIR(room_ids[index].StairFlags[c0]);
                     switch (dir) {
-                        case 0:
-                            // north
-                            dx = 256;
-                            dz = -512;
-                            break;
-                        case 1:
-                            // east
-                            dx = 512;
-                            dz = 256;
-                            break;
-                        case 2:
-                            // south
-                            dx = -256;
-                            dz = 512;
-                            break;
-                        case 3:
-                            // west
-                            dx = -512;
-                            dz = -256;
-                            break;
+                    case 0:
+                        // north
+                        dx = 256;
+                        dz = -512;
+                        break;
+                    case 1:
+                        // east
+                        dx = 512;
+                        dz = 256;
+                        break;
+                    case 2:
+                        // south
+                        dx = -256;
+                        dz = 512;
+                        break;
+                    case 3:
+                        // west
+                        dx = -512;
+                        dz = -256;
+                        break;
                     }
                     x1 = room_ids[index].StairsX[c0] << 8;
                     z1 = room_ids[index].StairsY[c0] << 8;
@@ -1016,18 +1017,18 @@ void SewerTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
                     drawrect.SetRect(x1, z1, x2 - x1, z2 - z1);
                     switch (room_ids[index].StairFlags[c0] & 3) {
-                        case 1:
-                            // up
-                            drawrect.FillRect(RED_COL);
-                            break;
-                        case 2:
-                            // down
-                            drawrect.FillRect(GREEN_COL);
-                            break;
-                        case 3:
-                            // up and down
-                            drawrect.FillRect(YELLOW_COL);
-                            break;
+                    case 1:
+                        // up
+                        drawrect.FillRect(RED_COL);
+                        break;
+                    case 2:
+                        // down
+                        drawrect.FillRect(GREEN_COL);
+                        break;
+                    case 3:
+                        // up and down
+                        drawrect.FillRect(YELLOW_COL);
+                        break;
                     }
                 }
             }
@@ -1065,9 +1066,9 @@ void SewerTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
             CurrentY = storey_list[storey_index].DY;
             index = storey_list[storey_index].WallHead;
             switch (storey_list[storey_index].StoreyType) {
-                case STOREY_TYPE_NORMAL:
-                    drawn_normal = 1;
-                    break;
+            case STOREY_TYPE_NORMAL:
+                drawn_normal = 1;
+                break;
             }
 
             if (Mode == BUILD_MODE_CONT_STOREY) {
@@ -1198,30 +1199,30 @@ std::int32_t SewerTab::KeyboardInterface(void) {
         if (AxisMode > 3)
             AxisMode = 0;
         switch (AxisMode) {
-            case 0:
-                //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_SELECTED);
-                SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = X_AXIS;
-                break;
-            case 1:
-                //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_DESELECTED);
-                SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = Y_AXIS;
-                break;
-            case 2:
-                //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_DESELECTED);
-                SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = Z_AXIS;
-                break;
-            case 3:
-                //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_SELECTED);
-                SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = X_AXIS | Y_AXIS | Z_AXIS;
-                break;
+        case 0:
+            //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_SELECTED);
+            SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = X_AXIS;
+            break;
+        case 1:
+            //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_DESELECTED);
+            SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = Y_AXIS;
+            break;
+        case 2:
+            //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_DESELECTED);
+            SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = Z_AXIS;
+            break;
+        case 3:
+            //				SetControlState(CTRL_BUILD_X_AXIS_FREE,CTRL_SELECTED);
+            SetControlState(CTRL_BUILD_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_BUILD_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = X_AXIS | Y_AXIS | Z_AXIS;
+            break;
         }
 
         SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
@@ -1862,14 +1863,15 @@ std::int32_t SewerTab::ClickNearWall(std::int32_t x, std::int32_t y, std::int32_
 static ControlDef popup_def = {POPUP_MENU, 0, ""};
 MenuDef2 wallsew_popup[] =
     {
-        {"~Poly Windows", 0},
-        {"~Fence Post1", 0},
-        {"~Roof Rim2", 0},
+        {"~Poly Windows",  0},
+        {"~Fence Post1",   0},
+        {"~Roof Rim2",     0},
         {"~Recessed Door", 0},
-        {"~Roof has Rim", 0},
+        {"~Roof has Rim",  0},
         //	{	"~Archside",	0	},
         //	{	"~ArchTop",	0	},
-        {"!", 0}};
+        {"!",              0}
+};
 
 std::int32_t SewerTab::WallOptions(void) {
     std::uint8_t flags;
@@ -1980,12 +1982,13 @@ std::int32_t SewerTab::WallOptions(void) {
 
 MenuDef2 roofsew_popup[] =
     {
-        {"~Flat Roof", 0},
-        {"~Overlap Small", 0},
+        {"~Flat Roof",      0},
+        {"~Overlap Small",  0},
         {"~Overlap Medium", 0},
-        {"~Walled", 0},
-        {"~Reccesed", 0},
-        {"!", 0}};
+        {"~Walled",         0},
+        {"~Reccesed",       0},
+        {"!",               0}
+};
 
 std::int32_t SewerTab::RoofOptions(void) {
     std::uint32_t flags = 0;
@@ -2038,14 +2041,15 @@ std::int32_t SewerTab::RoofOptions(void) {
 
 MenuDef2 fencesew_popup[] =
     {
-        {"~Angle Top", 0},
-        {"~BRICK WALL", 0},
-        {"~HIGH Chain Fence", 0},
-        {"~1 High Chain Fence", 0},
+        {"~Angle Top",            0},
+        {"~BRICK WALL",           0},
+        {"~HIGH Chain Fence",     0},
+        {"~1 High Chain Fence",   0},
         {"~75% High Chain Fence", 0},
         {"~33% High Chain Fence", 0},
 
-        {"!", 0}};
+        {"!",                     0}
+};
 
 std::int32_t SewerTab::FenceOptions(void) {
     std::uint32_t flags = 0;
@@ -2065,33 +2069,33 @@ std::int32_t SewerTab::FenceOptions(void) {
 
     //	flags=storey_list[EditStorey].StoreyFlags;
     switch (storey_list[EditStorey].StoreyType) {
-        case STOREY_TYPE_FENCE:
-            flags = 1 << 1;
-            break;
-        case STOREY_TYPE_FENCE_BRICK:
-            flags = 1 << 2;
-            break;
-        case STOREY_TYPE_FENCE_FLAT:
-            sprintf(str, "HEIGHT %d \n", storey_list[EditStorey].Height);
-            QuickText(0, 0, str, 100);
-            QuickText(100, 100, str, 100);
-            QuickText(200, 200, str, 100);
+    case STOREY_TYPE_FENCE:
+        flags = 1 << 1;
+        break;
+    case STOREY_TYPE_FENCE_BRICK:
+        flags = 1 << 2;
+        break;
+    case STOREY_TYPE_FENCE_FLAT:
+        sprintf(str, "HEIGHT %d \n", storey_list[EditStorey].Height);
+        QuickText(0, 0, str, 100);
+        QuickText(100, 100, str, 100);
+        QuickText(200, 200, str, 100);
 
-            switch (storey_list[EditStorey].Height) {
-                case (512):
-                    flags = 1 << 3;
-                    break;
-                case (256):
-                    flags = 1 << 4;
-                    break;
-                case (256 - 64):
-                    flags = 1 << 5;
-                    break;
-                case (256 - 128):
-                    flags = 1 << 6;
-                    break;
-            }
+        switch (storey_list[EditStorey].Height) {
+        case (512):
+            flags = 1 << 3;
             break;
+        case (256):
+            flags = 1 << 4;
+            break;
+        case (256 - 64):
+            flags = 1 << 5;
+            break;
+        case (256 - 128):
+            flags = 1 << 6;
+            break;
+        }
+        break;
     }
 
     fencesew_popup[6].ItemFlags = 0;
@@ -2114,30 +2118,30 @@ std::int32_t SewerTab::FenceOptions(void) {
     for (c0 = 0; c0 < 6; c0++) {
         if (fencesew_popup[c0].ItemFlags & MENU_CHECK_MASK) {
             switch (c0) {
-                case 0:
-                    storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE;
-                    storey_list[EditStorey].Height = 256;
-                    break;
-                case 1:
-                    storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_BRICK;
-                    storey_list[EditStorey].Height = 256;
-                    break;
-                case 2:
-                    storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
-                    storey_list[EditStorey].Height = 512;
-                    break;
-                case 3:
-                    storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
-                    storey_list[EditStorey].Height = 256;
-                    break;
-                case 4:
-                    storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
-                    storey_list[EditStorey].Height = 256 - 64;
-                    break;
-                case 5:
-                    storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
-                    storey_list[EditStorey].Height = 128;
-                    break;
+            case 0:
+                storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE;
+                storey_list[EditStorey].Height = 256;
+                break;
+            case 1:
+                storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_BRICK;
+                storey_list[EditStorey].Height = 256;
+                break;
+            case 2:
+                storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
+                storey_list[EditStorey].Height = 512;
+                break;
+            case 3:
+                storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
+                storey_list[EditStorey].Height = 256;
+                break;
+            case 4:
+                storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
+                storey_list[EditStorey].Height = 256 - 64;
+                break;
+            case 5:
+                storey_list[EditStorey].StoreyType = STOREY_TYPE_FENCE_FLAT;
+                storey_list[EditStorey].Height = 128;
+                break;
             }
             break;
         }
@@ -2202,312 +2206,312 @@ std::int32_t SewerTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
     std::int32_t ret;
 
     switch (Mode) {
-        case BUILD_MODE_WAIT:
-            switch (flags) {
-                case LEFT_CLICK:
-                    if (ret = ClickInVertex(x, y, w, h, clicked_point)) {
-                        if (ret < 0) {
-                            DragStairs((-ret) - 1, flags);
-                        } else {
-                            switch (storey_list[EditStorey].StoreyType) {
-                                case STOREY_TYPE_FIRE_ESCAPE: {
-                                    if (EditWall < 0) {
-                                        EditWall = 0;
-                                        storey_list[EditStorey].Height++;
-                                        return (1);
-                                    }
-                                } break;
-                                case STOREY_TYPE_LADDER:
-                                    if (EditWall < 0) {
-                                        std::int32_t size = 4;
-                                        if (ShiftFlag)
-                                            size = 1;
-
-                                        EditWall = 0;
-                                        storey_list[EditStorey].Height += size;
-                                        return (1);
-                                    }
-                                    break;
-                                case STOREY_TYPE_STAIRCASE:
-                                    if (EditWall < 0) {
-                                        EditWall = 0;
-                                        storey_list[EditStorey].Info1++;
-                                        return (1);
-                                    }
-
-                                    break;
-                                case STOREY_TYPE_CABLE:
-                                    if (EditWall == 99999) {
-                                        EditWall = 0;
-                                        storey_list[EditStorey].DY += 64;
-                                        return (1);
-                                    } else if (EditWall < 0) {
-                                        wall_list[-EditWall].DY += 64;
-                                        return (1);
-                                    }
-                                    break;
-                            }
-
-                            LogText(" dragging editwall %d\n", EditWall);
-                            if (ShiftFlag) {
-                                DragBuilding(flags, 0);
-                            } else if (ControlFlag) {
-                                DragBuilding(flags, 1);
-                            } else if (DragVertex(flags) == 0) {
-                                DeleteVertex();
-                                return (1);
-                            }
-                        }
-                    }
-                    // drag vertex
-                    break;
-                case RIGHT_CLICK:
-                    if (ret = ClickInVertex(x, y, w, h, clicked_point)) {
-                        if (ret < 0) {
-                            //
-                            // right clicked on a staircase
-                            //
-                            DoStairPopUp((-ret) - 1, clicked_point);
-
-                        } else {
-                            switch (storey_list[EditStorey].StoreyType) {
-                                case STOREY_TYPE_FIRE_ESCAPE: {
-                                    if (EditWall < 0) {
-                                        EditWall = 0;
-                                        storey_list[EditStorey].Height--;
-                                        return (1);
-                                    }
-                                } break;
-                                case STOREY_TYPE_LADDER:
-                                    if (EditWall < 0) {
-                                        std::int32_t size = 4;
-                                        if (ShiftFlag)
-                                            size = 1;
-
-                                        EditWall = 0;
-                                        storey_list[EditStorey].Height -= size;
-                                        return (1);
-                                    }
-                                    break;
-
-                                case STOREY_TYPE_STAIRCASE:
-                                    if (EditWall < 0) {
-                                        EditWall = 0;
-                                        storey_list[EditStorey].Info1--;
-                                        return (1);
-                                    }
-                                    break;
-                                case STOREY_TYPE_CABLE:
-                                    if (EditWall == 99999) {
-                                        EditWall = 0;
-                                        storey_list[EditStorey].DY -= 64;
-                                        return (1);
-                                    } else if (EditWall < 0) {
-                                        wall_list[-EditWall].DY -= 64;
-                                        return (1);
-                                    }
-                                    break;
-                            }
-                            if (EditWall > 0) {
-                                std::int32_t temp_next;
-                                temp_next = wall_list[EditWall].Next;
-                                index = get_new_wall();
-                                wall_list[index].StoreyHead = EditStorey;
-                                wall_list[index].WallFlags = 1; //|FLAG_WALL_AUTO_WINDOWS;
-
-                                wall_list[EditWall].Next = index;
-
-                                wall_list[index].DX = wall_list[EditWall].DX;
-                                wall_list[index].DZ = wall_list[EditWall].DZ;
-                                wall_list[index].Next = temp_next;
-                                //								wall_list[index].WindowCount=0;
-                                EditWall = index;
-                                if (DragVertex(flags) == 0) {
-                                    DeleteVertex();
-                                    return (1);
-                                }
-                            } else {
-                                // trying to drag one of the root
-                            }
-                        }
-                    } else {
-                        if (ClickNearWall(x, y, w, h, clicked_point)) {
-                            SetWorkWindowBounds(x, y, w - 1, h - 1);
-                            switch (storey_list[EditStorey].StoreyType) {
-                                case STOREY_TYPE_ROOF:
-                                    RoofOptions();
-                                    break;
-                                case STOREY_TYPE_NORMAL:
-                                    WallOptions();
-                                    break;
-                                case STOREY_TYPE_FENCE:
-                                case STOREY_TYPE_FENCE_BRICK:
-                                case STOREY_TYPE_FENCE_FLAT:
-                                    FenceOptions();
-                                    break;
-                                default:
-                                    WallOptions();
-                                    break;
-                            }
+    case BUILD_MODE_WAIT:
+        switch (flags) {
+        case LEFT_CLICK:
+            if (ret = ClickInVertex(x, y, w, h, clicked_point)) {
+                if (ret < 0) {
+                    DragStairs((-ret) - 1, flags);
+                } else {
+                    switch (storey_list[EditStorey].StoreyType) {
+                    case STOREY_TYPE_FIRE_ESCAPE: {
+                        if (EditWall < 0) {
+                            EditWall = 0;
+                            storey_list[EditStorey].Height++;
                             return (1);
                         }
-                    }
-                    // delete vertex
-                    break;
-            }
-            break;
+                    } break;
+                    case STOREY_TYPE_LADDER:
+                        if (EditWall < 0) {
+                            std::int32_t size = 4;
+                            if (ShiftFlag)
+                                size = 1;
 
-        case BUILD_MODE_PLACE_STAIRS:
-            switch (flags) {
-                std::int32_t inside;
-                case LEFT_CLICK:
-                    Mode = BUILD_MODE_WAIT;
-
-                    CurrentY = storey_list[EditStorey].DY;
-                    clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
-                    clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
-
-                    CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
-
-                    mx >>= 8;
-                    mz >>= 8;
-
-                    if (storey_list[OutsideEditStorey].InsideIDIndex) {
-                        inside = storey_list[OutsideEditStorey].InsideIDIndex;
-                    } else {
-                        storey_list[OutsideEditStorey].InsideIDIndex = get_new_inside_id();
-                        inside = storey_list[OutsideEditStorey].InsideIDIndex;
-                    }
-
-                    if (inside) {
-                        std::int32_t c0;
-                        for (c0 = 0; c0 < MAX_STAIRS_PER_FLOOR; c0++) {
-                            if (room_ids[inside].StairFlags[c0] == 0) {
-                                room_ids[inside].StairsX[c0] = mx;
-                                room_ids[inside].StairsY[c0] = mz;
-                                room_ids[inside].StairFlags[c0] = 3; // default up and down
-                                RequestUpdate();
-
-                                return (1);
-                            }
+                            EditWall = 0;
+                            storey_list[EditStorey].Height += size;
+                            return (1);
                         }
+                        break;
+                    case STOREY_TYPE_STAIRCASE:
+                        if (EditWall < 0) {
+                            EditWall = 0;
+                            storey_list[EditStorey].Info1++;
+                            return (1);
+                        }
+
+                        break;
+                    case STOREY_TYPE_CABLE:
+                        if (EditWall == 99999) {
+                            EditWall = 0;
+                            storey_list[EditStorey].DY += 64;
+                            return (1);
+                        } else if (EditWall < 0) {
+                            wall_list[-EditWall].DY += 64;
+                            return (1);
+                        }
+                        break;
                     }
-                    RequestUpdate();
-                    break;
+
+                    LogText(" dragging editwall %d\n", EditWall);
+                    if (ShiftFlag) {
+                        DragBuilding(flags, 0);
+                    } else if (ControlFlag) {
+                        DragBuilding(flags, 1);
+                    } else if (DragVertex(flags) == 0) {
+                        DeleteVertex();
+                        return (1);
+                    }
+                }
             }
+            // drag vertex
             break;
-
-        case BUILD_MODE_PLACE_ROOM:
-            switch (flags) {
-                std::int32_t inside;
-                case LEFT_CLICK:
-                    Mode = BUILD_MODE_WAIT;
-
-                    CurrentY = storey_list[EditStorey].DY;
-                    clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
-                    clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
-
-                    CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
-
-                    mx >>= 8;
-                    mz >>= 8;
-
-                    if (storey_list[OutsideEditStorey].InsideIDIndex) {
-                        inside = storey_list[OutsideEditStorey].InsideIDIndex;
-                    } else {
-                        storey_list[OutsideEditStorey].InsideIDIndex = get_new_inside_id();
-                        inside = storey_list[OutsideEditStorey].InsideIDIndex;
-                    }
-
-                    if (inside) {
-                        room_ids[inside].X[RoomID] = mx;
-                        room_ids[inside].Y[RoomID] = mz;
-                        room_ids[inside].Flag[RoomID] = 1;
-                    }
-                    RequestUpdate();
-                    break;
-                case RIGHT_CLICK:
-
-                    if (storey_list[OutsideEditStorey].InsideIDIndex) {
-                        inside = storey_list[OutsideEditStorey].InsideIDIndex;
-                    } else {
-                        storey_list[OutsideEditStorey].InsideIDIndex = get_new_inside_id();
-                        inside = storey_list[OutsideEditStorey].InsideIDIndex;
-                    }
-
-                    if (inside) {
-                        room_ids[inside].X[RoomID] = 0;
-                        room_ids[inside].Y[RoomID] = 0;
-                        room_ids[inside].Flag[RoomID] = 0;
-                    }
-                    RequestUpdate();
-                    break;
-            }
-
-            break;
-        case BUILD_MODE_PLACE_STOREY:
-            switch (flags) {
-                case LEFT_CLICK:
+        case RIGHT_CLICK:
+            if (ret = ClickInVertex(x, y, w, h, clicked_point)) {
+                if (ret < 0) {
                     //
-                    // This corrects the mouse offset problem
+                    // right clicked on a staircase
                     //
-                    CurrentY = storey_list[EditStorey].DY;
-                    clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
-                    clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+                    DoStairPopUp((-ret) - 1, clicked_point);
 
-                    CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
-                    storey_list[EditStorey].DX = mx;
-                    //				storey_list[EditStorey].DY=my;
-                    storey_list[EditStorey].DZ = mz;
-                    Mode = BUILD_MODE_CONT_STOREY;
-                    return (1);
-                case RIGHT_CLICK:
-                    Mode = BUILD_MODE_WAIT;
-                    break;
-            }
-            break;
+                } else {
+                    switch (storey_list[EditStorey].StoreyType) {
+                    case STOREY_TYPE_FIRE_ESCAPE: {
+                        if (EditWall < 0) {
+                            EditWall = 0;
+                            storey_list[EditStorey].Height--;
+                            return (1);
+                        }
+                    } break;
+                    case STOREY_TYPE_LADDER:
+                        if (EditWall < 0) {
+                            std::int32_t size = 4;
+                            if (ShiftFlag)
+                                size = 1;
 
-        case BUILD_MODE_CONT_STOREY:
-            switch (flags) {
-                case LEFT_CLICK:
-                    //
-                    // This corrects the mouse offset problem
-                    //
-                    CurrentY = storey_list[EditStorey].DY;
-                    clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
-                    clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+                            EditWall = 0;
+                            storey_list[EditStorey].Height -= size;
+                            return (1);
+                        }
+                        break;
 
-                    CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
-                    index = get_new_wall();
-                    wall_list[index].StoreyHead = EditStorey;
-                    wall_list[index].WallFlags = 1; //|FLAG_WALL_AUTO_WINDOWS;
-                                                    //						wall_list[index].WindowCount=0;
-                    if (EditWall) {
+                    case STOREY_TYPE_STAIRCASE:
+                        if (EditWall < 0) {
+                            EditWall = 0;
+                            storey_list[EditStorey].Info1--;
+                            return (1);
+                        }
+                        break;
+                    case STOREY_TYPE_CABLE:
+                        if (EditWall == 99999) {
+                            EditWall = 0;
+                            storey_list[EditStorey].DY -= 64;
+                            return (1);
+                        } else if (EditWall < 0) {
+                            wall_list[-EditWall].DY -= 64;
+                            return (1);
+                        }
+                        break;
+                    }
+                    if (EditWall > 0) {
+                        std::int32_t temp_next;
+                        temp_next = wall_list[EditWall].Next;
+                        index = get_new_wall();
+                        wall_list[index].StoreyHead = EditStorey;
+                        wall_list[index].WallFlags = 1; //|FLAG_WALL_AUTO_WINDOWS;
+
                         wall_list[EditWall].Next = index;
+
+                        wall_list[index].DX = wall_list[EditWall].DX;
+                        wall_list[index].DZ = wall_list[EditWall].DZ;
+                        wall_list[index].Next = temp_next;
+                        //								wall_list[index].WindowCount=0;
+                        EditWall = index;
+                        if (DragVertex(flags) == 0) {
+                            DeleteVertex();
+                            return (1);
+                        }
                     } else {
-                        storey_list[EditStorey].WallHead = index;
+                        // trying to drag one of the root
                     }
-
-                    EditWall = index;
-
-                    wall_list[EditWall].DX = mx;
-                    if (EditStorey > 0 && storey_list[EditStorey].StoreyType == STOREY_TYPE_CABLE) {
-                        wall_list[EditWall].DY = storey_list[EditStorey].DY;
+                }
+            } else {
+                if (ClickNearWall(x, y, w, h, clicked_point)) {
+                    SetWorkWindowBounds(x, y, w - 1, h - 1);
+                    switch (storey_list[EditStorey].StoreyType) {
+                    case STOREY_TYPE_ROOF:
+                        RoofOptions();
+                        break;
+                    case STOREY_TYPE_NORMAL:
+                        WallOptions();
+                        break;
+                    case STOREY_TYPE_FENCE:
+                    case STOREY_TYPE_FENCE_BRICK:
+                    case STOREY_TYPE_FENCE_FLAT:
+                        FenceOptions();
+                        break;
+                    default:
+                        WallOptions();
+                        break;
                     }
-
-                    wall_list[EditWall].DZ = mz;
-                    wall_list[EditWall].Next = 0;
-                    if (storey_list[EditStorey].StoreyType == STOREY_TYPE_LADDER) {
-                        Mode = BUILD_MODE_WAIT;
-                    }
-
-                    break;
-                case RIGHT_CLICK:
-                    Mode = BUILD_MODE_WAIT;
-
                     return (1);
+                }
             }
+            // delete vertex
             break;
+        }
+        break;
+
+    case BUILD_MODE_PLACE_STAIRS:
+        switch (flags) {
+            std::int32_t inside;
+        case LEFT_CLICK:
+            Mode = BUILD_MODE_WAIT;
+
+            CurrentY = storey_list[EditStorey].DY;
+            clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+            clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+
+            CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
+
+            mx >>= 8;
+            mz >>= 8;
+
+            if (storey_list[OutsideEditStorey].InsideIDIndex) {
+                inside = storey_list[OutsideEditStorey].InsideIDIndex;
+            } else {
+                storey_list[OutsideEditStorey].InsideIDIndex = get_new_inside_id();
+                inside = storey_list[OutsideEditStorey].InsideIDIndex;
+            }
+
+            if (inside) {
+                std::int32_t c0;
+                for (c0 = 0; c0 < MAX_STAIRS_PER_FLOOR; c0++) {
+                    if (room_ids[inside].StairFlags[c0] == 0) {
+                        room_ids[inside].StairsX[c0] = mx;
+                        room_ids[inside].StairsY[c0] = mz;
+                        room_ids[inside].StairFlags[c0] = 3; // default up and down
+                        RequestUpdate();
+
+                        return (1);
+                    }
+                }
+            }
+            RequestUpdate();
+            break;
+        }
+        break;
+
+    case BUILD_MODE_PLACE_ROOM:
+        switch (flags) {
+            std::int32_t inside;
+        case LEFT_CLICK:
+            Mode = BUILD_MODE_WAIT;
+
+            CurrentY = storey_list[EditStorey].DY;
+            clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+            clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+
+            CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
+
+            mx >>= 8;
+            mz >>= 8;
+
+            if (storey_list[OutsideEditStorey].InsideIDIndex) {
+                inside = storey_list[OutsideEditStorey].InsideIDIndex;
+            } else {
+                storey_list[OutsideEditStorey].InsideIDIndex = get_new_inside_id();
+                inside = storey_list[OutsideEditStorey].InsideIDIndex;
+            }
+
+            if (inside) {
+                room_ids[inside].X[RoomID] = mx;
+                room_ids[inside].Y[RoomID] = mz;
+                room_ids[inside].Flag[RoomID] = 1;
+            }
+            RequestUpdate();
+            break;
+        case RIGHT_CLICK:
+
+            if (storey_list[OutsideEditStorey].InsideIDIndex) {
+                inside = storey_list[OutsideEditStorey].InsideIDIndex;
+            } else {
+                storey_list[OutsideEditStorey].InsideIDIndex = get_new_inside_id();
+                inside = storey_list[OutsideEditStorey].InsideIDIndex;
+            }
+
+            if (inside) {
+                room_ids[inside].X[RoomID] = 0;
+                room_ids[inside].Y[RoomID] = 0;
+                room_ids[inside].Flag[RoomID] = 0;
+            }
+            RequestUpdate();
+            break;
+        }
+
+        break;
+    case BUILD_MODE_PLACE_STOREY:
+        switch (flags) {
+        case LEFT_CLICK:
+            //
+            // This corrects the mouse offset problem
+            //
+            CurrentY = storey_list[EditStorey].DY;
+            clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+            clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+
+            CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
+            storey_list[EditStorey].DX = mx;
+            //				storey_list[EditStorey].DY=my;
+            storey_list[EditStorey].DZ = mz;
+            Mode = BUILD_MODE_CONT_STOREY;
+            return (1);
+        case RIGHT_CLICK:
+            Mode = BUILD_MODE_WAIT;
+            break;
+        }
+        break;
+
+    case BUILD_MODE_CONT_STOREY:
+        switch (flags) {
+        case LEFT_CLICK:
+            //
+            // This corrects the mouse offset problem
+            //
+            CurrentY = storey_list[EditStorey].DY;
+            clicked_point->X += ((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+            clicked_point->Y += -((-CurrentY) * (ViewSize + 3)) / (BLOCK_SIZE << 3);
+
+            CalcMapCoord(&mx, &my, &mz, x, y, w, h, clicked_point);
+            index = get_new_wall();
+            wall_list[index].StoreyHead = EditStorey;
+            wall_list[index].WallFlags = 1; //|FLAG_WALL_AUTO_WINDOWS;
+                                            //						wall_list[index].WindowCount=0;
+            if (EditWall) {
+                wall_list[EditWall].Next = index;
+            } else {
+                storey_list[EditStorey].WallHead = index;
+            }
+
+            EditWall = index;
+
+            wall_list[EditWall].DX = mx;
+            if (EditStorey > 0 && storey_list[EditStorey].StoreyType == STOREY_TYPE_CABLE) {
+                wall_list[EditWall].DY = storey_list[EditStorey].DY;
+            }
+
+            wall_list[EditWall].DZ = mz;
+            wall_list[EditWall].Next = 0;
+            if (storey_list[EditStorey].StoreyType == STOREY_TYPE_LADDER) {
+                Mode = BUILD_MODE_WAIT;
+            }
+
+            break;
+        case RIGHT_CLICK:
+            Mode = BUILD_MODE_WAIT;
+
+            return (1);
+        }
+        break;
     }
     return (0);
 }
@@ -2521,39 +2525,39 @@ std::uint16_t SewerTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
     ShowWorkScreen(0);
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            {
-                current_control = GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        control_id = current_control->TrackControl(&local_point);
-                        HandleControl(control_id);
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        {
+            current_control = GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    control_id = current_control->TrackControl(&local_point);
+                    HandleControl(control_id);
 
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        return control_id;
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        DrawTab();
+                        UnlockWorkScreen();
                     }
-                    current_control = current_control->GetNextControl();
-                }
-            }
+                    ShowWorkWindow(0);
 
-            break;
-        case RIGHT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            break;
+                    return control_id;
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+
+        break;
+    case RIGHT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        break;
     }
     return 0;
 }
@@ -2679,331 +2683,331 @@ void SewerTab::HandleControl(std::uint16_t control_id) {
     }
 
     switch (id) {
-        case CTRL_BUILD_CREATE_BUILDING:
-            std::int32_t y;
-            create_building_prim(EditBuilding, &y);
-            break;
-        case CTRL_NEW_FENCE:
-            if (Mode == BUILD_MODE_WAIT || Mode == 0) {
-                std::uint16_t building, storey;
-                building = get_new_building();
-                if (building) {
-                    EditBuilding = building;
-                    building_list[building].BuildingFlags |= 1;
-                    storey = get_new_storey();
-                    storey_list[storey].BuildingHead = EditBuilding;
-                    storey_list[storey].StoreyFlags = 1;
-                    storey_list[storey].DY = 0;
-                    storey_list[storey].Height = BLOCK_SIZE * 4;
-                    storey_list[storey].StoreyType = STOREY_TYPE_FENCE;
-                    storey_list[storey].Prev = 0;
-                    //					EditY=storey_list[storey].DY;
-                    if (storey) {
-                        building_list[building].StoreyHead = storey;
-                        building_list[building].StoreyCount = 1;
-                        EditStorey = storey;
-                    }
-                    EditWall = 0;
+    case CTRL_BUILD_CREATE_BUILDING:
+        std::int32_t y;
+        create_building_prim(EditBuilding, &y);
+        break;
+    case CTRL_NEW_FENCE:
+        if (Mode == BUILD_MODE_WAIT || Mode == 0) {
+            std::uint16_t building, storey;
+            building = get_new_building();
+            if (building) {
+                EditBuilding = building;
+                building_list[building].BuildingFlags |= 1;
+                storey = get_new_storey();
+                storey_list[storey].BuildingHead = EditBuilding;
+                storey_list[storey].StoreyFlags = 1;
+                storey_list[storey].DY = 0;
+                storey_list[storey].Height = BLOCK_SIZE * 4;
+                storey_list[storey].StoreyType = STOREY_TYPE_FENCE;
+                storey_list[storey].Prev = 0;
+                //					EditY=storey_list[storey].DY;
+                if (storey) {
+                    building_list[building].StoreyHead = storey;
+                    building_list[building].StoreyCount = 1;
+                    EditStorey = storey;
                 }
-                Mode = BUILD_MODE_PLACE_STOREY;
+                EditWall = 0;
             }
-            break;
-        case CTRL_DELETE_STOREY:
-            if (Mode == BUILD_MODE_WAIT)
-                if (EditStorey) {
-                    std::int32_t storey, prev, index;
-                    storey = EditStorey;
-                    storey_list[storey].StoreyFlags = 0;
-                    EditStorey = storey_list[storey].Next;
-                    //					EditY=storey_list[EditStorey].DY;
-                    if (storey_list[storey].WallHead)
-                        free_walls(storey_list[storey].WallHead);
-                    /*
-                                                            if(storey_list[storey].Roof)
-                                                            {
-                                                                    delete_storey_list(storey_list[storey].Roof);
-                                                                    storey_list[storey].Roof=0;
-                                                            }
-                    */
-                    EditWall = 0;
-                    LogText(" delete storey %d next %d prev %d \n", storey, EditStorey, storey_list[storey].Prev);
-                    prev = storey_list[storey].Prev;
-                    if (prev && (storey_list[prev].Next == storey)) {
-                        storey_list[prev].Next = EditStorey;
-                        if (EditStorey == 0) {
-                            LogText(" next==0, prev=%d \n", prev);
-                            EditStorey = prev;
-                            //							EditY=storey_list[EditStorey].DY;
-                            RequestUpdate();
-                            return;
-                        } else {
-                            LogText("p2 next==%d, prev=%d \n", EditStorey, prev);
-                            storey_list[EditStorey].Prev = prev;
-                        }
-
-                    } else {
-                        LogText("parent is building %d next= %d \n", EditBuilding, EditStorey);
-                        building_list[EditBuilding].StoreyHead = EditStorey;
-                        building_list[EditBuilding].StoreyCount--;
-                        storey_list[EditStorey].Prev = 0;
-                    }
-                    switch (storey_list[storey].StoreyType) {
-                        case STOREY_TYPE_FIRE_ESCAPE:
-                        case STOREY_TYPE_LADDER:
-                        case STOREY_TYPE_ROOF_QUAD:
-                        case STOREY_TYPE_CABLE:
-                        case STOREY_TYPE_TRENCH:
-                            break;
-                        default:
-
-                            index = EditStorey;
-                            while (index) {
-                                storey_list[index].DY -= storey_list[storey].Height;
-                                //								if(storey_list[index].Roof)
-                                //									storey_list[storey_list[index].Roof].DY-=BLOCK_SIZE*4;
-
-                                index = storey_list[index].Next;
-                            }
-                    }
-                    RequestUpdate();
-                }
-            break;
-        case CTRL_BUILD_DEL_STOREY:
+            Mode = BUILD_MODE_PLACE_STOREY;
+        }
+        break;
+    case CTRL_DELETE_STOREY:
+        if (Mode == BUILD_MODE_WAIT)
             if (EditStorey) {
                 std::int32_t storey, prev, index;
                 storey = EditStorey;
                 storey_list[storey].StoreyFlags = 0;
                 EditStorey = storey_list[storey].Next;
-
+                //					EditY=storey_list[EditStorey].DY;
                 if (storey_list[storey].WallHead)
                     free_walls(storey_list[storey].WallHead);
+                /*
+                                                        if(storey_list[storey].Roof)
+                                                        {
+                                                                delete_storey_list(storey_list[storey].Roof);
+                                                                storey_list[storey].Roof=0;
+                                                        }
+                */
                 EditWall = 0;
+                LogText(" delete storey %d next %d prev %d \n", storey, EditStorey, storey_list[storey].Prev);
                 prev = storey_list[storey].Prev;
-
-                if (prev == OutsideEditStorey) {
-                    if (prev && storey_list[prev].InsideStorey == storey) {
-                        storey_list[prev].InsideStorey = EditStorey;
-                        if (EditStorey == 0) {
-                            //	EditStorey=prev;
-                            RequestUpdate();
-                            return;
-                        } else {
-                            storey_list[EditStorey].Prev = prev;
-                        }
-                    } else {
-                        ASSERT(0);
-                    }
-
-                } else if (prev && (storey_list[prev].Next == storey)) {
+                if (prev && (storey_list[prev].Next == storey)) {
                     storey_list[prev].Next = EditStorey;
                     if (EditStorey == 0) {
-                        // EditStorey=prev;
+                        LogText(" next==0, prev=%d \n", prev);
+                        EditStorey = prev;
+                        //							EditY=storey_list[EditStorey].DY;
+                        RequestUpdate();
+                        return;
+                    } else {
+                        LogText("p2 next==%d, prev=%d \n", EditStorey, prev);
+                        storey_list[EditStorey].Prev = prev;
+                    }
+
+                } else {
+                    LogText("parent is building %d next= %d \n", EditBuilding, EditStorey);
+                    building_list[EditBuilding].StoreyHead = EditStorey;
+                    building_list[EditBuilding].StoreyCount--;
+                    storey_list[EditStorey].Prev = 0;
+                }
+                switch (storey_list[storey].StoreyType) {
+                case STOREY_TYPE_FIRE_ESCAPE:
+                case STOREY_TYPE_LADDER:
+                case STOREY_TYPE_ROOF_QUAD:
+                case STOREY_TYPE_CABLE:
+                case STOREY_TYPE_TRENCH:
+                    break;
+                default:
+
+                    index = EditStorey;
+                    while (index) {
+                        storey_list[index].DY -= storey_list[storey].Height;
+                        //								if(storey_list[index].Roof)
+                        //									storey_list[storey_list[index].Roof].DY-=BLOCK_SIZE*4;
+
+                        index = storey_list[index].Next;
+                    }
+                }
+                RequestUpdate();
+            }
+        break;
+    case CTRL_BUILD_DEL_STOREY:
+        if (EditStorey) {
+            std::int32_t storey, prev, index;
+            storey = EditStorey;
+            storey_list[storey].StoreyFlags = 0;
+            EditStorey = storey_list[storey].Next;
+
+            if (storey_list[storey].WallHead)
+                free_walls(storey_list[storey].WallHead);
+            EditWall = 0;
+            prev = storey_list[storey].Prev;
+
+            if (prev == OutsideEditStorey) {
+                if (prev && storey_list[prev].InsideStorey == storey) {
+                    storey_list[prev].InsideStorey = EditStorey;
+                    if (EditStorey == 0) {
+                        //	EditStorey=prev;
                         RequestUpdate();
                         return;
                     } else {
                         storey_list[EditStorey].Prev = prev;
                     }
-
                 } else {
                     ASSERT(0);
                 }
-            }
 
-            break;
-        case CTRL_BUILD_NEXT_STOREY: {
-            if (storey_list[OutsideEditStorey].Next) {
-                OutsideEditStorey = storey_list[OutsideEditStorey].Next;
-                RequestUpdate();
-            }
-        } break;
-        case CTRL_BUILD_PREV_STOREY: {
-            if (storey_list[OutsideEditStorey].Prev) {
-                OutsideEditStorey = storey_list[OutsideEditStorey].Prev;
-                RequestUpdate();
-            }
-        } break;
-
-        case CTRL_BUILD_NEW_WALLS:
-
-            if (Mode == BUILD_MODE_WAIT)
-            //				if(EditBuilding)
-            {
-                if (EditStorey && storey_list[EditStorey].StoreyType != STOREY_TYPE_PARTITION) {
-                    Alert *quit_alert;
-
-                    quit_alert = new Alert;
-                    quit_alert->HandleAlert("Can't add next partition to current partition ", nullptr);
-                    delete quit_alert;
-                    //`						RequestUpdate();
+            } else if (prev && (storey_list[prev].Next == storey)) {
+                storey_list[prev].Next = EditStorey;
+                if (EditStorey == 0) {
+                    // EditStorey=prev;
+                    RequestUpdate();
+                    return;
                 } else {
-                    std::uint16_t storey;
-                    storey = get_new_storey();
-                    if (storey) {
-                        storey_list[storey].BuildingHead = EditBuilding;
-                        storey_list[storey].StoreyFlags = 1;
-                        //							storey_list[storey].Prev=EditStorey;
-                        storey_list[storey].StoreyType = STOREY_TYPE_PARTITION;
-                        storey_list[storey].DY = storey_list[OutsideEditStorey].DY; // BLOCK_SIZE*5;
-
-                        if (storey_list[OutsideEditStorey].InsideStorey) {
-                            storey_list[storey].Next = storey_list[OutsideEditStorey].InsideStorey;
-                            storey_list[storey].Prev = OutsideEditStorey;
-                            storey_list[storey_list[storey].Next].Prev = storey;
-
-                            storey_list[OutsideEditStorey].InsideStorey = storey;
-
-                        } else {
-                            storey_list[OutsideEditStorey].InsideStorey = storey;
-                            storey_list[storey].Prev = OutsideEditStorey;
-                        }
-                        EditStorey = storey;
-                        storey_list[EditStorey].WallHead = 0;
-                        storey_list[EditStorey].Height = BLOCK_SIZE * 4;
-                        EditWall = 0;
-                        Mode = BUILD_MODE_PLACE_STOREY;
-                    }
+                    storey_list[EditStorey].Prev = prev;
                 }
-                RequestUpdate();
+
+            } else {
+                ASSERT(0);
             }
-            break;
-        case CTRL_BUILD_NEW_DOOR:
+        }
 
-            if (Mode == BUILD_MODE_WAIT)
-            //				if(EditBuilding)
-            {
-                if (EditStorey && storey_list[EditStorey].StoreyType != STOREY_TYPE_PARTITION) {
-                    Alert *quit_alert;
-
-                    quit_alert = new Alert;
-                    quit_alert->HandleAlert("Can't add next partition to current partition ", nullptr);
-                    delete quit_alert;
-                    //`						RequestUpdate();
-                } else {
-                    std::uint16_t storey;
-                    storey = get_new_storey();
-                    if (storey) {
-                        storey_list[storey].BuildingHead = EditBuilding;
-                        storey_list[storey].StoreyFlags = 1 | FLAG_ISTOREY_DOOR;
-                        //							storey_list[storey].Prev=EditStorey;
-                        storey_list[storey].StoreyType = STOREY_TYPE_PARTITION;
-                        storey_list[storey].DY = storey_list[OutsideEditStorey].DY; // BLOCK_SIZE*5;
-
-                        if (storey_list[OutsideEditStorey].InsideStorey) {
-                            storey_list[storey].Next = storey_list[OutsideEditStorey].InsideStorey;
-                            storey_list[storey].Prev = OutsideEditStorey;
-                            storey_list[storey_list[storey].Next].Prev = storey;
-
-                            storey_list[OutsideEditStorey].InsideStorey = storey;
-
-                        } else {
-                            storey_list[OutsideEditStorey].InsideStorey = storey;
-                            storey_list[storey].Prev = OutsideEditStorey;
-                        }
-                        EditStorey = storey;
-                        storey_list[EditStorey].WallHead = 0;
-                        storey_list[EditStorey].Height = BLOCK_SIZE * 4;
-                        EditWall = 0;
-                        Mode = BUILD_MODE_PLACE_STOREY;
-                    }
-                }
-                RequestUpdate();
-            }
-            break;
-        case CTRL_ADD_STAIRCASE:
-            if (Mode == BUILD_MODE_WAIT)
-                if (EditBuilding) {
-                    std::int32_t storey;
-                    storey = get_new_storey();
-                    if (storey) {
-                        storey_list[storey].BuildingHead = EditBuilding;
-                        storey_list[storey].StoreyFlags = 1;
-                        storey_list[storey].Prev = EditStorey;
-                        storey_list[storey].StoreyType = STOREY_TYPE_STAIRCASE;
-                        storey_list[storey].DY = 0; // storey_list[EditStorey].DY-BLOCK_SIZE*5;
-                        //						EditY=storey_list[storey].DY;
-                        if (building_list[EditBuilding].StoreyHead) {
-                            storey_list[storey].Next = building_list[EditBuilding].StoreyHead;
-                            storey_list[storey_list[storey].Next].Prev = storey;
-                            //							storey_list[EditStorey].Next=storey;
-                            building_list[EditBuilding].StoreyHead = storey;
-                        } else {
-                            building_list[EditBuilding].StoreyHead = storey;
-                        }
-                        EditStorey = storey;
-                        storey_list[EditStorey].WallHead = 0;
-                        //						storey_list[EditStorey].Roof=0;
-                        storey_list[EditStorey].Height = 4;
-                        storey_list[EditStorey].Info1 = 0;
-                        EditWall = 0;
-                        Mode = BUILD_MODE_PLACE_STOREY;
-                        RequestUpdate();
-                    }
-                }
-            break;
-
-            /*
-                            case	CTRL_NEXT_STOREY:
-
-                                    if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
-                                            WITHIN(EditStorey, 1, MAX_STOREYS - 1))
-                                    {
-                                            std::int32_t i_storey;
-
-                                            i_storey = storey_list[EditStorey].Next;
-
-                                            if (WITHIN(i_storey, 1, MAX_STOREYS - 1))
-                                            {
-                                                    EditStorey = i_storey;
-            //					EditY      = storey_list[i_storey].DY;
-                                                    RequestUpdate();
-                                            }
-                                    }
-
-                                    break;
-
-
-                            case	CTRL_PREV_STOREY:
-
-                                    if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
-                                            WITHIN(EditStorey, 1, MAX_STOREYS - 1))
-                                    {
-                                            std::int32_t i_storey;
-
-                                            i_storey = storey_list[EditStorey].Prev;
-
-                                            if (WITHIN(i_storey, 1, MAX_STOREYS - 1))
-                                            {
-                                                    EditStorey = i_storey;
-            //					EditY      = storey_list[i_storey].DY;
-                                                    RequestUpdate();
-                                            }
-                                    }
-            */
-        case CTRL_PLACE_STAIRS:
-            Mode = BUILD_MODE_PLACE_STAIRS;
+        break;
+    case CTRL_BUILD_NEXT_STOREY: {
+        if (storey_list[OutsideEditStorey].Next) {
+            OutsideEditStorey = storey_list[OutsideEditStorey].Next;
             RequestUpdate();
-            break;
-        case CTRL_DELETE_DUPLICATE_INSIDES:
-
-            storey_list[OutsideEditStorey].InsideIDIndex = 0;
-            storey_list[OutsideEditStorey].InsideStorey = 0;
-            EditStorey = 0;
-            EditWall = 0;
-
+        }
+    } break;
+    case CTRL_BUILD_PREV_STOREY: {
+        if (storey_list[OutsideEditStorey].Prev) {
+            OutsideEditStorey = storey_list[OutsideEditStorey].Prev;
             RequestUpdate();
+        }
+    } break;
 
-            break;
+    case CTRL_BUILD_NEW_WALLS:
 
-        case CTRL_INSTYLE_MENU:
-            CurrentFloorType = (control_id >> 8) - 1;
-            if (OutsideEditStorey) {
-                std::int32_t inside, index;
-                index = storey_list[OutsideEditStorey].InsideIDIndex; // building_list[building].StoreyHead;
-                room_ids[index].FloorType = CurrentFloorType;
+        if (Mode == BUILD_MODE_WAIT)
+        //				if(EditBuilding)
+        {
+            if (EditStorey && storey_list[EditStorey].StoreyType != STOREY_TYPE_PARTITION) {
+                Alert *quit_alert;
+
+                quit_alert = new Alert;
+                quit_alert->HandleAlert("Can't add next partition to current partition ", nullptr);
+                delete quit_alert;
+                //`						RequestUpdate();
+            } else {
+                std::uint16_t storey;
+                storey = get_new_storey();
+                if (storey) {
+                    storey_list[storey].BuildingHead = EditBuilding;
+                    storey_list[storey].StoreyFlags = 1;
+                    //							storey_list[storey].Prev=EditStorey;
+                    storey_list[storey].StoreyType = STOREY_TYPE_PARTITION;
+                    storey_list[storey].DY = storey_list[OutsideEditStorey].DY; // BLOCK_SIZE*5;
+
+                    if (storey_list[OutsideEditStorey].InsideStorey) {
+                        storey_list[storey].Next = storey_list[OutsideEditStorey].InsideStorey;
+                        storey_list[storey].Prev = OutsideEditStorey;
+                        storey_list[storey_list[storey].Next].Prev = storey;
+
+                        storey_list[OutsideEditStorey].InsideStorey = storey;
+
+                    } else {
+                        storey_list[OutsideEditStorey].InsideStorey = storey;
+                        storey_list[storey].Prev = OutsideEditStorey;
+                    }
+                    EditStorey = storey;
+                    storey_list[EditStorey].WallHead = 0;
+                    storey_list[EditStorey].Height = BLOCK_SIZE * 4;
+                    EditWall = 0;
+                    Mode = BUILD_MODE_PLACE_STOREY;
+                }
             }
             RequestUpdate();
+        }
+        break;
+    case CTRL_BUILD_NEW_DOOR:
 
-            break;
+        if (Mode == BUILD_MODE_WAIT)
+        //				if(EditBuilding)
+        {
+            if (EditStorey && storey_list[EditStorey].StoreyType != STOREY_TYPE_PARTITION) {
+                Alert *quit_alert;
+
+                quit_alert = new Alert;
+                quit_alert->HandleAlert("Can't add next partition to current partition ", nullptr);
+                delete quit_alert;
+                //`						RequestUpdate();
+            } else {
+                std::uint16_t storey;
+                storey = get_new_storey();
+                if (storey) {
+                    storey_list[storey].BuildingHead = EditBuilding;
+                    storey_list[storey].StoreyFlags = 1 | FLAG_ISTOREY_DOOR;
+                    //							storey_list[storey].Prev=EditStorey;
+                    storey_list[storey].StoreyType = STOREY_TYPE_PARTITION;
+                    storey_list[storey].DY = storey_list[OutsideEditStorey].DY; // BLOCK_SIZE*5;
+
+                    if (storey_list[OutsideEditStorey].InsideStorey) {
+                        storey_list[storey].Next = storey_list[OutsideEditStorey].InsideStorey;
+                        storey_list[storey].Prev = OutsideEditStorey;
+                        storey_list[storey_list[storey].Next].Prev = storey;
+
+                        storey_list[OutsideEditStorey].InsideStorey = storey;
+
+                    } else {
+                        storey_list[OutsideEditStorey].InsideStorey = storey;
+                        storey_list[storey].Prev = OutsideEditStorey;
+                    }
+                    EditStorey = storey;
+                    storey_list[EditStorey].WallHead = 0;
+                    storey_list[EditStorey].Height = BLOCK_SIZE * 4;
+                    EditWall = 0;
+                    Mode = BUILD_MODE_PLACE_STOREY;
+                }
+            }
+            RequestUpdate();
+        }
+        break;
+    case CTRL_ADD_STAIRCASE:
+        if (Mode == BUILD_MODE_WAIT)
+            if (EditBuilding) {
+                std::int32_t storey;
+                storey = get_new_storey();
+                if (storey) {
+                    storey_list[storey].BuildingHead = EditBuilding;
+                    storey_list[storey].StoreyFlags = 1;
+                    storey_list[storey].Prev = EditStorey;
+                    storey_list[storey].StoreyType = STOREY_TYPE_STAIRCASE;
+                    storey_list[storey].DY = 0; // storey_list[EditStorey].DY-BLOCK_SIZE*5;
+                    //						EditY=storey_list[storey].DY;
+                    if (building_list[EditBuilding].StoreyHead) {
+                        storey_list[storey].Next = building_list[EditBuilding].StoreyHead;
+                        storey_list[storey_list[storey].Next].Prev = storey;
+                        //							storey_list[EditStorey].Next=storey;
+                        building_list[EditBuilding].StoreyHead = storey;
+                    } else {
+                        building_list[EditBuilding].StoreyHead = storey;
+                    }
+                    EditStorey = storey;
+                    storey_list[EditStorey].WallHead = 0;
+                    //						storey_list[EditStorey].Roof=0;
+                    storey_list[EditStorey].Height = 4;
+                    storey_list[EditStorey].Info1 = 0;
+                    EditWall = 0;
+                    Mode = BUILD_MODE_PLACE_STOREY;
+                    RequestUpdate();
+                }
+            }
+        break;
+
+        /*
+                        case	CTRL_NEXT_STOREY:
+
+                                if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
+                                        WITHIN(EditStorey, 1, MAX_STOREYS - 1))
+                                {
+                                        std::int32_t i_storey;
+
+                                        i_storey = storey_list[EditStorey].Next;
+
+                                        if (WITHIN(i_storey, 1, MAX_STOREYS - 1))
+                                        {
+                                                EditStorey = i_storey;
+        //					EditY      = storey_list[i_storey].DY;
+                                                RequestUpdate();
+                                        }
+                                }
+
+                                break;
+
+
+                        case	CTRL_PREV_STOREY:
+
+                                if (WITHIN(EditBuilding, 1, MAX_BUILDINGS - 1) &&
+                                        WITHIN(EditStorey, 1, MAX_STOREYS - 1))
+                                {
+                                        std::int32_t i_storey;
+
+                                        i_storey = storey_list[EditStorey].Prev;
+
+                                        if (WITHIN(i_storey, 1, MAX_STOREYS - 1))
+                                        {
+                                                EditStorey = i_storey;
+        //					EditY      = storey_list[i_storey].DY;
+                                                RequestUpdate();
+                                        }
+                                }
+        */
+    case CTRL_PLACE_STAIRS:
+        Mode = BUILD_MODE_PLACE_STAIRS;
+        RequestUpdate();
+        break;
+    case CTRL_DELETE_DUPLICATE_INSIDES:
+
+        storey_list[OutsideEditStorey].InsideIDIndex = 0;
+        storey_list[OutsideEditStorey].InsideStorey = 0;
+        EditStorey = 0;
+        EditWall = 0;
+
+        RequestUpdate();
+
+        break;
+
+    case CTRL_INSTYLE_MENU:
+        CurrentFloorType = (control_id >> 8) - 1;
+        if (OutsideEditStorey) {
+            std::int32_t inside, index;
+            index = storey_list[OutsideEditStorey].InsideIDIndex; // building_list[building].StoreyHead;
+            room_ids[index].FloorType = CurrentFloorType;
+        }
+        RequestUpdate();
+
+        break;
     }
 }
 
@@ -3039,40 +3043,40 @@ void SewerTab::DoStairPopUp(std::int32_t stair, MFPoint *clicked_point) {
     //
     control_id = the_control->TrackControl(&local_point);
     switch (control_id >> 8) {
-        case 1:
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] = 0;
-            break;
-        case 2:
-            // up
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] &= ~(STAIR_FLAG_UP | STAIR_FLAG_DOWN);
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] |= STAIR_FLAG_UP;
-            break;
-        case 3:
-            // down
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] &= ~(STAIR_FLAG_UP | STAIR_FLAG_DOWN);
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] |= STAIR_FLAG_DOWN;
-            break;
-        case 4:
-            // up and down
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] &= ~(STAIR_FLAG_UP | STAIR_FLAG_DOWN);
-            room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] |= (STAIR_FLAG_UP | STAIR_FLAG_DOWN);
-            break;
-        case 5:
-            // n
-            SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 0);
-            break;
-        case 6:
-            // e
-            SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 1);
-            break;
-        case 7:
-            // s
-            SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 2);
-            break;
-        case 8:
-            // w
-            SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 3);
-            break;
+    case 1:
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] = 0;
+        break;
+    case 2:
+        // up
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] &= ~(STAIR_FLAG_UP | STAIR_FLAG_DOWN);
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] |= STAIR_FLAG_UP;
+        break;
+    case 3:
+        // down
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] &= ~(STAIR_FLAG_UP | STAIR_FLAG_DOWN);
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] |= STAIR_FLAG_DOWN;
+        break;
+    case 4:
+        // up and down
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] &= ~(STAIR_FLAG_UP | STAIR_FLAG_DOWN);
+        room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair] |= (STAIR_FLAG_UP | STAIR_FLAG_DOWN);
+        break;
+    case 5:
+        // n
+        SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 0);
+        break;
+    case 6:
+        // e
+        SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 1);
+        break;
+    case 7:
+        // s
+        SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 2);
+        break;
+    case 8:
+        // w
+        SET_STAIR_DIR(room_ids[storey_list[OutsideEditStorey].InsideIDIndex].StairFlags[stair], 3);
+        break;
     }
 
     if (the_control) {

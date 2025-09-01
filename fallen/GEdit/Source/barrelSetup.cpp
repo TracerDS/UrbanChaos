@@ -36,24 +36,24 @@ bool CALLBACK barrel_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     LPTSTR lbitem_str;
 
     switch (message) {
-        case WM_INITDIALOG:
-            INIT_COMBO_BOX(IDC_COMBO1, wbarrel_type_strings, barrel_type);
+    case WM_INITDIALOG:
+        INIT_COMBO_BOX(IDC_COMBO1, wbarrel_type_strings, barrel_type);
+        return true;
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            barrel_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    barrel_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            EndDialog(hWnd, 0);
-            return true;
+    case WM_CLOSE:
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

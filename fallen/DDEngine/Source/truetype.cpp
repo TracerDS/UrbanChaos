@@ -486,7 +486,7 @@ static void DoTextCommand(TextCommand* tcmd) {
         ASSERT(chars);
         if (!chars) return;
 
-        // get width
+            // get width
 #ifdef TARGET_DC
         GetTextExtentExPoint(hDC, cTempString, chars, 0, nullptr, nullptr, &size);
 #else
@@ -507,21 +507,21 @@ static void DoTextCommand(TextCommand* tcmd) {
 
         // draw this line
         switch (tcmd->command) {
-            case LeftJustify:
-                CreateTextLine(string, chars, width, tcmd->x, y, tcmd);
-                break;
+        case LeftJustify:
+            CreateTextLine(string, chars, width, tcmd->x, y, tcmd);
+            break;
 
-            case RightJustify:
-                CreateTextLine(string, chars, width, tcmd->rx - width, y, tcmd);
-                break;
+        case RightJustify:
+            CreateTextLine(string, chars, width, tcmd->rx - width, y, tcmd);
+            break;
 
-            case Centred:
-                CreateTextLine(string, chars, width, (tcmd->x + tcmd->rx - width * tcmd->scale / 256) / 2, y, tcmd);
-                break;
+        case Centred:
+            CreateTextLine(string, chars, width, (tcmd->x + tcmd->rx - width * tcmd->scale / 256) / 2, y, tcmd);
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         y += FontHeight * tcmd->scale >> 8;

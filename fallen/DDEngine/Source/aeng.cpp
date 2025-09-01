@@ -4,7 +4,9 @@
 
 #include <MFStdLib.h>
 #include <DDLib.h>
-#include <math.h>
+#include <cmath>
+#include <algorithm>
+
 #include "game.h"
 #include "aeng.h"
 #include "font.h"
@@ -90,6 +92,8 @@
 #include "DCLowLevel.h"
 #include "es.h"
 
+#include <algorithm>
+
 #ifdef TARGET_DC
 #include <shsgintr.h>
 #else
@@ -108,7 +112,7 @@
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
 
-static void ScribbleCheck ( void )
+static void ScribbleCheck()
 {
 	ASSERT ( prim_faces4[1].Points[0] >= 48 );
 	ASSERT ( prim_faces4[1].Points[0] < 62 );
@@ -135,7 +139,7 @@ static void ScribbleCheck ( void )
 
 #endif
 
-void AENG_draw_far_facets(void);
+void AENG_draw_far_facets();
 void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out);
 void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen);
 void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_room, std::uint8_t fade);
@@ -176,7 +180,7 @@ std::int32_t AENG_cur_fc_cam;
 #ifndef TARGET_DC
 // Clouds?!?!?!?!?!?!? Madness.
 
-void move_clouds(void) {
+void move_clouds() {
     cloud_x += 10;
     cloud_z += 5;
 }
@@ -1422,15 +1426,15 @@ void AENG_calc_gamut_lo_only(
 #endif
 
 #if 1
-    AENG_gamut_lo_xmin = (std::int32_t) (gamut_lo_xmin);
-    AENG_gamut_lo_xmax = (std::int32_t) (gamut_lo_xmax);
-    AENG_gamut_lo_zmin = (std::int32_t) (gamut_lo_zmin);
-    AENG_gamut_lo_zmax = (std::int32_t) (gamut_lo_zmax);
+    AENG_gamut_lo_xmin = (std::int32_t)(gamut_lo_xmin);
+    AENG_gamut_lo_xmax = (std::int32_t)(gamut_lo_xmax);
+    AENG_gamut_lo_zmin = (std::int32_t)(gamut_lo_zmin);
+    AENG_gamut_lo_zmax = (std::int32_t)(gamut_lo_zmax);
 #else
-    AENG_gamut_lo_xmin = (std::int32_t) (gamut_lo_xmin * 0.25f);
-    AENG_gamut_lo_xmax = (std::int32_t) (gamut_lo_xmax * 0.25f);
-    AENG_gamut_lo_zmin = (std::int32_t) (gamut_lo_zmin * 0.25f);
-    AENG_gamut_lo_zmax = (std::int32_t) (gamut_lo_zmax * 0.25f);
+    AENG_gamut_lo_xmin = (std::int32_t)(gamut_lo_xmin * 0.25f);
+    AENG_gamut_lo_xmax = (std::int32_t)(gamut_lo_xmax * 0.25f);
+    AENG_gamut_lo_zmin = (std::int32_t)(gamut_lo_zmin * 0.25f);
+    AENG_gamut_lo_zmax = (std::int32_t)(gamut_lo_zmax * 0.25f);
 #endif
 
     // Just catch the dodgy edge condition.
@@ -1688,18 +1692,18 @@ void AENG_do_cached_lighting_old(void) {
 
             floor_y = p_inside->StoreyY;
 
-            min_z = MAX(NGAMUT_lo_zmin, p_inside->MinZ >> 2);
-            max_z = MIN(NGAMUT_lo_zmax, p_inside->MaxZ >> 2);
+            min_z = std::max(NGAMUT_lo_zmin, p_inside->MinZ >> 2);
+            max_z = std::min(NGAMUT_lo_zmax, p_inside->MaxZ >> 2);
 
             in_width = p_inside->MaxX - p_inside->MinX;
 
             for (z = min_z; z <= max_z + 1; z++) {
-                min_x = MAX(NGAMUT_lo_gamut[z].xmin, p_inside->MinX >> 2);
-                max_x = MIN(NGAMUT_lo_gamut[z].xmax, p_inside->MaxX >> 2);
+                min_x = std::max(NGAMUT_lo_gamut[z].xmin, p_inside->MinX >> 2);
+                max_x = std::min(NGAMUT_lo_gamut[z].xmax, p_inside->MaxX >> 2);
 
                 if (z > min_z) {
-                    min_x = MIN(NGAMUT_lo_gamut[z - 1].xmin, min_x);
-                    max_x = MAX(NGAMUT_lo_gamut[z - 1].xmax, max_x);
+                    min_x = std::min(NGAMUT_lo_gamut[z - 1].xmin, min_x);
+                    max_x = std::max(NGAMUT_lo_gamut[z - 1].xmax, max_x);
                 }
 
                 for (x = min_x; x <= max_x + 1; x++) {
@@ -5889,7 +5893,7 @@ int m_iDrawThingCount = 0;
 // Look Mike, when I say "don't put stuff on the stack", I mean
 // DONT PUT STUFF ON THE STACK. And it's "indices" - only two "i"s.
 std::uint8_t m_vert_mem_block32[sizeof(D3DLVERTEX) * KERB_VERTS + sizeof(D3DLVERTEX) * MAX_VERTS_FOR_STRIPS * IPRIM_COUNT + 32]; // used to 32 byte align the vertex memory
-std::uint16_t m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1];                                                                // data for verts, on stack or not?
+std::uint16_t m_indicies[IPRIM_COUNT][MAX_INDICES_FOR_STRIPS + 1];                                                               // data for verts, on stack or not?
 
 struct GroupInfo {
     LPDIRECT3DTEXTURE2 page; // ptr to actual page to use for drawing
@@ -6047,14 +6051,14 @@ void draw_quick_floor(std::int32_t warehouse) {
         init_stats = 0;
     }
 
-    ptr32 = (std::uint8_t *) (((std::uint32_t) (some_data + 32)) & 0xffffffe0);
+    ptr32 = (std::uint8_t *) (((std::uint32_t)(some_data + 32)) & 0xffffffe0);
     m_view = (D3DMATRIX *) ptr32;
 
     mm_draw_floor.lpd3dMatrices = m_view;
     mm_draw_floor.lpvLightDirs = NULL;
     mm_draw_floor.lpLightTable = NULL;
 
-    ptr32 = (std::uint8_t *) (((std::uint32_t) (m_vert_mem_block32 + 32)) & 0xffffffe0);
+    ptr32 = (std::uint8_t *) (((std::uint32_t)(m_vert_mem_block32 + 32)) & 0xffffffe0);
 
     kerb_verts = (D3DLVERTEX *) ptr32;
     ptr32 += sizeof(D3DLVERTEX) * KERB_VERTS;
@@ -6436,7 +6440,7 @@ void draw_quick_floor(std::int32_t warehouse) {
 
 #ifdef DEBUG
 #ifdef TARGET_DC
-            // Colour the vertices.
+                // Colour the vertices.
 #define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
                 extern DIJOYSTATE the_state;
                 if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
@@ -7719,10 +7723,10 @@ void AENG_draw_city() {
             // The moon is wibbled with polys now.
             //
 
-            bbox[0].x1 = MAX((std::int32_t)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-            bbox[0].y1 = MAX((std::int32_t)moon_y1, 0);
-            bbox[0].x2 = MIN((std::int32_t)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
-            bbox[0].y2 = MIN((std::int32_t)moon_y2, DisplayHeight);
+            bbox[0].x1 = std::max((std::int32_t)moon_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+            bbox[0].y1 = std::max((std::int32_t)moon_y1, 0);
+            bbox[0].x2 = std::min((std::int32_t)moon_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth  - AENG_BBOX_PUSH_IN);
+            bbox[0].y2 = std::min((std::int32_t)moon_y2, DisplayHeight);
 
             bbox[0].water_box = FALSE;
 
@@ -7806,10 +7810,10 @@ void AENG_draw_city() {
                                         // Create a new bounding box
                                         //
 
-                                        bbox[bbox_upto].x1 = MAX(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-                                        bbox[bbox_upto].y1 = MAX(FIGURE_reflect_y1, 0);
-                                        bbox[bbox_upto].x2 = MIN(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
-                                        bbox[bbox_upto].y2 = MIN(FIGURE_reflect_y2, DisplayHeight);
+                                        bbox[bbox_upto].x1 = std::max(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+                                        bbox[bbox_upto].y1 = std::max(FIGURE_reflect_y1, 0);
+                                        bbox[bbox_upto].x2 = std::min(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
+                                        bbox[bbox_upto].y2 = std::min(FIGURE_reflect_y2, DisplayHeight);
 
                                         bbox[bbox_upto].water_box = ph->Flags & PAP_FLAG_WATER;
 
@@ -8072,10 +8076,10 @@ void AENG_draw_city() {
                                 continue;
                             }
 
-                            ix1 = MAX(px1, bbox[i].x1);
-                            iy1 = MAX(py1, bbox[i].y1);
-                            ix2 = MIN(px2, bbox[i].x2);
-                            iy2 = MIN(py2, bbox[i].y2);
+                            ix1 = std::max(px1, bbox[i].x1);
+                            iy1 = std::max(py1, bbox[i].y1);
+                            ix2 = std::min(px2, bbox[i].x2);
+                            iy2 = std::min(py2, bbox[i].y2);
 
                             if (ix1 < ix2 && iy1 < iy2) {
                                 if (the_display.screen_lock()) {
@@ -8478,9 +8482,9 @@ void AENG_draw_city() {
         if (!INDOORS_INDEX || outside)
             for (z = NGAMUT_zmin; z <= NGAMUT_zmax; z++) {
                 for (x = NGAMUT_gamut[z].xmin; x <= NGAMUT_gamut[z].xmax; x++) {
-                    //if (DebugVars::getInstance().GetDisableFloorsRender()) {
-                    //    continue;
-                    //}
+                    // if (DebugVars::getInstance().GetDisableFloorsRender()) {
+                    //     continue;
+                    // }
                     ASSERT(WITHIN(x, 0, PAP_SIZE_HI - 2));
                     ASSERT(WITHIN(z, 0, PAP_SIZE_HI - 2));
 
@@ -9260,11 +9264,11 @@ void AENG_draw_city() {
 
         for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
             for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
-                //if (DebugVars::getInstance().GetDisableThingsRender()) {
-                //    continue;
-                //}
+                // if (DebugVars::getInstance().GetDisableThingsRender()) {
+                //     continue;
+                // }
                 //
-                // The cached lighting for this low-res mapsquare.
+                //  The cached lighting for this low-res mapsquare.
                 //
 
                 ASSERT(WITHIN(x, 0, PAP_SIZE_LO - 1));
@@ -12169,10 +12173,10 @@ void AENG_draw_ns() {
                                     // Create a new bounding box
                                     //
 
-                                    bbox[bbox_upto].x1 = MAX(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
-                                    bbox[bbox_upto].y1 = MAX(FIGURE_reflect_y1, 0);
-                                    bbox[bbox_upto].x2 = MIN(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
-                                    bbox[bbox_upto].y2 = MIN(FIGURE_reflect_y2, DisplayHeight);
+                                    bbox[bbox_upto].x1 = std::max(FIGURE_reflect_x1 - AENG_BBOX_PUSH_OUT, AENG_BBOX_PUSH_IN);
+                                    bbox[bbox_upto].y1 = std::max(FIGURE_reflect_y1, 0);
+                                    bbox[bbox_upto].x2 = std::min(FIGURE_reflect_x2 + AENG_BBOX_PUSH_OUT, DisplayWidth - AENG_BBOX_PUSH_IN);
+                                    bbox[bbox_upto].y2 = std::min(FIGURE_reflect_y2, DisplayHeight);
 
                                     bbox_upto += 1;
                                 }
@@ -13196,7 +13200,7 @@ void AENG_draw_FPS() {
     static std::int32_t fps = 0;            // current FPS
     static std::int32_t avfps = 0;          // average FPS
     static std::int32_t last_game_turn = 0; // game turn when FPS was sampled
-    static clock_t last_time = 0;    // time when FPS was sampled
+    static clock_t last_time = 0;           // time when FPS was sampled
     static std::int32_t total_frames = 0;
     static float total_time = 0;
     static std::int32_t ups = 0; // us per frame
@@ -15433,8 +15437,8 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
     floor_y = (float) p_inside->StoreyY;
     roof_y = floor_y + 256.0f;
 
-    min_z = MAX(NGAMUT_point_zmin, p_inside->MinZ);
-    max_z = MIN(NGAMUT_point_zmax, p_inside->MaxZ);
+    min_z = std::max(NGAMUT_point_zmin, static_cast<std::int32_t>(p_inside->MinZ));
+    max_z = std::min(NGAMUT_point_zmax, static_cast<std::int32_t>(p_inside->MaxZ));
 
     in_width = p_inside->MaxX - p_inside->MinX;
 
@@ -15463,8 +15467,8 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
         std::int32_t min_x, max_x;
         float face_y;
         std::int32_t col;
-        min_x = MAX(NGAMUT_point_gamut[z].xmin, p_inside->MinX);
-        max_x = MIN(NGAMUT_point_gamut[z].xmax, p_inside->MaxX);
+        min_x = std::max(NGAMUT_point_gamut[z].xmin, static_cast<std::int32_t>(p_inside->MinX));
+        max_x = std::min(NGAMUT_point_gamut[z].xmax, static_cast<std::int32_t>(p_inside->MaxX));
 
         for (x = min_x; x < max_x; x++) {
             ASSERT(WITHIN(x, 0, MAP_WIDTH - 1));

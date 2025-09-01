@@ -17,6 +17,8 @@
 #include "panel.h"
 #include "..\headers\game.h"
 
+#include <algorithm>
+
 //
 // From mfx_miles.h...
 //
@@ -175,21 +177,21 @@ void RenderFileToMMStream(const char *szFileName, IMultiMediaStream **ppMMStream
     hres = pAMStream->Initialize(STREAMTYPE_READ, 0, nullptr);
     if (FAILED(hres)) {
         switch (hres) {
-            case E_ABORT:
-                hres++;
-                break;
-            case E_INVALIDARG:
-                hres++;
-                break;
-            case E_NOINTERFACE:
-                hres++;
-                break;
-            case E_OUTOFMEMORY:
-                hres++;
-                break;
-            case E_POINTER:
-                hres++;
-                break;
+        case E_ABORT:
+            hres++;
+            break;
+        case E_INVALIDARG:
+            hres++;
+            break;
+        case E_NOINTERFACE:
+            hres++;
+            break;
+        case E_OUTOFMEMORY:
+            hres++;
+            break;
+        case E_POINTER:
+            hres++;
+            break;
         }
     }
     hres = pAMStream->AddMediaStream(pDD, &MSPID_PrimaryVideo, 0, nullptr);
@@ -256,35 +258,35 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     extern HINSTANCE hGlobalThisInst;
 
     VideoRes = ENV_get_value_number("video_res", -1, "Render");
-    VideoRes = max(min(VideoRes, 4), 0);
+    VideoRes = std::max(std::min(VideoRes, 4), 0);
 
     depth = 32;
     switch (VideoRes) {
-        case 0:
-            width = 320;
-            height = 240;
-            break;
-        case 1:
-            width = 512;
-            height = 384;
-            break;
-        case 2:
-            width = 640;
-            height = 480;
-            break;
-        case 3:
-            width = 800;
-            height = 600;
-            break;
-        case 4:
-            width = 1024;
-            height = 768;
-            break;
-        default:
-            width = 1280;
-            height = 720;
-            break;
-            // case 5:		width = 1920; height = 1080; break;		// TODO: Investigate modern screen resolutions
+    case 0:
+        width = 320;
+        height = 240;
+        break;
+    case 1:
+        width = 512;
+        height = 384;
+        break;
+    case 2:
+        width = 640;
+        height = 480;
+        break;
+    case 3:
+        width = 800;
+        height = 600;
+        break;
+    case 4:
+        width = 1024;
+        height = 768;
+        break;
+    default:
+        width = 1280;
+        height = 720;
+        break;
+        // case 5:		width = 1920; height = 1080; break;		// TODO: Investigate modern screen resolutions
     }
 
     if (flags & FLAGS_USE_3D)
@@ -365,40 +367,40 @@ void LoadBackImage(std::uint8_t *image_data) {
     do_the_lock:
         result = the_display.lp_DD_BackSurface->Lock(nullptr, &dd_sd, DDLOCK_WAIT | DDLOCK_NOSYSLOCK, nullptr);
         switch (result) {
-            case DD_OK:
-                pitch = dd_sd.lPitch >> 1;
-                surface_mem = (std::uint16_t *) dd_sd.lpSurface;
-                for (height = 0; (unsigned) height < dd_sd.dwHeight; height++, surface_mem += pitch) {
-                    for (width = 0; (unsigned) width < dd_sd.dwWidth; width++) {
-                        pixel = the_display.GetFormattedPixel(*(image_data + 2), *(image_data + 1), *(image_data + 0));
-                        *(surface_mem + width) = pixel;
-                        image_data += 3;
-                    }
+        case DD_OK:
+            pitch = dd_sd.lPitch >> 1;
+            surface_mem = (std::uint16_t *) dd_sd.lpSurface;
+            for (height = 0; (unsigned) height < dd_sd.dwHeight; height++, surface_mem += pitch) {
+                for (width = 0; (unsigned) width < dd_sd.dwWidth; width++) {
+                    pixel = the_display.GetFormattedPixel(*(image_data + 2), *(image_data + 1), *(image_data + 0));
+                    *(surface_mem + width) = pixel;
+                    image_data += 3;
                 }
-                try_count = 0;
-            do_the_unlock:
-                result = the_display.lp_DD_BackSurface->Unlock(nullptr);
-                switch (result) {
-                    case DDERR_SURFACELOST:
-                        try_count++;
-                        if (try_count < 10) {
-                            the_display.Restore();
-                            goto do_the_unlock;
-                        }
-                        break;
-                }
-                break;
+            }
+            try_count = 0;
+        do_the_unlock:
+            result = the_display.lp_DD_BackSurface->Unlock(nullptr);
+            switch (result) {
             case DDERR_SURFACELOST:
                 try_count++;
                 if (try_count < 10) {
                     the_display.Restore();
-                    goto do_the_lock;
+                    goto do_the_unlock;
                 }
                 break;
-            default:
-                try_count++;
-                if (try_count < 10)
-                    goto do_the_lock;
+            }
+            break;
+        case DDERR_SURFACELOST:
+            try_count++;
+            if (try_count < 10) {
+                the_display.Restore();
+                goto do_the_lock;
+            }
+            break;
+        default:
+            try_count++;
+            if (try_count < 10)
+                goto do_the_lock;
         }
     }
 }
@@ -1551,11 +1553,11 @@ HRESULT Display::UpdateViewport() {
 
     // Set the background colour.
     switch (the_display.BackColour) {
-        case BK_COL_NONE:
-            break;
-        case BK_COL_BLACK: return the_display.SetBlackBackground();
-        case BK_COL_WHITE: return the_display.SetWhiteBackground();
-        case BK_COL_USER: return the_display.SetUserBackground();
+    case BK_COL_NONE:
+        break;
+    case BK_COL_BLACK: return the_display.SetBlackBackground();
+    case BK_COL_WHITE: return the_display.SetWhiteBackground();
+    case BK_COL_USER: return the_display.SetUserBackground();
     }
 
     // Success

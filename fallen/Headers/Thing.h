@@ -81,23 +81,23 @@ struct Thing {
     } Draw;
 
     union {
-        VehiclePtr Vehicle;
-        FurniturePtr Furniture;
-        PersonPtr Person;
-        AnimalPtr Animal;
-        ChopperPtr Chopper;
-        PyroPtr Pyro;
-        ProjectilePtr Projectile;
-        PlayerPtr Player;
-        SpecialPtr Special;
-        SwitchPtr Switch;
-        TrackPtr Track;
-        PlatPtr Plat;
-        BarrelPtr Barrel;
+        Vehicle* Vehicle;
+        Furniture* Furniture;
+        Person* Person;
+        Animal* Animal;
+        Chopper* Chopper;
+        Pyro* Pyro;
+        Projectile* Projectile;
+        Player* Player;
+        Special* Special;
+        Switch* Switch;
+        Track* Track;
+        Plat* Plat;
+        Barrel* Barrel;
 #ifdef BIKE
-        BikePtr Bike;
+        Bike* Bike;
 #endif
-        BatPtr Bat;
+        Bat* Bat;
 
     } Genus;
     std::uint8_t DrawType;

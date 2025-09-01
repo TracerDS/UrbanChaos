@@ -27,30 +27,30 @@ bool CALLBACK plats_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
     //	std::int32_t		c0	=	0;
 
     switch (message) {
-        case WM_INITDIALOG:
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, platform_speed);
-            ticklist_init(hWnd, IDC_LIST1, wplatform_flag_strings, platform_flags);
+    case WM_INITDIALOG:
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, platform_speed);
+        ticklist_init(hWnd, IDC_LIST1, wplatform_flag_strings, platform_flags);
+        return true;
+
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        return ticklist_draw(hWnd, wParam, lParam);
+
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            platform_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            platform_flags = ticklist_bitmask(hWnd, IDC_LIST1);
+
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
-
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            return ticklist_draw(hWnd, wParam, lParam);
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    platform_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    platform_flags = ticklist_bitmask(hWnd, IDC_LIST1);
-
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-        case WM_CLOSE:
-            ticklist_close(hWnd, IDC_LIST1);
-            EndDialog(hWnd, 0);
+        }
+        break;
+    case WM_CLOSE:
+        ticklist_close(hWnd, IDC_LIST1);
+        EndDialog(hWnd, 0);
     }
     return false;
 }

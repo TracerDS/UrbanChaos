@@ -1,8 +1,7 @@
 // Engine.h
 // Guy Simmons, 18th October 1997
 
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include "Game.h"
 #include "DDLib.h"
@@ -10,7 +9,7 @@
 #include "Gamut.h"
 #include "Bucket.h"
 #include "Message.h"
-#include <math.h>
+#include <cmath>
 
 //
 // This is the palette used by the gouraud-shaded
@@ -268,15 +267,14 @@ typedef struct
 
 //---------------------------------------------------------------
 
-typedef struct
-{
+struct Camera {
     float CameraX,
         CameraY,
         CameraZ;
     std::int32_t CameraAngle,
         CameraRoll,
         CameraTilt;
-} Camera;
+};
 
 //---------------------------------------------------------------
 
@@ -358,5 +356,3 @@ void e_draw_3d_line_col(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::
 void e_draw_3d_line_col_sorted(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r, std::int32_t g, std::int32_t b);
 void e_draw_3d_mapwho(std::int32_t x1, std::int32_t z1);
 void e_draw_3d_mapwho_y(std::int32_t x1, std::int32_t y1, std::int32_t z1);
-
-#endif

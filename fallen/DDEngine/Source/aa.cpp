@@ -21,8 +21,7 @@
 #define AA_MAX_SPAN_X 33
 #define AA_MAX_SPAN_Y 33
 
-typedef struct
-{
+struct AA_Span {
     std::int32_t rhs_min;
     std::int32_t rhs_max;
 
@@ -30,8 +29,7 @@ typedef struct
     std::int32_t lhs_max;
 
     std::int32_t pixel[AA_MAX_SPAN_X];
-
-} AA_Span;
+};
 
 AA_Span AA_span[AA_MAX_SPAN_Y];
 
@@ -53,15 +51,16 @@ void AA_pixel_rhs(
 
     if (WITHIN(x, as->rhs_min, as->rhs_max)) {
         as->pixel[x] += frac;
-    } else {
-        as->pixel[x] = frac;
+        return;
+    }
 
-        if (x < as->rhs_min) {
-            as->rhs_min = x;
-        }
-        if (x > as->rhs_max) {
-            as->rhs_max = x;
-        }
+    as->pixel[x] = frac;
+
+    if (x < as->rhs_min) {
+        as->rhs_min = x;
+    }
+    if (x > as->rhs_max) {
+        as->rhs_max = x;
     }
 }
 
@@ -93,26 +92,19 @@ void AA_pixel_lhs(
         //
 
         as->pixel[x] -= frac_left;
-
-        if (x < as->lhs_min) {
-            as->lhs_min = x;
-        }
-        if (x > as->lhs_max) {
-            as->lhs_max = x;
-        }
     } else {
         if (WITHIN(x, as->lhs_min, as->lhs_max)) {
             as->pixel[x] += frac_right;
-        } else {
-            as->pixel[x] = frac_right;
-
-            if (x < as->lhs_min) {
-                as->lhs_min = x;
-            }
-            if (x > as->lhs_max) {
-                as->lhs_max = x;
-            }
+            return;
         }
+        as->pixel[x] = frac_right;
+    }
+
+    if (x < as->lhs_min) {
+        as->lhs_min = x;
+    }
+    if (x > as->lhs_max) {
+        as->lhs_max = x;
     }
 }
 
@@ -143,11 +135,7 @@ void AA_span_rhs(
 
         frac = (x1 & AA_PMN) * (y2 - y1) >> AA_FIX; // Fraction of this pixel covered.
 
-        AA_pixel_rhs(
-            x1 >> AA_FIX,
-            y1 >> AA_FIX,
-            frac);
-
+        AA_pixel_rhs(x1 >> AA_FIX, y1 >> AA_FIX, frac);
         return;
     }
 
@@ -155,7 +143,7 @@ void AA_span_rhs(
         xleft = x1;
         ytop = y1;
 
-        while (1) {
+        while (true) {
             xright = xleft + AA_PIX;
             xright &= ~AA_PMN;
 
@@ -175,10 +163,7 @@ void AA_span_rhs(
                 frac += (y2 - ybot) * (xleft & AA_PMN) >> AA_FIX;
             }
 
-            AA_pixel_rhs(
-                xleft >> AA_FIX,
-                y1 >> AA_FIX,
-                frac);
+            AA_pixel_rhs(xleft >> AA_FIX, y1 >> AA_FIX, frac);
 
             if (xright >= x2) {
                 return;
@@ -191,7 +176,7 @@ void AA_span_rhs(
         xright = x1;
         ytop = y1;
 
-        while (1) {
+        while (true) {
             xleft = xright - 1;
             xleft &= ~AA_PMN;
 
@@ -211,14 +196,10 @@ void AA_span_rhs(
                 frac += (ytop - y1) * (xleft & AA_PMN) >> AA_FIX;
             }
 
-            AA_pixel_rhs(
-                xleft >> AA_FIX,
-                y1 >> AA_FIX,
-                frac);
+            AA_pixel_rhs(xleft >> AA_FIX, y1 >> AA_FIX, frac);
 
-            if (xleft <= x2) {
+            if (xleft <= x2)
                 return;
-            }
 
             xright = xleft;
             ytop = ybot;
@@ -256,11 +237,7 @@ void AA_span_lhs(
         frac_left = (x1 & AA_PMN) * (y2 - y1) >> AA_FIX;
         frac_right = (AA_PMN - (x1 & AA_PMN)) * (y2 - y1) >> AA_FIX;
 
-        AA_pixel_lhs(
-            x1 >> AA_FIX,
-            y1 >> AA_FIX,
-            frac_left,
-            frac_right);
+        AA_pixel_lhs(x1 >> AA_FIX, y1 >> AA_FIX, frac_left, frac_right);
 
         return;
     }
@@ -269,7 +246,7 @@ void AA_span_lhs(
         xleft = x1;
         ytop = y1;
 
-        while (1) {
+        while (true) {
             xright = xleft + AA_PIX;
             xright &= ~AA_PMN;
             xpixel = xright;
@@ -298,15 +275,10 @@ void AA_span_lhs(
                 frac_left += (y2 - ybot) * (xleft & AA_PMN) >> AA_FIX;
             }
 
-            AA_pixel_lhs(
-                xleft >> AA_FIX,
-                y1 >> AA_FIX,
-                frac_left,
-                frac_right);
+            AA_pixel_lhs(xleft >> AA_FIX, y1 >> AA_FIX, frac_left, frac_right);
 
-            if (xright >= x2) {
+            if (xright >= x2)
                 return;
-            }
 
             xleft = xright;
             ytop = ybot;

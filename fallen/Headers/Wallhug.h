@@ -11,7 +11,7 @@ To integrate it into your stuff:
 define WALLHUG_HEIGHT and WALLHUG_WIDTH to be your map height (y range)
 and width (x range) respectively.
 
-WALLHUG_MAX_ORD should be MAX(WALLHUG_HEIGHT, WALLHUG_WIDTH)
+WALLHUG_MAX_ORD should be std::max(WALLHUG_HEIGHT, WALLHUG_WIDTH)
 
 WALLHUG_WALL_IN_WAY should return non-zero if there's a wall blocking
 movement from cell (x,y) in direction dirn.

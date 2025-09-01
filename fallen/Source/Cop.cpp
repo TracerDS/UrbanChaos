@@ -36,11 +36,12 @@ void fn_person_mavigate(Thing *p_person);
 
 StateFunction cop_states[10] =
     {
-        {STATE_INIT, fn_cop_init},
-        {STATE_NORMAL, fn_cop_normal},
-        {STATE_HIT, nullptr},
-        {STATE_ABOUT_TO_REMOVE, nullptr},
-        {STATE_REMOVE_ME, nullptr}};
+        {STATE_INIT,            fn_cop_init  },
+        {STATE_NORMAL,          fn_cop_normal},
+        {STATE_HIT,             nullptr      },
+        {STATE_ABOUT_TO_REMOVE, nullptr      },
+        {STATE_REMOVE_ME,       nullptr      }
+};
 
 /*
 

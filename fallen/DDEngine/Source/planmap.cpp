@@ -116,72 +116,72 @@ void draw_shadow_rect(std::int32_t csx, std::int32_t csy, std::int32_t pixelw, s
             */
 
             switch (shadow) {
-                case 0:
-                    break;
-                case 1:
-                    //   ..X
-                    //	 .oX
-                    //	 ,oX
+            case 0:
+                break;
+            case 1:
+                //   ..X
+                //	 .oX
+                //	 ,oX
 
-                    if (dx + dy < pixelw && dx < (pixelw >> 1)) {
-                        r >>= 1;
-                        g >>= 1;
-                        b >>= 1;
-                    }
-                    break;
+                if (dx + dy < pixelw && dx < (pixelw >> 1)) {
+                    r >>= 1;
+                    g >>= 1;
+                    b >>= 1;
+                }
+                break;
 
-                case 6:
-                case 2:
-                    //   ,ox
-                    //	 ,ox
-                    //	 ,ox
-                    if (dx < (pixelw >> 1)) {
-                        r >>= 1;
-                        g >>= 1;
-                        b >>= 1;
-                    }
+            case 6:
+            case 2:
+                //   ,ox
+                //	 ,ox
+                //	 ,ox
+                if (dx < (pixelw >> 1)) {
+                    r >>= 1;
+                    g >>= 1;
+                    b >>= 1;
+                }
 
-                    break;
-                case 3:
-                    //   ,ox
-                    //	 ,oo
-                    //	 .,,
-                    if (dx < (pixelw >> 1) && dy > (pixelw >> 1)) {
-                        r >>= 1;
-                        g >>= 1;
-                        b >>= 1;
-                    }
-                    break;
-                case 4:
-                    //   xxx
-                    //	 ooo
-                    //	 ,,,
-                    if (dy > (pixelw >> 1)) {
-                        r >>= 1;
-                        g >>= 1;
-                        b >>= 1;
-                    }
-                    break;
-                case 5:
-                    //   ...
-                    //	 ..
-                    //	 ...
-                    if (dx < (pixelw >> 1) || dy > (pixelw >> 1)) {
-                        r >>= 1;
-                        g >>= 1;
-                        b >>= 1;
-                    }
-                    break;
-                case 7:
-                    //   ...
-                    //	 ...
-                    //	 ...
-                    if (dx + dy > pixelw && dy > (pixelw >> 1)) {
-                        r >>= 1;
-                        g >>= 1;
-                        b >>= 1;
-                    }
-                    break;
+                break;
+            case 3:
+                //   ,ox
+                //	 ,oo
+                //	 .,,
+                if (dx < (pixelw >> 1) && dy > (pixelw >> 1)) {
+                    r >>= 1;
+                    g >>= 1;
+                    b >>= 1;
+                }
+                break;
+            case 4:
+                //   xxx
+                //	 ooo
+                //	 ,,,
+                if (dy > (pixelw >> 1)) {
+                    r >>= 1;
+                    g >>= 1;
+                    b >>= 1;
+                }
+                break;
+            case 5:
+                //   ...
+                //	 ..
+                //	 ...
+                if (dx < (pixelw >> 1) || dy > (pixelw >> 1)) {
+                    r >>= 1;
+                    g >>= 1;
+                    b >>= 1;
+                }
+                break;
+            case 7:
+                //   ...
+                //	 ...
+                //	 ...
+                if (dx + dy > pixelw && dy > (pixelw >> 1)) {
+                    r >>= 1;
+                    g >>= 1;
+                    b >>= 1;
+                }
+                break;
             }
 
             screenmem[px * 3 + 2 + py * 640 * 3] = (std::uint8_t) r;

@@ -5,6 +5,7 @@
 #include "inside2.h"
 #include "memory.h"
 #include "mav.h"
+#include <algorithm>
 
 // struct 	DInsideRect	inside_rect[MAX_INSIDE_RECT];
 
@@ -557,26 +558,26 @@ std::uint16_t find_stair_in(std::int32_t mx, std::int32_t mz, std::int32_t *rdx,
         dz = 0;
 
         switch (dir) {
-            case 0:
-                dz = -2;
-                dx = 1;
-                // n
-                break;
-            case 1:
-                dx = 2;
-                dz = 1;
-                // e
-                break;
-            case 2:
-                dz = 2;
-                dx = -1;
-                // s
-                break;
-            case 3:
-                dx = -2;
-                dz = -1;
-                // w
-                break;
+        case 0:
+            dz = -2;
+            dx = 1;
+            // n
+            break;
+        case 1:
+            dx = 2;
+            dz = 1;
+            // e
+            break;
+        case 2:
+            dz = 2;
+            dx = -1;
+            // s
+            break;
+        case 3:
+            dx = -2;
+            dz = -1;
+            // w
+            break;
         }
 
         x_ok = 0;
@@ -728,14 +729,14 @@ std::int32_t find_stair_y(Thing *p_person, std::int32_t *y1, std::int32_t x, std
                         ASSERT(false);
 #else
                         if (t < 192) {
-                            INDOORS_INDEX_FADE = MIN(((t - 128) << 2), 255);
+                            INDOORS_INDEX_FADE = std::min(((t - 128) << 2), 255);
 
                             INDOORS_INDEX_NEXT = inside_stairs[stair].DownInside;
                             INDOORS_ROOM_NEXT = find_inside_room(INDOORS_INDEX_NEXT, x >> 8, z >> 8);
                         } else {
                             INDOORS_INDEX_NEXT = 0;
                             INDOORS_ROOM_NEXT = 0;
-                            INDOORS_INDEX_FADE = 255; // MIN(((t)<<1),255);
+                            INDOORS_INDEX_FADE = 255; // std::min(((t)<<1),255);
                         }
 #endif
                     }

@@ -119,7 +119,8 @@ ControlDef prim_pick_tab_def[] =
 
         {BUTTON, 0, "Centre Pivot", 140, 486, 0, 10},
 
-        {0}};
+        {0}
+};
 
 PrimPickTab *the_primpicktab;
 void redraw_all_prims(void);
@@ -256,10 +257,10 @@ void PrimPickTab::UpdatePrimInfo(void) {
 
     if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
         switch (prim_objects[CurrentPrim].coltype) {
-            case PRIM_COLLIDE_NONE: SetControlState(CTRL_PRIM_COLLIDE_NONE, CTRL_SELECTED); break;
-            case PRIM_COLLIDE_BOX: SetControlState(CTRL_PRIM_COLLIDE_BOX, CTRL_SELECTED); break;
-            case PRIM_COLLIDE_CYLINDER: SetControlState(CTRL_PRIM_COLLIDE_CYLINDER, CTRL_SELECTED); break;
-            case PRIM_COLLIDE_SMALLBOX: SetControlState(CTRL_PRIM_COLLIDE_SMALLBOX, CTRL_SELECTED); break;
+        case PRIM_COLLIDE_NONE: SetControlState(CTRL_PRIM_COLLIDE_NONE, CTRL_SELECTED); break;
+        case PRIM_COLLIDE_BOX: SetControlState(CTRL_PRIM_COLLIDE_BOX, CTRL_SELECTED); break;
+        case PRIM_COLLIDE_CYLINDER: SetControlState(CTRL_PRIM_COLLIDE_CYLINDER, CTRL_SELECTED); break;
+        case PRIM_COLLIDE_SMALLBOX: SetControlState(CTRL_PRIM_COLLIDE_SMALLBOX, CTRL_SELECTED); break;
         }
     }
 
@@ -275,11 +276,11 @@ void PrimPickTab::UpdatePrimInfo(void) {
 
     if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
         switch (prim_objects[CurrentPrim].shadowtype) {
-            case PRIM_SHADOW_NONE: SetControlState(CTRL_PRIM_SHADOW_NONE, CTRL_SELECTED); break;
-            case PRIM_SHADOW_BOXEDGE: SetControlState(CTRL_PRIM_SHADOW_BOXEDGE, CTRL_SELECTED); break;
-            case PRIM_SHADOW_CYLINDER: SetControlState(CTRL_PRIM_SHADOW_CYLINDER, CTRL_SELECTED); break;
-            case PRIM_SHADOW_FOURLEGS: SetControlState(CTRL_PRIM_SHADOW_FOURLEGS, CTRL_SELECTED); break;
-            case PRIM_SHADOW_FULLBOX: SetControlState(CTRL_PRIM_SHADOW_FULLBOX, CTRL_SELECTED); break;
+        case PRIM_SHADOW_NONE: SetControlState(CTRL_PRIM_SHADOW_NONE, CTRL_SELECTED); break;
+        case PRIM_SHADOW_BOXEDGE: SetControlState(CTRL_PRIM_SHADOW_BOXEDGE, CTRL_SELECTED); break;
+        case PRIM_SHADOW_CYLINDER: SetControlState(CTRL_PRIM_SHADOW_CYLINDER, CTRL_SELECTED); break;
+        case PRIM_SHADOW_FOURLEGS: SetControlState(CTRL_PRIM_SHADOW_FOURLEGS, CTRL_SELECTED); break;
+        case PRIM_SHADOW_FULLBOX: SetControlState(CTRL_PRIM_SHADOW_FULLBOX, CTRL_SELECTED); break;
         }
     }
 
@@ -822,16 +823,16 @@ void PrimPickTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t
     render_view(1);
 
     switch (PrimTabMode) {
-        case PRIM_MODE_SINGLE:
-        case PRIM_MODE_MULTI:
-        case PRIM_MODE_ANIM_KEY:
-        case PRIM_MODE_ANIM_MORPH:
-            hilight_map_things(MAP_THING_TYPE_PRIM);
-            hilight_map_things(MAP_THING_TYPE_ANIM_PRIM);
-            break;
-            //		case PRIM_MODE_BACK:
-            //			hilight_map_backgrounds(0);
-            break;
+    case PRIM_MODE_SINGLE:
+    case PRIM_MODE_MULTI:
+    case PRIM_MODE_ANIM_KEY:
+    case PRIM_MODE_ANIM_MORPH:
+        hilight_map_things(MAP_THING_TYPE_PRIM);
+        hilight_map_things(MAP_THING_TYPE_ANIM_PRIM);
+        break;
+        //		case PRIM_MODE_BACK:
+        //			hilight_map_backgrounds(0);
+        break;
     }
 
     SetWorkWindowBounds(x, y + h / 2 + 4, w - 1, h / 2 - 4);
@@ -851,16 +852,16 @@ void PrimPickTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t
 
     render_view(1);
     switch (PrimTabMode) {
-        case PRIM_MODE_SINGLE:
-        case PRIM_MODE_MULTI:
-        case PRIM_MODE_ANIM_KEY:
-        case PRIM_MODE_ANIM_MORPH:
-            hilight_map_things(MAP_THING_TYPE_PRIM);
-            hilight_map_things(MAP_THING_TYPE_ANIM_PRIM);
-            break;
-            //		case PRIM_MODE_BACK:
-            //			hilight_map_backgrounds(0);
-            break;
+    case PRIM_MODE_SINGLE:
+    case PRIM_MODE_MULTI:
+    case PRIM_MODE_ANIM_KEY:
+    case PRIM_MODE_ANIM_MORPH:
+        hilight_map_things(MAP_THING_TYPE_PRIM);
+        hilight_map_things(MAP_THING_TYPE_ANIM_PRIM);
+        break;
+        //		case PRIM_MODE_BACK:
+        //			hilight_map_backgrounds(0);
+        break;
     }
 
     {
@@ -897,13 +898,13 @@ void PrimPickTab::DrawPrims(void) {
             t_mthing = &map_things[c0];
 
             switch (t_mthing->Type) {
-                case MAP_THING_TYPE_PRIM:
-                    if (t_mthing->IndexOther < 256) {
-                        prim_count[t_mthing->IndexOther]++;
-                        if (prim_count[t_mthing->IndexOther] == 1)
-                            prim_diff++;
-                    }
-                    break;
+            case MAP_THING_TYPE_PRIM:
+                if (t_mthing->IndexOther < 256) {
+                    prim_count[t_mthing->IndexOther]++;
+                    if (prim_count[t_mthing->IndexOther] == 1)
+                        prim_diff++;
+                }
+                break;
             }
         }
     }
@@ -1089,30 +1090,30 @@ std::int32_t PrimPickTab::KeyboardInterface(void) {
         if (AxisMode > 3)
             AxisMode = 0;
         switch (AxisMode) {
-            case 0:
-                SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = X_AXIS;
-                break;
-            case 1:
-                SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_DESELECTED);
-                Axis = Y_AXIS;
-                break;
-            case 2:
-                SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_DESELECTED);
-                SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = Z_AXIS;
-                break;
-            case 3:
-                SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_SELECTED);
-                SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_SELECTED);
-                Axis = X_AXIS | Y_AXIS | Z_AXIS;
-                break;
+        case 0:
+            SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = X_AXIS;
+            break;
+        case 1:
+            SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_DESELECTED);
+            Axis = Y_AXIS;
+            break;
+        case 2:
+            SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_DESELECTED);
+            SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = Z_AXIS;
+            break;
+        case 3:
+            SetControlState(CTRL_PRIM_X_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_PRIM_Y_AXIS_FREE, CTRL_SELECTED);
+            SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_SELECTED);
+            Axis = X_AXIS | Y_AXIS | Z_AXIS;
+            break;
         }
 
         SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
@@ -1404,7 +1405,7 @@ std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint *clicked_point, 
                         ny = ((engine.MousePosY + offset_y) & grid_and) + ((-py) & 0x7f);
                 } else {
                     if (Axis & Y_AXIS)
-                        ny = ((engine.MousePosY + offset_y) & grid_and) - ((py) &0x7f);
+                        ny = ((engine.MousePosY + offset_y) & grid_and) - ((py) & 0x7f);
                 }
                 if (Axis & Z_AXIS)
                     nz = ((engine.MousePosZ + offset_z) & grid_and) - (pz);
@@ -1530,80 +1531,80 @@ std::int32_t PrimPickTab::HandleModuleContentClick(MFPoint *clicked_point, std::
     h = h;
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            if (CurrentPrim == 0) {
-                DragAPrim(flags, clicked_point, 0);
-            } else {
-                SetWorldMouse(1);
-                //				set_user_rotate(0,0,0);
-                angle_prim_y = 0;
-                switch (PrimTabMode) {
-                    case PRIM_MODE_SINGLE:
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        if (CurrentPrim == 0) {
+            DragAPrim(flags, clicked_point, 0);
+        } else {
+            SetWorldMouse(1);
+            //				set_user_rotate(0,0,0);
+            angle_prim_y = 0;
+            switch (PrimTabMode) {
+            case PRIM_MODE_SINGLE:
 
-                        if (ShiftFlag || (prim_objects[CurrentPrim].flag & PRIM_FLAG_ON_FLOOR)) {
-                            std::int32_t px, py, pz, y;
-                            find_things_min_point(CurrentPrim, &px, &py, &pz);
+                if (ShiftFlag || (prim_objects[CurrentPrim].flag & PRIM_FLAG_ON_FLOOR)) {
+                    std::int32_t px, py, pz, y;
+                    find_things_min_point(CurrentPrim, &px, &py, &pz);
 
-                            extern std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z);
-                            y = find_alt_for_this_pos(engine.MousePosX, engine.MousePosZ);
-                            // y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
+                    extern std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z);
+                    y = find_alt_for_this_pos(engine.MousePosX, engine.MousePosZ);
+                    // y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
 
-                            y -= py;
-                            thing = place_prim_at(CurrentPrim, engine.MousePosX, y, engine.MousePosZ);
-                            if (ShiftFlag)
-                                map_things[thing].Flags |= FLAG_EDIT_PRIM_ON_FLOOR;
-                        } else if (ShiftFlag || (prim_objects[CurrentPrim].flag & PRIM_FLAG_JUST_FLOOR)) {
-                            std::int32_t px, py, pz, y;
-                            find_things_min_point(CurrentPrim, &px, &py, &pz);
+                    y -= py;
+                    thing = place_prim_at(CurrentPrim, engine.MousePosX, y, engine.MousePosZ);
+                    if (ShiftFlag)
+                        map_things[thing].Flags |= FLAG_EDIT_PRIM_ON_FLOOR;
+                } else if (ShiftFlag || (prim_objects[CurrentPrim].flag & PRIM_FLAG_JUST_FLOOR)) {
+                    std::int32_t px, py, pz, y;
+                    find_things_min_point(CurrentPrim, &px, &py, &pz);
 
-                            extern std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z);
-                            // y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
-                            y = calc_edit_height_at(engine.MousePosX, engine.MousePosZ);
+                    extern std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z);
+                    // y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
+                    y = calc_edit_height_at(engine.MousePosX, engine.MousePosZ);
 
-                            y -= py;
-                            thing = place_prim_at(CurrentPrim, engine.MousePosX, y, engine.MousePosZ);
-                            //							map_things[thing].Flags|=FLAG_EDIT_PRIM_ON_FLOOR;
-                        } else {
-                            thing = place_prim_at(CurrentPrim, engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                        }
-                        break;
-                    case PRIM_MODE_ANIM_KEY:
-                        std::int32_t place_anim_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z);
-                        if (ShiftFlag) {
-                            std::int32_t px, py, pz, y;
-                            /* HERE HERE HERE */ find_things_min_point(CurrentPrim, &px, &py, &pz);
-
-                            extern std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z);
-
-                            y = find_alt_for_this_pos(px, pz);
-                            //							y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
-
-                            //							y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
-                            y -= py;
-                            thing = place_prim_at(CurrentPrim, engine.MousePosX, y, engine.MousePosZ);
-                        } else {
-                            thing = place_anim_prim_at(CurrentPrim, engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                        }
-                        break;
+                    y -= py;
+                    thing = place_prim_at(CurrentPrim, engine.MousePosX, y, engine.MousePosZ);
+                    //							map_things[thing].Flags|=FLAG_EDIT_PRIM_ON_FLOOR;
+                } else {
+                    thing = place_prim_at(CurrentPrim, engine.MousePosX, engine.MousePosY, engine.MousePosZ);
                 }
+                break;
+            case PRIM_MODE_ANIM_KEY:
+                std::int32_t place_anim_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z);
+                if (ShiftFlag) {
+                    std::int32_t px, py, pz, y;
+                    /* HERE HERE HERE */ find_things_min_point(CurrentPrim, &px, &py, &pz);
 
-                MyUndo.PlaceObject(0, CurrentPrim, thing, engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                CurrentPrim = 0;
-                UpdatePrimInfo();
-                return (1);
+                    extern std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z);
+
+                    y = find_alt_for_this_pos(px, pz);
+                    //							y=find_alt_for_this_pos(engine.MousePosX,engine.MousePosZ);
+
+                    //							y=calc_edit_height_at(engine.MousePosX,engine.MousePosZ);
+                    y -= py;
+                    thing = place_prim_at(CurrentPrim, engine.MousePosX, y, engine.MousePosZ);
+                } else {
+                    thing = place_anim_prim_at(CurrentPrim, engine.MousePosX, engine.MousePosY, engine.MousePosZ);
+                }
+                break;
             }
-            break;
-        case RIGHT_CLICK:
-            if (CurrentPrim == 0)
-                DragAPrim(flags, clicked_point, 1);
 
-            // Right click in content.
-            break;
-        case MIDDLE_CLICK:
-            DragEngine(flags, clicked_point);
-            break;
+            MyUndo.PlaceObject(0, CurrentPrim, thing, engine.MousePosX, engine.MousePosY, engine.MousePosZ);
+            CurrentPrim = 0;
+            UpdatePrimInfo();
+            return (1);
+        }
+        break;
+    case RIGHT_CLICK:
+        if (CurrentPrim == 0)
+            DragAPrim(flags, clicked_point, 1);
+
+        // Right click in content.
+        break;
+    case MIDDLE_CLICK:
+        DragEngine(flags, clicked_point);
+        break;
     }
     return (0);
 }
@@ -1617,78 +1618,78 @@ std::uint16_t PrimPickTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_p
     ShowWorkScreen(0);
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            if (PrimRect.PointInRect(&local_point)) {
-                std::int32_t max,
-                    x,
-                    y,
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        if (PrimRect.PointInRect(&local_point)) {
+            std::int32_t max,
+                x,
+                y,
 
-                    prim = (((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->GetCurrentValue() * 3) + 1;
+                prim = (((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->GetCurrentValue() * 3) + 1;
 
-                switch (PrimTabMode) {
-                    case PRIM_MODE_SINGLE:
-                        max = next_prim_object; // next_prim_object
-                        max = 266;
-                        break;
-                    case PRIM_MODE_MULTI:
-                        max = next_prim_multi_object;
-                        break;
-                    case PRIM_MODE_ANIM_KEY:
-                    case PRIM_MODE_ANIM_MORPH:
-                        max = 256;
-                }
-
-                for (y = 1; y < 255; y += 85)
-                    for (x = 1; x < 255; x += 85) {
-                        if (prim < max)
-                            if (is_point_in_box(local_point.X, local_point.Y, PrimRect.GetLeft() + x, PrimRect.GetTop() + y, 85, 85)) {
-                                if (CurrentPrim != prim) {
-                                    RedrawTabContent = 1;
-                                    CurrentPrim = prim;
-                                    UpdatePrimInfo();
-                                    extern std::int32_t HMTAB_current_prim;
-                                    HMTAB_current_prim = prim;
-                                } else {
-                                    CurrentPrim = 0;
-                                    UpdatePrimInfo();
-                                }
-
-                                UpdatePrimPickWindow();
-                            }
-                        prim++;
-                    }
-            } else {
-                current_control = GetControlList();
-                while (current_control) {
-                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                        // Handle control.
-                        control_id = current_control->TrackControl(&local_point);
-                        HandleControl(control_id);
-
-                        // Tidy up display.
-                        if (LockWorkScreen()) {
-                            DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        return control_id;
-                    }
-                    current_control = current_control->GetNextControl();
-                }
+            switch (PrimTabMode) {
+            case PRIM_MODE_SINGLE:
+                max = next_prim_object; // next_prim_object
+                max = 266;
+                break;
+            case PRIM_MODE_MULTI:
+                max = next_prim_multi_object;
+                break;
+            case PRIM_MODE_ANIM_KEY:
+            case PRIM_MODE_ANIM_MORPH:
+                max = 256;
             }
 
-            break;
-        case RIGHT_CLICK:
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-            break;
+            for (y = 1; y < 255; y += 85)
+                for (x = 1; x < 255; x += 85) {
+                    if (prim < max)
+                        if (is_point_in_box(local_point.X, local_point.Y, PrimRect.GetLeft() + x, PrimRect.GetTop() + y, 85, 85)) {
+                            if (CurrentPrim != prim) {
+                                RedrawTabContent = 1;
+                                CurrentPrim = prim;
+                                UpdatePrimInfo();
+                                extern std::int32_t HMTAB_current_prim;
+                                HMTAB_current_prim = prim;
+                            } else {
+                                CurrentPrim = 0;
+                                UpdatePrimInfo();
+                            }
+
+                            UpdatePrimPickWindow();
+                        }
+                    prim++;
+                }
+        } else {
+            current_control = GetControlList();
+            while (current_control) {
+                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                    // Handle control.
+                    control_id = current_control->TrackControl(&local_point);
+                    HandleControl(control_id);
+
+                    // Tidy up display.
+                    if (LockWorkScreen()) {
+                        DrawTab();
+                        UnlockWorkScreen();
+                    }
+                    ShowWorkWindow(0);
+
+                    return control_id;
+                }
+                current_control = current_control->GetNextControl();
+            }
+        }
+
+        break;
+    case RIGHT_CLICK:
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+        break;
     }
     return 0;
 }
@@ -1783,473 +1784,473 @@ extern void clear_map2(void);
 
 void PrimPickTab::HandleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
-        /*
-        case	CTRL_PRIM_APPEND_NEW:
-                {
-                        FileRequester	*fr;
-                        char	fname[100];
+    /*
+    case	CTRL_PRIM_APPEND_NEW:
+            {
+                    FileRequester	*fr;
+                    char	fname[100];
 
-                        clear_map2();
+                    clear_map2();
 //				clear_prims();
-                        load_all_prims("allprim.sav");
+                    load_all_prims("allprim.sav");
 
-                        fr=new FileRequester("objects\\","*.*","Load A Prim","hello");
-                        if(fr->Draw())
-                        {
+                    fr=new FileRequester("objects\\","*.*","Load A Prim","hello");
+                    if(fr->Draw())
+                    {
 
-                                strcpy(fname,fr->Path);
-                                strcat(fname,fr->FileName);
-                                read_asc(fname,100,1);
-                                compress_prims();
-                                record_prim_status();
-                                save_all_prims("allprim.sav");
-                        }
-                        delete fr;
-                        UpdatePrimPickWindow();
-                        RequestUpdate();
-                }
-                break;
-        */
-        case CTRL_PRIM_REPLACE:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                FileRequester *fr;
-                char fname[100];
-
-                clear_map2();
-                //				clear_prims();
-                load_all_individual_prims();
-
-                fr = new FileRequester("objects\\", "*.*", "Load A Prim", "hello");
-                if (fr->Draw()) {
-                    std::int32_t temp;
-
-                    strcpy(fname, fr->Path);
-                    strcat(fname, fr->FileName);
-                    temp = next_prim_object;
-                    next_prim_object = CurrentPrim;
-
-                    read_asc(fname, 100, 1);
-                    next_prim_object = temp;
-                    compress_prims();
-                    record_prim_status();
-
-                    save_prim_object(CurrentPrim);
-
-                    // save_all_individual_prims();
-                }
-                delete fr;
-                UpdatePrimPickWindow();
-                RequestUpdate();
+                            strcpy(fname,fr->Path);
+                            strcat(fname,fr->FileName);
+                            read_asc(fname,100,1);
+                            compress_prims();
+                            record_prim_status();
+                            save_all_prims("allprim.sav");
+                    }
+                    delete fr;
+                    UpdatePrimPickWindow();
+                    RequestUpdate();
             }
             break;
-        case CTRL_PRIM_SAVE:
+    */
+    case CTRL_PRIM_REPLACE:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            FileRequester *fr;
+            char fname[100];
 
-            if (CurrentPrim) {
-                //				revert_to_prim_status();
+            clear_map2();
+            //				clear_prims();
+            load_all_individual_prims();
+
+            fr = new FileRequester("objects\\", "*.*", "Load A Prim", "hello");
+            if (fr->Draw()) {
+                std::int32_t temp;
+
+                strcpy(fname, fr->Path);
+                strcat(fname, fr->FileName);
+                temp = next_prim_object;
+                next_prim_object = CurrentPrim;
+
+                read_asc(fname, 100, 1);
+                next_prim_object = temp;
+                compress_prims();
+                record_prim_status();
+
                 save_prim_object(CurrentPrim);
+
                 // save_all_individual_prims();
             }
-            break;
-        case CTRL_PRIM_X_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_PRIM_X_AXIS_FREE);
-            if (Axis & X_AXIS)
-                Axis &= ~X_AXIS;
-            else
-                Axis |= X_AXIS;
-            break;
-        case CTRL_PRIM_Y_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_PRIM_Y_AXIS_FREE);
-            if (Axis & Y_AXIS)
-                Axis &= ~Y_AXIS;
-            else
-                Axis |= Y_AXIS;
-            break;
-        case CTRL_PRIM_Z_AXIS_FREE:
-            ToggleControlSelectedState(CTRL_PRIM_Z_AXIS_FREE);
-            if (Axis & Z_AXIS)
-                Axis &= ~Z_AXIS;
-            else
-                Axis |= Z_AXIS;
-            break;
-        case CTRL_PRIM_GRID_ON:
-            ToggleControlSelectedState(CTRL_PRIM_GRID_ON);
-            GridFlag ^= 1;
-            break;
-        case CTRL_PRIM_GRID_MAX:
-            ToggleControlSelectedState(CTRL_PRIM_GRID_MAX);
-            GridMax ^= 1;
-            break;
-        case CTRL_PRIM_GRID_CORNER:
-            ToggleControlSelectedState(CTRL_PRIM_GRID_CORNER);
-            GridCorner ^= 1;
-            break;
-        case CTRL_PRIM_LOAD_BACKGROUND:
-            /*
-                                    {
-                                            FileRequester	*fr;
-                                            char	fname[100];
-                                            fr=new FileRequester("data\\","*.asc","Load A Prim","hello");
-                                            if(fr->Draw())
-                                            {
-                                                    std::uint16_t	temp;
-                                                    strcpy(fname,fr->Path);
-                                                    strcat(fname,fr->FileName);
-                                                    read_asc(fname,640,1);
-                                                    temp=copy_prim_to_end(next_prim_object-1,0,0);
-                                                    add_a_background_thing(temp,HALF_ELE_SIZE+(512<<ELE_SHIFT),HALF_ELE_SIZE+(64<<ELE_SHIFT),HALF_ELE_SIZE+(3<<ELE_SHIFT));
-            //					add_a_background_thing(next_prim_object-1,HALF_ELE_SIZE+(512<<ELE_SHIFT),HALF_ELE_SIZE+(64<<ELE_SHIFT),HALF_ELE_SIZE+(3<<ELE_SHIFT));
-                                                    delete_last_prim();
-                                            }
-                                            UpdatePrimPickWindow();
-                                            delete fr;
-                                            RequestUpdate();
-                                            edit_info.amb_dx=-128;
-                                            edit_info.amb_dy=128;
-                                            edit_info.amb_dz=-128;
-                                            edit_info.amb_bright=256;
-                                            edit_info.amb_offset=0;
-            //				edit_info.amb_flag=1;
+            delete fr;
+            UpdatePrimPickWindow();
+            RequestUpdate();
+        }
+        break;
+    case CTRL_PRIM_SAVE:
 
-            //				scan_map();
+        if (CurrentPrim) {
+            //				revert_to_prim_status();
+            save_prim_object(CurrentPrim);
+            // save_all_individual_prims();
+        }
+        break;
+    case CTRL_PRIM_X_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_PRIM_X_AXIS_FREE);
+        if (Axis & X_AXIS)
+            Axis &= ~X_AXIS;
+        else
+            Axis |= X_AXIS;
+        break;
+    case CTRL_PRIM_Y_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_PRIM_Y_AXIS_FREE);
+        if (Axis & Y_AXIS)
+            Axis &= ~Y_AXIS;
+        else
+            Axis |= Y_AXIS;
+        break;
+    case CTRL_PRIM_Z_AXIS_FREE:
+        ToggleControlSelectedState(CTRL_PRIM_Z_AXIS_FREE);
+        if (Axis & Z_AXIS)
+            Axis &= ~Z_AXIS;
+        else
+            Axis |= Z_AXIS;
+        break;
+    case CTRL_PRIM_GRID_ON:
+        ToggleControlSelectedState(CTRL_PRIM_GRID_ON);
+        GridFlag ^= 1;
+        break;
+    case CTRL_PRIM_GRID_MAX:
+        ToggleControlSelectedState(CTRL_PRIM_GRID_MAX);
+        GridMax ^= 1;
+        break;
+    case CTRL_PRIM_GRID_CORNER:
+        ToggleControlSelectedState(CTRL_PRIM_GRID_CORNER);
+        GridCorner ^= 1;
+        break;
+    case CTRL_PRIM_LOAD_BACKGROUND:
+        /*
+                                {
+                                        FileRequester	*fr;
+                                        char	fname[100];
+                                        fr=new FileRequester("data\\","*.asc","Load A Prim","hello");
+                                        if(fr->Draw())
+                                        {
+                                                std::uint16_t	temp;
+                                                strcpy(fname,fr->Path);
+                                                strcat(fname,fr->FileName);
+                                                read_asc(fname,640,1);
+                                                temp=copy_prim_to_end(next_prim_object-1,0,0);
+                                                add_a_background_thing(temp,HALF_ELE_SIZE+(512<<ELE_SHIFT),HALF_ELE_SIZE+(64<<ELE_SHIFT),HALF_ELE_SIZE+(3<<ELE_SHIFT));
+        //					add_a_background_thing(next_prim_object-1,HALF_ELE_SIZE+(512<<ELE_SHIFT),HALF_ELE_SIZE+(64<<ELE_SHIFT),HALF_ELE_SIZE+(3<<ELE_SHIFT));
+                                                delete_last_prim();
+                                        }
+                                        UpdatePrimPickWindow();
+                                        delete fr;
+                                        RequestUpdate();
+                                        edit_info.amb_dx=-128;
+                                        edit_info.amb_dy=128;
+                                        edit_info.amb_dz=-128;
+                                        edit_info.amb_bright=256;
+                                        edit_info.amb_offset=0;
+        //				edit_info.amb_flag=1;
 
-                                    }
-            */
-            break;
-        case CTRL_PRIM_ERASE_MAP:
-            if (CurrentPrim && CurrentPrim < 256 && prim_count[CurrentPrim]) {
-                std::int32_t c0;
+        //				scan_map();
 
-                for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
-                    struct MapThing *t_mthing;
-                    t_mthing = &map_things[c0];
+                                }
+        */
+        break;
+    case CTRL_PRIM_ERASE_MAP:
+        if (CurrentPrim && CurrentPrim < 256 && prim_count[CurrentPrim]) {
+            std::int32_t c0;
 
-                    switch (t_mthing->Type) {
-                        case MAP_THING_TYPE_PRIM:
-                            if (t_mthing->IndexOther == CurrentPrim) {
-                                delete_thing(c0);
-                                prim_count[CurrentPrim] = 0;
-                            }
-                            break;
+            for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
+                struct MapThing *t_mthing;
+                t_mthing = &map_things[c0];
+
+                switch (t_mthing->Type) {
+                case MAP_THING_TYPE_PRIM:
+                    if (t_mthing->IndexOther == CurrentPrim) {
+                        delete_thing(c0);
+                        prim_count[CurrentPrim] = 0;
                     }
-                }
-            }
-
-            //			save_map("data/bak.map",1);
-            //			clear_map();
-            //			RequestUpdate();
-
-            break;
-        case CTRL_PRIM_MODE_MENU:
-            PrimTabMode = (control_id >> 8) - 1;
-            switch (PrimTabMode) {
-                case PRIM_MODE_SINGLE:
-                case PRIM_MODE_MULTI:
-                case PRIM_MODE_ANIM_KEY:
-                case PRIM_MODE_ANIM_MORPH:
-                    //					BackScale=engine.Scale;
-                    //					engine.Scale=PrimScale;
-                    //					RequestUpdate();
                     break;
-                    //				case PRIM_MODE_BACK:
-                    //					PrimScale=engine.Scale;
-                    //					engine.Scale=BackScale;
-                    //					RequestUpdate();
-                    //					break;
+                }
+            }
+        }
+
+        //			save_map("data/bak.map",1);
+        //			clear_map();
+        //			RequestUpdate();
+
+        break;
+    case CTRL_PRIM_MODE_MENU:
+        PrimTabMode = (control_id >> 8) - 1;
+        switch (PrimTabMode) {
+        case PRIM_MODE_SINGLE:
+        case PRIM_MODE_MULTI:
+        case PRIM_MODE_ANIM_KEY:
+        case PRIM_MODE_ANIM_MORPH:
+            //					BackScale=engine.Scale;
+            //					engine.Scale=PrimScale;
+            //					RequestUpdate();
+            break;
+            //				case PRIM_MODE_BACK:
+            //					PrimScale=engine.Scale;
+            //					engine.Scale=BackScale;
+            //					RequestUpdate();
+            //					break;
+        }
+        UpdatePrimInfo();
+        break;
+    case CTRL_PRIM_MODE_TEXT:
+        break;
+
+        /*
+                                AngleY++;
+                                break;
+                        case	CTRL_CAM_BUTTON_ZPLUS:
+                                AngleZ++;
+                                break;
+                        case	CTRL_CAM_BUTTON_XMINUS:
+                                AngleX--;
+                                break;
+                        case	CTRL_CAM_BUTTON_YMINUS:
+                                AngleY--;
+                                break;
+                        case	CTRL_CAM_BUTTON_ZMINUS:
+                                AngleZ--;
+                                break;
+        */
+    case CTRL_PRIM_COLLIDE_NONE:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_NONE;
+            UpdatePrimInfo();
+        }
+        break;
+    case CTRL_PRIM_COLLIDE_BOX:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_BOX;
+            UpdatePrimInfo();
+        }
+        break;
+    case CTRL_PRIM_COLLIDE_CYLINDER:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_CYLINDER;
+            UpdatePrimInfo();
+        }
+        break;
+
+    case CTRL_PRIM_COLLIDE_SMALLBOX:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_SMALLBOX;
+            UpdatePrimInfo();
+        }
+        break;
+
+    case CTRL_PRIM_SHADOW_NONE:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_NONE;
+        }
+        UpdatePrimInfo();
+        break;
+    case CTRL_PRIM_SHADOW_BOXEDGE:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_BOXEDGE;
+        }
+        UpdatePrimInfo();
+        break;
+    case CTRL_PRIM_SHADOW_CYLINDER:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_CYLINDER;
+        }
+        UpdatePrimInfo();
+        break;
+    case CTRL_PRIM_SHADOW_FOURLEGS:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_FOURLEGS;
+        }
+        UpdatePrimInfo();
+        break;
+    case CTRL_PRIM_SHADOW_FULLBOX:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_FULLBOX;
+        }
+        UpdatePrimInfo();
+        break;
+
+    case CTRL_PRIM_FLAG_LAMPOST:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].flag ^= PRIM_FLAG_LAMPOST;
+            UpdatePrimInfo();
+        }
+        break;
+    case CTRL_PRIM_FLAG_GLARE:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].flag ^= PRIM_FLAG_GLARE;
+            UpdatePrimInfo();
+        }
+        break;
+    case CTRL_PRIM_FLAG_TREE:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].flag ^= PRIM_FLAG_TREE;
+            UpdatePrimInfo();
+        }
+        break;
+    case CTRL_PRIM_FLAG_ON_FLOOR:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].flag ^= PRIM_FLAG_ON_FLOOR;
+            if (prim_objects[CurrentPrim].flag & PRIM_FLAG_ON_FLOOR) {
+                prim_objects[CurrentPrim].flag &= ~PRIM_FLAG_JUST_FLOOR;
             }
             UpdatePrimInfo();
-            break;
-        case CTRL_PRIM_MODE_TEXT:
-            break;
-
-            /*
-                                    AngleY++;
-                                    break;
-                            case	CTRL_CAM_BUTTON_ZPLUS:
-                                    AngleZ++;
-                                    break;
-                            case	CTRL_CAM_BUTTON_XMINUS:
-                                    AngleX--;
-                                    break;
-                            case	CTRL_CAM_BUTTON_YMINUS:
-                                    AngleY--;
-                                    break;
-                            case	CTRL_CAM_BUTTON_ZMINUS:
-                                    AngleZ--;
-                                    break;
-            */
-        case CTRL_PRIM_COLLIDE_NONE:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_NONE;
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_COLLIDE_BOX:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_BOX;
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_COLLIDE_CYLINDER:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_CYLINDER;
-                UpdatePrimInfo();
-            }
-            break;
-
-        case CTRL_PRIM_COLLIDE_SMALLBOX:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].coltype = PRIM_COLLIDE_SMALLBOX;
-                UpdatePrimInfo();
-            }
-            break;
-
-        case CTRL_PRIM_SHADOW_NONE:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_NONE;
+        }
+        break;
+    case CTRL_PRIM_FLAG_JUST_FLOOR:
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].flag ^= PRIM_FLAG_JUST_FLOOR;
+            if (prim_objects[CurrentPrim].flag & PRIM_FLAG_JUST_FLOOR) {
+                prim_objects[CurrentPrim].flag &= ~PRIM_FLAG_ON_FLOOR;
             }
             UpdatePrimInfo();
-            break;
-        case CTRL_PRIM_SHADOW_BOXEDGE:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_BOXEDGE;
+        }
+        break;
+    case CTRL_PRIM_FLAG_INSIDE: {
+        edit_info.Inside ^= 1;
+        UpdatePrimInfo();
+    } break;
+
+    case CTRL_PRIM_VIEW_SIDE:
+
+        if (View2Mode == 0) {
+            View2Mode = 1;
+            SetControlState(CTRL_PRIM_VIEW_SIDE, CTRL_SELECTED);
+        } else {
+            View2Mode = 0;
+            SetControlState(CTRL_PRIM_VIEW_SIDE, CTRL_DESELECTED);
+        }
+        break;
+
+    case CTRL_PRIM_GROW:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            std::int32_t i;
+            PrimObject *po;
+
+            //
+            // Grow the selected prim.
+            //
+
+            po = &prim_objects[CurrentPrim];
+
+            for (i = po->StartPoint; i < po->EndPoint; i++) {
+                prim_points[i].X += prim_points[i].X >> 2;
+                prim_points[i].Y += prim_points[i].Y >> 2;
+                prim_points[i].Z += prim_points[i].Z >> 2;
             }
+
+            void update_modules(void);
+
+            update_modules();
+        }
+
+        break;
+
+    case CTRL_PRIM_SHRINK:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            std::int32_t i;
+            PrimObject *po;
+
+            //
+            // Shrink the selected prims.
+            //
+
+            po = &prim_objects[CurrentPrim];
+
+            for (i = po->StartPoint; i < po->EndPoint; i++) {
+                prim_points[i].X -= prim_points[i].X >> 2;
+                prim_points[i].Y -= prim_points[i].Y >> 2;
+                prim_points[i].Z -= prim_points[i].Z >> 2;
+            }
+
+            void update_modules(void);
+
+            update_modules();
+        }
+
+        break;
+
+    case CTRL_PRIM_DAMAGABLE:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_DAMAGABLE;
+
             UpdatePrimInfo();
-            break;
-        case CTRL_PRIM_SHADOW_CYLINDER:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_CYLINDER;
+        }
+
+        break;
+
+    case CTRL_PRIM_LEANS:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_LEAN;
+            prim_objects[CurrentPrim].damage |= PRIM_DAMAGE_DAMAGABLE;
+
+            if (prim_objects[CurrentPrim].damage & PRIM_DAMAGE_LEAN) {
+                prim_objects[CurrentPrim].damage &= ~PRIM_DAMAGE_CRUMPLE;
             }
+
             UpdatePrimInfo();
-            break;
-        case CTRL_PRIM_SHADOW_FOURLEGS:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_FOURLEGS;
+        }
+
+        break;
+
+    case CTRL_PRIM_CRUMPLES:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_CRUMPLE;
+            prim_objects[CurrentPrim].damage |= PRIM_DAMAGE_DAMAGABLE;
+
+            if (prim_objects[CurrentPrim].damage & PRIM_DAMAGE_CRUMPLE) {
+                prim_objects[CurrentPrim].damage &= ~PRIM_DAMAGE_LEAN;
             }
+
             UpdatePrimInfo();
-            break;
-        case CTRL_PRIM_SHADOW_FULLBOX:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].shadowtype = PRIM_SHADOW_FULLBOX;
-            }
+        }
+
+        break;
+
+    case CTRL_PRIM_EXPLODES:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            prim_objects[CurrentPrim].damage |= PRIM_DAMAGE_DAMAGABLE;
+            prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_EXPLODES;
+
             UpdatePrimInfo();
-            break;
+        }
 
-        case CTRL_PRIM_FLAG_LAMPOST:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].flag ^= PRIM_FLAG_LAMPOST;
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_FLAG_GLARE:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].flag ^= PRIM_FLAG_GLARE;
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_FLAG_TREE:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].flag ^= PRIM_FLAG_TREE;
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_FLAG_ON_FLOOR:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].flag ^= PRIM_FLAG_ON_FLOOR;
-                if (prim_objects[CurrentPrim].flag & PRIM_FLAG_ON_FLOOR) {
-                    prim_objects[CurrentPrim].flag &= ~PRIM_FLAG_JUST_FLOOR;
+        break;
+
+    case CTRL_PRIM_CENTRE_PIVOT:
+
+        if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
+            std::int32_t i;
+
+            std::int32_t min_x = +INFINITY;
+            std::int32_t min_y = +INFINITY;
+            std::int32_t min_z = +INFINITY;
+
+            std::int32_t max_x = -INFINITY;
+            std::int32_t max_y = -INFINITY;
+            std::int32_t max_z = -INFINITY;
+
+            std::int32_t mid_x;
+            std::int32_t mid_y;
+            std::int32_t mid_z;
+
+            PrimObject *po;
+
+            //
+            // Shrink the selected prims.
+            //
+
+            po = &prim_objects[CurrentPrim];
+
+            for (i = po->StartPoint; i < po->EndPoint; i++) {
+                if (prim_points[i].X < min_x) {
+                    min_x = prim_points[i].X;
                 }
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_FLAG_JUST_FLOOR:
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].flag ^= PRIM_FLAG_JUST_FLOOR;
-                if (prim_objects[CurrentPrim].flag & PRIM_FLAG_JUST_FLOOR) {
-                    prim_objects[CurrentPrim].flag &= ~PRIM_FLAG_ON_FLOOR;
+                if (prim_points[i].Y < min_y) {
+                    min_y = prim_points[i].Y;
                 }
-                UpdatePrimInfo();
-            }
-            break;
-        case CTRL_PRIM_FLAG_INSIDE: {
-            edit_info.Inside ^= 1;
-            UpdatePrimInfo();
-        } break;
-
-        case CTRL_PRIM_VIEW_SIDE:
-
-            if (View2Mode == 0) {
-                View2Mode = 1;
-                SetControlState(CTRL_PRIM_VIEW_SIDE, CTRL_SELECTED);
-            } else {
-                View2Mode = 0;
-                SetControlState(CTRL_PRIM_VIEW_SIDE, CTRL_DESELECTED);
-            }
-            break;
-
-        case CTRL_PRIM_GROW:
-
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                std::int32_t i;
-                PrimObject *po;
-
-                //
-                // Grow the selected prim.
-                //
-
-                po = &prim_objects[CurrentPrim];
-
-                for (i = po->StartPoint; i < po->EndPoint; i++) {
-                    prim_points[i].X += prim_points[i].X >> 2;
-                    prim_points[i].Y += prim_points[i].Y >> 2;
-                    prim_points[i].Z += prim_points[i].Z >> 2;
+                if (prim_points[i].Z < min_z) {
+                    min_z = prim_points[i].Z;
                 }
 
-                void update_modules(void);
-
-                update_modules();
-            }
-
-            break;
-
-        case CTRL_PRIM_SHRINK:
-
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                std::int32_t i;
-                PrimObject *po;
-
-                //
-                // Shrink the selected prims.
-                //
-
-                po = &prim_objects[CurrentPrim];
-
-                for (i = po->StartPoint; i < po->EndPoint; i++) {
-                    prim_points[i].X -= prim_points[i].X >> 2;
-                    prim_points[i].Y -= prim_points[i].Y >> 2;
-                    prim_points[i].Z -= prim_points[i].Z >> 2;
+                if (prim_points[i].X > max_x) {
+                    max_x = prim_points[i].X;
                 }
-
-                void update_modules(void);
-
-                update_modules();
-            }
-
-            break;
-
-        case CTRL_PRIM_DAMAGABLE:
-
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_DAMAGABLE;
-
-                UpdatePrimInfo();
-            }
-
-            break;
-
-        case CTRL_PRIM_LEANS:
-
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_LEAN;
-                prim_objects[CurrentPrim].damage |= PRIM_DAMAGE_DAMAGABLE;
-
-                if (prim_objects[CurrentPrim].damage & PRIM_DAMAGE_LEAN) {
-                    prim_objects[CurrentPrim].damage &= ~PRIM_DAMAGE_CRUMPLE;
+                if (prim_points[i].Y > max_y) {
+                    max_y = prim_points[i].Y;
                 }
-
-                UpdatePrimInfo();
-            }
-
-            break;
-
-        case CTRL_PRIM_CRUMPLES:
-
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_CRUMPLE;
-                prim_objects[CurrentPrim].damage |= PRIM_DAMAGE_DAMAGABLE;
-
-                if (prim_objects[CurrentPrim].damage & PRIM_DAMAGE_CRUMPLE) {
-                    prim_objects[CurrentPrim].damage &= ~PRIM_DAMAGE_LEAN;
+                if (prim_points[i].Z > max_z) {
+                    max_z = prim_points[i].Z;
                 }
-
-                UpdatePrimInfo();
             }
 
-            break;
+            mid_x = min_x + max_x >> 1;
+            mid_y = min_y + max_y >> 1;
+            mid_z = min_z + max_z >> 1;
 
-        case CTRL_PRIM_EXPLODES:
-
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                prim_objects[CurrentPrim].damage |= PRIM_DAMAGE_DAMAGABLE;
-                prim_objects[CurrentPrim].damage ^= PRIM_DAMAGE_EXPLODES;
-
-                UpdatePrimInfo();
+            for (i = po->StartPoint; i < po->EndPoint; i++) {
+                prim_points[i].X -= mid_x;
+                prim_points[i].Y -= mid_y;
+                prim_points[i].Z -= mid_z;
             }
 
-            break;
+            void update_modules(void);
 
-        case CTRL_PRIM_CENTRE_PIVOT:
+            update_modules();
+        }
 
-            if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-                std::int32_t i;
-
-                std::int32_t min_x = +INFINITY;
-                std::int32_t min_y = +INFINITY;
-                std::int32_t min_z = +INFINITY;
-
-                std::int32_t max_x = -INFINITY;
-                std::int32_t max_y = -INFINITY;
-                std::int32_t max_z = -INFINITY;
-
-                std::int32_t mid_x;
-                std::int32_t mid_y;
-                std::int32_t mid_z;
-
-                PrimObject *po;
-
-                //
-                // Shrink the selected prims.
-                //
-
-                po = &prim_objects[CurrentPrim];
-
-                for (i = po->StartPoint; i < po->EndPoint; i++) {
-                    if (prim_points[i].X < min_x) {
-                        min_x = prim_points[i].X;
-                    }
-                    if (prim_points[i].Y < min_y) {
-                        min_y = prim_points[i].Y;
-                    }
-                    if (prim_points[i].Z < min_z) {
-                        min_z = prim_points[i].Z;
-                    }
-
-                    if (prim_points[i].X > max_x) {
-                        max_x = prim_points[i].X;
-                    }
-                    if (prim_points[i].Y > max_y) {
-                        max_y = prim_points[i].Y;
-                    }
-                    if (prim_points[i].Z > max_z) {
-                        max_z = prim_points[i].Z;
-                    }
-                }
-
-                mid_x = min_x + max_x >> 1;
-                mid_y = min_y + max_y >> 1;
-                mid_z = min_z + max_z >> 1;
-
-                for (i = po->StartPoint; i < po->EndPoint; i++) {
-                    prim_points[i].X -= mid_x;
-                    prim_points[i].Y -= mid_y;
-                    prim_points[i].Z -= mid_z;
-                }
-
-                void update_modules(void);
-
-                update_modules();
-            }
-
-            break;
+        break;
     }
 }
 

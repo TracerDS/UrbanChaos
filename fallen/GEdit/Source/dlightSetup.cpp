@@ -12,8 +12,9 @@
 #include "ticklist.h"
 #include "GEditEdStrings.h"
 #include "GEdit.h"
+#include <Commdlg.h>
 
-//---------------------------------------------------------------
+    //---------------------------------------------------------------
 
 std::int32_t lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
 
@@ -52,162 +53,162 @@ bool CALLBACK lite_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     NM_UPDOWN *lp_ntfy;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set up the combo box.
-            INIT_COMBO_BOX(IDC_COMBO1, wlitetype_strings, lite_type);
-            //			INIT_COMBO_BOX(IDC_COMBO2,wtrapaxis_strings,trap_axis);
+    case WM_INITDIALOG:
+        //	Set up the combo box.
+        INIT_COMBO_BOX(IDC_COMBO1, wlitetype_strings, lite_type);
+        //			INIT_COMBO_BOX(IDC_COMBO2,wtrapaxis_strings,trap_axis);
 
-            ticklist_init(hWnd, IDC_LIST1, blank_string, 0);
+        ticklist_init(hWnd, IDC_LIST1, blank_string, 0);
 
-            InitSteps(hWnd, lite_steps, lite_mask);
+        InitSteps(hWnd, lite_steps, lite_mask);
 
-            //	Set up the 'speed' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(32, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN1),
-                UDM_SETPOS,
-                0,
-                MAKELONG(lite_speed, 0));
+        //	Set up the 'speed' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(32, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN1),
+            UDM_SETPOS,
+            0,
+            MAKELONG(lite_speed, 0));
 
-            //	Set up the 'steps' spin.
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETRANGE,
-                0,
-                MAKELONG(32, 1));
-            SendMessage(
-                GetDlgItem(hWnd, IDC_SPIN2),
-                UDM_SETPOS,
-                0,
-                MAKELONG(lite_steps, 0));
+        //	Set up the 'steps' spin.
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETRANGE,
+            0,
+            MAKELONG(32, 1));
+        SendMessage(
+            GetDlgItem(hWnd, IDC_SPIN2),
+            UDM_SETPOS,
+            0,
+            MAKELONG(lite_steps, 0));
 
-            /*			//	Set up the 'range' spin.
-                                    SendMessage	(
-                                                                    GetDlgItem(hWnd,IDC_SPIN3),
-                                                                    UDM_SETRANGE,
-                                                                    0,
-                                                                    MAKELONG(32,1)
-                                                            );
-                                    SendMessage	(
-                                                                    GetDlgItem(hWnd,IDC_SPIN3),
-                                                                    UDM_SETPOS,
-                                                                    0,
-                                                                    MAKELONG(trap_range,0)
-                                                            );*/
+        /*			//	Set up the 'range' spin.
+                                SendMessage	(
+                                                                GetDlgItem(hWnd,IDC_SPIN3),
+                                                                UDM_SETRANGE,
+                                                                0,
+                                                                MAKELONG(32,1)
+                                                        );
+                                SendMessage	(
+                                                                GetDlgItem(hWnd,IDC_SPIN3),
+                                                                UDM_SETPOS,
+                                                                0,
+                                                                MAKELONG(trap_range,0)
+                                                        );*/
+
+        return true;
+
+    case WM_MEASUREITEM:
+        return ticklist_measure(hWnd, wParam, lParam);
+    case WM_DRAWITEM:
+        switch (LOWORD(wParam)) {
+        case IDC_BUTTON1:
+        case IDC_BUTTON2: {
+            HWND ctl = GetDlgItem(hWnd, wParam);
+            LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
+            //				char pc[255];
+            HBRUSH brs;
+            HPEN pen;
+            HPEN open;
+            std::int32_t rgb;
+            bool pushed;
+            RECT rc;
+
+            rc = item->rcItem;
+            rc.left += 2;
+            rc.top += 2;
+            rc.bottom -= 2;
+            rc.right -= 2;
+
+            rgb = (item->itemState & ODS_DEFAULT) ? COLOR_BTNTEXT : COLOR_BTNFACE;
+            brs = CreateSolidBrush(GetSysColor(rgb));
+            FrameRect(item->hDC, &item->rcItem, brs);
+            DeleteObject(brs);
+
+            rgb = (LOWORD(wParam) == IDC_BUTTON1) ? lite_rgbA : lite_rgbB;
+
+            brs = CreateSolidBrush(rgb);
+            FillRect(item->hDC, &rc, brs);
+            DeleteObject(brs);
+
+            pushed = (SendMessage(ctl, BM_GETSTATE, 0, 0) & BST_PUSHED);
+
+            rgb = pushed ? COLOR_BTNSHADOW : COLOR_BTNHIGHLIGHT;
+            pen = CreatePen(PS_SOLID, 0, GetSysColor(rgb));
+            open = (HPEN) SelectObject(item->hDC, pen);
+            MoveToEx(item->hDC, item->rcItem.left + 1, item->rcItem.bottom - 3, nullptr);
+            LineTo(item->hDC, item->rcItem.left + 1, item->rcItem.top + 1);
+            LineTo(item->hDC, item->rcItem.right - 3, item->rcItem.top + 1);
+            SelectObject(item->hDC, open);
+            DeleteObject(pen);
+
+            rgb = pushed ? COLOR_BTNHIGHLIGHT : COLOR_BTNSHADOW;
+            pen = CreatePen(PS_SOLID, 0, GetSysColor(rgb));
+            open = (HPEN) SelectObject(item->hDC, pen);
+            MoveToEx(item->hDC, item->rcItem.right - 2, item->rcItem.top + 2, nullptr);
+            LineTo(item->hDC, item->rcItem.right - 2, item->rcItem.bottom - 2);
+            LineTo(item->hDC, item->rcItem.left + 2, item->rcItem.bottom - 2);
+            SelectObject(item->hDC, open);
+            DeleteObject(pen);
+
+            if (item->itemState & ODS_FOCUS)
+                DrawFocusRect(item->hDC, &item->rcItem);
 
             return true;
+        }
+        default:
+            return ticklist_draw(hWnd, wParam, lParam);
+        }
 
-        case WM_MEASUREITEM:
-            return ticklist_measure(hWnd, wParam, lParam);
-        case WM_DRAWITEM:
-            switch (LOWORD(wParam)) {
-                case IDC_BUTTON1:
-                case IDC_BUTTON2: {
-                    HWND ctl = GetDlgItem(hWnd, wParam);
-                    LPDRAWITEMSTRUCT item = (LPDRAWITEMSTRUCT) lParam;
-                    //				char pc[255];
-                    HBRUSH brs;
-                    HPEN pen;
-                    HPEN open;
-                    std::int32_t rgb;
-                    bool pushed;
-                    RECT rc;
+    case WM_NOTIFY:
+        lp_ntfy = (NM_UPDOWN *) lParam;
 
-                    rc = item->rcItem;
-                    rc.left += 2;
-                    rc.top += 2;
-                    rc.bottom -= 2;
-                    rc.right -= 2;
+        if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
+            InitSteps(hWnd, lp_ntfy->iPos + lp_ntfy->iDelta, ticklist_bitmask(hWnd, IDC_LIST1));
+        }
+        break;
 
-                    rgb = (item->itemState & ODS_DEFAULT) ? COLOR_BTNTEXT : COLOR_BTNFACE;
-                    brs = CreateSolidBrush(GetSysColor(rgb));
-                    FrameRect(item->hDC, &item->rcItem, brs);
-                    DeleteObject(brs);
-
-                    rgb = (LOWORD(wParam) == IDC_BUTTON1) ? lite_rgbA : lite_rgbB;
-
-                    brs = CreateSolidBrush(rgb);
-                    FillRect(item->hDC, &rc, brs);
-                    DeleteObject(brs);
-
-                    pushed = (SendMessage(ctl, BM_GETSTATE, 0, 0) & BST_PUSHED);
-
-                    rgb = pushed ? COLOR_BTNSHADOW : COLOR_BTNHIGHLIGHT;
-                    pen = CreatePen(PS_SOLID, 0, GetSysColor(rgb));
-                    open = (HPEN) SelectObject(item->hDC, pen);
-                    MoveToEx(item->hDC, item->rcItem.left + 1, item->rcItem.bottom - 3, nullptr);
-                    LineTo(item->hDC, item->rcItem.left + 1, item->rcItem.top + 1);
-                    LineTo(item->hDC, item->rcItem.right - 3, item->rcItem.top + 1);
-                    SelectObject(item->hDC, open);
-                    DeleteObject(pen);
-
-                    rgb = pushed ? COLOR_BTNHIGHLIGHT : COLOR_BTNSHADOW;
-                    pen = CreatePen(PS_SOLID, 0, GetSysColor(rgb));
-                    open = (HPEN) SelectObject(item->hDC, pen);
-                    MoveToEx(item->hDC, item->rcItem.right - 2, item->rcItem.top + 2, nullptr);
-                    LineTo(item->hDC, item->rcItem.right - 2, item->rcItem.bottom - 2);
-                    LineTo(item->hDC, item->rcItem.left + 2, item->rcItem.bottom - 2);
-                    SelectObject(item->hDC, open);
-                    DeleteObject(pen);
-
-                    if (item->itemState & ODS_FOCUS)
-                        DrawFocusRect(item->hDC, &item->rcItem);
-
-                    return true;
-                }
-                default:
-                    return ticklist_draw(hWnd, wParam, lParam);
-            }
-
-        case WM_NOTIFY:
-            lp_ntfy = (NM_UPDOWN *) lParam;
-
-            if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
-                InitSteps(hWnd, lp_ntfy->iPos + lp_ntfy->iDelta, ticklist_bitmask(hWnd, IDC_LIST1));
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDC_COMBO1:
+            if (HIWORD(wParam) == CBN_SELCHANGE) {
+                //					EnableWindow(GetDlgItem(hWnd,IDC_SPIN
             }
             break;
-
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDC_COMBO1:
-                    if (HIWORD(wParam) == CBN_SELCHANGE) {
-                        //					EnableWindow(GetDlgItem(hWnd,IDC_SPIN
-                    }
-                    break;
-                case IDC_BUTTON1:
-                case IDC_BUTTON2: {
-                    CHOOSECOLOR choosecol;
-                    std::int32_t *rgb;
-                    rgb = (LOWORD(wParam) == IDC_BUTTON1) ? &lite_rgbA : &lite_rgbB;
-                    choosecol.lStructSize = sizeof(choosecol);
-                    choosecol.hwndOwner = hWnd;
-                    choosecol.hInstance = nullptr;
-                    choosecol.rgbResult = *rgb;
-                    choosecol.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
-                    if (ChooseColor(&choosecol))
-                        *rgb = choosecol.rgbResult;
-                } break;
-                case IDOK:
-                    lite_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
-                    //					lite_axis =	SendMessage	(GetDlgItem(hWnd,IDC_COMBO2),CB_GETCURSEL,0,0);
-                    lite_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                    lite_steps = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
-                    lite_mask = ticklist_bitmask(hWnd, IDC_LIST1);
-                    //					lite_range= SendMessage (GetDlgItem(hWnd,IDC_SPIN3),UDM_GETPOS,0,0);
-                case IDCANCEL:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            ticklist_close(hWnd, IDC_LIST1);
-            EndDialog(hWnd, 0);
+        case IDC_BUTTON1:
+        case IDC_BUTTON2: {
+            CHOOSECOLOR choosecol;
+            std::int32_t *rgb;
+            rgb = (LOWORD(wParam) == IDC_BUTTON1) ? &lite_rgbA : &lite_rgbB;
+            choosecol.lStructSize = sizeof(choosecol);
+            choosecol.hwndOwner = hWnd;
+            choosecol.hInstance = nullptr;
+            choosecol.rgbResult = *rgb;
+            choosecol.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
+            if (ChooseColor(&choosecol))
+                *rgb = choosecol.rgbResult;
+        } break;
+        case IDOK:
+            lite_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1), CB_GETCURSEL, 0, 0);
+            //					lite_axis =	SendMessage	(GetDlgItem(hWnd,IDC_COMBO2),CB_GETCURSEL,0,0);
+            lite_speed = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+            lite_steps = SendMessage(GetDlgItem(hWnd, IDC_SPIN2), UDM_GETPOS, 0, 0);
+            lite_mask = ticklist_bitmask(hWnd, IDC_LIST1);
+            //					lite_range= SendMessage (GetDlgItem(hWnd,IDC_SPIN3),UDM_GETPOS,0,0);
+        case IDCANCEL:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        ticklist_close(hWnd, IDC_LIST1);
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

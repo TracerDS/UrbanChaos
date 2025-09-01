@@ -128,34 +128,34 @@ void D3DPage::Unload() {
 #ifdef TEX_EMBED
 void D3DTexture::GetTexOffsetAndScale(float *pfUScale, float *pfUOffset, float *pfVScale, float *pfVOffset) {
     switch (bPageType) {
-        case D3DPAGE_NONE:
-            *pfUScale = 1.0f;
-            *pfVScale = 1.0f;
-            *pfUOffset = 0.0f;
-            *pfVOffset = 0.0f;
-            break;
-        case D3DPAGE_64_3X3:
-        case D3DPAGE_32_3X3:
-            // Arranged with 32-pixel gaps between textures, and
-            // the textures are right up against the edge.
-            // So along the edge, you have 64 texels, 32 pagging, 64 texels, 32 padding, 64 texels.
-            // So the offsets are 0.0, 0.375, 0.75
-            *pfUScale = 0.25f;
-            *pfVScale = 0.25f;
-            *pfUOffset = 0.375f * (float) (bPagePos % 3);
-            *pfVOffset = 0.375f * (float) (bPagePos / 3);
-            break;
-        case D3DPAGE_64_4X4:
-        case D3DPAGE_32_4X4:
-            // Edge-to-edge packing.
-            *pfUScale = 0.25f;
-            *pfVScale = 0.25f;
-            *pfUOffset = 0.25f * (float) (bPagePos & 0x3);
-            *pfVOffset = 0.25f * (float) (bPagePos >> 2);
-            break;
-        default:
-            ASSERT(false);
-            break;
+    case D3DPAGE_NONE:
+        *pfUScale = 1.0f;
+        *pfVScale = 1.0f;
+        *pfUOffset = 0.0f;
+        *pfVOffset = 0.0f;
+        break;
+    case D3DPAGE_64_3X3:
+    case D3DPAGE_32_3X3:
+        // Arranged with 32-pixel gaps between textures, and
+        // the textures are right up against the edge.
+        // So along the edge, you have 64 texels, 32 pagging, 64 texels, 32 padding, 64 texels.
+        // So the offsets are 0.0, 0.375, 0.75
+        *pfUScale = 0.25f;
+        *pfVScale = 0.25f;
+        *pfUOffset = 0.375f * (float) (bPagePos % 3);
+        *pfVOffset = 0.375f * (float) (bPagePos / 3);
+        break;
+    case D3DPAGE_64_4X4:
+    case D3DPAGE_32_4X4:
+        // Edge-to-edge packing.
+        *pfUScale = 0.25f;
+        *pfVScale = 0.25f;
+        *pfUOffset = 0.25f * (float) (bPagePos & 0x3);
+        *pfVOffset = 0.25f * (float) (bPagePos >> 2);
+        break;
+    default:
+        ASSERT(false);
+        break;
     }
 }
 #endif // #ifdef TEX_EMBED
@@ -845,17 +845,17 @@ HRESULT D3DTexture::Reload() {
     }
 
     switch (Type) {
-        case D3DTEXTURE_TYPE_TGA:
-            ans = Reload_TGA();
-            break;
+    case D3DTEXTURE_TYPE_TGA:
+        ans = Reload_TGA();
+        break;
 
-        case D3DTEXTURE_TYPE_USER:
-            ans = Reload_user();
-            break;
+    case D3DTEXTURE_TYPE_USER:
+        ans = Reload_user();
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     return ans;

@@ -261,18 +261,18 @@ char* ENV_get_value_string(char* name, char* section) {
     ASSERT(strcmp(name, "language") == 0);
 
     switch (ENV_get_value_number("lang_num", 0, "")) {
-        case 0:
-            // English.
-            return ("text\\lang_english.txt");
-            break;
-        case 1:
-            // French.
-            return ("text\\lang_french.txt");
-            break;
-        default:
-            ASSERT(false);
-            return ("text\\lang_english.txt");
-            break;
+    case 0:
+        // English.
+        return ("text\\lang_english.txt");
+        break;
+    case 1:
+        // French.
+        return ("text\\lang_french.txt");
+        break;
+    default:
+        ASSERT(false);
+        return ("text\\lang_english.txt");
+        break;
     }
 }
 

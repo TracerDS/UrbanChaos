@@ -8,6 +8,7 @@
 #include "ns.h"
 #include "heap.h"
 #include "pap.h"
+#include <algorithm>
 
 //
 // Around the edges of the sewers there are curvey bits.
@@ -77,43 +78,43 @@
 
 NS_Texture NS_texture[NS_MAX_TEXTURES] =
     {
-        {{0, 32, 0, 32}, {0, 0, 32, 32}},
+        {{0, 32, 0, 32},   {0, 0, 32, 32}  },
 
-        {{0, 32, 0, 32}, {0, 0, 8, 8}},
-        {{0, 32, 0, 32}, {0, 0, 12, 12}},
-        {{0, 32, 0, 32}, {12, 12, 32, 32}},
-        {{0, 32, 0, 24}, {0, 0, 12, 12}},
-        {{0, 32, 8, 32}, {0, 0, 12, 12}},
-        {{0, 24, 0, 12}, {12, 12, 32, 32}},
-        {{8, 32, 20, 32}, {12, 12, 32, 32}},
-        {{0, 0, 12, 0}, {12, 0, 12, 12}},
-        {{0, 8, 0, 32}, {12, 12, 32, 32}},
-        {{8, 0, 32, 0}, {12, 12, 32, 32}},
+        {{0, 32, 0, 32},   {0, 0, 8, 8}    },
+        {{0, 32, 0, 32},   {0, 0, 12, 12}  },
+        {{0, 32, 0, 32},   {12, 12, 32, 32}},
+        {{0, 32, 0, 24},   {0, 0, 12, 12}  },
+        {{0, 32, 8, 32},   {0, 0, 12, 12}  },
+        {{0, 24, 0, 12},   {12, 12, 32, 32}},
+        {{8, 32, 20, 32},  {12, 12, 32, 32}},
+        {{0, 0, 12, 0},    {12, 0, 12, 12} },
+        {{0, 8, 0, 32},    {12, 12, 32, 32}},
+        {{8, 0, 32, 0},    {12, 12, 32, 32}},
 
-        {{0, 16, 0, 16}, {0, 0, 32, 32}},
-        {{16, 32, 16, 32}, {0, 0, 32, 32}},
-        {{0, 32, 0, 32}, {0, 0, 16, 16}},
-        {{0, 32, 0, 32}, {16, 16, 32, 32}},
+        {{0, 16, 0, 16},   {0, 0, 32, 32}  },
+        {{16, 32, 16, 32}, {0, 0, 32, 32}  },
+        {{0, 32, 0, 32},   {0, 0, 16, 16}  },
+        {{0, 32, 0, 32},   {16, 16, 32, 32}},
 
-        {{0, 16, 0, 12}, {0, 0, 16, 12}},
-        {{16, 32, 20, 32}, {0, 0, 12, 16}},
-        {{0, 12, 0, 16}, {16, 20, 32, 32}},
+        {{0, 16, 0, 12},   {0, 0, 16, 12}  },
+        {{16, 32, 20, 32}, {0, 0, 12, 16}  },
+        {{0, 12, 0, 16},   {16, 20, 32, 32}},
         {{20, 32, 16, 32}, {20, 16, 32, 32}},
 
-        {{0, 20, 0, 16}, {0, 20, 32, 32}},
-        {{0, 32, 20, 32}, {0, 0, 20, 16}},
-        {{0, 32, 0, 12}, {0, 0, 16, 20}},
-        {{12, 32, 16, 32}, {20, 0, 32, 32}},
-        {{0, 16, 0, 20}, {0, 0, 32, 12}},
-        {{20, 32, 0, 32}, {12, 16, 32, 32}},
-        {{0, 12, 0, 32}, {16, 12, 32, 32}},
-        {{16, 32, 12, 32}, {0, 0, 12, 32}},
+        {{0, 20, 0, 16},   {0, 20, 32, 32} },
+        {{0, 32, 20, 32},  {0, 0, 20, 16}  },
+        {{0, 32, 0, 12},   {0, 0, 16, 20}  },
+        {{12, 32, 16, 32}, {20, 0, 32, 32} },
+        {{0, 16, 0, 20},   {0, 0, 32, 12}  },
+        {{20, 32, 0, 32},  {12, 16, 32, 32}},
+        {{0, 12, 0, 32},   {16, 12, 32, 32}},
+        {{16, 32, 12, 32}, {0, 0, 12, 32}  },
 
-        {{16, 0, 24, 0}, {32, 32, 12, 0}},
-        {{32, 24, 32, 0}, {8, 12, 0, 0}},
+        {{16, 0, 24, 0},   {32, 32, 12, 0} },
+        {{32, 24, 32, 0},  {8, 12, 0, 0}   },
 
-        {{32, 16, 32, 8}, {32, 32, 0, 12}},
-        {{8, 0, 32, 0}, {12, 8, 0, 0}},
+        {{32, 16, 32, 8},  {32, 32, 0, 12} },
+        {{8, 0, 32, 0},    {12, 8, 0, 0}   },
 };
 
 std::int32_t NS_texture_upto = NS_TEXTURE_NUMBER;
@@ -400,11 +401,12 @@ void NS_precalculate() {
 
                 } neighbour[4] =
                     {
-                        {-1, 0, 0, 0, 0, 1},
-                        {+1, 0, 1, 0, 1, 1},
+                        {-1, 0,  0, 0, 0, 1},
+                        {+1, 0,  1, 0, 1, 1},
 
-                        {0, -1, 0, 0, 1, 0},
-                        {0, +1, 0, 1, 1, 1}};
+                        {0,  -1, 0, 0, 1, 0},
+                        {0,  +1, 0, 1, 1, 1}
+                };
 
                 for (i = 0; i < 4; i++) {
                     sx = x + neighbour[i].dsx;
@@ -443,9 +445,9 @@ void NS_precalculate() {
             }
         }
 
-    //
-    // Even out the top map.
-    //
+        //
+        // Even out the top map.
+        //
 
 #define NS_EVEN_OUT_INNER 3
 #define NS_EVEN_OUT_OUTER 5
@@ -561,15 +563,15 @@ void NS_precalculate() {
                 curve = -1;
 
                 switch (flag) {
-                    case FLAG_XS: curve = NS_HI_CURVE_XS; break;
-                    case FLAG_XL: curve = NS_HI_CURVE_XL; break;
-                    case FLAG_ZS: curve = NS_HI_CURVE_ZS; break;
-                    case FLAG_ZL: curve = NS_HI_CURVE_ZL; break;
+                case FLAG_XS: curve = NS_HI_CURVE_XS; break;
+                case FLAG_XL: curve = NS_HI_CURVE_XL; break;
+                case FLAG_ZS: curve = NS_HI_CURVE_ZS; break;
+                case FLAG_ZL: curve = NS_HI_CURVE_ZL; break;
 
-                    case FLAG_XS | FLAG_ZS: curve = NS_HI_CURVE_ASS; break;
-                    case FLAG_XL | FLAG_ZS: curve = NS_HI_CURVE_ALS; break;
-                    case FLAG_XS | FLAG_ZL: curve = NS_HI_CURVE_ASL; break;
-                    case FLAG_XL | FLAG_ZL: curve = NS_HI_CURVE_ALL; break;
+                case FLAG_XS | FLAG_ZS: curve = NS_HI_CURVE_ASS; break;
+                case FLAG_XL | FLAG_ZS: curve = NS_HI_CURVE_ALS; break;
+                case FLAG_XS | FLAG_ZL: curve = NS_HI_CURVE_ASL; break;
+                case FLAG_XL | FLAG_ZL: curve = NS_HI_CURVE_ALL; break;
                 }
 
                 if (curve == -1) {
@@ -761,45 +763,45 @@ void NS_add_point(
             dist = QDIST3(abs(dx), abs(dy), abs(dz)) + 1;
 
             switch (norm) {
-                case NS_NORM_XL:
-                    if (dx <= 0) {
-                        continue;
-                    } else {
-                        dprod = dx * 256 / dist;
-                    }
-                    break;
-                case NS_NORM_XS:
-                    if (dx >= 0) {
-                        continue;
-                    } else {
-                        dprod = -dx * 256 / dist;
-                    }
-                    break;
-                case NS_NORM_ZL:
-                    if (dz <= 0) {
-                        continue;
-                    } else {
-                        dprod = dz * 256 / dist;
-                    }
-                    break;
-                case NS_NORM_ZS:
-                    if (dz >= 0) {
-                        continue;
-                    } else {
-                        dprod = -dz * 256 / dist;
-                    }
-                    break;
-                case NS_NORM_YL:
-                    if (dy <= 0) {
-                        continue;
-                    } else {
-                        dprod = dy * 256 / dist;
-                    }
-                    break;
-                case NS_NORM_DUNNO: dprod = 200; break;
-                default:
-                    ASSERT(0);
-                    break;
+            case NS_NORM_XL:
+                if (dx <= 0) {
+                    continue;
+                } else {
+                    dprod = dx * 256 / dist;
+                }
+                break;
+            case NS_NORM_XS:
+                if (dx >= 0) {
+                    continue;
+                } else {
+                    dprod = -dx * 256 / dist;
+                }
+                break;
+            case NS_NORM_ZL:
+                if (dz <= 0) {
+                    continue;
+                } else {
+                    dprod = dz * 256 / dist;
+                }
+                break;
+            case NS_NORM_ZS:
+                if (dz >= 0) {
+                    continue;
+                } else {
+                    dprod = -dz * 256 / dist;
+                }
+                break;
+            case NS_NORM_YL:
+                if (dy <= 0) {
+                    continue;
+                } else {
+                    dprod = dy * 256 / dist;
+                }
+                break;
+            case NS_NORM_DUNNO: dprod = 200; break;
+            default:
+                ASSERT(0);
+                break;
             }
 
             ASSERT(dprod >= 0);
@@ -1204,7 +1206,7 @@ void NS_cache_create_wallstrip(
     ASSERT((bot & 0x7) == 0);
 
     if (bot == 0) {
-        bot = MIN(ty1, ty2);
+        bot = std::min(ty1, ty2);
         bot -= 24;
         bot &= ~7;
 
@@ -1826,61 +1828,61 @@ void NS_cache_create_curve_sewer(
         //
 
         switch (curve) {
-            case NS_HI_CURVE_XS:
+        case NS_HI_CURVE_XS:
 
-                px1 = sx + 1 << 8;
-                pz1 = sz + 0 << 8;
+            px1 = sx + 1 << 8;
+            pz1 = sz + 0 << 8;
 
-                px2 = sx + 1 << 8;
-                pz2 = sz + 1 << 8;
+            px2 = sx + 1 << 8;
+            pz2 = sz + 1 << 8;
 
-                dx = -256;
-                dz = 0;
+            dx = -256;
+            dz = 0;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_XL:
+        case NS_HI_CURVE_XL:
 
-                px1 = sx + 0 << 8;
-                pz1 = sz + 1 << 8;
+            px1 = sx + 0 << 8;
+            pz1 = sz + 1 << 8;
 
-                px2 = sx + 0 << 8;
-                pz2 = sz + 0 << 8;
+            px2 = sx + 0 << 8;
+            pz2 = sz + 0 << 8;
 
-                dx = +256;
-                dz = 0;
+            dx = +256;
+            dz = 0;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_ZS:
+        case NS_HI_CURVE_ZS:
 
-                px1 = sx + 1 << 8;
-                pz1 = sz + 1 << 8;
+            px1 = sx + 1 << 8;
+            pz1 = sz + 1 << 8;
 
-                px2 = sx + 0 << 8;
-                pz2 = sz + 1 << 8;
+            px2 = sx + 0 << 8;
+            pz2 = sz + 1 << 8;
 
-                dx = 0;
-                dz = -256;
+            dx = 0;
+            dz = -256;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_ZL:
+        case NS_HI_CURVE_ZL:
 
-                px1 = sx + 0 << 8;
-                pz1 = sz + 0 << 8;
+            px1 = sx + 0 << 8;
+            pz1 = sz + 0 << 8;
 
-                px2 = sx + 1 << 8;
-                pz2 = sz + 0 << 8;
+            px2 = sx + 1 << 8;
+            pz2 = sz + 0 << 8;
 
-                dx = 0;
-                dz = +256;
+            dx = 0;
+            dz = +256;
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         //
@@ -1937,61 +1939,61 @@ void NS_cache_create_curve_sewer(
         //
 
         switch (curve) {
-            case NS_HI_CURVE_ASS:
+        case NS_HI_CURVE_ASS:
 
-                px = sx + 1 << 8;
-                pz = sz + 1 << 8;
+            px = sx + 1 << 8;
+            pz = sz + 1 << 8;
 
-                dx1 = 0;
-                dz1 = -1;
+            dx1 = 0;
+            dz1 = -1;
 
-                dx2 = -1;
-                dz2 = 0;
+            dx2 = -1;
+            dz2 = 0;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_ALS:
+        case NS_HI_CURVE_ALS:
 
-                px = sx + 0 << 8;
-                pz = sz + 1 << 8;
+            px = sx + 0 << 8;
+            pz = sz + 1 << 8;
 
-                dx1 = +1;
-                dz1 = 0;
+            dx1 = +1;
+            dz1 = 0;
 
-                dx2 = 0;
-                dz2 = -1;
+            dx2 = 0;
+            dz2 = -1;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_ASL:
+        case NS_HI_CURVE_ASL:
 
-                px = sx + 1 << 8;
-                pz = sz + 0 << 8;
+            px = sx + 1 << 8;
+            pz = sz + 0 << 8;
 
-                dx1 = -1;
-                dz1 = 0;
+            dx1 = -1;
+            dz1 = 0;
 
-                dx2 = 0;
-                dz2 = +1;
+            dx2 = 0;
+            dz2 = +1;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_ALL:
+        case NS_HI_CURVE_ALL:
 
-                px = sx + 0 << 8;
-                pz = sz + 0 << 8;
+            px = sx + 0 << 8;
+            pz = sz + 0 << 8;
 
-                dx1 = 0;
-                dz1 = +1;
+            dx1 = 0;
+            dz1 = +1;
 
-                dx2 = +1;
-                dz2 = 0;
+            dx2 = +1;
+            dz2 = 0;
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         //
@@ -2060,61 +2062,61 @@ void NS_cache_create_curve_sewer(
         //
 
         switch (curve) {
-            case NS_HI_CURVE_OSS:
+        case NS_HI_CURVE_OSS:
 
-                px = sx + 1 << 8;
-                pz = sz + 1 << 8;
+            px = sx + 1 << 8;
+            pz = sz + 1 << 8;
 
-                dx1 = 0;
-                dz1 = -1;
+            dx1 = 0;
+            dz1 = -1;
 
-                dx2 = -1;
-                dz2 = 0;
+            dx2 = -1;
+            dz2 = 0;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_OLS:
+        case NS_HI_CURVE_OLS:
 
-                px = sx + 0 << 8;
-                pz = sz + 1 << 8;
+            px = sx + 0 << 8;
+            pz = sz + 1 << 8;
 
-                dx1 = +1;
-                dz1 = 0;
+            dx1 = +1;
+            dz1 = 0;
 
-                dx2 = 0;
-                dz2 = -1;
+            dx2 = 0;
+            dz2 = -1;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_OSL:
+        case NS_HI_CURVE_OSL:
 
-                px = sx + 1 << 8;
-                pz = sz + 0 << 8;
+            px = sx + 1 << 8;
+            pz = sz + 0 << 8;
 
-                dx1 = -1;
-                dz1 = 0;
+            dx1 = -1;
+            dz1 = 0;
 
-                dx2 = 0;
-                dz2 = +1;
+            dx2 = 0;
+            dz2 = +1;
 
-                break;
+            break;
 
-            case NS_HI_CURVE_OLL:
+        case NS_HI_CURVE_OLL:
 
-                px = sx + 0 << 8;
-                pz = sz + 0 << 8;
+            px = sx + 0 << 8;
+            pz = sz + 0 << 8;
 
-                dx1 = 0;
-                dz1 = +1;
+            dx1 = 0;
+            dz1 = +1;
 
-                dx2 = +1;
-                dz2 = 0;
+            dx2 = +1;
+            dz2 = 0;
 
-                break;
+            break;
 
-            default:
-                ASSERT(0);
-                break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         pindex[0] = NS_create_wallstrip_point(px + dx1 * 0 + dx2 * 0, nh->bot + 2, pz + dz1 * 0 + dz2 * 0);
@@ -2173,501 +2175,501 @@ void NS_cache_create_curve_top(std::int32_t sx, std::int32_t sz) {
     curve = nh->water; // We use the water field to identify the type of curve.
 
     switch (curve) {
-        case NS_HI_CURVE_XS:
+    case NS_HI_CURVE_XS:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 128;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 128;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT1);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT1);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_XL:
+    case NS_HI_CURVE_XL:
 
-            px = ox + 128;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox + 128;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 128;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT2);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT2);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_ZS:
+    case NS_HI_CURVE_ZS:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 128;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 128;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 128;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 128;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT3);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT3);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_ZL:
+    case NS_HI_CURVE_ZL:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz + 128;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz + 128;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz + 128;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz + 128;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT4);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT4);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_ASS:
+    case NS_HI_CURVE_ASS:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 128;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 128;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 128;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 96;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 96;
+        px = ox + 96;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 96;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT5);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT5);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_ALS:
+    case NS_HI_CURVE_ALS:
 
-            px = ox + 128;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox + 128;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 160;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 96;
+        px = ox + 160;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 96;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 128;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 128;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT6);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT6);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_ASL:
+    case NS_HI_CURVE_ASL:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz + 128;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz + 128;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 96;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz + 160;
+        px = ox + 96;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz + 160;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 128;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT7);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT7);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_ALL:
+    case NS_HI_CURVE_ALL:
 
-            px = ox + 160;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz + 160;
+        px = ox + 160;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz + 160;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz + 128;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz + 128;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 128;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT8);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT8);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_OSS:
+    case NS_HI_CURVE_OSS:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 128;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 160;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 160;
+        px = ox + 160;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 160;
 
-            pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 128;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 128;
 
-            pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[4];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[4];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT9);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT9);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[4];
-            p[3] = pindex[5];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[4];
+        p[3] = pindex[5];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT10);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT10);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_OLS:
+    case NS_HI_CURVE_OLS:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 128;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 128;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 96;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 160;
+        px = ox + 96;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 160;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 128;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[2];
-            p[3] = pindex[3];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[2];
+        p[3] = pindex[3];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT11);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT11);
 
-            p[0] = pindex[3];
-            p[1] = pindex[1];
-            p[2] = pindex[4];
-            p[3] = pindex[5];
+        p[0] = pindex[3];
+        p[1] = pindex[1];
+        p[2] = pindex[4];
+        p[3] = pindex[5];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT12);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT12);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_OSL:
+    case NS_HI_CURVE_OSL:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz;
+        px = ox + 128;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 160;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz + 96;
+        px = ox + 160;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz + 96;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz + 128;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz + 128;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[4];
-            p[3] = pindex[2];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[4];
+        p[3] = pindex[2];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT13);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT13);
 
-            p[0] = pindex[2];
-            p[1] = pindex[3];
-            p[2] = pindex[4];
-            p[3] = pindex[5];
+        p[0] = pindex[2];
+        p[1] = pindex[3];
+        p[2] = pindex[4];
+        p[3] = pindex[5];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT14);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT14);
 
-            break;
+        break;
 
-        case NS_HI_CURVE_OLL:
+    case NS_HI_CURVE_OLL:
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz + 128;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz + 128;
 
-            pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[0] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 96;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz + 96;
+        px = ox + 96;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz + 96;
 
-            pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[1] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 128;
-            py = NS_hi[sx + 0][sz + 0].top;
-            pz = oz + 0;
+        px = ox + 128;
+        py = NS_hi[sx + 0][sz + 0].top;
+        pz = oz + 0;
 
-            pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[2] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 0].top;
-            pz = oz + 0;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 0].top;
+        pz = oz + 0;
 
-            pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[3] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox;
-            py = NS_hi[sx + 0][sz + 1].top;
-            pz = oz + 256;
+        px = ox;
+        py = NS_hi[sx + 0][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[4] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            px = ox + 256;
-            py = NS_hi[sx + 1][sz + 1].top;
-            pz = oz + 256;
+        px = ox + 256;
+        py = NS_hi[sx + 1][sz + 1].top;
+        pz = oz + 256;
 
-            pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
+        pindex[5] = NS_create_wallstrip_point(px, py, pz, NS_NORM_YL);
 
-            p[0] = pindex[0];
-            p[1] = pindex[1];
-            p[2] = pindex[4];
-            p[3] = pindex[5];
+        p[0] = pindex[0];
+        p[1] = pindex[1];
+        p[2] = pindex[4];
+        p[3] = pindex[5];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT15);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT15);
 
-            p[0] = pindex[2];
-            p[1] = pindex[3];
-            p[2] = pindex[1];
-            p[3] = pindex[5];
+        p[0] = pindex[2];
+        p[1] = pindex[3];
+        p[2] = pindex[1];
+        p[3] = pindex[5];
 
-            NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT16);
+        NS_add_face(p, NS_PAGE_ROCK, NS_TEXTURE_CT16);
 
-            break;
+        break;
     }
 }
 
@@ -2790,10 +2792,11 @@ void NS_cache_create_falls(std::uint8_t mx, std::uint8_t mz, NS_Cache *nc) {
 
                 } dir[4] =
                     {
-                        {+1, 0},
-                        {-1, 0},
-                        {0, +1},
-                        {0, -1}};
+                        {+1, 0 },
+                        {-1, 0 },
+                        {0,  +1},
+                        {0,  -1}
+                };
 
                 for (i = 0; i < 4; i++) {
                     dx = dir[i].dx;
@@ -2889,10 +2892,11 @@ void NS_cache_create_grates(std::uint8_t mx, std::uint8_t mz) {
 
     } order[4] =
         {
-            {+1, 0, NS_NORM_XS},
-            {-1, 0, NS_NORM_XL},
-            {0, +1, NS_NORM_ZS},
-            {0, -1, NS_NORM_ZL}};
+            {+1, 0,  NS_NORM_XS},
+            {-1, 0,  NS_NORM_XL},
+            {0,  +1, NS_NORM_ZS},
+            {0,  -1, NS_NORM_ZL}
+    };
 
     ASSERT(WITHIN(mx, 1, PAP_SIZE_LO - 2));
     ASSERT(WITHIN(mz, 1, PAP_SIZE_LO - 2));
@@ -3045,67 +3049,67 @@ std::int32_t NS_cache_find_light(
             nh = &NS_hi[(mx << 2) + sx][(mz << 2) + sz];
 
             switch (NS_HI_TYPE(nh)) {
-                case NS_HI_TYPE_SEWER:
-                case NS_HI_TYPE_STONE:
+            case NS_HI_TYPE_SEWER:
+            case NS_HI_TYPE_STONE:
 
-                    lx = sx << 5;
-                    lz = sz << 5;
-                    lx += 16;
-                    lz += 16;
-                    ly = nh->bot + 8;
+                lx = sx << 5;
+                lz = sz << 5;
+                lx += 16;
+                lz += 16;
+                ly = nh->bot + 8;
 
-                    //
-                    // Score this selection.
-                    //
+                //
+                // Score this selection.
+                //
 
-                    score = 1;
+                score = 1;
 
-                    //
-                    // Prefer squares in the middle.
-                    //
+                //
+                // Prefer squares in the middle.
+                //
 
-                    if (sx == 1 || sx == 2) {
+                if (sx == 1 || sx == 2) {
+                    score += 100;
+                }
+                if (sz == 1 || sz == 2) {
+                    score += 100;
+                }
+
+                //
+                // Check the distances from other lights.
+                //
+
+                for (i = 0; i < other_light_upto; i++) {
+                    dlx = abs(lx - other_light[i].x);
+                    dlz = abs(lz - other_light[i].z);
+
+                    dist = dlx + dlz;
+
+                    if (dist == 128) {
                         score += 100;
+                    } else if (dist > 128) {
+                        score += 10;
+                    } else if (dist < 96) {
+                        score -= 10000;
                     }
-                    if (sz == 1 || sz == 2) {
-                        score += 100;
-                    }
+                }
 
-                    //
-                    // Check the distances from other lights.
-                    //
+                if (score > best_score) {
+                    best_score = score;
+                    best_x = lx;
+                    best_y = ly;
+                    best_z = lz;
+                }
 
-                    for (i = 0; i < other_light_upto; i++) {
-                        dlx = abs(lx - other_light[i].x);
-                        dlz = abs(lz - other_light[i].z);
+                break;
 
-                        dist = dlx + dlz;
+            default:
 
-                        if (dist == 128) {
-                            score += 100;
-                        } else if (dist > 128) {
-                            score += 10;
-                        } else if (dist < 96) {
-                            score -= 10000;
-                        }
-                    }
+                //
+                // Can't have light on any other square type.
+                //
 
-                    if (score > best_score) {
-                        best_score = score;
-                        best_x = lx;
-                        best_y = ly;
-                        best_z = lz;
-                    }
-
-                    break;
-
-                default:
-
-                    //
-                    // Can't have light on any other square type.
-                    //
-
-                    break;
+                break;
             }
         }
 
@@ -3420,10 +3424,11 @@ void NS_slide_along(
         std::int8_t dz;
     } order[4] =
         {
-            {+1, 0},
-            {-1, 0},
-            {0, +1},
-            {0, -1}};
+            {+1, 0 },
+            {-1, 0 },
+            {0,  +1},
+            {0,  -1}
+    };
 
     std::int32_t collide;
 
@@ -3467,31 +3472,31 @@ void NS_slide_along(
         nh = &NS_hi[mx][mz];
 
         switch (NS_HI_TYPE(nh)) {
-            case NS_HI_TYPE_ROCK:
-            case NS_HI_TYPE_CURVE:
-            case NS_HI_TYPE_NOTHING:
+        case NS_HI_TYPE_ROCK:
+        case NS_HI_TYPE_CURVE:
+        case NS_HI_TYPE_NOTHING:
+            collide = true;
+            break;
+
+        default:
+
+            //
+            // What is the height of the top of this square?
+            //
+
+            height = (nh->bot << (5 + 8)) + (-32 * 0x100 * 0x100);
+
+            //
+            // Can step up a quarter of a block.
+            //
+
+            if (*y2 + 0x4000 < height) {
                 collide = true;
-                break;
+            } else {
+                collide = false;
+            }
 
-            default:
-
-                //
-                // What is the height of the top of this square?
-                //
-
-                height = (nh->bot << (5 + 8)) + (-32 * 0x100 * 0x100);
-
-                //
-                // Can step up a quarter of a block.
-                //
-
-                if (*y2 + 0x4000 < height) {
-                    collide = true;
-                } else {
-                    collide = false;
-                }
-
-                break;
+            break;
         }
 
         if (collide) {

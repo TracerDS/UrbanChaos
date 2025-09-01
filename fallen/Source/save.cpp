@@ -326,29 +326,29 @@ std::int32_t SAVE_things() {
         p_thing = TO_THING(index);
 
         switch (p_thing->Class) {
-            case CLASS_PERSON:
-                if (!SAVE_person(p_thing)) {
-                    return (false);
-                }
-                break;
-            case CLASS_SPECIAL:
-                if (!SAVE_special(p_thing)) {
-                    return (false);
-                }
-                break;
-            case CLASS_VEHICLE:
-                if (!SAVE_vehicle(p_thing)) {
-                    return (false);
-                }
-                break;
-            case CLASS_NONE:
-                SAVE_out_data(&skip_class_none, sizeof(skip_class_none));
-                break;
+        case CLASS_PERSON:
+            if (!SAVE_person(p_thing)) {
+                return (false);
+            }
+            break;
+        case CLASS_SPECIAL:
+            if (!SAVE_special(p_thing)) {
+                return (false);
+            }
+            break;
+        case CLASS_VEHICLE:
+            if (!SAVE_vehicle(p_thing)) {
+                return (false);
+            }
+            break;
+        case CLASS_NONE:
+            SAVE_out_data(&skip_class_none, sizeof(skip_class_none));
+            break;
 
-            default:
-                SAVE_out_data(&skip, sizeof(skip));
+        default:
+            SAVE_out_data(&skip, sizeof(skip));
 
-                break;
+            break;
         }
 
         //		index=p_thing->LinkChild;
@@ -602,72 +602,72 @@ std::int32_t LOAD_types() {
     p_thing = TO_THING(0);
     while (LOAD_in_data(&type, 1)) {
         switch (type) {
-            case SAVE_PERSON_TYPE_NORMAL:
-                ASSERT(0);
-                break;
-            case SAVE_PERSON_TYPE_WANDERING_DRIVER:
-                ASSERT(0);
-                break;
-            case SAVE_PERSON_TYPE_DEAD:
-                LOAD_person_dead(p_thing);
-                break;
-            case SAVE_PERSON_TYPE_ARRESTED:
-                LOAD_person_arrested(p_thing);
-                break;
-            case SAVE_PERSON_TYPE_WANDERING_CIV:
-                ASSERT(0);
-                //				LOAD_person_wandering(p_thing);
-                break;
-            case SAVE_PERSON_TYPE_FULL:
-                LOAD_person_full(p_thing);
-                person++;
-                break;
+        case SAVE_PERSON_TYPE_NORMAL:
+            ASSERT(0);
+            break;
+        case SAVE_PERSON_TYPE_WANDERING_DRIVER:
+            ASSERT(0);
+            break;
+        case SAVE_PERSON_TYPE_DEAD:
+            LOAD_person_dead(p_thing);
+            break;
+        case SAVE_PERSON_TYPE_ARRESTED:
+            LOAD_person_arrested(p_thing);
+            break;
+        case SAVE_PERSON_TYPE_WANDERING_CIV:
+            ASSERT(0);
+            //				LOAD_person_wandering(p_thing);
+            break;
+        case SAVE_PERSON_TYPE_FULL:
+            LOAD_person_full(p_thing);
+            person++;
+            break;
 
-            case SAVE_SPECIAL_TYPE_FULL:
-                LOAD_special_full(p_thing);
-                special++;
-                break;
+        case SAVE_SPECIAL_TYPE_FULL:
+            LOAD_special_full(p_thing);
+            special++;
+            break;
 
-            case SAVE_VEHICLE_TYPE_FULL:
-                LOAD_vehicle_full(p_thing);
-                car++;
-                break;
+        case SAVE_VEHICLE_TYPE_FULL:
+            LOAD_vehicle_full(p_thing);
+            car++;
+            break;
 
-            case SAVE_GAME_EWAY:
-                LOAD_eways();
+        case SAVE_GAME_EWAY:
+            LOAD_eways();
 
-            case SAVE_SKIP:
-                switch (p_thing->Class) {
-                    case CLASS_SPECIAL:
-                        remove_thing_from_map(p_thing);
-                        p_thing->Class = CLASS_NONE;
-                        //			ASSERT(0);
-                        break;
-                }
-                break;
-            case SAVE_SKIP_CLASS_NONE:
+        case SAVE_SKIP:
+            switch (p_thing->Class) {
+            case CLASS_SPECIAL:
                 remove_thing_from_map(p_thing);
-                switch (p_thing->Class) {
-                    case CLASS_NONE:
-                        break;
-
-                    case CLASS_SPECIAL:
-                        void free_special(Thing * special_thing);
-                        free_special(p_thing);
-                        break;
-                    case CLASS_TRACK:
-                        break;
-                    default:
-                        ASSERT(0);
-                        break;
-                }
                 p_thing->Class = CLASS_NONE;
+                //			ASSERT(0);
+                break;
+            }
+            break;
+        case SAVE_SKIP_CLASS_NONE:
+            remove_thing_from_map(p_thing);
+            switch (p_thing->Class) {
+            case CLASS_NONE:
+                break;
 
+            case CLASS_SPECIAL:
+                void free_special(Thing * special_thing);
+                free_special(p_thing);
+                break;
+            case CLASS_TRACK:
                 break;
             default:
-
                 ASSERT(0);
                 break;
+            }
+            p_thing->Class = CLASS_NONE;
+
+            break;
+        default:
+
+            ASSERT(0);
+            break;
         }
         p_thing++;
         thing++;

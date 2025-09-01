@@ -4,6 +4,7 @@
 //
 // ha ha the funny thing about this code is that it will only work under Windows NT ... oops!
 
+
 #include <windows.h>
 #include "asyncfile.h"
 

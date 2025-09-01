@@ -150,136 +150,136 @@ void GameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) 
     std::int32_t mappos;
 
     switch (flags) {
-        case NO_CLICK:
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
+        SaveMode->SetSaveState(false);
+        switch (HilitedItem.ItemType) {
+        case ED_ITEM_NONE:
             break;
-        case LEFT_CLICK:
-            SaveMode->SetSaveState(false);
-            switch (HilitedItem.ItemType) {
-                case ED_ITEM_NONE:
-                    break;
-                case ED_ITEM_THING:
-                    switch (SelectMode) {
-                        case SELECT_COND_TAB_THING:
-                        case SELECT_COND_TAB_SWITCH:
-                            ConditionMode->SetTabData(HilitedItem.ItemRef);
-                            ClearSelectMode();
-                            break;
-                        case SELECT_THING_TAB_THING:
-                        case SELECT_THING_TAB_SWITCH:
-                            ThingMode->SetTabData(HilitedItem.ItemRef);
-                            ClearSelectMode();
-                            break;
-                        case SELECT_COM_TAB_WAYPOINT:
-                            break;
-                        case SELECT_COM_TAB_THING:
-                        case SELECT_COM_TAB_SWITCH:
-                            CommandMode->SetTabData(HilitedItem.ItemRef);
-                            ClearSelectMode();
-                            break;
-                        default:
-                            SelectedItem = HilitedItem;
-                            ThingMode->SetCurrentClass(map_things[SelectedItem.ItemRef].Class);
-                            ThingMode->SetCurrentGenus(map_things[SelectedItem.ItemRef].Genus);
-                            ThingMode->SetCurrentThing(SelectedItem.ItemRef);
+        case ED_ITEM_THING:
+            switch (SelectMode) {
+            case SELECT_COND_TAB_THING:
+            case SELECT_COND_TAB_SWITCH:
+                ConditionMode->SetTabData(HilitedItem.ItemRef);
+                ClearSelectMode();
+                break;
+            case SELECT_THING_TAB_THING:
+            case SELECT_THING_TAB_SWITCH:
+                ThingMode->SetTabData(HilitedItem.ItemRef);
+                ClearSelectMode();
+                break;
+            case SELECT_COM_TAB_WAYPOINT:
+                break;
+            case SELECT_COM_TAB_THING:
+            case SELECT_COM_TAB_SWITCH:
+                CommandMode->SetTabData(HilitedItem.ItemRef);
+                ClearSelectMode();
+                break;
+            default:
+                SelectedItem = HilitedItem;
+                ThingMode->SetCurrentClass(map_things[SelectedItem.ItemRef].Class);
+                ThingMode->SetCurrentGenus(map_things[SelectedItem.ItemRef].Genus);
+                ThingMode->SetCurrentThing(SelectedItem.ItemRef);
 
-                            DownPoint = *clicked_point;
-                            HandleThingDrag();
-                    }
-                    break;
-                case ED_ITEM_MAP_BLOCK:
-                    if (!SelectMode) {
-                        if (
-                            ThingMode->GetCurrentClass() &&
-                            ThingMode->GetCurrentGenus()) {
-                            mappos = HilitedItem.ItemRef;
-                            new_thing = find_empty_map_thing();
-                            if (new_thing) {
-                                add_thing_to_edit_map(mappos >> 8, mappos & 0x00ff, new_thing);
-                                map_things[new_thing].X = (mappos & 0xff00) + 128;
-                                map_things[new_thing].Z = ((mappos & 0x00ff) << 8) + 128;
-                                map_things[new_thing].Y = calc_height_at(map_things[new_thing].X, map_things[new_thing].Z);
-                                map_things[new_thing].Type = MAP_THING_TYPE_ED_THING;
-                                map_things[new_thing].Class = ThingMode->GetCurrentClass();
-                                map_things[new_thing].Genus = ThingMode->GetCurrentGenus();
-                                map_things[new_thing].CommandRef = 0;
-                                map_things[new_thing].Data[0] = 256;
-
-                                SelectedItem.ItemType = ED_ITEM_THING;
-                                SelectedItem.ItemRef = new_thing;
-                                ThingMode->SetCurrentThing(new_thing);
-                            }
-                        }
-                    }
-                    break;
-                case ED_ITEM_BUILDING:
-                    SelectedItem = HilitedItem;
-                    ThingMode->SetCurrentClass(CLASS_BUILDING);
-                    ThingMode->SetCurrentGenus(0);
-                    ThingMode->SetCurrentThing(SelectedItem.ItemRef);
-                    break;
-                case ED_ITEM_WAYPOINT:
-                    switch (SelectMode) {
-                        case SELECT_NONE:
-                            DownPoint = *clicked_point;
-                            HandleWaypointDrag();
-                            break;
-                        case SELECT_WAYPOINT:
-                            map_things[SelectedItem.ItemRef].CommandRef = HilitedItem.ItemRef;
-                            ClearSelectMode();
-                            break;
-                        case SELECT_NEXT_WAYPOINT:
-                            link_next_waypoint(SelectedItem.ItemRef, HilitedItem.ItemRef);
-                            ClearSelectMode();
-                            break;
-                        case SELECT_PREV_WAYPOINT:
-                            link_prev_waypoint(SelectedItem.ItemRef, HilitedItem.ItemRef);
-                            ClearSelectMode();
-                            break;
-                        case SELECT_COND_TAB_THING:
-                        case SELECT_COND_TAB_SWITCH:
-                        case SELECT_THING_TAB_THING:
-                        case SELECT_THING_TAB_SWITCH:
-                            break;
-                        case SELECT_COM_TAB_WAYPOINT:
-                            CommandMode->SetTabData(HilitedItem.ItemRef);
-                            ClearSelectMode();
-                            break;
-                        case SELECT_COM_TAB_THING:
-                        case SELECT_COM_TAB_SWITCH:
-                            break;
-                    }
-                    break;
-                case ED_ITEM_SIZE_HOOK:
-                    DownPoint = *clicked_point;
-                    HandleSizeDrag();
-                    break;
+                DownPoint = *clicked_point;
+                HandleThingDrag();
             }
             break;
-        case MIDDLE_CLICK:
-            break;
-        case RIGHT_CLICK:
-            switch (HilitedItem.ItemType) {
-                case ED_ITEM_NONE:
-                    break;
-                case ED_ITEM_THING:
-                    if (RightButton) {
-                        DoThingPopup(clicked_point);
+        case ED_ITEM_MAP_BLOCK:
+            if (!SelectMode) {
+                if (
+                    ThingMode->GetCurrentClass() &&
+                    ThingMode->GetCurrentGenus()) {
+                    mappos = HilitedItem.ItemRef;
+                    new_thing = find_empty_map_thing();
+                    if (new_thing) {
+                        add_thing_to_edit_map(mappos >> 8, mappos & 0x00ff, new_thing);
+                        map_things[new_thing].X = (mappos & 0xff00) + 128;
+                        map_things[new_thing].Z = ((mappos & 0x00ff) << 8) + 128;
+                        map_things[new_thing].Y = calc_height_at(map_things[new_thing].X, map_things[new_thing].Z);
+                        map_things[new_thing].Type = MAP_THING_TYPE_ED_THING;
+                        map_things[new_thing].Class = ThingMode->GetCurrentClass();
+                        map_things[new_thing].Genus = ThingMode->GetCurrentGenus();
+                        map_things[new_thing].CommandRef = 0;
+                        map_things[new_thing].Data[0] = 256;
+
+                        SelectedItem.ItemType = ED_ITEM_THING;
+                        SelectedItem.ItemRef = new_thing;
+                        ThingMode->SetCurrentThing(new_thing);
                     }
-                    break;
-                case ED_ITEM_MAP_BLOCK:
-                    if (RightButton) {
-                        DoBlockPopup(clicked_point);
-                    }
-                    break;
-                case ED_ITEM_BUILDING:
-                    break;
-                case ED_ITEM_WAYPOINT:
-                    if (RightButton) {
-                        DoWaypointPopup(clicked_point);
-                    }
-                    break;
+                }
             }
             break;
+        case ED_ITEM_BUILDING:
+            SelectedItem = HilitedItem;
+            ThingMode->SetCurrentClass(CLASS_BUILDING);
+            ThingMode->SetCurrentGenus(0);
+            ThingMode->SetCurrentThing(SelectedItem.ItemRef);
+            break;
+        case ED_ITEM_WAYPOINT:
+            switch (SelectMode) {
+            case SELECT_NONE:
+                DownPoint = *clicked_point;
+                HandleWaypointDrag();
+                break;
+            case SELECT_WAYPOINT:
+                map_things[SelectedItem.ItemRef].CommandRef = HilitedItem.ItemRef;
+                ClearSelectMode();
+                break;
+            case SELECT_NEXT_WAYPOINT:
+                link_next_waypoint(SelectedItem.ItemRef, HilitedItem.ItemRef);
+                ClearSelectMode();
+                break;
+            case SELECT_PREV_WAYPOINT:
+                link_prev_waypoint(SelectedItem.ItemRef, HilitedItem.ItemRef);
+                ClearSelectMode();
+                break;
+            case SELECT_COND_TAB_THING:
+            case SELECT_COND_TAB_SWITCH:
+            case SELECT_THING_TAB_THING:
+            case SELECT_THING_TAB_SWITCH:
+                break;
+            case SELECT_COM_TAB_WAYPOINT:
+                CommandMode->SetTabData(HilitedItem.ItemRef);
+                ClearSelectMode();
+                break;
+            case SELECT_COM_TAB_THING:
+            case SELECT_COM_TAB_SWITCH:
+                break;
+            }
+            break;
+        case ED_ITEM_SIZE_HOOK:
+            DownPoint = *clicked_point;
+            HandleSizeDrag();
+            break;
+        }
+        break;
+    case MIDDLE_CLICK:
+        break;
+    case RIGHT_CLICK:
+        switch (HilitedItem.ItemType) {
+        case ED_ITEM_NONE:
+            break;
+        case ED_ITEM_THING:
+            if (RightButton) {
+                DoThingPopup(clicked_point);
+            }
+            break;
+        case ED_ITEM_MAP_BLOCK:
+            if (RightButton) {
+                DoBlockPopup(clicked_point);
+            }
+            break;
+        case ED_ITEM_BUILDING:
+            break;
+        case ED_ITEM_WAYPOINT:
+            if (RightButton) {
+                DoWaypointPopup(clicked_point);
+            }
+            break;
+        }
+        break;
     }
 }
 
@@ -291,49 +291,49 @@ void GameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) 
     if (CurrentModeTab()) {
         control_id = CurrentModeTab()->HandleTabClick(flags, clicked_point);
         switch (CurrentModeTab()->GetTabID()) {
-            case TAB_NONE:
+        case TAB_NONE:
+            break;
+        case TAB_THINGS:
+            switch (ThingMode->GetTabMode()) {
+            case THING_MODE_NONE:
                 break;
-            case TAB_THINGS:
-                switch (ThingMode->GetTabMode()) {
-                    case THING_MODE_NONE:
-                        break;
-                    case THING_MODE_SELECT_THING:
-                        SetSelectMode(SELECT_THING_TAB_THING);
-                        break;
-                    case THING_MODE_SELECT_SWITCH:
-                        SetSelectMode(SELECT_THING_TAB_SWITCH);
-                        break;
-                }
+            case THING_MODE_SELECT_THING:
+                SetSelectMode(SELECT_THING_TAB_THING);
                 break;
-            case TAB_LEVELS:
+            case THING_MODE_SELECT_SWITCH:
+                SetSelectMode(SELECT_THING_TAB_SWITCH);
                 break;
-            case TAB_COMMANDS:
-                switch (CommandMode->GetTabMode()) {
-                    case COM_MODE_NONE:
-                        break;
-                    case COM_MODE_SELECT_THING:
-                        SetSelectMode(SELECT_COM_TAB_THING);
-                        break;
-                    case COM_MODE_SELECT_WAYPOINT:
-                        SetSelectMode(SELECT_COM_TAB_WAYPOINT);
-                        break;
-                    case COM_MODE_SELECT_SWITCH:
-                        SetSelectMode(SELECT_COM_TAB_SWITCH);
-                        break;
-                }
+            }
+            break;
+        case TAB_LEVELS:
+            break;
+        case TAB_COMMANDS:
+            switch (CommandMode->GetTabMode()) {
+            case COM_MODE_NONE:
                 break;
-            case TAB_CONDITIONS:
-                switch (ConditionMode->GetTabMode()) {
-                    case COND_MODE_NONE:
-                        break;
-                    case COND_MODE_SELECT_THING:
-                        SetSelectMode(SELECT_COND_TAB_THING);
-                        break;
-                    case COND_MODE_SELECT_SWITCH:
-                        SetSelectMode(SELECT_COND_TAB_SWITCH);
-                        break;
-                }
+            case COM_MODE_SELECT_THING:
+                SetSelectMode(SELECT_COM_TAB_THING);
                 break;
+            case COM_MODE_SELECT_WAYPOINT:
+                SetSelectMode(SELECT_COM_TAB_WAYPOINT);
+                break;
+            case COM_MODE_SELECT_SWITCH:
+                SetSelectMode(SELECT_COM_TAB_SWITCH);
+                break;
+            }
+            break;
+        case TAB_CONDITIONS:
+            switch (ConditionMode->GetTabMode()) {
+            case COND_MODE_NONE:
+                break;
+            case COND_MODE_SELECT_THING:
+                SetSelectMode(SELECT_COND_TAB_THING);
+                break;
+            case COND_MODE_SELECT_SWITCH:
+                SetSelectMode(SELECT_COND_TAB_SWITCH);
+                break;
+            }
+            break;
         }
     }
 }
@@ -499,18 +499,18 @@ void GameEditor::DoBlockPopup(MFPoint *clicked_point) {
     control_id = the_control->TrackControl(&local_point);
 
     switch (control_id >> 8) {
-        case 0:
-            break;
-        case 1:
-            new_wp = alloc_ed_waypoint();
-            if (new_wp) {
-                mappos = HilitedItem.ItemRef;
+    case 0:
+        break;
+    case 1:
+        new_wp = alloc_ed_waypoint();
+        if (new_wp) {
+            mappos = HilitedItem.ItemRef;
 
-                edit_waypoints[new_wp].X = (mappos & 0xff00) + 128;
-                edit_waypoints[new_wp].Z = ((mappos & 0x00ff) << 8) + 128;
-                edit_waypoints[new_wp].Y = calc_height_at(edit_waypoints[new_wp].X, edit_waypoints[new_wp].Z);
-            }
-            break;
+            edit_waypoints[new_wp].X = (mappos & 0xff00) + 128;
+            edit_waypoints[new_wp].Z = ((mappos & 0x00ff) << 8) + 128;
+            edit_waypoints[new_wp].Y = calc_height_at(edit_waypoints[new_wp].X, edit_waypoints[new_wp].Z);
+        }
+        break;
     }
 }
 
@@ -548,26 +548,26 @@ void GameEditor::DoThingPopup(MFPoint *clicked_point) {
     thing_y = map_things[HilitedItem.ItemRef].Y;
     thing_z = map_things[HilitedItem.ItemRef].Z;
     switch (control_id >> 8) {
-        case 0: // Null.
-            break;
-        case 1: // Delete Thing.
-            delete_thing(HilitedItem.ItemRef);
-            HilitedItem.ItemType = ED_ITEM_NONE;
-            SelectedItem.ItemType = ED_ITEM_NONE;
-            break;
-        case 2: // Blank line.
-            break;
-        case 3: // Snap to Floor.
-            move_thing_on_cells(HilitedItem.ItemRef, thing_x, calc_height_at(thing_x, thing_z), thing_z);
-            break;
-        case 4: // Snap to Face.
-            // Stick in the snap to face stuff here.
-            break;
-        case 5: // Blank line.
-            break;
-        case 6: // Link to Waypoint.
-            SetSelectMode(SELECT_WAYPOINT);
-            break;
+    case 0: // Null.
+        break;
+    case 1: // Delete Thing.
+        delete_thing(HilitedItem.ItemRef);
+        HilitedItem.ItemType = ED_ITEM_NONE;
+        SelectedItem.ItemType = ED_ITEM_NONE;
+        break;
+    case 2: // Blank line.
+        break;
+    case 3: // Snap to Floor.
+        move_thing_on_cells(HilitedItem.ItemRef, thing_x, calc_height_at(thing_x, thing_z), thing_z);
+        break;
+    case 4: // Snap to Face.
+        // Stick in the snap to face stuff here.
+        break;
+    case 5: // Blank line.
+        break;
+    case 6: // Link to Waypoint.
+        SetSelectMode(SELECT_WAYPOINT);
+        break;
     }
 
     if (the_control) {
@@ -660,29 +660,29 @@ void GameEditor::DoWaypointPopup(MFPoint *clicked_point) {
     control_id = the_control->TrackControl(&local_point);
 
     switch (control_id >> 8) {
-        case 0: // nullptr.
-            break;
-        case 1: // Delete Waypoint.
-            // Search through all the things to clear any waypoint references.
-            for (c0 = 1; c0 < MAX_MAP_THINGS; c0++) {
-                if (map_things[c0].Type == MAP_THING_TYPE_ED_THING && map_things[c0].CommandRef == HilitedItem.ItemRef) {
-                    map_things[c0].CommandRef = 0;
-                }
+    case 0: // nullptr.
+        break;
+    case 1: // Delete Waypoint.
+        // Search through all the things to clear any waypoint references.
+        for (c0 = 1; c0 < MAX_MAP_THINGS; c0++) {
+            if (map_things[c0].Type == MAP_THING_TYPE_ED_THING && map_things[c0].CommandRef == HilitedItem.ItemRef) {
+                map_things[c0].CommandRef = 0;
             }
-            // Now delete the waypoint.
-            free_ed_waypoint(HilitedItem.ItemRef);
-            HilitedItem.ItemType = ED_ITEM_NONE;
-            break;
-        case 2: // Blank Line.
-            break;
-        case 3: // Link to Next.
-            SetSelectMode(SELECT_NEXT_WAYPOINT);
-            break;
-        case 4: // Link to Previous.
-            SetSelectMode(SELECT_PREV_WAYPOINT);
-            break;
-        case 5: // Blank Line.
-            break;
+        }
+        // Now delete the waypoint.
+        free_ed_waypoint(HilitedItem.ItemRef);
+        HilitedItem.ItemType = ED_ITEM_NONE;
+        break;
+    case 2: // Blank Line.
+        break;
+    case 3: // Link to Next.
+        SetSelectMode(SELECT_NEXT_WAYPOINT);
+        break;
+    case 4: // Link to Previous.
+        SetSelectMode(SELECT_PREV_WAYPOINT);
+        break;
+    case 5: // Blank Line.
+        break;
     }
 }
 
@@ -858,85 +858,85 @@ void GameEditor::GameEdEngine() {
                 while (CurrentThing) {
                     p_mthing = TO_MTHING(CurrentThing);
                     switch (p_mthing->Type) {
-                        case MAP_THING_TYPE_PRIM:
-                            break;
-                        case MAP_THING_TYPE_BUILDING:
-                            if (ThingMode->GetThingFlags() & (1 << CLASS_BUILDING)) {
-                                std::uint16_t facet_index;
-                                std::int32_t az, best_z;
+                    case MAP_THING_TYPE_PRIM:
+                        break;
+                    case MAP_THING_TYPE_BUILDING:
+                        if (ThingMode->GetThingFlags() & (1 << CLASS_BUILDING)) {
+                            std::uint16_t facet_index;
+                            std::int32_t az, best_z;
 
-                                facet_index = building_objects[p_mthing->IndexOther].FacetHead;
-                                while (facet_index) {
-                                    az = DrawFacet(
-                                        facet_index,
-                                        p_mthing->X, p_mthing->Y, p_mthing->Z);
-                                    if (best_z < az)
-                                        best_z = az;
-                                    facet_index = building_facets[facet_index].NextFacet;
-                                }
+                            facet_index = building_objects[p_mthing->IndexOther].FacetHead;
+                            while (facet_index) {
+                                az = DrawFacet(
+                                    facet_index,
+                                    p_mthing->X, p_mthing->Y, p_mthing->Z);
+                                if (best_z < az)
+                                    best_z = az;
+                                facet_index = building_facets[facet_index].NextFacet;
                             }
-                            break;
-                        case MAP_THING_TYPE_MULTI_PRIM:
-                            break;
-                        case MAP_THING_TYPE_ROT_MULTI:
-                            break;
-                        case MAP_THING_TYPE_ED_THING:
+                        }
+                        break;
+                    case MAP_THING_TYPE_MULTI_PRIM:
+                        break;
+                    case MAP_THING_TYPE_ROT_MULTI:
+                        break;
+                    case MAP_THING_TYPE_ED_THING:
+                        if (current_bucket_pool >= end_bucket_pool)
+                            goto exit;
+
+                        point.X = p_mthing->X;
+                        point.Y = p_mthing->Y;
+                        point.Z = p_mthing->Z;
+
+                        base_point = point;
+                        base_point.Y = calc_height_at(base_point.X, base_point.Z);
+                        rotate_point_gte(&base_point, &new_point);
+                        ((BucketMapThing *) current_bucket_pool)->BaseX = new_point.X;
+                        ((BucketMapThing *) current_bucket_pool)->BaseY = new_point.Y;
+
+                        rotate_point_gte(&point, &new_point);
+                        ((BucketMapThing *) current_bucket_pool)->BucketType = BT_MAP_THING;
+                        ((BucketMapThing *) current_bucket_pool)->X = new_point.X;
+                        ((BucketMapThing *) current_bucket_pool)->Y = new_point.Y;
+                        ((BucketMapThing *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_THING;
+                        ((BucketMapThing *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+
+                        add_bucket((void *) current_bucket_pool, new_point.Z - 300);
+                        current_bucket_pool += sizeof(BucketMapThing);
+
+                        // Do the size thing for switches.
+                        if (p_mthing->Class == CLASS_SWITCH) {
                             if (current_bucket_pool >= end_bucket_pool)
                                 goto exit;
 
-                            point.X = p_mthing->X;
-                            point.Y = p_mthing->Y;
-                            point.Z = p_mthing->Z;
+                            ((BucketSphereArea *) current_bucket_pool)->BucketType = BT_SPHERE_AREA;
+                            ((BucketSphereArea *) current_bucket_pool)->X = new_point.X;
+                            ((BucketSphereArea *) current_bucket_pool)->Y = new_point.Y;
+                            ((BucketSphereArea *) current_bucket_pool)->Radius = (p_mthing->Data[0] * EdEngine.Scale) >> 11;
+                            ((BucketSphereArea *) current_bucket_pool)->ShowSizeHook = true;
+                            ((BucketSphereArea *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_SIZE_HOOK;
+                            ((BucketSphereArea *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
 
-                            base_point = point;
-                            base_point.Y = calc_height_at(base_point.X, base_point.Z);
-                            rotate_point_gte(&base_point, &new_point);
-                            ((BucketMapThing *) current_bucket_pool)->BaseX = new_point.X;
-                            ((BucketMapThing *) current_bucket_pool)->BaseY = new_point.Y;
+                            add_bucket((void *) current_bucket_pool, 1);
+                            current_bucket_pool += sizeof(BucketSphereArea);
+                        }
 
-                            rotate_point_gte(&point, &new_point);
-                            ((BucketMapThing *) current_bucket_pool)->BucketType = BT_MAP_THING;
-                            ((BucketMapThing *) current_bucket_pool)->X = new_point.X;
-                            ((BucketMapThing *) current_bucket_pool)->Y = new_point.Y;
-                            ((BucketMapThing *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_THING;
-                            ((BucketMapThing *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+                        // Do the link lines.
+                        if (p_mthing->CommandRef) {
+                            if (current_bucket_pool >= end_bucket_pool)
+                                goto exit;
 
-                            add_bucket((void *) current_bucket_pool, new_point.Z - 300);
-                            current_bucket_pool += sizeof(BucketMapThing);
+                            ((BucketLine *) current_bucket_pool)->BucketType = BT_LINE;
+                            ((BucketLine *) current_bucket_pool)->X1 = new_point.X;
+                            ((BucketLine *) current_bucket_pool)->Y1 = new_point.Y;
 
-                            // Do the size thing for switches.
-                            if (p_mthing->Class == CLASS_SWITCH) {
-                                if (current_bucket_pool >= end_bucket_pool)
-                                    goto exit;
+                            ((BucketLine *) current_bucket_pool)->X2 = wp_points[p_mthing->CommandRef].X;
+                            ((BucketLine *) current_bucket_pool)->Y2 = wp_points[p_mthing->CommandRef].Y;
 
-                                ((BucketSphereArea *) current_bucket_pool)->BucketType = BT_SPHERE_AREA;
-                                ((BucketSphereArea *) current_bucket_pool)->X = new_point.X;
-                                ((BucketSphereArea *) current_bucket_pool)->Y = new_point.Y;
-                                ((BucketSphereArea *) current_bucket_pool)->Radius = (p_mthing->Data[0] * EdEngine.Scale) >> 11;
-                                ((BucketSphereArea *) current_bucket_pool)->ShowSizeHook = true;
-                                ((BucketSphereArea *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_SIZE_HOOK;
-                                ((BucketSphereArea *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
-
-                                add_bucket((void *) current_bucket_pool, 1);
-                                current_bucket_pool += sizeof(BucketSphereArea);
-                            }
-
-                            // Do the link lines.
-                            if (p_mthing->CommandRef) {
-                                if (current_bucket_pool >= end_bucket_pool)
-                                    goto exit;
-
-                                ((BucketLine *) current_bucket_pool)->BucketType = BT_LINE;
-                                ((BucketLine *) current_bucket_pool)->X1 = new_point.X;
-                                ((BucketLine *) current_bucket_pool)->Y1 = new_point.Y;
-
-                                ((BucketLine *) current_bucket_pool)->X2 = wp_points[p_mthing->CommandRef].X;
-                                ((BucketLine *) current_bucket_pool)->Y2 = wp_points[p_mthing->CommandRef].Y;
-
-                                add_bucket((void *) current_bucket_pool, 1);
-                                current_bucket_pool += sizeof(BucketLine);
-                            }
-                            break;
+                            add_bucket((void *) current_bucket_pool, 1);
+                            current_bucket_pool += sizeof(BucketLine);
+                        }
+                        break;
                     }
                     CurrentThing = map_things[CurrentThing].MapChild;
                 }
@@ -979,18 +979,18 @@ void GameEditor::GameEdEngine() {
                         page = ((struct MiniTextureBits *) (&p_map->Texture))->Page;
                         tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&p_map->Texture))->Size]-1;
                         switch (((struct MiniTextureBits *) (&p_map->Texture))->Rot) {
-                            case 0:
-                                setUV4((struct BucketQuad *) current_bucket_pool, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
-                                break;
-                            case 1:
-                                setUV4((struct BucketQuad *) current_bucket_pool, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
-                                break;
-                            case 2:
-                                setUV4((struct BucketQuad *) current_bucket_pool, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
-                                break;
-                            case 3:
-                                setUV4((struct BucketQuad *) current_bucket_pool, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
-                                break;
+                        case 0:
+                            setUV4((struct BucketQuad *) current_bucket_pool, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
+                            break;
+                        case 1:
+                            setUV4((struct BucketQuad *) current_bucket_pool, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
+                            break;
+                        case 2:
+                            setUV4((struct BucketQuad *) current_bucket_pool, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
+                            break;
+                        case 3:
+                            setUV4((struct BucketQuad *) current_bucket_pool, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
+                            break;
                         }
 
                         setZ4((struct BucketQuad *) current_bucket_pool, az, 0, 0, 0);
@@ -1253,87 +1253,87 @@ void GameEditor::ScanEngine() {
             {
                 while (bucket) {
                     switch (((BucketGeneric *) bucket)->BucketType) {
-                        case BT_QUAD:
-                            the_quad = (BucketQuad *) bucket;
-                            if (the_quad->DrawFlags & POLY_FLAG_DOUBLESIDED) {
-                                if (
-                                    (Z_NORMAL(the_quad->P[0], the_quad->P[1])) > 0 &&
-                                    (Z_NORMAL(the_quad->P[1], the_quad->P[3])) > 0 &&
-                                    (Z_NORMAL(the_quad->P[3], the_quad->P[2])) > 0 &&
-                                    (Z_NORMAL(the_quad->P[2], the_quad->P[0])) > 0) {
-                                    HilitedItem = the_quad->EditRef;
-                                }
-                            }
+                    case BT_QUAD:
+                        the_quad = (BucketQuad *) bucket;
+                        if (the_quad->DrawFlags & POLY_FLAG_DOUBLESIDED) {
                             if (
-                                (Z_NORMAL(the_quad->P[0], the_quad->P[1])) < 0 &&
-                                (Z_NORMAL(the_quad->P[1], the_quad->P[3])) < 0 &&
-                                (Z_NORMAL(the_quad->P[3], the_quad->P[2])) < 0 &&
-                                (Z_NORMAL(the_quad->P[2], the_quad->P[0])) < 0) {
+                                (Z_NORMAL(the_quad->P[0], the_quad->P[1])) > 0 &&
+                                (Z_NORMAL(the_quad->P[1], the_quad->P[3])) > 0 &&
+                                (Z_NORMAL(the_quad->P[3], the_quad->P[2])) > 0 &&
+                                (Z_NORMAL(the_quad->P[2], the_quad->P[0])) > 0) {
                                 HilitedItem = the_quad->EditRef;
                             }
-                            break;
-                        case BT_TRI:
-                            the_tri = (BucketTri *) bucket;
-                            if (the_tri->DrawFlags & POLY_FLAG_DOUBLESIDED) {
-                                if (
-                                    (Z_NORMAL(the_tri->P[0], the_tri->P[1])) > 0 &&
-                                    (Z_NORMAL(the_tri->P[1], the_tri->P[2])) > 0 &&
-                                    (Z_NORMAL(the_tri->P[2], the_tri->P[0])) > 0) {
-                                    HilitedItem = the_tri->EditRef;
-                                }
-                            }
+                        }
+                        if (
+                            (Z_NORMAL(the_quad->P[0], the_quad->P[1])) < 0 &&
+                            (Z_NORMAL(the_quad->P[1], the_quad->P[3])) < 0 &&
+                            (Z_NORMAL(the_quad->P[3], the_quad->P[2])) < 0 &&
+                            (Z_NORMAL(the_quad->P[2], the_quad->P[0])) < 0) {
+                            HilitedItem = the_quad->EditRef;
+                        }
+                        break;
+                    case BT_TRI:
+                        the_tri = (BucketTri *) bucket;
+                        if (the_tri->DrawFlags & POLY_FLAG_DOUBLESIDED) {
                             if (
-                                (Z_NORMAL(the_tri->P[0], the_tri->P[1])) < 0 &&
-                                (Z_NORMAL(the_tri->P[1], the_tri->P[2])) < 0 &&
-                                (Z_NORMAL(the_tri->P[2], the_tri->P[0])) < 0) {
+                                (Z_NORMAL(the_tri->P[0], the_tri->P[1])) > 0 &&
+                                (Z_NORMAL(the_tri->P[1], the_tri->P[2])) > 0 &&
+                                (Z_NORMAL(the_tri->P[2], the_tri->P[0])) > 0) {
                                 HilitedItem = the_tri->EditRef;
                             }
-                            break;
-                        case BT_VECT:
-                            break;
-                        case BT_RECT:
-                            break;
-                        case BT_MAP_THING:
-                            the_map_thing = (BucketMapThing *) bucket;
-                            if (
-                                mouse_point.X >= the_map_thing->X - (THING_BOX_SIZE >> 1) &&
-                                mouse_point.X < the_map_thing->X + (THING_BOX_SIZE >> 1) &&
-                                mouse_point.Y >= the_map_thing->Y - (THING_BOX_SIZE >> 1) &&
-                                mouse_point.Y < the_map_thing->Y + (THING_BOX_SIZE >> 1)) {
-                                t_mthing = TO_MTHING(the_map_thing->EditRef.ItemRef);
-                                if (!SelectMode || SelectMode == SELECT_COND_TAB_THING || SelectMode == SELECT_THING_TAB_THING || SelectMode == SELECT_COM_TAB_THING)
-                                    HilitedItem = the_map_thing->EditRef;
-                                else if ((SelectMode == SELECT_COND_TAB_SWITCH || SelectMode == SELECT_COM_TAB_SWITCH || SelectMode == SELECT_THING_TAB_SWITCH) && t_mthing->Class == CLASS_SWITCH)
-                                    HilitedItem = the_map_thing->EditRef;
-                            }
-                            break;
-                        case BT_WAYPOINT:
-                            the_waypoint = (BucketWaypoint *) bucket;
-                            if (
-                                mouse_point.X >= the_waypoint->X - (WP_BOX_SIZE >> 1) &&
-                                mouse_point.X < the_waypoint->X + (WP_BOX_SIZE >> 1) &&
-                                mouse_point.Y >= the_waypoint->Y - (WP_BOX_SIZE >> 1) &&
-                                mouse_point.Y < the_waypoint->Y + (WP_BOX_SIZE >> 1)) {
-                                HilitedItem = the_waypoint->EditRef;
-                            }
-                            break;
-                        case BT_LINE:
-                            break;
-                        case BT_SPHERE_AREA:
-                            the_sphere = (BucketSphereArea *) bucket;
-                            offset_x = ((SIN(256) * the_sphere->Radius) >> 16) + the_sphere->X;
-                            offset_y = (-(COS(256) * the_sphere->Radius) >> 16) + the_sphere->Y;
-                            if (
-                                the_sphere->ShowSizeHook &&
-                                mouse_point.X >= offset_x - (SH_BOX_SIZE >> 1) &&
-                                mouse_point.X < offset_x + (SH_BOX_SIZE >> 1) &&
-                                mouse_point.Y >= offset_y - (SH_BOX_SIZE >> 1) &&
-                                mouse_point.Y < offset_y + (SH_BOX_SIZE >> 1)) {
-                                HilitedItem = the_sphere->EditRef;
-                            }
-                            break;
-                        case BT_RECT_AREA:
-                            break;
+                        }
+                        if (
+                            (Z_NORMAL(the_tri->P[0], the_tri->P[1])) < 0 &&
+                            (Z_NORMAL(the_tri->P[1], the_tri->P[2])) < 0 &&
+                            (Z_NORMAL(the_tri->P[2], the_tri->P[0])) < 0) {
+                            HilitedItem = the_tri->EditRef;
+                        }
+                        break;
+                    case BT_VECT:
+                        break;
+                    case BT_RECT:
+                        break;
+                    case BT_MAP_THING:
+                        the_map_thing = (BucketMapThing *) bucket;
+                        if (
+                            mouse_point.X >= the_map_thing->X - (THING_BOX_SIZE >> 1) &&
+                            mouse_point.X < the_map_thing->X + (THING_BOX_SIZE >> 1) &&
+                            mouse_point.Y >= the_map_thing->Y - (THING_BOX_SIZE >> 1) &&
+                            mouse_point.Y < the_map_thing->Y + (THING_BOX_SIZE >> 1)) {
+                            t_mthing = TO_MTHING(the_map_thing->EditRef.ItemRef);
+                            if (!SelectMode || SelectMode == SELECT_COND_TAB_THING || SelectMode == SELECT_THING_TAB_THING || SelectMode == SELECT_COM_TAB_THING)
+                                HilitedItem = the_map_thing->EditRef;
+                            else if ((SelectMode == SELECT_COND_TAB_SWITCH || SelectMode == SELECT_COM_TAB_SWITCH || SelectMode == SELECT_THING_TAB_SWITCH) && t_mthing->Class == CLASS_SWITCH)
+                                HilitedItem = the_map_thing->EditRef;
+                        }
+                        break;
+                    case BT_WAYPOINT:
+                        the_waypoint = (BucketWaypoint *) bucket;
+                        if (
+                            mouse_point.X >= the_waypoint->X - (WP_BOX_SIZE >> 1) &&
+                            mouse_point.X < the_waypoint->X + (WP_BOX_SIZE >> 1) &&
+                            mouse_point.Y >= the_waypoint->Y - (WP_BOX_SIZE >> 1) &&
+                            mouse_point.Y < the_waypoint->Y + (WP_BOX_SIZE >> 1)) {
+                            HilitedItem = the_waypoint->EditRef;
+                        }
+                        break;
+                    case BT_LINE:
+                        break;
+                    case BT_SPHERE_AREA:
+                        the_sphere = (BucketSphereArea *) bucket;
+                        offset_x = ((SIN(256) * the_sphere->Radius) >> 16) + the_sphere->X;
+                        offset_y = (-(COS(256) * the_sphere->Radius) >> 16) + the_sphere->Y;
+                        if (
+                            the_sphere->ShowSizeHook &&
+                            mouse_point.X >= offset_x - (SH_BOX_SIZE >> 1) &&
+                            mouse_point.X < offset_x + (SH_BOX_SIZE >> 1) &&
+                            mouse_point.Y >= offset_y - (SH_BOX_SIZE >> 1) &&
+                            mouse_point.Y < offset_y + (SH_BOX_SIZE >> 1)) {
+                            HilitedItem = the_sphere->EditRef;
+                        }
+                        break;
+                    case BT_RECT_AREA:
+                        break;
                     }
                     bucket = ((BucketGeneric *) bucket)->BucketPtr;
                 }
@@ -1370,15 +1370,15 @@ void GameEditor::RenderEngine() {
     MFPoint local_point;
 
     switch (WorkScreenDepth) {
-        case 1:
-            render_span = render_span8;
-            break;
-        case 2:
-            render_span = render_span16;
-            break;
-        case 4:
-            render_span = render_span32;
-            break;
+    case 1:
+        render_span = render_span8;
+        break;
+    case 2:
+        render_span = render_span16;
+        break;
+    case 4:
+        render_span = render_span32;
+        break;
     }
 
     p = &bucket_heads[engine.BucketSize - 1];
@@ -1388,149 +1388,149 @@ void GameEditor::RenderEngine() {
             p->BucketPtr = 0;
             while (bucket) {
                 switch (((BucketGeneric *) bucket)->BucketType) {
-                    case BT_QUAD:
-                        the_quad = (BucketQuad *) bucket;
-                        if (
-                            the_quad->EditRef.ItemType == SelectedItem.ItemType &&
-                            the_quad->EditRef.ItemRef == SelectedItem.ItemRef &&
-                            FlashState) {
-                            poly_info.DrawFlags = the_quad->DrawFlags & (POLY_FLAG_DOUBLESIDED);
-                            poly_info.Col = ACTIVE_COL;
-                        } else if (
-                            the_quad->EditRef.ItemType == HilitedItem.ItemType &&
-                            the_quad->EditRef.ItemRef == HilitedItem.ItemRef &&
-                            SelectMode == 0) {
-                            poly_info.DrawFlags = the_quad->DrawFlags & (POLY_FLAG_DOUBLESIDED);
-                            poly_info.Col = HILITE_COL;
-                        } else {
-                            if (the_quad->DrawFlags & POLY_FLAG_TEXTURED) {
-                                poly_info.PTexture = tmaps[the_quad->TextPage]; // OOR
-                                poly_info.Page = the_quad->TextPage;
-                            }
-                            poly_info.DrawFlags = the_quad->DrawFlags;
-                            poly_info.Col = the_quad->Col;
+                case BT_QUAD:
+                    the_quad = (BucketQuad *) bucket;
+                    if (
+                        the_quad->EditRef.ItemType == SelectedItem.ItemType &&
+                        the_quad->EditRef.ItemRef == SelectedItem.ItemRef &&
+                        FlashState) {
+                        poly_info.DrawFlags = the_quad->DrawFlags & (POLY_FLAG_DOUBLESIDED);
+                        poly_info.Col = ACTIVE_COL;
+                    } else if (
+                        the_quad->EditRef.ItemType == HilitedItem.ItemType &&
+                        the_quad->EditRef.ItemRef == HilitedItem.ItemRef &&
+                        SelectMode == 0) {
+                        poly_info.DrawFlags = the_quad->DrawFlags & (POLY_FLAG_DOUBLESIDED);
+                        poly_info.Col = HILITE_COL;
+                    } else {
+                        if (the_quad->DrawFlags & POLY_FLAG_TEXTURED) {
+                            poly_info.PTexture = tmaps[the_quad->TextPage]; // OOR
+                            poly_info.Page = the_quad->TextPage;
                         }
+                        poly_info.DrawFlags = the_quad->DrawFlags;
+                        poly_info.Col = the_quad->Col;
+                    }
 
-                        if (the_quad->DrawFlags & POLY_FLAG_DOUBLESIDED)
-                            my_quad_noz(&the_quad->P[2], &the_quad->P[3], &the_quad->P[1], &the_quad->P[0]);
-                        my_quad_noz(&the_quad->P[0], &the_quad->P[1], &the_quad->P[3], &the_quad->P[2]);
-                        break;
-                    case BT_TRI:
-                        the_tri = (BucketTri *) bucket;
-                        if (
-                            the_tri->EditRef.ItemType == SelectedItem.ItemType &&
-                            the_tri->EditRef.ItemRef == SelectedItem.ItemRef &&
-                            FlashState) {
-                            poly_info.DrawFlags = the_tri->DrawFlags & (POLY_FLAG_DOUBLESIDED);
-                            poly_info.Col = ACTIVE_COL;
-                        } else if (
-                            the_tri->EditRef.ItemType == HilitedItem.ItemType &&
-                            the_tri->EditRef.ItemRef == HilitedItem.ItemRef &&
-                            SelectMode == 0) {
-                            poly_info.DrawFlags = the_tri->DrawFlags & (POLY_FLAG_DOUBLESIDED);
-                            poly_info.Col = HILITE_COL;
-                        } else {
-                            if (the_tri->DrawFlags & POLY_FLAG_TEXTURED) {
-                                poly_info.PTexture = tmaps[the_tri->TextPage]; // OOR
-                                poly_info.Page = the_tri->TextPage;
-                            }
-                            poly_info.DrawFlags = the_tri->DrawFlags;
-                            poly_info.Col = the_tri->Col;
+                    if (the_quad->DrawFlags & POLY_FLAG_DOUBLESIDED)
+                        my_quad_noz(&the_quad->P[2], &the_quad->P[3], &the_quad->P[1], &the_quad->P[0]);
+                    my_quad_noz(&the_quad->P[0], &the_quad->P[1], &the_quad->P[3], &the_quad->P[2]);
+                    break;
+                case BT_TRI:
+                    the_tri = (BucketTri *) bucket;
+                    if (
+                        the_tri->EditRef.ItemType == SelectedItem.ItemType &&
+                        the_tri->EditRef.ItemRef == SelectedItem.ItemRef &&
+                        FlashState) {
+                        poly_info.DrawFlags = the_tri->DrawFlags & (POLY_FLAG_DOUBLESIDED);
+                        poly_info.Col = ACTIVE_COL;
+                    } else if (
+                        the_tri->EditRef.ItemType == HilitedItem.ItemType &&
+                        the_tri->EditRef.ItemRef == HilitedItem.ItemRef &&
+                        SelectMode == 0) {
+                        poly_info.DrawFlags = the_tri->DrawFlags & (POLY_FLAG_DOUBLESIDED);
+                        poly_info.Col = HILITE_COL;
+                    } else {
+                        if (the_tri->DrawFlags & POLY_FLAG_TEXTURED) {
+                            poly_info.PTexture = tmaps[the_tri->TextPage]; // OOR
+                            poly_info.Page = the_tri->TextPage;
                         }
-                        if (the_tri->DrawFlags & POLY_FLAG_DOUBLESIDED)
-                            my_trig_noz(&the_tri->P[2], &the_tri->P[1], &the_tri->P[0]);
-                        my_trig_noz(&the_tri->P[0], &the_tri->P[1], &the_tri->P[2]);
-                        break;
-                    case BT_VECT:
-                        break;
-                    case BT_RECT:
-                        break;
-                    case BT_MAP_THING:
-                        the_map_thing = (BucketMapThing *) bucket;
-                        DrawVLineC(the_map_thing->BaseX, the_map_thing->Y, the_map_thing->BaseY, 0xffff);
-                        draw_colour = RED_COL;
+                        poly_info.DrawFlags = the_tri->DrawFlags;
+                        poly_info.Col = the_tri->Col;
+                    }
+                    if (the_tri->DrawFlags & POLY_FLAG_DOUBLESIDED)
+                        my_trig_noz(&the_tri->P[2], &the_tri->P[1], &the_tri->P[0]);
+                    my_trig_noz(&the_tri->P[0], &the_tri->P[1], &the_tri->P[2]);
+                    break;
+                case BT_VECT:
+                    break;
+                case BT_RECT:
+                    break;
+                case BT_MAP_THING:
+                    the_map_thing = (BucketMapThing *) bucket;
+                    DrawVLineC(the_map_thing->BaseX, the_map_thing->Y, the_map_thing->BaseY, 0xffff);
+                    draw_colour = RED_COL;
 
-                        if (
-                            the_map_thing->EditRef.ItemType == HilitedItem.ItemType &&
-                            the_map_thing->EditRef.ItemRef == HilitedItem.ItemRef &&
-                            (SelectMode == 0 || (SelectMode >= SELECT_COND_TAB_THING && SelectMode <= SELECT_THING_TAB_SWITCH) || (SelectMode >= SELECT_COM_TAB_THING && SelectMode <= SELECT_COM_TAB_SWITCH))) {
-                            draw_colour = HILITE_COL;
-                            hilited_thing = the_map_thing;
-                        } else if (
-                            the_map_thing->EditRef.ItemType == SelectedItem.ItemType &&
-                            the_map_thing->EditRef.ItemRef == SelectedItem.ItemRef) {
-                            if (FlashState)
-                                draw_colour = ACTIVE_COL;
-                            selected_thing = the_map_thing;
-                        }
+                    if (
+                        the_map_thing->EditRef.ItemType == HilitedItem.ItemType &&
+                        the_map_thing->EditRef.ItemRef == HilitedItem.ItemRef &&
+                        (SelectMode == 0 || (SelectMode >= SELECT_COND_TAB_THING && SelectMode <= SELECT_THING_TAB_SWITCH) || (SelectMode >= SELECT_COM_TAB_THING && SelectMode <= SELECT_COM_TAB_SWITCH))) {
+                        draw_colour = HILITE_COL;
+                        hilited_thing = the_map_thing;
+                    } else if (
+                        the_map_thing->EditRef.ItemType == SelectedItem.ItemType &&
+                        the_map_thing->EditRef.ItemRef == SelectedItem.ItemRef) {
+                        if (FlashState)
+                            draw_colour = ACTIVE_COL;
+                        selected_thing = the_map_thing;
+                    }
 
-                        DrawBoxC(
-                            the_map_thing->X - (THING_BOX_SIZE >> 1),
-                            the_map_thing->Y - (THING_BOX_SIZE >> 1),
-                            THING_BOX_SIZE,
-                            THING_BOX_SIZE,
-                            draw_colour);
+                    DrawBoxC(
+                        the_map_thing->X - (THING_BOX_SIZE >> 1),
+                        the_map_thing->Y - (THING_BOX_SIZE >> 1),
+                        THING_BOX_SIZE,
+                        THING_BOX_SIZE,
+                        draw_colour);
 
-                        MapText(
-                            the_map_thing->X + (THING_BOX_SIZE >> 1) + 2,
-                            the_map_thing->Y - (THING_BOX_SIZE >> 1),
-                            genus_text[map_things[the_map_thing->EditRef.ItemRef].Class][map_things[the_map_thing->EditRef.ItemRef].Genus],
-                            0xffff);
-                        break;
-                    case BT_WAYPOINT:
-                        the_waypoint = (BucketWaypoint *) bucket;
-                        DrawVLineC(the_waypoint->BaseX, the_waypoint->Y, the_waypoint->BaseY, 0xffff);
-                        draw_colour = GREEN_COL;
+                    MapText(
+                        the_map_thing->X + (THING_BOX_SIZE >> 1) + 2,
+                        the_map_thing->Y - (THING_BOX_SIZE >> 1),
+                        genus_text[map_things[the_map_thing->EditRef.ItemRef].Class][map_things[the_map_thing->EditRef.ItemRef].Genus],
+                        0xffff);
+                    break;
+                case BT_WAYPOINT:
+                    the_waypoint = (BucketWaypoint *) bucket;
+                    DrawVLineC(the_waypoint->BaseX, the_waypoint->Y, the_waypoint->BaseY, 0xffff);
+                    draw_colour = GREEN_COL;
 
-                        if (
-                            the_waypoint->EditRef.ItemType == HilitedItem.ItemType &&
-                            the_waypoint->EditRef.ItemRef == HilitedItem.ItemRef &&
-                            (SelectMode == 0 || SelectMode <= SELECT_PREV_WAYPOINT || SelectMode == SELECT_COM_TAB_WAYPOINT)) {
-                            draw_colour = HILITE_COL;
-                            hilited_waypoint = the_waypoint;
-                        } else if (
-                            the_waypoint->EditRef.ItemType == SelectedItem.ItemType &&
-                            the_waypoint->EditRef.ItemRef == SelectedItem.ItemRef) {
-                            if (FlashState)
-                                draw_colour = ACTIVE_COL;
-                            selected_wp = the_waypoint;
-                        }
-                        DrawBoxC(
-                            the_waypoint->X - (WP_BOX_SIZE >> 1),
-                            the_waypoint->Y - (WP_BOX_SIZE >> 1),
-                            WP_BOX_SIZE,
-                            WP_BOX_SIZE,
-                            draw_colour);
-                        break;
-                    case BT_LINE:
-                        the_line = (BucketLine *) bucket;
-                        DrawLineC(the_line->X1, the_line->Y1, the_line->X2, the_line->Y2, 0xffff);
-                        break;
-                    case BT_SPHERE_AREA:
-                        the_sphere = (BucketSphereArea *) bucket;
-                        draw_colour = BLUE_COL;
+                    if (
+                        the_waypoint->EditRef.ItemType == HilitedItem.ItemType &&
+                        the_waypoint->EditRef.ItemRef == HilitedItem.ItemRef &&
+                        (SelectMode == 0 || SelectMode <= SELECT_PREV_WAYPOINT || SelectMode == SELECT_COM_TAB_WAYPOINT)) {
+                        draw_colour = HILITE_COL;
+                        hilited_waypoint = the_waypoint;
+                    } else if (
+                        the_waypoint->EditRef.ItemType == SelectedItem.ItemType &&
+                        the_waypoint->EditRef.ItemRef == SelectedItem.ItemRef) {
+                        if (FlashState)
+                            draw_colour = ACTIVE_COL;
+                        selected_wp = the_waypoint;
+                    }
+                    DrawBoxC(
+                        the_waypoint->X - (WP_BOX_SIZE >> 1),
+                        the_waypoint->Y - (WP_BOX_SIZE >> 1),
+                        WP_BOX_SIZE,
+                        WP_BOX_SIZE,
+                        draw_colour);
+                    break;
+                case BT_LINE:
+                    the_line = (BucketLine *) bucket;
+                    DrawLineC(the_line->X1, the_line->Y1, the_line->X2, the_line->Y2, 0xffff);
+                    break;
+                case BT_SPHERE_AREA:
+                    the_sphere = (BucketSphereArea *) bucket;
+                    draw_colour = BLUE_COL;
 
-                        offset_x = ((SIN(256) * the_sphere->Radius) >> 16) + the_sphere->X;
-                        offset_y = (-(COS(256) * the_sphere->Radius) >> 16) + the_sphere->Y;
+                    offset_x = ((SIN(256) * the_sphere->Radius) >> 16) + the_sphere->X;
+                    offset_y = (-(COS(256) * the_sphere->Radius) >> 16) + the_sphere->Y;
 
-                        if (
-                            the_sphere->EditRef.ItemType == HilitedItem.ItemType &&
-                            the_sphere->EditRef.ItemRef == HilitedItem.ItemRef &&
-                            SelectMode == 0) {
-                            draw_colour = HILITE_COL;
-                            hilited_sphere = the_sphere;
-                        }
-                        DrawCircleC(the_sphere->X, the_sphere->Y, the_sphere->Radius, BLUE_COL);
-                        DrawBoxC(
-                            offset_x - (SH_BOX_SIZE >> 1),
-                            offset_y - (SH_BOX_SIZE >> 1),
-                            SH_BOX_SIZE,
-                            SH_BOX_SIZE,
-                            draw_colour);
-                        break;
-                    case BT_RECT_AREA:
+                    if (
+                        the_sphere->EditRef.ItemType == HilitedItem.ItemType &&
+                        the_sphere->EditRef.ItemRef == HilitedItem.ItemRef &&
+                        SelectMode == 0) {
+                        draw_colour = HILITE_COL;
+                        hilited_sphere = the_sphere;
+                    }
+                    DrawCircleC(the_sphere->X, the_sphere->Y, the_sphere->Radius, BLUE_COL);
+                    DrawBoxC(
+                        offset_x - (SH_BOX_SIZE >> 1),
+                        offset_y - (SH_BOX_SIZE >> 1),
+                        SH_BOX_SIZE,
+                        SH_BOX_SIZE,
+                        draw_colour);
+                    break;
+                case BT_RECT_AREA:
 
-                        break;
+                    break;
                 }
                 bucket = ((BucketGeneric *) bucket)->BucketPtr;
             }
@@ -1540,36 +1540,36 @@ void GameEditor::RenderEngine() {
 
     // Draw the info for a hilited item.
     switch (HilitedItem.ItemType) {
-        case ED_ITEM_NONE:
-            break;
-        case ED_ITEM_THING:
-            if (hilited_thing) {
-                MapThingInfo(
-                    hilited_thing->X + (THING_BOX_SIZE >> 1) + 2,
-                    hilited_thing->Y - (THING_BOX_SIZE >> 1) + 12,
-                    hilited_thing);
-            }
-            break;
-        case ED_ITEM_MAP_BLOCK:
-            break;
-        case ED_ITEM_BUILDING:
-            break;
-        case ED_ITEM_WAYPOINT:
-            if (hilited_waypoint) {
-                MapWaypointInfo(
-                    hilited_waypoint->X + (WP_BOX_SIZE >> 1) + 2,
-                    hilited_waypoint->Y - (WP_BOX_SIZE >> 1) + 12,
-                    hilited_waypoint);
-            }
-            break;
-        case ED_ITEM_SIZE_HOOK:
-            if (hilited_sphere) {
-                MapSphereInfo(
-                    hilited_sphere->X + ((SIN(256) * hilited_sphere->Radius) >> 16) + (SH_BOX_SIZE >> 1) + 2,
-                    hilited_sphere->Y - ((COS(256) * hilited_sphere->Radius) >> 16) + (SH_BOX_SIZE >> 1),
-                    hilited_sphere);
-            }
-            break;
+    case ED_ITEM_NONE:
+        break;
+    case ED_ITEM_THING:
+        if (hilited_thing) {
+            MapThingInfo(
+                hilited_thing->X + (THING_BOX_SIZE >> 1) + 2,
+                hilited_thing->Y - (THING_BOX_SIZE >> 1) + 12,
+                hilited_thing);
+        }
+        break;
+    case ED_ITEM_MAP_BLOCK:
+        break;
+    case ED_ITEM_BUILDING:
+        break;
+    case ED_ITEM_WAYPOINT:
+        if (hilited_waypoint) {
+            MapWaypointInfo(
+                hilited_waypoint->X + (WP_BOX_SIZE >> 1) + 2,
+                hilited_waypoint->Y - (WP_BOX_SIZE >> 1) + 12,
+                hilited_waypoint);
+        }
+        break;
+    case ED_ITEM_SIZE_HOOK:
+        if (hilited_sphere) {
+            MapSphereInfo(
+                hilited_sphere->X + ((SIN(256) * hilited_sphere->Radius) >> 16) + (SH_BOX_SIZE >> 1) + 2,
+                hilited_sphere->Y - ((COS(256) * hilited_sphere->Radius) >> 16) + (SH_BOX_SIZE >> 1),
+                hilited_sphere);
+        }
+        break;
     }
 
     // Connect a line from the selected thing to the mouse pointer.
@@ -1579,15 +1579,15 @@ void GameEditor::RenderEngine() {
         GlobalToLocal(&local_point);
         if (selected_wp != nullptr)
             switch (SelectMode) {
-                case SELECT_NONE:
-                    break;
-                case SELECT_WAYPOINT:
-                    DrawLineC(selected_thing->X, selected_thing->Y, local_point.X, local_point.Y, 0xffff);
-                    break;
-                case SELECT_NEXT_WAYPOINT:
-                case SELECT_PREV_WAYPOINT:
-                    DrawLineC(selected_wp->X, selected_wp->Y, local_point.X, local_point.Y, 0xffff);
-                    break;
+            case SELECT_NONE:
+                break;
+            case SELECT_WAYPOINT:
+                DrawLineC(selected_thing->X, selected_thing->Y, local_point.X, local_point.Y, 0xffff);
+                break;
+            case SELECT_NEXT_WAYPOINT:
+            case SELECT_PREV_WAYPOINT:
+                DrawLineC(selected_wp->X, selected_wp->Y, local_point.X, local_point.Y, 0xffff);
+                break;
             }
     }
 }
@@ -1674,19 +1674,19 @@ void GameEditor::MapSphereInfo(std::int32_t x, std::int32_t y, BucketSphereArea 
 
 void GameEditor::ClearTabMode() {
     switch (SelectMode) {
-        case SELECT_COND_TAB_THING:
-        case SELECT_COND_TAB_SWITCH:
-            ConditionMode->SetTabMode(COND_MODE_NONE);
-            break;
-        case SELECT_THING_TAB_THING:
-        case SELECT_THING_TAB_SWITCH:
-            ThingMode->SetTabMode(THING_MODE_NONE);
-            break;
-        case SELECT_COM_TAB_WAYPOINT:
-        case SELECT_COM_TAB_THING:
-        case SELECT_COM_TAB_SWITCH:
-            CommandMode->SetTabMode(COM_MODE_NONE);
-            break;
+    case SELECT_COND_TAB_THING:
+    case SELECT_COND_TAB_SWITCH:
+        ConditionMode->SetTabMode(COND_MODE_NONE);
+        break;
+    case SELECT_THING_TAB_THING:
+    case SELECT_THING_TAB_SWITCH:
+        ThingMode->SetTabMode(THING_MODE_NONE);
+        break;
+    case SELECT_COM_TAB_WAYPOINT:
+    case SELECT_COM_TAB_THING:
+    case SELECT_COM_TAB_SWITCH:
+        CommandMode->SetTabMode(COM_MODE_NONE);
+        break;
     }
 }
 

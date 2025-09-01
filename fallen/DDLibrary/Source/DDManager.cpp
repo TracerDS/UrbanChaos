@@ -345,14 +345,14 @@ std::uint32_t FlagsToMask(std::int32_t flags) {
 
 std::int32_t BitDepthToFlags(std::int32_t bpp) {
     switch (bpp) {
-        case 1: return DDBD_1;
-        case 2: return DDBD_2;
-        case 4: return DDBD_4;
-        case 8: return DDBD_8;
-        case 16: return DDBD_16;
-        case 24: return DDBD_24;
-        case 32: return DDBD_32;
-        default: return 0; // ERROR.
+    case 1: return DDBD_1;
+    case 2: return DDBD_2;
+    case 4: return DDBD_4;
+    case 8: return DDBD_8;
+    case 16: return DDBD_16;
+    case 24: return DDBD_24;
+    case 32: return DDBD_32;
+    default: return 0; // ERROR.
     }
 }
 

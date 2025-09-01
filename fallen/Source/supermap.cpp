@@ -532,29 +532,29 @@ void set_stair_bits(std::int32_t room) {
             }
 
             switch (GET_STAIR_DIR(room_ids[room].StairFlags[c0])) {
-                case 0:
-                    fill_map[sx + (sz - 1) * 128] |= bits;
-                    fill_map[sx + (sz - 2) * 128] |= bits;
+            case 0:
+                fill_map[sx + (sz - 1) * 128] |= bits;
+                fill_map[sx + (sz - 2) * 128] |= bits;
 
-                    // n
-                    break;
-                case 1:
-                    fill_map[sx + (sz) * 128] |= bits;
-                    fill_map[sx + 1 + (sz) * 128] |= bits;
+                // n
+                break;
+            case 1:
+                fill_map[sx + (sz) * 128] |= bits;
+                fill_map[sx + 1 + (sz) * 128] |= bits;
 
-                    // e
-                    break;
-                case 2:
-                    fill_map[sx - 1 + (sz) * 128] |= bits;
-                    fill_map[sx - 1 + (sz + 1) * 128] |= bits;
+                // e
+                break;
+            case 2:
+                fill_map[sx - 1 + (sz) * 128] |= bits;
+                fill_map[sx - 1 + (sz + 1) * 128] |= bits;
 
-                    // s
-                    break;
-                case 3:
-                    fill_map[sx - 1 + (sz - 1) * 128] |= bits;
-                    fill_map[sx - 2 + (sz - 1) * 128] |= bits;
-                    // w
-                    break;
+                // s
+                break;
+            case 3:
+                fill_map[sx - 1 + (sz - 1) * 128] |= bits;
+                fill_map[sx - 2 + (sz - 1) * 128] |= bits;
+                // w
+                break;
             }
         }
     }
@@ -757,27 +757,27 @@ void clear_storey_data(std::uint16_t building) {
         storey_list[storey].StoreyFlags &= ~FLAG_STOREY_FACET_LINKED;
 
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-            case STOREY_TYPE_FENCE:
-            case STOREY_TYPE_FENCE_FLAT:
-            case STOREY_TYPE_FENCE_BRICK:
-            case STOREY_TYPE_OUTSIDE_DOOR:
-                wall = storey_list[storey].WallHead;
-                while (wall) {
-                    wall_list[wall].WallFlags &= ~FLAG_WALL_FACET_LINKED;
-                    wall = wall_list[wall].Next;
-                }
+        case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_FENCE:
+        case STOREY_TYPE_FENCE_FLAT:
+        case STOREY_TYPE_FENCE_BRICK:
+        case STOREY_TYPE_OUTSIDE_DOOR:
+            wall = storey_list[storey].WallHead;
+            while (wall) {
+                wall_list[wall].WallFlags &= ~FLAG_WALL_FACET_LINKED;
+                wall = wall_list[wall].Next;
+            }
 
-                break;
-            case STOREY_TYPE_LADDER:
-                /*
+            break;
+        case STOREY_TYPE_LADDER:
+            /*
 
-                wall=find_wall_for_fe(storey_list[storey].DX,storey_list[storey].DZ,building_list[building].StoreyHead);
-                if(wall>=0)
-                        wall_for_ladder[wall]=storey;
-                mark_map_with_ladder(storey);
-                */
-                break;
+            wall=find_wall_for_fe(storey_list[storey].DX,storey_list[storey].DZ,building_list[building].StoreyHead);
+            if(wall>=0)
+                    wall_for_ladder[wall]=storey;
+            mark_map_with_ladder(storey);
+            */
+            break;
         }
         storey = storey_list[storey].Next;
     }
@@ -1000,34 +1000,34 @@ std::int32_t find_slow_connect_wall(std::int32_t x1, std::int32_t z1, std::int32
 
     while (storey) {
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
-                if (storey_list[storey].Height == height)
-                    if (storey_list[storey].DY == y + height) //+256)
-                    {
-                        fx1 = storey_list[storey].DX;
-                        fz1 = storey_list[storey].DZ;
+        case STOREY_TYPE_NORMAL:
+            if (storey_list[storey].Height == height)
+                if (storey_list[storey].DY == y + height) //+256)
+                {
+                    fx1 = storey_list[storey].DX;
+                    fz1 = storey_list[storey].DZ;
 
-                        wall = storey_list[storey].WallHead;
-                        while (wall) {
-                            fx2 = wall_list[wall].DX;
-                            fz2 = wall_list[wall].DZ;
-                            if (fx1 == x1 && fz1 == z1 && fx2 == x2 && fz2 == z2) {
-                                *connect_storey = storey;
-                                return (wall);
-                            }
-                            fx1 = fx2;
-                            fz1 = fz2;
-
-                            wall = wall_list[wall].Next;
+                    wall = storey_list[storey].WallHead;
+                    while (wall) {
+                        fx2 = wall_list[wall].DX;
+                        fz2 = wall_list[wall].DZ;
+                        if (fx1 == x1 && fz1 == z1 && fx2 == x2 && fz2 == z2) {
+                            *connect_storey = storey;
+                            return (wall);
                         }
-                    }
+                        fx1 = fx2;
+                        fz1 = fz2;
 
-                break;
-            case STOREY_TYPE_FENCE:
-            case STOREY_TYPE_FENCE_BRICK:
-            case STOREY_TYPE_FENCE_FLAT:
-            case STOREY_TYPE_OUTSIDE_DOOR:
-                break;
+                        wall = wall_list[wall].Next;
+                    }
+                }
+
+            break;
+        case STOREY_TYPE_FENCE:
+        case STOREY_TYPE_FENCE_BRICK:
+        case STOREY_TYPE_FENCE_FLAT:
+        case STOREY_TYPE_OUTSIDE_DOOR:
+            break;
         }
         storey = storey_list[storey].Next;
     }
@@ -1169,243 +1169,213 @@ void create_dfacets_for_building(std::int32_t building) {
         inside = 0;
 
         switch (storey_list[storey].StoreyType) {
-            case STOREY_TYPE_NORMAL:
+        case STOREY_TYPE_NORMAL:
 
-                x1 = storey_list[storey].DX;
-                z1 = storey_list[storey].DZ;
+            x1 = storey_list[storey].DX;
+            z1 = storey_list[storey].DZ;
 
-                wall = storey_list[storey].WallHead;
+            wall = storey_list[storey].WallHead;
 
-                while (wall) {
-                    std::int32_t facet_flags = 0;
-                    //					ASSERT(next_dfacet!=64);
-                    x2 = wall_list[wall].DX;
-                    z2 = wall_list[wall].DZ;
-                    if ((wall_list[wall].WallFlags & FLAG_WALL_FACET_LINKED) == 0) {
-                        std::int32_t height;
-                        if (!circular) {
-                            facet_flags |= FACET_FLAG_UNCLIMBABLE;
-                        }
-                        if (!(wall_list[wall].WallFlags & FLAG_WALL_CLIMBABLE)) {
-                            facet_flags |= FACET_FLAG_UNCLIMBABLE;
-                        } else
-                            facet_flags = 0;
-
-                        style_index = next_dstyle;
-                        wall_list[wall].WallFlags |= FLAG_WALL_FACET_LINKED;
-                        dstyles[next_dstyle++] = wall_list[wall].TextureStyle;
-                        ASSERT(next_dstyle < MAX_DSTYLES);
-
-                        texture = wall_list[wall].Textures;
-                        count = wall_list[wall].Tcount;
-
-                        if (texture && count) {
-                            dstyles[next_dstyle - 1] = -add_painted_textures(texture, count, dstyles[next_dstyle - 1]);
-                        }
-
-                        if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
-                            std::int32_t count2;
-                            std::uint8_t *texture2;
-
-                            dstyles[next_dstyle++] = wall_list[wall].TextureStyle2;
-
-                            texture2 = wall_list[wall].Textures2;
-                            count2 = wall_list[wall].Tcount2;
-
-                            if (texture2 && count2) {
-                                dstyles[next_dstyle - 1] = -add_painted_textures(texture2, count2, dstyles[next_dstyle - 1]);
-                            }
-                        }
-
-                        //					connect_wall=find_connect_wall(x1,z1,x2,z2,&connect_storey,storey);
-                        height = storey_list[storey].Height;
-                        prev_wall = wall;
-                        connect_wall = find_slow_connect_wall(x1, z1, x2, z2, storey_list[storey].DY, &connect_storey, building, height); //,&texture,&count);
-                        connect_count = 1;
-                        if (connect_wall) {
-                            //					LogText(" found a connect wall %d\n",connect_wall);
-
-                            while (connect_wall) {
-                                std::int32_t ty;
-
-                                connect_count++;
-                                wall_list[connect_wall].WallFlags |= FLAG_WALL_FACET_LINKED;
-                                dstyles[next_dstyle++] = wall_list[connect_wall].TextureStyle;
-                                texture = wall_list[connect_wall].Textures;
-                                count = wall_list[connect_wall].Tcount;
-
-                                if (texture && count) {
-                                    dstyles[next_dstyle - 1] = -add_painted_textures(texture, count, dstyles[next_dstyle - 1]);
-                                }
-
-                                if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
-                                    std::int32_t count2;
-                                    std::uint8_t *texture2;
-
-                                    dstyles[next_dstyle++] = wall_list[connect_wall].TextureStyle2;
-
-                                    texture2 = wall_list[connect_wall].Textures2;
-                                    count2 = wall_list[connect_wall].Tcount2;
-
-                                    if (texture2 && count2) {
-                                        dstyles[next_dstyle - 1] = -add_painted_textures(texture2, count2, dstyles[next_dstyle - 1]);
-
-                                        // dfacets[next_dfacet-1].FacetFlags|=FACET_FLAG_2SIDED;
-                                    }
-                                }
-
-                                prev_wall = connect_wall;
-                                connect_wall = find_slow_connect_wall(x1, z1, x2, z2, storey_list[connect_storey].DY, &connect_storey, building, height); //,&texture,&count);
-                                                                                                                                                          //					connect_wall=find_connect_wall(x1,z1,x2,z2,&connect_storey,connect_storey);
-                            }
-                        }
-
-                        if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
-                            facet_flags |= FACET_FLAG_2TEXTURED;
-                        }
-
-                        if (wall_list[prev_wall].WallFlags & FLAG_WALL_BARB_TOP) {
-                            facet_flags |= FACET_FLAG_BARB_TOP;
-                        }
-
-                        if (!circular) {
-                            facet_flags |= FACET_FLAG_2SIDED;
-                            facet_flags |= FACET_FLAG_HUG_FLOOR;
-                        }
-                        facet = add_dfacet(
-                            x1, z1,
-                            x2, z2,
-                            storey_list[storey].DY,
-                            connect_count * 4,
-                            style_index,
-                            storey_list[storey].StoreyType,
-                            facet_flags, // No facet flags.
-                            offset_y,
-                            height);
-
-                        if (wall_list[wall].WallFlags & FLAG_WALL_RECESSED) {
-                            dfacets[facet].DStorey = inside;
-                            dfacets[facet].FacetType = STOREY_TYPE_DOOR;
-                        }
-
-                        if (!(wall_list[wall].WallFlags & FLAG_WALL_RECESSED))
-                            if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
-                                //
-                                // add again other way round
-                                //
-                                facet = add_dfacet(
-                                    x2, z2,
-                                    x1, z1,
-                                    storey_list[storey].DY,
-                                    connect_count * 4,
-                                    style_index + 1, // use same texture info offset by 1
-                                    storey_list[storey].StoreyType,
-                                    facet_flags | FACET_FLAG_INSIDE, // No facet flags.
-                                    offset_y,
-                                    height);
-                            }
+            while (wall) {
+                std::int32_t facet_flags = 0;
+                //					ASSERT(next_dfacet!=64);
+                x2 = wall_list[wall].DX;
+                z2 = wall_list[wall].DZ;
+                if ((wall_list[wall].WallFlags & FLAG_WALL_FACET_LINKED) == 0) {
+                    std::int32_t height;
+                    if (!circular) {
+                        facet_flags |= FACET_FLAG_UNCLIMBABLE;
                     }
+                    if (!(wall_list[wall].WallFlags & FLAG_WALL_CLIMBABLE)) {
+                        facet_flags |= FACET_FLAG_UNCLIMBABLE;
+                    } else
+                        facet_flags = 0;
 
-                    x1 = x2;
-                    z1 = z2;
-
-                    wall = wall_list[wall].Next;
-                }
-
-                break;
-
-            case STOREY_TYPE_CABLE:
-
-                x1 = storey_list[storey].DX;
-                y1 = storey_list[storey].DY;
-                z1 = storey_list[storey].DZ;
-
-                wall = storey_list[storey].WallHead;
-
-                while (wall) {
-                    x2 = wall_list[wall].DX;
-                    y2 = wall_list[wall].DY;
-                    z2 = wall_list[wall].DZ;
-
-                    create_cable_dfacet(x1, y1, z1, x2, y2, z2, wall);
-
-                    wall = wall_list[wall].Next;
-                    x1 = x2;
-                    y1 = y2;
-                    z1 = z2;
-                }
-
-                break;
-
-            case STOREY_TYPE_FENCE:
-                height = 4;
-                goto do_fence;
-            case STOREY_TYPE_FENCE_BRICK:
-                height = storey_list[storey].Height / 64;
-                goto do_fence;
-
-            case STOREY_TYPE_OUTSIDE_DOOR:
-            case STOREY_TYPE_FENCE_FLAT:
-                height = storey_list[storey].Height / 64;
-
-            do_fence:;
-                x1 = storey_list[storey].DX;
-                z1 = storey_list[storey].DZ;
-
-                if (storey == 75)
-                    LogText("hello");
-
-                facet_flags = 0;
-
-                if (storey_list[storey].ExtraFlags & FLAG_STOREY_EXTRA_UNCLIMBABLE) {
-                    facet_flags |= FACET_FLAG_UNCLIMBABLE;
-                }
-                if (storey_list[storey].ExtraFlags & FLAG_STOREY_EXTRA_ONBUILDING) {
-                    facet_flags |= FACET_FLAG_ONBUILDING;
-                }
-                if (storey_list[storey].ExtraFlags & FLAG_STOREY_EXTRA_90DEGREE) {
-                    facet_flags |= FACET_FLAG_90DEGREE;
-                }
-
-                wall = storey_list[storey].WallHead;
-                while (wall) {
+                    style_index = next_dstyle;
+                    wall_list[wall].WallFlags |= FLAG_WALL_FACET_LINKED;
                     dstyles[next_dstyle++] = wall_list[wall].TextureStyle;
+                    ASSERT(next_dstyle < MAX_DSTYLES);
+
                     texture = wall_list[wall].Textures;
                     count = wall_list[wall].Tcount;
+
                     if (texture && count) {
                         dstyles[next_dstyle - 1] = -add_painted_textures(texture, count, dstyles[next_dstyle - 1]);
                     }
 
-                    x2 = wall_list[wall].DX;
-                    z2 = wall_list[wall].DZ;
+                    if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
+                        std::int32_t count2;
+                        std::uint8_t *texture2;
 
-                    add_dfacet(
+                        dstyles[next_dstyle++] = wall_list[wall].TextureStyle2;
+
+                        texture2 = wall_list[wall].Textures2;
+                        count2 = wall_list[wall].Tcount2;
+
+                        if (texture2 && count2) {
+                            dstyles[next_dstyle - 1] = -add_painted_textures(texture2, count2, dstyles[next_dstyle - 1]);
+                        }
+                    }
+
+                    //					connect_wall=find_connect_wall(x1,z1,x2,z2,&connect_storey,storey);
+                    height = storey_list[storey].Height;
+                    prev_wall = wall;
+                    connect_wall = find_slow_connect_wall(x1, z1, x2, z2, storey_list[storey].DY, &connect_storey, building, height); //,&texture,&count);
+                    connect_count = 1;
+                    if (connect_wall) {
+                        //					LogText(" found a connect wall %d\n",connect_wall);
+
+                        while (connect_wall) {
+                            std::int32_t ty;
+
+                            connect_count++;
+                            wall_list[connect_wall].WallFlags |= FLAG_WALL_FACET_LINKED;
+                            dstyles[next_dstyle++] = wall_list[connect_wall].TextureStyle;
+                            texture = wall_list[connect_wall].Textures;
+                            count = wall_list[connect_wall].Tcount;
+
+                            if (texture && count) {
+                                dstyles[next_dstyle - 1] = -add_painted_textures(texture, count, dstyles[next_dstyle - 1]);
+                            }
+
+                            if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
+                                std::int32_t count2;
+                                std::uint8_t *texture2;
+
+                                dstyles[next_dstyle++] = wall_list[connect_wall].TextureStyle2;
+
+                                texture2 = wall_list[connect_wall].Textures2;
+                                count2 = wall_list[connect_wall].Tcount2;
+
+                                if (texture2 && count2) {
+                                    dstyles[next_dstyle - 1] = -add_painted_textures(texture2, count2, dstyles[next_dstyle - 1]);
+
+                                    // dfacets[next_dfacet-1].FacetFlags|=FACET_FLAG_2SIDED;
+                                }
+                            }
+
+                            prev_wall = connect_wall;
+                            connect_wall = find_slow_connect_wall(x1, z1, x2, z2, storey_list[connect_storey].DY, &connect_storey, building, height); //,&texture,&count);
+                                                                                                                                                      //					connect_wall=find_connect_wall(x1,z1,x2,z2,&connect_storey,connect_storey);
+                        }
+                    }
+
+                    if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
+                        facet_flags |= FACET_FLAG_2TEXTURED;
+                    }
+
+                    if (wall_list[prev_wall].WallFlags & FLAG_WALL_BARB_TOP) {
+                        facet_flags |= FACET_FLAG_BARB_TOP;
+                    }
+
+                    if (!circular) {
+                        facet_flags |= FACET_FLAG_2SIDED;
+                        facet_flags |= FACET_FLAG_HUG_FLOOR;
+                    }
+                    facet = add_dfacet(
                         x1, z1,
                         x2, z2,
                         storey_list[storey].DY,
-                        height,
-                        next_dstyle - 1,
+                        connect_count * 4,
+                        style_index,
                         storey_list[storey].StoreyType,
-                        facet_flags,
+                        facet_flags, // No facet flags.
                         offset_y,
-                        256);
+                        height);
 
-                    x1 = x2;
-                    z1 = z2;
+                    if (wall_list[wall].WallFlags & FLAG_WALL_RECESSED) {
+                        dfacets[facet].DStorey = inside;
+                        dfacets[facet].FacetType = STOREY_TYPE_DOOR;
+                    }
 
-                    wall = wall_list[wall].Next;
+                    if (!(wall_list[wall].WallFlags & FLAG_WALL_RECESSED))
+                        if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
+                            //
+                            // add again other way round
+                            //
+                            facet = add_dfacet(
+                                x2, z2,
+                                x1, z1,
+                                storey_list[storey].DY,
+                                connect_count * 4,
+                                style_index + 1, // use same texture info offset by 1
+                                storey_list[storey].StoreyType,
+                                facet_flags | FACET_FLAG_INSIDE, // No facet flags.
+                                offset_y,
+                                height);
+                        }
                 }
 
-                break;
+                x1 = x2;
+                z1 = z2;
 
-            case STOREY_TYPE_LADDER:
-                height = storey_list[storey].Height;
+                wall = wall_list[wall].Next;
+            }
 
-                x1 = storey_list[storey].DX;
-                z1 = storey_list[storey].DZ;
+            break;
 
-                wall = storey_list[storey].WallHead;
+        case STOREY_TYPE_CABLE:
+
+            x1 = storey_list[storey].DX;
+            y1 = storey_list[storey].DY;
+            z1 = storey_list[storey].DZ;
+
+            wall = storey_list[storey].WallHead;
+
+            while (wall) {
+                x2 = wall_list[wall].DX;
+                y2 = wall_list[wall].DY;
+                z2 = wall_list[wall].DZ;
+
+                create_cable_dfacet(x1, y1, z1, x2, y2, z2, wall);
+
+                wall = wall_list[wall].Next;
+                x1 = x2;
+                y1 = y2;
+                z1 = z2;
+            }
+
+            break;
+
+        case STOREY_TYPE_FENCE:
+            height = 4;
+            goto do_fence;
+        case STOREY_TYPE_FENCE_BRICK:
+            height = storey_list[storey].Height / 64;
+            goto do_fence;
+
+        case STOREY_TYPE_OUTSIDE_DOOR:
+        case STOREY_TYPE_FENCE_FLAT:
+            height = storey_list[storey].Height / 64;
+
+        do_fence:;
+            x1 = storey_list[storey].DX;
+            z1 = storey_list[storey].DZ;
+
+            if (storey == 75)
+                LogText("hello");
+
+            facet_flags = 0;
+
+            if (storey_list[storey].ExtraFlags & FLAG_STOREY_EXTRA_UNCLIMBABLE) {
+                facet_flags |= FACET_FLAG_UNCLIMBABLE;
+            }
+            if (storey_list[storey].ExtraFlags & FLAG_STOREY_EXTRA_ONBUILDING) {
+                facet_flags |= FACET_FLAG_ONBUILDING;
+            }
+            if (storey_list[storey].ExtraFlags & FLAG_STOREY_EXTRA_90DEGREE) {
+                facet_flags |= FACET_FLAG_90DEGREE;
+            }
+
+            wall = storey_list[storey].WallHead;
+            while (wall) {
                 dstyles[next_dstyle++] = wall_list[wall].TextureStyle;
+                texture = wall_list[wall].Textures;
+                count = wall_list[wall].Tcount;
+                if (texture && count) {
+                    dstyles[next_dstyle - 1] = -add_painted_textures(texture, count, dstyles[next_dstyle - 1]);
+                }
+
                 x2 = wall_list[wall].DX;
                 z2 = wall_list[wall].DZ;
 
@@ -1416,42 +1386,72 @@ void create_dfacets_for_building(std::int32_t building) {
                     height,
                     next_dstyle - 1,
                     storey_list[storey].StoreyType,
-                    FACET_FLAG_UNCLIMBABLE, // No facet flags.
+                    facet_flags,
                     offset_y,
                     256);
 
-                break;
+                x1 = x2;
+                z1 = z2;
 
-            case STOREY_TYPE_TRENCH:
+                wall = wall_list[wall].Next;
+            }
 
-                x1 = storey_list[storey].DX;
-                z1 = storey_list[storey].DZ;
+            break;
 
-                wall = storey_list[storey].WallHead;
-                while (wall) {
-                    dstyles[next_dstyle++] = wall_list[wall].TextureStyle;
-                    x2 = wall_list[wall].DX;
-                    z2 = wall_list[wall].DZ;
+        case STOREY_TYPE_LADDER:
+            height = storey_list[storey].Height;
 
-                    //					add_dfacet(x1,z1,x2,z2,storey_list[storey].DY,4,next_dstyle-1,storey_list[storey].StoreyType,storey_list[storey].StoreyFlags);
+            x1 = storey_list[storey].DX;
+            z1 = storey_list[storey].DZ;
 
-                    add_dfacet(
-                        x2, z2,
-                        x1, z1,
-                        -256,
-                        4,
-                        next_dstyle - 1,
-                        storey_list[storey].StoreyType,
-                        FACET_FLAG_UNCLIMBABLE, // Facet flags
-                        offset_y,
-                        256);
+            wall = storey_list[storey].WallHead;
+            dstyles[next_dstyle++] = wall_list[wall].TextureStyle;
+            x2 = wall_list[wall].DX;
+            z2 = wall_list[wall].DZ;
 
-                    x1 = x2;
-                    z1 = z2;
+            add_dfacet(
+                x1, z1,
+                x2, z2,
+                storey_list[storey].DY,
+                height,
+                next_dstyle - 1,
+                storey_list[storey].StoreyType,
+                FACET_FLAG_UNCLIMBABLE, // No facet flags.
+                offset_y,
+                256);
 
-                    wall = wall_list[wall].Next;
-                }
-                break;
+            break;
+
+        case STOREY_TYPE_TRENCH:
+
+            x1 = storey_list[storey].DX;
+            z1 = storey_list[storey].DZ;
+
+            wall = storey_list[storey].WallHead;
+            while (wall) {
+                dstyles[next_dstyle++] = wall_list[wall].TextureStyle;
+                x2 = wall_list[wall].DX;
+                z2 = wall_list[wall].DZ;
+
+                //					add_dfacet(x1,z1,x2,z2,storey_list[storey].DY,4,next_dstyle-1,storey_list[storey].StoreyType,storey_list[storey].StoreyFlags);
+
+                add_dfacet(
+                    x2, z2,
+                    x1, z1,
+                    -256,
+                    4,
+                    next_dstyle - 1,
+                    storey_list[storey].StoreyType,
+                    FACET_FLAG_UNCLIMBABLE, // Facet flags
+                    offset_y,
+                    256);
+
+                x1 = x2;
+                z1 = z2;
+
+                wall = wall_list[wall].Next;
+            }
+            break;
         }
         storey = storey_list[storey].Next;
     }
@@ -1800,17 +1800,17 @@ std::int32_t save_to_psx(std::int32_t index) {
         return (1);
 
     switch (index) {
-        case 21:
-        case 22:
-        case 24:
-        case 170:
-        case 171:
-        case 173:
-        case 174:
-        case 175:
-        case 176:
-        case 183:
-            return (0);
+    case 21:
+    case 22:
+    case 24:
+    case 170:
+    case 171:
+    case 173:
+    case 174:
+    case 175:
+    case 176:
+    case 183:
+        return (0);
     }
     return (1);
 }
@@ -1828,50 +1828,50 @@ void save_ob_ob(MFFileHandle handle) {
         t_mthing = &map_things[c0];
 
         switch (t_mthing->Type) {
-            case MAP_THING_TYPE_PRIM: {
-                std::uint16_t inside = 0, room = 0;
-                std::uint8_t flag = 0;
+        case MAP_THING_TYPE_PRIM: {
+            std::uint16_t inside = 0, room = 0;
+            std::uint8_t flag = 0;
 
-                /*
+            /*
 
-                //
-                // This isn't the flavour of the month with the artists anymore.
-                //
+            //
+            // This isn't the flavour of the month with the artists anymore.
+            //
 
-                if(t_mthing->Flags&FLAG_EDIT_PRIM_ON_FLOOR || (prim_objects[t_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
-                {
-                        flag=OB_FLAG_ON_FLOOR;
-                }
-                else
-                if(prim_objects[t_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR )
-                {
-                        flag=OB_FLAG_JUST_FLOOR;
-                }
-                */
+            if(t_mthing->Flags&FLAG_EDIT_PRIM_ON_FLOOR || (prim_objects[t_mthing->IndexOther].flag & PRIM_FLAG_ON_FLOOR) )
+            {
+                    flag=OB_FLAG_ON_FLOOR;
+            }
+            else
+            if(prim_objects[t_mthing->IndexOther].flag & PRIM_FLAG_JUST_FLOOR )
+            {
+                    flag=OB_FLAG_JUST_FLOOR;
+            }
+            */
 
-                //						if(t_mthing->Flags&FLAG_EDIT_PRIM_INSIDE)
-                {
-                    inside = calc_inside_for_xyz(t_mthing->X, t_mthing->Y, t_mthing->Z, &room);
-                }
-
-                //
-                // for each prim in the thing list create an ob
-                //
-                if (t_mthing->IndexOther != 217 && save_to_psx(t_mthing->IndexOther))
-                    OB_create(
-                        t_mthing->X,
-                        t_mthing->Y,
-                        t_mthing->Z,
-                        t_mthing->AngleY, // Yaw!
-                        0,
-                        0,
-                        t_mthing->IndexOther, flag, inside, room); // PrimObject.
+            //						if(t_mthing->Flags&FLAG_EDIT_PRIM_INSIDE)
+            {
+                inside = calc_inside_for_xyz(t_mthing->X, t_mthing->Y, t_mthing->Z, &room);
             }
 
+            //
+            // for each prim in the thing list create an ob
+            //
+            if (t_mthing->IndexOther != 217 && save_to_psx(t_mthing->IndexOther))
+                OB_create(
+                    t_mthing->X,
+                    t_mthing->Y,
+                    t_mthing->Z,
+                    t_mthing->AngleY, // Yaw!
+                    0,
+                    0,
+                    t_mthing->IndexOther, flag, inside, room); // PrimObject.
+        }
+
+        break;
+        case MAP_THING_TYPE_ANIM_PRIM:
+            temp++;
             break;
-            case MAP_THING_TYPE_ANIM_PRIM:
-                temp++;
-                break;
         }
     }
     FileWrite(handle, (std::uint8_t *) &OB_ob_upto, sizeof(OB_ob_upto));
@@ -2191,55 +2191,58 @@ struct Levels levels_quick[] =
         //	{"finale1","Roof1.map",32},
         {"BAALROG3", "Balbash1.map", 31},
         //	{"gang order1","gang1.map",33},
-        {"", "", 0}};
+        {"",         "",             0 }
+};
 
 struct Levels levels_demo[] =
     {
         {"FTutor1", "fight1.map", 1, 0},
         {"freecd1", "freeoncd1.map", 1, 0},
-        {"", "", 0}};
+        {"", "", 0}
+};
 
 struct Levels levels2[] =
     {
         {"skymiss2", "skymap30.map", 25, 0}, // problem
-        {"", "", 0}};
+        {"", "", 0}
+};
 
 struct Levels levels[] =
     {
 
         {"FTutor1", "fight1.map", 1, 0}, // 0
 
-        {"assault1", "assault.map", 2, 0},   // 1
-        {"testdrive1a", "oval1.map", 3, 0},  // 2
-        {"fight1", "fight1.map", 4, 0},      // 3
-        {"police1", "disturb1.map", 5, 0},   // 4
+        {"assault1", "assault.map", 2, 0}, // 1
+        {"testdrive1a", "oval1.map", 3, 0}, // 2
+        {"fight1", "fight1.map", 4, 0}, // 3
+        {"police1", "disturb1.map", 5, 0}, // 4
         {"testdrive2", "road4_2.map", 6, 0}, // 5
-        {"fight2", "fight1.map", 7, 0},      // 6
+        {"fight2", "fight1.map", 7, 0}, // 6
 
-        {"police2", "disturb1.map", 8, 0},   // 7
+        {"police2", "disturb1.map", 8, 0}, // 7
         {"testdrive3", "road4_3.map", 9, 0}, // 8
-        {"bankbomb1", "gang1.map", 10, 0},   // 9
-        {"police3", "disturb1.map", 11, 0},  // 10
-        {"gangorder2", "gang1.map", 12, 0},  // 11
-        {"police4", "disturb1.map", 13, 0},  // 12
-        {"bball2", "bball2.map", 14, 0},     // 13
+        {"bankbomb1", "gang1.map", 10, 0}, // 9
+        {"police3", "disturb1.map", 11, 0}, // 10
+        {"gangorder2", "gang1.map", 12, 0}, // 11
+        {"police4", "disturb1.map", 13, 0}, // 12
+        {"bball2", "bball2.map", 14, 0}, // 13
 
         {"wstores1", "gpost3.map", 15, (1 << PERSON_HOSTAGE) | (1 << PERSON_TRAMP) | (1 << PERSON_MIB1)}, // 14
         // here
-        {"\\e3", "snocrime.map", 16, (1 << PERSON_TRAMP) | (1 << PERSON_MIB1)},                                                                                  // 15
-        {"westcrime1", "disturb1.map", 17, 0},                                                                                                                   // 16
-        {"carbomb1", "gang1.map", 18, 0},                                                                                                                        // 17
-        {"botanicc", "botanicc.map", 19, 0},                                                                                                                     // 18
-        {"semtex", "snocrime.map", 20, (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MIB1)},                                                 // 19
+        {"\\e3", "snocrime.map", 16, (1 << PERSON_TRAMP) | (1 << PERSON_MIB1)}, // 15
+        {"westcrime1", "disturb1.map", 17, 0}, // 16
+        {"carbomb1", "gang1.map", 18, 0}, // 17
+        {"botanicc", "botanicc.map", 19, 0}, // 18
+        {"semtex", "snocrime.map", 20, (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MIB1)}, // 19
         {"awol1", "gpost3.map", 21, (1 << PERSON_SLAG_TART) | (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_MECHANIC) | (1 << PERSON_MIB1)}, // 20
-        {"mission2", "snocrime.map", 22, (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_TRAMP) | (1 << PERSON_MIB1)},                         // 21
-        {"park2", "parkypsx03.map", 23, 0},                                                                                                                      // 22
+        {"mission2", "snocrime.map", 22, (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_TRAMP) | (1 << PERSON_MIB1)}, // 21
+        {"park2", "parkypsx03.map", 23, 0}, // 22
 
-        {"mib", "southside.map", 24, (1 << PERSON_HOSTAGE) | (1 << PERSON_TRAMP)},                             // 23
-        {"skymiss2", "skymap30.map", 25, 0},                                                                   // problem //24
+        {"mib", "southside.map", 24, (1 << PERSON_HOSTAGE) | (1 << PERSON_TRAMP)}, // 23
+        {"skymiss2", "skymap30.map", 25, 0}, // problem //24
         {"factory1", "tv1.map", 26, (1 << PERSON_SLAG_FATUGLY) | (1 << PERSON_HOSTAGE) | (1 << PERSON_TRAMP)}, // 25
-        {"estate2", "nestate01.map", 27, 0},                                                                   // 26
-        {"stealtst1", "stealth1.map", 28, 0},                                                                  // 27
+        {"estate2", "nestate01.map", 27, 0}, // 26
+        {"stealtst1", "stealth1.map", 28, 0}, // 27
         {"snow2", "snow2.map", 29, 0},
         {"gordout1", "botanicc.map", 30, 0},
         {"jung3", "jung3.map", 31, 0},
@@ -2247,7 +2250,6 @@ struct Levels levels[] =
         {"finale1", "Rooftest2.map", 33, 0}, // problem
         {"Gangorder1", "gang1.map", 34, 0},
         {"", "", 0}
-
 };
 
 //
@@ -2266,14 +2268,14 @@ struct TimStuff {
 
 struct TimStuff tim_stuff[] =
     {
-        {0, 0, 500, 512 + 64 * 0, 0},
-        {0, 0, 500, 512 + 64 * 1, 0},
-        {0, 0, 500, 512 + 64 * 2, 0},
-        {0, 0, 500, 512 + 64 * 3, 0},
-        {0, 0, 500, 512 + 64 * 4, 0},
-        {0, 0, 500, 512 + 64 * 5, 0},
-        {0, 0, 500, 512 + 64 * 6, 0},
-        {0, 0, 500, 512 + 64 * 7, 0},
+        {0, 0, 500, 512 + 64 * 0, 0  },
+        {0, 0, 500, 512 + 64 * 1, 0  },
+        {0, 0, 500, 512 + 64 * 2, 0  },
+        {0, 0, 500, 512 + 64 * 3, 0  },
+        {0, 0, 500, 512 + 64 * 4, 0  },
+        {0, 0, 500, 512 + 64 * 5, 0  },
+        {0, 0, 500, 512 + 64 * 6, 0  },
+        {0, 0, 500, 512 + 64 * 7, 0  },
 
         {0, 0, 500, 512 + 64 * 0, 256},
         {0, 0, 500, 512 + 64 * 1, 256},
@@ -2284,16 +2286,15 @@ struct TimStuff tim_stuff[] =
         {0, 0, 500, 512 + 64 * 6, 256},
         {0, 0, 500, 512 + 64 * 7, 256},
 
-        {1, 0, 501, 448, 0},
-        {1, 0, 502, 576, 0},
-        {1, 0, 503, 704, 0},
-        {1, 0, 504, 832, 0},
-        {1, 0, 505, 320, 256},
-        {1, 0, 506, 448, 256},
-        {1, 0, 507, 576, 256},
-        {1, 0, 508, 704, 256},
-        {1, 0, 509, 832, 256}
-
+        {1, 0, 501, 448,          0  },
+        {1, 0, 502, 576,          0  },
+        {1, 0, 503, 704,          0  },
+        {1, 0, 504, 832,          0  },
+        {1, 0, 505, 320,          256},
+        {1, 0, 506, 448,          256},
+        {1, 0, 507, 576,          256},
+        {1, 0, 508, 704,          256},
+        {1, 0, 509, 832,          256}
 };
 
 std::int32_t load_alt_pal(char *fname, std::uint8_t *pal) {
@@ -2876,34 +2877,34 @@ std::int32_t build_tims_ingame(char *name) {
         page |= p_f3->TexturePage;
 
         switch (page) {
-            case 1 * 64 + 21:
-            case 10 * 64 + 2:
-            case 10 * 64 + 32:
-                p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 21;
+        case 1 * 64 + 21:
+        case 10 * 64 + 2:
+        case 10 * 64 + 32:
+            p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 21;
 
-                break;
+            break;
 
-            case 1 * 64 + 22:
-            case 10 * 64 + 3:
-            case 10 * 64 + 33:
-                p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 22;
-                break;
+        case 1 * 64 + 22:
+        case 10 * 64 + 3:
+        case 10 * 64 + 33:
+            p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 22;
+            break;
 
-            case 1 * 64 + 24:
-            case 10 * 64 + 4:
-            case 10 * 64 + 36:
-                p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 24;
-                break;
+        case 1 * 64 + 24:
+        case 10 * 64 + 4:
+        case 10 * 64 + 36:
+            p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 24;
+            break;
 
-            case 1 * 64 + 25:
-            case 10 * 64 + 5:
-            case 10 * 64 + 37:
-                p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 25;
-                break;
+        case 1 * 64 + 25:
+        case 10 * 64 + 5:
+        case 10 * 64 + 37:
+            p_f3->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 25;
+            break;
         }
 
         new_page = remap_a_prim_face(page, &next_page, level_no, (next_texture >> 6));
@@ -2923,34 +2924,34 @@ std::int32_t build_tims_ingame(char *name) {
         page |= p_f4->TexturePage;
 
         switch (page) {
-            case 1 * 64 + 21:
-            case 10 * 64 + 2:
-            case 10 * 64 + 32:
-                p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 21;
+        case 1 * 64 + 21:
+        case 10 * 64 + 2:
+        case 10 * 64 + 32:
+            p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 21;
 
-                break;
+            break;
 
-            case 1 * 64 + 22:
-            case 10 * 64 + 3:
-            case 10 * 64 + 33:
-                p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 22;
-                break;
+        case 1 * 64 + 22:
+        case 10 * 64 + 3:
+        case 10 * 64 + 33:
+            p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 22;
+            break;
 
-            case 1 * 64 + 24:
-            case 10 * 64 + 4:
-            case 10 * 64 + 36:
-                p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 24;
-                break;
+        case 1 * 64 + 24:
+        case 10 * 64 + 4:
+        case 10 * 64 + 36:
+            p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 24;
+            break;
 
-            case 1 * 64 + 25:
-            case 10 * 64 + 5:
-            case 10 * 64 + 37:
-                p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
-                page = 1 * 64 + 25;
-                break;
+        case 1 * 64 + 25:
+        case 10 * 64 + 5:
+        case 10 * 64 + 37:
+            p_f4->FaceFlags |= FACE_FLAG_THUG_JACKET;
+            page = 1 * 64 + 25;
+            break;
         }
 
         new_page = remap_a_prim_face(page, &next_page, level_no, (next_texture >> 6));
@@ -3022,34 +3023,34 @@ extern std::uint16_t page_count[];
 
 std::uint16_t get_split_bits(std::uint16_t tex) {
     switch (tex & 0x3ff) {
-        case 454:
-            //		case	456:
-            //		case	457:
-            return (1 << 14);
-            break;
+    case 454:
+        //		case	456:
+        //		case	457:
+        return (1 << 14);
+        break;
 
-            /*
-                            case	349:
-                            case	353:
-                            case	342:
-                            case	343:
-                            case	333:
-                            case	334:
-                            case	340:
-                                    switch((tex&0xc00)>>10)
-                                    {
-                                            case	0:
-                                                    return(1<<15);
-                                            case	1:
-                                                    return(1<<14);
-                                            case	2:
-                                                    return(1<<15);
-                                            case	3:
-                                                    return(1<<14);
+        /*
+                        case	349:
+                        case	353:
+                        case	342:
+                        case	343:
+                        case	333:
+                        case	334:
+                        case	340:
+                                switch((tex&0xc00)>>10)
+                                {
+                                        case	0:
+                                                return(1<<15);
+                                        case	1:
+                                                return(1<<14);
+                                        case	2:
+                                                return(1<<15);
+                                        case	3:
+                                                return(1<<14);
 
-                                    }
-                                    break;
-            */
+                                }
+                                break;
+        */
     }
     return (0);
 }

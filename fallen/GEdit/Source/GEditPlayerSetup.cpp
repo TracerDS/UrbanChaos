@@ -36,31 +36,31 @@ bool CALLBACK ps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     NM_UPDOWN *lp_ntfy;
 
     switch (message) {
-        case WM_INITDIALOG:
-            //	Set the current player type.
-            INIT_COMBO_BOX(IDC_COMBO1, wplayer_strings, player_type - PT_DARCI);
-            //			the_ctrl	=	GetDlgItem(hWnd,IDC_RADIO1+(player_type-PT_DARCI));
-            //			SendMessage(the_ctrl,BM_SETCHECK,1,0);
-            SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_SETCHECK, player_equip, 0);
-            return true;
+    case WM_INITDIALOG:
+        //	Set the current player type.
+        INIT_COMBO_BOX(IDC_COMBO1, wplayer_strings, player_type - PT_DARCI);
+        //			the_ctrl	=	GetDlgItem(hWnd,IDC_RADIO1+(player_type-PT_DARCI));
+        //			SendMessage(the_ctrl,BM_SETCHECK,1,0);
+        SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_SETCHECK, player_equip, 0);
+        return true;
 
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    SendMessage(hWnd, WM_CLOSE, 0, 0);
-                    return true;
-            }
-            break;
-
-        case WM_CLOSE:
-            //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
-            player_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
-                                      CB_GETCURSEL,
-                                      0, 0) +
-                          PT_DARCI;
-            player_equip = SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_GETCHECK, 0, 0);
-            EndDialog(hWnd, 0);
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            SendMessage(hWnd, WM_CLOSE, 0, 0);
             return true;
+        }
+        break;
+
+    case WM_CLOSE:
+        //			player_type	=	(SendMessage(GetDlgItem(hWnd,IDC_RADIO1),BM_GETCHECK,0,0) ? PT_DARCI : PT_ROPER);
+        player_type = SendMessage(GetDlgItem(hWnd, IDC_COMBO1),
+                                  CB_GETCURSEL,
+                                  0, 0) +
+                      PT_DARCI;
+        player_equip = SendMessage(GetDlgItem(hWnd, IDC_CHECK1), BM_GETCHECK, 0, 0);
+        EndDialog(hWnd, 0);
+        return true;
     }
     return false;
 }

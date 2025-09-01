@@ -21,19 +21,19 @@ bool CALLBACK treasure_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     HWND the_ctrl;
 
     switch (message) {
-        case WM_INITDIALOG:
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETRANGE, 0, MAKELONG(0, 10000));
-            SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, treasure_value);
+    case WM_INITDIALOG:
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETRANGE, 0, MAKELONG(0, 10000));
+        SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_SETPOS, 0, treasure_value);
+        return true;
+    case WM_COMMAND:
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            treasure_value = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
+        case IDCANCEL:
+            EndDialog(hWnd, 0);
             return true;
-        case WM_COMMAND:
-            switch (LOWORD(wParam)) {
-                case IDOK:
-                    treasure_value = SendMessage(GetDlgItem(hWnd, IDC_SPIN1), UDM_GETPOS, 0, 0);
-                case IDCANCEL:
-                    EndDialog(hWnd, 0);
-                    return true;
-            }
-            break;
+        }
+        break;
     }
     return false;
 }

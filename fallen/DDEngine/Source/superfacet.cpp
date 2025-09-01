@@ -527,22 +527,22 @@ void SUPERFACET_fill_facet_points(
 
             float fXNorm, fZNorm;
             switch (m_iFacetDirection) {
-                case 0:
-                    fZNorm = 1.0f;
-                    fXNorm = 0.0f;
-                    break;
-                case 1:
-                    fZNorm = -1.0f;
-                    fXNorm = 0.0f;
-                    break;
-                case 2:
-                    fZNorm = 0.0f;
-                    fXNorm = 1.0f;
-                    break;
-                case 3:
-                    fZNorm = 0.0f;
-                    fXNorm = -1.0f;
-                    break;
+            case 0:
+                fZNorm = 1.0f;
+                fXNorm = 0.0f;
+                break;
+            case 1:
+                fZNorm = -1.0f;
+                fXNorm = 0.0f;
+                break;
+            case 2:
+                fZNorm = 0.0f;
+                fXNorm = 1.0f;
+                break;
+            case 3:
+                fZNorm = 0.0f;
+                fXNorm = -1.0f;
+                break;
             }
             // Random scale.
             fXNorm *= 64.0f;

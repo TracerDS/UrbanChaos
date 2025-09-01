@@ -282,7 +282,8 @@ HM_Primgrid HM_default_primgrid =
 
         0.00F,
         0.00F,
-        -0.25F};
+        -0.25F
+};
 
 HM_Primgrid *HM_get_primgrid(std::int32_t prim) {
     std::int32_t i;

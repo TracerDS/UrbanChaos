@@ -187,7 +187,8 @@ void WIRE_plane_draw() {
             {2, 3, 6, 7},
             {6, 7, 4, 5},
             {1, 5, 3, 7},
-            {4, 0, 6, 2}};
+            {4, 0, 6, 2}
+    };
 
     for (i = 0; i < 5; i++) {
         OS_buffer_add_triangle(
@@ -280,30 +281,30 @@ void WIRE_draw() {
     WIRE_plane_process();
 
     switch (WIRE_current_mode) {
-        case WIRE_MODE_NONE_WIRE:
-        case WIRE_MODE_WIRE_BRIGHT:
-            mode_over = (WIRE_point[2].y < im->min_y - 5.0F);
-            break;
+    case WIRE_MODE_NONE_WIRE:
+    case WIRE_MODE_WIRE_BRIGHT:
+        mode_over = (WIRE_point[2].y < im->min_y - 5.0F);
+        break;
 
-        case WIRE_MODE_BRIGHT_TEXTURE:
-            mode_over = (WIRE_point[2].y < im->min_y - 55.0F);
-            break;
+    case WIRE_MODE_BRIGHT_TEXTURE:
+        mode_over = (WIRE_point[2].y < im->min_y - 55.0F);
+        break;
 
-        case WIRE_MODE_TEXTURE_NONE:
+    case WIRE_MODE_TEXTURE_NONE:
 
-            if (WIRE_point[2].y >= im->max_y + 5.0F) {
-                if (WIRE_current_countdown == 0) {
-                    WIRE_current_countdown = OS_ticks();
-                }
+        if (WIRE_point[2].y >= im->max_y + 5.0F) {
+            if (WIRE_current_countdown == 0) {
+                WIRE_current_countdown = OS_ticks();
             }
+        }
 
-            mode_over = WIRE_current_countdown && (OS_ticks() > WIRE_current_countdown + 4096);
+        mode_over = WIRE_current_countdown && (OS_ticks() > WIRE_current_countdown + 4096);
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     if (mode_over) {
@@ -369,68 +370,68 @@ void WIRE_draw() {
     light_z = 0.0F - light_matrix[8] * 512.0F;
 
     switch (WIRE_current_mode) {
-        case WIRE_MODE_NONE_WIRE:
-            WIRE_plane_draw();
-            MF_transform_points(im);
-            MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
-            break;
+    case WIRE_MODE_NONE_WIRE:
+        WIRE_plane_draw();
+        MF_transform_points(im);
+        MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
+        break;
 
-        case WIRE_MODE_WIRE_BRIGHT:
-            WIRE_plane_draw();
-            MF_transform_points(im);
-            MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
-            MF_transform_points(im);
-            MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
-            break;
+    case WIRE_MODE_WIRE_BRIGHT:
+        WIRE_plane_draw();
+        MF_transform_points(im);
+        MF_add_wireframe(im, WIRE_ot_line, 0x114439, 0.002F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
+        MF_transform_points(im);
+        MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE);
+        break;
 
-        case WIRE_MODE_BRIGHT_TEXTURE:
+    case WIRE_MODE_BRIGHT_TEXTURE:
 
-            WIRE_plane_draw();
-            MF_transform_points(im);
-            MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
+        WIRE_plane_draw();
+        MF_transform_points(im);
+        MF_add_wireframe(im, WIRE_ot_line, 0x336611, 0.004F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
 
-            MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-            MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
-            MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
-            MF_add_triangles_texture_after_bumpmap(im);
-            MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-            MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
-
-            break;
-
-        case WIRE_MODE_TEXTURE_NONE:
-
-        {
-            std::int32_t bright;
-            std::uint32_t colour;
-
-            if (WIRE_current_countdown == 0) {
-                bright = 255;
-            } else {
-                bright = OS_ticks() - WIRE_current_countdown >> 4;
-                bright = 255 - bright;
-            }
-
-            SATURATE(bright, 0, 255);
-
-            colour = bright;
-            colour |= (colour >> 3) << 16;
-
-            WIRE_plane_draw();
-            MF_transform_points(im);
-            MF_add_wireframe(im, WIRE_ot_line, colour, 0.006F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
-
-            MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-            MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
-            MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
-            MF_add_triangles_texture_after_bumpmap(im);
-            MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
-            MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
-        }
+        MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+        MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
+        MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
+        MF_add_triangles_texture_after_bumpmap(im);
+        MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+        MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
 
         break;
 
-        default:
-            ASSERT(0);
+    case WIRE_MODE_TEXTURE_NONE:
+
+    {
+        std::int32_t bright;
+        std::uint32_t colour;
+
+        if (WIRE_current_countdown == 0) {
+            bright = 255;
+        } else {
+            bright = OS_ticks() - WIRE_current_countdown >> 4;
+            bright = 255 - bright;
+        }
+
+        SATURATE(bright, 0, 255);
+
+        colour = bright;
+        colour |= (colour >> 3) << 16;
+
+        WIRE_plane_draw();
+        MF_transform_points(im);
+        MF_add_wireframe(im, WIRE_ot_line, colour, 0.006F, OS_DRAW_ADD | OS_DRAW_NOZWRITE | OS_DRAW_ZREVERSE);
+
+        MF_diffuse_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+        MF_add_triangles_bumpmapped_pass(im, 0, OS_DRAW_NORMAL);
+        MF_add_triangles_bumpmapped_pass(im, 1, OS_DRAW_ADD);
+        MF_add_triangles_texture_after_bumpmap(im);
+        MF_specular_spotlight(im, light_x, light_y, light_z, light_matrix, 1.5F);
+        MF_add_triangles_specular_bumpmapped(im, WIRE_ot_dot);
+    }
+
+    break;
+
+    default:
+        ASSERT(0);
     }
 }

@@ -827,191 +827,40 @@ void SW_draw_span_reference(SW_Span *ss, std::int32_t line, std::int32_t mode) {
     std::int32_t bb;
 
     switch (mode) {
-        case SW_MODE_MASKED:
+    case SW_MODE_MASKED:
 
-            r = ss->r;
-            g = ss->g;
-            b = ss->b;
-            u = ss->u;
-            v = ss->v;
+        r = ss->r;
+        g = ss->g;
+        b = ss->b;
+        u = ss->u;
+        v = ss->v;
 
-            dest = SW_buffer + ss->x1 + line * SW_buffer_pitch;
+        dest = SW_buffer + ss->x1 + line * SW_buffer_pitch;
 
-            for (x = ss->x1; x < ss->x2; x++) {
-                R = r >> 16;
-                G = g >> 16;
-                B = b >> 16;
-                U = u >> 16;
-                V = v >> 16;
-                U &= ss->tga_size - 1;
-                V &= ss->tga_size - 1;
+        for (x = ss->x1; x < ss->x2; x++) {
+            R = r >> 16;
+            G = g >> 16;
+            B = b >> 16;
+            U = u >> 16;
+            V = v >> 16;
+            U &= ss->tga_size - 1;
+            V &= ss->tga_size - 1;
 
-                pa = ss->tga[U + V * ss->tga_size].alpha;
-                pr = ss->tga[U + V * ss->tga_size].red;
-                pg = ss->tga[U + V * ss->tga_size].green;
-                pb = ss->tga[U + V * ss->tga_size].blue;
+            pa = ss->tga[U + V * ss->tga_size].alpha;
+            pr = ss->tga[U + V * ss->tga_size].red;
+            pg = ss->tga[U + V * ss->tga_size].green;
+            pb = ss->tga[U + V * ss->tga_size].blue;
 
-                if (pa <= 128) {
-                    dest++;
-                } else {
-                    ASSERT(WITHIN(R, 0, 255));
-                    ASSERT(WITHIN(G, 0, 255));
-                    ASSERT(WITHIN(B, 0, 255));
+            if (pa <= 128) {
+                dest++;
+            } else {
+                ASSERT(WITHIN(R, 0, 255));
+                ASSERT(WITHIN(G, 0, 255));
+                ASSERT(WITHIN(B, 0, 255));
 
-                    pr = pr * R >> 7;
-                    pg = pg * G >> 7;
-                    pb = pb * B >> 7;
-
-                    if (pr > 255) {
-                        pr = 255;
-                    }
-                    if (pg > 255) {
-                        pg = 255;
-                    }
-                    if (pb > 255) {
-                        pb = 255;
-                    }
-
-                    *dest++ = (pr << 16) | (pg << 8) | pb;
-                }
-
-                r += ss->dr;
-                g += ss->dg;
-                b += ss->db;
-                u += ss->du;
-                v += ss->dv;
-            }
-
-            break;
-
-        case SW_MODE_ALPHA:
-
-            //
-            // Constant rgba...
-            //
-
-            a = ss->a;
-            r = ss->r;
-            g = ss->g;
-            b = ss->b;
-            u = ss->u;
-            v = ss->v;
-
-            dest = SW_buffer + ss->x1 + line * SW_buffer_pitch;
-
-            for (x = ss->x1; x < ss->x2; x++) {
-                U = u >> 16;
-                V = v >> 16;
-                U &= ss->tga_size - 1;
-                V &= ss->tga_size - 1;
-
-                pa = ss->tga[U + V * ss->tga_size].alpha;
-                pr = ss->tga[U + V * ss->tga_size].red;
-                pg = ss->tga[U + V * ss->tga_size].green;
-                pb = ss->tga[U + V * ss->tga_size].blue;
-
-                if (pa == 0) {
-                    //
-                    // Optimisation? Maybe not!
-                    //
-
-                    dest++;
-                } else {
-                    //
-                    // Source values.
-                    //
-
-                    pa = pa * a >> 8;
-                    pr = pr * r >> 8;
-                    pg = pg * g >> 8;
-                    pb = pb * b >> 8;
-
-                    if (pr > 255) {
-                        pr = 255;
-                    }
-                    if (pg > 255) {
-                        pg = 255;
-                    }
-                    if (pb > 255) {
-                        pb = 255;
-                    }
-
-                    if (pa == 255) {
-                        *dest++ = (pr << 16) | (pg << 8) | pb;
-                    } else {
-                        //
-                        // The rgb of the pixel now.
-                        //
-
-                        or = (*dest >> 16) & 0xff;
-                        og = (*dest >> 8) & 0xff;
-                        ob = (*dest >> 0) & 0xff;
-
-                        //
-                        // Blend!
-                        //
-
-                        br = or * (255 - pa) + pr * pa >> 8;
-                        bg = og * (255 - pa) + pg * pa >> 8;
-                        bb = ob * (255 - pa) + pb * pa >> 8;
-
-                        ASSERT(WITHIN(br, 0, 255));
-                        ASSERT(WITHIN(bg, 0, 255));
-                        ASSERT(WITHIN(bb, 0, 255));
-
-                        //
-                        // Plot!
-                        //
-
-                        *dest++ = (br << 16) | (bg << 8) | bb;
-                    }
-                }
-
-                u += ss->du;
-                v += ss->dv;
-            }
-
-            break;
-
-        case SW_MODE_ADDITIVE:
-
-            //
-            // Constant rgba...
-            //
-
-            r = ss->r;
-            g = ss->g;
-            b = ss->b;
-            u = ss->u;
-            v = ss->v;
-
-            dest = SW_buffer + ss->x1 + line * SW_buffer_pitch;
-
-            for (x = ss->x1; x < ss->x2; x++) {
-                U = u >> 16;
-                V = v >> 16;
-                U &= ss->tga_size - 1;
-                V &= ss->tga_size - 1;
-
-                pr = ss->tga[U + V * ss->tga_size].red;
-                pg = ss->tga[U + V * ss->tga_size].green;
-                pb = ss->tga[U + V * ss->tga_size].blue;
-
-                pr = pr * r >> 7;
-                pg = pg * g >> 7;
-                pb = pb * b >> 7;
-
-                //
-                // The rgb of the pixel now.
-                //
-
-                or = (*dest >> 16) & 0xff;
-                og = (*dest >> 8) & 0xff;
-                ob = (*dest >> 0) & 0xff;
-
-                pr += or ;
-                pg += og;
-                pb += ob;
+                pr = pr * R >> 7;
+                pg = pg * G >> 7;
+                pb = pb * B >> 7;
 
                 if (pr > 255) {
                     pr = 255;
@@ -1024,16 +873,167 @@ void SW_draw_span_reference(SW_Span *ss, std::int32_t line, std::int32_t mode) {
                 }
 
                 *dest++ = (pr << 16) | (pg << 8) | pb;
-
-                u += ss->du;
-                v += ss->dv;
             }
 
-            break;
+            r += ss->dr;
+            g += ss->dg;
+            b += ss->db;
+            u += ss->du;
+            v += ss->dv;
+        }
 
-        default:
-            ASSERT(0);
-            break;
+        break;
+
+    case SW_MODE_ALPHA:
+
+        //
+        // Constant rgba...
+        //
+
+        a = ss->a;
+        r = ss->r;
+        g = ss->g;
+        b = ss->b;
+        u = ss->u;
+        v = ss->v;
+
+        dest = SW_buffer + ss->x1 + line * SW_buffer_pitch;
+
+        for (x = ss->x1; x < ss->x2; x++) {
+            U = u >> 16;
+            V = v >> 16;
+            U &= ss->tga_size - 1;
+            V &= ss->tga_size - 1;
+
+            pa = ss->tga[U + V * ss->tga_size].alpha;
+            pr = ss->tga[U + V * ss->tga_size].red;
+            pg = ss->tga[U + V * ss->tga_size].green;
+            pb = ss->tga[U + V * ss->tga_size].blue;
+
+            if (pa == 0) {
+                //
+                // Optimisation? Maybe not!
+                //
+
+                dest++;
+            } else {
+                //
+                // Source values.
+                //
+
+                pa = pa * a >> 8;
+                pr = pr * r >> 8;
+                pg = pg * g >> 8;
+                pb = pb * b >> 8;
+
+                if (pr > 255) {
+                    pr = 255;
+                }
+                if (pg > 255) {
+                    pg = 255;
+                }
+                if (pb > 255) {
+                    pb = 255;
+                }
+
+                if (pa == 255) {
+                    *dest++ = (pr << 16) | (pg << 8) | pb;
+                } else {
+                    //
+                    // The rgb of the pixel now.
+                    //
+
+                    or = (*dest >> 16) & 0xff;
+                    og = (*dest >> 8) & 0xff;
+                    ob = (*dest >> 0) & 0xff;
+
+                    //
+                    // Blend!
+                    //
+
+                    br = or *(255 - pa) + pr * pa >> 8;
+                    bg = og * (255 - pa) + pg * pa >> 8;
+                    bb = ob * (255 - pa) + pb * pa >> 8;
+
+                    ASSERT(WITHIN(br, 0, 255));
+                    ASSERT(WITHIN(bg, 0, 255));
+                    ASSERT(WITHIN(bb, 0, 255));
+
+                    //
+                    // Plot!
+                    //
+
+                    *dest++ = (br << 16) | (bg << 8) | bb;
+                }
+            }
+
+            u += ss->du;
+            v += ss->dv;
+        }
+
+        break;
+
+    case SW_MODE_ADDITIVE:
+
+        //
+        // Constant rgba...
+        //
+
+        r = ss->r;
+        g = ss->g;
+        b = ss->b;
+        u = ss->u;
+        v = ss->v;
+
+        dest = SW_buffer + ss->x1 + line * SW_buffer_pitch;
+
+        for (x = ss->x1; x < ss->x2; x++) {
+            U = u >> 16;
+            V = v >> 16;
+            U &= ss->tga_size - 1;
+            V &= ss->tga_size - 1;
+
+            pr = ss->tga[U + V * ss->tga_size].red;
+            pg = ss->tga[U + V * ss->tga_size].green;
+            pb = ss->tga[U + V * ss->tga_size].blue;
+
+            pr = pr * r >> 7;
+            pg = pg * g >> 7;
+            pb = pb * b >> 7;
+
+            //
+            // The rgb of the pixel now.
+            //
+
+            or = (*dest >> 16) & 0xff;
+            og = (*dest >> 8) & 0xff;
+            ob = (*dest >> 0) & 0xff;
+
+            pr += or ;
+            pg += og;
+            pb += ob;
+
+            if (pr > 255) {
+                pr = 255;
+            }
+            if (pg > 255) {
+                pg = 255;
+            }
+            if (pb > 255) {
+                pb = 255;
+            }
+
+            *dest++ = (pr << 16) | (pg << 8) | pb;
+
+            u += ss->du;
+            v += ss->dv;
+        }
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1069,33 +1069,33 @@ inline void SW_draw_span_additive(SW_Span *ss, std::int32_t line, std::int32_t m
 
 void SW_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
     switch (mode) {
-        case SW_MODE_MASKED:
-            SW_draw_span_masked(ss, line, mode);
-            break;
+    case SW_MODE_MASKED:
+        SW_draw_span_masked(ss, line, mode);
+        break;
 
-        case SW_MODE_ALPHA:
+    case SW_MODE_ALPHA:
 
-            ss->r <<= 16;
-            ss->g <<= 16;
-            ss->b <<= 16;
+        ss->r <<= 16;
+        ss->g <<= 16;
+        ss->b <<= 16;
 
-            SW_draw_span_alpha(ss, line, mode);
+        SW_draw_span_alpha(ss, line, mode);
 
-            break;
+        break;
 
-        case SW_MODE_ADDITIVE:
+    case SW_MODE_ADDITIVE:
 
-            ss->r <<= 16;
-            ss->g <<= 16;
-            ss->b <<= 16;
+        ss->r <<= 16;
+        ss->g <<= 16;
+        ss->b <<= 16;
 
-            SW_draw_span_additive(ss, line, mode);
+        SW_draw_span_additive(ss, line, mode);
 
-            break;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 }
 
@@ -1689,142 +1689,142 @@ void SW_reload_textures() {
             tt_index = i;
         } else {
             switch (i) {
-                case POLY_PAGE_SMOKECLOUD2:
-                    tt_index = TEXTURE_page_smokecloud;
-                    break;
+            case POLY_PAGE_SMOKECLOUD2:
+                tt_index = TEXTURE_page_smokecloud;
+                break;
 
-                case POLY_PAGE_BIGBANG:
-                    tt_index = TEXTURE_page_bigbang;
-                    break;
+            case POLY_PAGE_BIGBANG:
+                tt_index = TEXTURE_page_bigbang;
+                break;
 
-                case POLY_PAGE_EXPLODE1:
-                    tt_index = TEXTURE_page_explode1;
-                    break;
+            case POLY_PAGE_EXPLODE1:
+                tt_index = TEXTURE_page_explode1;
+                break;
 
-                case POLY_PAGE_EXPLODE1_ADDITIVE:
-                    tt_index = TEXTURE_page_explode1;
-                    break;
+            case POLY_PAGE_EXPLODE1_ADDITIVE:
+                tt_index = TEXTURE_page_explode1;
+                break;
 
-                case POLY_PAGE_EXPLODE2_ADDITIVE:
-                    tt_index = TEXTURE_page_explode2;
-                    break;
+            case POLY_PAGE_EXPLODE2_ADDITIVE:
+                tt_index = TEXTURE_page_explode2;
+                break;
 
-                case POLY_PAGE_DUSTWAVE:
-                    tt_index = TEXTURE_page_dustwave;
-                    break;
+            case POLY_PAGE_DUSTWAVE:
+                tt_index = TEXTURE_page_dustwave;
+                break;
 
-                case POLY_PAGE_FACE1:
-                    tt_index = TEXTURE_page_face1;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_FACE1:
+                tt_index = TEXTURE_page_face1;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_FACE2:
-                    tt_index = TEXTURE_page_face2;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_FACE2:
+                tt_index = TEXTURE_page_face2;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_NEWFONT_INVERSE:
-                    tt_index = TEXTURE_page_lcdfont;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_NEWFONT_INVERSE:
+                tt_index = TEXTURE_page_lcdfont;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_COLOUR:
-                    flat_page_hack = true;
-                    break;
+            case POLY_PAGE_COLOUR:
+                flat_page_hack = true;
+                break;
 
-                case POLY_PAGE_LADDER:
-                    tt_index = TEXTURE_page_ladder;
-                    break;
+            case POLY_PAGE_LADDER:
+                tt_index = TEXTURE_page_ladder;
+                break;
 
-                case POLY_PAGE_LEAF:
-                    tt_index = TEXTURE_page_leaf;
-                    break;
+            case POLY_PAGE_LEAF:
+                tt_index = TEXTURE_page_leaf;
+                break;
 
-                case POLY_PAGE_RUBBISH:
-                    tt_index = TEXTURE_page_rubbish;
-                    break;
+            case POLY_PAGE_RUBBISH:
+                tt_index = TEXTURE_page_rubbish;
+                break;
 
-                    /*
+                /*
 
-                    case POLY_PAGE_SHADOW_OVAL:
-                            tt_index = TEXTURE_page_shadowoval;
-                            break;
+                case POLY_PAGE_SHADOW_OVAL:
+                        tt_index = TEXTURE_page_shadowoval;
+                        break;
 
-                    */
+                */
 
-                case POLY_PAGE_FONT2D:
-                    tt_index = TEXTURE_page_font2d;
-                    SW_bucket[i] = 1; // Force to have a zsort of 1.
-                    break;
+            case POLY_PAGE_FONT2D:
+                tt_index = TEXTURE_page_font2d;
+                SW_bucket[i] = 1; // Force to have a zsort of 1.
+                break;
 
-                case POLY_PAGE_LASTPANEL_ALPHA:
-                    tt_index = TEXTURE_page_lastpanel;
-                    SW_bucket[i] = 5;
-                    break;
+            case POLY_PAGE_LASTPANEL_ALPHA:
+                tt_index = TEXTURE_page_lastpanel;
+                SW_bucket[i] = 5;
+                break;
 
-                case POLY_PAGE_LASTPANEL_ADDALPHA:
-                    tt_index = TEXTURE_page_lastpanel;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_LASTPANEL_ADDALPHA:
+                tt_index = TEXTURE_page_lastpanel;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_LASTPANEL_ADD:
-                    tt_index = TEXTURE_page_lastpanel;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_LASTPANEL_ADD:
+                tt_index = TEXTURE_page_lastpanel;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_LASTPANEL2_ADD:
-                    tt_index = TEXTURE_page_lastpanel2;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_LASTPANEL2_ADD:
+                tt_index = TEXTURE_page_lastpanel2;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_LASTPANEL2_ADDALPHA:
-                    tt_index = TEXTURE_page_lastpanel2;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_LASTPANEL2_ADDALPHA:
+                tt_index = TEXTURE_page_lastpanel2;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_LASTPANEL2_ALPHA:
-                    tt_index = TEXTURE_page_lastpanel2;
-                    SW_bucket[i] = 1;
-                    break;
+            case POLY_PAGE_LASTPANEL2_ALPHA:
+                tt_index = TEXTURE_page_lastpanel2;
+                SW_bucket[i] = 1;
+                break;
 
-                case POLY_PAGE_FLAMES2:
-                    tt_index = TEXTURE_page_flame2;
-                    break;
+            case POLY_PAGE_FLAMES2:
+                tt_index = TEXTURE_page_flame2;
+                break;
 
-                case POLY_PAGE_PCFLAMER:
-                    tt_index = TEXTURE_page_pcflamer;
-                    break;
+            case POLY_PAGE_PCFLAMER:
+                tt_index = TEXTURE_page_pcflamer;
+                break;
 
-                case POLY_PAGE_BLOOM1:
-                    tt_index = TEXTURE_page_bloom1;
-                    break;
+            case POLY_PAGE_BLOOM1:
+                tt_index = TEXTURE_page_bloom1;
+                break;
 
-                case POLY_PAGE_BLOODSPLAT:
-                    tt_index = TEXTURE_page_bloodsplat;
-                    break;
+            case POLY_PAGE_BLOODSPLAT:
+                tt_index = TEXTURE_page_bloodsplat;
+                break;
 
-                case POLY_PAGE_COLOUR_ALPHA:
-                    flat_page_hack = true;
-                    SW_bucket[i] = 9;
-                    break;
+            case POLY_PAGE_COLOUR_ALPHA:
+                flat_page_hack = true;
+                SW_bucket[i] = 9;
+                break;
 
 #ifdef TARGET_DC
-                case POLY_PAGE_BACKGROUND_IMAGE:
-                    tt_index = TEXTURE_page_background_use_instead;
-                    break;
-                case POLY_PAGE_BACKGROUND_IMAGE2:
-                    tt_index = TEXTURE_page_background_use_instead2;
-                    break;
+            case POLY_PAGE_BACKGROUND_IMAGE:
+                tt_index = TEXTURE_page_background_use_instead;
+                break;
+            case POLY_PAGE_BACKGROUND_IMAGE2:
+                tt_index = TEXTURE_page_background_use_instead2;
+                break;
 #endif
 
-                default:
+            default:
 
-                    //
-                    // Unsupported texture.
-                    //
-                    ASSERT(false);
+                //
+                // Unsupported texture.
+                //
+                ASSERT(false);
 
-                    continue;
+                continue;
             }
         }
 
@@ -2880,7 +2880,7 @@ hor_loop:
 
 main_loop_done:
 
-                    // Do we need to do the last pixel?
+                        // Do we need to do the last pixel?
 				;Is the last pixel odd?
 				mov		ecx,[tempx2]
 				test	ecx,0x1
@@ -3037,7 +3037,7 @@ void SW_render_spans_eddie() {
 					mov			ecx,count
 
 myloop64:
-                    // get U + V * 64
+                        // get U + V * 64
 					mov			edi,ebx // edi = V (6:26)
 					mov			edx,eax // edx = U (6:26)
 
@@ -3130,7 +3130,7 @@ myloop64:
 					mov			ecx,count
 
 myloop32:
-                    // get U + V * 32
+                        // get U + V * 32
 					mov			edi,ebx // edi = V (6:26)
 					mov			edx,eax // edx = U (6:26)
 
@@ -3228,7 +3228,7 @@ myloop32:
 myloopany:
 					mov			count,edi
 
-                                               // get U + V * <n>
+                        // get U + V * <n>
 					mov			edi,ebx
 					mov			ecx,[shift1]
 					shr			edi,cl
@@ -3244,33 +3244,33 @@ myloopany:
 
 					add			edi,src
 
-                                      // load texel
+                        // load texel
 					mov			edx,DWORD PTR [edx + edi]
 
-                                  // get shade
+                    // get shade
 					movq		mm1,mm7 // mm1 = 00|BB|GG|RR
 					psrlw		mm1,8 // mm1 = 00|0B|0G|0R
 
-                                  // expand 
+                    // expand 
 					movd		mm0,edx
 					punpcklbw	mm0,mm5 // mm0 = 00|0B|0G|0R
 
-                                      // multiply
+                        // multiply
 					pmullw		mm1,mm0 // mm1 = 00|BB|GG|RR shaded colour
 
-                                      // increment colour
+                        // increment colour
 					paddw		mm7,mm6 // increment R,G,B
 
-                                      // double with saturation
+                        // double with saturation
 					paddusw		mm1,mm1
 
-                                      // shift down
+                        // shift down
 					psrlw		mm1,8 // mm1 = 00|0B|0G|0R
 
-                                  // pack back to 00000GBR
+                    // pack back to 00000GBR
 					packuswb	mm1,mm5 // mm1 = 00000BGR
 
-                                      // mov back to integer unit
+                        // mov back to integer unit
 					movd		edx,mm1
 
 					mov			edi,count
@@ -3416,93 +3416,93 @@ void SW_add_triangle(
     }
 
     switch (SW_page[page]) {
-        case SW_PAGE_IGNORE:
-            return;
+    case SW_PAGE_IGNORE:
+        return;
 
-        case SW_PAGE_NORMAL:
+    case SW_PAGE_NORMAL:
 
-            //
-            // Continue with the triangle draw.
-            //
+        //
+        // Continue with the triangle draw.
+        //
 
-            break;
+        break;
 
-        case SW_PAGE_MASKED:
+    case SW_PAGE_MASKED:
 
-            //
-            // Add to the masked buckets...
-            //
+        //
+        // Add to the masked buckets...
+        //
 
-            SW_add_masked_triangle(
-                x1, y1, z1, r1, g1, b1, u1, v1,
-                x2, y2, z2, r2, g2, b2, u2, v2,
-                x3, y3, z3, r3, g3, b3, u3, v3,
+        SW_add_masked_triangle(
+            x1, y1, z1, r1, g1, b1, u1, v1,
+            x2, y2, z2, r2, g2, b2, u2, v2,
+            x3, y3, z3, r3, g3, b3, u3, v3,
+            tga,
+            tga_size);
+
+        return;
+
+    case SW_PAGE_ALPHA:
+
+        //
+        // Add the sprite.
+        //
+
+        {
+            std::int32_t mode;
+
+            mode = SW_MODE_ALPHA;
+
+            if (SW_bucket[page]) {
+                z1 = SW_bucket[page];
+
+                mode = SW_MODE_ALPHA_NOZ;
+            }
+
+            SW_add_alpha_sprite(
+                x1, y1, u1, v1,
+                x2, y2, u2, v2,
+                x3, y3, u3, v3,
+                z1, alpha, r1, g1, b1,
                 tga,
-                tga_size);
+                tga_size,
+                mode);
+        }
 
-            return;
+        return;
 
-        case SW_PAGE_ALPHA:
+    case SW_PAGE_ADDITIVE:
 
-            //
-            // Add the sprite.
-            //
+        //
+        // Add the sprite.
+        //
 
-            {
-                std::int32_t mode;
+        {
+            std::int32_t mode;
 
-                mode = SW_MODE_ALPHA;
+            mode = SW_MODE_ADDITIVE;
 
-                if (SW_bucket[page]) {
-                    z1 = SW_bucket[page];
+            if (SW_bucket[page]) {
+                z1 = SW_bucket[page];
 
-                    mode = SW_MODE_ALPHA_NOZ;
-                }
-
-                SW_add_alpha_sprite(
-                    x1, y1, u1, v1,
-                    x2, y2, u2, v2,
-                    x3, y3, u3, v3,
-                    z1, alpha, r1, g1, b1,
-                    tga,
-                    tga_size,
-                    mode);
+                mode = SW_MODE_ADDITIVE_NOZ;
             }
 
-            return;
+            SW_add_alpha_sprite(
+                x1, y1, u1, v1,
+                x2, y2, u2, v2,
+                x3, y3, u3, v3,
+                z1, alpha, r1 >> 1, g1 >> 1, b1 >> 1,
+                tga,
+                tga_size,
+                mode);
+        }
 
-        case SW_PAGE_ADDITIVE:
+        return;
 
-            //
-            // Add the sprite.
-            //
-
-            {
-                std::int32_t mode;
-
-                mode = SW_MODE_ADDITIVE;
-
-                if (SW_bucket[page]) {
-                    z1 = SW_bucket[page];
-
-                    mode = SW_MODE_ADDITIVE_NOZ;
-                }
-
-                SW_add_alpha_sprite(
-                    x1, y1, u1, v1,
-                    x2, y2, u2, v2,
-                    x3, y3, u3, v3,
-                    z1, alpha, r1 >> 1, g1 >> 1, b1 >> 1,
-                    tga,
-                    tga_size,
-                    mode);
-            }
-
-            return;
-
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     std::int32_t xa, xb, za, zb, ra, rb, ga, gb, ba, bb, ua, ub, va, vb;
@@ -5993,8 +5993,8 @@ void SW_copy_to_bb() {
     the_display.screen_lock();
 
     if (the_display.screen) {
-        std::int32_t width = MIN(the_display.screen_width, SW_buffer_width);
-        std::int32_t height = MIN(the_display.screen_height, SW_buffer_height);
+        std::int32_t width = std::min(the_display.screen_width, SW_buffer_width);
+        std::int32_t height = std::min(the_display.screen_height, SW_buffer_height);
 
         if (the_display.screen_bbp == 32) {
             //

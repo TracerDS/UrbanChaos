@@ -14,6 +14,7 @@
 #include "memory.h"
 #include "ware.h"
 #include "mav.h"
+#include <algorithm>
 
 #define NIGHT_FLAG_INSIDE (1 << 0)
 
@@ -250,7 +251,7 @@ std::int32_t NIGHT_slight_create(
     nsl->blue &= 0xfe;
 
     {
-        std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *room);
+        std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t * room);
 
         std::uint16_t room;
 
@@ -913,7 +914,7 @@ void NIGHT_light_mapsquare(std::int32_t lo_map_x, std::int32_t lo_map_z, NIGHT_C
                 dx = (lo_map_x == 0) ? mx : ((PAP_SIZE_HI - 1) - mx);
                 dz = (lo_map_z == 0) ? mz : ((PAP_SIZE_HI - 1) - mz);
 
-                dist = MIN(dx, dz);
+                dist = std::min(dx, dz);
 
                 col_upto->red = col_upto->red * dist >> 2;
                 col_upto->green = col_upto->green * dist >> 2;
@@ -2915,9 +2916,9 @@ NIGHT_Colour NIGHT_get_light_at(
         std::int32_t mulx;
         std::int32_t mulz;
 
-        mulx = MIN(x, (128 << 8) - x);
-        mulz = MIN(z, (128 << 8) - z);
-        mul = MIN(mulx, mulz);
+        mulx = std::min(x, (128 << 8) - x);
+        mulz = std::min(z, (128 << 8) - z);
+        mul = std::min(mulx, mulz);
 
         red = red * mul >> 10;
         green = green * mul >> 10;
@@ -3467,26 +3468,26 @@ void NIGHT_generate_roof_walkable() {
 
                 for (point = 0; point < 4; point++) {
                     switch (point) {
-                        case 0:
-                            prim_x = roof_face_x;
-                            prim_y = rf->Y;
-                            prim_z = roof_face_z;
-                            break;
-                        case 1:
-                            prim_x = roof_face_x + 256;
-                            prim_y = (rf->Y) + (rf->DY[0] << ROOF_SHIFT);
-                            prim_z = roof_face_z;
-                            break;
-                        case 3:
-                            prim_x = roof_face_x + 256;
-                            prim_y = (rf->Y) + (rf->DY[1] << ROOF_SHIFT);
-                            prim_z = roof_face_z + 256;
-                            break;
-                        case 2:
-                            prim_x = roof_face_x;
-                            prim_y = (rf->Y) + (rf->DY[2] << ROOF_SHIFT);
-                            prim_z = roof_face_z + 256;
-                            break;
+                    case 0:
+                        prim_x = roof_face_x;
+                        prim_y = rf->Y;
+                        prim_z = roof_face_z;
+                        break;
+                    case 1:
+                        prim_x = roof_face_x + 256;
+                        prim_y = (rf->Y) + (rf->DY[0] << ROOF_SHIFT);
+                        prim_z = roof_face_z;
+                        break;
+                    case 3:
+                        prim_x = roof_face_x + 256;
+                        prim_y = (rf->Y) + (rf->DY[1] << ROOF_SHIFT);
+                        prim_z = roof_face_z + 256;
+                        break;
+                    case 2:
+                        prim_x = roof_face_x;
+                        prim_y = (rf->Y) + (rf->DY[2] << ROOF_SHIFT);
+                        prim_z = roof_face_z + 256;
+                        break;
                     }
 
                     //
@@ -3525,26 +3526,26 @@ void NIGHT_generate_roof_walkable() {
 
                     for (point = 0; point < 4; point++) {
                         switch (point) {
-                            case 0:
-                                prim_x = (x) << 8;
-                                prim_y = MAVHEIGHT(x, z) << 6;
-                                prim_z = (z) << 8;
-                                break;
-                            case 1:
-                                prim_x = (x + 1) << 8;
-                                prim_y = MAVHEIGHT(x, z) << 6;
-                                prim_z = (z) << 8;
-                                break;
-                            case 2:
-                                prim_x = (x + 1) << 8;
-                                prim_y = MAVHEIGHT(x, z) << 6;
-                                prim_z = (z + 1) << 8;
-                                break;
-                            case 3:
-                                prim_x = (x) << 8;
-                                prim_y = MAVHEIGHT(x, z) << 6;
-                                prim_z = (z + 1) << 8;
-                                break;
+                        case 0:
+                            prim_x = (x) << 8;
+                            prim_y = MAVHEIGHT(x, z) << 6;
+                            prim_z = (z) << 8;
+                            break;
+                        case 1:
+                            prim_x = (x + 1) << 8;
+                            prim_y = MAVHEIGHT(x, z) << 6;
+                            prim_z = (z) << 8;
+                            break;
+                        case 2:
+                            prim_x = (x + 1) << 8;
+                            prim_y = MAVHEIGHT(x, z) << 6;
+                            prim_z = (z + 1) << 8;
+                            break;
+                        case 3:
+                            prim_x = (x) << 8;
+                            prim_y = MAVHEIGHT(x, z) << 6;
+                            prim_z = (z + 1) << 8;
+                            break;
                         }
 
                         nc = &NIGHT_roof_walkable[max_face * 4 + point];

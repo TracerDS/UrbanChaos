@@ -79,24 +79,24 @@ void VD_transform(
     z_3d -= VD_cam_z;
 
     switch (VD_cam_view) {
-        case VD_CAM_VIEW_X:
-            xc = z_3d;
-            yc = y_3d;
-            break;
+    case VD_CAM_VIEW_X:
+        xc = z_3d;
+        yc = y_3d;
+        break;
 
-        case VD_CAM_VIEW_Y:
-            xc = -z_3d;
-            yc = x_3d;
-            break;
+    case VD_CAM_VIEW_Y:
+        xc = -z_3d;
+        yc = x_3d;
+        break;
 
-        case VD_CAM_VIEW_Z:
-            xc = -x_3d;
-            yc = y_3d;
-            break;
+    case VD_CAM_VIEW_Z:
+        xc = -x_3d;
+        yc = y_3d;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     xc = MUL64(xc, VD_cam_scale);
@@ -122,24 +122,24 @@ void VD_untransform(std::int32_t x_2d, std::int32_t y_2d, std::int32_t *x_3d, st
     yc = DIV64(yc, VD_cam_scale);
 
     switch (VD_cam_view) {
-        case VD_CAM_VIEW_X:
-            *z_3d = xc;
-            *y_3d = yc;
-            break;
+    case VD_CAM_VIEW_X:
+        *z_3d = xc;
+        *y_3d = yc;
+        break;
 
-        case VD_CAM_VIEW_Y:
-            *z_3d = -xc;
-            *x_3d = yc;
-            break;
+    case VD_CAM_VIEW_Y:
+        *z_3d = -xc;
+        *x_3d = yc;
+        break;
 
-        case VD_CAM_VIEW_Z:
-            *x_3d = -xc;
-            *y_3d = yc;
-            break;
+    case VD_CAM_VIEW_Z:
+        *x_3d = -xc;
+        *y_3d = yc;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     *x_3d += VD_cam_x;
@@ -1044,7 +1044,8 @@ ControlDef HMTab_def[] =
 
         {BUTTON, 0, "Save", 10, 200},
 
-        {0}};
+        {0}
+};
 
 //
 // The parent of this tab.
@@ -1140,12 +1141,12 @@ void HmTab::HandleTab(MFPoint *current_point) {
         Keys[KB_TAB] = 0;
 
         switch (VD_cam_view) {
-            case VD_CAM_VIEW_X: VD_cam_view = VD_CAM_VIEW_Y; break;
-            case VD_CAM_VIEW_Y: VD_cam_view = VD_CAM_VIEW_Z; break;
-            case VD_CAM_VIEW_Z: VD_cam_view = VD_CAM_VIEW_X; break;
-            default:
-                ASSERT(0);
-                break;
+        case VD_CAM_VIEW_X: VD_cam_view = VD_CAM_VIEW_Y; break;
+        case VD_CAM_VIEW_Y: VD_cam_view = VD_CAM_VIEW_Z; break;
+        case VD_CAM_VIEW_Z: VD_cam_view = VD_CAM_VIEW_X; break;
+        default:
+            ASSERT(0);
+            break;
         }
 
         change = true;
@@ -1173,55 +1174,55 @@ std::uint16_t HmTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) 
     ShowWorkScreen(0);
 
     switch (flags) {
-        case NO_CLICK:
-            break;
-        case LEFT_CLICK:
+    case NO_CLICK:
+        break;
+    case LEFT_CLICK:
 
-            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+        SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
 
-            //
-            // Where in the tab is the click?
-            //
+        //
+        // Where in the tab is the click?
+        //
 
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
 
-            //
-            // Go through all the controls in the tab and see if we have clicked on any of them.
-            //
+        //
+        // Go through all the controls in the tab and see if we have clicked on any of them.
+        //
 
-            current_control = GetControlList();
+        current_control = GetControlList();
 
-            while (current_control) {
-                if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                    //
-                    // A click on this button.
-                    //
+        while (current_control) {
+            if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                //
+                // A click on this button.
+                //
 
-                    control_id = current_control->TrackControl(&local_point);
+                control_id = current_control->TrackControl(&local_point);
 
-                    HandleControl(control_id);
+                HandleControl(control_id);
 
-                    //
-                    // Tidy up display.
-                    //
+                //
+                // Tidy up display.
+                //
 
-                    if (LockWorkScreen()) {
-                        DrawTab();
-                        UnlockWorkScreen();
-                    }
-
-                    ShowWorkWindow(0);
-
-                    return control_id;
+                if (LockWorkScreen()) {
+                    DrawTab();
+                    UnlockWorkScreen();
                 }
 
-                current_control = current_control->GetNextControl();
+                ShowWorkWindow(0);
+
+                return control_id;
             }
 
-            break;
-        case RIGHT_CLICK:
-            break;
+            current_control = current_control->GetNextControl();
+        }
+
+        break;
+    case RIGHT_CLICK:
+        break;
     }
 
     return 0;
@@ -1253,56 +1254,56 @@ void HmTab::HandleControl(std::uint16_t control_id) {
 #define HMTAB_DGRAV (0.1F)
 
     switch (control_id) {
-        case CTRL_NEXT_PRIM: HMTAB_current_prim += 1; break;
-        case CTRL_PREV_PRIM: HMTAB_current_prim -= 1; break;
+    case CTRL_NEXT_PRIM: HMTAB_current_prim += 1; break;
+    case CTRL_PREV_PRIM: HMTAB_current_prim -= 1; break;
 
-        case CTRL_RES_X_UP: hp->x_res += 1; break;
-        case CTRL_RES_X_DOWN: hp->x_res -= 1; break;
+    case CTRL_RES_X_UP: hp->x_res += 1; break;
+    case CTRL_RES_X_DOWN: hp->x_res -= 1; break;
 
-        case CTRL_RES_Y_UP: hp->y_res += 1; break;
-        case CTRL_RES_Y_DOWN: hp->y_res -= 1; break;
+    case CTRL_RES_Y_UP: hp->y_res += 1; break;
+    case CTRL_RES_Y_DOWN: hp->y_res -= 1; break;
 
-        case CTRL_RES_Z_UP: hp->z_res += 1; break;
-        case CTRL_RES_Z_DOWN: hp->z_res -= 1; break;
+    case CTRL_RES_Z_UP: hp->z_res += 1; break;
+    case CTRL_RES_Z_DOWN: hp->z_res -= 1; break;
 
-        case CTRL_GRAV_U: dup = +HMTAB_DGRAV; break;
-        case CTRL_GRAV_D: dup = -HMTAB_DGRAV; break;
+    case CTRL_GRAV_U: dup = +HMTAB_DGRAV; break;
+    case CTRL_GRAV_D: dup = -HMTAB_DGRAV; break;
 
-        case CTRL_GRAV_R: dright = +HMTAB_DGRAV; break;
-        case CTRL_GRAV_L: dright = -HMTAB_DGRAV; break;
+    case CTRL_GRAV_R: dright = +HMTAB_DGRAV; break;
+    case CTRL_GRAV_L: dright = -HMTAB_DGRAV; break;
 
-        case CTRL_GRAV_CENTRE:
-            hp->x_dgrav = 0.0F;
-            hp->y_dgrav = 0.0F;
-            hp->z_dgrav = 0.0F;
-            break;
+    case CTRL_GRAV_CENTRE:
+        hp->x_dgrav = 0.0F;
+        hp->y_dgrav = 0.0F;
+        hp->z_dgrav = 0.0F;
+        break;
 
-        case CTRL_SAVE: HMTAB_save_primgrids("data\\primgrid.dat"); break;
+    case CTRL_SAVE: HMTAB_save_primgrids("data\\primgrid.dat"); break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     switch (VD_cam_view) {
-        case VD_CAM_VIEW_X:
-            hp->z_dgrav += dright;
-            hp->y_dgrav += dup;
-            break;
+    case VD_CAM_VIEW_X:
+        hp->z_dgrav += dright;
+        hp->y_dgrav += dup;
+        break;
 
-        case VD_CAM_VIEW_Y:
-            hp->z_dgrav -= dright;
-            hp->x_dgrav += dup;
-            break;
+    case VD_CAM_VIEW_Y:
+        hp->z_dgrav -= dright;
+        hp->x_dgrav += dup;
+        break;
 
-        case VD_CAM_VIEW_Z:
-            hp->x_dgrav -= dright;
-            hp->y_dgrav += dup;
-            break;
+    case VD_CAM_VIEW_Z:
+        hp->x_dgrav -= dright;
+        hp->y_dgrav += dup;
+        break;
 
-        default:
-            ASSERT(0);
-            break;
+    default:
+        ASSERT(0);
+        break;
     }
 
     SATURATE(hp->x_res, 2, HMTAB_MAX_RES - 1);

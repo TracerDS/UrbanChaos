@@ -109,98 +109,98 @@ extern void DrawMonoBSpriteC32(std::int32_t x, std::int32_t y, BSprite *the_spri
 
 void SetDrawFunctions(std::uint32_t depth) {
     switch (depth) {
-        case 8:
-            DrawBox = DrawBox8;
-            DrawBoxC = DrawBoxC8;
+    case 8:
+        DrawBox = DrawBox8;
+        DrawBoxC = DrawBoxC8;
 
-            DrawLine = DrawLine8;
-            DrawLineC = DrawLineC8;
-            DrawHLine = DrawHLine8;
-            DrawHLineC = DrawHLineC8;
-            DrawVLine = DrawVLine8;
-            DrawVLineC = DrawVLineC8;
+        DrawLine = DrawLine8;
+        DrawLineC = DrawLineC8;
+        DrawHLine = DrawHLine8;
+        DrawHLineC = DrawHLineC8;
+        DrawVLine = DrawVLine8;
+        DrawVLineC = DrawVLineC8;
 
-            DrawPoint = DrawPoint8;
-            DrawPointC = DrawPointC8;
+        DrawPoint = DrawPoint8;
+        DrawPointC = DrawPointC8;
 
-            DrawPixel = DrawPixel8;
-            DrawPixelC = DrawPixelC8;
+        DrawPixel = DrawPixel8;
+        DrawPixelC = DrawPixelC8;
 
-            QuickText = QuickText8;
-            QuickTextC = QuickTextC8;
-            QuickChar = QuickChar8;
-            QuickCharC = QuickCharC8_16_32;
+        QuickText = QuickText8;
+        QuickTextC = QuickTextC8;
+        QuickChar = QuickChar8;
+        QuickCharC = QuickCharC8_16_32;
 
-            DrawBSprite = DrawBSprite8;
-            DrawBSpriteC = DrawBSpriteC8;
+        DrawBSprite = DrawBSprite8;
+        DrawBSpriteC = DrawBSpriteC8;
 
-            DrawMonoBSprite = DrawMonoBSprite8;
-            DrawMonoBSpriteC = DrawMonoBSpriteC8;
+        DrawMonoBSprite = DrawMonoBSprite8;
+        DrawMonoBSpriteC = DrawMonoBSpriteC8;
 
-            WorkScreenDepth = 1;
-            break;
-        case 15:
-        case 16:
-            DrawBox = DrawBox16;
-            DrawBoxC = DrawBoxC16;
+        WorkScreenDepth = 1;
+        break;
+    case 15:
+    case 16:
+        DrawBox = DrawBox16;
+        DrawBoxC = DrawBoxC16;
 
-            DrawLine = DrawLine16;
-            DrawLineC = DrawLineC8;
-            DrawHLine = DrawHLine16;
-            DrawHLineC = DrawHLineC16;
-            DrawVLine = DrawVLine16;
-            DrawVLineC = DrawVLineC16;
+        DrawLine = DrawLine16;
+        DrawLineC = DrawLineC8;
+        DrawHLine = DrawHLine16;
+        DrawHLineC = DrawHLineC16;
+        DrawVLine = DrawVLine16;
+        DrawVLineC = DrawVLineC16;
 
-            DrawPoint = DrawPoint16;
-            DrawPointC = DrawPointC16;
+        DrawPoint = DrawPoint16;
+        DrawPointC = DrawPointC16;
 
-            DrawPixel = DrawPixel16;
-            DrawPixelC = DrawPixelC16;
+        DrawPixel = DrawPixel16;
+        DrawPixelC = DrawPixelC16;
 
-            QuickText = QuickText16;
-            QuickTextC = QuickTextC16;
-            QuickChar = QuickChar16;
-            QuickCharC = QuickCharC8_16_32;
+        QuickText = QuickText16;
+        QuickTextC = QuickTextC16;
+        QuickChar = QuickChar16;
+        QuickCharC = QuickCharC8_16_32;
 
-            DrawBSprite = DrawBSprite16;
-            DrawBSpriteC = DrawBSpriteC16;
+        DrawBSprite = DrawBSprite16;
+        DrawBSpriteC = DrawBSpriteC16;
 
-            DrawMonoBSprite = DrawMonoBSprite16;
-            DrawMonoBSpriteC = DrawMonoBSpriteC16;
+        DrawMonoBSprite = DrawMonoBSprite16;
+        DrawMonoBSpriteC = DrawMonoBSpriteC16;
 
-            WorkScreenDepth = 2;
-            break;
-        case 24:
-        case 32:
-            DrawBox = DrawBox32;
-            DrawBoxC = DrawBoxC32;
+        WorkScreenDepth = 2;
+        break;
+    case 24:
+    case 32:
+        DrawBox = DrawBox32;
+        DrawBoxC = DrawBoxC32;
 
-            DrawLine = DrawLine32;
-            DrawLineC = DrawLineC8;
-            DrawHLine = DrawHLine32;
-            DrawHLineC = DrawHLineC32;
-            DrawVLine = DrawVLine32;
-            DrawVLineC = DrawVLineC32;
+        DrawLine = DrawLine32;
+        DrawLineC = DrawLineC8;
+        DrawHLine = DrawHLine32;
+        DrawHLineC = DrawHLineC32;
+        DrawVLine = DrawVLine32;
+        DrawVLineC = DrawVLineC32;
 
-            DrawPoint = DrawPoint32;
-            DrawPointC = DrawPointC32;
+        DrawPoint = DrawPoint32;
+        DrawPointC = DrawPointC32;
 
-            DrawPixel = DrawPixel32;
-            DrawPixelC = DrawPixelC32;
+        DrawPixel = DrawPixel32;
+        DrawPixelC = DrawPixelC32;
 
-            QuickText = QuickText32;
-            QuickTextC = QuickTextC32;
-            QuickChar = QuickChar32;
-            QuickCharC = QuickCharC8_16_32;
+        QuickText = QuickText32;
+        QuickTextC = QuickTextC32;
+        QuickChar = QuickChar32;
+        QuickCharC = QuickCharC8_16_32;
 
-            DrawBSprite = DrawBSprite32;
-            DrawBSpriteC = DrawBSpriteC32;
+        DrawBSprite = DrawBSprite32;
+        DrawBSpriteC = DrawBSpriteC32;
 
-            DrawMonoBSprite = DrawMonoBSprite32;
-            DrawMonoBSpriteC = DrawMonoBSpriteC32;
+        DrawMonoBSprite = DrawMonoBSprite32;
+        DrawMonoBSpriteC = DrawMonoBSpriteC32;
 
-            WorkScreenDepth = 4;
-            break;
+        WorkScreenDepth = 4;
+        break;
     }
 }
 

@@ -49,7 +49,8 @@ ControlDef psx_content_def[] =
         {BUTTON, 0, "P4", 110, 460, 20, 0},
         {BUTTON, 0, "No Remap", 200, 480, 70, 0},
 
-        {0}};
+        {0}
+};
 
 ControlDef style_content_def[] =
     {
@@ -57,7 +58,8 @@ ControlDef style_content_def[] =
         {EDIT_TEXT, 0, "", 20, 460, 120, 0},
         {BUTTON, 0, "Save Styles", 20, 480, 70, 0},
 
-        {0}};
+        {0}
+};
 
 ControlDef inside_style_content_def[] =
     {
@@ -65,7 +67,8 @@ ControlDef inside_style_content_def[] =
         {EDIT_TEXT, 0, "", 20, 460, 120, 0},
         {BUTTON, 0, "Save Styles", 20, 480, 70, 0},
 
-        {0}};
+        {0}
+};
 
 char inside_names[64][20] =
     {
@@ -84,19 +87,21 @@ struct AWindowIcon win_bar_icons[] =
         {handle_icon_click, 0, 18, 18}, // Load
         {handle_icon_click, 0, 19, 19}, // Save
         {handle_icon_click, 1, 20, 20}, // Test Lores
-        {0, 0, 0, -1},
+        {0,                 0, 0,  -1},
         {handle_icon_click, 1, 16, 17}, // Grid Lines
-        {0, 0, 0, -1},
+        {0,                 0, 0,  -1},
         {handle_icon_click, 1, 22, 22}, // Place Light
-        {0, 0, 0, -1},
+        {0,                 0, 0,  -1},
         {handle_icon_click, 1, 24, 24}, // Create City
-        {0, 0, 0, 0}};
+        {0,                 0, 0,  0 }
+};
 
 ControlDef prim_content_def[] =
     {
         {H_SLIDER, 0, "", 2, 200, 300, 0},
 
-        {0}};
+        {0}
+};
 // from edutil.cpp
 extern void draw_a_key_frame_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z);
 extern void reset_game(void);
@@ -271,221 +276,221 @@ void screen_shot(void) {
 LevelEditor *the_leveleditor;
 void handle_icon_click(std::uint16_t id) {
     switch (id) {
-        case ICON_LOAD_MAP: {
-            FileRequester *fr;
-            char fname[100];
-            fr = new FileRequester("data\\", "*.map", "Load A MAP", "temp.map");
-            if (fr->Draw()) {
-                strcpy(fname, fr->Path);
-                strcat(fname, fr->FileName);
-                strcpy(edit_info.MapName, fr->FileName);
-                load_map(fname);
-                the_leveleditor->BuildMode->ResetBuildTab();
-            }
+    case ICON_LOAD_MAP: {
+        FileRequester *fr;
+        char fname[100];
+        fr = new FileRequester("data\\", "*.map", "Load A MAP", "temp.map");
+        if (fr->Draw()) {
+            strcpy(fname, fr->Path);
+            strcat(fname, fr->FileName);
+            strcpy(edit_info.MapName, fr->FileName);
+            load_map(fname);
+            the_leveleditor->BuildMode->ResetBuildTab();
+        }
 
-            delete fr;
-        } break;
-        case ICON_SAVE_MAP: {
-            FileRequester *fr;
-            char fname[100];
-            char temp_name[100];
+        delete fr;
+    } break;
+    case ICON_SAVE_MAP: {
+        FileRequester *fr;
+        char fname[100];
+        char temp_name[100];
 
-            strcpy(temp_name, edit_info.MapName);
-            fr = new FileRequester("data\\", "*.map", "Save A MAP", temp_name);
-            if (fr->Draw()) {
-                strcpy(fname, fr->Path);
-                strcat(fname, fr->FileName);
-                strcpy(edit_info.MapName, fr->FileName);
-                save_map(fname, 0);
-            }
+        strcpy(temp_name, edit_info.MapName);
+        fr = new FileRequester("data\\", "*.map", "Save A MAP", temp_name);
+        if (fr->Draw()) {
+            strcpy(fname, fr->Path);
+            strcat(fname, fr->FileName);
+            strcpy(edit_info.MapName, fr->FileName);
+            save_map(fname, 0);
+        }
 
-            delete fr;
-            //	RequestUpdate();
-        } break;
-        case ICON_TOGGLE_GRID:
-            edit_info.GridOn = win_bar_icons[ICON_TOGGLE_GRID].Flag;
-            //			SetDisplay(800,600,8);
-            break;
-        case ICON_TEST_LORES: {
+        delete fr;
+        //	RequestUpdate();
+    } break;
+    case ICON_TOGGLE_GRID:
+        edit_info.GridOn = win_bar_icons[ICON_TOGGLE_GRID].Flag;
+        //			SetDisplay(800,600,8);
+        break;
+    case ICON_TEST_LORES: {
 #ifdef DOGPOO
 #ifdef TEST_3DFX
-            extern void Demo3Dfx(void);
-            Demo3Dfx();
+        extern void Demo3Dfx(void);
+        Demo3Dfx();
 #else
-            std::uint8_t display = 0;
-            std::int32_t tx, ty, tz;
-            std::int32_t back_type = 0;
-            std::uint8_t test_bloke = 0;
-            std::uint8_t film = 0;
-            struct MapThing *darci;
+        std::uint8_t display = 0;
+        std::int32_t tx, ty, tz;
+        std::int32_t back_type = 0;
+        std::uint8_t test_bloke = 0;
+        std::uint8_t film = 0;
+        struct MapThing *darci;
 
-            extern struct MapThing *init_test_bloke_system(void);
-            extern void draw_test_bloke(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t anim, std::int32_t angle);
-            //				if(!Keys[KB_B])
-            {
-                darci = init_test_bloke_system();
-                test_bloke = 1;
-            }
+        extern struct MapThing *init_test_bloke_system(void);
+        extern void draw_test_bloke(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t anim, std::int32_t angle);
+        //				if(!Keys[KB_B])
+        {
+            darci = init_test_bloke_system();
+            test_bloke = 1;
+        }
 
-            engine.Y = 500 << 8;
-            tx = engine.X >> 8;
-            ty = engine.Y >> 8;
-            tz = engine.Z >> 8;
-            save_map("data/bak.map", 1);
-            rotate_point_gte = rotate_point_gte_perspective;
-            switch (WorkScreenDepth) {
-                case 1:
-                    display = SetDisplay(320, 200, 8);
-                    break;
-                case 2:
-                    display = SetDisplay(320, 200, 16);
-                    break;
-                case 4:
-                    display = SetDisplay(320, 200, 32);
-                    break;
-            }
-            LogText(" display = %d \n", display);
-            FileLoadAt("data\\back.dat", back_dat);
-            SetWorkWindowBounds(0, 0, 320, 199);
+        engine.Y = 500 << 8;
+        tx = engine.X >> 8;
+        ty = engine.Y >> 8;
+        tz = engine.Z >> 8;
+        save_map("data/bak.map", 1);
+        rotate_point_gte = rotate_point_gte_perspective;
+        switch (WorkScreenDepth) {
+        case 1:
+            display = SetDisplay(320, 200, 8);
+            break;
+        case 2:
+            display = SetDisplay(320, 200, 16);
+            break;
+        case 4:
+            display = SetDisplay(320, 200, 32);
+            break;
+        }
+        LogText(" display = %d \n", display);
+        FileLoadAt("data\\back.dat", back_dat);
+        SetWorkWindowBounds(0, 0, 320, 199);
 
-            extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
+        extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
-            darci->X = engine.X >> 8;
-            darci->Y = calc_height_at(darci->X, darci->Z);
-            darci->Z = engine.Z >> 8;
+        darci->X = engine.X >> 8;
+        darci->Y = calc_height_at(darci->X, darci->Z);
+        darci->Z = engine.Z >> 8;
 
-            engine.Scale = 296;
-            if (Keys[KB_SPACE]) {
-                //					mini_game_test();
-            } else {
-                // FLI				anim_record();
-                init_hair(MouseX, MouseY, 0);
-                if (display == NoError)
-                    while (SHELL_ACTIVE && !RightButton) {
-                        std::int32_t depth;
-                        if (ShiftFlag)
-                            depth = 16;
-                        else if (ControlFlag)
-                            depth = 32;
-                        else
-                            depth = 8;
-                        if (Keys[KB_6]) {
-                            display = SetDisplay(320, 200, depth);
-                            Keys[KB_6] = 0;
-                        }
-                        if (Keys[KB_7]) {
-                            display = SetDisplay(640, 480, depth);
-                            Keys[KB_7] = 0;
-                        }
-
-                        if (Keys[KB_8]) {
-                            display = SetDisplay(800, 600, depth);
-                            Keys[KB_8] = 0;
-                        }
-
-                        if (Keys[KB_9]) {
-                            display = SetDisplay(1024, 768, depth);
-                            Keys[KB_9] = 0;
-                        }
-
-                        if (back_type == 4)
-                            ClearWorkScreen(0);
-                        if (LockWorkScreen()) {
-                            //						DrawBoxC(0,0,640,400,0);
-                            //						editor_user_interface();
-                            do_clip_keys();
-                            set_camera();
-                            if (test_bloke) {
-                                std::int32_t y;
-
-                                extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
-
-                                //								y=calc_height_at(engine.X>>8,engine.Z>>8);
-                                extern std::int32_t play_x, play_y, play_z;
-                                draw_test_bloke(darci->X, darci->Y, darci->Z, 1, 0);
-                                //								draw_test_bloke(engine.X>>8,y,engine.Z>>8,1,0);
-                                if (ShiftFlag) {
-                                    draw_test_bloke(darci->X - 100, 0, darci->Z, 0, 512);
-                                    draw_test_bloke(darci->X + 100, 0, darci->Z, 0, 1024);
-                                    draw_test_bloke(darci->X + 300, 0, darci->Z, 0, 1530);
-                                }
-                            }
-                            draw_quick_map();
-                            //							draw_editor_map(1);
-                            //						test_poly();
-                            interface_thing2(darci);
-                            //							back_type=draw_background();
-                            back_type = 4;
-                            render_view(0);
-                            // extern void	draw_fader(void);
-                            //	draw_fader();
-
-                            {
-                                char str[100];
-                                sprintf(str, "face %d id %d", darci->OnFace, prim_faces4[darci->OnFace].ID);
-                                QuickTextC(1, 179, str, 0);
-                                QuickTextC(0, 180, str, WHITE_COL);
-                            }
-                            // COL VECTS							draw_map_col_vects();
-                            //							draw_hair();
-                            // FLI						anim_make_next_frame((std::uint8_t*)WorkScreen, PALETTE);
-
-                            if (LastKey == KB_C && ControlFlag) {
-                                do_single_shot(WorkScreen, CurrentPalette);
-                                LastKey = 0;
-                            }
-
-                            UnlockWorkScreen();
-                            if (LastKey == KB_R && ControlFlag) {
-                                editor_status ^= EDITOR_RECORD;
-                                LastKey = 0;
-                            }
-                        }
-
-                        if (LastKey == KB_B) {
-                            film = 1;
-                        }
-                        if (LastKey == KB_N) {
-                            film = 0;
-                        }
-
-                        if (film)
-                            screen_shot();
-                        ShowWorkScreen(0);
+        engine.Scale = 296;
+        if (Keys[KB_SPACE]) {
+            //					mini_game_test();
+        } else {
+            // FLI				anim_record();
+            init_hair(MouseX, MouseY, 0);
+            if (display == NoError)
+                while (SHELL_ACTIVE && !RightButton) {
+                    std::int32_t depth;
+                    if (ShiftFlag)
+                        depth = 16;
+                    else if (ControlFlag)
+                        depth = 32;
+                    else
+                        depth = 8;
+                    if (Keys[KB_6]) {
+                        display = SetDisplay(320, 200, depth);
+                        Keys[KB_6] = 0;
                     }
-                // FLI				anim_stop();
-            }
-            /*
-                                            switch(WorkScreenDepth)
-                                            {
-                                                    case 1:
-                                                            display=SetDisplay(800,600,8);
-                                                            break;
-                                                    case 2:
-                                                            display=SetDisplay(800,600,16);
-                                                            break;
-                                                    case 4:
-                                                            display=SetDisplay(800,600,32);
-                                                            break;
-                                            }
-            */
-            display = SetDisplay(800, 600, 16);
-            rotate_point_gte = rotate_point_gte_normal;
-            reset_game();
-            create_city(BUILD_MODE_EDITOR);
+                    if (Keys[KB_7]) {
+                        display = SetDisplay(640, 480, depth);
+                        Keys[KB_7] = 0;
+                    }
+
+                    if (Keys[KB_8]) {
+                        display = SetDisplay(800, 600, depth);
+                        Keys[KB_8] = 0;
+                    }
+
+                    if (Keys[KB_9]) {
+                        display = SetDisplay(1024, 768, depth);
+                        Keys[KB_9] = 0;
+                    }
+
+                    if (back_type == 4)
+                        ClearWorkScreen(0);
+                    if (LockWorkScreen()) {
+                        //						DrawBoxC(0,0,640,400,0);
+                        //						editor_user_interface();
+                        do_clip_keys();
+                        set_camera();
+                        if (test_bloke) {
+                            std::int32_t y;
+
+                            extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
+
+                            //								y=calc_height_at(engine.X>>8,engine.Z>>8);
+                            extern std::int32_t play_x, play_y, play_z;
+                            draw_test_bloke(darci->X, darci->Y, darci->Z, 1, 0);
+                            //								draw_test_bloke(engine.X>>8,y,engine.Z>>8,1,0);
+                            if (ShiftFlag) {
+                                draw_test_bloke(darci->X - 100, 0, darci->Z, 0, 512);
+                                draw_test_bloke(darci->X + 100, 0, darci->Z, 0, 1024);
+                                draw_test_bloke(darci->X + 300, 0, darci->Z, 0, 1530);
+                            }
+                        }
+                        draw_quick_map();
+                        //							draw_editor_map(1);
+                        //						test_poly();
+                        interface_thing2(darci);
+                        //							back_type=draw_background();
+                        back_type = 4;
+                        render_view(0);
+                        // extern void	draw_fader(void);
+                        //	draw_fader();
+
+                        {
+                            char str[100];
+                            sprintf(str, "face %d id %d", darci->OnFace, prim_faces4[darci->OnFace].ID);
+                            QuickTextC(1, 179, str, 0);
+                            QuickTextC(0, 180, str, WHITE_COL);
+                        }
+                        // COL VECTS							draw_map_col_vects();
+                        //							draw_hair();
+                        // FLI						anim_make_next_frame((std::uint8_t*)WorkScreen, PALETTE);
+
+                        if (LastKey == KB_C && ControlFlag) {
+                            do_single_shot(WorkScreen, CurrentPalette);
+                            LastKey = 0;
+                        }
+
+                        UnlockWorkScreen();
+                        if (LastKey == KB_R && ControlFlag) {
+                            editor_status ^= EDITOR_RECORD;
+                            LastKey = 0;
+                        }
+                    }
+
+                    if (LastKey == KB_B) {
+                        film = 1;
+                    }
+                    if (LastKey == KB_N) {
+                        film = 0;
+                    }
+
+                    if (film)
+                        screen_shot();
+                    ShowWorkScreen(0);
+                }
+            // FLI				anim_stop();
+        }
+        /*
+                                        switch(WorkScreenDepth)
+                                        {
+                                                case 1:
+                                                        display=SetDisplay(800,600,8);
+                                                        break;
+                                                case 2:
+                                                        display=SetDisplay(800,600,16);
+                                                        break;
+                                                case 4:
+                                                        display=SetDisplay(800,600,32);
+                                                        break;
+                                        }
+        */
+        display = SetDisplay(800, 600, 16);
+        rotate_point_gte = rotate_point_gte_normal;
+        reset_game();
+        create_city(BUILD_MODE_EDITOR);
 //				RequestUpdate();
 #endif
 #endif
-        } break;
-        case ICON_PLACE_LIGHT:
-            the_leveleditor->BringTabIDToFront(TAB_LIGHT);
-            the_leveleditor->LightMode->Mode = LIGHT_TAB_MODE_PLACE_LIGHT;
-            break;
-        case ICON_CREATE_CITY:
-            create_city(BUILD_MODE_EDITOR);
-            extern std::uint16_t count_empty_map_things(void);
-            LogText(" npp %d npf %d npf4 %d npo %d UNUSED th %d \n", next_prim_point, next_prim_face3, next_prim_face4, next_prim_object, count_empty_map_things());
-            break;
+    } break;
+    case ICON_PLACE_LIGHT:
+        the_leveleditor->BringTabIDToFront(TAB_LIGHT);
+        the_leveleditor->LightMode->Mode = LIGHT_TAB_MODE_PLACE_LIGHT;
+        break;
+    case ICON_CREATE_CITY:
+        create_city(BUILD_MODE_EDITOR);
+        extern std::uint16_t count_empty_map_things(void);
+        LogText(" npp %d npf %d npf4 %d npo %d UNUSED th %d \n", next_prim_point, next_prim_face3, next_prim_face4, next_prim_object, count_empty_map_things());
+        break;
     }
 }
 
@@ -792,30 +797,30 @@ void LevelEditor::HandleAnimTmapClick(std::uint8_t flags, MFPoint *clicked_point
             tex_rect.SetRect(w, h, 32, 32);
             if (tex_rect.PointInRect(&local_point) && count < MAX_TMAP_FRAMES) {
                 switch (flags) {
-                    case LEFT_CLICK:
-                        std::int32_t page;
-                        if (PaintMode->GetTexturePage() >= 0) {
-                            for (c0 = 0; c0 < 4; c0++) {
-                                anim_tmaps[current_anim_tmap].UV[count][c0][0] = current_texture->U[c0];
-                                anim_tmaps[current_anim_tmap].UV[count][c0][1] = current_texture->V[c0];
-                            }
-                            anim_tmaps[current_anim_tmap].Flags |= (1 << count);
-                            page = (std::uint8_t) PaintMode->GetTexturePage();
-                            if (page < 0)
-                                page = 0;
-                            anim_tmaps[current_anim_tmap].Page[count] = page;
-                        }
-                        break;
-                    case RIGHT_CLICK:
+                case LEFT_CLICK:
+                    std::int32_t page;
+                    if (PaintMode->GetTexturePage() >= 0) {
                         for (c0 = 0; c0 < 4; c0++) {
-                            current_texture->U[c0] = anim_tmaps[current_anim_tmap].UV[count][c0][0];
-                            current_texture->V[c0] = anim_tmaps[current_anim_tmap].UV[count][c0][1];
+                            anim_tmaps[current_anim_tmap].UV[count][c0][0] = current_texture->U[c0];
+                            anim_tmaps[current_anim_tmap].UV[count][c0][1] = current_texture->V[c0];
                         }
-                        PaintMode->SetTexturePage(anim_tmaps[current_anim_tmap].Page[count]);
-                        break;
-                    case MIDDLE_CLICK:
-                        anim_tmaps[current_anim_tmap].Flags &= ~(1 << count);
-                        break;
+                        anim_tmaps[current_anim_tmap].Flags |= (1 << count);
+                        page = (std::uint8_t) PaintMode->GetTexturePage();
+                        if (page < 0)
+                            page = 0;
+                        anim_tmaps[current_anim_tmap].Page[count] = page;
+                    }
+                    break;
+                case RIGHT_CLICK:
+                    for (c0 = 0; c0 < 4; c0++) {
+                        current_texture->U[c0] = anim_tmaps[current_anim_tmap].UV[count][c0][0];
+                        current_texture->V[c0] = anim_tmaps[current_anim_tmap].UV[count][c0][1];
+                    }
+                    PaintMode->SetTexturePage(anim_tmaps[current_anim_tmap].Page[count]);
+                    break;
+                case MIDDLE_CLICK:
+                    anim_tmaps[current_anim_tmap].Flags &= ~(1 << count);
+                    break;
                 }
 
                 RequestUpdate();
@@ -824,16 +829,16 @@ void LevelEditor::HandleAnimTmapClick(std::uint8_t flags, MFPoint *clicked_point
             tex_rect.SetRect(w + 40, h + 10, 16, 12);
             if (tex_rect.PointInRect(&local_point) && count < MAX_TMAP_FRAMES) {
                 switch (flags) {
-                    case NO_CLICK:
-                        break;
-                    case MIDDLE_CLICK:
-                        break;
-                    case LEFT_CLICK:
-                        anim_tmaps[current_anim_tmap].Delay[count]++;
-                        break;
-                    case RIGHT_CLICK:
-                        anim_tmaps[current_anim_tmap].Delay[count]--;
-                        break;
+                case NO_CLICK:
+                    break;
+                case MIDDLE_CLICK:
+                    break;
+                case LEFT_CLICK:
+                    anim_tmaps[current_anim_tmap].Delay[count]++;
+                    break;
+                case RIGHT_CLICK:
+                    anim_tmaps[current_anim_tmap].Delay[count]--;
+                    break;
                 }
                 RequestUpdate();
                 return;
@@ -851,19 +856,19 @@ void LevelEditor::HandleAnimTmapClick(std::uint8_t flags, MFPoint *clicked_point
 
             if (tex_rect.PointInRect(&local_point) && count < MAX_ANIM_TMAPS) {
                 switch (flags) {
-                    case NO_CLICK:
-                        break;
-                    case MIDDLE_CLICK:
-                        anim_tmaps[count].Flags = 0;
-                        break;
-                    case LEFT_CLICK:
-                        PaintMode->SetAnimTmap(count);
-                        //							current_anim_tmap=count;
-                        //							anim_tmaps[current_anim_tmap]=anim_tmaps[count];
-                        break;
-                    case RIGHT_CLICK:
-                        PaintMode->SetAnimTmap(count);
-                        break;
+                case NO_CLICK:
+                    break;
+                case MIDDLE_CLICK:
+                    anim_tmaps[count].Flags = 0;
+                    break;
+                case LEFT_CLICK:
+                    PaintMode->SetAnimTmap(count);
+                    //							current_anim_tmap=count;
+                    //							anim_tmaps[current_anim_tmap]=anim_tmaps[count];
+                    break;
+                case RIGHT_CLICK:
+                    PaintMode->SetAnimTmap(count);
+                    break;
                 }
                 RequestUpdate();
                 return;
@@ -889,46 +894,46 @@ void draw_quad_now(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t 
     p4.Y = y + h;
 
     switch (flip) {
-        case 0:
-            p1.TX = tx;
-            p1.TY = ty;
-            p2.TX = tx + 31;
-            p2.TY = ty;
-            p3.TX = tx;
-            p3.TY = ty + 31;
-            p4.TX = tx + 31;
-            p4.TY = ty + 31;
-            break;
-        case 1: // flip x
-            p1.TX = tx + 31;
-            p1.TY = ty;
-            p2.TX = tx;
-            p2.TY = ty;
-            p3.TX = tx + 31;
-            p3.TY = ty + 31;
-            p4.TX = tx;
-            p4.TY = ty + 31;
-            break;
-        case 2: // flip y
-            p1.TX = tx;
-            p1.TY = ty + 31;
-            p2.TX = tx + 31;
-            p2.TY = ty + 31;
-            p3.TX = tx;
-            p3.TY = ty;
-            p4.TX = tx + 31;
-            p4.TY = ty;
-            break;
-        case 3: // flip y
-            p1.TX = tx + 31;
-            p1.TY = ty + 31;
-            p2.TX = tx;
-            p2.TY = ty + 31;
-            p3.TX = tx + 31;
-            p3.TY = ty;
-            p4.TX = tx;
-            p4.TY = ty;
-            break;
+    case 0:
+        p1.TX = tx;
+        p1.TY = ty;
+        p2.TX = tx + 31;
+        p2.TY = ty;
+        p3.TX = tx;
+        p3.TY = ty + 31;
+        p4.TX = tx + 31;
+        p4.TY = ty + 31;
+        break;
+    case 1: // flip x
+        p1.TX = tx + 31;
+        p1.TY = ty;
+        p2.TX = tx;
+        p2.TY = ty;
+        p3.TX = tx + 31;
+        p3.TY = ty + 31;
+        p4.TX = tx;
+        p4.TY = ty + 31;
+        break;
+    case 2: // flip y
+        p1.TX = tx;
+        p1.TY = ty + 31;
+        p2.TX = tx + 31;
+        p2.TY = ty + 31;
+        p3.TX = tx;
+        p3.TY = ty;
+        p4.TX = tx + 31;
+        p4.TY = ty;
+        break;
+    case 3: // flip y
+        p1.TX = tx + 31;
+        p1.TY = ty + 31;
+        p2.TX = tx;
+        p2.TY = ty + 31;
+        p3.TX = tx + 31;
+        p3.TY = ty;
+        p4.TX = tx;
+        p4.TY = ty;
+        break;
     }
 
     poly_info.DrawFlags = flags & (~POLY_FLAG_GOURAD);
@@ -1026,40 +1031,40 @@ std::int32_t LevelEditor::HandleTexStyleClick(std::uint8_t flags, MFPoint *click
             if (tex_rect.PointInRect(&local_point)) {
                 std::int32_t x, y;
                 switch (flags) {
-                    case LEFT_CLICK:
-                        if (Keys[KB_X]) {
-                            if (textures_xy[c0 + scroll_pos][pos].Flip & 1)
-                                textures_xy[c0 + scroll_pos][pos].Flip &= ~1;
-                            else
-                                textures_xy[c0 + scroll_pos][pos].Flip |= 1;
-                            Keys[KB_X] = 0;
-                            return (1);
-                        }
-
-                        if (Keys[KB_Y]) {
-                            if (textures_xy[c0 + scroll_pos][pos].Flip & 2)
-                                textures_xy[c0 + scroll_pos][pos].Flip &= ~2;
-                            else
-                                textures_xy[c0 + scroll_pos][pos].Flip |= 2;
-                            Keys[KB_Y] = 0;
-                            return (1);
-                        }
-                        x = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
-                        y = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
-
-                        x >>= (2 + 5);
-                        y >>= (2 + 5);
-                        textures_xy[c0 + scroll_pos][pos].Tx = x;
-                        textures_xy[c0 + scroll_pos][pos].Ty = y;
-                        textures_xy[c0 + scroll_pos][pos].Page = PaintMode->GetTexturePage();
-
-                        //						texture_info[x+y*8+64*PaintMode->GetTexturePage()].Type=c0+scroll_pos;
+                case LEFT_CLICK:
+                    if (Keys[KB_X]) {
+                        if (textures_xy[c0 + scroll_pos][pos].Flip & 1)
+                            textures_xy[c0 + scroll_pos][pos].Flip &= ~1;
+                        else
+                            textures_xy[c0 + scroll_pos][pos].Flip |= 1;
+                        Keys[KB_X] = 0;
                         return (1);
+                    }
 
-                        break;
-                    case RIGHT_CLICK:
-                        textures_flags[c0 + scroll_pos][pos] = DoStylePopup(clicked_point, textures_flags[c0 + scroll_pos][pos]);
+                    if (Keys[KB_Y]) {
+                        if (textures_xy[c0 + scroll_pos][pos].Flip & 2)
+                            textures_xy[c0 + scroll_pos][pos].Flip &= ~2;
+                        else
+                            textures_xy[c0 + scroll_pos][pos].Flip |= 2;
+                        Keys[KB_Y] = 0;
                         return (1);
+                    }
+                    x = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
+                    y = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
+
+                    x >>= (2 + 5);
+                    y >>= (2 + 5);
+                    textures_xy[c0 + scroll_pos][pos].Tx = x;
+                    textures_xy[c0 + scroll_pos][pos].Ty = y;
+                    textures_xy[c0 + scroll_pos][pos].Page = PaintMode->GetTexturePage();
+
+                    //						texture_info[x+y*8+64*PaintMode->GetTexturePage()].Type=c0+scroll_pos;
+                    return (1);
+
+                    break;
+                case RIGHT_CLICK:
+                    textures_flags[c0 + scroll_pos][pos] = DoStylePopup(clicked_point, textures_flags[c0 + scroll_pos][pos]);
+                    return (1);
                 }
             }
         }
@@ -1088,27 +1093,27 @@ std::int32_t LevelEditor::HandlePSXTexClick(std::uint8_t flags, MFPoint *clicked
             tex_rect.SetRect(40 + x * 50, 20 + y * 50, 48, 48);
             if (tex_rect.PointInRect(&local_point)) {
                 switch (flags) {
-                    case LEFT_CLICK:
-                        u = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
-                        v = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
+                case LEFT_CLICK:
+                    u = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
+                    v = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
 
-                        u >>= (2 + 5);
-                        v >>= (2 + 5);
+                    u >>= (2 + 5);
+                    v >>= (2 + 5);
 
-                        page = u + v * 8 + PaintMode->GetTexturePage() * 64;
-                        if (page < 8 * 64) {
-                            page_remap[page] = PaintMode->CurrentStylePos * 64 + x + y * 8 + 1;
-                            if (Keys[KB_X]) {
-                                page_remap[page] |= 1 << 14;
-                            }
-
-                            if (Keys[KB_Y]) {
-                                page_remap[page] |= 1 << 15;
-                            }
+                    page = u + v * 8 + PaintMode->GetTexturePage() * 64;
+                    if (page < 8 * 64) {
+                        page_remap[page] = PaintMode->CurrentStylePos * 64 + x + y * 8 + 1;
+                        if (Keys[KB_X]) {
+                            page_remap[page] |= 1 << 14;
                         }
-                        RequestUpdate();
-                        return (1);
-                        break;
+
+                        if (Keys[KB_Y]) {
+                            page_remap[page] |= 1 << 15;
+                        }
+                    }
+                    RequestUpdate();
+                    return (1);
+                    break;
                 }
             }
         }
@@ -1118,66 +1123,66 @@ std::int32_t LevelEditor::HandlePSXTexClick(std::uint8_t flags, MFPoint *clicked
 
 void LevelEditor::HandleStyleControl(std::uint32_t control_id) {
     switch (control_id) {
-        case CTRL_STYLE_NAME_EDIT:
-            if (PaintMode->CurrentStyleEdit) {
-                extern void fix_style_names(void);
-                fix_style_names();
-                strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
-            }
-            // if(CurrentAnim)
-            //	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
-            break;
-        case CTRL_STYLE_SAVE:
-            extern void save_texture_styles(std::uint8_t world);
-            save_texture_styles(editor_texture_set);
+    case CTRL_STYLE_NAME_EDIT:
+        if (PaintMode->CurrentStyleEdit) {
+            extern void fix_style_names(void);
+            fix_style_names();
+            strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
+        }
+        // if(CurrentAnim)
+        //	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
+        break;
+    case CTRL_STYLE_SAVE:
+        extern void save_texture_styles(std::uint8_t world);
+        save_texture_styles(editor_texture_set);
 
-            // SaveAllAnims(&test_chunk);
-            break;
-        case CTRL_STYLE_POS_SLIDER:
-            PaintMode->CurrentStylePos = ((CVSlider *) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
-            slider_redraw();
-            break;
+        // SaveAllAnims(&test_chunk);
+        break;
+    case CTRL_STYLE_POS_SLIDER:
+        PaintMode->CurrentStylePos = ((CVSlider *) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
+        slider_redraw();
+        break;
     }
 }
 
 void LevelEditor::HandlePSXControl(std::uint32_t control_id) {
     switch (control_id) {
-            /*
-                            case	CTRL_PSX_SAVE:
-            extern void	save_texture_styles(std::uint8_t world);
-            //			save_texture_styles(editor_texture_set);
+        /*
+                        case	CTRL_PSX_SAVE:
+        extern void	save_texture_styles(std::uint8_t world);
+        //			save_texture_styles(editor_texture_set);
 
-                                    //SaveAllAnims(&test_chunk);
-                                    break;
-            */
-        case CTRL_PSX_PAGE1:
-            PaintMode->CurrentStylePos = 0;
-            break;
-        case CTRL_PSX_PAGE2:
-            PaintMode->CurrentStylePos = 1;
-            break;
-        case CTRL_PSX_PAGE3:
-            PaintMode->CurrentStylePos = 2;
-            break;
-        case CTRL_PSX_PAGE4:
-            PaintMode->CurrentStylePos = 3;
-            break;
-        case CTRL_PSX_NOREMAP: {
-            EdTexture *current_texture;
-            std::int32_t u, v, page;
-            current_texture = PaintMode->GetTexture();
-            u = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
-            v = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
+                                //SaveAllAnims(&test_chunk);
+                                break;
+        */
+    case CTRL_PSX_PAGE1:
+        PaintMode->CurrentStylePos = 0;
+        break;
+    case CTRL_PSX_PAGE2:
+        PaintMode->CurrentStylePos = 1;
+        break;
+    case CTRL_PSX_PAGE3:
+        PaintMode->CurrentStylePos = 2;
+        break;
+    case CTRL_PSX_PAGE4:
+        PaintMode->CurrentStylePos = 3;
+        break;
+    case CTRL_PSX_NOREMAP: {
+        EdTexture *current_texture;
+        std::int32_t u, v, page;
+        current_texture = PaintMode->GetTexture();
+        u = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
+        v = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
 
-            u >>= (2 + 5);
-            v >>= (2 + 5);
+        u >>= (2 + 5);
+        v >>= (2 + 5);
 
-            page = u + v * 8 + PaintMode->GetTexturePage() * 64;
-            if (page < 8 * 64) {
-                page_remap[page] = 0;
-            }
-            RequestUpdate();
-        } break;
+        page = u + v * 8 + PaintMode->GetTexturePage() * 64;
+        if (page < 8 * 64) {
+            page_remap[page] = 0;
+        }
+        RequestUpdate();
+    } break;
     }
 }
 
@@ -1255,23 +1260,23 @@ std::int32_t LevelEditor::HandleTexInStyleClick(std::uint8_t flags, MFPoint *cli
             if (tex_rect.PointInRect(&local_point)) {
                 std::int32_t x, y;
                 switch (flags) {
-                    case LEFT_CLICK:
-                        x = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
-                        y = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
+                case LEFT_CLICK:
+                    x = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
+                    y = current_texture->V[0] + current_texture->V[1] + current_texture->V[2] + current_texture->V[3];
 
-                        x >>= (5 + 2);
-                        y >>= (5 + 2);
+                    x >>= (5 + 2);
+                    y >>= (5 + 2);
 
-                        if (PaintMode->GetTexturePage() >= START_PAGE_FOR_FLOOR)
-                            inside_tex[c0 + scroll_pos][pos] = ((PaintMode->GetTexturePage() - START_PAGE_FOR_FLOOR) << 6) + (x + (y << 3));
+                    if (PaintMode->GetTexturePage() >= START_PAGE_FOR_FLOOR)
+                        inside_tex[c0 + scroll_pos][pos] = ((PaintMode->GetTexturePage() - START_PAGE_FOR_FLOOR) << 6) + (x + (y << 3));
 
-                        //						texture_info[x+y*8+64*PaintMode->GetTexturePage()].Type=c0+scroll_pos;
-                        return (1);
+                    //						texture_info[x+y*8+64*PaintMode->GetTexturePage()].Type=c0+scroll_pos;
+                    return (1);
 
-                        break;
-                    case RIGHT_CLICK:
-                        //						textures_flags[c0+scroll_pos][pos]=DoStylePopup(clicked_point,textures_flags[c0+scroll_pos][pos]);
-                        return (1);
+                    break;
+                case RIGHT_CLICK:
+                    //						textures_flags[c0+scroll_pos][pos]=DoStylePopup(clicked_point,textures_flags[c0+scroll_pos][pos]);
+                    return (1);
                 }
             }
         }
@@ -1311,24 +1316,24 @@ void save_texture_instyles(std::uint8_t world) {
 
 void LevelEditor::HandleInStyleControl(std::uint32_t control_id) {
     switch (control_id) {
-        case CTRL_STYLE_NAME_EDIT:
-            if (PaintMode->CurrentStyleEdit) {
-                extern void fix_style_names(void);
-                fix_style_names();
-                strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
-            }
-            // if(CurrentAnim)
-            //	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
-            break;
-        case CTRL_STYLE_SAVE:
-            save_texture_instyles(editor_texture_set);
+    case CTRL_STYLE_NAME_EDIT:
+        if (PaintMode->CurrentStyleEdit) {
+            extern void fix_style_names(void);
+            fix_style_names();
+            strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
+        }
+        // if(CurrentAnim)
+        //	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
+        break;
+    case CTRL_STYLE_SAVE:
+        save_texture_instyles(editor_texture_set);
 
-            // SaveAllAnims(&test_chunk);
-            break;
-        case CTRL_STYLE_POS_SLIDER:
-            PaintMode->CurrentStylePos = ((CVSlider *) InStyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
-            slider_redraw_inside();
-            break;
+        // SaveAllAnims(&test_chunk);
+        break;
+    case CTRL_STYLE_POS_SLIDER:
+        PaintMode->CurrentStylePos = ((CVSlider *) InStyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
+        slider_redraw_inside();
+        break;
     }
 }
 
@@ -1342,161 +1347,161 @@ void LevelEditor::DrawContent(void) {
     clear_rect.SetRect(0, 0, ContentWidth() - 1, ContentHeight() - 1);
     clear_rect.FillRect(CONTENT_COL_BR);
     switch (CurrentModeTab()->GetTabID()) {
-        case TAB_NONE:
-            set_camera_side();
-            draw_editor_map(0);
-            render_view(1);
-            break;
-        case TAB_PAINT:
-            set_camera();
-            hilited_face.Face = 0;
-            if (PaintMode->GetPaintMode() == ANIM_TMAP_PAINT) {
-                DrawAnimTmapContent(PaintMode->GetAnimTmap());
-            } else if (PaintMode->GetPaintMode() == PSX_TEX_DEFINE) {
-                DrawPSXTexContent();
-            } else if (PaintMode->GetPaintMode() == STYLE_DEFINE) {
-                DrawTexStyleContent();
-            } else if (PaintMode->GetPaintMode() == INSTYLE_DEFINE) {
-                DrawTexInStyleContent();
-            } else if (PaintMode->GetPaintMode() == FLOOR_PAINT) {
-                std::uint16_t temp;
-                MapBlock background;
-                std::int32_t mx, my, mz;
-                MFPoint mouse_point;
-
-                temp = BuildMode->Texture;
-                BuildMode->SetViewToEngine();
-                BuildMode->Texture = 2;
-
-                if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
-                    mouse_point.X = MouseX;
-                    mouse_point.Y = MouseY;
-                    GlobalToLocal(&mouse_point);
-                    BuildMode->CalcMapCoord(&mx, &my, &mz, ContentLeft(), ContentTop(), ContentWidth(), ContentHeight(), &mouse_point);
-                    background.Cut(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PaintMode->CutMapBlock.GetWidth(), PaintMode->CutMapBlock.GetDepth(), 0);
-                    PaintMode->CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_TEXTURE, 0);
-                }
-
-                BuildMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-
-                // restore background
-                if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
-                    background.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_TEXTURE, 0);
-                    BuildMode->DrawContentRect(mx, mz, mx + (PaintMode->CutMapBlock.GetWidth() << ELE_SHIFT), mz + (PaintMode->CutMapBlock.GetDepth() << ELE_SHIFT), WHITE_COL);
-                }
-                // BuildMode->DrawBrush(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight());
-                BuildMode->Texture = temp;
-            } else if (PrimMode) {
-                switch (PrimMode->GetPrimTabMode()) {
-                    case PRIM_MODE_MULTI:
-                        draw_a_key_frame_at(PrimMode->GetCurrentPrim(), (engine.X >> 8) + edit_info.DX, (engine.Y >> 8) - edit_info.DY, (engine.Z >> 8));
-                        animate_texture_maps();
-                        render_view(1);
-                        if (SelectFlag < 5)
-                            SelectFlag = 0;
-                        else if (LockWorkScreen()) {
-                            PaintMode->DrawTab();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-
-                        break;
-                    case PRIM_MODE_SINGLE:
-                    case PRIM_MODE_BACK:
-                        if (PrimMode->GetCurrentPrim()) {
-                            animate_texture_maps();
-                            draw_a_prim_at(PrimMode->GetCurrentPrim(), (engine.X >> 8) + edit_info.DX, (engine.Y >> 8) - edit_info.DY, (engine.Z >> 8), 0);
-                            //							draw_a_building_at(PrimMode->GetCurrentPrim(),engine.X>>8,engine.Y>>8,engine.Z>>8);
-                            if (SelectFlag < 5)
-                                SelectFlag = 0;
-                            else if (LockWorkScreen()) {
-                                PaintMode->DrawTab();
-                                UnlockWorkScreen();
-                            }
-                            ShowWorkWindow(0);
-                            //							PaintMode->DrawTabContent();
-                        } else
-                            draw_editor_map(0);
-                        render_view(1);
-                        break;
-                }
-            }
-            break;
-        case TAB_PRIMPICK:
-            PrimMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-
-            PrimSet.ControlSetBounds(GetContentRect());
-            //			PrimSet.DrawControlSet();
-            break;
-        case TAB_LIGHT:
-            LightMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-            break;
-        /*
-        case	TAB_COL:
-                ColMode->DrawModuleContent(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight());
-                break;
-        */
-        case TAB_MAP:
-            MapMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-            break;
-        case TAB_MAPED:
+    case TAB_NONE:
+        set_camera_side();
+        draw_editor_map(0);
+        render_view(1);
+        break;
+    case TAB_PAINT:
+        set_camera();
+        hilited_face.Face = 0;
+        if (PaintMode->GetPaintMode() == ANIM_TMAP_PAINT) {
+            DrawAnimTmapContent(PaintMode->GetAnimTmap());
+        } else if (PaintMode->GetPaintMode() == PSX_TEX_DEFINE) {
+            DrawPSXTexContent();
+        } else if (PaintMode->GetPaintMode() == STYLE_DEFINE) {
+            DrawTexStyleContent();
+        } else if (PaintMode->GetPaintMode() == INSTYLE_DEFINE) {
+            DrawTexInStyleContent();
+        } else if (PaintMode->GetPaintMode() == FLOOR_PAINT) {
             std::uint16_t temp;
+            MapBlock background;
             std::int32_t mx, my, mz;
             MFPoint mouse_point;
 
             temp = BuildMode->Texture;
             BuildMode->SetViewToEngine();
-            if (MapEdMode->Texture) {
-                BuildMode->Texture = 6;
-            } else {
-                BuildMode->Texture = 4;
-            }
-            BuildMode->RoofTop = MapEdMode->RoofTop;
+            BuildMode->Texture = 2;
 
-            if (MapEdMode->Mode == FLOOR_PASTE_BRUSH) {
+            if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
                 mouse_point.X = MouseX;
                 mouse_point.Y = MouseY;
                 GlobalToLocal(&mouse_point);
                 BuildMode->CalcMapCoord(&mx, &my, &mz, ContentLeft(), ContentTop(), ContentWidth(), ContentHeight(), &mouse_point);
-                background.Cut(mx >> ELE_SHIFT, mz >> ELE_SHIFT, MapEdMode->CutMapBlock.GetWidth(), MapEdMode->CutMapBlock.GetDepth(), MapEdMode->RoofTop);
-                MapEdMode->CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_ALTITUDE, MapEdMode->RoofTop);
+                background.Cut(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PaintMode->CutMapBlock.GetWidth(), PaintMode->CutMapBlock.GetDepth(), 0);
+                PaintMode->CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_TEXTURE, 0);
             }
 
             BuildMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
 
             // restore background
-            if (MapEdMode->Mode == FLOOR_PASTE_BRUSH) {
-                background.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_ALTITUDE, MapEdMode->RoofTop);
-                BuildMode->DrawContentRect(mx, mz, mx + (MapEdMode->CutMapBlock.GetWidth() << ELE_SHIFT), mz + (MapEdMode->CutMapBlock.GetDepth() << ELE_SHIFT), WHITE_COL);
+            if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
+                background.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_TEXTURE, 0);
+                BuildMode->DrawContentRect(mx, mz, mx + (PaintMode->CutMapBlock.GetWidth() << ELE_SHIFT), mz + (PaintMode->CutMapBlock.GetDepth() << ELE_SHIFT), WHITE_COL);
             }
-            if (MapEdMode->Mode == FLOOR_HOLD_BRUSH) {
-                mx = MapEdMode->CutMapBlock.GetX() << ELE_SHIFT;
-                mz = MapEdMode->CutMapBlock.GetZ() << ELE_SHIFT;
-                BuildMode->DrawContentRect(mx, mz, mx + (MapEdMode->CutMapBlock.GetWidth() << ELE_SHIFT), mz + (MapEdMode->CutMapBlock.GetDepth() << ELE_SHIFT), WHITE_COL);
-            }
-
             // BuildMode->DrawBrush(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight());
             BuildMode->Texture = temp;
-            break;
-        case TAB_BUILD:
-            BuildMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-            SewerMode->OutsideEditStorey = BuildMode->EditStorey;
-            SewerMode->EditStorey = storey_list[BuildMode->EditStorey].InsideStorey;
-            SewerMode->EditBuilding = BuildMode->EditBuilding;
+        } else if (PrimMode) {
+            switch (PrimMode->GetPrimTabMode()) {
+            case PRIM_MODE_MULTI:
+                draw_a_key_frame_at(PrimMode->GetCurrentPrim(), (engine.X >> 8) + edit_info.DX, (engine.Y >> 8) - edit_info.DY, (engine.Z >> 8));
+                animate_texture_maps();
+                render_view(1);
+                if (SelectFlag < 5)
+                    SelectFlag = 0;
+                else if (LockWorkScreen()) {
+                    PaintMode->DrawTab();
+                    UnlockWorkScreen();
+                }
+                ShowWorkWindow(0);
 
-            if (storey_list[BuildMode->EditStorey].InsideIDIndex)
-                SewerMode->CurrentFloorType = room_ids[storey_list[BuildMode->EditStorey].InsideIDIndex].FloorType;
+                break;
+            case PRIM_MODE_SINGLE:
+            case PRIM_MODE_BACK:
+                if (PrimMode->GetCurrentPrim()) {
+                    animate_texture_maps();
+                    draw_a_prim_at(PrimMode->GetCurrentPrim(), (engine.X >> 8) + edit_info.DX, (engine.Y >> 8) - edit_info.DY, (engine.Z >> 8), 0);
+                    //							draw_a_building_at(PrimMode->GetCurrentPrim(),engine.X>>8,engine.Y>>8,engine.Z>>8);
+                    if (SelectFlag < 5)
+                        SelectFlag = 0;
+                    else if (LockWorkScreen()) {
+                        PaintMode->DrawTab();
+                        UnlockWorkScreen();
+                    }
+                    ShowWorkWindow(0);
+                    //							PaintMode->DrawTabContent();
+                } else
+                    draw_editor_map(0);
+                render_view(1);
+                break;
+            }
+        }
+        break;
+    case TAB_PRIMPICK:
+        PrimMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
 
-            SewerMode->SetView(storey_list[BuildMode->EditStorey].DX, storey_list[BuildMode->EditStorey].DZ);
+        PrimSet.ControlSetBounds(GetContentRect());
+        //			PrimSet.DrawControlSet();
+        break;
+    case TAB_LIGHT:
+        LightMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
+        break;
+    /*
+    case	TAB_COL:
+            ColMode->DrawModuleContent(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight());
             break;
+    */
+    case TAB_MAP:
+        MapMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
+        break;
+    case TAB_MAPED:
+        std::uint16_t temp;
+        std::int32_t mx, my, mz;
+        MFPoint mouse_point;
 
-        case TAB_HM:
-            HmMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-            break;
+        temp = BuildMode->Texture;
+        BuildMode->SetViewToEngine();
+        if (MapEdMode->Texture) {
+            BuildMode->Texture = 6;
+        } else {
+            BuildMode->Texture = 4;
+        }
+        BuildMode->RoofTop = MapEdMode->RoofTop;
 
-        case TAB_SEWER:
-            SewerMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
-            break;
+        if (MapEdMode->Mode == FLOOR_PASTE_BRUSH) {
+            mouse_point.X = MouseX;
+            mouse_point.Y = MouseY;
+            GlobalToLocal(&mouse_point);
+            BuildMode->CalcMapCoord(&mx, &my, &mz, ContentLeft(), ContentTop(), ContentWidth(), ContentHeight(), &mouse_point);
+            background.Cut(mx >> ELE_SHIFT, mz >> ELE_SHIFT, MapEdMode->CutMapBlock.GetWidth(), MapEdMode->CutMapBlock.GetDepth(), MapEdMode->RoofTop);
+            MapEdMode->CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_ALTITUDE, MapEdMode->RoofTop);
+        }
+
+        BuildMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
+
+        // restore background
+        if (MapEdMode->Mode == FLOOR_PASTE_BRUSH) {
+            background.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_ALTITUDE, MapEdMode->RoofTop);
+            BuildMode->DrawContentRect(mx, mz, mx + (MapEdMode->CutMapBlock.GetWidth() << ELE_SHIFT), mz + (MapEdMode->CutMapBlock.GetDepth() << ELE_SHIFT), WHITE_COL);
+        }
+        if (MapEdMode->Mode == FLOOR_HOLD_BRUSH) {
+            mx = MapEdMode->CutMapBlock.GetX() << ELE_SHIFT;
+            mz = MapEdMode->CutMapBlock.GetZ() << ELE_SHIFT;
+            BuildMode->DrawContentRect(mx, mz, mx + (MapEdMode->CutMapBlock.GetWidth() << ELE_SHIFT), mz + (MapEdMode->CutMapBlock.GetDepth() << ELE_SHIFT), WHITE_COL);
+        }
+
+        // BuildMode->DrawBrush(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight());
+        BuildMode->Texture = temp;
+        break;
+    case TAB_BUILD:
+        BuildMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
+        SewerMode->OutsideEditStorey = BuildMode->EditStorey;
+        SewerMode->EditStorey = storey_list[BuildMode->EditStorey].InsideStorey;
+        SewerMode->EditBuilding = BuildMode->EditBuilding;
+
+        if (storey_list[BuildMode->EditStorey].InsideIDIndex)
+            SewerMode->CurrentFloorType = room_ids[storey_list[BuildMode->EditStorey].InsideIDIndex].FloorType;
+
+        SewerMode->SetView(storey_list[BuildMode->EditStorey].DX, storey_list[BuildMode->EditStorey].DZ);
+        break;
+
+    case TAB_HM:
+        HmMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
+        break;
+
+    case TAB_SEWER:
+        SewerMode->DrawModuleContent(ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight());
+        break;
     }
 }
 
@@ -1553,485 +1558,485 @@ void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point)
     MFPoint local_point;
 
     switch (CurrentModeTab()->GetTabID()) {
-        case TAB_PAINT:
-            switch (PaintMode->GetPaintMode()) {
-                case INSTYLE_DEFINE:
-                    if (!HandleTexInStyleClick(flags, clicked_point)) {
-                        Control *current_control;
+    case TAB_PAINT:
+        switch (PaintMode->GetPaintMode()) {
+        case INSTYLE_DEFINE:
+            if (!HandleTexInStyleClick(flags, clicked_point)) {
+                Control *current_control;
 
-                        InStyleControls.SetControlDrawArea();
-                        local_point = *clicked_point;
-                        InStyleControls.GlobalToLocal(&local_point);
-                        current_control = InStyleControls.GetControlList();
-                        while (current_control) {
-                            if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                                // Handle control.
-                                HandleInStyleControl(current_control->TrackControl(&local_point));
+                InStyleControls.SetControlDrawArea();
+                local_point = *clicked_point;
+                InStyleControls.GlobalToLocal(&local_point);
+                current_control = InStyleControls.GetControlList();
+                while (current_control) {
+                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                        // Handle control.
+                        HandleInStyleControl(current_control->TrackControl(&local_point));
 
-                                // Tidy up display.
-                                if (LockWorkScreen()) {
-                                    InStyleControls.DrawControlSet();
-                                    UnlockWorkScreen();
-                                }
-                                ShowWorkWindow(0);
-                            }
-                            current_control = current_control->GetNextControl();
-                        }
-
-                    } else {
+                        // Tidy up display.
                         if (LockWorkScreen()) {
-                            DrawContent();
+                            InStyleControls.DrawControlSet();
                             UnlockWorkScreen();
                         }
                         ShowWorkWindow(0);
                     }
-                    break;
-                case PSX_TEX_DEFINE:
-                    if (!HandlePSXTexClick(flags, clicked_point)) {
-                        Control *current_control;
+                    current_control = current_control->GetNextControl();
+                }
 
-                        PSXControls.SetControlDrawArea();
-                        local_point = *clicked_point;
-                        PSXControls.GlobalToLocal(&local_point);
-                        current_control = PSXControls.GetControlList();
-                        while (current_control) {
-                            if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                                // Handle control.
-                                HandlePSXControl(current_control->TrackControl(&local_point));
-
-                                // Tidy up display.
-                                if (LockWorkScreen()) {
-                                    StyleControls.DrawControlSet();
-                                    UnlockWorkScreen();
-                                }
-                                ShowWorkWindow(0);
-                            }
-                            current_control = current_control->GetNextControl();
-                        }
-
-                    } else {
-                        if (LockWorkScreen()) {
-                            DrawContent();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-                    }
-                    break;
-                case STYLE_DEFINE:
-                    if (!HandleTexStyleClick(flags, clicked_point)) {
-                        Control *current_control;
-
-                        StyleControls.SetControlDrawArea();
-                        local_point = *clicked_point;
-                        StyleControls.GlobalToLocal(&local_point);
-                        current_control = StyleControls.GetControlList();
-                        while (current_control) {
-                            if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
-                                // Handle control.
-                                HandleStyleControl(current_control->TrackControl(&local_point));
-
-                                // Tidy up display.
-                                if (LockWorkScreen()) {
-                                    StyleControls.DrawControlSet();
-                                    UnlockWorkScreen();
-                                }
-                                ShowWorkWindow(0);
-                            }
-                            current_control = current_control->GetNextControl();
-                        }
-
-                    } else {
-                        if (LockWorkScreen()) {
-                            DrawContent();
-                            UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-                    }
-                    break;
-                case ANIM_TMAP_PAINT:
-                    HandleAnimTmapClick(flags, clicked_point);
-                    break;
-                case PALETTE_PAINT:
-                case TEXTURE_PAINT:
-                case FLOOR_PAINT:
-                case PLANAR_PAINT:
-                case STYLE_PAINT:
-                    std::int32_t paint_city = 0;
-                    if (PrimMode) {
-                        switch (PrimMode->GetPrimTabMode()) {
-                            case PRIM_MODE_SINGLE:
-                            case PRIM_MODE_BACK:
-                                if (!PrimMode->GetCurrentPrim()) {
-                                    paint_city = 1;
-                                }
-                        }
-                    }
-
-                    switch (flags) {
-                        case NO_CLICK:
-                            break;
-                        case MIDDLE_CLICK:
-                            DragEngine(flags, clicked_point);
-                            break;
-
-                        case LEFT_CLICK:
-                            current_texture = PaintMode->GetTexture();
-                            if (PaintMode->SubMode == FLOOR_CUT_BRUSH) {
-                                PaintMode->CutFloorBrush(BuildMode, &local_point);
-
-                            } else if (ControlFlag && !paint_city) {
-                                MFPoint point1, point2;
-                                std::int32_t con_top, con_left;
-                                point1.X = MouseX;
-                                point1.Y = MouseY;
-                                //						point1		=	*clicked_point;
-                                GlobalToLocal(&point1);
-                                while (SHELL_ACTIVE && LeftButton) {
-                                    engine_keys_scroll();
-                                    engine_keys_spin();
-                                    engine_keys_zoom();
-
-                                    point2.X = MouseX; //-con_left;
-                                    point2.Y = MouseY; //-con_top;
-                                    GlobalToLocal(&point2);
-
-                                    edit_info.SelectRect.SetRect(point1.X, point1.Y, point2.X - point1.X, point2.Y - point1.Y);
-                                    if (LockWorkScreen()) {
-                                        DrawContent();
-                                        DrawGrowBox();
-                                        edit_info.SelectRect.OutlineRect(WHITE_COL);
-                                        UnlockWorkScreen();
-                                    }
-                                    ShowWorkWindow(0);
-                                }
-                                edit_info.SelectRect.NormalRect();
-                                SelectFlag = 1;
-                                RequestUpdate();
-                            } else
-                                while (SHELL_ACTIVE && LeftButton) {
-                                    if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
-                                        MFPoint point1;
-                                        std::int32_t mx, my, mz;
-
-                                        point1.X = MouseX;
-                                        point1.Y = MouseY;
-                                        GlobalToLocal(&point1);
-                                        BuildMode->CalcMapCoord(&mx, &my, &mz, ContentLeft(), ContentTop(), ContentWidth(), ContentHeight(), &point1);
-                                        PaintMode->CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_TEXTURE | (AltFlag ? PASTE_ALTITUDE : 0), 0);
-
-                                    } else if (ShiftFlag && hilited_face.Face && !paint_city) { // selecting lots of faces
-                                        if (!face_is_in_list(hilited_face.Face))
-                                            add_face_to_list(hilited_face.Face);
-                                    } else {
-                                        /*
-                                                                                                                if(paint_city&&ShiftFlag)
-                                                                                                                {
-                                                                                                                        if(hilited_face.Face>0)
-                                                                                                                        {
-                                                                                                                                std::int32_t	face;
-                                                                                                                                face=hilited_face.Face;
-                                                                                                                                set_wall_texture_info(-prim_faces4[face].ThingIndex,(std::int8_t)texture_mode->GetTexturePage(),current_texture);
-                                                                                                                        }
-
-                                                                                                                }
-                                        */
-                                        if (!ShiftFlag)
-                                            if (ApplyTexture(&hilited_face)) {
-                                                update = 1;
-                                            }
-                                    }
-                                    if (LockWorkScreen()) {
-                                        DrawContent();
-                                        DrawGrowBox();
-                                        UnlockWorkScreen();
-                                    }
-                                    ShowWorkWindow(0);
-                                    editor_turn++;
-                                }
-                            break;
-                        case RIGHT_CLICK:
-                            if (LockWorkScreen()) {
-                                DrawContent();
-                                DrawGrowBox();
-                                UnlockWorkScreen();
-                            }
-                            ShowWorkWindow(0);
-                            if (ControlFlag && !paint_city) {
-                                MFPoint point1, point2;
-                                std::int32_t con_top, con_left;
-                                point1.X = MouseX;
-                                point1.Y = MouseY;
-                                GlobalToLocal(&point1);
-                                //						con_left=ContentLeft();
-                                //						con_top=ContentTop();
-                                while (SHELL_ACTIVE && RightButton) {
-                                    point2.X = MouseX; //-con_left;
-                                    point2.Y = MouseY; //-con_top;
-                                    GlobalToLocal(&point2);
-                                    edit_info.SelectRect.SetRect(point1.X, point1.Y, point2.X - point1.X, point2.Y - point1.Y);
-                                    if (LockWorkScreen()) {
-                                        DrawContent();
-                                        DrawGrowBox();
-                                        edit_info.SelectRect.OutlineRect(WHITE_COL);
-                                        UnlockWorkScreen();
-                                    }
-                                    ShowWorkWindow(0);
-                                }
-                                edit_info.SelectRect.NormalRect();
-                                SelectFlag = -1;
-                                RequestUpdate();
-                            } else {
-                                current_texture = PaintMode->GetTexture();
-                                if (hilited_face.PEle) {
-                                    selected_face = hilited_face;
-                                    if (ShiftFlag && hilited_face.Face && hilited_face.PEle != (struct EditMapElement *) -2) { // selecting lots of faces
-                                        if (face_is_in_list(hilited_face.Face))
-                                            add_face_to_list(hilited_face.Face);
-                                    } else if (hilited_face.PEle == (struct EditMapElement *) -2) {
-                                        struct MiniTextureBits *tex;
-                                        LogText(" get floor tex co-ords for on screen edit \n");
-                                        if (edit_info.RoofTex) {
-                                            tex = (struct MiniTextureBits *) (&tex_map[selected_face.MapX][selected_face.MapZ]);
-                                        } else {
-                                            tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
-                                        }
-                                        PaintMode->ConvertMiniTex(tex);
-                                    } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
-                                        if (hilited_face.Face < 0) {
-                                            PaintMode->MyUndo.ApplyTexturePrim3(0, prim_faces3[-hilited_face.Face].TexturePage, -hilited_face.Face,
-                                                                                prim_faces3[-hilited_face.Face].UV[0][0],
-                                                                                prim_faces3[-hilited_face.Face].UV[0][1],
-                                                                                prim_faces3[-hilited_face.Face].UV[1][0],
-                                                                                prim_faces3[-hilited_face.Face].UV[1][1],
-                                                                                prim_faces3[-hilited_face.Face].UV[2][0],
-                                                                                prim_faces3[-hilited_face.Face].UV[2][1]);
-
-                                            for (c0 = 0; c0 < 3; c0++) {
-                                                //								prim_faces3[-edit_face.Face].TexturePage	=	(std::uint16_t)TextureMode->GetTexturePage();
-                                                current_texture->U[c0] = prim_faces3[-hilited_face.Face].UV[c0][0];
-                                                current_texture->V[c0] = prim_faces3[-hilited_face.Face].UV[c0][1];
-                                            }
-                                            PaintMode->SetTexturePage(prim_faces3[-hilited_face.Face].TexturePage);
-                                            PaintMode->SetTextureFlags(PaintMode->GetTextureFlags() & ~FLAGS_QUADS);
-
-                                            PaintMode->SetCurrentColour(prim_faces3[-hilited_face.Face].Col2);
-
-                                        } else {
-                                            if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_ANIMATE) {
-                                                PaintMode->SetTexturePage(-prim_faces4[hilited_face.Face].TexturePage);
-                                            } else {
-                                                PaintMode->MyUndo.ApplyTexturePrim4(0, prim_faces3[hilited_face.Face].TexturePage, hilited_face.Face,
-                                                                                    prim_faces4[hilited_face.Face].UV[0][0],
-                                                                                    prim_faces4[hilited_face.Face].UV[0][1],
-                                                                                    prim_faces4[hilited_face.Face].UV[1][0],
-                                                                                    prim_faces4[hilited_face.Face].UV[1][1],
-                                                                                    prim_faces4[hilited_face.Face].UV[2][0],
-                                                                                    prim_faces4[hilited_face.Face].UV[2][1],
-                                                                                    prim_faces4[hilited_face.Face].UV[3][0],
-                                                                                    prim_faces4[hilited_face.Face].UV[3][1]);
-                                                for (c0 = 0; c0 < 4; c0++) {
-                                                    //								prim_faces4[edit_face.Face].TexturePage	=	(std::uint16_t)TextureMode->GetTexturePage();
-                                                    current_texture->U[c0] = prim_faces4[hilited_face.Face].UV[c0][0];
-                                                    current_texture->V[c0] = prim_faces4[hilited_face.Face].UV[c0][1];
-                                                }
-
-                                                {
-                                                    std::int32_t dx, dy;
-                                                    dx = -current_texture->U[0] + current_texture->U[1];
-                                                    dy = -current_texture->V[0] + current_texture->V[1];
-
-                                                    if (dx > 0 && dy == 0) {
-                                                        PaintMode->CurrentTextureRot = 0;
-                                                    } else if (dx == 0 && dy > 0) {
-                                                        PaintMode->CurrentTextureRot = 1;
-                                                    } else if (dx < 0 && dy == 0) {
-                                                        PaintMode->CurrentTextureRot = 2;
-                                                    } else if (dx == 0 && dy < 0) {
-                                                        PaintMode->CurrentTextureRot = 3;
-                                                    }
-                                                }
-
-                                                PaintMode->SetTexturePage(prim_faces4[hilited_face.Face].TexturePage);
-                                                PaintMode->SetTextureFlags(PaintMode->GetTextureFlags() | FLAGS_QUADS);
-                                                if (prim_faces4[hilited_face.Face].ThingIndex < 0) {
-                                                    std::int32_t wall;
-                                                    wall = prim_faces4[hilited_face.Face].ThingIndex;
-
-                                                    PaintMode->CurrentStyleEdit = wall_list[wall].TextureStyle;
-                                                }
-
-                                                PaintMode->SetCurrentColour(prim_faces4[hilited_face.Face].Col2);
-                                            }
-                                        }
-                                        if (paint_city)
-                                            PaintMode->SetTextureFlags((PaintMode->GetTextureFlags()) | FLAGS_SHOW_TEXTURE);
-                                        else
-                                            PaintMode->SetTextureFlags((PaintMode->GetTextureFlags() & ~FLAGS_FIXED) | FLAGS_SHOW_TEXTURE);
-                                    } else {
-                                        PaintMode->ConvertFixedToFree(&selected_face.PEle->Textures[selected_face.Face]);
-                                        PaintMode->SetTextureFlags(PaintMode->GetTextureFlags() | FLAGS_QUADS | FLAGS_FIXED);
-                                    }
-
-                                    if (RightButton) {
-                                        DoFacePopup(clicked_point);
-                                        update = 1;
-                                    }
-                                    if (LockWorkScreen()) {
-                                        CurrentModeTab()->DrawTab();
-                                        UnlockWorkScreen();
-                                        ShowWorkWindow(0);
-                                    }
-                                }
-                            }
-                            break;
-                    }
-                    break;
+            } else {
+                if (LockWorkScreen()) {
+                    DrawContent();
+                    UnlockWorkScreen();
+                }
+                ShowWorkWindow(0);
             }
             break;
-        case TAB_PRIMPICK:
-            // in here we may be pasteing a 3ds prim
-            // we may be dragging it somewhere
-            {
-                MFPoint local_point;
-                local_point = *clicked_point;
-                GlobalToLocal(&local_point);
+        case PSX_TEX_DEFINE:
+            if (!HandlePSXTexClick(flags, clicked_point)) {
+                Control *current_control;
 
-                if (PrimMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                    if (LockWorkScreen()) {
-                        DrawContent();
-                        DrawGrowBox();
-                        UnlockWorkScreen();
+                PSXControls.SetControlDrawArea();
+                local_point = *clicked_point;
+                PSXControls.GlobalToLocal(&local_point);
+                current_control = PSXControls.GetControlList();
+                while (current_control) {
+                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                        // Handle control.
+                        HandlePSXControl(current_control->TrackControl(&local_point));
+
+                        // Tidy up display.
+                        if (LockWorkScreen()) {
+                            StyleControls.DrawControlSet();
+                            UnlockWorkScreen();
+                        }
+                        ShowWorkWindow(0);
+                    }
+                    current_control = current_control->GetNextControl();
+                }
+
+            } else {
+                if (LockWorkScreen()) {
+                    DrawContent();
+                    UnlockWorkScreen();
+                }
+                ShowWorkWindow(0);
+            }
+            break;
+        case STYLE_DEFINE:
+            if (!HandleTexStyleClick(flags, clicked_point)) {
+                Control *current_control;
+
+                StyleControls.SetControlDrawArea();
+                local_point = *clicked_point;
+                StyleControls.GlobalToLocal(&local_point);
+                current_control = StyleControls.GetControlList();
+                while (current_control) {
+                    if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
+                        // Handle control.
+                        HandleStyleControl(current_control->TrackControl(&local_point));
+
+                        // Tidy up display.
+                        if (LockWorkScreen()) {
+                            StyleControls.DrawControlSet();
+                            UnlockWorkScreen();
+                        }
+                        ShowWorkWindow(0);
+                    }
+                    current_control = current_control->GetNextControl();
+                }
+
+            } else {
+                if (LockWorkScreen()) {
+                    DrawContent();
+                    UnlockWorkScreen();
+                }
+                ShowWorkWindow(0);
+            }
+            break;
+        case ANIM_TMAP_PAINT:
+            HandleAnimTmapClick(flags, clicked_point);
+            break;
+        case PALETTE_PAINT:
+        case TEXTURE_PAINT:
+        case FLOOR_PAINT:
+        case PLANAR_PAINT:
+        case STYLE_PAINT:
+            std::int32_t paint_city = 0;
+            if (PrimMode) {
+                switch (PrimMode->GetPrimTabMode()) {
+                case PRIM_MODE_SINGLE:
+                case PRIM_MODE_BACK:
+                    if (!PrimMode->GetCurrentPrim()) {
+                        paint_city = 1;
+                    }
+                }
+            }
+
+            switch (flags) {
+            case NO_CLICK:
+                break;
+            case MIDDLE_CLICK:
+                DragEngine(flags, clicked_point);
+                break;
+
+            case LEFT_CLICK:
+                current_texture = PaintMode->GetTexture();
+                if (PaintMode->SubMode == FLOOR_CUT_BRUSH) {
+                    PaintMode->CutFloorBrush(BuildMode, &local_point);
+
+                } else if (ControlFlag && !paint_city) {
+                    MFPoint point1, point2;
+                    std::int32_t con_top, con_left;
+                    point1.X = MouseX;
+                    point1.Y = MouseY;
+                    //						point1		=	*clicked_point;
+                    GlobalToLocal(&point1);
+                    while (SHELL_ACTIVE && LeftButton) {
+                        engine_keys_scroll();
+                        engine_keys_spin();
+                        engine_keys_zoom();
+
+                        point2.X = MouseX; //-con_left;
+                        point2.Y = MouseY; //-con_top;
+                        GlobalToLocal(&point2);
+
+                        edit_info.SelectRect.SetRect(point1.X, point1.Y, point2.X - point1.X, point2.Y - point1.Y);
+                        if (LockWorkScreen()) {
+                            DrawContent();
+                            DrawGrowBox();
+                            edit_info.SelectRect.OutlineRect(WHITE_COL);
+                            UnlockWorkScreen();
+                        }
+                        ShowWorkWindow(0);
+                    }
+                    edit_info.SelectRect.NormalRect();
+                    SelectFlag = 1;
+                    RequestUpdate();
+                } else
+                    while (SHELL_ACTIVE && LeftButton) {
+                        if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
+                            MFPoint point1;
+                            std::int32_t mx, my, mz;
+
+                            point1.X = MouseX;
+                            point1.Y = MouseY;
+                            GlobalToLocal(&point1);
+                            BuildMode->CalcMapCoord(&mx, &my, &mz, ContentLeft(), ContentTop(), ContentWidth(), ContentHeight(), &point1);
+                            PaintMode->CutMapBlock.Paste(mx >> ELE_SHIFT, mz >> ELE_SHIFT, PASTE_TEXTURE | (AltFlag ? PASTE_ALTITUDE : 0), 0);
+
+                        } else if (ShiftFlag && hilited_face.Face && !paint_city) { // selecting lots of faces
+                            if (!face_is_in_list(hilited_face.Face))
+                                add_face_to_list(hilited_face.Face);
+                        } else {
+                            /*
+                                                                                                    if(paint_city&&ShiftFlag)
+                                                                                                    {
+                                                                                                            if(hilited_face.Face>0)
+                                                                                                            {
+                                                                                                                    std::int32_t	face;
+                                                                                                                    face=hilited_face.Face;
+                                                                                                                    set_wall_texture_info(-prim_faces4[face].ThingIndex,(std::int8_t)texture_mode->GetTexturePage(),current_texture);
+                                                                                                            }
+
+                                                                                                    }
+                            */
+                            if (!ShiftFlag)
+                                if (ApplyTexture(&hilited_face)) {
+                                    update = 1;
+                                }
+                        }
+                        if (LockWorkScreen()) {
+                            DrawContent();
+                            DrawGrowBox();
+                            UnlockWorkScreen();
+                        }
+                        ShowWorkWindow(0);
+                        editor_turn++;
+                    }
+                break;
+            case RIGHT_CLICK:
+                if (LockWorkScreen()) {
+                    DrawContent();
+                    DrawGrowBox();
+                    UnlockWorkScreen();
+                }
+                ShowWorkWindow(0);
+                if (ControlFlag && !paint_city) {
+                    MFPoint point1, point2;
+                    std::int32_t con_top, con_left;
+                    point1.X = MouseX;
+                    point1.Y = MouseY;
+                    GlobalToLocal(&point1);
+                    //						con_left=ContentLeft();
+                    //						con_top=ContentTop();
+                    while (SHELL_ACTIVE && RightButton) {
+                        point2.X = MouseX; //-con_left;
+                        point2.Y = MouseY; //-con_top;
+                        GlobalToLocal(&point2);
+                        edit_info.SelectRect.SetRect(point1.X, point1.Y, point2.X - point1.X, point2.Y - point1.Y);
+                        if (LockWorkScreen()) {
+                            DrawContent();
+                            DrawGrowBox();
+                            edit_info.SelectRect.OutlineRect(WHITE_COL);
+                            UnlockWorkScreen();
+                        }
+                        ShowWorkWindow(0);
+                    }
+                    edit_info.SelectRect.NormalRect();
+                    SelectFlag = -1;
+                    RequestUpdate();
+                } else {
+                    current_texture = PaintMode->GetTexture();
+                    if (hilited_face.PEle) {
+                        selected_face = hilited_face;
+                        if (ShiftFlag && hilited_face.Face && hilited_face.PEle != (struct EditMapElement *) -2) { // selecting lots of faces
+                            if (face_is_in_list(hilited_face.Face))
+                                add_face_to_list(hilited_face.Face);
+                        } else if (hilited_face.PEle == (struct EditMapElement *) -2) {
+                            struct MiniTextureBits *tex;
+                            LogText(" get floor tex co-ords for on screen edit \n");
+                            if (edit_info.RoofTex) {
+                                tex = (struct MiniTextureBits *) (&tex_map[selected_face.MapX][selected_face.MapZ]);
+                            } else {
+                                tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
+                            }
+                            PaintMode->ConvertMiniTex(tex);
+                        } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
+                            if (hilited_face.Face < 0) {
+                                PaintMode->MyUndo.ApplyTexturePrim3(0, prim_faces3[-hilited_face.Face].TexturePage, -hilited_face.Face,
+                                                                    prim_faces3[-hilited_face.Face].UV[0][0],
+                                                                    prim_faces3[-hilited_face.Face].UV[0][1],
+                                                                    prim_faces3[-hilited_face.Face].UV[1][0],
+                                                                    prim_faces3[-hilited_face.Face].UV[1][1],
+                                                                    prim_faces3[-hilited_face.Face].UV[2][0],
+                                                                    prim_faces3[-hilited_face.Face].UV[2][1]);
+
+                                for (c0 = 0; c0 < 3; c0++) {
+                                    //								prim_faces3[-edit_face.Face].TexturePage	=	(std::uint16_t)TextureMode->GetTexturePage();
+                                    current_texture->U[c0] = prim_faces3[-hilited_face.Face].UV[c0][0];
+                                    current_texture->V[c0] = prim_faces3[-hilited_face.Face].UV[c0][1];
+                                }
+                                PaintMode->SetTexturePage(prim_faces3[-hilited_face.Face].TexturePage);
+                                PaintMode->SetTextureFlags(PaintMode->GetTextureFlags() & ~FLAGS_QUADS);
+
+                                PaintMode->SetCurrentColour(prim_faces3[-hilited_face.Face].Col2);
+
+                            } else {
+                                if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_ANIMATE) {
+                                    PaintMode->SetTexturePage(-prim_faces4[hilited_face.Face].TexturePage);
+                                } else {
+                                    PaintMode->MyUndo.ApplyTexturePrim4(0, prim_faces3[hilited_face.Face].TexturePage, hilited_face.Face,
+                                                                        prim_faces4[hilited_face.Face].UV[0][0],
+                                                                        prim_faces4[hilited_face.Face].UV[0][1],
+                                                                        prim_faces4[hilited_face.Face].UV[1][0],
+                                                                        prim_faces4[hilited_face.Face].UV[1][1],
+                                                                        prim_faces4[hilited_face.Face].UV[2][0],
+                                                                        prim_faces4[hilited_face.Face].UV[2][1],
+                                                                        prim_faces4[hilited_face.Face].UV[3][0],
+                                                                        prim_faces4[hilited_face.Face].UV[3][1]);
+                                    for (c0 = 0; c0 < 4; c0++) {
+                                        //								prim_faces4[edit_face.Face].TexturePage	=	(std::uint16_t)TextureMode->GetTexturePage();
+                                        current_texture->U[c0] = prim_faces4[hilited_face.Face].UV[c0][0];
+                                        current_texture->V[c0] = prim_faces4[hilited_face.Face].UV[c0][1];
+                                    }
+
+                                    {
+                                        std::int32_t dx, dy;
+                                        dx = -current_texture->U[0] + current_texture->U[1];
+                                        dy = -current_texture->V[0] + current_texture->V[1];
+
+                                        if (dx > 0 && dy == 0) {
+                                            PaintMode->CurrentTextureRot = 0;
+                                        } else if (dx == 0 && dy > 0) {
+                                            PaintMode->CurrentTextureRot = 1;
+                                        } else if (dx < 0 && dy == 0) {
+                                            PaintMode->CurrentTextureRot = 2;
+                                        } else if (dx == 0 && dy < 0) {
+                                            PaintMode->CurrentTextureRot = 3;
+                                        }
+                                    }
+
+                                    PaintMode->SetTexturePage(prim_faces4[hilited_face.Face].TexturePage);
+                                    PaintMode->SetTextureFlags(PaintMode->GetTextureFlags() | FLAGS_QUADS);
+                                    if (prim_faces4[hilited_face.Face].ThingIndex < 0) {
+                                        std::int32_t wall;
+                                        wall = prim_faces4[hilited_face.Face].ThingIndex;
+
+                                        PaintMode->CurrentStyleEdit = wall_list[wall].TextureStyle;
+                                    }
+
+                                    PaintMode->SetCurrentColour(prim_faces4[hilited_face.Face].Col2);
+                                }
+                            }
+                            if (paint_city)
+                                PaintMode->SetTextureFlags((PaintMode->GetTextureFlags()) | FLAGS_SHOW_TEXTURE);
+                            else
+                                PaintMode->SetTextureFlags((PaintMode->GetTextureFlags() & ~FLAGS_FIXED) | FLAGS_SHOW_TEXTURE);
+                        } else {
+                            PaintMode->ConvertFixedToFree(&selected_face.PEle->Textures[selected_face.Face]);
+                            PaintMode->SetTextureFlags(PaintMode->GetTextureFlags() | FLAGS_QUADS | FLAGS_FIXED);
+                        }
+
+                        if (RightButton) {
+                            DoFacePopup(clicked_point);
+                            update = 1;
+                        }
+                        if (LockWorkScreen()) {
+                            CurrentModeTab()->DrawTab();
+                            UnlockWorkScreen();
+                            ShowWorkWindow(0);
+                        }
+                    }
+                }
+                break;
+            }
+            break;
+        }
+        break;
+    case TAB_PRIMPICK:
+        // in here we may be pasteing a 3ds prim
+        // we may be dragging it somewhere
+        {
+            MFPoint local_point;
+            local_point = *clicked_point;
+            GlobalToLocal(&local_point);
+
+            if (PrimMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+                if (LockWorkScreen()) {
+                    DrawContent();
+                    DrawGrowBox();
+                    UnlockWorkScreen();
+                }
+                ShowWorkWindow(0);
+            }
+        }
+
+        break;
+    case TAB_LIGHT: {
+        MFPoint local_point;
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+
+        if (LightMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+            if (LockWorkScreen()) {
+                DrawContent();
+                DrawGrowBox();
+                UnlockWorkScreen();
+            }
+            ShowWorkWindow(0);
+        }
+    }
+
+    break;
+    /*
+    case	TAB_COL:
+    {
+            MFPoint	local_point;
+            local_point=*clicked_point;
+            GlobalToLocal(&local_point);
+
+
+            if(ColMode->HandleModuleContentClick(&local_point,flags,ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight()))
+            {
+                    if(LockWorkScreen())
+                    {
+                            DrawContent();
+                            DrawGrowBox();
+                            UnlockWorkScreen();
                     }
                     ShowWorkWindow(0);
-                }
             }
+    }
 
             break;
-        case TAB_LIGHT: {
-            MFPoint local_point;
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
+    */
+    case TAB_MAP: {
+        MFPoint local_point;
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
 
-            if (LightMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                if (LockWorkScreen()) {
-                    DrawContent();
-                    DrawGrowBox();
-                    UnlockWorkScreen();
-                }
-                ShowWorkWindow(0);
+        if (MapMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+            if (LockWorkScreen()) {
+                DrawContent();
+                DrawGrowBox();
+                UnlockWorkScreen();
+            }
+            ShowWorkWindow(0);
+        }
+    }
+
+    break;
+    case TAB_MAPED: {
+        MFPoint local_point;
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+
+        if (MapEdMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+            if (LockWorkScreen()) {
+                DrawContent();
+                DrawGrowBox();
+                UnlockWorkScreen();
+            }
+            ShowWorkWindow(0);
+        }
+    } break;
+    case TAB_BUILD: {
+        MFPoint local_point;
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
+
+        if (BuildMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+            if (LockWorkScreen()) {
+                DrawContent();
+                DrawGrowBox();
+                UnlockWorkScreen();
+            }
+            ShowWorkWindow(0);
+        }
+        SewerMode->OutsideEditStorey = BuildMode->EditStorey;
+        SewerMode->EditStorey = storey_list[BuildMode->EditStorey].InsideStorey;
+        SewerMode->EditBuilding = BuildMode->EditBuilding;
+
+        SewerMode->SetView(storey_list[BuildMode->EditStorey].DX, storey_list[BuildMode->EditStorey].DZ);
+
+        if (SewerMode->OutsideEditStorey) {
+            std::int32_t inside, index;
+            index = storey_list[SewerMode->OutsideEditStorey].InsideIDIndex; // building_list[building].StoreyHead;
+            if (index) {
+                SewerMode->CurrentFloorType = room_ids[index].FloorType;
             }
         }
 
-        break;
-        /*
-        case	TAB_COL:
-        {
-                MFPoint	local_point;
-                local_point=*clicked_point;
-                GlobalToLocal(&local_point);
+    } break;
+    case TAB_HM: {
+        MFPoint local_point;
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
 
-
-                if(ColMode->HandleModuleContentClick(&local_point,flags,ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight()))
-                {
-                        if(LockWorkScreen())
-                        {
-                                DrawContent();
-                                DrawGrowBox();
-                                UnlockWorkScreen();
-                        }
-                        ShowWorkWindow(0);
-                }
+        if (HmMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+            if (LockWorkScreen()) {
+                DrawContent();
+                DrawGrowBox();
+                UnlockWorkScreen();
+            }
+            ShowWorkWindow(0);
         }
+    }
 
-                break;
-        */
-        case TAB_MAP: {
-            MFPoint local_point;
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
+    case TAB_SEWER: {
+        MFPoint local_point;
+        local_point = *clicked_point;
+        GlobalToLocal(&local_point);
 
-            if (MapMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                if (LockWorkScreen()) {
-                    DrawContent();
-                    DrawGrowBox();
-                    UnlockWorkScreen();
-                }
-                ShowWorkWindow(0);
+        if (SewerMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
+            if (LockWorkScreen()) {
+                DrawContent();
+                DrawGrowBox();
+                UnlockWorkScreen();
             }
+            ShowWorkWindow(0);
         }
-
-        break;
-        case TAB_MAPED: {
-            MFPoint local_point;
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-
-            if (MapEdMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                if (LockWorkScreen()) {
-                    DrawContent();
-                    DrawGrowBox();
-                    UnlockWorkScreen();
-                }
-                ShowWorkWindow(0);
-            }
-        } break;
-        case TAB_BUILD: {
-            MFPoint local_point;
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-
-            if (BuildMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                if (LockWorkScreen()) {
-                    DrawContent();
-                    DrawGrowBox();
-                    UnlockWorkScreen();
-                }
-                ShowWorkWindow(0);
-            }
-            SewerMode->OutsideEditStorey = BuildMode->EditStorey;
-            SewerMode->EditStorey = storey_list[BuildMode->EditStorey].InsideStorey;
-            SewerMode->EditBuilding = BuildMode->EditBuilding;
-
-            SewerMode->SetView(storey_list[BuildMode->EditStorey].DX, storey_list[BuildMode->EditStorey].DZ);
-
-            if (SewerMode->OutsideEditStorey) {
-                std::int32_t inside, index;
-                index = storey_list[SewerMode->OutsideEditStorey].InsideIDIndex; // building_list[building].StoreyHead;
-                if (index) {
-                    SewerMode->CurrentFloorType = room_ids[index].FloorType;
-                }
-            }
-
-        } break;
-        case TAB_HM: {
-            MFPoint local_point;
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-
-            if (HmMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                if (LockWorkScreen()) {
-                    DrawContent();
-                    DrawGrowBox();
-                    UnlockWorkScreen();
-                }
-                ShowWorkWindow(0);
-            }
-        }
-
-        case TAB_SEWER: {
-            MFPoint local_point;
-            local_point = *clicked_point;
-            GlobalToLocal(&local_point);
-
-            if (SewerMode->HandleModuleContentClick(&local_point, flags, ContentLeft() + 1, ContentTop() + 1, ContentWidth(), ContentHeight())) {
-                if (LockWorkScreen()) {
-                    DrawContent();
-                    DrawGrowBox();
-                    UnlockWorkScreen();
-                }
-                ShowWorkWindow(0);
-            }
-        }
+    }
     }
     if (update) {
         if (LockWorkScreen()) {
@@ -2110,20 +2115,20 @@ void LevelEditor::HandleModule(void) {
     if ((CurrentModeTab()->GetTabID() == TAB_PAINT)) {
         if (PrimMode) {
             switch (PrimMode->GetPrimTabMode()) {
-                case PRIM_MODE_SINGLE:
-                case PRIM_MODE_MULTI:
-                case PRIM_MODE_BACK:
-                    if (PrimMode->GetCurrentPrim()) {
-                        if (LastKey == KB_S && (!ShiftFlag)) {
-                            SelectFlag = 3;
-                            update = 1;
-                        }
-
-                        if (LastKey == KB_S && (ShiftFlag)) {
-                            SelectFlag = 4;
-                            update = 1;
-                        }
+            case PRIM_MODE_SINGLE:
+            case PRIM_MODE_MULTI:
+            case PRIM_MODE_BACK:
+                if (PrimMode->GetCurrentPrim()) {
+                    if (LastKey == KB_S && (!ShiftFlag)) {
+                        SelectFlag = 3;
+                        update = 1;
                     }
+
+                    if (LastKey == KB_S && (ShiftFlag)) {
+                        SelectFlag = 4;
+                        update = 1;
+                    }
+                }
             }
         }
     }
@@ -2172,158 +2177,158 @@ void LevelEditor::HandleModule(void) {
     if (CurrentModeTab()) {
         CurrentModeTab()->HandleTab(&mouse_point);
         switch (CurrentModeTab()->GetTabID()) {
-            case TAB_NONE:
-                break;
-            case TAB_PAINT:
-                current_texture = PaintMode->GetTexture();
-                if (LastKey == KB_SPACE) {
-                    MFPoint local_point;
+        case TAB_NONE:
+            break;
+        case TAB_PAINT:
+            current_texture = PaintMode->GetTexture();
+            if (LastKey == KB_SPACE) {
+                MFPoint local_point;
 
-                    local_point.X = MouseX;
-                    local_point.Y = MouseY;
+                local_point.X = MouseX;
+                local_point.Y = MouseY;
 
-                    DragEngine(0, &local_point);
-                }
+                DragEngine(0, &local_point);
+            }
 
-                if (PointInContent(&mouse_point)) {
-                    update = 2;
-                }
-                if (PaintMode->SubMode == FLOOR_PASTE_BRUSH)
-                    update = 2;
-                else if (hilited_face.Face) {
-                    hilited_face.Face = 0;
-                    hilited_face.Bucket = 0;
-                    update = 1;
-                }
+            if (PointInContent(&mouse_point)) {
+                update = 2;
+            }
+            if (PaintMode->SubMode == FLOOR_PASTE_BRUSH)
+                update = 2;
+            else if (hilited_face.Face) {
+                hilited_face.Face = 0;
+                hilited_face.Bucket = 0;
+                update = 1;
+            }
 
-                if (LastKey == KB_Z) {
-                    if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
-                        PaintMode->CutMapBlock.Rotate(1);
-                    } else if (selected_face.PEle == (struct EditMapElement *) -2) {
-                        struct MiniTextureBits *tex;
-                        if (edit_info.RoofTex) {
-                            tex = (struct MiniTextureBits *) (&tex_map[selected_face.MapX][selected_face.MapZ]);
-                        } else {
-                            tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
-                        }
-                        PaintMode->CurrentTextureRot++;
-                        PaintMode->CurrentTextureRot &= 3;
-                        tex->Rot = PaintMode->CurrentTextureRot;
-                        PaintMode->ConvertMiniTex(tex);
-
+            if (LastKey == KB_Z) {
+                if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
+                    PaintMode->CutMapBlock.Rotate(1);
+                } else if (selected_face.PEle == (struct EditMapElement *) -2) {
+                    struct MiniTextureBits *tex;
+                    if (edit_info.RoofTex) {
+                        tex = (struct MiniTextureBits *) (&tex_map[selected_face.MapX][selected_face.MapZ]);
                     } else {
-                        PaintMode->CurrentTextureRot++;
-                        PaintMode->CurrentTextureRot &= 3;
-
-                        temp_u = current_texture->U[0];
-                        temp_v = current_texture->V[0];
-                        if (PaintMode->GetTextureFlags() & FLAGS_QUADS) {
-                            current_texture->U[0] = current_texture->U[1];
-                            current_texture->V[0] = current_texture->V[1];
-                            current_texture->U[1] = current_texture->U[3];
-                            current_texture->V[1] = current_texture->V[3];
-                            current_texture->U[3] = current_texture->U[2];
-                            current_texture->V[3] = current_texture->V[2];
-                        } else {
-                            for (c0 = 0; c0 < 2; c0++) {
-                                current_texture->U[c0] = current_texture->U[c0 + 1];
-                                current_texture->V[c0] = current_texture->V[c0 + 1];
-                            }
-                        }
-                        current_texture->U[2] = temp_u;
-                        current_texture->V[2] = temp_v;
-                        ApplyTexture(&selected_face);
+                        tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
                     }
-                    update = 2;
-                    LastKey = 0;
-                }
-                if (LastKey == KB_X) {
+                    PaintMode->CurrentTextureRot++;
+                    PaintMode->CurrentTextureRot &= 3;
+                    tex->Rot = PaintMode->CurrentTextureRot;
+                    PaintMode->ConvertMiniTex(tex);
+
+                } else {
+                    PaintMode->CurrentTextureRot++;
+                    PaintMode->CurrentTextureRot &= 3;
+
+                    temp_u = current_texture->U[0];
+                    temp_v = current_texture->V[0];
                     if (PaintMode->GetTextureFlags() & FLAGS_QUADS) {
-                        SWAP(current_texture->U[0], current_texture->U[1]);
-                        SWAP(current_texture->V[0], current_texture->V[1]);
-                        SWAP(current_texture->U[2], current_texture->U[3]);
-                        SWAP(current_texture->V[2], current_texture->V[3]);
+                        current_texture->U[0] = current_texture->U[1];
+                        current_texture->V[0] = current_texture->V[1];
+                        current_texture->U[1] = current_texture->U[3];
+                        current_texture->V[1] = current_texture->V[3];
+                        current_texture->U[3] = current_texture->U[2];
+                        current_texture->V[3] = current_texture->V[2];
+                    } else {
+                        for (c0 = 0; c0 < 2; c0++) {
+                            current_texture->U[c0] = current_texture->U[c0 + 1];
+                            current_texture->V[c0] = current_texture->V[c0 + 1];
+                        }
                     }
+                    current_texture->U[2] = temp_u;
+                    current_texture->V[2] = temp_v;
                     ApplyTexture(&selected_face);
-                    update = 2;
-                    LastKey = 0;
                 }
-                break;
-            case TAB_PRIMPICK:
-                SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-                PrimMode->SetWorldMouse(0);
-                /*
-                                                if(PrimMode->HiLightObjects(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight()))
-                                                {
-                                                        ShowWorkWindow(0);
-                                                }
-                */
-                if (PrimMode->RedrawModuleContent)
-                    DrawContent();
-                break;
-            case TAB_LIGHT:
-                if (LightMode->RedrawModuleContent)
-                    DrawContent();
-                break;
+                update = 2;
+                LastKey = 0;
+            }
+            if (LastKey == KB_X) {
+                if (PaintMode->GetTextureFlags() & FLAGS_QUADS) {
+                    SWAP(current_texture->U[0], current_texture->U[1]);
+                    SWAP(current_texture->V[0], current_texture->V[1]);
+                    SWAP(current_texture->U[2], current_texture->U[3]);
+                    SWAP(current_texture->V[2], current_texture->V[3]);
+                }
+                ApplyTexture(&selected_face);
+                update = 2;
+                LastKey = 0;
+            }
+            break;
+        case TAB_PRIMPICK:
+            SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
+            PrimMode->SetWorldMouse(0);
             /*
-            case	TAB_COL:
-                    if(ColMode->RedrawModuleContent)
-                            DrawContent();
-                    break;
+                                            if(PrimMode->HiLightObjects(ContentLeft()+1,ContentTop()+1,ContentWidth(),ContentHeight()))
+                                            {
+                                                    ShowWorkWindow(0);
+                                            }
             */
-            case TAB_MAP:
-                if (MapMode->RedrawModuleContent)
-                    DrawContent();
+            if (PrimMode->RedrawModuleContent)
+                DrawContent();
+            break;
+        case TAB_LIGHT:
+            if (LightMode->RedrawModuleContent)
+                DrawContent();
+            break;
+        /*
+        case	TAB_COL:
+                if(ColMode->RedrawModuleContent)
+                        DrawContent();
                 break;
-            case TAB_BUILD:
-                if (BuildMode->RedrawModuleContent)
-                    DrawContent();
-                {
-                    MFPoint mouse_point;
-                    mouse_point.X = MouseX;
-                    mouse_point.Y = MouseY;
-                    if (GetContentRect()->PointInRect(&mouse_point)) {
-                        BuildMode->MouseInContent();
-                    }
-                    SewerMode->OutsideEditStorey = BuildMode->EditStorey;
-                    SewerMode->EditStorey = storey_list[BuildMode->EditStorey].InsideStorey;
-                    SewerMode->EditBuilding = BuildMode->EditBuilding;
-                    if (storey_list[BuildMode->EditStorey].InsideIDIndex)
-                        SewerMode->CurrentFloorType = room_ids[storey_list[BuildMode->EditStorey].InsideIDIndex].FloorType;
+        */
+        case TAB_MAP:
+            if (MapMode->RedrawModuleContent)
+                DrawContent();
+            break;
+        case TAB_BUILD:
+            if (BuildMode->RedrawModuleContent)
+                DrawContent();
+            {
+                MFPoint mouse_point;
+                mouse_point.X = MouseX;
+                mouse_point.Y = MouseY;
+                if (GetContentRect()->PointInRect(&mouse_point)) {
+                    BuildMode->MouseInContent();
+                }
+                SewerMode->OutsideEditStorey = BuildMode->EditStorey;
+                SewerMode->EditStorey = storey_list[BuildMode->EditStorey].InsideStorey;
+                SewerMode->EditBuilding = BuildMode->EditBuilding;
+                if (storey_list[BuildMode->EditStorey].InsideIDIndex)
+                    SewerMode->CurrentFloorType = room_ids[storey_list[BuildMode->EditStorey].InsideIDIndex].FloorType;
 
-                    SewerMode->SetView(storey_list[BuildMode->EditStorey].DX, storey_list[BuildMode->EditStorey].DZ);
+                SewerMode->SetView(storey_list[BuildMode->EditStorey].DX, storey_list[BuildMode->EditStorey].DZ);
+            }
+            break;
+        case TAB_SEWER:
+            if (BuildMode->RedrawModuleContent)
+                DrawContent();
+            {
+                MFPoint mouse_point;
+                mouse_point.X = MouseX;
+                mouse_point.Y = MouseY;
+                if (GetContentRect()->PointInRect(&mouse_point)) {
+                    SewerMode->MouseInContent();
                 }
-                break;
-            case TAB_SEWER:
-                if (BuildMode->RedrawModuleContent)
-                    DrawContent();
-                {
-                    MFPoint mouse_point;
-                    mouse_point.X = MouseX;
-                    mouse_point.Y = MouseY;
-                    if (GetContentRect()->PointInRect(&mouse_point)) {
-                        SewerMode->MouseInContent();
-                    }
+            }
+            break;
+        case TAB_MAPED:
+            if (MapEdMode->RedrawModuleContent)
+                DrawContent();
+            {
+                MFPoint mouse_point;
+                mouse_point.X = MouseX;
+                mouse_point.Y = MouseY;
+                if (GetContentRect()->PointInRect(&mouse_point)) {
+                    MapEdMode->MouseInContent();
                 }
-                break;
-            case TAB_MAPED:
-                if (MapEdMode->RedrawModuleContent)
-                    DrawContent();
-                {
-                    MFPoint mouse_point;
-                    mouse_point.X = MouseX;
-                    mouse_point.Y = MouseY;
-                    if (GetContentRect()->PointInRect(&mouse_point)) {
-                        MapEdMode->MouseInContent();
-                    }
-                }
-                break;
+            }
+            break;
 
-            case TAB_HM:
-                if (HmMode->RedrawModuleContent) {
-                    DrawContent();
-                }
-                break;
+        case TAB_HM:
+            if (HmMode->RedrawModuleContent) {
+                DrawContent();
+            }
+            break;
         }
     }
 
@@ -2344,39 +2349,39 @@ void LevelEditor::HandleModule(void) {
         std::int32_t temp_update = 0;
         CurrentModeTab()->HandleTab(&mouse_point);
         switch (CurrentModeTab()->GetTabID()) {
-            case TAB_BUILD:
-                update = BuildMode->DoKeys();
-                break;
-            case TAB_SEWER:
-                update = SewerMode->DoKeys();
-                break;
+        case TAB_BUILD:
+            update = BuildMode->DoKeys();
+            break;
+        case TAB_SEWER:
+            update = SewerMode->DoKeys();
+            break;
 
-            case TAB_MAPED:
-                extern std::uint32_t engine_keys_scroll_plan(void);
-                // temp_update|=engine_keys_zoom();
+        case TAB_MAPED:
+            extern std::uint32_t engine_keys_scroll_plan(void);
+            // temp_update|=engine_keys_zoom();
+            update += BuildMode->DoZoom();
+            temp_update |= engine_keys_scroll_plan();
+            update += (temp_update << 1);
+            break;
+        case TAB_PAINT:
+            if (PaintMode->GetPaintMode() == FLOOR_PAINT) {
                 update += BuildMode->DoZoom();
-                temp_update |= engine_keys_scroll_plan();
-                update += (temp_update << 1);
-                break;
-            case TAB_PAINT:
-                if (PaintMode->GetPaintMode() == FLOOR_PAINT) {
-                    update += BuildMode->DoZoom();
-                    update += (editor_user_interface(2) << 1);
-                } else
-                    update += (editor_user_interface(1) << 1);
-                break;
+                update += (editor_user_interface(2) << 1);
+            } else
+                update += (editor_user_interface(1) << 1);
+            break;
 
-            case TAB_HM:
+        case TAB_HM:
 
-                //
-                // The HM tab does it own keys thankyou very much!!!
-                //
+            //
+            // The HM tab does it own keys thankyou very much!!!
+            //
 
-                break;
+            break;
 
-            default:
-                update += (editor_user_interface(0) << 1);
-                break;
+        default:
+            update += (editor_user_interface(0) << 1);
+            break;
         }
     }
 
@@ -2573,175 +2578,175 @@ void LevelEditor::DoFacePopup(MFPoint *clicked_point) {
 
     if (CurrentModeTab()) {
         switch (CurrentModeTab()->GetTabID()) {
-            case TAB_NONE:
-                break;
-            case TAB_PAINT:
-                if (hilited_face.PEle == (struct EditMapElement *) -2) {
-                    return;
+        case TAB_NONE:
+            break;
+        case TAB_PAINT:
+            if (hilited_face.PEle == (struct EditMapElement *) -2) {
+                return;
 
-                } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
-                    if (hilited_face.Face < 0)
-                        flags = prim_faces3[-hilited_face.Face].DrawFlags;
-                    else
-                        flags = prim_faces4[hilited_face.Face].DrawFlags;
-                } else if (hilited_face.PEle) {
-                    flags = hilited_face.PEle->Textures[hilited_face.Face].DrawFlags;
+            } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
+                if (hilited_face.Face < 0)
+                    flags = prim_faces3[-hilited_face.Face].DrawFlags;
+                else
+                    flags = prim_faces4[hilited_face.Face].DrawFlags;
+            } else if (hilited_face.PEle) {
+                flags = hilited_face.PEle->Textures[hilited_face.Face].DrawFlags;
+            }
+            if (hilited_face.Face > 0) {
+                if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_OTHER_SPLIT) {
+                    flags |= 1 << 8;
                 }
-                if (hilited_face.Face > 0) {
-                    if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_OTHER_SPLIT) {
-                        flags |= 1 << 8;
-                    }
-                    if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_NON_PLANAR) {
-                        flags |= 1 << 9;
-                    }
-
-                    //
-                    // Set 'flags' depending on the environment and tint flags.
-                    //
-
-                    if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_ENVMAP) {
-                        flags |= 1 << 10;
-                    }
-                    if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_TINT) {
-                        flags |= 1 << 11;
-                    }
+                if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_NON_PLANAR) {
+                    flags |= 1 << 9;
                 }
 
-                if (hilited_face.Face < 0) {
-                    //
-                    // Set 'flags' depending on the environment and tint flags.
-                    //
+                //
+                // Set 'flags' depending on the environment and tint flags.
+                //
 
-                    if (prim_faces3[-hilited_face.Face].FaceFlags & FACE_FLAG_ENVMAP) {
-                        flags |= 1 << 10;
-                    }
-                    if (prim_faces3[-hilited_face.Face].FaceFlags & FACE_FLAG_TINT) {
-                        flags |= 1 << 11;
-                    }
+                if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_ENVMAP) {
+                    flags |= 1 << 10;
+                }
+                if (prim_faces4[hilited_face.Face].FaceFlags & FACE_FLAG_TINT) {
+                    flags |= 1 << 11;
+                }
+            }
+
+            if (hilited_face.Face < 0) {
+                //
+                // Set 'flags' depending on the environment and tint flags.
+                //
+
+                if (prim_faces3[-hilited_face.Face].FaceFlags & FACE_FLAG_ENVMAP) {
+                    flags |= 1 << 10;
+                }
+                if (prim_faces3[-hilited_face.Face].FaceFlags & FACE_FLAG_TINT) {
+                    flags |= 1 << 11;
+                }
+            }
+
+            old_flags = flags;
+            //				face_popup[7].ItemFlags	=	0;
+            for (c0 = 0; c0 < 12; c0++) {
+                face_popup[c0].ItemFlags = 0;
+                if (flags & (1 << c0))
+                    face_popup[c0].ItemFlags |= MENU_CHECK_MASK;
+            }
+            popup_def.TheMenuDef = face_popup;
+            the_control = new CPopUp(&popup_def);
+            control_id = the_control->TrackControl(&local_point);
+            flags = 0;
+            /*
+                                            if(next_face_selected>1&&face_is_in_list(hilited_face.Face))
+                                                    if(face_popup[7].ItemFlags&MENU_CHECK_MASK)
+                                                    {
+                                                            fix_all_selected_faces_for_tile_mode();
+                                                            return;
+                                                    }
+            */
+
+            for (c0 = 0; c0 < 12; c0++) {
+                if (face_popup[c0].ItemFlags & MENU_CHECK_MASK)
+                    flags |= (1 << c0);
+            }
+
+            if (hilited_face.Face > 0) {
+                if (face_popup[8].ItemFlags & MENU_CHECK_MASK) {
+                    prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_OTHER_SPLIT;
+                }
+                if (face_popup[9].ItemFlags & MENU_CHECK_MASK) {
+                    prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_NON_PLANAR;
                 }
 
-                old_flags = flags;
-                //				face_popup[7].ItemFlags	=	0;
-                for (c0 = 0; c0 < 12; c0++) {
-                    face_popup[c0].ItemFlags = 0;
-                    if (flags & (1 << c0))
-                        face_popup[c0].ItemFlags |= MENU_CHECK_MASK;
+                //
+                // Set the envinronment map and tint flags.
+                //
+
+                prim_faces4[hilited_face.Face].FaceFlags &= ~FACE_FLAG_ENVMAP;
+                prim_faces4[hilited_face.Face].FaceFlags &= ~FACE_FLAG_TINT;
+
+                if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
+                    prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_ENVMAP;
                 }
-                popup_def.TheMenuDef = face_popup;
-                the_control = new CPopUp(&popup_def);
-                control_id = the_control->TrackControl(&local_point);
-                flags = 0;
-                /*
-                                                if(next_face_selected>1&&face_is_in_list(hilited_face.Face))
-                                                        if(face_popup[7].ItemFlags&MENU_CHECK_MASK)
-                                                        {
-                                                                fix_all_selected_faces_for_tile_mode();
-                                                                return;
-                                                        }
-                */
-
-                for (c0 = 0; c0 < 12; c0++) {
-                    if (face_popup[c0].ItemFlags & MENU_CHECK_MASK)
-                        flags |= (1 << c0);
+                if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
+                    prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_TINT;
                 }
+            }
 
-                if (hilited_face.Face > 0) {
-                    if (face_popup[8].ItemFlags & MENU_CHECK_MASK) {
-                        prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_OTHER_SPLIT;
-                    }
-                    if (face_popup[9].ItemFlags & MENU_CHECK_MASK) {
-                        prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_NON_PLANAR;
-                    }
+            if (hilited_face.Face < 0) {
+                //
+                // Set the envinronment map and tint flags.
+                //
 
-                    //
-                    // Set the envinronment map and tint flags.
-                    //
+                prim_faces3[-hilited_face.Face].FaceFlags &= ~FACE_FLAG_ENVMAP;
+                prim_faces3[-hilited_face.Face].FaceFlags &= ~FACE_FLAG_TINT;
 
-                    prim_faces4[hilited_face.Face].FaceFlags &= ~FACE_FLAG_ENVMAP;
-                    prim_faces4[hilited_face.Face].FaceFlags &= ~FACE_FLAG_TINT;
-
-                    if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
-                        prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_ENVMAP;
-                    }
-                    if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
-                        prim_faces4[hilited_face.Face].FaceFlags |= FACE_FLAG_TINT;
-                    }
+                if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
+                    prim_faces3[-hilited_face.Face].FaceFlags |= FACE_FLAG_ENVMAP;
                 }
-
-                if (hilited_face.Face < 0) {
-                    //
-                    // Set the envinronment map and tint flags.
-                    //
-
-                    prim_faces3[-hilited_face.Face].FaceFlags &= ~FACE_FLAG_ENVMAP;
-                    prim_faces3[-hilited_face.Face].FaceFlags &= ~FACE_FLAG_TINT;
-
-                    if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
-                        prim_faces3[-hilited_face.Face].FaceFlags |= FACE_FLAG_ENVMAP;
-                    }
-                    if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
-                        prim_faces3[-hilited_face.Face].FaceFlags |= FACE_FLAG_TINT;
-                    }
+                if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
+                    prim_faces3[-hilited_face.Face].FaceFlags |= FACE_FLAG_TINT;
                 }
+            }
 
-                if (hilited_face.PEle == (struct EditMapElement *) -2) {
-                } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
-                    if (next_face_selected > 1 && face_is_in_list(hilited_face.Face)) {
-                        std::int32_t c0;
-                        if ((flags & POLY_FLAG_TILED) && !(old_flags & POLY_FLAG_TILED)) {
-                            // tiled mode just selecteD
-                            fix_all_selected_faces_for_tile_mode();
-                        }
+            if (hilited_face.PEle == (struct EditMapElement *) -2) {
+            } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
+                if (next_face_selected > 1 && face_is_in_list(hilited_face.Face)) {
+                    std::int32_t c0;
+                    if ((flags & POLY_FLAG_TILED) && !(old_flags & POLY_FLAG_TILED)) {
+                        // tiled mode just selecteD
+                        fix_all_selected_faces_for_tile_mode();
+                    }
 
-                        for (c0 = 1; c0 < next_face_selected; c0++) {
-                            if (face_selected_list[c0] < 0) {
-                                prim_faces3[-face_selected_list[c0]].DrawFlags = flags;
+                    for (c0 = 1; c0 < next_face_selected; c0++) {
+                        if (face_selected_list[c0] < 0) {
+                            prim_faces3[-face_selected_list[c0]].DrawFlags = flags;
 
-                                //
-                                // Set the envinronment map and tint flags.
-                                //
+                            //
+                            // Set the envinronment map and tint flags.
+                            //
 
-                                prim_faces3[-face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_ENVMAP;
-                                prim_faces3[-face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_TINT;
+                            prim_faces3[-face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_ENVMAP;
+                            prim_faces3[-face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_TINT;
 
-                                if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
-                                    prim_faces3[-face_selected_list[c0]].FaceFlags |= FACE_FLAG_ENVMAP;
-                                }
-                                if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
-                                    prim_faces3[-face_selected_list[c0]].FaceFlags |= FACE_FLAG_TINT;
-                                }
-                            } else {
-                                prim_faces4[face_selected_list[c0]].DrawFlags = flags;
+                            if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
+                                prim_faces3[-face_selected_list[c0]].FaceFlags |= FACE_FLAG_ENVMAP;
+                            }
+                            if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
+                                prim_faces3[-face_selected_list[c0]].FaceFlags |= FACE_FLAG_TINT;
+                            }
+                        } else {
+                            prim_faces4[face_selected_list[c0]].DrawFlags = flags;
 
-                                //
-                                // Set the envinronment map and tint flags.
-                                //
+                            //
+                            // Set the envinronment map and tint flags.
+                            //
 
-                                prim_faces4[face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_ENVMAP;
-                                prim_faces4[face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_TINT;
+                            prim_faces4[face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_ENVMAP;
+                            prim_faces4[face_selected_list[c0]].FaceFlags &= ~FACE_FLAG_TINT;
 
-                                if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
-                                    prim_faces4[face_selected_list[c0]].FaceFlags |= FACE_FLAG_ENVMAP;
-                                }
-                                if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
-                                    prim_faces4[face_selected_list[c0]].FaceFlags |= FACE_FLAG_TINT;
-                                }
+                            if (face_popup[10].ItemFlags & MENU_CHECK_MASK) {
+                                prim_faces4[face_selected_list[c0]].FaceFlags |= FACE_FLAG_ENVMAP;
+                            }
+                            if (face_popup[11].ItemFlags & MENU_CHECK_MASK) {
+                                prim_faces4[face_selected_list[c0]].FaceFlags |= FACE_FLAG_TINT;
                             }
                         }
-
-                    } else {
-                        if (hilited_face.Face < 0) {
-                            prim_faces3[-hilited_face.Face].DrawFlags = flags;
-                        } else {
-                            prim_faces4[hilited_face.Face].DrawFlags = flags;
-                        }
                     }
-                } else if (hilited_face.PEle) {
-                    hilited_face.PEle->Textures[hilited_face.Face].DrawFlags = flags;
+
+                } else {
+                    if (hilited_face.Face < 0) {
+                        prim_faces3[-hilited_face.Face].DrawFlags = flags;
+                    } else {
+                        prim_faces4[hilited_face.Face].DrawFlags = flags;
+                    }
                 }
-                break;
-            case TAB_PRIMPICK:
-                break;
+            } else if (hilited_face.PEle) {
+                hilited_face.PEle->Textures[hilited_face.Face].DrawFlags = flags;
+            }
+            break;
+        case TAB_PRIMPICK:
+            break;
         }
     }
     if (the_control) {

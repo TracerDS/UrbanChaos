@@ -154,18 +154,18 @@ void PLAYCUTS_Read_Packet(MFFileHandle handle, CPPacket *packet) {
     FileRead(handle, packet, sizeof(CPPacket));
 
     switch (packet->type) {
-        case PT_TEXT:
-            if (packet->pos.X) {
-                std::int32_t l;
-                FileRead(handle, &l, sizeof(l));
-                FileRead(handle, PLAYCUTS_text_ptr, l);
-                packet->pos.X = (std::int32_t) PLAYCUTS_text_ptr;
-                PLAYCUTS_text_ptr += l;
-                *PLAYCUTS_text_ptr = 0;
-                PLAYCUTS_text_ptr++;
-                PLAYCUTS_text_ctr += (l + 1);
-            }
-            break;
+    case PT_TEXT:
+        if (packet->pos.X) {
+            std::int32_t l;
+            FileRead(handle, &l, sizeof(l));
+            FileRead(handle, PLAYCUTS_text_ptr, l);
+            packet->pos.X = (std::int32_t) PLAYCUTS_text_ptr;
+            PLAYCUTS_text_ptr += l;
+            *PLAYCUTS_text_ptr = 0;
+            PLAYCUTS_text_ptr++;
+            PLAYCUTS_text_ctr += (l + 1);
+        }
+        break;
     }
 }
 
@@ -447,57 +447,57 @@ void PLAYCUTS_Update(CPChannel *chan, Thing *thing, std::int32_t read_head, std:
     pkt = PLAYCUTS_Get_Packet(chan, read_head);
     if (!pkt) {
         switch (chan->type) {
-            case CT_CHAR:
-                LERPAnim(chan, thing, read_head, sub_ctr);
-                break;
-            case CT_CAM:
-                LERPCamera(chan, read_head, sub_ctr);
-                break;
-            default:
-                // check for end-of-track
-                PLAYCUTS_find_surrounding_packets(chan, read_head, &l, &r);
-                if (r == 2001) no_more_packets++;
-                break;
+        case CT_CHAR:
+            LERPAnim(chan, thing, read_head, sub_ctr);
+            break;
+        case CT_CAM:
+            LERPCamera(chan, read_head, sub_ctr);
+            break;
+        default:
+            // check for end-of-track
+            PLAYCUTS_find_surrounding_packets(chan, read_head, &l, &r);
+            if (r == 2001) no_more_packets++;
+            break;
         }
         return;
     }
     switch (pkt->type) {
-        case PT_ANIM:
-            index = pkt->index;
-            while (index > 1023) {
-                index -= 1024;
-            }
-            if (thing) {
-                move_thing_on_map(thing, &pkt->pos);
-                thing->Draw.Tweened->Angle = pkt->angle;
-                set_anim(thing, index);
-                if (pkt->flags & 1) LERPAnim(chan, thing, read_head, sub_ctr); // should handle the reversing
-            }
-            break;
+    case PT_ANIM:
+        index = pkt->index;
+        while (index > 1023) {
+            index -= 1024;
+        }
+        if (thing) {
+            move_thing_on_map(thing, &pkt->pos);
+            thing->Draw.Tweened->Angle = pkt->angle;
+            set_anim(thing, index);
+            if (pkt->flags & 1) LERPAnim(chan, thing, read_head, sub_ctr); // should handle the reversing
+        }
+        break;
 
-        case PT_CAM:
-            //			AENG_set_camera(pkt->pos.X,pkt->pos.Y,pkt->pos.Z,pkt->pitch&2047,pkt->angle&2047,0);
-            AENG_set_camera(pkt->pos.X, pkt->pos.Y, pkt->pos.Z, pkt->angle & 2047, pkt->pitch & 2047, 0);
-            lens = ((pkt->length & 0xff) - 0x7f);
-            lens = (lens * 1.5f) + 0xff;
-            FC_cam[0].lens = (lens * 0x24000) >> 8;
+    case PT_CAM:
+        //			AENG_set_camera(pkt->pos.X,pkt->pos.Y,pkt->pos.Z,pkt->pitch&2047,pkt->angle&2047,0);
+        AENG_set_camera(pkt->pos.X, pkt->pos.Y, pkt->pos.Z, pkt->angle & 2047, pkt->pitch & 2047, 0);
+        lens = ((pkt->length & 0xff) - 0x7f);
+        lens = (lens * 1.5f) + 0xff;
+        FC_cam[0].lens = (lens * 0x24000) >> 8;
 #ifndef PSX
-            PolyPage::SetGreenScreen(pkt->flags & PF_SECURICAM);
+        PolyPage::SetGreenScreen(pkt->flags & PF_SECURICAM);
 #endif
-            PLAYCUTS_slomo = pkt->flags & PF_SLOMO;
-            PLAYCUTS_fade_level = pkt->length >> 8;
-            break;
+        PLAYCUTS_slomo = pkt->flags & PF_SLOMO;
+        PLAYCUTS_fade_level = pkt->length >> 8;
+        break;
 
-        case PT_WAVE:
-            MFX_play_xyz(MUSIC_REF + 10, pkt->index - 2048, 0, pkt->pos.X << 8, pkt->pos.Y << 8, pkt->pos.Z << 8);
-            break;
+    case PT_WAVE:
+        MFX_play_xyz(MUSIC_REF + 10, pkt->index - 2048, 0, pkt->pos.X << 8, pkt->pos.Y << 8, pkt->pos.Z << 8);
+        break;
 
-        case PT_TEXT:
-            if (pkt->pos.X)
-                text_disp = (char *) pkt->pos.X;
-            else
-                text_disp = 0;
-            break;
+    case PT_TEXT:
+        if (pkt->pos.X)
+            text_disp = (char *) pkt->pos.X;
+        else
+            text_disp = 0;
+        break;
     }
 }
 

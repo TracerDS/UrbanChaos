@@ -23,7 +23,7 @@ void InitPalettes() {
 
         // The last 10 static entries:
         ThePalette[c0 + 246].peFlags = PC_EXPLICIT;
-        ThePalette[c0 + 246].peRed = (std::uint8_t) (c0 + 246);
+        ThePalette[c0 + 246].peRed = (std::uint8_t)(c0 + 246);
         ThePalette[c0 + 246].peGreen = 0;
         ThePalette[c0 + 246].peBlue = 0;
     }
@@ -125,7 +125,7 @@ void SetPalette(std::uint8_t *the_palette) {
 
         // The last 10 static entries:
         ThePalette[c0 + 246].peFlags = PC_EXPLICIT;
-        ThePalette[c0 + 246].peRed = (std::uint8_t) (c0 + 246);
+        ThePalette[c0 + 246].peRed = (std::uint8_t)(c0 + 246);
         ThePalette[c0 + 246].peGreen = 0;
         ThePalette[c0 + 246].peBlue = 0;
     }
@@ -133,16 +133,16 @@ void SetPalette(std::uint8_t *the_palette) {
     // Set up private entries.
     for (c0 = 10; c0 < 246; c0++) {
         ThePalette[c0].peFlags = PC_NOCOLLAPSE | PC_RESERVED;
-        ThePalette[c0].peRed = (std::uint8_t) (the_palette[(c0 * 3) + 0]);
-        ThePalette[c0].peGreen = (std::uint8_t) (the_palette[(c0 * 3) + 1]);
-        ThePalette[c0].peBlue = (std::uint8_t) (the_palette[(c0 * 3) + 2]);
+        ThePalette[c0].peRed = (std::uint8_t)(the_palette[(c0 * 3) + 0]);
+        ThePalette[c0].peGreen = (std::uint8_t)(the_palette[(c0 * 3) + 1]);
+        ThePalette[c0].peBlue = (std::uint8_t)(the_palette[(c0 * 3) + 2]);
     }
 #else
     // Set up all entries.
     for (c0 = 0; c0 < 256; c0++) {
-        ThePalette[c0].peRed = (std::uint8_t) (the_palette[(c0 * 3) + 0]);
-        ThePalette[c0].peGreen = (std::uint8_t) (the_palette[(c0 * 3) + 1]);
-        ThePalette[c0].peBlue = (std::uint8_t) (the_palette[(c0 * 3) + 2]);
+        ThePalette[c0].peRed = (std::uint8_t)(the_palette[(c0 * 3) + 0]);
+        ThePalette[c0].peGreen = (std::uint8_t)(the_palette[(c0 * 3) + 1]);
+        ThePalette[c0].peBlue = (std::uint8_t)(the_palette[(c0 * 3) + 2]);
     }
 #endif
     for (c0 = 0; c0 < 256; c0++) {
@@ -168,40 +168,40 @@ std::int32_t FindColour(std::uint8_t *the_palette, std::int32_t r, std::int32_t 
         b = 255;
 
     switch (WorkScreenDepth) {
-        case 1: {
-            std::int32_t dist = 0x7fffffff,
-                         c0,
-                         dist2,
-                         tr,
-                         tg,
-                         tb;
+    case 1: {
+        std::int32_t dist = 0x7fffffff,
+                     c0,
+                     dist2,
+                     tr,
+                     tg,
+                     tb;
 
-            for (c0 = 0; c0 < 256; c0++) {
-                tr = *the_palette++;
-                tg = *the_palette++;
-                tb = *the_palette++;
+        for (c0 = 0; c0 < 256; c0++) {
+            tr = *the_palette++;
+            tg = *the_palette++;
+            tb = *the_palette++;
 
-                tr -= r;
-                tg -= g;
-                tb -= b;
+            tr -= r;
+            tg -= g;
+            tb -= b;
 
-                dist2 = abs(tr * tr) + abs(tg * tg) + abs(tb * tb);
-                if (dist2 < dist) {
-                    found = c0;
-                    dist = dist2;
-                    if (dist < 8)
-                        return (c0);
-                }
+            dist2 = abs(tr * tr) + abs(tg * tg) + abs(tb * tb);
+            if (dist2 < dist) {
+                found = c0;
+                dist = dist2;
+                if (dist < 8)
+                    return (c0);
             }
-            break;
         }
-        case 2:
+        break;
+    }
+    case 2:
 
-            found = (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
-            break;
-        case 4:
-            found = ((r << 16) | (g << 8) | (b));
-            break;
+        found = (((r >> 3) << 11) | ((g >> 2) << 5) | (b >> 3));
+        break;
+    case 4:
+        found = ((r << 16) | (g << 8) | (b));
+        break;
     }
     return (found);
 }

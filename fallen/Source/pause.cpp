@@ -131,24 +131,24 @@ std::int32_t PAUSE_handler() {
 
     if (input & PAUSED_KEY_OKAY) {
         switch (selected) {
-            case PAUSE_MENU_RESUME:
-                GAME_FLAGS ^= GF_PAUSED;
-                break;
+        case PAUSE_MENU_RESUME:
+            GAME_FLAGS ^= GF_PAUSED;
+            break;
 
-            case PAUSE_MENU_RESTART:
-                // extern std::int32_t draw_3d;
-                // draw_3d ^= 1;
-                GAME_FLAGS &= ~GF_PAUSED;
-                GAME_STATE = GS_REPLAY;
-                ans = true;
-                OutputDebugString("Restart\n");
-                break;
+        case PAUSE_MENU_RESTART:
+            // extern std::int32_t draw_3d;
+            // draw_3d ^= 1;
+            GAME_FLAGS &= ~GF_PAUSED;
+            GAME_STATE = GS_REPLAY;
+            ans = true;
+            OutputDebugString("Restart\n");
+            break;
 
-            case PAUSE_MENU_EXIT:
-                GAME_FLAGS &= ~GF_PAUSED;
-                GAME_STATE = 0;
-                ans = true;
-                break;
+        case PAUSE_MENU_EXIT:
+            GAME_FLAGS &= ~GF_PAUSED;
+            GAME_STATE = 0;
+            ans = true;
+            break;
         }
     }
 

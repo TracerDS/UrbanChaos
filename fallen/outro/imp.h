@@ -151,7 +151,7 @@ typedef struct
 } IMP_Face;
 
 //
-// Using the edge flags exported from MAX to find quads.
+// Using the edge flags exported from max to find quads.
 //
 
 typedef struct

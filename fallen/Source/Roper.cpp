@@ -21,11 +21,12 @@ extern Thing *darci_thing;
 
 StateFunction roper_states[] =
     {
-        {STATE_INIT, fn_roper_init},
-        {STATE_NORMAL, fn_roper_normal},
-        {STATE_HIT, NULL},
-        {STATE_ABOUT_TO_REMOVE, NULL},
-        {STATE_REMOVE_ME, NULL}};
+        {STATE_INIT,            fn_roper_init  },
+        {STATE_NORMAL,          fn_roper_normal},
+        {STATE_HIT,             NULL           },
+        {STATE_ABOUT_TO_REMOVE, NULL           },
+        {STATE_REMOVE_ME,       NULL           }
+};
 
 //---------------------------------------------------------------
 

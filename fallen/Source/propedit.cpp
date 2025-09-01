@@ -99,21 +99,21 @@ int PropertyEditor::Type(std::uint16_t index) {
 
 bool PropertyEditor::Verify(std::uint8_t type, char* value) {
     switch (type) {
-        case PROPTYPE_STRING: return (bool) value;
-        case PROPTYPE_INT: {
-            if (!value || (!*value)) return false;
-            int i = atoi(value);
-            if (!i) { // might be really 0 or might be invalid
-                if (strcmp(value, "0")) return false;
-            }
-            return true;
+    case PROPTYPE_STRING: return (bool) value;
+    case PROPTYPE_INT: {
+        if (!value || (!*value)) return false;
+        int i = atoi(value);
+        if (!i) { // might be really 0 or might be invalid
+            if (strcmp(value, "0")) return false;
         }
-        case PROPTYPE_BOOL: {
-            if (((long) value < -1) || ((long) value > 1)) return false;
-            return true;
-        }
-        default:
-            return false; // we have no idea wtf this is...
+        return true;
+    }
+    case PROPTYPE_BOOL: {
+        if (((long) value < -1) || ((long) value > 1)) return false;
+        return true;
+    }
+    default:
+        return false; // we have no idea wtf this is...
     }
 }
 
@@ -166,23 +166,23 @@ void PropertyEditor::Update(std::uint16_t index, char* value) {
     LVITEM item;
 
     switch (Type(index)) {
-        case PROPTYPE_BOOL:
-            if (!value) value = "off";
-            if ((long) value == 1) value = "on";
-            if ((long) value == -1) {
-                char buff[5];
-                item.iItem = index;
-                item.iSubItem = 0;
-                item.pszText = buff;
-                item.cchTextMax = 4;
-                item.mask = LVIF_TEXT;
-                ListView_GetItem(hWnd, &item);
-                if (!stricmp(buff, "off"))
-                    value = "on";
-                else
-                    value = "off";
-            }
-            break;
+    case PROPTYPE_BOOL:
+        if (!value) value = "off";
+        if ((long) value == 1) value = "on";
+        if ((long) value == -1) {
+            char buff[5];
+            item.iItem = index;
+            item.iSubItem = 0;
+            item.pszText = buff;
+            item.cchTextMax = 4;
+            item.mask = LVIF_TEXT;
+            ListView_GetItem(hWnd, &item);
+            if (!stricmp(buff, "off"))
+                value = "on";
+            else
+                value = "off";
+        }
+        break;
     }
 
     item.iItem = index;
@@ -202,83 +202,83 @@ bool PropertyEditor::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
     char* txt;
 
     switch (nm->code) {
-        case LVN_BEGINLABELEDIT:
-            switch (Type(dispinfo->item.iItem)) {
-                case PROPTYPE_BOOL:
-                case PROPTYPE_READONLY:
-                case PROPTYPE_BUTTON:
-                    return true;
-                default:
-                    return false;
-            }
-            break;
-        case LVN_ENDLABELEDIT:
-            if (callback) callback(this, PECB_EDITMODE, 0, 0);
-            txt = dispinfo->item.pszText;
-            if (Verify((std::uint8_t) dispinfo->item.lParam, txt))
-                Update(dispinfo->item.iItem, txt);
-            break;
-        case NM_CLICK: {
-            LVHITTESTINFO hti;
-            LVITEM item;
-            int flirble;
-            POINT pt;
+    case LVN_BEGINLABELEDIT:
+        switch (Type(dispinfo->item.iItem)) {
+        case PROPTYPE_BOOL:
+        case PROPTYPE_READONLY:
+        case PROPTYPE_BUTTON:
+            return true;
+        default:
+            return false;
+        }
+        break;
+    case LVN_ENDLABELEDIT:
+        if (callback) callback(this, PECB_EDITMODE, 0, 0);
+        txt = dispinfo->item.pszText;
+        if (Verify((std::uint8_t) dispinfo->item.lParam, txt))
+            Update(dispinfo->item.iItem, txt);
+        break;
+    case NM_CLICK: {
+        LVHITTESTINFO hti;
+        LVITEM item;
+        int flirble;
+        POINT pt;
 
-            GetCursorPos(&hti.pt);
-            pt = hti.pt;
-            ScreenToClient(hWnd, &hti.pt);
-            item.iItem = ListView_HitTest(hWnd, &hti);
-            if (item.iItem > -1) {
-                item.mask = LVIF_PARAM;
+        GetCursorPos(&hti.pt);
+        pt = hti.pt;
+        ScreenToClient(hWnd, &hti.pt);
+        item.iItem = ListView_HitTest(hWnd, &hti);
+        if (item.iItem > -1) {
+            item.mask = LVIF_PARAM;
+            ListView_GetItem(hWnd, &item);
+            switch (item.lParam) {
+            case PROPTYPE_STRING:
+            case PROPTYPE_INT:
+                flirble = GetWindowLong(hWnd, GWL_STYLE) | LVS_EDITLABELS;
+                SetWindowLong(hWnd, GWL_STYLE, flirble);
+                if (callback) callback(this, PECB_EDITMODE, 1, 0);
+                ListView_EditLabel(hWnd, item.iItem);
+                break;
+            case PROPTYPE_BOOL:
+                flirble = GetWindowLong(hWnd, GWL_STYLE) & ~LVS_EDITLABELS;
+                SetWindowLong(hWnd, GWL_STYLE, flirble);
+                Update(item.iItem, (char*) -1); // for bools, means toggle :}
+                break;
+            case PROPTYPE_BUTTON:
+                flirble = GetWindowLong(hWnd, GWL_STYLE) & ~LVS_EDITLABELS;
+                SetWindowLong(hWnd, GWL_STYLE, flirble);
+                if (callback) callback(this, PECB_BUTTON, item.iItem, 0);
+                break;
+            case PROPTYPE_MULTI:
+                //					char buff[_MAX_PATH];
+                char* buff;
+                HMENU popup;
+                int res;
+
+                buff = (char*) malloc(10240);
+                flirble = GetWindowLong(hWnd, GWL_STYLE) & ~LVS_EDITLABELS;
+                SetWindowLong(hWnd, GWL_STYLE, flirble);
+                item.iItem = hti.iItem;
+                item.iSubItem = 2;
+                item.mask = LVIF_TEXT;
+                item.pszText = buff;
+                item.cchTextMax = _MAX_PATH;
                 ListView_GetItem(hWnd, &item);
-                switch (item.lParam) {
-                    case PROPTYPE_STRING:
-                    case PROPTYPE_INT:
-                        flirble = GetWindowLong(hWnd, GWL_STYLE) | LVS_EDITLABELS;
-                        SetWindowLong(hWnd, GWL_STYLE, flirble);
-                        if (callback) callback(this, PECB_EDITMODE, 1, 0);
-                        ListView_EditLabel(hWnd, item.iItem);
-                        break;
-                    case PROPTYPE_BOOL:
-                        flirble = GetWindowLong(hWnd, GWL_STYLE) & ~LVS_EDITLABELS;
-                        SetWindowLong(hWnd, GWL_STYLE, flirble);
-                        Update(item.iItem, (char*) -1); // for bools, means toggle :}
-                        break;
-                    case PROPTYPE_BUTTON:
-                        flirble = GetWindowLong(hWnd, GWL_STYLE) & ~LVS_EDITLABELS;
-                        SetWindowLong(hWnd, GWL_STYLE, flirble);
-                        if (callback) callback(this, PECB_BUTTON, item.iItem, 0);
-                        break;
-                    case PROPTYPE_MULTI:
-                        //					char buff[_MAX_PATH];
-                        char* buff;
-                        HMENU popup;
-                        int res;
-
-                        buff = (char*) malloc(10240);
-                        flirble = GetWindowLong(hWnd, GWL_STYLE) & ~LVS_EDITLABELS;
-                        SetWindowLong(hWnd, GWL_STYLE, flirble);
-                        item.iItem = hti.iItem;
-                        item.iSubItem = 2;
-                        item.mask = LVIF_TEXT;
-                        item.pszText = buff;
-                        item.cchTextMax = _MAX_PATH;
-                        ListView_GetItem(hWnd, &item);
-                        popup = CreateMultiChoiceMenu(buff);
-                        res = TrackPopupMenuEx(popup,
-                                               TPM_CENTERALIGN | TPM_VCENTERALIGN | TPM_NONOTIFY | TPM_RETURNCMD | TPM_LEFTBUTTON,
-                                               pt.x, pt.y,
-                                               hWnd, NULL);
-                        if (res > 0) {
-                            GetMenuString(popup, res, buff, _MAX_PATH, MF_BYCOMMAND);
-                            Update(item.iItem, buff);
-                        }
-                        free(buff);
-                        DestroyMenu(popup);
-                        break;
+                popup = CreateMultiChoiceMenu(buff);
+                res = TrackPopupMenuEx(popup,
+                                       TPM_CENTERALIGN | TPM_VCENTERALIGN | TPM_NONOTIFY | TPM_RETURNCMD | TPM_LEFTBUTTON,
+                                       pt.x, pt.y,
+                                       hWnd, NULL);
+                if (res > 0) {
+                    GetMenuString(popup, res, buff, _MAX_PATH, MF_BYCOMMAND);
+                    Update(item.iItem, buff);
                 }
+                free(buff);
+                DestroyMenu(popup);
+                break;
             }
-        } break;
+        }
+    } break;
     }
     return true;
 }
@@ -483,24 +483,24 @@ bool TreeBrowser::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
 
     LPNMTREEVIEW nm = (LPNMTREEVIEW) lParam;
     switch (nm->hdr.code) {
-        case TVN_BEGINDRAG:
-            if (drag) {
-                if (callback) {
-                    GetTextFromItem(nm->itemNew.hItem, msg, 128);
-                    if (!callback(this, TBCB_DRAG, nm->itemNew.lParam, nm->itemNew.hItem, msg)) return false;
-                }
-                drag_item = nm->itemNew;
-                drag_item.iImage = GetImageFromItem(nm->itemNew.hItem); // b'cos the provided one doesn't give it. gits.
-                drag->Begin(hWnd);
+    case TVN_BEGINDRAG:
+        if (drag) {
+            if (callback) {
+                GetTextFromItem(nm->itemNew.hItem, msg, 128);
+                if (!callback(this, TBCB_DRAG, nm->itemNew.lParam, nm->itemNew.hItem, msg)) return false;
             }
-            break;
-        case TVN_SELCHANGED:
-            selection = nm->itemNew.lParam;
-            break;
-        case NM_DBLCLK:
-            GetTextFromItem(0, msg, 128);
-            if (callback) callback(this, TBCB_DBLCLK, selection, TreeView_GetSelection(hWnd), msg);
-            break;
+            drag_item = nm->itemNew;
+            drag_item.iImage = GetImageFromItem(nm->itemNew.hItem); // b'cos the provided one doesn't give it. gits.
+            drag->Begin(hWnd);
+        }
+        break;
+    case TVN_SELCHANGED:
+        selection = nm->itemNew.lParam;
+        break;
+    case NM_DBLCLK:
+        GetTextFromItem(0, msg, 128);
+        if (callback) callback(this, TBCB_DBLCLK, selection, TreeView_GetSelection(hWnd), msg);
+        break;
     }
     return false;
 }
@@ -532,20 +532,20 @@ bool DragServer::Process(UINT message, WPARAM wParam, LPARAM lParam) {
     POINT pt;
 
     switch (message) {
-        case WM_MOUSEMOVE:
-            if (source) {
-                SetCursor(cursor);
-                return true;
-            }
-            break;
-        case WM_LBUTTONUP:
-            pt.x = LOWORD(lParam);
-            pt.y = HIWORD(lParam);
-            target = ChildWindowFromPoint(parent, pt);
-            ReleaseCapture();
-            SendMessage(parent, UM_DROP, (WPARAM) source, lParam);
-            source = 0;
-            break;
+    case WM_MOUSEMOVE:
+        if (source) {
+            SetCursor(cursor);
+            return true;
+        }
+        break;
+    case WM_LBUTTONUP:
+        pt.x = LOWORD(lParam);
+        pt.y = HIWORD(lParam);
+        target = ChildWindowFromPoint(parent, pt);
+        ReleaseCapture();
+        SendMessage(parent, UM_DROP, (WPARAM) source, lParam);
+        source = 0;
+        break;
     }
     return false;
 }
@@ -585,14 +585,14 @@ bool TimeLine::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
     POINT pt;
 
     switch (HIWORD(wParam)) {
-        case LBN_SELCHANGE:
-            GetCursorPos(&pt);
-            ScreenToClient(hWnd, &pt);
-            if (pt.x > 100) {
-                SetReadHead(GetCellFromX(pt.x - 100) /*-scroll_offset*/);
-            }
-            if (callback) callback(this, TLCB_SELECT, SendMessage(hWnd, LB_GETCURSEL, 0, 0), 1, read_head);
-            return 0;
+    case LBN_SELCHANGE:
+        GetCursorPos(&pt);
+        ScreenToClient(hWnd, &pt);
+        if (pt.x > 100) {
+            SetReadHead(GetCellFromX(pt.x - 100) /*-scroll_offset*/);
+        }
+        if (callback) callback(this, TLCB_SELECT, SendMessage(hWnd, LB_GETCURSEL, 0, 0), 1, read_head);
+        return 0;
     }
     return 1;
 }
@@ -845,12 +845,12 @@ bool TimeLineRuler::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
     POINT pt;
 
     switch (HIWORD(wParam)) {
-        case BN_CLICKED:
-            GetCursorPos(&pt);
-            ScreenToClient(hWnd, &pt);
-            if (owner) owner->SetReadHead(owner->GetCellFromX(pt.x - 100));
+    case BN_CLICKED:
+        GetCursorPos(&pt);
+        ScreenToClient(hWnd, &pt);
+        if (owner) owner->SetReadHead(owner->GetCellFromX(pt.x - 100));
 
-            break;
+        break;
     }
     return 0;
 }
@@ -882,22 +882,22 @@ bool TimeLineScroll::Process(HWND parent, WPARAM wParam, LPARAM lParam) {
     if ((HWND) lParam != hWnd) return false;
     if (!owner) return false;
     switch (LOWORD(wParam)) {
-        case SB_LINELEFT:
-            inc = -1;
-            break;
-        case SB_LINERIGHT:
-            inc = 1;
-            break;
-        case SB_PAGELEFT:
-            inc = -30;
-            break;
-        case SB_PAGERIGHT:
-            inc = 30;
-            break;
-        case SB_THUMBPOSITION:
-        case SB_THUMBTRACK:
-            oldpos = nPos;
-            break;
+    case SB_LINELEFT:
+        inc = -1;
+        break;
+    case SB_LINERIGHT:
+        inc = 1;
+        break;
+    case SB_PAGELEFT:
+        inc = -30;
+        break;
+    case SB_PAGERIGHT:
+        inc = 30;
+        break;
+    case SB_THUMBPOSITION:
+    case SB_THUMBTRACK:
+        oldpos = nPos;
+        break;
     }
     oldpos += inc;
     if (oldpos < 0) oldpos = 0;

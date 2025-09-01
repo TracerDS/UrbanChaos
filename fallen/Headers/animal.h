@@ -1,17 +1,11 @@
-//
-// Animals.
-//
-
-#ifndef ANIMAL_H
-#define ANIMAL_H
+#pragma once
 
 #define MAX_ANIMALS 6
-
 #define ANIMAL_NONE 0  // zilch, nada
 #define ANIMAL_CANID 1 // dogs, wolves, coyotes and other 4-legged freaks
 #define ANIMAL_NUMBER 2
 
-typedef struct
+struct Animal
 {
     Thing *target;               // chasing, barking
     std::uint16_t counter;       // random delays etc
@@ -26,10 +20,7 @@ typedef struct
     std::uint8_t extra;          // animal-specific
     std::uint8_t padding;
     //	DrawTween *dts[10];		// body parts;
-} Animal;
-
-// typedef struct Animal Animal;
-typedef Animal *AnimalPtr;
+};
 
 void init_animals();
 struct Thing *alloc_animal(std::uint8_t type);
@@ -88,5 +79,3 @@ Animal *ANIMAL_get_animal(Thing *animal_thing);
 
 // GameCoord GetChunkCentre(GameKeyFrameChunk *chunk);
 // SetChunkCentre(GameKeyFrameChunk *chunk, GameCoord centre);
-
-#endif

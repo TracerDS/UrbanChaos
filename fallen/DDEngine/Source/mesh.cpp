@@ -16,6 +16,7 @@
 #include <math.h>
 #include "polypoint.h"
 #include "fastprim.h"
+#include <algorithm>
 
 #define POLY_FLAG_GOURAD (1 << 0)
 #define POLY_FLAG_TEXTURED (1 << 1)
@@ -63,7 +64,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6];
 MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
     {
         {
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -71,7 +72,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -79,7 +80,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -87,7 +88,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -95,7 +96,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -103,7 +104,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -111,7 +112,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -119,7 +120,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-            {
+         {
                 {0, 0, 0},
                 {0, 0, 0},
                 {0, 0, 0},
@@ -127,9 +128,9 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {0, 0, 0},
                 {0, 0, 0},
             },
-        },
+         },
         {
-            {
+         {
                 {7, 4, 3},
                 {-3, 0, 8},
                 {5, 5, 4},
@@ -137,7 +138,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {5, 0, -5},
                 {-2, 2, 0},
             },
-            {
+         {
                 {6, 2, 4},
                 {-3, 0, 8},
                 {7, 3, 4},
@@ -145,7 +146,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {6, 1, -6},
                 {-4, 3, 0},
             },
-            {
+         {
                 {7, 4, 3},
                 {-2, 0, 8},
                 {5, 4, 2},
@@ -153,7 +154,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {7, 0, -5},
                 {-3, 2, 0},
             },
-            {
+         {
                 {6, 2, 4},
                 {-3, 0, 8},
                 {5, 4, 2},
@@ -161,7 +162,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {7, 0, -6},
                 {-2, 2, -1},
             },
-            {
+         {
                 {7, 3, 3},
                 {-3, 0, 9},
                 {7, 4, 2},
@@ -169,7 +170,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {5, 1, -4},
                 {-3, 3, 0},
             },
-            {
+         {
                 {5, 2, 4},
                 {-2, 0, 8},
                 {5, 4, 2},
@@ -177,7 +178,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {7, 1, -5},
                 {-2, 3, 0},
             },
-            {
+         {
                 {5, 3, 4},
                 {-3, 0, 10},
                 {5, 4, 3},
@@ -185,7 +186,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {6, 0, -4},
                 {-4, 2, 0},
             },
-            {
+         {
                 {7, 3, 4},
                 {-2, 0, 10},
                 {6, 5, 2},
@@ -193,9 +194,9 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {5, 0, -5},
                 {-3, 1, -1},
             },
-        },
+         },
         {
-            {
+         {
                 {14, 4, 6},
                 {-8, 2, 15},
                 {10, 5, 5},
@@ -203,7 +204,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {15, 2, -11},
                 {-5, 5, -2},
             },
-            {
+         {
                 {11, 3, 8},
                 {-4, 0, 16},
                 {13, 6, 6},
@@ -211,7 +212,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {10, 3, -11},
                 {-5, 5, -3},
             },
-            {
+         {
                 {11, 5, 5},
                 {-7, -2, 18},
                 {14, 5, 7},
@@ -219,7 +220,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {13, 1, -13},
                 {-6, 6, 0},
             },
-            {
+         {
                 {10, 7, 8},
                 {-5, -2, 18},
                 {15, 5, 4},
@@ -227,7 +228,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {11, 3, -12},
                 {-6, 3, -3},
             },
-            {
+         {
                 {11, 6, 10},
                 {-8, 2, 17},
                 {10, 9, 4},
@@ -235,7 +236,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {11, 0, -14},
                 {-5, 3, -2},
             },
-            {
+         {
                 {12, 8, 5},
                 {-8, -1, 16},
                 {11, 8, 7},
@@ -243,7 +244,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {13, 1, -9},
                 {-7, 7, -1},
             },
-            {
+         {
                 {11, 6, 8},
                 {-7, 2, 18},
                 {13, 8, 4},
@@ -251,7 +252,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {14, 0, -14},
                 {-7, 5, -4},
             },
-            {
+         {
                 {11, 4, 8},
                 {-7, 0, 18},
                 {12, 8, 5},
@@ -259,9 +260,9 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {15, 2, -12},
                 {-4, 3, 0},
             },
-        },
+         },
         {
-            {
+         {
                 {19, 8, 12},
                 {-9, -3, 25},
                 {17, 11, 11},
@@ -269,7 +270,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {18, 0, -15},
                 {-12, 6, -2},
             },
-            {
+         {
                 {18, 10, 13},
                 {-8, 1, 24},
                 {17, 10, 10},
@@ -277,7 +278,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {16, 4, -20},
                 {-10, 8, -3},
             },
-            {
+         {
                 {20, 5, 8},
                 {-13, -3, 25},
                 {17, 13, 6},
@@ -285,7 +286,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {20, -1, -16},
                 {-9, 8, -2},
             },
-            {
+         {
                 {16, 9, 8},
                 {-7, 0, 30},
                 {20, 11, 10},
@@ -293,7 +294,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {15, 3, -20},
                 {-14, 5, -1},
             },
-            {
+         {
                 {17, 7, 11},
                 {-14, 0, 26},
                 {20, 13, 8},
@@ -301,7 +302,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {20, 4, -21},
                 {-10, 9, -4},
             },
-            {
+         {
                 {17, 7, 8},
                 {-9, -1, 23},
                 {15, 11, 11},
@@ -309,7 +310,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {20, 3, -15},
                 {-10, 7, -6},
             },
-            {
+         {
                 {21, 8, 12},
                 {-10, 0, 29},
                 {20, 10, 5},
@@ -317,7 +318,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {21, 0, -15},
                 {-13, 8, -2},
             },
-            {
+         {
                 {22, 6, 12},
                 {-7, 1, 30},
                 {16, 14, 10},
@@ -325,9 +326,9 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {20, -1, -17},
                 {-12, 5, -1},
             },
-        },
+         },
         {
-            {
+         {
                 {28, 8, 17},
                 {-14, -4, 38},
                 {29, 11, 9},
@@ -335,7 +336,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {22, 3, -19},
                 {-19, 10, -2},
             },
-            {
+         {
                 {22, 7, 13},
                 {-12, 2, 36},
                 {24, 18, 8},
@@ -343,7 +344,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {30, 0, -29},
                 {-11, 6, -9},
             },
-            {
+         {
                 {20, 9, 16},
                 {-16, -1, 34},
                 {21, 15, 13},
@@ -351,7 +352,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {25, 2, -28},
                 {-14, 7, -5},
             },
-            {
+         {
                 {29, 11, 11},
                 {-13, 1, 38},
                 {29, 19, 9},
@@ -359,7 +360,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {28, 4, -20},
                 {-10, 13, -4},
             },
-            {
+         {
                 {24, 7, 14},
                 {-11, -1, 32},
                 {20, 17, 14},
@@ -367,7 +368,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {27, 4, -27},
                 {-18, 4, -6},
             },
-            {
+         {
                 {20, 16, 16},
                 {-18, 3, 36},
                 {24, 10, 8},
@@ -375,7 +376,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {20, 4, -28},
                 {-13, 10, 0},
             },
-            {
+         {
                 {25, 8, 13},
                 {-11, -2, 35},
                 {26, 11, 16},
@@ -383,7 +384,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {27, 6, -21},
                 {-13, 10, 0},
             },
-            {
+         {
                 {27, 9, 16},
                 {-16, 0, 37},
                 {22, 15, 11},
@@ -391,7 +392,7 @@ MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =
                 {26, 0, -21},
                 {-12, 14, -7},
             },
-        },
+         },
 };
 #endif
 
@@ -414,7 +415,14 @@ void MESH_init() {
 
 #if CALC_CAR_CRUMPLE
     // calculate mesh offsets and trace out
-    static MESH_Crumple car_basic[6] = {{1, 0.3, 0.5}, {-1, -0.3, 1.5}, {1, 0.5, 0.3}, {-1, 0.5, 0.3}, {1, -0.2, -1.5}, {-1, 0.2, -0.5}};
+    static MESH_Crumple car_basic[6] = {
+        {1,  0.3,  0.5 },
+        {-1, -0.3, 1.5 },
+        {1,  0.5,  0.3 },
+        {-1, 0.5,  0.3 },
+        {1,  -0.2, -1.5},
+        {-1, 0.2,  -0.5}
+    };
 
     TRACE("MESH_Crumple2 MESH_car_crumples[MESH_NUM_CRUMPLES][MESH_NUM_CRUMPVALS][6] =\n{\n");
     for (i = 0; i < MESH_NUM_CRUMPLES; i++) {
@@ -1895,7 +1903,7 @@ std::int32_t MESH_add_point(
     mr->mp[ans].x = x;
     mr->mp[ans].y = y;
     mr->mp[ans].z = z;
-    mr->mp[ans].fade = MIN(255, (std::int32_t) fade);
+    mr->mp[ans].fade = std::min(255, (std::int32_t) fade);
 
     mr->num_points += 1;
 

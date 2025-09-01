@@ -107,37 +107,36 @@ struct AnimModes {
 
 struct AnimModes anim_modes[] =
     {
-        {0, 1, 0, 0, 0, 0},           // stand
-        {0, 1, 0, 0, 0, 0},           // walk
-        {0, 1, 0, 0, 0, 0},           // run
-        {0, 1, 0, 0, 0, 0},           // Stand (hip)
-        {0, 1, 0, 0, 0, 0},           // stand (ready)
-        {0, 1, 0, 0, 0, 0},           // Punch
-        {0, 0, 0, 0, 0, 0},           // Fly (jump from run)
-        {0, 0, 0, 0, 0, 0},           // Fly grab
-        {0, 0, 0, 0, 0, 0},           // Run, Jump, Land
-        {0, 0, 0, 0, 0, 0},           // Stand, Jump,Land
-        {0, 1, 0, 0, 0, 0},           // Reverse Round Kick
-        {0, 1, 0, 0, 0, 0},           // Draw Gun
-        {0, 1, 0, 0, 0, 0},           // Draw And Shoot
-        {0, 1, 0, 0, 0, 0},           // Aim Gun
+        {0, 1, 0, 0, 0, 0          }, // stand
+        {0, 1, 0, 0, 0, 0          }, // walk
+        {0, 1, 0, 0, 0, 0          }, // run
+        {0, 1, 0, 0, 0, 0          }, // Stand (hip)
+        {0, 1, 0, 0, 0, 0          }, // stand (ready)
+        {0, 1, 0, 0, 0, 0          }, // Punch
+        {0, 0, 0, 0, 0, 0          }, // Fly (jump from run)
+        {0, 0, 0, 0, 0, 0          }, // Fly grab
+        {0, 0, 0, 0, 0, 0          }, // Run, Jump, Land
+        {0, 0, 0, 0, 0, 0          }, // Stand, Jump,Land
+        {0, 1, 0, 0, 0, 0          }, // Reverse Round Kick
+        {0, 1, 0, 0, 0, 0          }, // Draw Gun
+        {0, 1, 0, 0, 0, 0          }, // Draw And Shoot
+        {0, 1, 0, 0, 0, 0          }, // Aim Gun
         {0, 0, 0, 0, 0, END_ON_FACE}, // Jump Up, Grab, Pullup And Climb On
-        {0, 0, 0, 0, 0, 0},           // Mount Ladder, climb 2 runs
-        {0, 0, 0, 0, 0, 0},           // Mount Ladder
-        {0, 0, 0, 0, 0, 0},           // Climb One Run
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0},
-
+        {0, 0, 0, 0, 0, 0          }, // Mount Ladder, climb 2 runs
+        {0, 0, 0, 0, 0, 0          }, // Mount Ladder
+        {0, 0, 0, 0, 0, 0          }, // Climb One Run
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
+        {0, 0, 0, 0, 0, 0          },
 };
 
 char *id_name[] =
@@ -1317,12 +1316,12 @@ void set_game_camera(struct MapThing *track_thing) {
     // Point camera at thing we're tracking.
 
     angle_xz = -get_angle_xz(&thing_position, &cam_position);
-    engine.CosY = COS((angle_xz) &2047);
-    engine.SinY = SIN((angle_xz) &2047);
+    engine.CosY = COS((angle_xz) & 2047);
+    engine.SinY = SIN((angle_xz) & 2047);
 
     angle_yz = get_angle_yz(&cam_position, &thing_position);
-    engine.CosX = COS((angle_yz) &2047);
-    engine.SinX = SIN((angle_yz) &2047);
+    engine.CosX = COS((angle_yz) & 2047);
+    engine.SinX = SIN((angle_yz) & 2047);
 
     /*
             engine.CosX=COS(0);
