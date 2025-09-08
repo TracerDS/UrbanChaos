@@ -11,7 +11,7 @@
 #include "c:\fallen\headers\memory.h"
 #include "c:\fallen\headers\noserver.h"
 
-char *body_part_names[] =
+char* body_part_names[] =
     {
         "pelvis",
         "lfemur",
@@ -43,15 +43,15 @@ struct DXMaterial {
 std::int32_t material_count = 1;
 
 extern void smooth_a_prim(std::int32_t prim); // prim.h
-extern std::int32_t find_colour(std::uint8_t *the_palette, std::int32_t r, std::int32_t g, std::int32_t b);
-std::int32_t calc_object_index(char *name, std::int32_t *extra);
+extern std::int32_t find_colour(std::uint8_t* the_palette, std::int32_t r, std::int32_t g, std::int32_t b);
+std::int32_t calc_object_index(char* name, std::int32_t* extra);
 
 std::int16_t SelectFlag;
 std::int16_t SelectDrawn = 0;
 
-void calc_prims_screen_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, EdRect *rect) {
+void calc_prims_screen_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, EdRect* rect) {
     std::int32_t c0, flags;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t min_x = 999999, max_x = -999999, min_y = 999999, max_y = -999999;
 
@@ -99,9 +99,9 @@ void calc_prims_screen_box(std::uint16_t prim, std::int32_t x, std::int32_t y, s
     rect->SetRect(min_x - 2, min_y - 2, max_x - min_x + 4, max_y - min_y + 4);
 }
 
-void calc_prims_world_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, EdRect *rect) {
+void calc_prims_world_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, EdRect* rect) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t min_x = 999999, max_x = -999999, min_y = 999999, max_y = -999999;
 
@@ -367,8 +367,8 @@ std::int16_t corners[3];
 // find a matching poly for hal_face that would form a quad
 // finds another poly sharing 2 points, with shared edge being longest edge on poly
 std::uint16_t find_pair(std::uint16_t start_face, std::uint16_t end_face, std::uint16_t half_face, std::uint16_t tolerance) {
-    struct PrimFace3 *p_half_face;
-    struct PrimFace3 *search_face;
+    struct PrimFace3* p_half_face;
+    struct PrimFace3* search_face;
     std::int32_t current_face;
     std::uint16_t count = 0, c0, points = 0;
     std::int16_t p1, p2;
@@ -570,8 +570,8 @@ std::uint16_t find_pair(std::uint16_t start_face, std::uint16_t end_face, std::u
 // shuffle down all later faces
 //
 void delete_prim_face3(std::uint16_t object, std::uint16_t face) {
-    struct PrimFace3 *this_face;
-    struct PrimObject *point_object;
+    struct PrimFace3* this_face;
+    struct PrimObject* point_object;
     std::int32_t end_face, start_face;
     std::uint16_t c0;
     point_object = &prim_objects[object];
@@ -586,8 +586,8 @@ void delete_prim_face3(std::uint16_t object, std::uint16_t face) {
 }
 
 void delete_prim_face4(std::uint16_t object, std::uint16_t face) {
-    struct PrimFace4 *this_face;
-    struct PrimObject *point_object;
+    struct PrimFace4* this_face;
+    struct PrimObject* point_object;
     std::int32_t end_face, start_face;
     std::uint16_t c0;
     point_object = &prim_objects[object];
@@ -615,10 +615,10 @@ void make_object_quad(std::uint16_t prim) {
     std::int32_t p2;
     std::int32_t other;
 
-    PrimObject *po = &prim_objects[prim];
-    PrimFace3 *f3_a;
-    PrimFace3 *f3_b;
-    PrimFace4 *f4;
+    PrimObject* po = &prim_objects[prim];
+    PrimFace3* f3_a;
+    PrimFace3* f3_b;
+    PrimFace4* f4;
 
     std::int32_t combine;
     std::int32_t combine_edge;
@@ -770,8 +770,8 @@ void make_object_quad(std::uint16_t prim) {
 // convert_object_to_quads()
 void make_object_quad_old(std::uint16_t prim_object) {
     struct SingleObjectFace3 *this_face, *cur_face, *temp_face;
-    struct SingleObjectFace4 *this_face4;
-    struct SingleObject *point_object;
+    struct SingleObjectFace4* this_face4;
+    struct SingleObject* point_object;
     std::int32_t no_faces, start_face, end_face;
     std::int32_t no_faces4, start_face4, end_face4;
     std::uint16_t c0, c1, temp_match;
@@ -1100,7 +1100,7 @@ rot X 1 0 0 0 cx sx 0 - sx cx
 #endif
 
     void
-        comma_to_dot(char *str) {
+        comma_to_dot(char* str) {
     while (*str) {
         if (*str == ',')
             *str = '.';
@@ -1135,7 +1135,7 @@ struct
 #define MAX_NAME_LEN 64
 #define MAX_MATERIALS 64
 
-std::int32_t read_sex(char *fname, std::int32_t scale /* Ignored */, std::int32_t offset) {
+std::int32_t read_sex(char* fname, std::int32_t scale /* Ignored */, std::int32_t offset) {
     std::int32_t i;
 
     std::int32_t match;
@@ -1213,7 +1213,7 @@ std::int32_t read_sex(char *fname, std::int32_t scale /* Ignored */, std::int32_
     char alpha[MAX_NAME_LEN];
     char tname[MAX_NAME_LEN];
 
-    PrimObject *po;
+    PrimObject* po;
 
     struct
     {
@@ -1242,7 +1242,7 @@ std::int32_t read_sex(char *fname, std::int32_t scale /* Ignored */, std::int32_
     char oname[MAX_NAME_LEN];
     char line[MAX_LINE_LEN];
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(fname, "rb");
 
@@ -1382,7 +1382,7 @@ std::int32_t read_sex(char *fname, std::int32_t scale /* Ignored */, std::int32_
             //
 
             {
-                mat[num_m].col = find_colour((std::uint8_t *) ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
+                mat[num_m].col = find_colour((std::uint8_t*) ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
             }
 
             num_m += 1;
@@ -1427,9 +1427,9 @@ std::int32_t read_sex(char *fname, std::int32_t scale /* Ignored */, std::int32_
 
             SWAP_FL(y, z);
 
-            prim_points[next_prim_point].X = (std::int32_t)((x * GAME_SCALE) / GAME_SCALE_DIV);
-            prim_points[next_prim_point].Y = (std::int32_t)((y * GAME_SCALE) / GAME_SCALE_DIV);
-            prim_points[next_prim_point].Z = (std::int32_t)((z * GAME_SCALE) / GAME_SCALE_DIV);
+            prim_points[next_prim_point].X = (std::int32_t) ((x * GAME_SCALE) / GAME_SCALE_DIV);
+            prim_points[next_prim_point].Y = (std::int32_t) ((y * GAME_SCALE) / GAME_SCALE_DIV);
+            prim_points[next_prim_point].Z = (std::int32_t) ((z * GAME_SCALE) / GAME_SCALE_DIV);
 
             //
             // Update the bounding rectangle of this object.
@@ -1715,7 +1715,7 @@ float det33(float a1, float a2, float a3, float b1, float b2, float b3, float c1
     return (ans);
 }
 
-void invert_matrix(float *mat, float *out) {
+void invert_matrix(float* mat, float* out) {
     float det;
 
     det = det33(mat[0], mat[1], mat[2], mat[3], mat[4], mat[5], mat[6], mat[7], mat[8]);
@@ -1725,7 +1725,7 @@ void invert_matrix(float *mat, float *out) {
     //
 }
 
-std::int32_t read_multi_sex(char *fname, float shrink) {
+std::int32_t read_multi_sex(char* fname, float shrink) {
     std::int32_t i;
 
     std::int32_t match;
@@ -1789,8 +1789,8 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
     std::int32_t its_human = 0;
     std::uint8_t its_doggy = 0;
 
-    PrimObject *po;
-    PrimMultiObject *pmo;
+    PrimObject* po;
+    PrimMultiObject* pmo;
     std::int32_t darci = 0;
     std::int32_t c2;
 
@@ -1821,7 +1821,7 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
     char oname[MAX_NAME_LEN];
     char line[MAX_LINE_LEN];
 
-    FILE *handle;
+    FILE* handle;
     std::uint8_t unique[35];
 
     memset(unique, 0, 35);
@@ -2022,7 +2022,7 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
             // We must find the texture name now.
             //
 
-            char *tname = strstr(line, "filename");
+            char* tname = strstr(line, "filename");
 
             ASSERT(tname);
 
@@ -2041,7 +2041,7 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
             //
 
             {
-                char *ch;
+                char* ch;
 
                 for (ch = mat[num_m].name; *ch; ch++);
 
@@ -2071,9 +2071,9 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
             {
                 std::int32_t col;
 
-                mat[num_m].col = find_colour((std::uint8_t *) ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
+                mat[num_m].col = find_colour((std::uint8_t*) ENGINE_palette, std::uint8_t(r * 255.0F), std::uint8_t(g * 255.0F), std::uint8_t(b * 255.0F));
 
-                LogText(" found col %d for obj rgb %d %d %d \n", num_m, (std::int32_t)(r * 255.0), (std::int32_t)(g * 255.0), (std::int32_t)(b * 255.0));
+                LogText(" found col %d for obj rgb %d %d %d \n", num_m, (std::int32_t) (r * 255.0), (std::int32_t) (g * 255.0), (std::int32_t) (b * 255.0));
                 col = mat[num_m].col;
                 LogText(" col used %d  rgb %d %d %d \n", col, ENGINE_palette[col].red, ENGINE_palette[col].green, ENGINE_palette[col].blue);
             }
@@ -2099,9 +2099,9 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
 
             SWAP_FL(y, z);
 
-            prim_points[next_prim_point].X = (std::int32_t)((x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
-            prim_points[next_prim_point].Y = (std::int32_t)((y * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
-            prim_points[next_prim_point].Z = (std::int32_t)((z * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+            prim_points[next_prim_point].X = (std::int32_t) ((x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+            prim_points[next_prim_point].Y = (std::int32_t) ((y * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
+            prim_points[next_prim_point].Z = (std::int32_t) ((z * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
 
             num_v += 1;
             num_points += 1;
@@ -2435,9 +2435,9 @@ std::int32_t read_multi_sex(char *fname, float shrink) {
 
 #define MAX_3DS_LEN 1000
 
-extern void read_object_name(FILE *file_handle, char *dest_string);
+extern void read_object_name(FILE* file_handle, char* dest_string);
 
-std::int8_t read_asc(char *fname, std::int32_t scale, std::uint32_t offset) {
+std::int8_t read_asc(char* fname, std::int32_t scale, std::uint32_t offset) {
     //
     // Are we loading a '.SEX' file or a '.ASC' file?
     //
@@ -2460,7 +2460,7 @@ std::int8_t read_asc(char *fname, std::int32_t scale, std::uint32_t offset) {
     float f_y;
     float f_z;
 
-    FILE *handle;
+    FILE* handle;
 
     int cno_vertices = 0, dummy = 0;
     int no_vertices = 0;
@@ -2534,7 +2534,7 @@ std::int8_t read_asc(char *fname, std::int32_t scale, std::uint32_t offset) {
                     materials[mat_count].G = (std::uint8_t) g;
                     materials[mat_count].B = (std::uint8_t) b;
                     {
-                        materials[mat_count].Index = find_colour((std::uint8_t *) ENGINE_palette, (std::uint8_t) r, (std::uint8_t) g, (std::uint8_t) b);
+                        materials[mat_count].Index = find_colour((std::uint8_t*) ENGINE_palette, (std::uint8_t) r, (std::uint8_t) g, (std::uint8_t) b);
                     }
 
                     mat_count++;
@@ -2606,9 +2606,9 @@ std::int8_t read_asc(char *fname, std::int32_t scale, std::uint32_t offset) {
                     //					prim_points[next_prim_point].X=(std::int32_t)((f_y*(float)scale)/100.0) ; //+(engine.X>>8)*offset;
                     //					prim_points[next_prim_point].Y=(std::int32_t)((-f_z*(float)scale)/100.0); //+(engine.Y>>8)*offset;
 
-                    prim_points[next_prim_point].X = (std::int32_t)((f_x * GAME_SCALE) / GAME_SCALE_DIV);
-                    prim_points[next_prim_point].Y = (std::int32_t)((f_z * GAME_SCALE) / GAME_SCALE_DIV); //- md
-                    prim_points[next_prim_point].Z = (std::int32_t)((f_y * GAME_SCALE) / GAME_SCALE_DIV);
+                    prim_points[next_prim_point].X = (std::int32_t) ((f_x * GAME_SCALE) / GAME_SCALE_DIV);
+                    prim_points[next_prim_point].Y = (std::int32_t) ((f_z * GAME_SCALE) / GAME_SCALE_DIV); //- md
+                    prim_points[next_prim_point].Z = (std::int32_t) ((f_y * GAME_SCALE) / GAME_SCALE_DIV);
 
                     /*
                                                             if(offset)
@@ -2751,7 +2751,7 @@ std::int8_t read_asc(char *fname, std::int32_t scale, std::uint32_t offset) {
     return (1);
 }
 
-std::int32_t calc_object_index(char *name, std::int32_t *extra) {
+std::int32_t calc_object_index(char* name, std::int32_t* extra) {
     std::int32_t c0;
     for (c0 = 0; c0 < strlen(name); c0++) {
         name[c0] = tolower(name[c0]);
@@ -2771,7 +2771,7 @@ std::int32_t calc_object_index(char *name, std::int32_t *extra) {
     return (-1);
 }
 
-std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float shrink) {
+std::int32_t read_multi_asc(char* asc_name, std::uint8_t flag, float shrink) {
     std::int32_t fname_len = strlen(asc_name);
 
     if (fname_len >= 5) {
@@ -2798,7 +2798,7 @@ std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float shrink) {
     float f_y;
     float f_z;
 
-    FILE *handle;
+    FILE* handle;
 
     int cno_vertices = 0, dummy = 0;
     int no_tvertices = 0, no_materials = 0, no_normals = 0; // 3ds max stuff
@@ -2931,7 +2931,7 @@ std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float shrink) {
                     {
                         // Guy - fudge round Mikes fudge, this will prolly stop editor bits from working.
                         if (pals[0])
-                            materials[mat_count].Index = find_colour((std::uint8_t *) ENGINE_palette, (std::uint8_t) r, (std::uint8_t) g, (std::uint8_t) b);
+                            materials[mat_count].Index = find_colour((std::uint8_t*) ENGINE_palette, (std::uint8_t) r, (std::uint8_t) g, (std::uint8_t) b);
                         LogText("find material = %d \n", materials[mat_count].Index);
                         //						else
                         //							materials[mat_count].Index	=	0;
@@ -3053,9 +3053,9 @@ std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float shrink) {
                     */
                     //					LogText(" multi asc in %f,%f,%f\n",f_x,f_y,f_z);
 
-                    prim_points[next_prim_point].X = (std::int32_t)((f_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
-                    prim_points[next_prim_point].Y = (std::int32_t)((f_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
-                    prim_points[next_prim_point].Z = (std::int32_t)((f_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+                    prim_points[next_prim_point].X = (std::int32_t) ((f_x * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
+                    prim_points[next_prim_point].Y = (std::int32_t) ((f_z * GAME_SCALE) / (GAME_SCALE_DIV * shrink)); //- md
+                    prim_points[next_prim_point].Z = (std::int32_t) ((f_y * GAME_SCALE) / (GAME_SCALE_DIV * shrink));
 
                     //					LogText(" multi asc store %d,%d,%d \n",prim_points[next_prim_point].X,prim_points[next_prim_point].Y,prim_points[next_prim_point].Z);
 
@@ -3156,7 +3156,7 @@ std::int32_t read_multi_asc(char *asc_name, std::uint8_t flag, float shrink) {
     return (object_count);
 }
 
-void load_textures_for_prim(char *str, std::uint16_t prim) {
+void load_textures_for_prim(char* str, std::uint16_t prim) {
     char file_name[64];
     std::uint16_t text;
     std::int32_t c0, sf, ef, point, mf;
@@ -3171,10 +3171,10 @@ void load_textures_for_prim(char *str, std::uint16_t prim) {
 
         for (c0 = sf; c0 <= ef; c0++) {
             for (point = 0; point < 3; point++) {
-                FileRead(handle, (std::uint8_t *) &pf[point], sizeof(struct PrimPoint));
+                FileRead(handle, (std::uint8_t*) &pf[point], sizeof(struct PrimPoint));
             }
-            FileRead(handle, (std::uint8_t *) &prim_faces4[c0].TexturePage, sizeof(prim_faces4[c0].TexturePage));
-            FileRead(handle, (std::uint8_t *) &prim_faces4[c0].UV[0][0], sizeof(prim_faces4[c0].UV));
+            FileRead(handle, (std::uint8_t*) &prim_faces4[c0].TexturePage, sizeof(prim_faces4[c0].TexturePage));
+            FileRead(handle, (std::uint8_t*) &prim_faces4[c0].UV[0][0], sizeof(prim_faces4[c0].UV));
             /*
                                     mf=find_matching_face(&pf[0],&pf[1],&pf[2],prim);
                                     if(mf>0)
@@ -3195,7 +3195,7 @@ void load_textures_for_prim(char *str, std::uint16_t prim) {
     }
 }
 
-void save_textures_for_prim(char *str, std::uint16_t prim) {
+void save_textures_for_prim(char* str, std::uint16_t prim) {
     char file_name[64];
     std::int32_t c0, sf, ef, point;
     MFFileHandle handle;
@@ -3208,16 +3208,16 @@ void save_textures_for_prim(char *str, std::uint16_t prim) {
 
         for (c0 = sf; c0 <= ef; c0++) {
             for (point = 0; point < 3; point++) {
-                FileWrite(handle, (std::uint8_t *) &prim_points[prim_faces4[c0].Points[point]], sizeof(struct PrimPoint));
+                FileWrite(handle, (std::uint8_t*) &prim_points[prim_faces4[c0].Points[point]], sizeof(struct PrimPoint));
             }
-            FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].TexturePage, sizeof(prim_faces4[c0].TexturePage));
-            FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].UV[0][0], sizeof(prim_faces4[c0].UV));
+            FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].TexturePage, sizeof(prim_faces4[c0].TexturePage));
+            FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].UV[0][0], sizeof(prim_faces4[c0].UV));
         }
         FileClose(handle);
     }
 }
 
-std::int32_t save_all_prims(char *name) {
+std::int32_t save_all_prims(char* name) {
     std::int32_t c0, point;
     MFFileHandle handle;
     char file_name[64];
@@ -3277,17 +3277,17 @@ std::int32_t save_all_prims(char *name) {
     sprintf(file_name, "data/%s", name);
     handle = FileCreate(file_name, 1);
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &next_prim_point, sizeof(std::uint16_t));
-        FileWrite(handle, (std::uint8_t *) &next_prim_face4, sizeof(std::uint16_t));
-        FileWrite(handle, (std::uint8_t *) &next_prim_face3, sizeof(std::uint16_t));
-        FileWrite(handle, (std::uint8_t *) &next_prim_object, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &next_prim_point, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &next_prim_face4, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &next_prim_face3, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &next_prim_object, sizeof(std::uint16_t));
 
-        FileWrite(handle, (std::uint8_t *) dummy, sizeof(std::uint16_t) * 10);
+        FileWrite(handle, (std::uint8_t*) dummy, sizeof(std::uint16_t) * 10);
 
-        FileWrite(handle, (std::uint8_t *) prim_points, sizeof(struct PrimPoint) * next_prim_point);
-        FileWrite(handle, (std::uint8_t *) prim_faces4, sizeof(struct PrimFace4) * next_prim_face4);
-        FileWrite(handle, (std::uint8_t *) prim_faces3, sizeof(struct PrimFace3) * next_prim_face3);
-        FileWrite(handle, (std::uint8_t *) prim_objects, sizeof(struct PrimObject) * next_prim_object);
+        FileWrite(handle, (std::uint8_t*) prim_points, sizeof(struct PrimPoint) * next_prim_point);
+        FileWrite(handle, (std::uint8_t*) prim_faces4, sizeof(struct PrimFace4) * next_prim_face4);
+        FileWrite(handle, (std::uint8_t*) prim_faces3, sizeof(struct PrimFace3) * next_prim_face3);
+        FileWrite(handle, (std::uint8_t*) prim_objects, sizeof(struct PrimObject) * next_prim_object);
 
         FileClose(handle);
         return (1);
@@ -3303,31 +3303,31 @@ void write_a_prim(std::int32_t prim, MFFileHandle handle) {
         sp = prim_objects[prim].StartPoint;
         ep = prim_objects[prim].EndPoint;
 
-        FileWrite(handle, (std::uint8_t *) prim_names[prim], 32); // sizeof(prim_objects[prim].ObjectName));
+        FileWrite(handle, (std::uint8_t*) prim_names[prim], 32); // sizeof(prim_objects[prim].ObjectName));
         //		prim_objects[prim].Dummy[3]=PRIM_START_SAVE_TYPE+1; pointless
 
-        FileWrite(handle, (std::uint8_t *) &sp, sizeof(sp));
-        FileWrite(handle, (std::uint8_t *) &ep, sizeof(ep));
+        FileWrite(handle, (std::uint8_t*) &sp, sizeof(sp));
+        FileWrite(handle, (std::uint8_t*) &ep, sizeof(ep));
         for (c0 = sp; c0 < ep; c0++)
-            FileWrite(handle, (std::uint8_t *) &prim_points[c0], sizeof(struct PrimPoint));
+            FileWrite(handle, (std::uint8_t*) &prim_points[c0], sizeof(struct PrimPoint));
 
         sf = prim_objects[prim].StartFace3;
         ef = prim_objects[prim].EndFace3;
-        FileWrite(handle, (std::uint8_t *) &sf, sizeof(sf));
-        FileWrite(handle, (std::uint8_t *) &ef, sizeof(ef));
+        FileWrite(handle, (std::uint8_t*) &sf, sizeof(sf));
+        FileWrite(handle, (std::uint8_t*) &ef, sizeof(ef));
         for (c0 = sf; c0 < ef; c0++)
-            FileWrite(handle, (std::uint8_t *) &prim_faces3[c0], sizeof(struct PrimFace3));
+            FileWrite(handle, (std::uint8_t*) &prim_faces3[c0], sizeof(struct PrimFace3));
 
         sf = prim_objects[prim].StartFace4;
         ef = prim_objects[prim].EndFace4;
-        FileWrite(handle, (std::uint8_t *) &sf, sizeof(sf));
-        FileWrite(handle, (std::uint8_t *) &ef, sizeof(ef));
+        FileWrite(handle, (std::uint8_t*) &sf, sizeof(sf));
+        FileWrite(handle, (std::uint8_t*) &ef, sizeof(ef));
         for (c0 = sf; c0 < ef; c0++)
-            FileWrite(handle, (std::uint8_t *) &prim_faces4[c0], sizeof(struct PrimFace4));
+            FileWrite(handle, (std::uint8_t*) &prim_faces4[c0], sizeof(struct PrimFace4));
     }
 }
 
-std::int32_t save_a_multi_prim(char *name, std::int32_t multi) {
+std::int32_t save_a_multi_prim(char* name, std::int32_t multi) {
     std::int32_t c0, point;
     MFFileHandle handle;
     char file_name[64];
@@ -3339,13 +3339,13 @@ std::int32_t save_a_multi_prim(char *name, std::int32_t multi) {
     //	sprintf(ext_name,"data/%s",ext_name);
     handle = FileCreate(ext_name, 1);
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &save_type, sizeof(save_type));
+        FileWrite(handle, (std::uint8_t*) &save_type, sizeof(save_type));
 
         so = prim_multi_objects[multi].StartObject;
         eo = prim_multi_objects[multi].EndObject;
 
-        FileWrite(handle, (std::uint8_t *) &so, sizeof(so));
-        FileWrite(handle, (std::uint8_t *) &eo, sizeof(eo));
+        FileWrite(handle, (std::uint8_t*) &so, sizeof(so));
+        FileWrite(handle, (std::uint8_t*) &eo, sizeof(eo));
 
         for (c0 = so; c0 < eo; c0++)
             write_a_prim(c0, handle);
@@ -3363,36 +3363,36 @@ void dump_face_info_for_prim(MFFileHandle handle, std::uint16_t prim) {
     sf = prim_objects[prim].StartFace4;
     ef = prim_objects[prim].EndFace4;
     count = ef - sf;
-    FileWrite(handle, (std::uint8_t *) &count, sizeof(count));
+    FileWrite(handle, (std::uint8_t*) &count, sizeof(count));
 
     for (c0 = sf; c0 < ef; c0++) {
         for (point = 0; point < 3; point++) {
-            FileWrite(handle, (std::uint8_t *) &prim_points[prim_faces4[c0].Points[point]], sizeof(struct PrimPoint));
+            FileWrite(handle, (std::uint8_t*) &prim_points[prim_faces4[c0].Points[point]], sizeof(struct PrimPoint));
         }
-        FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].TexturePage, sizeof(prim_faces4[c0].TexturePage));
-        FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].DrawFlags, sizeof(prim_faces4[c0].DrawFlags));
-        FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].Col2, sizeof(prim_faces4[c0].Col2));
-        FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].FaceFlags, sizeof(prim_faces4[c0].FaceFlags));
-        FileWrite(handle, (std::uint8_t *) &prim_faces4[c0].UV[0][0], sizeof(prim_faces4[c0].UV));
+        FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].TexturePage, sizeof(prim_faces4[c0].TexturePage));
+        FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].DrawFlags, sizeof(prim_faces4[c0].DrawFlags));
+        FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].Col2, sizeof(prim_faces4[c0].Col2));
+        FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].FaceFlags, sizeof(prim_faces4[c0].FaceFlags));
+        FileWrite(handle, (std::uint8_t*) &prim_faces4[c0].UV[0][0], sizeof(prim_faces4[c0].UV));
     }
 
     sf = prim_objects[prim].StartFace3;
     ef = prim_objects[prim].EndFace3;
     count = ef - sf;
-    FileWrite(handle, (std::uint8_t *) &count, sizeof(count));
+    FileWrite(handle, (std::uint8_t*) &count, sizeof(count));
     for (c0 = sf; c0 < ef; c0++) {
         for (point = 0; point < 3; point++) {
-            FileWrite(handle, (std::uint8_t *) &prim_points[prim_faces3[c0].Points[point]], sizeof(struct PrimPoint));
+            FileWrite(handle, (std::uint8_t*) &prim_points[prim_faces3[c0].Points[point]], sizeof(struct PrimPoint));
         }
-        FileWrite(handle, (std::uint8_t *) &prim_faces3[c0].TexturePage, sizeof(prim_faces3[c0].TexturePage));
-        FileWrite(handle, (std::uint8_t *) &prim_faces3[c0].DrawFlags, sizeof(prim_faces3[c0].DrawFlags));
-        FileWrite(handle, (std::uint8_t *) &prim_faces3[c0].Col2, sizeof(prim_faces3[c0].Col2));
-        FileWrite(handle, (std::uint8_t *) &prim_faces3[c0].FaceFlags, sizeof(prim_faces3[c0].FaceFlags));
-        FileWrite(handle, (std::uint8_t *) &prim_faces3[c0].UV[0][0], sizeof(prim_faces3[c0].UV));
+        FileWrite(handle, (std::uint8_t*) &prim_faces3[c0].TexturePage, sizeof(prim_faces3[c0].TexturePage));
+        FileWrite(handle, (std::uint8_t*) &prim_faces3[c0].DrawFlags, sizeof(prim_faces3[c0].DrawFlags));
+        FileWrite(handle, (std::uint8_t*) &prim_faces3[c0].Col2, sizeof(prim_faces3[c0].Col2));
+        FileWrite(handle, (std::uint8_t*) &prim_faces3[c0].FaceFlags, sizeof(prim_faces3[c0].FaceFlags));
+        FileWrite(handle, (std::uint8_t*) &prim_faces3[c0].UV[0][0], sizeof(prim_faces3[c0].UV));
     }
 }
 
-std::uint16_t change_fname_extension(char *name, char *ext) {
+std::uint16_t change_fname_extension(char* name, char* ext) {
     std::int32_t c0;
     for (c0 = 0; c0 < strlen(name); c0++) {
         if (name[c0] == '.') {
@@ -3405,9 +3405,9 @@ std::uint16_t change_fname_extension(char *name, char *ext) {
     return (0);
 }
 
-void export_tex(char *fname) {
+void export_tex(char* fname) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     MFFileHandle handle;
     std::int32_t save_type = 5;
 
@@ -3415,7 +3415,7 @@ void export_tex(char *fname) {
     handle = FileCreate(fname, 1);
     if (handle != FILE_OPEN_ERROR) {
         std::int32_t count = -1;
-        FileWrite(handle, (std::uint8_t *) &save_type, sizeof(save_type));
+        FileWrite(handle, (std::uint8_t*) &save_type, sizeof(save_type));
         index = background_prim;
         while (index) {
             p_thing = TO_MTHING(index);
@@ -3423,18 +3423,18 @@ void export_tex(char *fname) {
             dump_face_info_for_prim(handle, p_thing->IndexOther);
             index = p_thing->IndexNext;
         }
-        FileWrite(handle, (std::uint8_t *) &count, sizeof(count));
-        FileWrite(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
-        FileWrite(handle, (std::uint8_t *) &edit_info.amb_dx, 4 * 5);
+        FileWrite(handle, (std::uint8_t*) &count, sizeof(count));
+        FileWrite(handle, (std::uint8_t*) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+        FileWrite(handle, (std::uint8_t*) &edit_info.amb_dx, 4 * 5);
     }
     FileClose(handle);
 }
 
 #define CLOSE(x, y) (abs((x) - (y)) < 5)
 
-std::int32_t find_and_apply_to_quad(struct PrimPoint *pp, struct PrimFace4 *face4, std::int32_t gx, std::int32_t gy, std::int32_t gz) {
+std::int32_t find_and_apply_to_quad(struct PrimPoint* pp, struct PrimFace4* face4, std::int32_t gx, std::int32_t gy, std::int32_t gz) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
 
     std::int32_t c0, sf, ef, point;
     std::int32_t count;
@@ -3464,7 +3464,7 @@ std::int32_t find_and_apply_to_quad(struct PrimPoint *pp, struct PrimFace4 *face
                 prim_faces4[c0].DrawFlags = face4->DrawFlags;
                 prim_faces4[c0].TexturePage = face4->TexturePage;
                 prim_faces4[c0].Col2 = face4->Col2;
-                memcpy((std::uint8_t *) prim_faces4[c0].UV, (std::uint8_t *) face4->UV, sizeof(prim_faces4[c0].UV));
+                memcpy((std::uint8_t*) prim_faces4[c0].UV, (std::uint8_t*) face4->UV, sizeof(prim_faces4[c0].UV));
                 return (1);
             }
         }
@@ -3473,9 +3473,9 @@ std::int32_t find_and_apply_to_quad(struct PrimPoint *pp, struct PrimFace4 *face
     return (0);
 }
 
-std::int32_t find_and_apply_to_tri(struct PrimPoint *pp, struct PrimFace3 *face3, std::int32_t gx, std::int32_t gy, std::int32_t gz) {
+std::int32_t find_and_apply_to_tri(struct PrimPoint* pp, struct PrimFace3* face3, std::int32_t gx, std::int32_t gy, std::int32_t gz) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
 
     std::int32_t c0, sf, ef, point;
     std::int32_t count;
@@ -3505,7 +3505,7 @@ std::int32_t find_and_apply_to_tri(struct PrimPoint *pp, struct PrimFace3 *face3
                 prim_faces3[c0].DrawFlags = face3->DrawFlags;
                 prim_faces3[c0].TexturePage = face3->TexturePage;
                 prim_faces3[c0].Col2 = face3->Col2;
-                memcpy((std::uint8_t *) prim_faces3[c0].UV, (std::uint8_t *) face3->UV, sizeof(prim_faces3[c0].UV));
+                memcpy((std::uint8_t*) prim_faces3[c0].UV, (std::uint8_t*) face3->UV, sizeof(prim_faces3[c0].UV));
                 return (1);
             }
         }
@@ -3514,9 +3514,9 @@ std::int32_t find_and_apply_to_tri(struct PrimPoint *pp, struct PrimFace3 *face3
     return (0);
 }
 
-std::int32_t is_this_unique(std::int32_t *dx, std::int32_t *dy, std::int32_t *dz, std::int32_t dx2, std::int32_t dy2, std::int32_t dz2) {
+std::int32_t is_this_unique(std::int32_t* dx, std::int32_t* dy, std::int32_t* dz, std::int32_t dx2, std::int32_t dy2, std::int32_t dz2) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
 
     std::int32_t c0, sf, ef, point;
     std::int32_t count, unique = 0, at_face = 0;
@@ -3559,7 +3559,7 @@ std::int32_t is_this_unique(std::int32_t *dx, std::int32_t *dy, std::int32_t *dz
     *dz = rz;
     return (unique);
 }
-std::uint16_t find_unique_face_to_offset(char *fname, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+std::uint16_t find_unique_face_to_offset(char* fname, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::uint16_t text;
     std::int32_t c0;
     MFFileHandle handle;
@@ -3574,23 +3574,23 @@ std::uint16_t find_unique_face_to_offset(char *fname, std::int32_t *x, std::int3
 
     handle = FileOpen(fname);
     if (handle != FILE_OPEN_ERROR) {
-        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
+        FileRead(handle, (std::uint8_t*) &save_type, sizeof(save_type));
         //		LogText(" fing unique save type=%d \n",save_type);
         while (1) {
-            FileRead(handle, (std::uint8_t *) &count, sizeof(count));
+            FileRead(handle, (std::uint8_t*) &count, sizeof(count));
             if (count == -1)
                 break;
 
             for (c0 = 0; c0 < count; c0++) {
-                FileRead(handle, (std::uint8_t *) &pf[0], sizeof(struct PrimPoint) * 3);
+                FileRead(handle, (std::uint8_t*) &pf[0], sizeof(struct PrimPoint) * 3);
 
-                FileRead(handle, (std::uint8_t *) &pf4.TexturePage, sizeof(pf4.TexturePage));
-                FileRead(handle, (std::uint8_t *) &pf4.DrawFlags, sizeof(pf4.DrawFlags));
+                FileRead(handle, (std::uint8_t*) &pf4.TexturePage, sizeof(pf4.TexturePage));
+                FileRead(handle, (std::uint8_t*) &pf4.DrawFlags, sizeof(pf4.DrawFlags));
                 if (save_type > 2)
-                    FileRead(handle, (std::uint8_t *) &pf4.Col2, sizeof(pf4.Col2));
+                    FileRead(handle, (std::uint8_t*) &pf4.Col2, sizeof(pf4.Col2));
                 if (save_type > 3)
-                    FileRead(handle, (std::uint8_t *) &pf4.FaceFlags, sizeof(pf4.FaceFlags));
-                FileRead(handle, (std::uint8_t *) &pf4.UV[0][0], sizeof(pf4.UV));
+                    FileRead(handle, (std::uint8_t*) &pf4.FaceFlags, sizeof(pf4.FaceFlags));
+                FileRead(handle, (std::uint8_t*) &pf4.UV[0][0], sizeof(pf4.UV));
 
                 dx = pf[1].X - pf[0].X;
                 dy = pf[1].Y - pf[0].Y;
@@ -3609,7 +3609,7 @@ std::uint16_t find_unique_face_to_offset(char *fname, std::int32_t *x, std::int3
                     return (1);
                 }
             }
-            FileRead(handle, (std::uint8_t *) &count, sizeof(count));
+            FileRead(handle, (std::uint8_t*) &count, sizeof(count));
             /*
                                     for(c0=0;c0<count;c0++)
                                     {
@@ -3634,7 +3634,7 @@ std::int32_t sum_shared_brightness_flag(std::int16_t shared_point) {
     std::int32_t count = 0;
 
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
 
     std::int32_t sf, ef;
     std::uint16_t prim;
@@ -3687,7 +3687,7 @@ void set_shared_brightness_flag(std::int16_t shared_point, std::int16_t bright) 
     std::int32_t face;
 
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::int32_t sf, ef;
     std::uint16_t prim;
 
@@ -3733,7 +3733,7 @@ void smooth_faces(void) {
     std::int32_t bright;
 
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::int32_t sf, ef;
     std::uint16_t prim;
 
@@ -3774,7 +3774,7 @@ extern void apply_global_amb_to_map(void);
 
 extern std::int16_t CreateALightThing(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t bright);
 
-void apply_map_thing(std::int32_t dx, std::int32_t dy, std::int32_t dz, struct MapThing *p_thing) {
+void apply_map_thing(std::int32_t dx, std::int32_t dy, std::int32_t dz, struct MapThing* p_thing) {
     switch (p_thing->Type) {
     case MAP_THING_TYPE_LIGHT:
         CreateALightThing(dx + p_thing->X, dy + p_thing->Y, dz + p_thing->Z, p_thing->IndexOther);
@@ -3782,7 +3782,7 @@ void apply_map_thing(std::int32_t dx, std::int32_t dy, std::int32_t dz, struct M
     }
 }
 
-void import_tex(char *fname) {
+void import_tex(char* fname) {
     std::uint16_t text;
     std::int32_t c0;
     MFFileHandle handle;
@@ -3807,10 +3807,10 @@ void import_tex(char *fname) {
 
     handle = FileOpen(fname);
     if (handle != FILE_OPEN_ERROR) {
-        FileRead(handle, (std::uint8_t *) &save_type, sizeof(save_type));
+        FileRead(handle, (std::uint8_t*) &save_type, sizeof(save_type));
         //		LogText(" IMPORT TEX save type=%d \n",save_type);
         while (1) {
-            FileRead(handle, (std::uint8_t *) &count, sizeof(count));
+            FileRead(handle, (std::uint8_t*) &count, sizeof(count));
             if (count == -1)
                 break;
 
@@ -3819,49 +3819,49 @@ void import_tex(char *fname) {
                     std::int32_t c0;
                     struct OldPrimPoint pp;
                     for (c0 = 0; c0 < 3; c0++) {
-                        FileRead(handle, (std::uint8_t *) &pp, sizeof(struct OldPrimPoint));
+                        FileRead(handle, (std::uint8_t*) &pp, sizeof(struct OldPrimPoint));
                         pf[c0].X = (std::int16_t) pp.X;
                         pf[c0].Y = (std::int16_t) pp.Y;
                         pf[c0].Z = (std::int16_t) pp.Z;
                     }
                 } else {
-                    FileRead(handle, (std::uint8_t *) &pf[0], sizeof(struct PrimPoint) * 3);
+                    FileRead(handle, (std::uint8_t*) &pf[0], sizeof(struct PrimPoint) * 3);
                 }
 
-                FileRead(handle, (std::uint8_t *) &pf4.TexturePage, sizeof(pf4.TexturePage));
-                FileRead(handle, (std::uint8_t *) &pf4.DrawFlags, sizeof(pf4.DrawFlags));
+                FileRead(handle, (std::uint8_t*) &pf4.TexturePage, sizeof(pf4.TexturePage));
+                FileRead(handle, (std::uint8_t*) &pf4.DrawFlags, sizeof(pf4.DrawFlags));
                 if (save_type > 2)
-                    FileRead(handle, (std::uint8_t *) &pf4.Col2, sizeof(pf4.Col2));
+                    FileRead(handle, (std::uint8_t*) &pf4.Col2, sizeof(pf4.Col2));
                 if (save_type > 3)
-                    FileRead(handle, (std::uint8_t *) &pf4.FaceFlags, sizeof(pf4.FaceFlags));
-                FileRead(handle, (std::uint8_t *) &pf4.UV[0][0], sizeof(pf4.UV));
+                    FileRead(handle, (std::uint8_t*) &pf4.FaceFlags, sizeof(pf4.FaceFlags));
+                FileRead(handle, (std::uint8_t*) &pf4.UV[0][0], sizeof(pf4.UV));
 
                 if (find_and_apply_to_quad(&pf[0], &pf4, gx, gy, gz))
                     remap_quad++;
             }
-            FileRead(handle, (std::uint8_t *) &count, sizeof(count));
+            FileRead(handle, (std::uint8_t*) &count, sizeof(count));
 
             for (c0 = 0; c0 < count; c0++) {
                 if (save_type < 5) {
                     std::int32_t c0;
                     struct OldPrimPoint pp;
                     for (c0 = 0; c0 < 3; c0++) {
-                        FileRead(handle, (std::uint8_t *) &pp, sizeof(struct OldPrimPoint));
+                        FileRead(handle, (std::uint8_t*) &pp, sizeof(struct OldPrimPoint));
                         pf[c0].X = (std::int16_t) pp.X;
                         pf[c0].Y = (std::int16_t) pp.Y;
                         pf[c0].Z = (std::int16_t) pp.Z;
                     }
                 } else {
-                    FileRead(handle, (std::uint8_t *) &pf[0], sizeof(struct PrimPoint) * 3);
+                    FileRead(handle, (std::uint8_t*) &pf[0], sizeof(struct PrimPoint) * 3);
                 }
 
-                FileRead(handle, (std::uint8_t *) &pf3.TexturePage, sizeof(pf3.TexturePage));
-                FileRead(handle, (std::uint8_t *) &pf3.DrawFlags, sizeof(pf3.DrawFlags));
+                FileRead(handle, (std::uint8_t*) &pf3.TexturePage, sizeof(pf3.TexturePage));
+                FileRead(handle, (std::uint8_t*) &pf3.DrawFlags, sizeof(pf3.DrawFlags));
                 if (save_type > 2)
-                    FileRead(handle, (std::uint8_t *) &pf3.Col2, sizeof(pf3.Col2));
+                    FileRead(handle, (std::uint8_t*) &pf3.Col2, sizeof(pf3.Col2));
                 if (save_type > 3)
-                    FileRead(handle, (std::uint8_t *) &pf3.FaceFlags, sizeof(pf3.FaceFlags));
-                FileRead(handle, (std::uint8_t *) &pf3.UV[0][0], sizeof(pf3.UV));
+                    FileRead(handle, (std::uint8_t*) &pf3.FaceFlags, sizeof(pf3.FaceFlags));
+                FileRead(handle, (std::uint8_t*) &pf3.UV[0][0], sizeof(pf3.UV));
 
                 if (find_and_apply_to_tri(&pf[0], &pf3, gx, gy, gz))
                     remap_tri++;
@@ -3871,10 +3871,10 @@ void import_tex(char *fname) {
             struct MapThing mt;
             std::int32_t c0;
             for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
-                FileRead(handle, (std::uint8_t *) &mt, sizeof(struct MapThing));
+                FileRead(handle, (std::uint8_t*) &mt, sizeof(struct MapThing));
                 apply_map_thing(gx, gy, gz, &mt);
             }
-            FileRead(handle, (std::uint8_t *) &edit_info.amb_dx, 4 * 5);
+            FileRead(handle, (std::uint8_t*) &edit_info.amb_dx, 4 * 5);
             //			apply_global_amb_to_map();
             if (save_type > 3)
                 smooth_faces();
@@ -3888,10 +3888,10 @@ void save_asc(std::uint16_t building, std::uint16_t version) {
     //	struct	SingleTexture	*texture;
     //	struct	SingleFloorTexture	*texture4;
 
-    struct PrimFace4 *this_face4;
-    struct PrimFace3 *this_face;
-    struct BuildingFacet *p_facet;
-    struct BuildingObject *point_object;
+    struct PrimFace4* this_face4;
+    struct PrimFace3* this_face;
+    struct BuildingFacet* p_facet;
+    struct BuildingObject* point_object;
 
     std::int32_t no_faces, start_face, current_face;
     std::int32_t no_faces4, start_face4;
@@ -3914,39 +3914,39 @@ void save_asc(std::uint16_t building, std::uint16_t version) {
 
     start_point = point_object->StartPoint;
 
-    sprintf((char *) name, "data\\nobj%02d.asc", building);
+    sprintf((char*) name, "data\\nobj%02d.asc", building);
     if ((fpz = FileCreate(name, 1)) != FILE_OPEN_ERROR) {
-        sprintf((char *) string, "Ambient light color: Red=0.039216 Green=0.039216 Blue=0.039216%c\n%c\nNamed object: \"Object%02d\"%c\n", 13, 13, "ref_space", 13);
+        sprintf((char*) string, "Ambient light color: Red=0.039216 Green=0.039216 Blue=0.039216%c\n%c\nNamed object: \"Object%02d\"%c\n", 13, 13, "ref_space", 13);
         FileWrite(fpz, string, strlen(string));
 
-        sprintf((char *) string, "Tri-mesh, Vertices: %d Faces: %d%c\n", point_object->EndPoint - point_object->StartPoint + 1, no_faces + no_faces4 * 2, 13);
+        sprintf((char*) string, "Tri-mesh, Vertices: %d Faces: %d%c\n", point_object->EndPoint - point_object->StartPoint + 1, no_faces + no_faces4 * 2, 13);
         FileWrite(fpz, string, strlen(string));
 
-        sprintf((char *) string, "Vertex list:%c\n", 13);
+        sprintf((char*) string, "Vertex list:%c\n", 13);
         FileWrite(fpz, string, strlen(string));
 
         for (c0 = start_point; c0 <= point_object->EndPoint; c0++) {
-            sprintf((char *) string, "Vertex %d:  X: %d  Y: %d  Z: %d %c\n", c0 - point_object->StartPoint, prim_points[c0].X, prim_points[c0].Z, prim_points[c0].Y, 13);
+            sprintf((char*) string, "Vertex %d:  X: %d  Y: %d  Z: %d %c\n", c0 - point_object->StartPoint, prim_points[c0].X, prim_points[c0].Z, prim_points[c0].Y, 13);
             FileWrite(fpz, string, strlen(string));
         }
 
-        sprintf((char *) string, "%c\nFace list:%c\n", 13, 13);
+        sprintf((char*) string, "%c\nFace list:%c\n", 13, 13);
         FileWrite(fpz, string, strlen(string));
         count = 0;
         for (c0 = 0; c0 < no_faces; c0++) {
             this_face = &prim_faces3[start_face + c0];
-            sprintf((char *) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
+            sprintf((char*) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
                     this_face->Points[0] - start_point, this_face->Points[1] - start_point, this_face->Points[2] - start_point, 13);
             FileWrite(fpz, string, strlen(string));
         }
 
         for (c0 = 0; c0 < no_faces4; c0++) {
             this_face4 = &prim_faces4[start_face4 + c0];
-            sprintf((char *) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
+            sprintf((char*) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
                     this_face4->Points[0] - start_point, this_face4->Points[1] - start_point, this_face4->Points[2] - start_point, 13);
             FileWrite(fpz, string, strlen(string));
 
-            sprintf((char *) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
+            sprintf((char*) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
                     this_face4->Points[3] - start_point, this_face4->Points[1] - start_point, this_face4->Points[2] - start_point, 13);
             FileWrite(fpz, string, strlen(string));
         }
@@ -3962,9 +3962,9 @@ void save_prim_asc(std::uint16_t prim, std::uint16_t version) {
     //	struct	SingleTexture	*texture;
     //	struct	SingleFloorTexture	*texture4;
 
-    struct PrimFace4 *this_face4;
-    struct PrimFace3 *this_face;
-    struct PrimObject *point_object;
+    struct PrimFace4* this_face4;
+    struct PrimFace3* this_face;
+    struct PrimObject* point_object;
 
     std::int32_t no_faces, start_face, current_face;
     std::int32_t no_faces4, start_face4;
@@ -3987,39 +3987,39 @@ void save_prim_asc(std::uint16_t prim, std::uint16_t version) {
 
     start_point = point_object->StartPoint;
 
-    sprintf((char *) name, "data\\nobj%02d.asc", prim);
+    sprintf((char*) name, "data\\nobj%02d.asc", prim);
     if ((fpz = FileCreate(name, 1)) != FILE_OPEN_ERROR) {
-        sprintf((char *) string, "Ambient light color: Red=0.039216 Green=0.039216 Blue=0.039216%c\n%c\nNamed object: \"Object%02d\"%c\n", 13, 13, "ref_space", 13);
+        sprintf((char*) string, "Ambient light color: Red=0.039216 Green=0.039216 Blue=0.039216%c\n%c\nNamed object: \"Object%02d\"%c\n", 13, 13, "ref_space", 13);
         FileWrite(fpz, string, strlen(string));
 
-        sprintf((char *) string, "Tri-mesh, Vertices: %d Faces: %d%c\n", point_object->EndPoint - point_object->StartPoint + 1, no_faces + no_faces4 * 2, 13);
+        sprintf((char*) string, "Tri-mesh, Vertices: %d Faces: %d%c\n", point_object->EndPoint - point_object->StartPoint + 1, no_faces + no_faces4 * 2, 13);
         FileWrite(fpz, string, strlen(string));
 
-        sprintf((char *) string, "Vertex list:%c\n", 13);
+        sprintf((char*) string, "Vertex list:%c\n", 13);
         FileWrite(fpz, string, strlen(string));
 
         for (c0 = start_point; c0 <= point_object->EndPoint; c0++) {
-            sprintf((char *) string, "Vertex %d:  X: %d  Y: %d  Z: %d %c\n", c0 - point_object->StartPoint, prim_points[c0].X, prim_points[c0].Z, prim_points[c0].Y, 13);
+            sprintf((char*) string, "Vertex %d:  X: %d  Y: %d  Z: %d %c\n", c0 - point_object->StartPoint, prim_points[c0].X, prim_points[c0].Z, prim_points[c0].Y, 13);
             FileWrite(fpz, string, strlen(string));
         }
 
-        sprintf((char *) string, "%c\nFace list:%c\n", 13, 13);
+        sprintf((char*) string, "%c\nFace list:%c\n", 13, 13);
         FileWrite(fpz, string, strlen(string));
         count = 0;
         for (c0 = 0; c0 < no_faces; c0++) {
             this_face = &prim_faces3[start_face + c0];
-            sprintf((char *) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
+            sprintf((char*) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
                     this_face->Points[0] - start_point, this_face->Points[1] - start_point, this_face->Points[2] - start_point, 13);
             FileWrite(fpz, string, strlen(string));
         }
 
         for (c0 = 0; c0 < no_faces4; c0++) {
             this_face4 = &prim_faces4[start_face4 + c0];
-            sprintf((char *) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
+            sprintf((char*) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
                     this_face4->Points[0] - start_point, this_face4->Points[1] - start_point, this_face4->Points[2] - start_point, 13);
             FileWrite(fpz, string, strlen(string));
 
-            sprintf((char *) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
+            sprintf((char*) string, "Face %d: A:%d B:%d C:%d AB:1 BC:1 CA:1 %c\n", count++,
                     this_face4->Points[3] - start_point, this_face4->Points[1] - start_point, this_face4->Points[2] - start_point, 13);
             FileWrite(fpz, string, strlen(string));
         }
@@ -4042,10 +4042,10 @@ std::int32_t save_prim_object(std::int32_t prim) {
     std::int32_t num_faces3;
     std::int32_t num_faces4;
 
-    PrimObject *po;
+    PrimObject* po;
 
     char fname[256];
-    FILE *handle;
+    FILE* handle;
 
     std::uint16_t save_type = PRIM_START_SAVE_TYPE + 1;
 

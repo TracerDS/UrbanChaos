@@ -92,15 +92,15 @@ inline void screen_flip() {
     AENG_flip();
 }
 extern void lock_frame_rate(std::int32_t fps);
-extern std::int32_t person_normal_animate(Thing *p_person);
+extern std::int32_t person_normal_animate(Entity* p_person);
 
-typedef Thing *ThingPtr;
+typedef Entity* ThingPtr;
 
 //----------------------------------------------------------------------------
 // GLOBALS
 //
 
-char *text_disp = 0;
+char* text_disp = 0;
 std::uint8_t PLAYCUTS_fade_level = 255;
 bool PLAYCUTS_slomo = 0;
 bool PLAYCUTS_playing = 0;
@@ -113,15 +113,15 @@ std::uint8_t no_more_packets = 0;
 
 #ifndef PSX
 char PLAYCUTS_text_data[MAX_CUTSCENE_TEXT];
-char *PLAYCUTS_text_ptr = PLAYCUTS_text_data;
+char* PLAYCUTS_text_ptr = PLAYCUTS_text_data;
 CPData PLAYCUTS_cutscenes[MAX_CUTSCENES];
 CPPacket PLAYCUTS_packets[MAX_CUTSCENE_PACKETS];
 CPChannel PLAYCUTS_tracks[MAX_CUTSCENE_TRACKS];
 #else
-char *PLAYCUTS_text_data;
-CPData *PLAYCUTS_cutscenes;
-CPPacket *PLAYCUTS_packets;
-CPChannel *PLAYCUTS_tracks;
+char* PLAYCUTS_text_data;
+CPData* PLAYCUTS_cutscenes;
+CPPacket* PLAYCUTS_packets;
+CPChannel* PLAYCUTS_tracks;
 #endif
 std::uint16_t PLAYCUTS_cutscene_ctr = 0;
 std::uint16_t PLAYCUTS_packet_ctr = 0;
@@ -150,7 +150,7 @@ inline int LERPAngle(std::int32_t a, std::int32_t b, std::int32_t m) {
 
 // Reading cutscenes and the bits that make them up from disk
 
-void PLAYCUTS_Read_Packet(MFFileHandle handle, CPPacket *packet) {
+void PLAYCUTS_Read_Packet(MFFileHandle handle, CPPacket* packet) {
     FileRead(handle, packet, sizeof(CPPacket));
 
     switch (packet->type) {
@@ -169,7 +169,7 @@ void PLAYCUTS_Read_Packet(MFFileHandle handle, CPPacket *packet) {
     }
 }
 
-void PLAYCUTS_Read_Channel(MFFileHandle handle, CPChannel *channel) {
+void PLAYCUTS_Read_Channel(MFFileHandle handle, CPChannel* channel) {
     std::int32_t packnum;
 
     FileRead(handle, channel, sizeof(CPChannel));
@@ -181,9 +181,9 @@ void PLAYCUTS_Read_Channel(MFFileHandle handle, CPChannel *channel) {
         PLAYCUTS_Read_Packet(handle, channel->packets + packnum);
 }
 
-CPData *PLAYCUTS_Read(MFFileHandle handle) {
+CPData* PLAYCUTS_Read(MFFileHandle handle) {
     std::uint8_t channum;
-    CPData *cutscene;
+    CPData* cutscene;
 
     //	cutscene = new CPData;
     cutscene = PLAYCUTS_cutscenes + PLAYCUTS_cutscene_ctr;
@@ -201,7 +201,7 @@ CPData *PLAYCUTS_Read(MFFileHandle handle) {
 
 // Freeing finished-with cutscenes
 
-void PLAYCUTS_Free_Chan(CPChannel *chan) {
+void PLAYCUTS_Free_Chan(CPChannel* chan) {
     // we could free stuff on a packet by packet basis...
     // ... but right now, there's nothing to free except text messages...
     // ... and they get dealt with seperately
@@ -210,7 +210,7 @@ void PLAYCUTS_Free_Chan(CPChannel *chan) {
     // delete [] chan->packets;
 }
 
-void PLAYCUTS_Free(CPData *cutscene) {
+void PLAYCUTS_Free(CPData* cutscene) {
     int chan;
     //	for (chan=0;chan<cutscene->channelcount;chan++) PLAYCUTS_Free_Chan(cutscene->channels+chan);
     //	delete [] cutscene->channels;
@@ -226,8 +226,8 @@ void PLAYCUTS_Reset() {
 
 // finds the packet that matches a cell
 
-CPPacket *PLAYCUTS_Get_Packet(CPChannel *chan, std::int32_t cell) {
-    CPPacket *pkt = chan->packets;
+CPPacket* PLAYCUTS_Get_Packet(CPChannel* chan, std::int32_t cell) {
+    CPPacket* pkt = chan->packets;
     std::int32_t ctr = 1;
     if ((cell < 0) || (cell > 2000)) return 0;
     while (pkt && (pkt->start != cell)) {
@@ -240,9 +240,9 @@ CPPacket *PLAYCUTS_Get_Packet(CPChannel *chan, std::int32_t cell) {
 
 // finds the packets to the left and right of a cell
 
-bool PLAYCUTS_find_surrounding_packets(CPChannel *chan, std::int32_t cell, std::int32_t *left, std::int32_t *right) {
+bool PLAYCUTS_find_surrounding_packets(CPChannel* chan, std::int32_t cell, std::int32_t* left, std::int32_t* right) {
     std::int32_t leftmax = -1, rightmin = 2001, packctr = 0;
-    CPPacket *pack;
+    CPPacket* pack;
     *left = -1;
     *right = 2001;
     pack = chan->packets;
@@ -263,7 +263,7 @@ bool PLAYCUTS_find_surrounding_packets(CPChannel *chan, std::int32_t cell, std::
 // PLAYING THE DAMN THINGS
 //
 
-void LERPAnim(CPChannel *chan, Thing *person, std::int32_t cell, std::int32_t sub_ctr) {
+void LERPAnim(CPChannel* chan, Entity* person, std::int32_t cell, std::int32_t sub_ctr) {
     std::int32_t left, right, lastpos, pos, dist, a, mult, smoothmult, smoothin, smoothout;
     int x, y, z;
     CPPacket *pktA, *pktB;
@@ -355,7 +355,7 @@ void LERPAnim(CPChannel *chan, Thing *person, std::int32_t cell, std::int32_t su
     person_normal_animate(person);
 }
 
-void LERPCamera(CPChannel *chan, std::int32_t cell, std::int32_t sub_ctr) {
+void LERPCamera(CPChannel* chan, std::int32_t cell, std::int32_t sub_ctr) {
     std::int32_t x, y, z, p, a, left, right, dist, pos, mult, smoothin, smoothout, smoothmult, lens;
     CPPacket *pktA, *pktB;
 
@@ -439,8 +439,8 @@ void LERPCamera(CPChannel *chan, std::int32_t cell, std::int32_t sub_ctr) {
 
 // update an individual actor
 
-void PLAYCUTS_Update(CPChannel *chan, Thing *thing, std::int32_t read_head, std::int32_t sub_ctr) {
-    CPPacket *pkt;
+void PLAYCUTS_Update(CPChannel* chan, Entity* thing, std::int32_t read_head, std::int32_t sub_ctr) {
+    CPPacket* pkt;
     int index, lens;
     std::int32_t l, r;
 
@@ -494,7 +494,7 @@ void PLAYCUTS_Update(CPChannel *chan, Thing *thing, std::int32_t read_head, std:
 
     case PT_TEXT:
         if (pkt->pos.X)
-            text_disp = (char *) pkt->pos.X;
+            text_disp = (char*) pkt->pos.X;
         else
             text_disp = 0;
         break;
@@ -503,13 +503,13 @@ void PLAYCUTS_Update(CPChannel *chan, Thing *thing, std::int32_t read_head, std:
 
 // main loop
 
-void PLAYCUTS_Play(CPData *cutscene) {
+void PLAYCUTS_Play(CPData* cutscene) {
     std::uint8_t env_frame_rate = 20;
     std::int32_t read_head = 0, sub_ctr = 0;
     std::uint8_t channum;
-    ThingPtr *cs_things;
-    Thing *darci = NET_PERSON(0);
-    CPChannel *chan;
+    ThingPtr* cs_things;
+    Entity* darci = NET_PERSON(0);
+    CPChannel* chan;
 
     // sensible defaults
     text_disp = 0;

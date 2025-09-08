@@ -112,7 +112,7 @@ std::uint16_t WATER_get_point(std::uint8_t x, std::int8_t y, std::uint8_t z) {
     std::int32_t i;
     std::uint16_t ans;
 
-    WATER_Point *wp;
+    WATER_Point* wp;
 
     for (i = WATER_point_upto - 1; i >= 0; i--) {
         wp = &WATER_point[i];
@@ -160,8 +160,8 @@ void WATER_add_face(
     std::int32_t map_x,
     std::int32_t map_z,
     std::uint16_t p_index[4]) {
-    WATER_Map *wm;
-    WATER_Face *wf;
+    WATER_Map* wm;
+    WATER_Face* wf;
 
     ASSERT(WITHIN(p_index[0], 0, WATER_point_upto - 1));
     ASSERT(WITHIN(p_index[1], 0, WATER_point_upto - 1));
@@ -328,9 +328,9 @@ void WATER_gush(std::int32_t gx1, std::int32_t gz1, std::int32_t gx2, std::int32
 
     std::uint16_t next;
 
-    WATER_Face *wf;
-    WATER_Point *wp;
-    WATER_Map *wm;
+    WATER_Face* wf;
+    WATER_Point* wp;
+    WATER_Map* wm;
 
 #define WATER_MAX_DONE 16
 
@@ -507,7 +507,7 @@ void WATER_process() {
     float yaw_dy;
     float yaw_uv;
 
-    WATER_Point *wp;
+    WATER_Point* wp;
 
     for (i = 0; i < WATER_point_upto; i++) {
         wp = &WATER_point[i];
@@ -594,11 +594,11 @@ void WATER_get_face_points(std::uint16_t f_index, std::uint16_t p_index[4]) {
     p_index[3] = WATER_face[f_index].p_index[3];
 }
 
-void WATER_get_point_pos(std::uint16_t p_index, float *x, float *y, float *z) {
+void WATER_get_point_pos(std::uint16_t p_index, float* x, float* y, float* z) {
     std::int32_t height;
     std::int32_t type;
 
-    WATER_Point *wp;
+    WATER_Point* wp;
 
     ASSERT(WITHIN(p_index, 0, WATER_point_upto - 1));
 
@@ -626,10 +626,10 @@ void WATER_get_point_pos(std::uint16_t p_index, float *x, float *y, float *z) {
     *y += WATER_wibble[type].dy;
 }
 
-void WATER_get_point_uvs(std::uint16_t p_index, float *u, float *v, std::uint32_t *colour) {
+void WATER_get_point_uvs(std::uint16_t p_index, float* u, float* v, std::uint32_t* colour) {
     std::int32_t type;
 
-    WATER_Point *wp;
+    WATER_Point* wp;
 
     ASSERT(WITHIN(p_index, 0, WATER_point_upto - 1));
 

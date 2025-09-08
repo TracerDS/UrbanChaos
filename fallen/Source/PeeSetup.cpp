@@ -71,7 +71,7 @@ bool CALLBACK pee_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_pee_setup(EventPoint *the_ep) {
+void do_pee_setup(EventPoint* the_ep) {
     //	Set the dialog.
     which_waypoint = the_ep->Data[0];
 

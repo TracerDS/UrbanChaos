@@ -71,7 +71,7 @@ bool CALLBACK stall_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 //---------------------------------------------------------------
 
-void do_stall_setup(EventPoint *the_ep) {
+void do_stall_setup(EventPoint* the_ep) {
     //	Set the dialog.
     which_vehicle = the_ep->Data[0];
 

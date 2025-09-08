@@ -44,11 +44,11 @@ std::int32_t DIKE_get_grip(std::int32_t x, std::int32_t z) {
     }
 }
 
-DIKE_Dike *DIKE_create(
+DIKE_Dike* DIKE_create(
     std::int32_t x,
     std::int32_t z,
     std::int32_t yaw) {
-    DIKE_Dike *dd;
+    DIKE_Dike* dd;
 
     if (!WITHIN(DIKE_dike_upto, 0, DIKE_MAX_DIKES - 1)) {
         return nullptr;
@@ -86,7 +86,7 @@ DIKE_Dike *DIKE_create(
     return dd;
 }
 
-void DIKE_process(DIKE_Dike *dd) {
+void DIKE_process(DIKE_Dike* dd) {
     std::int32_t fx;
     std::int32_t fy;
     std::int32_t fz;
@@ -365,7 +365,7 @@ void DIKE_process(DIKE_Dike *dd) {
     dd->pitch = calc_angle(dy, dxdz);
 }
 
-void DIKE_draw(DIKE_Dike *dd) {
+void DIKE_draw(DIKE_Dike* dd) {
     std::int32_t steer[3];
 
     AENG_world_line(

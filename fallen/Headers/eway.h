@@ -560,8 +560,8 @@ extern std::int32_t EWAY_tutorial_counter; // Set to 0 when EWAY_tutorial_string
 // EWAY module grab the camera from FC.
 //
 
-void EWAY_cam_look_at(Thing *p_thing);
-void EWAY_cam_converse(Thing *p_thing, Thing *p_listener);
+void EWAY_cam_look_at(Entity *p_thing);
+void EWAY_cam_converse(Entity *p_thing, Entity *p_listener);
 
 //
 // Relinquishes control to the FC cam and lets the player move again.
@@ -580,6 +580,6 @@ void EWAY_cam_relinquish();
 // isn't one, makes one up!
 //
 
-std::int32_t EWAY_find_or_create_waypoint_that_created_person(Thing *p_person);
+std::int32_t EWAY_find_or_create_waypoint_that_created_person(Entity *p_person);
 
 #endif

@@ -43,7 +43,7 @@ bool CALLBACK counter_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
 //---------------------------------------------------------------
 
-void do_counter_setup(EventPoint *the_ep) {
+void do_counter_setup(EventPoint* the_ep) {
     counter_value = the_ep->Data[0];
     counter_index = the_ep->Data[1];
     DialogBox(
@@ -58,7 +58,7 @@ void do_counter_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_counter_message(EventPoint *ep, char *msg) {
+char* get_counter_message(EventPoint* ep, char* msg) {
     if ((!ep) || !ep->Data[1])
         msg[0] = 0;
     else {

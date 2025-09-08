@@ -8,8 +8,8 @@
 
 extern StateFunction darci_states[];
 
-void fn_darci_init(Thing *t_thing);
-void fn_darci_normal(Thing *t_thing);
+void fn_darci_init(Entity *t_thing);
+void fn_darci_normal(Entity *t_thing);
 
 //---------------------------------------------------------------
 

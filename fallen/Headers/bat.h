@@ -63,8 +63,8 @@ THING_INDEX BAT_create(
 //
 
 void BAT_apply_hit(
-    Thing *p_me,
-    Thing *p_aggressor,
+    Entity *p_me,
+    Entity *p_aggressor,
     std::int32_t damage);
 
 #endif

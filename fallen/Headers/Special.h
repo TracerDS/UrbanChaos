@@ -115,7 +115,7 @@ void init_specials();
 // is collected, the waypoint that created the item is notified.
 //
 
-Thing *alloc_special(
+Entity *alloc_special(
     std::uint8_t type,
     std::uint8_t substate,
     std::int32_t world_x,
@@ -127,33 +127,33 @@ Thing *alloc_special(
 // Removes the special item from a person.
 //
 
-void special_drop(Thing *p_special, Thing *p_person);
+void special_drop(Entity *p_special, Entity *p_person);
 
 //
 // Returns the special if the person own a special of the given type or
 // nullptr if the person isn't carrying a special of that type.
 //
 
-Thing *person_has_special(Thing *p_person, std::int32_t special_type);
+Entity *person_has_special(Entity *p_person, std::int32_t special_type);
 
 //
 // Giving a person specials.  person_get_item() removes the special from the map and does everything...
 //
 
-std::int32_t should_person_get_item(Thing *p_person, Thing *p_special); // Ignores distance to the special- consider only if that person already has a special like that and whether she can carry it.
-void person_get_item(Thing *p_person, Thing *p_special);
+std::int32_t should_person_get_item(Entity *p_person, Entity *p_special); // Ignores distance to the special- consider only if that person already has a special like that and whether she can carry it.
+void person_get_item(Entity *p_person, Entity *p_special);
 
 //
 // Primes the given grenade. You have 6 seconds until it blows up.
 //
 
-void SPECIAL_prime_grenade(Thing *p_special);
+void SPECIAL_prime_grenade(Entity *p_special);
 
 //
 // Throws a grenade. The grenade must be being USED and OWNED by a person.
 //
 
-void SPECIAL_throw_grenade(Thing *p_special);
+void SPECIAL_throw_grenade(Entity *p_special);
 
 /*
 
@@ -165,7 +165,7 @@ void SPECIAL_throw_grenade(Thing *p_special);
 // of the person's SpecialList and puts the special in substate IS_DIRT.
 //
 
-void SPECIAL_throw_mine(Thing *p_special);
+void SPECIAL_throw_mine(Entity *p_special);
 
 */
 
@@ -174,7 +174,7 @@ void SPECIAL_throw_mine(Thing *p_special);
 // places them on the map.
 //
 
-void SPECIAL_set_explosives(Thing *p_person);
+void SPECIAL_set_explosives(Entity *p_person);
 
 //---------------------------------------------------------------
 

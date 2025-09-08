@@ -7,7 +7,7 @@ extern std::int16_t SelectFlag; // edit.h
 
 void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
 
     p_obj = &prim_objects[prim];
 
@@ -24,7 +24,7 @@ void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
 
 void scan_a_building(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t c0;
-    struct BuildingObject *p_obj;
+    struct BuildingObject* p_obj;
 
     p_obj = &building_objects[prim];
 
@@ -42,7 +42,7 @@ void scan_a_building(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
 void scan_map_thing(std::int32_t map_thing) {
     std::int32_t c0, c1;
     struct Matrix33 r_matrix;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
     std::uint8_t prim_done[1000];
 
     memset(prim_done, 0, 1000);
@@ -73,7 +73,7 @@ void scan_map_thing(std::int32_t map_thing) {
 void scan_game_map_thing(std::int32_t map_thing) {
     std::int32_t c0, c1;
     struct Matrix33 r_matrix;
-    Thing *p_thing;
+    Entity* p_thing;
     std::uint8_t prim_done[1000];
 
     memset(prim_done, 0, 1000);
@@ -97,7 +97,7 @@ void scan_game_map_thing(std::int32_t map_thing) {
 
 void scan_linked_background(void) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     index = background_prim;
     while (index) {
         p_thing = TO_MTHING(index);
@@ -109,7 +109,7 @@ void scan_linked_background(void) {
 void scan_map(void) {
     std::int32_t dx, dy, dz;
     std::int32_t mx, my, mz;
-    struct EditMapElement *p_ele;
+    struct EditMapElement* p_ele;
     std::uint16_t index, count;
 
     mx = (engine.X >> 8) >> ELE_SHIFT;

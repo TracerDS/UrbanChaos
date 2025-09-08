@@ -17,7 +17,7 @@ void WAND_init();
 //
 
 void WAND_get_next_place(
-    Thing *p_person,
+    Entity *p_person,
     std::int32_t *wand_world_x,
     std::int32_t *wand_world_z);
 

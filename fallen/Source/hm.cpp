@@ -158,7 +158,7 @@ typedef struct hm_bump {
     // The next structure in the linked list
     //
 
-    struct hm_bump *next;
+    struct hm_bump* next;
 } HM_Bump;
 
 //
@@ -197,12 +197,12 @@ typedef struct
     std::int32_t num_sizes;
     std::int32_t num_meshes;
     std::int32_t num_cols;
-    HM_Index *index;
-    HM_Point *point;
-    HM_Edge *edge;
-    HM_Mesh *mesh;
+    HM_Index* index;
+    HM_Point* point;
+    HM_Edge* edge;
+    HM_Mesh* mesh;
     HM_Col col[HM_COLS_PER_OBJECT];
-    HM_Bump *bump;
+    HM_Bump* bump;
 
     //
     // To recreate the (x,y,z) and matrix where we could
@@ -238,7 +238,7 @@ std::int32_t HM_object_upto;
 // Returns the index of the given point.
 //
 
-inline std::int32_t HM_index(HM_Object *ho, std::int32_t x, std::int32_t y, std::int32_t z) {
+inline std::int32_t HM_index(HM_Object* ho, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t ans;
 
     ASSERT(WITHIN(x, 0, ho->x_res - 1));
@@ -265,13 +265,13 @@ void HM_init() {
 HM_Primgrid HM_primgrid[HM_MAX_PRIMGRIDS];
 std::int32_t HM_primgrid_upto;
 
-void HM_load(char *fname) {
+void HM_load(char* fname) {
     std::int32_t i;
     std::int32_t j;
 
     HM_Header hm_h;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = MF_Fopen(fname, "rb");
 
@@ -340,7 +340,7 @@ HM_Primgrid HM_default_primgrid =
         -0.25F
 };
 
-HM_Primgrid *HM_get_primgrid(std::int32_t prim) {
+HM_Primgrid* HM_get_primgrid(std::int32_t prim) {
     std::int32_t i;
 
     for (i = 0; i < HM_primgrid_upto; i++) {
@@ -353,7 +353,7 @@ HM_Primgrid *HM_get_primgrid(std::int32_t prim) {
 }
 
 HM_Mesh HM_find_point_inside_cube(
-    HM_Object *ho,
+    HM_Object* ho,
     std::int32_t x,
     std::int32_t y,
     std::int32_t z,
@@ -365,10 +365,10 @@ HM_Mesh HM_find_point_inside_cube(
     std::int32_t index_y;
     std::int32_t index_z;
 
-    HM_Point *p_o;
-    HM_Point *p_x;
-    HM_Point *p_y;
-    HM_Point *p_z;
+    HM_Point* p_o;
+    HM_Point* p_x;
+    HM_Point* p_y;
+    HM_Point* p_z;
 
     float along_x;
     float along_y;
@@ -501,11 +501,11 @@ std::uint8_t HM_create(
     float dpz;
     float size;
 
-    HM_Object *ho;
-    HM_Point *hp;
-    HM_Point *hp1;
-    HM_Point *hp2;
-    HM_Edge *he;
+    HM_Object* ho;
+    HM_Point* hp;
+    HM_Point* hp1;
+    HM_Point* hp2;
+    HM_Edge* he;
 
     //
     // Look for an unused HM_Object...
@@ -553,11 +553,11 @@ found_unused_hm_object:;
 
     ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 
-    PrimObject *po = &prim_objects[prim];
-    PrimInfo *pi = get_prim_info(prim);
-    PrimPoint *pp;
-    PrimFace3 *f3;
-    PrimFace4 *f4;
+    PrimObject* po = &prim_objects[prim];
+    PrimInfo* pi = get_prim_info(prim);
+    PrimPoint* pp;
+    PrimFace3* f3;
+    PrimFace4* f4;
 
     ASSERT(WITHIN(x_res, 2, HM_MAX_RES));
     ASSERT(WITHIN(y_res, 2, HM_MAX_RES));
@@ -629,7 +629,7 @@ found_unused_hm_object:;
     //
 
     ho->num_indices = ho->x_res * ho->y_res * ho->z_res;
-    ho->index = (HM_Index *) MemAlloc(ho->num_indices * sizeof(HM_Index));
+    ho->index = (HM_Index*) MemAlloc(ho->num_indices * sizeof(HM_Index));
 
     ASSERT(ho->index != nullptr);
 
@@ -637,7 +637,7 @@ found_unused_hm_object:;
     // Clear out the indices.
     //
 
-    memset((std::uint8_t *) ho->index, 0, ho->num_indices * sizeof(HM_Index));
+    memset((std::uint8_t*) ho->index, 0, ho->num_indices * sizeof(HM_Index));
 
     //
     // Go through all the active cubes and mark the points they used as alive.
@@ -677,7 +677,7 @@ found_unused_hm_object:;
     // Create the points array.
     //
 
-    ho->point = (HM_Point *) MemAlloc(num_points * sizeof(HM_Point));
+    ho->point = (HM_Point*) MemAlloc(num_points * sizeof(HM_Point));
 
     ASSERT(ho->point != nullptr);
 
@@ -790,7 +790,7 @@ found_unused_hm_object:;
     // Reserve enough memory for them.
     //
 
-    ho->edge = (HM_Edge *) MemAlloc(num_edges * sizeof(HM_Edge));
+    ho->edge = (HM_Edge*) MemAlloc(num_edges * sizeof(HM_Edge));
 
     //
     // Build the edges.
@@ -873,7 +873,7 @@ found_unused_hm_object:;
     //
 
     ho->num_meshes = po->EndPoint - po->StartPoint;
-    ho->mesh = (HM_Mesh *) MemAlloc(ho->num_meshes * sizeof(HM_Mesh));
+    ho->mesh = (HM_Mesh*) MemAlloc(ho->num_meshes * sizeof(HM_Mesh));
 
     ASSERT(ho->mesh != nullptr);
 
@@ -1050,7 +1050,7 @@ found_unused_hm_object:;
 void HM_destroy(std::uint8_t hm_index) {
     ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm_index];
+    HM_Object* ho = &HM_object[hm_index];
 
     if (ho->used) {
         ho->used = false;
@@ -1072,9 +1072,9 @@ void HM_destroy(std::uint8_t hm_index) {
 
 void HM_find_cog(
     std::uint8_t hm_index,
-    float *x,
-    float *y,
-    float *z) {
+    float* x,
+    float* y,
+    float* z) {
     std::int32_t i;
 
     float ans_x = 0.0F;
@@ -1085,8 +1085,8 @@ void HM_find_cog(
 
     ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm_index];
-    HM_Point *hp;
+    HM_Object* ho = &HM_object[hm_index];
+    HM_Point* hp;
 
     ASSERT(ho->used);
 
@@ -1126,8 +1126,8 @@ void HM_colvect_add(
 
     ASSERT(WITHIN(hm, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm];
-    HM_Col *hc;
+    HM_Object* ho = &HM_object[hm];
+    HM_Col* hc;
 
     ASSERT(ho->used);
     ASSERT(WITHIN(ho->num_cols, 0, HM_COLS_PER_OBJECT - 1));
@@ -1199,22 +1199,22 @@ float HM_height_at(float x, float z) {
 void HM_find_mesh_point(
     std::uint8_t hm_index,
     std::int32_t point,
-    float *x,
-    float *y,
-    float *z) {
+    float* x,
+    float* y,
+    float* z) {
     float ansx;
     float ansy;
     float ansz;
 
-    HM_Point *p_o;
-    HM_Point *p_x;
-    HM_Point *p_y;
-    HM_Point *p_z;
+    HM_Point* p_o;
+    HM_Point* p_x;
+    HM_Point* p_y;
+    HM_Point* p_z;
 
     ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm_index];
-    HM_Mesh *hm;
+    HM_Object* ho = &HM_object[hm_index];
+    HM_Mesh* hm;
 
     ASSERT(WITHIN(point, 0, ho->num_meshes - 1));
 
@@ -1257,7 +1257,7 @@ void HM_find_mesh_point(
 //
 
 std::int32_t HM_cube_exists(
-    HM_Object *ho,
+    HM_Object* ho,
     std::int32_t x_cube,
     std::int32_t y_cube,
     std::int32_t z_cube) {
@@ -1316,18 +1316,18 @@ std::int32_t HM_cube_exists(
 //
 
 std::int32_t HM_is_point_in_cube(
-    HM_Object *ho, // The object the cube is a part of...
-    HM_Point *p,
+    HM_Object* ho, // The object the cube is a part of...
+    HM_Point* p,
     std::int32_t x_cube,
     std::int32_t y_cube,
     std::int32_t z_cube,
-    float *rel_x,
-    float *rel_y,
-    float *rel_z) {
-    HM_Point *hp_o;
-    HM_Point *hp_x;
-    HM_Point *hp_y;
-    HM_Point *hp_z;
+    float* rel_x,
+    float* rel_y,
+    float* rel_z) {
+    HM_Point* hp_o;
+    HM_Point* hp_x;
+    HM_Point* hp_y;
+    HM_Point* hp_z;
 
     float rx;
     float ry;
@@ -1449,18 +1449,18 @@ std::int32_t HM_is_point_in_cube(
 //
 
 void HM_last_point_in_last_cube(
-    HM_Object *ho, // The object the cube is a part of...
-    HM_Point *p,
+    HM_Object* ho, // The object the cube is a part of...
+    HM_Point* p,
     std::int32_t x_cube,
     std::int32_t y_cube,
     std::int32_t z_cube,
-    float *last_rel_x,
-    float *last_rel_y,
-    float *last_rel_z) {
-    HM_Point *hp_o;
-    HM_Point *hp_x;
-    HM_Point *hp_y;
-    HM_Point *hp_z;
+    float* last_rel_x,
+    float* last_rel_y,
+    float* last_rel_z) {
+    HM_Point* hp_o;
+    HM_Point* hp_x;
+    HM_Point* hp_y;
+    HM_Point* hp_z;
 
     float rx;
     float ry;
@@ -1585,16 +1585,16 @@ void HM_collide_all() {
 //
 
 void HM_rel_cube_to_world(
-    HM_Object *ho, // The object the cube is a part of...
+    HM_Object* ho, // The object the cube is a part of...
     std::int32_t x_cube,
     std::int32_t y_cube,
     std::int32_t z_cube,
     float rel_x,
     float rel_y,
     float rel_z,
-    float *world_x,
-    float *world_y,
-    float *world_z) {
+    float* world_x,
+    float* world_y,
+    float* world_z) {
     float wx;
     float wy;
     float wz;
@@ -1602,10 +1602,10 @@ void HM_rel_cube_to_world(
     float len;
     float matrix[9];
 
-    HM_Point *hp_o;
-    HM_Point *hp_x;
-    HM_Point *hp_y;
-    HM_Point *hp_z;
+    HM_Point* hp_o;
+    HM_Point* hp_x;
+    HM_Point* hp_y;
+    HM_Point* hp_z;
 
     std::int32_t index_o;
     std::int32_t index_x;
@@ -1711,7 +1711,7 @@ void HM_rel_cube_to_world(
 // the given HM_Object.
 //
 
-void HM_process_bump(HM_Object *ho, HM_Bump *hb) {
+void HM_process_bump(HM_Object* ho, HM_Bump* hb) {
     std::int32_t i;
 
     float out_x;
@@ -1733,9 +1733,9 @@ void HM_process_bump(HM_Object *ho, HM_Bump *hb) {
     ASSERT(WITHIN(hb->point, 1, ho->num_points - 1));
     ASSERT(WITHIN(hb->hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Point *hp = &ho->point[hb->point];
-    HM_Object *ho2 = &HM_object[hb->hm_index];
-    HM_Point *hp2;
+    HM_Point* hp = &ho->point[hb->point];
+    HM_Object* ho2 = &HM_object[hb->hm_index];
+    HM_Point* hp2;
 
     MSG_add("Bumping!");
 
@@ -1813,7 +1813,7 @@ void HM_process_bump(HM_Object *ho, HM_Bump *hb) {
 // the bumping point is no longer bumping.
 //
 
-std::int32_t HM_bump_dead(HM_Object *ho, HM_Bump *hb) {
+std::int32_t HM_bump_dead(HM_Object* ho, HM_Bump* hb) {
     std::int32_t sx;
     std::int32_t sy;
     std::int32_t sz;
@@ -1825,8 +1825,8 @@ std::int32_t HM_bump_dead(HM_Object *ho, HM_Bump *hb) {
     ASSERT(WITHIN(hb->point, 1, ho->num_points - 1));
     ASSERT(WITHIN(hb->hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Point *hp = &ho->point[hb->point];
-    HM_Object *ho2 = &HM_object[hb->hm_index];
+    HM_Point* hp = &ho->point[hb->point];
+    HM_Object* ho2 = &HM_object[hb->hm_index];
 
     //
     // Check the cube the point entered originally first, as
@@ -1936,12 +1936,12 @@ void HM_collide(std::uint8_t hm_index1, std::uint8_t hm_index2) {
     std::int32_t byte;
     std::int32_t bit;
 
-    HM_Object *ho1;
-    HM_Object *ho2;
+    HM_Object* ho1;
+    HM_Object* ho2;
 
-    HM_Point *hp;
-    HM_Point *hp2;
-    HM_Bump *hb;
+    HM_Point* hp;
+    HM_Point* hp2;
+    HM_Bump* hb;
 
 #define HM_ALREADY_BYTES 16
 
@@ -1958,7 +1958,7 @@ void HM_collide(std::uint8_t hm_index1, std::uint8_t hm_index2) {
     // the cubes of hypermatter object 2.
     //
 
-    memset((std::uint8_t *) already_bumped, 0, sizeof(already_bumped));
+    memset((std::uint8_t*) already_bumped, 0, sizeof(already_bumped));
 
     for (hb = ho1->bump; hb; hb = hb->next) {
         if (hb->hm_index == hm_index2) {
@@ -2144,7 +2144,7 @@ void HM_collide(std::uint8_t hm_index1, std::uint8_t hm_index2) {
                         // Create a new HM_Bump structure for this point.
                         //
 
-                        hb = (HM_Bump *) MemAlloc(sizeof(HM_Bump));
+                        hb = (HM_Bump*) MemAlloc(sizeof(HM_Bump));
 
                         hb->point = i;
                         hb->hm_index = hm_index2;
@@ -2169,7 +2169,7 @@ void HM_collide(std::uint8_t hm_index1, std::uint8_t hm_index2) {
                         }
 
                         {
-                            HM_Bump *bb;
+                            HM_Bump* bb;
 
                             for (bb = ho1->bump; bb; bb = bb->next) {
                                 if (bb->hm_index == hm_index2) {
@@ -2229,15 +2229,15 @@ void HM_process() {
     float gy;
     float av_div;
 
-    HM_Object *ho;
-    HM_Point *hp;
-    HM_Point *hp1;
-    HM_Point *hp2;
-    HM_Edge *he;
-    HM_Col *hc;
-    HM_Bump *hb;
-    HM_Bump **prev;
-    HM_Bump *dead;
+    HM_Object* ho;
+    HM_Point* hp;
+    HM_Point* hp1;
+    HM_Point* hp2;
+    HM_Edge* he;
+    HM_Col* hc;
+    HM_Bump* hb;
+    HM_Bump** prev;
+    HM_Bump* dead;
 
     for (i = 0; i < HM_MAX_OBJECTS; i++) {
         ho = &HM_object[i];
@@ -2517,12 +2517,12 @@ void HM_draw() {
     float py[4];
     float pz[4];
 
-    HM_Object *ho;
-    HM_Point *hp;
-    HM_Point *np;
+    HM_Object* ho;
+    HM_Point* hp;
+    HM_Point* np;
 
-    PrimObject *po;
-    PrimFace4 *f4;
+    PrimObject* po;
+    PrimFace4* f4;
 
     for (i = 0; i < HM_MAX_OBJECTS; i++) {
         ho = &HM_object[i];
@@ -2671,12 +2671,12 @@ void HM_draw() {
 
 void HM_find_mesh_pos(
     std::uint8_t hm_index,
-    std::int32_t *x,
-    std::int32_t *y,
-    std::int32_t *z,
-    std::int32_t *yaw,
-    std::int32_t *pitch,
-    std::int32_t *roll) {
+    std::int32_t* x,
+    std::int32_t* y,
+    std::int32_t* z,
+    std::int32_t* yaw,
+    std::int32_t* pitch,
+    std::int32_t* roll) {
     float len;
     float overlen;
 
@@ -2688,11 +2688,11 @@ void HM_find_mesh_pos(
 
     ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm_index];
-    HM_Point *hp_o;
-    HM_Point *hp_x;
-    HM_Point *hp_y;
-    HM_Point *hp_z;
+    HM_Object* ho = &HM_object[hm_index];
+    HM_Point* hp_o;
+    HM_Point* hp_x;
+    HM_Point* hp_y;
+    HM_Point* hp_z;
 
     //
     // The points we use...
@@ -2805,7 +2805,7 @@ std::int32_t HM_stationary(std::uint8_t hm_index) {
 
     ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm_index];
+    HM_Object* ho = &HM_object[hm_index];
 
     for (i = 1; i < ho->num_points; i++) {
         dx += fabs(ho->point[i].dx);
@@ -2833,7 +2833,7 @@ void HM_shockwave(
     float force) {
     ASSERT(WITHIN(hm_index, 0, HM_MAX_OBJECTS - 1));
 
-    HM_Object *ho = &HM_object[hm_index];
+    HM_Object* ho = &HM_object[hm_index];
 
     std::int32_t i;
 

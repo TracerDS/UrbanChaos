@@ -9,7 +9,7 @@
 // that all the camera stuff has already been set up.
 //
 
-void BUILD_draw(Thing* building);
+void BUILD_draw(Entity* building);
 
 //
 // Draws a building you are inside.

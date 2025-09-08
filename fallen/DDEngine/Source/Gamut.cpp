@@ -10,7 +10,7 @@ GamutElement gamut_ele_pool[MAX_GAMUT_RADIUS * 4 * MAX_GAMUT_RADIUS],
 //---------------------------------------------------------------
 
 void build_gamut_table() {
-    std::int8_t *grid;
+    std::int8_t* grid;
     std::int32_t actual_radius,
         angle,
         count,
@@ -19,11 +19,11 @@ void build_gamut_table() {
         radius,
         radius_offset,
         sum_count = 0;
-    GamutElement *ele_ptr;
+    GamutElement* ele_ptr;
 
     ele_ptr = gamut_ele_pool;
 
-    grid = (std::int8_t *) MemAlloc((MAX_GAMUT_RADIUS + 1) * (MAX_GAMUT_RADIUS + 1) * 4);
+    grid = (std::int8_t*) MemAlloc((MAX_GAMUT_RADIUS + 1) * (MAX_GAMUT_RADIUS + 1) * 4);
     if (grid) {
         for (radius = (MAX_GAMUT_RADIUS << 2); radius > 2; radius--) {
             if ((radius >> 2) != old_radius) {
@@ -67,7 +67,7 @@ void draw_gamut(std::int32_t x, std::int32_t y) {
     std::uint32_t c0;
     std::int32_t scr_x,
         scr_y;
-    GamutElement *ele_ptr;
+    GamutElement* ele_ptr;
 
     for (c0 = 1; c0 < MAX_GAMUT_RADIUS; c0++) {
         ele_ptr = gamut_ele_ptr[c0];

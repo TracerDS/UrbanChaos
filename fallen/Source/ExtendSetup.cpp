@@ -85,7 +85,7 @@ bool CALLBACK extend_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void do_extend_setup(EventPoint *the_ep) {
+void do_extend_setup(EventPoint* the_ep) {
     //	Set the dialog.
     which_waypoint = the_ep->Data[0];
     extend_time = the_ep->Data[1];

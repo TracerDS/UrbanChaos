@@ -36,12 +36,12 @@ void MFX_set_volumes(std::int32_t fx, std::int32_t amb, std::int32_t mus);
 //----- playback functions -----
 
 void MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t z);
-void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing* p);
+void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Entity* p);
 void MFX_play_ambient(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags);
 std::uint8_t MFX_play_stereo(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags);
 
 void MFX_stop(std::int32_t channel_id, std::uint32_t wave);
-void MFX_stop_attached(Thing* p);
+void MFX_stop_attached(Entity* p);
 
 //----- audio processing functions -----
 

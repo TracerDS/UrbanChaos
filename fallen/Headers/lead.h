@@ -1,5 +1,5 @@
 //
-// Dog leads. One end is attached somewhere, the other end it attached to a Thing and
+// Dog leads. One end is attached somewhere, the other end it attached to a Entity and
 // restricts its movements.
 //
 

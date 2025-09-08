@@ -334,7 +334,7 @@ bool LibShellChanged() {
 
 //---------------------------------------------------------------
 
-bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine) {
+bool LibShellMessage(const char* pMessage, const char* pFile, std::uint32_t dwLine) {
     bool result;
     char buff1[512],
         buff2[512];
@@ -376,7 +376,7 @@ bool LibShellMessage(const char *pMessage, const char *pFile, std::uint32_t dwLi
 
 //---------------------------------------------------------------
 
-void Time(MFTime *the_time) {
+void Time(MFTime* the_time) {
     SYSTEMTIME new_time;
 
     GetLocalTime(&new_time);
@@ -411,7 +411,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
     // Store WinMain parameters.
 #ifdef TARGET_DC
     // This malloc has to be a malloc, not a MemAlloc - the heap has not yet been set up.
-    lpszGlobalArgs = (char *) malloc((_tcslen(lpszArgs) + 1) * sizeof(*lpszGlobalArgs));
+    lpszGlobalArgs = (char*) malloc((_tcslen(lpszArgs) + 1) * sizeof(*lpszGlobalArgs));
     ASSERT(lpszGlobalArgs != nullptr);
     textConvertUniToChar(lpszGlobalArgs, lpszArgs);
 #else

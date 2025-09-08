@@ -18,7 +18,7 @@
 
 typedef struct
 {
-    void *data;
+    void* data;
     std::int32_t key;
     std::uint16_t num_bytes;
     std::uint8_t flag;
@@ -51,12 +51,12 @@ void CACHE_init() {
 
 CACHE_Index CACHE_create(
     std::int32_t key,
-    void *data,
+    void* data,
     std::uint16_t num_bytes) {
-    void *heap;
+    void* heap;
 
     CACHE_Index c_index;
-    CACHE_Entry *ce;
+    CACHE_Entry* ce;
 
     if (!CACHE_free) {
         //
@@ -131,7 +131,7 @@ CACHE_Info CACHE_get_info(CACHE_Index c_index) {
 }
 
 void CACHE_invalidate(CACHE_Index c_index) {
-    CACHE_Entry *ce;
+    CACHE_Entry* ce;
 
     ASSERT(WITHIN(c_index, 1, CACHE_MAX_ENTRIES - 1));
 
@@ -162,7 +162,7 @@ void CACHE_invalidate(CACHE_Index c_index) {
 void CACHE_invalidate_all() {
     std::int32_t i;
 
-    CACHE_Entry *ce;
+    CACHE_Entry* ce;
 
     for (i = 1; i < CACHE_MAX_ENTRIES; i++) {
         ce = &CACHE_entry[i];

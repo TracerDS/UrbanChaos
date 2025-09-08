@@ -136,9 +136,9 @@ void SM_create_cube(
     std::int32_t volume;
     std::int32_t mass;
 
-    SM_Object *so;
-    SM_Sphere *ss;
-    SM_Link *sl;
+    SM_Object* so;
+    SM_Sphere* ss;
+    SM_Link* sl;
 
     //
     // We work in 16-bit fixed point, not 8-bit.
@@ -299,11 +299,11 @@ void SM_process() {
     std::int32_t force;
     std::int32_t accel;
 
-    SM_Object *so;
-    SM_Sphere *ss;
-    SM_Sphere *ss1;
-    SM_Sphere *ss2;
-    SM_Link *sl;
+    SM_Object* so;
+    SM_Sphere* ss;
+    SM_Sphere* ss1;
+    SM_Sphere* ss2;
+    SM_Link* sl;
 
     //
     // Process all the spheres.
@@ -429,10 +429,10 @@ void SM_get_start() {
     if (ControlFlag) {
         std::int32_t i;
 
-        SM_Link *sl;
+        SM_Link* sl;
 
-        SM_Sphere *ss1;
-        SM_Sphere *ss2;
+        SM_Sphere* ss1;
+        SM_Sphere* ss2;
 
         //
         // Draw all the links.
@@ -455,8 +455,8 @@ void SM_get_start() {
     }
 }
 
-SM_Info *SM_get_next() {
-    SM_Sphere *ss;
+SM_Info* SM_get_next() {
+    SM_Sphere* ss;
 
     if (!WITHIN(SM_get_upto, 0, SM_sphere_upto - 1)) {
         return NULL;

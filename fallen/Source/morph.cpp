@@ -10,7 +10,7 @@
 // The filenames of the sex files describing each morph.
 //
 
-char *MORPH_filename[MORPH_NUMBER] =
+char* MORPH_filename[MORPH_NUMBER] =
     {
         "morph\\bird01.asc",
         "morph\\bird03.asc"};
@@ -46,12 +46,12 @@ void MORPH_load() {
     float z;
     std::int32_t match;
 
-    MORPH_Morph *mm;
+    MORPH_Morph* mm;
 
-    FILE *handle;
+    FILE* handle;
 
     char line[256];
-    char *ch;
+    char* ch;
 
     //
     // Get rid of old point info.
@@ -136,15 +136,15 @@ void MORPH_load() {
     }
 }
 
-MORPH_Point *MORPH_get_points(std::int32_t morph) {
-    MORPH_Morph *mm;
+MORPH_Point* MORPH_get_points(std::int32_t morph) {
+    MORPH_Morph* mm;
     ASSERT(WITHIN(morph, 0, MORPH_NUMBER - 1));
     mm = &MORPH_morph[morph];
     return &MORPH_point[mm->index];
 }
 
 std::int32_t MORPH_get_num_points(std::int32_t morph) {
-    MORPH_Morph *mm;
+    MORPH_Morph* mm;
     ASSERT(WITHIN(morph, 0, MORPH_NUMBER - 1));
     mm = &MORPH_morph[morph];
     return mm->num_points;

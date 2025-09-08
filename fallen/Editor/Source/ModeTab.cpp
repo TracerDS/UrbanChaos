@@ -13,7 +13,7 @@ ModeTab::ModeTab() {
 
 //---------------------------------------------------------------
 
-void ModeTab::SetupModeTab(char *the_title, std::uint16_t id, EdRect *bounding_rect, std::uint32_t *update_ptr) {
+void ModeTab::SetupModeTab(char* the_title, std::uint16_t id, EdRect* bounding_rect, std::uint32_t* update_ptr) {
     Title = the_title;
     SetTabArea(bounding_rect);
     SetTabID(id);
@@ -22,7 +22,7 @@ void ModeTab::SetupModeTab(char *the_title, std::uint16_t id, EdRect *bounding_r
 
 //---------------------------------------------------------------
 
-void ModeTab::SetTabArea(EdRect *bounding_rect) {
+void ModeTab::SetTabArea(EdRect* bounding_rect) {
     if (LastModeTab) {
         if (Title) {
             TitleRect.SetRect(
@@ -50,7 +50,7 @@ void ModeTab::SetTabArea(EdRect *bounding_rect) {
 
 //---------------------------------------------------------------
 
-void ModeTab::MoveTabArea(EdRect *bounding_rect) {
+void ModeTab::MoveTabArea(EdRect* bounding_rect) {
     std::int32_t offset_x;
 
     offset_x = bounding_rect->GetLeft() - ContentRect.GetLeft();
@@ -131,13 +131,13 @@ void ModeTab::DrawTabContent(void) {
 
 //---------------------------------------------------------------
 
-void ModeTab::HandleTab(MFPoint *current_point) {
+void ModeTab::HandleTab(MFPoint* current_point) {
     HandleControlSet(current_point);
 }
 
 //---------------------------------------------------------------
 
-std::uint16_t ModeTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t ModeTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     clicked_point = clicked_point;
     switch (flags) {
     case NO_CLICK:

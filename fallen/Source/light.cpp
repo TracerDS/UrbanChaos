@@ -170,8 +170,8 @@ void LIGHT_map_place(LIGHT_Index l_index) {
     std::int32_t map_x;
     std::int32_t map_z;
 
-    LIGHT_Light *ll;
-    LIGHT_Square *ls;
+    LIGHT_Light* ll;
+    LIGHT_Square* ls;
 
     ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -205,10 +205,10 @@ void LIGHT_map_remove(LIGHT_Index l_index) {
     std::int32_t map_x;
     std::int32_t map_z;
 
-    LIGHT_Light *ll;
-    LIGHT_Square *ls;
+    LIGHT_Light* ll;
+    LIGHT_Square* ls;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
     ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -267,7 +267,7 @@ void LIGHT_map_move(std::uint8_t l_index, GameCoord newpos) {
     std::int32_t map_x_new;
     std::int32_t map_z_new;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
 
     ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -407,7 +407,7 @@ void LIGHT_cache_give(std::uint8_t c_index) {
     LIGHT_cache_free = c_index;
 }
 
-void LIGHT_set_hf(LIGHT_Map *map) {
+void LIGHT_set_hf(LIGHT_Map* map) {
     LIGHT_hf = *map;
 }
 
@@ -443,16 +443,16 @@ void LIGHT_building_up(LIGHT_Index l_index, THING_INDEX t_index) {
     std::int32_t dist;
     std::int32_t range;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
 
-    Thing *p_thing = TO_THING(t_index);
+    Entity* p_thing = TO_THING(t_index);
 
-    PrimPoint *pp;
-    SVector *pn;
-    LIGHT_Colour *pc;
+    PrimPoint* pp;
+    SVector* pn;
+    LIGHT_Colour* pc;
 
-    BuildingObject *bo;
-    BuildingFacet *bf;
+    BuildingObject* bo;
+    BuildingFacet* bf;
 
     ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -537,16 +537,16 @@ void LIGHT_building_down(LIGHT_Index l_index, THING_INDEX t_index) {
     std::int32_t dist;
     std::int32_t range;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
 
-    Thing *p_thing = TO_THING(t_index);
+    Entity* p_thing = TO_THING(t_index);
 
-    PrimPoint *pp;
-    SVector *pn;
-    LIGHT_Colour *pc;
+    PrimPoint* pp;
+    SVector* pn;
+    LIGHT_Colour* pc;
 
-    BuildingObject *bo;
-    BuildingFacet *bf;
+    BuildingObject* bo;
+    BuildingFacet* bf;
 
     ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -651,9 +651,9 @@ void LIGHT_hf_light_up(LIGHT_Index l_index) {
     std::int32_t brightness;
     std::uint16_t litkey;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
     LIGHT_Colour col;
-    CollisionVect *p_vect;
+    CollisionVect* p_vect;
 
     ASSERT(WITHIN(l_index, 1, LIGHT_MAX_LIGHTS - 1));
 
@@ -780,8 +780,8 @@ void LIGHT_hf_light_down(LIGHT_Index l_index) {
     std::uint16_t litkey;
 
     LIGHT_Colour col;
-    LIGHT_Light *ll;
-    CollisionVect *p_vect;
+    LIGHT_Light* ll;
+    CollisionVect* p_vect;
 
     //
     // When we light up a building, we put this value in
@@ -1012,12 +1012,12 @@ void LIGHT_recalc_hf() {
 
         SVector normal;
 
-        BuildingFacet *bf;
-        BuildingObject *bo;
+        BuildingFacet* bf;
+        BuildingObject* bo;
 
-        PrimPoint *pp;
-        SVector *pn;
-        LIGHT_Colour *pc;
+        PrimPoint* pp;
+        SVector* pn;
+        LIGHT_Colour* pc;
 
         for (i = 1; i < next_building_object; i++) {
             bo = &building_objects[i];
@@ -1146,7 +1146,7 @@ LIGHT_Index LIGHT_create(
     std::uint8_t param) {
     std::uint8_t l_index;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
 
     //
     // Get a new light.
@@ -1217,7 +1217,7 @@ GameCoord LIGHT_pos_get(LIGHT_Index l_index) {
 void LIGHT_pos_set(LIGHT_Index l_index, GameCoord newpos) {
     ASSERT(WITHIN(l_index, 0, LIGHT_MAX_LIGHTS - 1));
 
-    LIGHT_Light *ll = &LIGHT_light[l_index];
+    LIGHT_Light* ll = &LIGHT_light[l_index];
 
     if (IMPLIES(ll->type == LIGHT_TYPE_BROKEN, ll->counter & 0x80) &&
         IMPLIES(ll->type == LIGHT_TYPE_PULSE, ll->counter > (ll->param >> 1))) {
@@ -1246,7 +1246,7 @@ void LIGHT_process() {
     std::uint8_t just_on;
     std::uint8_t just_off;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
 
     for (i = 0; i < LIGHT_MAX_LIGHTS; i++) {
         ll = &LIGHT_light[i];
@@ -1339,9 +1339,9 @@ std::int32_t LIGHT_get_context(THING_INDEX t_index) {
     std::int32_t context;
 
     LIGHT_Index next;
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
 
-    Thing *p_thing = TO_THING(t_index);
+    Entity* p_thing = TO_THING(t_index);
 
     //
     // Find all the lights acting on this prim.
@@ -1461,7 +1461,7 @@ LIGHT_Colour LIGHT_get_point(std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t range;
     std::int32_t brightness;
 
-    LIGHT_Light *ll;
+    LIGHT_Light* ll;
     LIGHT_Colour ans;
 
     //
@@ -1551,10 +1551,10 @@ void LIGHT_prim(THING_INDEX t_index) {
 
     GameCoord lp;
 
-    DrawMesh *dm;
-    Thing *p_thing = TO_THING(t_index);
-    LIGHT_Light *ll;
-    PrimObject *p_obj;
+    DrawMesh* dm;
+    Entity* p_thing = TO_THING(t_index);
+    LIGHT_Light* ll;
+    PrimObject* p_obj;
 
     //
     // This must have a DT_MESH drawtype...
@@ -1702,12 +1702,12 @@ void LIGHT_prim_use_normals(THING_INDEX t_index) {
 
     GameCoord lp;
 
-    DrawMesh *dm;
-    Thing *p_thing = TO_THING(t_index);
-    LIGHT_Light *ll;
-    PrimObject *p_obj;
-    PrimNormal *p_normal;
-    PrimPoint *p_point;
+    DrawMesh* dm;
+    Entity* p_thing = TO_THING(t_index);
+    LIGHT_Light* ll;
+    PrimObject* p_obj;
+    PrimNormal* p_normal;
+    PrimPoint* p_point;
     SVector l_normal;
 
     //

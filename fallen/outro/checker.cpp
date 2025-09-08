@@ -10,8 +10,8 @@
 // The textures.
 //
 
-OS_Texture *CHECKER_ot_darci;
-OS_Texture *CHECKER_ot_roper;
+OS_Texture* CHECKER_ot_darci;
+OS_Texture* CHECKER_ot_roper;
 
 //
 // Our single checker.
@@ -29,7 +29,7 @@ typedef struct
     std::uint32_t start;
     std::uint32_t end;
 
-    OS_Texture *ot;
+    OS_Texture* ot;
 
     float fuzz;
 
@@ -43,7 +43,7 @@ void CHECKER_init() {
     std::int32_t i;
     std::int32_t j;
 
-    CHECKER_Checker *cc;
+    CHECKER_Checker* cc;
 
     CHECKER_ot_darci = OS_texture_create("strip1b.tga");
     CHECKER_ot_roper = OS_texture_create("strip2b.tga");
@@ -60,14 +60,14 @@ void CHECKER_init() {
     }
 }
 
-void CHECKER_draw_one(CHECKER_Checker *cc, std::int32_t colour, std::int32_t os_draw, float stretch) {
+void CHECKER_draw_one(CHECKER_Checker* cc, std::int32_t colour, std::int32_t os_draw, float stretch) {
 }
 
 void CHECKER_draw() {
     std::int32_t i;
     std::int32_t which;
 
-    CHECKER_Checker *cc;
+    CHECKER_Checker* cc;
 
     static std::int32_t last;
     static std::int32_t now = OS_ticks();

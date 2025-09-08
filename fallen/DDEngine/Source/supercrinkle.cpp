@@ -19,8 +19,8 @@
 #define SUPERCRINKLE_MAX_LVERTS 16384
 
 // D3DLVERTEX  SUPERCRINKLE_lvert_buffer[SUPERCRINKLE_MAX_LVERTS + 1];
-D3DLVERTEX *SUPERCRINKLE_lvert_buffer = nullptr;
-D3DLVERTEX *SUPERCRINKLE_lvert;
+D3DLVERTEX* SUPERCRINKLE_lvert_buffer = nullptr;
+D3DLVERTEX* SUPERCRINKLE_lvert;
 std::int32_t SUPERCRINKLE_lvert_upto;
 
 //
@@ -45,7 +45,7 @@ std::int32_t SUPERCRINKLE_colour_upto;
 #define SUPERCRINKLE_MAX_INDICES (SUPERCRINKLE_MAX_LVERTS * 2)
 
 std::uint16_t SUPERCRINKLE_index_buffer[SUPERCRINKLE_MAX_INDICES + 16];
-std::uint16_t *SUPERCRINKLE_index;
+std::uint16_t* SUPERCRINKLE_index;
 std::int32_t SUPERCRINKLE_index_upto;
 
 //
@@ -98,7 +98,7 @@ typedef struct
 typedef struct supercrinkle_cache {
     std::uint32_t hash;
 
-    struct supercrinkle_cache *next;
+    struct supercrinkle_cache* next;
 
     SUPERCRINKLE_Precalc precalc[2]; // Not really 2!
 
@@ -134,9 +134,9 @@ union {
 // A free list for each size.
 //
 
-SUPERCRINKLE_Cache *SUPERCRINKLE_free64;
-SUPERCRINKLE_Cache *SUPERCRINKLE_free128;
-SUPERCRINKLE_Cache *SUPERCRINKLE_free384;
+SUPERCRINKLE_Cache* SUPERCRINKLE_free64;
+SUPERCRINKLE_Cache* SUPERCRINKLE_free128;
+SUPERCRINKLE_Cache* SUPERCRINKLE_free384;
 
 //
 // A hash table for each size.
@@ -144,9 +144,9 @@ SUPERCRINKLE_Cache *SUPERCRINKLE_free384;
 
 #define SUPERCRINKLE_HASH_SIZE 256 // Power of 2 please.
 
-SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table64[SUPERCRINKLE_HASH_SIZE];
-SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table128[SUPERCRINKLE_HASH_SIZE];
-SUPERCRINKLE_Cache *SUPERCRINKLE_hash_table384[SUPERCRINKLE_HASH_SIZE];
+SUPERCRINKLE_Cache* SUPERCRINKLE_hash_table64[SUPERCRINKLE_HASH_SIZE];
+SUPERCRINKLE_Cache* SUPERCRINKLE_hash_table128[SUPERCRINKLE_HASH_SIZE];
+SUPERCRINKLE_Cache* SUPERCRINKLE_hash_table384[SUPERCRINKLE_HASH_SIZE];
 
 //
 // The hash function.
@@ -174,7 +174,7 @@ std::uint32_t SUPERCRINKLE_hash_function(std::int32_t crinkle, std::uint32_t col
 // Loads the given SUPERCRINKLE from the .SEX file.
 //
 
-void SUPERCRINKLE_load(std::int32_t crinkle, char *fname) {
+void SUPERCRINKLE_load(std::int32_t crinkle, char* fname) {
     //
     // Temporary buffer for holding points and faces.
     //
@@ -260,13 +260,13 @@ void SUPERCRINKLE_load(std::int32_t crinkle, char *fname) {
 
     char line[512];
 
-    SUPERCRINKLE_Crinkle *sc;
-    SUPERCRINKLE_Face *sf;
-    SUPERCRINKLE_Point *sp;
-    D3DLVERTEX *tl;
-    PolyPage *pp;
+    SUPERCRINKLE_Crinkle* sc;
+    SUPERCRINKLE_Face* sf;
+    SUPERCRINKLE_Point* sp;
+    D3DLVERTEX* tl;
+    PolyPage* pp;
 
-    FILE *handle;
+    FILE* handle;
 
     //
     // Clear the temporary buffers.
@@ -495,10 +495,10 @@ void SUPERCRINKLE_load(std::int32_t crinkle, char *fname) {
 
         ASSERT(WITHIN(v[0] + v[1] + v[2] + v[3], 0.9F, 1.1F));
 
-        sp->i[0] = (std::uint8_t)(v[0] * 128.0F);
-        sp->i[1] = (std::uint8_t)(v[1] * 128.0F);
-        sp->i[2] = (std::uint8_t)(v[2] * 128.0F);
-        sp->i[3] = (std::uint8_t)(v[3] * 128.0F);
+        sp->i[0] = (std::uint8_t) (v[0] * 128.0F);
+        sp->i[1] = (std::uint8_t) (v[1] * 128.0F);
+        sp->i[2] = (std::uint8_t) (v[2] * 128.0F);
+        sp->i[3] = (std::uint8_t) (v[3] * 128.0F);
     }
 
     //
@@ -665,14 +665,14 @@ void SUPERCRINKLE_init() {
     std::int32_t i;
     char fname[512];
 
-    PolyPage *pp;
+    PolyPage* pp;
 
     //
     // Initalise all the data.
     //
 
     if (SUPERCRINKLE_lvert_buffer == nullptr) {
-        SUPERCRINKLE_lvert_buffer = (D3DLVERTEX *) MemAlloc(sizeof(D3DLVERTEX) * (SUPERCRINKLE_MAX_LVERTS + 1));
+        SUPERCRINKLE_lvert_buffer = (D3DLVERTEX*) MemAlloc(sizeof(D3DLVERTEX) * (SUPERCRINKLE_MAX_LVERTS + 1));
     }
 
     memset(SUPERCRINKLE_lvert_buffer, 0, sizeof(SUPERCRINKLE_lvert_buffer));
@@ -687,8 +687,8 @@ void SUPERCRINKLE_init() {
     memset(SUPERCRINKLE_hash_table128, 0, sizeof(SUPERCRINKLE_hash_table128));
     memset(SUPERCRINKLE_hash_table384, 0, sizeof(SUPERCRINKLE_hash_table384));
 
-    SUPERCRINKLE_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERCRINKLE_lvert_buffer) + 31) & ~0x1f);
-    SUPERCRINKLE_index = (std::uint16_t *) ((std::int32_t(SUPERCRINKLE_index_buffer) + 31) & ~0x1f);
+    SUPERCRINKLE_lvert = (D3DLVERTEX*) ((std::int32_t(SUPERCRINKLE_lvert_buffer) + 31) & ~0x1f);
+    SUPERCRINKLE_index = (std::uint16_t*) ((std::int32_t(SUPERCRINKLE_index_buffer) + 31) & ~0x1f);
 
     SUPERCRINKLE_lvert_upto = 0;
     SUPERCRINKLE_index_upto = 0;
@@ -757,11 +757,11 @@ void SUPERCRINKLE_relight(std::int32_t crinkle, std::uint32_t colour[4], std::ui
     std::int32_t sg;
     std::int32_t sb;
 
-    SUPERCRINKLE_Crinkle *sc;
-    SUPERCRINKLE_Cache *sh;
-    SUPERCRINKLE_Colour *sl;
-    SUPERCRINKLE_Precalc *sp;
-    D3DLVERTEX *lv;
+    SUPERCRINKLE_Crinkle* sc;
+    SUPERCRINKLE_Cache* sh;
+    SUPERCRINKLE_Colour* sl;
+    SUPERCRINKLE_Precalc* sp;
+    D3DLVERTEX* lv;
 
     ASSERT(WITHIN(crinkle, 0, SUPERCRINKLE_MAX_CRINKLES - 1));
 
@@ -785,8 +785,8 @@ void SUPERCRINKLE_relight(std::int32_t crinkle, std::uint32_t colour[4], std::ui
     // Where is our freelist and hashtable?
     //
 
-    SUPERCRINKLE_Cache **hash_table;
-    SUPERCRINKLE_Cache **free_list;
+    SUPERCRINKLE_Cache** hash_table;
+    SUPERCRINKLE_Cache** free_list;
     std::int32_t cache_table_size;
 
     if (sc->num_lverts <= 64) {
@@ -854,8 +854,8 @@ void SUPERCRINKLE_relight(std::int32_t crinkle, std::uint32_t colour[4], std::ui
         // Remove this from the hash table.
         //
 
-        SUPERCRINKLE_Cache **prev;
-        SUPERCRINKLE_Cache *next;
+        SUPERCRINKLE_Cache** prev;
+        SUPERCRINKLE_Cache* next;
 
         prev = &hash_table[sh->hash & (SUPERCRINKLE_HASH_SIZE - 1)];
         next = hash_table[sh->hash & (SUPERCRINKLE_HASH_SIZE - 1)];
@@ -992,11 +992,11 @@ found_cached_info:;
 //
 
 std::uint8_t SUPERCRINKLE_matrix_buffer[sizeof(D3DMATRIX) + 32];
-D3DMATRIX *SUPERCRINKLE_matrix;
+D3DMATRIX* SUPERCRINKLE_matrix;
 
 std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::uint32_t specular[4]) {
-    PolyPage *pp;
-    SUPERCRINKLE_Crinkle *sc;
+    PolyPage* pp;
+    SUPERCRINKLE_Crinkle* sc;
     D3DMULTIMATRIX d3dmm;
 
     return (0);
@@ -1014,7 +1014,7 @@ std::int32_t SUPERCRINKLE_draw(std::int32_t page, std::uint32_t colour[4], std::
     // Setup the matrix.
     //
 
-    SUPERCRINKLE_matrix = (D3DMATRIX *) ((std::int32_t(SUPERCRINKLE_matrix_buffer) + 31) & ~0x1f);
+    SUPERCRINKLE_matrix = (D3DMATRIX*) ((std::int32_t(SUPERCRINKLE_matrix_buffer) + 31) & ~0x1f);
 
     pp = &POLY_Page[page];
     sc = &SUPERCRINKLE_crinkle[page];

@@ -7,16 +7,16 @@
 //---------------------------------------------------------------
 
 void init_projectiles() {
-    memset((std::uint8_t *) PROJECTILES, 0, sizeof(PROJECTILES));
+    memset((std::uint8_t*) PROJECTILES, 0, sizeof(PROJECTILES));
     PROJECTILE_COUNT = 0;
 }
 
 //---------------------------------------------------------------
 
-Thing *alloc_projectile(std::uint8_t type) {
+Entity* alloc_projectile(std::uint8_t type) {
     std::int32_t c0;
-    Projectile *new_proj;
-    Thing *proj_thing = NULL;
+    Projectile* new_proj;
+    Entity* proj_thing = NULL;
 
     // Run through the projectile array & find an unused one.
     // This is bloody inefficient for projectiles, I'll do a Used/Unused
@@ -27,7 +27,7 @@ Thing *alloc_projectile(std::uint8_t type) {
             if (proj_thing) {
                 new_proj = TO_PROJECTILE(c0);
                 new_proj->ProjectileType = type;
-                new_proj->Thing = THING_NUMBER(proj_thing);
+                new_proj->Entity = THING_NUMBER(proj_thing);
 
                 proj_thing->Genus.Projectile = new_proj;
 
@@ -41,7 +41,7 @@ Thing *alloc_projectile(std::uint8_t type) {
 
 //---------------------------------------------------------------
 
-void free_projectile(Thing *proj_thing) {
+void free_projectile(Entity* proj_thing) {
     // Set the projectile type to none & free the thing.
     proj_thing->Genus.Projectile->ProjectileType = PROJECTILE_NONE;
     free_thing(proj_thing);

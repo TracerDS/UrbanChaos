@@ -2735,7 +2735,7 @@ static std::uint8_t _z[] =
 
 //---------------------------------------------------------------
 
-std::uint8_t *CharTable[] =
+std::uint8_t* CharTable[] =
     {
         Null, Null, Null, Null, Null, Null, Null, Null,
         Null, Null, Null, Null, Null, Null, Null, Null,

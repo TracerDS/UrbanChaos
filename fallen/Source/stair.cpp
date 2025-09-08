@@ -301,7 +301,7 @@ void STAIR_set_bounding_box(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, s
 void STAIR_storey_new(std::int32_t handle, std::uint8_t height) {
     std::int32_t i;
 
-    STAIR_Storey *st;
+    STAIR_Storey* st;
 
     ASSERT(WITHIN(STAIR_storey_upto, 0, STAIR_MAX_STOREYS - 1));
 
@@ -319,7 +319,7 @@ void STAIR_storey_new(std::int32_t handle, std::uint8_t height) {
     // Initialise the new storey.
     //
 
-    memset((std::uint8_t *) st, 0, sizeof(STAIR_Storey));
+    memset((std::uint8_t*) st, 0, sizeof(STAIR_Storey));
 
     st->handle = handle;
     st->height = height;
@@ -363,7 +363,7 @@ void STAIR_storey_wall(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::u
 
     std::uint8_t link_t;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
     //
     // Make sure this wall is inside the bounding rectangle of
@@ -374,7 +374,7 @@ void STAIR_storey_wall(std::uint8_t x1, std::uint8_t z1, std::uint8_t x2, std::u
     ASSERT(WITHIN(z1, STAIR_z1, STAIR_z2));
 
     if (opposite) {
-        STAIR_Storey *st;
+        STAIR_Storey* st;
 
         ASSERT(WITHIN(STAIR_storey_upto - 1, 0, STAIR_MAX_STOREYS - 1));
 
@@ -524,7 +524,7 @@ std::int32_t STAIR_storey_finish() {
     std::uint8_t next1;
     std::uint8_t next2;
 
-    STAIR_Storey *st;
+    STAIR_Storey* st;
 
     ASSERT(WITHIN(STAIR_storey_upto - 1, 0, STAIR_MAX_STOREYS - 1));
 
@@ -625,11 +625,11 @@ void STAIR_calculate(std::uint16_t seed) {
     std::int32_t best_z2;
     std::int32_t best_score;
 
-    STAIR_Storey *st;
-    STAIR_Storey *st_n;
+    STAIR_Storey* st;
+    STAIR_Storey* st_n;
 
-    STAIR_Stair *ss;
-    STAIR_Stair *ss_new;
+    STAIR_Stair* ss;
+    STAIR_Stair* ss_new;
 
     std::int32_t dox;
     std::int32_t doz;
@@ -1153,13 +1153,13 @@ void STAIR_calculate(std::uint16_t seed) {
 
 ID_Stair STAIR_id_stair[STAIR_MAX_PER_STOREY];
 
-std::int32_t STAIR_get(std::int32_t handle, ID_Stair **stair, std::int32_t *num_stairs) {
+std::int32_t STAIR_get(std::int32_t handle, ID_Stair** stair, std::int32_t* num_stairs) {
     std::int32_t i;
     std::int32_t storey;
 
-    STAIR_Storey *st;
-    STAIR_Stair *ss;
-    ID_Stair *is;
+    STAIR_Storey* st;
+    STAIR_Stair* ss;
+    ID_Stair* is;
 
     for (i = 0; i < STAIR_storey_upto; i++) {
         st = &STAIR_storey[i];

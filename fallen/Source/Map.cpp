@@ -6,7 +6,7 @@
 //---------------------------------------------------------------
 #if !defined(PSX) && !defined(TARGET_DC)
 void init_map() {
-    memset((std::uint8_t *) MAP, 0, sizeof(MAP));
+    memset((std::uint8_t*) MAP, 0, sizeof(MAP));
 }
 #endif
 //---------------------------------------------------------------
@@ -21,7 +21,7 @@ LIGHT_Colour MAP_light_get_light(std::int32_t x, std::int32_t z) {
     ASSERT(false);
 #endif
 
-    MapElement *me;
+    MapElement* me;
 
     me = &MAP[MAP_INDEX(x, z)];
 
@@ -34,7 +34,7 @@ void MAP_light_set_light(std::int32_t x, std::int32_t z, LIGHT_Colour colour) {
     ASSERT(false);
 #endif
 
-    MapElement *me;
+    MapElement* me;
 
     me = &MAP[MAP_INDEX(x, z)];
 

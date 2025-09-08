@@ -122,7 +122,7 @@ bool CALLBACK sign_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_sign_setup(EventPoint *the_ep) {
+void do_sign_setup(EventPoint* the_ep) {
     //	Set the dialog.
     sign = the_ep->Data[0];
     flip = the_ep->Data[1];

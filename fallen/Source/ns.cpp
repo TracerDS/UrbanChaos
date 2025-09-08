@@ -193,10 +193,10 @@ void NS_init() {
     std::int32_t x;
     std::int32_t z;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
-    memset((std::uint8_t *) NS_hi, 0, sizeof(NS_hi));
-    memset((std::uint8_t *) NS_lo, 0, sizeof(NS_lo));
+    memset((std::uint8_t*) NS_hi, 0, sizeof(NS_hi));
+    memset((std::uint8_t*) NS_lo, 0, sizeof(NS_lo));
 
     //
     // Rock everywhere.
@@ -261,8 +261,8 @@ void NS_precalculate() {
     std::uint32_t flag;
     std::int32_t curve;
 
-    NS_Hi *nh;
-    NS_Hi *nh2;
+    NS_Hi* nh;
+    NS_Hi* nh2;
 
     //
     // Mark all top bits as unused.
@@ -445,9 +445,9 @@ void NS_precalculate() {
             }
         }
 
-        //
-        // Even out the top map.
-        //
+    //
+    // Even out the top map.
+    //
 
 #define NS_EVEN_OUT_INNER 3
 #define NS_EVEN_OUT_OUTER 5
@@ -683,8 +683,8 @@ void NS_cache_init() {
 #define NS_MAX_SCRATCH_POINTS ((HEAP_PAD_SIZE / 2) / sizeof(NS_Point))
 #define NS_MAX_SCRATCH_FACES ((HEAP_PAD_SIZE / 2) / sizeof(NS_Face))
 
-NS_Point *NS_scratch_point = (NS_Point *) (&HEAP_pad[0]);
-NS_Face *NS_scratch_face = (NS_Face *) (&HEAP_pad[HEAP_PAD_SIZE / 2]);
+NS_Point* NS_scratch_point = (NS_Point*) (&HEAP_pad[0]);
+NS_Face* NS_scratch_face = (NS_Face*) (&HEAP_pad[HEAP_PAD_SIZE / 2]);
 
 std::int32_t NS_scratch_point_upto = 0;
 std::int32_t NS_scratch_face_upto = 0;
@@ -733,7 +733,7 @@ void NS_add_point(
     std::int32_t light;
     std::int32_t dprod;
 
-    NS_Slight *nss;
+    NS_Slight* nss;
 
     ASSERT(WITHIN(NS_scratch_point_upto, 0, NS_MAX_SCRATCH_POINTS - 1));
 
@@ -874,7 +874,7 @@ void NS_cache_create_floors(std::uint8_t mx, std::uint8_t mz) {
 
     std::int32_t p[4];
 
-    NS_Hi *ns;
+    NS_Hi* ns;
 
     //
     // The top points.
@@ -883,7 +883,7 @@ void NS_cache_create_floors(std::uint8_t mx, std::uint8_t mz) {
     std::uint8_t pindex[5][5];
 
 #ifndef NDEBUG
-    memset((std::uint8_t *) pindex, 255, sizeof(pindex));
+    memset((std::uint8_t*) pindex, 255, sizeof(pindex));
 #endif
 
     for (x = 0; x <= 4; x++)
@@ -1033,7 +1033,7 @@ void NS_cache_create_floors(std::uint8_t mx, std::uint8_t mz) {
     // Mark all points as undefined.
     //
 
-    memset((std::uint8_t *) pindex, 255, sizeof(pindex));
+    memset((std::uint8_t*) pindex, 255, sizeof(pindex));
 
     //
     // Go through each of the squares from the bottom to the top.
@@ -1396,8 +1396,8 @@ void NS_cache_create_walls(std::uint8_t mx, std::uint8_t mz) {
     std::int32_t shared_last;
     std::int32_t shared_now;
 
-    NS_Hi *nh;
-    NS_Hi *nh2;
+    NS_Hi* nh;
+    NS_Hi* nh2;
 
     //
     // Walls parallel to the z-axis first.
@@ -1806,7 +1806,7 @@ void NS_cache_create_curve_sewer(
 
     std::int32_t curve;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     std::uint8_t pindex[16];
 
@@ -2163,7 +2163,7 @@ void NS_cache_create_curve_top(std::int32_t sx, std::int32_t sz) {
     std::int32_t py;
     std::int32_t pz;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     ASSERT(WITHIN(sx, 1, PAP_SIZE_HI - 2));
     ASSERT(WITHIN(sz, 1, PAP_SIZE_HI - 2));
@@ -2684,7 +2684,7 @@ void NS_cache_create_curves(std::uint8_t mx, std::uint8_t mz) {
     std::int32_t sx;
     std::int32_t sz;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     ASSERT(WITHIN(mx, 1, PAP_SIZE_LO - 2));
     ASSERT(WITHIN(mz, 1, PAP_SIZE_LO - 2));
@@ -2746,7 +2746,7 @@ void NS_cache_create_curves(std::uint8_t mx, std::uint8_t mz) {
         }
 }
 
-void NS_cache_create_falls(std::uint8_t mx, std::uint8_t mz, NS_Cache *nc) {
+void NS_cache_create_falls(std::uint8_t mx, std::uint8_t mz, NS_Cache* nc) {
     std::int32_t i;
 
     std::int32_t x;
@@ -2763,9 +2763,9 @@ void NS_cache_create_falls(std::uint8_t mx, std::uint8_t mz, NS_Cache *nc) {
 
     std::int32_t fall;
 
-    NS_Hi *nh;
-    NS_Hi *nh2;
-    NS_Fall *nf;
+    NS_Hi* nh;
+    NS_Hi* nh2;
+    NS_Fall* nf;
 
     ASSERT(WITHIN(mx, 1, PAP_SIZE_LO - 2));
     ASSERT(WITHIN(mz, 1, PAP_SIZE_LO - 2));
@@ -2880,7 +2880,7 @@ void NS_cache_create_grates(std::uint8_t mx, std::uint8_t mz) {
 
     std::int32_t fall;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     std::int32_t p[4];
 
@@ -2952,9 +2952,9 @@ void NS_cache_create_grates(std::uint8_t mx, std::uint8_t mz) {
 std::int32_t NS_cache_find_light(
     std::uint8_t mx,
     std::uint8_t mz,
-    std::uint8_t *light_x,
-    std::uint8_t *light_y,
-    std::uint8_t *light_z) {
+    std::uint8_t* light_x,
+    std::uint8_t* light_y,
+    std::uint8_t* light_z) {
     std::int32_t i;
 
     std::int32_t sx;
@@ -2980,10 +2980,10 @@ std::int32_t NS_cache_find_light(
     std::int32_t lz;
     std::int32_t score;
 
-    NS_Lo *nl;
-    NS_Lo *nl2;
-    NS_Hi *nh;
-    NS_Cache *nc;
+    NS_Lo* nl;
+    NS_Lo* nl2;
+    NS_Hi* nh;
+    NS_Cache* nc;
 
     //
     // The coordinates of this mapsquare.
@@ -3134,8 +3134,8 @@ std::int32_t NS_cache_create(std::uint8_t mx, std::uint8_t mz) {
     std::int32_t dmx;
     std::int32_t dmz;
 
-    NS_Cache *nc;
-    NS_Lo *nl;
+    NS_Cache* nc;
+    NS_Lo* nl;
 
     std::int32_t c_index;
     std::int32_t memory_in_bytes;
@@ -3247,7 +3247,7 @@ std::int32_t NS_cache_create(std::uint8_t mx, std::uint8_t mz) {
     // Allocate memory and copy data over from the scratch buffers.
     //
 
-    nc->memory = (std::uint8_t *) HEAP_get(memory_in_bytes);
+    nc->memory = (std::uint8_t*) HEAP_get(memory_in_bytes);
 
     ASSERT(nc->memory != NULL);
 
@@ -3274,8 +3274,8 @@ void NS_cache_destroy(std::uint8_t cache) {
     std::int32_t fall;
     std::int32_t next;
 
-    NS_Fall *nf;
-    NS_Cache *nc;
+    NS_Fall* nf;
+    NS_Cache* nc;
 
     ASSERT(WITHIN(cache, 1, NS_MAX_CACHES - 1));
 
@@ -3341,7 +3341,7 @@ void NS_cache_fini() {
 }
 
 std::int32_t NS_calc_height_at(std::int32_t x, std::int32_t z) {
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     std::int32_t ans;
 
@@ -3365,7 +3365,7 @@ std::int32_t NS_calc_height_at(std::int32_t x, std::int32_t z) {
 }
 
 std::int32_t NS_calc_splash_height_at(std::int32_t x, std::int32_t z) {
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     std::int32_t ans;
 
@@ -3394,7 +3394,7 @@ std::int32_t NS_calc_splash_height_at(std::int32_t x, std::int32_t z) {
 
 void NS_slide_along(
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2,
     std::int32_t radius) {
     std::int32_t i;
     std::int32_t height;
@@ -3417,7 +3417,7 @@ void NS_slide_along(
     std::int32_t sz2;
     std::int32_t sradius;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     const struct {
         std::int8_t dx;
@@ -3596,7 +3596,7 @@ std::int32_t NS_get_unused_st() {
     std::int32_t i;
     std::int32_t pick;
 
-    NS_St *nst;
+    NS_St* nst;
 
     //
     // Look for an unused object.
@@ -3641,7 +3641,7 @@ void NS_add_ladder(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32
         return;
     }
 
-    NS_Lo *nl = &NS_lo[mx][mz];
+    NS_Lo* nl = &NS_lo[mx][mz];
 
     std::int32_t index = NS_get_unused_st();
 
@@ -3659,7 +3659,7 @@ void NS_add_ladder(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32
 
     ASSERT(WITHIN(index, 1, NS_MAX_STS - 1));
 
-    NS_St *nst = &NS_st[index];
+    NS_St* nst = &NS_st[index];
 
     nst->type = NS_ST_TYPE_LADDER;
     nst->ladder.x1 = x1;
@@ -3694,7 +3694,7 @@ void NS_add_prim(
         return;
     }
 
-    NS_Lo *nl = &NS_lo[mx][mz];
+    NS_Lo* nl = &NS_lo[mx][mz];
 
     std::int32_t index = NS_get_unused_st();
 
@@ -3708,7 +3708,7 @@ void NS_add_prim(
 
     ASSERT(WITHIN(index, 1, NS_MAX_STS - 1));
 
-    NS_St *nst = &NS_st[index];
+    NS_St* nst = &NS_st[index];
 
     //
     // Room on this square for another

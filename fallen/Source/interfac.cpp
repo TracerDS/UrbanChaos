@@ -43,8 +43,8 @@
 
 std::uint8_t player_relative;
 
-extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text);
-extern void person_normal_move(Thing *p_person);
+extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char* text);
+extern void person_normal_move(Entity* p_person);
 std::uint8_t cheat = 0;
 
 #ifndef PSX
@@ -96,32 +96,32 @@ extern std::int16_t CONTROLS_inventory_mode;
 #define CONTROLS_inventory_mode 0
 #endif
 
-extern void set_person_hug_wall_leap_out(Thing *p_person, std::int32_t dir);
-std::int32_t player_turn_left_right_analogue(Thing *p_thing, std::int32_t input);
-extern std::int32_t is_person_crouching(Thing *p_person);
-extern std::int32_t person_has_gun_out(Thing *p_person);
-extern void set_person_hug_wall_dir(Thing *p_person, std::int32_t dir);
-extern void set_person_arrest(Thing *p_person, std::int32_t index);
-extern void set_person_draw_special(Thing *p_person);
-extern std::int32_t set_person_kick_dir(Thing *p_person, std::int32_t dir);
-extern void set_person_fight_idle(Thing *p_person);
-extern void set_person_fight_anim(Thing *p_person, std::int32_t anim);
-extern void reset_gang_attack(Thing *p_target);
-extern std::int32_t turn_to_direction_and_find_target(Thing *p_person, std::int32_t find_dir);
-extern std::int32_t set_person_cut_fence(Thing *p_person);
-extern std::int32_t find_searchable_person(Thing *p_person);
-extern std::int32_t set_person_search(Thing *p_person, std::int32_t ob_index, std::int32_t ox, std::int32_t oy, std::int32_t oz);
-extern std::int32_t set_person_search_corpse(Thing *p_person, Thing *p_personb);
-extern void set_person_carry(Thing *p_person, std::int32_t s_index);
-extern std::uint16_t find_corpse(Thing *p_person);
+extern void set_person_hug_wall_leap_out(Entity* p_person, std::int32_t dir);
+std::int32_t player_turn_left_right_analogue(Entity* p_thing, std::int32_t input);
+extern std::int32_t is_person_crouching(Entity* p_person);
+extern std::int32_t person_has_gun_out(Entity* p_person);
+extern void set_person_hug_wall_dir(Entity* p_person, std::int32_t dir);
+extern void set_person_arrest(Entity* p_person, std::int32_t index);
+extern void set_person_draw_special(Entity* p_person);
+extern std::int32_t set_person_kick_dir(Entity* p_person, std::int32_t dir);
+extern void set_person_fight_idle(Entity* p_person);
+extern void set_person_fight_anim(Entity* p_person, std::int32_t anim);
+extern void reset_gang_attack(Entity* p_target);
+extern std::int32_t turn_to_direction_and_find_target(Entity* p_person, std::int32_t find_dir);
+extern std::int32_t set_person_cut_fence(Entity* p_person);
+extern std::int32_t find_searchable_person(Entity* p_person);
+extern std::int32_t set_person_search(Entity* p_person, std::int32_t ob_index, std::int32_t ox, std::int32_t oy, std::int32_t oz);
+extern std::int32_t set_person_search_corpse(Entity* p_person, Entity* p_personb);
+extern void set_person_carry(Entity* p_person, std::int32_t s_index);
+extern std::uint16_t find_corpse(Entity* p_person);
 
-extern EWAY_Way *EWAY_magic_radius_flag;
-extern void EWAY_set_active(EWAY_Way *ew);
-extern std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t EWAY_sub_condition_of_a_boolean = false);
-extern std::int32_t is_person_dead(Thing *p_person);
-extern std::int32_t is_person_ko(Thing *p_person);
-extern void person_pick_best_target(Thing *p_person, std::int32_t dir);
-extern void set_person_walk_backwards(Thing *p_person);
+extern EWAY_Way* EWAY_magic_radius_flag;
+extern void EWAY_set_active(EWAY_Way* ew);
+extern std::int32_t EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, std::int32_t EWAY_sub_condition_of_a_boolean = false);
+extern std::int32_t is_person_dead(Entity* p_person);
+extern std::int32_t is_person_ko(Entity* p_person);
+extern void person_pick_best_target(Entity* p_person, std::int32_t dir);
+extern void set_person_walk_backwards(Entity* p_person);
 /*
 
   The new controller philosophy
@@ -159,10 +159,10 @@ extern ControllerPacket PAD_Input1, PAD_Input2;
 int psx_pad_mask = 0;
 #endif
 
-extern Thing *net_players[20];
+extern Entity* net_players[20];
 
-void player_apply_move(Thing *p_thing, std::uint32_t input);
-void player_apply_move_analgue(Thing *p_thing, std::uint32_t input);
+void player_apply_move(Entity* p_thing, std::uint32_t input);
+void player_apply_move_analgue(Entity* p_thing, std::uint32_t input);
 
 #ifndef PSX
 std::uint8_t joypad_button_use[16];
@@ -553,7 +553,7 @@ struct ActionInfo action_sit[] =
         {0,            0, 0                  }
 };
 
-struct ActionInfo *action_tree[] =
+struct ActionInfo* action_tree[] =
     {
         action_idle,
         action_walk,
@@ -636,7 +636,7 @@ struct ActionInfo *action_tree[] =
 //
 // player has pressed punch, look at her hand to see if anything needs throwing etc...
 //
-std::int32_t player_activate_in_hand(Thing *p_person) {
+std::int32_t player_activate_in_hand(Entity* p_person) {
     if (p_person->Genus.Person->Flags & FLAG_PERSON_CANNING) {
         //
         // Release the coke can.
@@ -648,7 +648,7 @@ std::int32_t player_activate_in_hand(Thing *p_person) {
     }
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         if (p_person->Genus.Person->Ware) {
             //
@@ -693,7 +693,7 @@ std::int32_t player_activate_in_hand(Thing *p_person) {
     return (0);
 }
 
-void set_player_shoot(Thing *p_person, std::int32_t param) {
+void set_player_shoot(Entity* p_person, std::int32_t param) {
     if (person_has_gun_out(p_person)) {
         set_person_shoot(p_person, param);
         return;
@@ -701,7 +701,7 @@ void set_player_shoot(Thing *p_person, std::int32_t param) {
     player_activate_in_hand(p_person);
 }
 
-void set_player_punch(Thing *p_person) {
+void set_player_punch(Entity* p_person) {
     if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT) {
         set_person_punch(p_person);
         return;
@@ -721,7 +721,7 @@ void set_player_punch(Thing *p_person) {
 // false if they are in the doorway to a warehouse.
 //
 
-std::int32_t should_i_jump(Thing *darci) {
+std::int32_t should_i_jump(Entity* darci) {
     //
     // Is Darci standing in a warehouse doorway?
     //
@@ -773,7 +773,7 @@ std::int32_t should_i_jump(Thing *darci) {
 // Returns true if a person can safely backflip.
 //
 
-std::int32_t should_person_backflip(Thing *darci) {
+std::int32_t should_person_backflip(Entity* darci) {
 #if 0
 
 	//
@@ -802,7 +802,7 @@ std::int32_t should_person_backflip(Thing *darci) {
 
 			if (WMOVE_face[wmove_index].thing)
 			{
-				Thing *p_plat = TO_THING(WMOVE_face[wmove_index].thing);
+				Entity *p_plat = TO_THING(WMOVE_face[wmove_index].thing);
 
 				if (p_plat->Class == CLASS_PLAT)
 				{
@@ -859,7 +859,7 @@ std::int32_t should_person_backflip(Thing *darci) {
         LOS_FLAG_IGNORE_UNDERGROUND_CHECK);
 }
 
-std::int32_t bad_place_for_car(Thing *p_person, Thing *p_vehicle) {
+std::int32_t bad_place_for_car(Entity* p_person, Entity* p_vehicle) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t ix, jx;
@@ -915,9 +915,9 @@ std::int32_t bad_place_for_car(Thing *p_person, Thing *p_vehicle) {
 //
 // Returns true if a person can get into a particular car.
 //
-extern void get_car_door_offsets(std::int32_t type, std::int32_t door, std::int32_t *dx, std::int32_t *dz);
+extern void get_car_door_offsets(std::int32_t type, std::int32_t door, std::int32_t* dx, std::int32_t* dz);
 
-void get_car_enter_xz(Thing *p_vehicle, std::int32_t door, std::int32_t *cx, std::int32_t *cz) {
+void get_car_enter_xz(Entity* p_vehicle, std::int32_t door, std::int32_t* cx, std::int32_t* cz) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t ix;
@@ -988,7 +988,7 @@ void get_car_enter_xz(Thing *p_vehicle, std::int32_t door, std::int32_t *cx, std
 #endif
 }
 
-std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door) {
+std::int32_t in_right_place_for_car(Entity* p_person, Entity* p_vehicle, std::int32_t* door) {
     std::int32_t i;
 
     std::int32_t ix, iz;
@@ -1051,7 +1051,7 @@ std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int3
     return false;
 }
 
-std::int32_t person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door) {
+std::int32_t person_get_in_specific_car(Entity* p_person, Entity* p_vehicle, std::int32_t* door) {
     if (p_vehicle->Genus.Vehicle->Driver) {
         //
         // This vehicle is already occupied.
@@ -1081,10 +1081,10 @@ std::int32_t person_get_in_specific_car(Thing *p_person, Thing *p_vehicle, std::
 // to be 0 or 1 depending on which door they are getting into.
 //
 
-std::int32_t person_get_in_car(Thing *p_thing, std::int32_t *door) {
+std::int32_t person_get_in_car(Entity* p_thing, std::int32_t* door) {
     std::int32_t i;
 
-    Thing *col_thing;
+    Entity* col_thing;
 
 #define MAX_COL_WITH 16
 
@@ -1122,10 +1122,10 @@ std::int32_t person_get_in_car(Thing *p_thing, std::int32_t *door) {
 // #ifdef	FINAL
 // #define	PANEL_new_text(a,b,c)
 // #endif
-std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
+std::uint32_t do_an_action(Entity* p_thing, std::uint32_t input) {
     std::uint32_t closest;
     std::int32_t ladder_col;
-    Thing *special_thing;
+    Entity* special_thing;
     THING_INDEX anim_switch;
     THING_INDEX special_index;
     std::int32_t dist;
@@ -1167,8 +1167,8 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
     */
 
     // if(p_thing->SubState==SUB_STATE_HUG_WALL_STAND||p_thing->SubState==SUB_STATE_HUG_WALL_LOOK_L
-    extern std::int32_t can_i_hug_wall(Thing * p_person);
-    extern void set_person_turn_to_hug_wall(Thing * p_person);
+    extern std::int32_t can_i_hug_wall(Entity * p_person);
+    extern void set_person_turn_to_hug_wall(Entity * p_person);
 
     if (p_thing->State == STATE_CARRY) {
         if (p_thing->SubState == SUB_STATE_PICKUP_CARRY ||
@@ -1180,7 +1180,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             return INPUT_MASK_ACTION;
         }
 
-        extern std::int32_t is_there_room_in_front_of_me(Thing * p_person, std::int32_t how_much_room);
+        extern std::int32_t is_there_room_in_front_of_me(Entity * p_person, std::int32_t how_much_room);
 
         if (!is_there_room_in_front_of_me(p_thing, 192)) {
             /*
@@ -1191,7 +1191,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
                                             "No room!");
             */
         } else {
-            extern void set_person_uncarry(Thing * p_person);
+            extern void set_person_uncarry(Entity * p_person);
 
             set_person_uncarry(p_thing);
         }
@@ -1216,7 +1216,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
     }
 
     if (p_thing->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-        Thing *p_vehicle = TO_THING(p_thing->Genus.Person->InCar);
+        Entity* p_vehicle = TO_THING(p_thing->Genus.Person->InCar);
 
         if (p_vehicle->Genus.Vehicle->GrabAction && (p_vehicle->Velocity > 5)) {
             // PANEL_new_text(NULL,4000,"ACTION cancel incar");
@@ -1289,7 +1289,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             {
                 std::uint16_t index;
 
-                extern std::uint16_t find_arrestee(Thing * p_person);
+                extern std::uint16_t find_arrestee(Entity * p_person);
                 // PANEL_new_text(NULL,4000,"ACTION find arrest");
 
                 if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing))) {
@@ -1306,10 +1306,10 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             //
             {
                 std::int32_t ladder_col;
-                struct DFacet *p_facet;
+                struct DFacet* p_facet;
                 ladder_col = find_nearby_ladder_colvect(p_thing);
 
-                std::int32_t set_person_climb_down_onto_ladder(Thing * p_person, std::int32_t colvect);
+                std::int32_t set_person_climb_down_onto_ladder(Entity * p_person, std::int32_t colvect);
 
                 if (ladder_col) {
                     std::int32_t top;
@@ -1331,7 +1331,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             }
         }
 
-        extern std::int32_t person_on_floor(Thing * p_person);
+        extern std::int32_t person_on_floor(Entity * p_person);
         if (person_on_floor(p_thing))
             if (person_get_in_car(p_thing, &door)) {
                 if (TO_THING(p_thing->Genus.Person->InCar)->Class == CLASS_VEHICLE) {
@@ -1347,12 +1347,12 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
                 }
             }
 
-            //		if(near_ladder_top(p_thing))
+        //		if(near_ladder_top(p_thing))
 
 #ifdef USE_ACTION_TO_THROW_GRENADE
 #error
         {
-            Thing *p_special = person_has_special(p_thing, SPECIAL_MINE);
+            Entity* p_special = person_has_special(p_thing, SPECIAL_MINE);
 
             if (p_special) {
                 if (p_special->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
@@ -1381,7 +1381,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
         }
 
         if (p_thing->Genus.Person->SpecialUse) {
-            Thing *p_special = TO_THING(p_thing->Genus.Person->SpecialUse);
+            Entity* p_special = TO_THING(p_thing->Genus.Person->SpecialUse);
 
             if (p_special->Genus.Special->SpecialType == SPECIAL_GRENADE) {
                 if (p_special->SubState == SPECIAL_SUBSTATE_ACTIVATED) {
@@ -1509,7 +1509,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
                         {
                                 std::uint16_t index;
 
-                                extern std::uint16_t find_arrestee(Thing *p_person);
+                                extern std::uint16_t find_arrestee(Entity *p_person);
 
                                 if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing)))
                                 {
@@ -1632,7 +1632,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
         {
             std::uint16_t index;
 
-            extern std::uint16_t find_arrestee(Thing * p_person);
+            extern std::uint16_t find_arrestee(Entity * p_person);
 
             // PANEL_new_text(NULL,4000,"ACTION FIND arrest");
             if (p_thing->Genus.Person->PersonType == PERSON_DARCI && (index = find_arrestee(p_thing))) {
@@ -1674,7 +1674,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
         //
 
         if (EWAY_magic_radius_flag) {
-            EWAY_Way *test = EWAY_magic_radius_flag;
+            EWAY_Way* test = EWAY_magic_radius_flag;
             EWAY_magic_radius_flag = 0;
             EWAY_evaluate_condition(test, &test->ec);
             if (EWAY_magic_radius_flag) {
@@ -1704,9 +1704,9 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             // #endif
             {
                 //	std::int32_t	ob_index;
-                OB_Info *oi;
+                OB_Info* oi;
 
-                extern std::int32_t OB_find_type(std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t max_range, std::uint32_t prim_flags, std::int32_t * ob_x, std::int32_t * ob_y, std::int32_t * ob_z, std::int32_t * ob_yaw, std::int32_t * ob_prim, std::int32_t * ob_index);
+                extern std::int32_t OB_find_type(std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t max_range, std::uint32_t prim_flags, std::int32_t* ob_x, std::int32_t* ob_y, std::int32_t* ob_z, std::int32_t* ob_yaw, std::int32_t* ob_prim, std::int32_t* ob_index);
 
                 //				if(OB_find_type(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8,256,0xff,&ob_x,&ob_y,&ob_z,&ob_yaw,&ob_prim))
                 if (oi = OB_find_index(p_thing->WorldPos.X >> 8, p_thing->WorldPos.Y >> 8, p_thing->WorldPos.Z >> 8, 256, true)) {
@@ -1759,7 +1759,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
             } else
 #endif
                 if (use) {
-                Thing *p_person = TO_THING(use);
+                Entity* p_person = TO_THING(use);
 
                 ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -1817,7 +1817,7 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
                                 message_type = EWAY_FAKE_MESSAGE_ANNOYED;
                             }
 
-                            char *response = EWAY_get_fake_wander_message(message_type);
+                            char* response = EWAY_get_fake_wander_message(message_type);
 
                             if (response) {
                                 PANEL_new_text(
@@ -1996,15 +1996,15 @@ std::uint32_t do_an_action(Thing *p_thing, std::uint32_t input) {
     return (0); // INPUT_MASK_ACTION);
 }
 
-extern void set_person_hop_back(Thing *p_person);
+extern void set_person_hop_back(Entity* p_person);
 
 //
 // Given your input button mask, finds the best available option, if any.
 // Currently returns the first it finds
 //
 
-std::int32_t find_best_action_from_tree(std::int32_t action, std::uint32_t input, std::uint32_t *input_used) {
-    struct ActionInfo *action_options;
+std::int32_t find_best_action_from_tree(std::int32_t action, std::uint32_t input, std::uint32_t* input_used) {
+    struct ActionInfo* action_options;
 
     action_options = action_tree[action];
     //	LogText(" FIND BEST current action %d input %x \n",action,input);
@@ -2228,7 +2228,7 @@ std::int32_t get_camera_angle() {
     return (ca);
 }
 
-void player_stop_move(Thing *p_thing, std::uint32_t input) {
+void player_stop_move(Entity* p_thing, std::uint32_t input) {
     if (p_thing->State == STATE_GRAPPLING ||
         p_thing->State == STATE_CANNING ||
         p_thing->State == STATE_FIGHTING) {
@@ -2268,7 +2268,7 @@ void player_stop_move(Thing *p_thing, std::uint32_t input) {
     }
 }
 
-void get_analogue_dxdz(std::int32_t in_dx, std::int32_t in_dz, std::int32_t *dx, std::int32_t *dz) {
+void get_analogue_dxdz(std::int32_t in_dx, std::int32_t in_dz, std::int32_t* dx, std::int32_t* dz) {
     std::int32_t angle;
     std::int32_t ca;
 
@@ -2301,7 +2301,7 @@ void get_analogue_dxdz(std::int32_t in_dx, std::int32_t in_dz, std::int32_t *dx,
     *dz = in_dz;
 }
 
-void player_interface_move(Thing *p_thing, std::uint32_t input) {
+void player_interface_move(Entity* p_thing, std::uint32_t input) {
     //
     // left and right at the same time is not allowed
     //
@@ -2360,7 +2360,7 @@ void init_user_interface() {
 //
 // lock things angle to a compass direction
 //
-void lock_to_compass(Thing *p_thing) {
+void lock_to_compass(Entity* p_thing) {
     std::int32_t angle;
 
     //
@@ -2411,7 +2411,7 @@ extern std::int32_t EWAY_cam_jumped;
 std::int32_t globdx, globdz;
 #endif
 
-std::int32_t player_turn_left_right_analogue(Thing *p_thing, std::int32_t input) {
+std::int32_t player_turn_left_right_analogue(Entity* p_thing, std::int32_t input) {
     static std::uint8_t reduce_turn = 0;
 
     if (EWAY_cam_jumped > 0) {
@@ -2555,7 +2555,7 @@ std::int32_t player_turn_left_right_analogue(Thing *p_thing, std::int32_t input)
     return (0);
 }
 
-void process_analogue_movement(Thing *p_thing, std::int32_t input) {
+void process_analogue_movement(Entity* p_thing, std::int32_t input) {
     std::int32_t dx, dz, velocity;
     std::int32_t angle = -1;
     std::int32_t rel_x, rel_y;
@@ -2827,7 +2827,7 @@ void process_analogue_movement(Thing *p_thing, std::int32_t input) {
 
 #if 1
 // New, clean style!
-std::int32_t player_turn_left_right(Thing *p_thing, std::int32_t input) {
+std::int32_t player_turn_left_right(Entity* p_thing, std::int32_t input) {
     if (p_thing->SubState == SUB_STATE_RUNNING_HIT_WALL) {
         return (1);
     }
@@ -3039,7 +3039,7 @@ std::int32_t player_turn_left_right(Thing *p_thing, std::int32_t input) {
 
 #else
 
-std::int32_t player_turn_left_right(Thing *p_thing, std::int32_t input) {
+std::int32_t player_turn_left_right(Entity* p_thing, std::int32_t input) {
     std::int32_t da = 94;
 
 #if 0 // #ifdef TARGET_DC
@@ -3239,7 +3239,7 @@ std::int32_t player_turn_left_right(Thing *p_thing, std::int32_t input) {
 
 #endif
 
-void player_apply_move(Thing *p_thing, std::uint32_t input) {
+void player_apply_move(Entity* p_thing, std::uint32_t input) {
     //	std::int32_t	da=94;
     //	LogText(" player move  input %x \n",input);
 
@@ -3248,7 +3248,7 @@ void player_apply_move(Thing *p_thing, std::uint32_t input) {
         switch (p_thing->SubState) {
         case SUB_STATE_STOPPING:
             //				case	SUB_STATE_CLIMB_AROUND_WALL:
-            void locked_anim_change(Thing * p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
+            void locked_anim_change(Entity * p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
 #ifdef UNUSED
             if (input & INPUT_MASK_LEFT) {
                 p_thing->SubState = SUB_STATE_CLIMB_LEFT_WALL;
@@ -3655,7 +3655,7 @@ void player_apply_move(Thing *p_thing, std::uint32_t input) {
     }
 }
 
-extern void set_person_alive_alive_o(Thing *p_person);
+extern void set_person_alive_alive_o(Entity* p_person);
 
 /*
 
@@ -3663,7 +3663,7 @@ extern void set_person_alive_alive_o(Thing *p_person);
 // Changes a person's mode.
 //
 
-void person_change_mode(Thing *p_person)
+void person_change_mode(Entity *p_person)
 {
         if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT)
         {
@@ -3740,7 +3740,7 @@ void person_change_mode(Thing *p_person)
   2. you are standing still
 
 */
-void person_enter_fight_mode(Thing *p_person) {
+void person_enter_fight_mode(Entity* p_person) {
     p_person->Genus.Person->Mode = PERSON_MODE_FIGHT;
 }
 
@@ -3750,7 +3750,7 @@ void person_enter_fight_mode(Thing *p_person) {
 //
 
 // persumably this will be aplied to a darci or a roper
-std::uint32_t apply_button_input(struct Thing *p_player, struct Thing *p_person, std::uint32_t input) {
+std::uint32_t apply_button_input(struct Entity* p_player, struct Entity* p_person, std::uint32_t input) {
     std::uint32_t input_used = 0;
     std::uint32_t processed = 0;
 
@@ -3890,7 +3890,7 @@ std::uint32_t apply_button_input(struct Thing *p_player, struct Thing *p_person,
             input_used = 0;
             break;
         case ACTION_UNSIT:
-            void set_person_unsit(Thing * p_person);
+            void set_person_unsit(Entity * p_person);
             set_person_unsit(p_person);
             break;
 
@@ -4252,10 +4252,10 @@ std::uint8_t input_to_angle[] =
 
 */
 
-extern std::uint16_t count_gang(Thing *p_target);
+extern std::uint16_t count_gang(Entity* p_target);
 
-std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::uint32_t input) {
-    Player *pl = p_player->Genus.Player;
+std::uint32_t apply_button_input_fight(Entity* p_player, Entity* p_person, std::uint32_t input) {
+    Player* pl = p_player->Genus.Player;
 
     if (p_person->SubState == SUB_STATE_IDLE_CROUTCH_ARREST)
         return (0);
@@ -4484,7 +4484,7 @@ std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::ui
                 angle >>= 1;
 
                 if (abs(angle) < 64) {
-                    void set_person_fight_step_forward(Thing * p_person);
+                    void set_person_fight_step_forward(Entity * p_person);
                     set_person_fight_step_forward(p_person);
                 }
 
@@ -4676,7 +4676,7 @@ std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::ui
         // Shall we bend down to pick up a special or arrest someone?
         //
 
-        extern std::uint16_t find_arrestee(Thing * p_person);
+        extern std::uint16_t find_arrestee(Entity * p_person);
         if (p_person->SubState != SUB_STATE_GRAPPLE_HELD && p_person->SubState != SUB_STATE_GRAPPLE_HOLD)
             if (p_person->State == STATE_IDLE || p_person->State == STATE_FIGHTING || p_person->SubState == SUB_STATE_RUN_STOP) {
                 std::uint16_t index;
@@ -4697,7 +4697,7 @@ std::uint32_t apply_button_input_fight(Thing *p_player, Thing *p_person, std::ui
                     1 << CLASS_SPECIAL);
 
                 if (index) {
-                    Thing *special_thing = TO_THING(index);
+                    Entity* special_thing = TO_THING(index);
 
                     if (should_person_get_item(p_person, special_thing)) {
                         //
@@ -5073,12 +5073,12 @@ std::int32_t car_input_upto;
 std::int32_t car_inputting;
 */
 
-std::uint32_t apply_button_input_car(Thing *p_furn, std::uint32_t input) {
+std::uint32_t apply_button_input_car(Entity* p_furn, std::uint32_t input) {
     std::uint32_t processed_input = 0;
 
     ASSERT(p_furn->Class == CLASS_VEHICLE);
 
-    Vehicle *veh = p_furn->Genus.Vehicle;
+    Vehicle* veh = p_furn->Genus.Vehicle;
 
     // get analogue / digital steering inputs
 
@@ -5163,7 +5163,7 @@ std::uint32_t apply_button_input_car(Thing *p_furn, std::uint32_t input) {
 //
 #ifndef PSX
 #ifdef BIKE
-std::uint32_t apply_button_input_bike(Thing *p_bike, std::uint32_t input) {
+std::uint32_t apply_button_input_bike(Entity* p_bike, std::uint32_t input) {
     ASSERT(p_bike->Class == CLASS_BIKE);
 
     //
@@ -6489,7 +6489,7 @@ std::uint32_t pre_process_input(std::int32_t mode, std::uint32_t input) {
 
 std::int32_t FirstPersonMode = false;
 
-std::uint32_t apply_button_input_first_person(Thing *p_player, Thing *p_person, std::uint32_t input, std::uint32_t *processed) {
+std::uint32_t apply_button_input_first_person(Entity* p_player, Entity* p_person, std::uint32_t input, std::uint32_t* processed) {
     static std::int32_t look_ami = false;
     std::int32_t fpm = false;
     std::int32_t gun = 0;
@@ -6553,7 +6553,7 @@ std::uint32_t apply_button_input_first_person(Thing *p_player, Thing *p_person, 
                     // Drawing a special.
                     //
 
-                    Thing *p_special = TO_THING(p_person->Genus.Person->SpecialDraw);
+                    Entity *p_special = TO_THING(p_person->Genus.Person->SpecialDraw);
 
                     switch(p_special->Genus.Special->SpecialType)
                     {
@@ -6694,7 +6694,7 @@ std::uint32_t apply_button_input_first_person(Thing *p_player, Thing *p_person, 
     return (fpm);
 }
 
-std::int32_t can_darci_change_weapon(Thing *p_person) {
+std::int32_t can_darci_change_weapon(Entity* p_person) {
     if (EWAY_stop_player_moving()) {
         return false;
     }
@@ -6733,7 +6733,7 @@ std::int32_t can_darci_change_weapon(Thing *p_person) {
 
 int g_iPlayerCameraMode = 0;
 
-void process_hardware_level_input_for_player(Thing *p_player) {
+void process_hardware_level_input_for_player(Entity* p_player) {
     std::int32_t i;
 
     std::uint32_t input;
@@ -6741,7 +6741,7 @@ void process_hardware_level_input_for_player(Thing *p_player) {
     std::uint32_t processed = 0;
     std::int32_t tick = GetTickCount();
 
-    Thing *p_person;
+    Entity* p_person;
     p_person = p_player->Genus.Player->PlayerPerson;
 
     //
@@ -6750,7 +6750,7 @@ void process_hardware_level_input_for_player(Thing *p_player) {
 
     input = PACKET_DATA(p_player->Genus.Player->PlayerID);
 
-    Player *pl = p_player->Genus.Player;
+    Player* pl = p_player->Genus.Player;
 
     //
     // do the camera stuff
@@ -6914,7 +6914,7 @@ void process_hardware_level_input_for_player(Thing *p_player) {
 
     std::int32_t no_control = false;
 
-    extern Form *form_leave_map;
+    extern Form* form_leave_map;
     extern std::int32_t form_left_map;
 
     if (EWAY_stop_player_moving()) {
@@ -7073,7 +7073,7 @@ void process_hardware_level_input_for_player(Thing *p_player) {
             if (p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
                 ASSERT(p_person->Genus.Person->InCar);
 #if 0
-				Thing *p_thing=TO_THING(p_person->Genus.Person->InCar);
+				Entity *p_thing=TO_THING(p_person->Genus.Person->InCar);
 				std::int32_t vel=QDIST2(abs(p_thing->Genus.Vehicle->VelX),abs(p_thing->Genus.Vehicle->VelZ));
 				// Set a minimum for tick over shock
 				vel>>=8;
@@ -7083,7 +7083,7 @@ void process_hardware_level_input_for_player(Thing *p_player) {
 #ifdef TARGET_DC
                 if (g_bEngineVibrations) // user preference setting.
                 {
-                    Thing *p_thing = TO_THING(p_person->Genus.Person->InCar);
+                    Entity* p_thing = TO_THING(p_person->Genus.Person->InCar);
                     std::int32_t vel = QDIST2(abs(p_thing->Genus.Vehicle->VelX), abs(p_thing->Genus.Vehicle->VelZ));
                     vel >>= 8;
 #if 0
@@ -7149,8 +7149,8 @@ void process_hardware_level_input_for_player(Thing *p_player) {
 #endif
 }
 
-std::int32_t continue_action(Thing *p_person) {
-    Thing *p_player;
+std::int32_t continue_action(Entity* p_person) {
+    Entity* p_player;
     std::uint32_t input, input_used, new_action;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);
@@ -7172,8 +7172,8 @@ std::int32_t continue_action(Thing *p_person) {
     return (0);
 }
 
-std::int32_t continue_pressing_action(Thing *p_person) {
-    Thing *p_player;
+std::int32_t continue_pressing_action(Entity* p_person) {
+    Entity* p_player;
     std::uint32_t input, input_used, new_action;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);
@@ -7186,16 +7186,16 @@ std::int32_t continue_pressing_action(Thing *p_person) {
     return (1);
 }
 
-void set_action_used(Thing *p_person) {
-    Thing *p_player;
+void set_action_used(Entity* p_person) {
+    Entity* p_player;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);
         p_player->Genus.Player->InputDone |= INPUT_MASK_ACTION;
     }
 }
 
-std::int32_t continue_dir(Thing *p_person, std::int32_t dir) {
-    Thing *p_player;
+std::int32_t continue_dir(Entity* p_person, std::int32_t dir) {
+    Entity* p_player;
     std::uint32_t input;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);
@@ -7213,12 +7213,12 @@ std::int32_t continue_dir(Thing *p_person, std::int32_t dir) {
 
     return (0);
 }
-std::int32_t continue_firing(Thing *p_person) {
-    Thing *p_player;
+std::int32_t continue_firing(Entity* p_person) {
+    Entity* p_player;
     std::uint32_t input;
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         if (p_special->Genus.Special->SpecialType == SPECIAL_AK47) {
             if (p_special->Genus.Special->ammo == 0) {
@@ -7237,7 +7237,7 @@ std::int32_t continue_firing(Thing *p_person) {
             return false;
         }
     } else {
-        Thing *p_target;
+        Entity* p_target;
         std::uint16_t i_target;
 
         //
@@ -7260,8 +7260,8 @@ std::int32_t continue_firing(Thing *p_person) {
     }
 }
 
-std::int32_t continue_moveing(Thing *p_person) {
-    Thing *p_player;
+std::int32_t continue_moveing(Entity* p_person) {
+    Entity* p_player;
     std::uint32_t input;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);
@@ -7313,8 +7313,8 @@ std::int32_t continue_moveing(Thing *p_person) {
     }
 }
 
-std::int32_t continue_blocking(Thing *p_person) {
-    Thing *p_player;
+std::int32_t continue_blocking(Entity* p_person) {
+    Entity* p_player;
     std::uint32_t input;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);
@@ -7334,8 +7334,8 @@ std::int32_t continue_blocking(Thing *p_person) {
     }
 }
 
-void remove_action_used(Thing *p_person) {
-    Thing *p_player;
+void remove_action_used(Entity* p_person) {
+    Entity* p_player;
     std::uint32_t input;
     if (p_person->Genus.Person->PlayerID) {
         p_player = NET_PLAYER(p_person->Genus.Person->PlayerID - 1);

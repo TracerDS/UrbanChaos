@@ -10,7 +10,7 @@
 //
 
 void SMAP_person(
-    Thing *person,
+    Entity *person,
     std::uint8_t *bitmap, // 0 => transparent 255 => opaque
     std::uint8_t u_res,
     std::uint8_t v_res,
@@ -19,7 +19,7 @@ void SMAP_person(
     std::int32_t light_dz);
 
 void SMAP_bike(
-    Thing *person,
+    Entity *person,
     std::uint8_t *bitmap, // 0 => transparent 255 => opaque
     std::uint8_t u_res,
     std::uint8_t v_res,

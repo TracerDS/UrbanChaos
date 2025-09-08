@@ -60,7 +60,7 @@ typedef struct
         LinkParent;
 
     Draw Draw;
-} Thing;
+} Entity;
 
 //---------------------------------------------------------------
 

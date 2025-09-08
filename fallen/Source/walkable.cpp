@@ -62,9 +62,9 @@ std::int32_t point_in_quad(std::int32_t px, std::int32_t pz, std::int32_t x, std
 //   *height always trys to have the height
 
 std::int32_t gh_vx[4], gh_vy[4], gh_vz[4]; // out of stack space (on PSX) so words
-std::int32_t get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz, std::int16_t face, std::int32_t *height) {
+std::int32_t get_height_on_face_quad64_at(std::int32_t rx, std::int32_t rz, std::int16_t face, std::int32_t* height) {
     //	std::int32_t 	ux,uy,uz,vx,vy,vz,wx,wy,wz;
-    struct PrimFace4 *this_face4;
+    struct PrimFace4* this_face4;
     std::int32_t ax, ay, az, bx, by, bz;
 
     std::int32_t top, bot;
@@ -289,7 +289,7 @@ std::int32_t calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face
 
 std::int32_t is_thing_on_this_quad(std::int32_t x, std::int32_t z, std::int32_t face) {
     if (face < 0) {
-        struct RoofFace4 *rf;
+        struct RoofFace4* rf;
         //		highlight_rface(-face);
 
         if (IS_ROOF_HIDDEN_FACE(face)) {
@@ -315,7 +315,7 @@ std::int32_t is_thing_on_this_quad(std::int32_t x, std::int32_t z, std::int32_t 
     }
 }
 
-std::int32_t calc_height_on_rface(std::int32_t x, std::int32_t z, std::int16_t face, std::int32_t *ret_y) {
+std::int32_t calc_height_on_rface(std::int32_t x, std::int32_t z, std::int16_t face, std::int32_t* ret_y) {
     std::int32_t h0;
     std::int32_t h1;
     std::int32_t h2;
@@ -326,7 +326,7 @@ std::int32_t calc_height_on_rface(std::int32_t x, std::int32_t z, std::int16_t f
 
     std::int32_t answer;
 
-    struct RoofFace4 *rf;
+    struct RoofFace4* rf;
 
     ASSERT(face > 0);
 
@@ -401,7 +401,7 @@ std::int32_t find_face_for_this_pos(
     std::int32_t x,
     std::int32_t y,
     std::int32_t z,
-    std::int32_t *ret_y,
+    std::int32_t* ret_y,
     std::int32_t ignore_building,
     std::uint8_t ignore_height_flag) {
     std::uint8_t mx;
@@ -532,7 +532,7 @@ std::int32_t find_face_for_this_pos(
     return NULL;
 }
 
-std::int32_t find_height_for_this_pos(std::int32_t x, std::int32_t z, std::int32_t *ret_face) {
+std::int32_t find_height_for_this_pos(std::int32_t x, std::int32_t z, std::int32_t* ret_face) {
     std::uint8_t mx;
     std::uint8_t mz;
     std::int32_t dy;
@@ -607,7 +607,7 @@ std::int32_t find_height_for_this_pos(std::int32_t x, std::int32_t z, std::int32
     return groundy; // step onto floor
 }
 
-std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, std::int32_t *angle) {
+std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, std::int32_t* angle) {
     std::int32_t h0;
     std::int32_t h1;
     std::int32_t h2;
@@ -616,7 +616,7 @@ std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, s
     std::int32_t xfrac;
     std::int32_t zfrac;
 
-    struct RoofFace4 *rf;
+    struct RoofFace4* rf;
 
     ASSERT(face > 0);
 
@@ -789,10 +789,10 @@ std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, s
 #ifndef PSX
 void WALKABLE_remove_rface(std::uint8_t map_x, std::uint8_t map_z) {
     std::int16_t next;
-    std::int16_t *prev;
+    std::int16_t* prev;
 
-    PAP_Lo *pl;
-    RoofFace4 *rf;
+    PAP_Lo* pl;
+    RoofFace4* rf;
 
     pl = &PAP_2LO(map_x >> 2, map_z >> 2);
 

@@ -66,15 +66,15 @@ extern std::int32_t insert_collision_vect(std::int32_t x1, std::int32_t y1, std:
 extern void remove_collision_vect(std::uint16_t vect);
 
 extern std::int32_t get_point_dist_from_col_vect(std::int32_t vect, std::int32_t x, std::int32_t z, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t new_dist);
-extern std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Thing *p_thing, std::int32_t radius);
-extern std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Thing *p_thing);
-extern std::uint32_t move_thing_quick(std::int32_t dx, std::int32_t dy, std::int32_t dz, Thing *p_thing);
-extern std::int32_t check_vect_vect(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Thing *p_thing, std::int32_t scale);
+extern std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Entity *p_thing, std::int32_t radius);
+extern std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Entity *p_thing);
+extern std::uint32_t move_thing_quick(std::int32_t dx, std::int32_t dy, std::int32_t dz, Entity *p_thing);
+extern std::int32_t check_vect_vect(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Entity *p_thing, std::int32_t scale);
 extern std::int32_t find_face_for_this_pos(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t *ret_y, std::int32_t ignore_faces_of_this_building, std::uint8_t flag);
 extern std::int32_t dist_to_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b);
 extern void correct_pos_for_ladder(struct DFacet *p_facet, std::int32_t *px, std::int32_t *pz, std::int32_t *angle, std::int32_t scale);
-extern std::int32_t height_above_anything(Thing *p_person, std::int32_t body_part, std::int16_t *onface);
-extern std::int32_t plant_feet(Thing *p_person);
+extern std::int32_t height_above_anything(Entity *p_person, std::int32_t body_part, std::int16_t *onface);
+extern std::int32_t plant_feet(Entity *p_person);
 
 //
 // Early-out tests for box-box circle-box collision. These functions
@@ -193,9 +193,9 @@ std::int32_t slide_around_sausage(
 // Makes the thing mount the given ladder... Returns true if it did.
 //
 
-std::int32_t find_nearby_ladder_colvect(Thing *p_thing);
+std::int32_t find_nearby_ladder_colvect(Entity *p_thing);
 std::int32_t find_nearby_ladder_colvect_radius(std::int32_t mid_x, std::int32_t mid_z, std::int32_t radius);
-std::int32_t mount_ladder(Thing *p_thing, std::int32_t col);
+std::int32_t mount_ladder(Entity *p_thing, std::int32_t col);
 
 //
 // Returns which side of the colvect you are on.
@@ -247,7 +247,7 @@ std::int32_t slide_along(
 //
 
 std::int32_t collide_against_things(
-    Thing *p_thing,
+    Entity *p_thing,
     std::int32_t radius,
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
     std::int32_t *x2, std::int32_t *y2, std::int32_t *z2);
@@ -258,7 +258,7 @@ std::int32_t collide_against_things(
 //
 
 std::int32_t collide_against_objects(
-    Thing *p_thing,
+    Entity *p_thing,
     std::int32_t radius,
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
     std::int32_t *x2, std::int32_t *y2, std::int32_t *z2);
@@ -279,7 +279,7 @@ extern std::int32_t los_failure_dfacet; // The dfacet that caused the LOS to fai
 #define LOS_FLAG_IGNORE_UNDERGROUND_CHECK (1 << 2)
 #define LOS_FLAG_INCLUDE_CARS (1 << 3) // Only relevant if you don't ignore prims.
 
-std::int32_t there_is_a_los_things(Thing *p_person_a, Thing *p_person_b, std::int32_t los_flags);
+std::int32_t there_is_a_los_things(Entity *p_person_a, Entity *p_person_b, std::int32_t los_flags);
 
 std::int32_t there_is_a_los(
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
@@ -400,7 +400,7 @@ void create_shockwave(
     std::int32_t z,
     std::int32_t radius,
     std::int32_t maxdamage,                             // Remember- a person's maximum health is 200
-    Thing *p_aggressor, std::uint32_t just_people = 0); // Who caused the shockwave or nullptr if you don't know
+    Entity *p_aggressor, std::uint32_t just_people = 0); // Who caused the shockwave or nullptr if you don't know
 
 //
 // Flags fences with a see-through texture as being FACET_FLAG_SEETHROUGH

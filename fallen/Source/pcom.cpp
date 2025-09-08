@@ -39,29 +39,29 @@ extern bool allow_debug_keys;
 //
 
 extern std::uint8_t combo_display;
-void push_into_attack_group_at_angle(Thing *p_person, std::int32_t gang, std::int32_t reqd_angle);
-std::int32_t remove_from_gang_attack(Thing *p_person, Thing *p_target);
-void PCOM_set_person_ai_flee_person(Thing *p_person, Thing *p_scary);
+void push_into_attack_group_at_angle(Entity* p_person, std::int32_t gang, std::int32_t reqd_angle);
+std::int32_t remove_from_gang_attack(Entity* p_person, Entity* p_target);
+void PCOM_set_person_ai_flee_person(Entity* p_person, Entity* p_scary);
 
-void DriveCar(Thing *p_person);
-void ParkCar(Thing *p_person);
-void DriveBike(Thing *p_person);
-void ParkBike(Thing *p_person);
+void DriveCar(Entity* p_person);
+void ParkCar(Entity* p_person);
+void DriveBike(Entity* p_person);
+void ParkBike(Entity* p_person);
 
 //
 // externs
 //
-extern std::int32_t people_allowed_to_hit_each_other(Thing *p_victim, Thing *p_agressor);
-extern std::int32_t am_i_a_thug(Thing *p_person);
-extern std::int32_t person_normal_animate(Thing *p_person);
-extern std::int32_t dist_to_target_pelvis(Thing *p_person_a, Thing *p_person_b);
-extern void set_person_recircle(Thing *p_person);
-extern void FC_kill_player_cam(Thing *p_thing);
+extern std::int32_t people_allowed_to_hit_each_other(Entity* p_victim, Entity* p_agressor);
+extern std::int32_t am_i_a_thug(Entity* p_person);
+extern std::int32_t person_normal_animate(Entity* p_person);
+extern std::int32_t dist_to_target_pelvis(Entity* p_person_a, Entity* p_person_b);
+extern void set_person_recircle(Entity* p_person);
+extern void FC_kill_player_cam(Entity* p_thing);
 extern std::uint8_t GAME_cut_scene;
-extern std::int32_t is_person_dead(Thing *p_person);
-extern std::int32_t is_person_ko(Thing *p_person);
-extern std::int32_t person_has_gun_out(Thing *p_person);
-extern std::int32_t is_person_guilty(Thing *p_person);
+extern std::int32_t is_person_dead(Entity* p_person);
+extern std::int32_t is_person_ko(Entity* p_person);
+extern std::int32_t person_has_gun_out(Entity* p_person);
+extern std::int32_t is_person_guilty(Entity* p_person);
 
 extern std::uint8_t vehicle_random[];
 
@@ -70,7 +70,7 @@ extern std::int32_t there_is_a_los_mav( // From collide.cpp
     std::int32_t x2, std::int32_t y2, std::int32_t z2);
 
 #ifndef PSX
-char *PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] =
+char* PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] =
     {
         "Player",
         "Normal",
@@ -101,7 +101,7 @@ char *PCOM_ai_state_name[PCOM_AI_STATE_NUMBER] =
         "Summon",
         "Get item"};
 
-char *PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
+char* PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
     {
         "None",
         "Suprised",
@@ -133,7 +133,7 @@ char *PCOM_ai_substate_name[PCOM_AI_SUBSTATE_NUMBER] =
         "Can't find",
         "Waiting"};
 
-char *PCOM_ai_name[PCOM_AI_NUMBER] =
+char* PCOM_ai_name[PCOM_AI_NUMBER] =
     {
         "player",
         "civillian",
@@ -158,7 +158,7 @@ char *PCOM_ai_name[PCOM_AI_NUMBER] =
         "Hypochondria",
         "Shoot dead"};
 
-char *PCOM_bent_name[PCOM_BENT_NUMBER] =
+char* PCOM_bent_name[PCOM_BENT_NUMBER] =
     {
         "Lazy ",
         "Diligent ",
@@ -169,7 +169,7 @@ char *PCOM_bent_name[PCOM_BENT_NUMBER] =
         "Restricted ",
         "Player-kill"};
 
-char *PCOM_move_name[PCOM_MOVE_NUMBER] =
+char* PCOM_move_name[PCOM_MOVE_NUMBER] =
     {
         "NULL",
         "Still",
@@ -218,7 +218,7 @@ char *PCOM_move_name[PCOM_MOVE_NUMBER] =
 #define PCOM_MOVE_SPEED_SPRINT PERSON_SPEED_SPRINT
 
 #ifndef PSX
-char *PCOM_move_state_name[] =
+char* PCOM_move_state_name[] =
     {
         "Player",
         "Still",
@@ -324,8 +324,8 @@ std::int32_t PCOM_found_num;
 // Prototypes...
 //
 
-void PCOM_set_person_ai_homesick(Thing *p_person);
-std::int32_t person_holding_2handed(Thing *p_person);
+void PCOM_set_person_ai_homesick(Entity* p_person);
+std::int32_t person_holding_2handed(Entity* p_person);
 
 void PCOM_init() {
     //
@@ -341,7 +341,7 @@ void PCOM_init() {
 
 void PCOM_add_gang_member(THING_INDEX person, std::uint8_t group) {
     std::int32_t i;
-    PCOM_Gang *pg;
+    PCOM_Gang* pg;
 
     ASSERT(WITHIN(group, 0, PCOM_MAX_GANGS - 1));
     ASSERT(WITHIN(PCOM_gang_person_upto, 0, PCOM_MAX_GANG_PEOPLE - 1));
@@ -404,8 +404,8 @@ void PCOM_add_gang_member(THING_INDEX person, std::uint8_t group) {
 // Returns true if a fake wandering person should attack Darci.
 //
 
-std::int32_t PCOM_should_fake_person_attack_darci(Thing *p_person) {
-    Thing *darci = NET_PERSON(0);
+std::int32_t PCOM_should_fake_person_attack_darci(Entity* p_person) {
+    Entity* darci = NET_PERSON(0);
 
     if (darci->Genus.Person->Ware) {
         //
@@ -441,7 +441,7 @@ std::int32_t PCOM_should_fake_person_attack_darci(Thing *p_person) {
         1 << CLASS_PERSON);
 
     std::int32_t i;
-    Thing *p_found;
+    Entity* p_found;
 
     for (i = 0; i < PCOM_found_num; i++) {
         p_found = TO_THING(PCOM_found[i]);
@@ -472,8 +472,8 @@ std::int32_t PCOM_should_fake_person_attack_darci(Thing *p_person) {
 // not really PCOM_  becasue used by players elsewhere
 //
 
-std::int32_t get_rate_of_fire(Thing *p_person) {
-    Thing *p_special;
+std::int32_t get_rate_of_fire(Entity* p_person) {
+    Entity* p_special;
 
     if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
         p_person->Genus.Person->PersonType == PERSON_MIB2 ||
@@ -535,7 +535,7 @@ std::int32_t get_rate_of_fire(Thing *p_person) {
 //		   @   @  @	@  @ @	  @	  @	 @	@ @	 @
 //		   @	@@@	@  @  @@@  @@ @	  @@  @	 @ @
 
-std::int32_t person_has_gun_or_grenade_out(Thing *p_person) {
+std::int32_t person_has_gun_or_grenade_out(Entity* p_person) {
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
         return (SPECIAL_GUN);
     }
@@ -545,7 +545,7 @@ std::int32_t person_has_gun_or_grenade_out(Thing *p_person) {
     }
 
     {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         if (p_special->Genus.Special->SpecialType == SPECIAL_SHOTGUN ||
             p_special->Genus.Special->SpecialType == SPECIAL_AK47 ||
@@ -635,7 +635,7 @@ std::uint16_t PCOM_get_angle_for_dir(std::int32_t dir) {
 // Returns a small vector in the given MAV_DIR
 //
 
-void PCOM_get_dx_dz_for_dir(std::int32_t dir, std::int32_t *dx, std::int32_t *dz) {
+void PCOM_get_dx_dz_for_dir(std::int32_t dir, std::int32_t* dx, std::int32_t* dz) {
     std::int32_t ans_x;
     std::int32_t ans_z;
 
@@ -652,7 +652,7 @@ void PCOM_get_dx_dz_for_dir(std::int32_t dir, std::int32_t *dx, std::int32_t *dz
 // Returns the distance between two people- includes y spacing.
 //
 
-std::int32_t PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b) {
+std::int32_t PCOM_get_dist_between(Entity* p_person_a, Entity* p_person_b) {
     std::int32_t ax;
     std::int32_t ay;
     std::int32_t az;
@@ -718,7 +718,7 @@ std::int32_t PCOM_get_dist_between(Thing *p_person_a, Thing *p_person_b) {
 // Returns how far a person is from home.
 //
 
-std::int32_t PCOM_get_dist_from_home(Thing *p_person) {
+std::int32_t PCOM_get_dist_from_home(Entity* p_person) {
     std::int32_t home_x = (p_person->Genus.Person->HomeX << 0); // + 0x80;
     std::int32_t home_z = (p_person->Genus.Person->HomeZ << 0); // + 0x80;
 
@@ -734,7 +734,7 @@ std::int32_t PCOM_get_dist_from_home(Thing *p_person) {
 // Returns true if you can try to do a fastnav to the given person.
 //
 
-std::int32_t PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_target) {
+std::int32_t PCOM_should_i_try_to_los_mav_to_person(Entity* p_person, Entity* p_target) {
     if (p_target->Class == CLASS_PERSON) {
         if (p_target->State == STATE_CLIMB_LADDER ||
             p_target->State == STATE_CLIMBING ||
@@ -761,9 +761,9 @@ std::int32_t PCOM_should_i_try_to_los_mav_to_person(Thing *p_person, Thing *p_ta
 //
 
 void PCOM_get_person_navsquare(
-    Thing *p_person,
-    std::int32_t *map_dest_x,
-    std::int32_t *map_dest_z) {
+    Entity* p_person,
+    std::int32_t* map_dest_x,
+    std::int32_t* map_dest_z) {
     ASSERT(p_person->Class == CLASS_PERSON);
 
     std::int32_t ans_x = p_person->WorldPos.X;
@@ -842,11 +842,11 @@ dont_mav_in_front_of_the_person:;
 //
 
 void PCOM_get_vehicle_navsquare(
-    Thing *p_vehicle,
-    std::int32_t *map_dest_x,
-    std::int32_t *map_dest_z,
+    Entity* p_vehicle,
+    std::int32_t* map_dest_x,
+    std::int32_t* map_dest_z,
     std::int32_t i_am_a_passenger,
-    Thing *p_person) {
+    Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -858,7 +858,7 @@ void PCOM_get_vehicle_navsquare(
     std::int32_t iz2;
     std::int32_t dist2;
 
-    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t door, std::int32_t * cx, std::int32_t * cz);
+    extern void get_car_enter_xz(Entity * p_vehicle, std::int32_t door, std::int32_t* cx, std::int32_t* cz);
 
     //
     // Go to the nearest door.
@@ -918,7 +918,7 @@ void PCOM_get_vehicle_navsquare(
 //
 
 std::int32_t PCOM_position_person_to_sit_on_prim(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t prim,
     std::int32_t prim_x,
     std::int32_t prim_y,
@@ -931,7 +931,7 @@ std::int32_t PCOM_position_person_to_sit_on_prim(
     std::int32_t dz;
     std::int32_t away;
 
-    PrimInfo *pi = get_prim_info(prim);
+    PrimInfo* pi = get_prim_info(prim);
 
     GameCoord newpos;
 
@@ -972,9 +972,9 @@ std::int32_t PCOM_position_person_to_sit_on_prim(
 //
 
 void PCOM_get_flee_from_pos(
-    Thing *p_person,
-    std::int32_t *from_x,
-    std::int32_t *from_z) {
+    Entity* p_person,
+    std::int32_t* from_x,
+    std::int32_t* from_z) {
     std::int32_t ans_x;
     std::int32_t ans_z;
 
@@ -1003,14 +1003,14 @@ void PCOM_get_flee_from_pos(
 //
 
 void PCOM_get_person_dest(
-    Thing *p_person,
-    std::int32_t *dest_x,
-    std::int32_t *dest_z) {
+    Entity* p_person,
+    std::int32_t* dest_x,
+    std::int32_t* dest_z) {
     std::int32_t ans_x;
     std::int32_t ans_y;
     std::int32_t ans_z;
 
-    Thing *p_thing;
+    Entity* p_thing;
 
     ans_x = p_person->WorldPos.X >> 8;
     ans_z = p_person->WorldPos.Z >> 8;
@@ -1138,9 +1138,9 @@ void PCOM_get_person_dest(
 //
 
 void PCOM_get_mav_action_pos(
-    Thing *p_person,
-    std::int32_t *dest_x,
-    std::int32_t *dest_z) {
+    Entity* p_person,
+    std::int32_t* dest_x,
+    std::int32_t* dest_z) {
     ASSERT(p_person->Genus.Person->pcom_move_substate != PCOM_MOVE_SUBSTATE_LOSMAV);
 
     std::int32_t dx;
@@ -1171,7 +1171,7 @@ void PCOM_get_mav_action_pos(
 // Returns true if the person is carrying any sort of gun.
 //
 
-std::int32_t PCOM_person_has_any_sort_of_gun(Thing *p_person) {
+std::int32_t PCOM_person_has_any_sort_of_gun(Entity* p_person) {
     if (p_person->Flags & FLAGS_HAS_GUN) {
         return true;
     }
@@ -1195,7 +1195,7 @@ std::int32_t PCOM_person_has_any_sort_of_gun(Thing *p_person) {
 // Returns true if the person has gun and ammo to use with it.
 //
 
-std::int32_t PCOM_person_has_any_sort_of_h2h(Thing *p_person) {
+std::int32_t PCOM_person_has_any_sort_of_h2h(Entity* p_person) {
     if (person_has_special(p_person, SPECIAL_KNIFE)) {
         return (SPECIAL_KNIFE);
     } else if (person_has_special(p_person, SPECIAL_BASEBALLBAT)) {
@@ -1205,8 +1205,8 @@ std::int32_t PCOM_person_has_any_sort_of_h2h(Thing *p_person) {
     }
 }
 
-std::int32_t PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person) {
-    Thing *p_special;
+std::int32_t PCOM_person_has_any_sort_of_gun_with_ammo(Entity* p_person) {
+    Entity* p_special;
 
     if (p_person->Flags & FLAGS_HAS_GUN) {
         if (p_person->Genus.Person->Ammo) {
@@ -1236,10 +1236,10 @@ std::int32_t PCOM_person_has_any_sort_of_gun_with_ammo(Thing *p_person) {
 // near the car.
 //
 
-std::int32_t PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle) {
+std::int32_t PCOM_are_there_people_who_want_to_enter(Entity* p_vehicle) {
     std::int32_t i;
     std::int32_t num_found;
-    Thing *p_found;
+    Entity* p_found;
 
     num_found = THING_find_sphere(
         p_vehicle->WorldPos.X >> 8,
@@ -1255,7 +1255,7 @@ std::int32_t PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle) {
 
         if (p_found->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FINDCAR ||
             p_found->Genus.Person->pcom_ai_state == PCOM_AI_STATE_HITCH) {
-            Thing *p_vehin = TO_THING(p_found->Genus.Person->pcom_ai_arg);
+            Entity* p_vehin = TO_THING(p_found->Genus.Person->pcom_ai_arg);
 
             if (p_vehin == p_vehicle) {
                 return true;
@@ -1266,7 +1266,7 @@ std::int32_t PCOM_are_there_people_who_want_to_enter(Thing *p_vehicle) {
     return false;
 }
 
-std::int32_t PCOM_person_doing_nothing_important(Thing *p_person) {
+std::int32_t PCOM_person_doing_nothing_important(Entity* p_person) {
     if (p_person->State == STATE_DYING || p_person->State == STATE_DEAD || p_person->State == STATE_CARRY)
         return (false);
 
@@ -1345,7 +1345,7 @@ std::int32_t PCOM_person_doing_nothing_important(Thing *p_person) {
 // Returns true if the person has any kind of gun in his hand- ready to shoot.
 //
 
-std::int32_t PCOM_person_has_gun_in_hand(Thing *p_person) {
+std::int32_t PCOM_person_has_gun_in_hand(Entity* p_person) {
     if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
         p_person->Genus.Person->PersonType == PERSON_MIB2 ||
         p_person->Genus.Person->PersonType == PERSON_MIB3) {
@@ -1370,7 +1370,7 @@ std::int32_t PCOM_person_has_gun_in_hand(Thing *p_person) {
     }
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         if (p_special->Genus.Special->SpecialType == SPECIAL_SHOTGUN ||
             p_special->Genus.Special->SpecialType == SPECIAL_AK47 ||
@@ -1386,7 +1386,7 @@ std::int32_t PCOM_person_has_gun_in_hand(Thing *p_person) {
 // Returns true if the target has a gun pointed at you!
 //
 
-std::int32_t PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter) {
+std::int32_t PCOM_target_could_shoot_me(Entity* p_person, Entity* p_shooter) {
     if (can_a_see_b(p_shooter, p_person))
         if (PCOM_person_has_gun_in_hand(p_shooter)) {
             std::int32_t dangle = get_dangle(p_shooter, p_person);
@@ -1407,7 +1407,7 @@ std::int32_t PCOM_target_could_shoot_me(Thing *p_person, Thing *p_shooter) {
 //
 
 std::int32_t PCOM_person_dist_from(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t world_x,
     std::int32_t world_z) {
     std::int32_t dx = abs((p_person->WorldPos.X >> 8) - world_x);
@@ -1424,9 +1424,9 @@ std::int32_t PCOM_person_dist_from(
 //
 
 std::int32_t PCOM_find_hiding_place(
-    Thing *p_person,
-    std::int32_t *hide_x,
-    std::int32_t *hide_z) {
+    Entity* p_person,
+    std::int32_t* hide_x,
+    std::int32_t* hide_z) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -1456,7 +1456,7 @@ std::int32_t PCOM_find_hiding_place(
 
     MAV_Action ma;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     for (dx = -5; dx <= 5; dx++)
         for (dz = -5; dz <= 5; dz++) {
@@ -1534,7 +1534,7 @@ std::int32_t PCOM_find_hiding_place(
     return (best_score > -INFINITY);
 }
 
-std::int32_t PCOM_player_is_doing_something_naughty(Thing *darci) {
+std::int32_t PCOM_player_is_doing_something_naughty(Entity* darci) {
     std::int32_t map_x;
     std::int32_t map_z;
 
@@ -1592,13 +1592,13 @@ std::int32_t PCOM_player_is_doing_something_naughty(Thing *darci) {
 // his fight (if they can see him).
 //
 
-void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, std::int32_t alert_gang = true); // These two functions call eachother!
+void PCOM_set_person_ai_kill_person(Entity* p_person, Entity* p_target, std::int32_t alert_gang = true); // These two functions call eachother!
 
-void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target) {
+void PCOM_alert_my_gang_to_a_fight(Entity* p_person, Entity* p_target) {
     std::int32_t i;
 
-    PCOM_Gang *pg;
-    Thing *p_gang;
+    PCOM_Gang* pg;
+    Entity* p_gang;
 
     ASSERT(WITHIN(p_person->Genus.Person->pcom_colour, 0, PCOM_MAX_GANGS - 1));
     ASSERT(p_person->Genus.Person->pcom_bent & PCOM_BENT_GANG);
@@ -1638,13 +1638,13 @@ void PCOM_alert_my_gang_to_a_fight(Thing *p_person, Thing *p_target) {
             }
     }
 }
-std::int32_t am_i_a_thug(Thing *p_person);
+std::int32_t am_i_a_thug(Entity* p_person);
 
-void PCOM_alert_my_gang_to_flee(Thing *p_person, Thing *p_target) {
+void PCOM_alert_my_gang_to_flee(Entity* p_person, Entity* p_target) {
     std::int32_t i;
 
-    PCOM_Gang *pg;
-    Thing *p_gang;
+    PCOM_Gang* pg;
+    Entity* p_gang;
 
     ASSERT(WITHIN(p_person->Genus.Person->pcom_colour, 0, PCOM_MAX_GANGS - 1));
     ASSERT(p_person->Genus.Person->pcom_bent & PCOM_BENT_GANG);
@@ -1680,7 +1680,7 @@ void PCOM_alert_my_gang_to_flee(Thing *p_person, Thing *p_target) {
 //
 // ========================================================
 
-void PCOM_set_person_move_still(Thing *p_person) {
+void PCOM_set_person_move_still(Entity* p_person) {
     //
     // Make the person stand still.
     //
@@ -1695,7 +1695,7 @@ void PCOM_set_person_move_still(Thing *p_person) {
     p_person->Genus.Person->pcom_move_counter = 0;
 }
 
-void PCOM_set_person_move_mav_to_xz(Thing *p_person, std::int32_t dest_x, std::int32_t dest_z, std::int32_t speed) {
+void PCOM_set_person_move_mav_to_xz(Entity* p_person, std::int32_t dest_x, std::int32_t dest_z, std::int32_t speed) {
     std::int32_t caps;
 
     std::int32_t goal_x;
@@ -1864,7 +1864,7 @@ void PCOM_set_person_move_mav_to_xz(Thing *p_person, std::int32_t dest_x, std::i
         speed);
 }
 
-void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, std::int32_t speed) {
+void PCOM_set_person_move_mav_to_thing(Entity* p_person, Entity* p_target, std::int32_t speed) {
     std::int32_t goal_x;
     std::int32_t goal_z;
 
@@ -2053,7 +2053,7 @@ void PCOM_set_person_move_mav_to_thing(Thing *p_person, Thing *p_target, std::in
         speed);
 }
 
-void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, std::int32_t waypoint, std::int32_t speed) {
+void PCOM_set_person_move_mav_to_waypoint(Entity* p_person, std::int32_t waypoint, std::int32_t speed) {
     std::int32_t goal_x;
     std::int32_t goal_z;
 
@@ -2191,7 +2191,7 @@ void PCOM_set_person_move_mav_to_waypoint(Thing *p_person, std::int32_t waypoint
 }
 
 void PCOM_set_person_move_runaway(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t from_x,
     std::int32_t from_z) {
     std::int32_t dx;
@@ -2312,7 +2312,7 @@ void PCOM_set_person_move_runaway(
 // the angle of the vehicle relative to the direction they want to go in.
 //
 
-void PCOM_set_person_substate_goto_or_3pturn(Thing *p_person) {
+void PCOM_set_person_substate_goto_or_3pturn(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dest_x;
@@ -2320,7 +2320,7 @@ void PCOM_set_person_substate_goto_or_3pturn(Thing *p_person) {
     std::int32_t wangle;
     std::int32_t dangle;
 
-    Thing *p_vehicle;
+    Entity* p_vehicle;
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
@@ -2371,7 +2371,7 @@ void PCOM_set_person_substate_goto_or_3pturn(Thing *p_person) {
 // towards whichever node is ahead.  Can only be used for DRIVE_DOWN, not DRIVE_TO.
 //
 
-void PCOM_set_person_substate_goto(Thing *p_person) {
+void PCOM_set_person_substate_goto(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dest_x;
@@ -2379,7 +2379,7 @@ void PCOM_set_person_substate_goto(Thing *p_person) {
     std::int32_t wangle;
     std::int32_t dangle;
 
-    Thing *p_vehicle;
+    Entity* p_vehicle;
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
@@ -2418,7 +2418,7 @@ void PCOM_set_person_substate_goto(Thing *p_person) {
     p_person->Genus.Person->pcom_move_substate = PCOM_MOVE_SUBSTATE_GOTO;
 }
 
-void PCOM_set_person_move_driveto(Thing *p_person, std::int32_t waypoint) {
+void PCOM_set_person_move_driveto(Entity* p_person, std::int32_t waypoint) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
     //
@@ -2436,7 +2436,7 @@ void PCOM_set_person_move_driveto(Thing *p_person, std::int32_t waypoint) {
     PCOM_set_person_substate_goto_or_3pturn(p_person);
 }
 
-void PCOM_set_person_move_park_car(Thing *p_person, std::int32_t waypoint) {
+void PCOM_set_person_move_park_car(Entity* p_person, std::int32_t waypoint) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
     //
@@ -2449,7 +2449,7 @@ void PCOM_set_person_move_park_car(Thing *p_person, std::int32_t waypoint) {
     p_person->Genus.Person->pcom_move_counter = 0;
 }
 
-void PCOM_set_person_move_drive_down(Thing *p_person, std::int32_t n1, std::int32_t n2) {
+void PCOM_set_person_move_drive_down(Entity* p_person, std::int32_t n1, std::int32_t n2) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
     //
@@ -2474,7 +2474,7 @@ void PCOM_set_person_move_drive_down(Thing *p_person, std::int32_t n1, std::int3
 // straight away.
 //
 
-void PCOM_set_person_move_park_car_on_road(Thing *p_person) {
+void PCOM_set_person_move_park_car_on_road(Entity* p_person) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
     if (p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_DRIVE_DOWN) {
@@ -2504,7 +2504,7 @@ void PCOM_set_person_move_park_car_on_road(Thing *p_person) {
 
 #ifdef BIKE
 
-void PCOM_set_person_move_biketo(Thing *p_person, std::int32_t waypoint) {
+void PCOM_set_person_move_biketo(Entity* p_person, std::int32_t waypoint) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
     //
@@ -2517,7 +2517,7 @@ void PCOM_set_person_move_biketo(Thing *p_person, std::int32_t waypoint) {
     p_person->Genus.Person->pcom_move_counter = 0;
 }
 
-void PCOM_set_person_move_park_bike(Thing *p_person, std::int32_t waypoint) {
+void PCOM_set_person_move_park_bike(Entity* p_person, std::int32_t waypoint) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
     //
@@ -2530,7 +2530,7 @@ void PCOM_set_person_move_park_bike(Thing *p_person, std::int32_t waypoint) {
     p_person->Genus.Person->pcom_move_counter = 0;
 }
 
-void PCOM_set_person_move_bike_down(Thing *p_person, std::int32_t n1, std::int32_t n2) {
+void PCOM_set_person_move_bike_down(Entity* p_person, std::int32_t n1, std::int32_t n2) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
     //
@@ -2545,7 +2545,7 @@ void PCOM_set_person_move_bike_down(Thing *p_person, std::int32_t n1, std::int32
 
 #endif
 
-void PCOM_set_person_move_goto_thing_slide(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_move_goto_thing_slide(Entity* p_person, Entity* p_target) {
     //
     // Start sliding!
     //
@@ -2568,12 +2568,12 @@ void PCOM_set_person_move_goto_thing_slide(Thing *p_person, Thing *p_target) {
     p_person->Genus.Person->pcom_move_counter = 0;
 }
 
-void PCOM_renav(Thing *p_person) {
+void PCOM_renav(Entity* p_person) {
     std::int32_t dest_x;
     std::int32_t dest_y;
     std::int32_t dest_z;
 
-    Thing *p_target;
+    Entity* p_target;
 
     //
     // What are we doing?
@@ -2629,7 +2629,7 @@ void PCOM_renav(Thing *p_person) {
 // Returns true if a person has finished navigating.
 //
 
-std::int32_t PCOM_finished_nav(Thing *p_person) {
+std::int32_t PCOM_finished_nav(Entity* p_person) {
     std::int32_t dest_x;
     std::int32_t dest_z;
 
@@ -2690,7 +2690,7 @@ std::int32_t PCOM_finished_nav(Thing *p_person) {
 // Make the person stand still.
 //
 
-void PCOM_set_person_move_pause(Thing *p_person) {
+void PCOM_set_person_move_pause(Entity* p_person) {
     set_person_idle(p_person);
 
     //
@@ -2705,7 +2705,7 @@ void PCOM_set_person_move_pause(Thing *p_person) {
 // Sets the person doing an animation.
 //
 
-void PCOM_set_person_move_animation(Thing *p_person, std::int32_t anim) {
+void PCOM_set_person_move_animation(Entity* p_person, std::int32_t anim) {
     set_person_do_a_simple_anim(p_person, anim);
 
     //
@@ -2721,7 +2721,7 @@ void PCOM_set_person_move_animation(Thing *p_person, std::int32_t anim) {
 // Makes the person do a punch move.
 //
 
-void PCOM_set_person_move_punch(Thing *p_person) {
+void PCOM_set_person_move_punch(Entity* p_person) {
     turn_to_target_and_punch(p_person);
 
     //
@@ -2737,7 +2737,7 @@ void PCOM_set_person_move_punch(Thing *p_person) {
 // Makes the person do a kick move.
 //
 
-void PCOM_set_person_move_kick(Thing *p_person) {
+void PCOM_set_person_move_kick(Entity* p_person) {
     turn_to_target_and_kick(p_person);
 
     //
@@ -2753,7 +2753,7 @@ void PCOM_set_person_move_kick(Thing *p_person) {
 // Makes the person bend down to pick up a special.
 //
 
-void PCOM_set_person_move_pickup_special(Thing *p_person, Thing *p_special) {
+void PCOM_set_person_move_pickup_special(Entity* p_person, Entity* p_special) {
     set_person_special_pickup(p_person);
 
     //
@@ -2769,10 +2769,10 @@ void PCOM_set_person_move_pickup_special(Thing *p_person, Thing *p_special) {
 // Makes the person do an arrest!
 //
 
-std::uint16_t find_arrestee(Thing *p_person);
-void set_person_arrest(Thing *p_person, std::int32_t who_to_arrest);
+std::uint16_t find_arrestee(Entity* p_person);
+void set_person_arrest(Entity* p_person, std::int32_t who_to_arrest);
 
-void PCOM_set_person_move_arrest(Thing *p_person) {
+void PCOM_set_person_move_arrest(Entity* p_person) {
     std::uint16_t index;
 
     index = PCOM_person_wants_to_kill(p_person);
@@ -2800,8 +2800,8 @@ void PCOM_set_person_move_arrest(Thing *p_person) {
 // Makes the person draw his gun.
 //
 
-void PCOM_set_person_move_draw_gun(Thing *p_person) {
-    Thing *p_special;
+void PCOM_set_person_move_draw_gun(Entity* p_person) {
+    Entity* p_special;
 
     //
     // Draws a shotgun/AK47 in favour of a pistol.
@@ -2821,8 +2821,8 @@ void PCOM_set_person_move_draw_gun(Thing *p_person) {
     p_person->Genus.Person->pcom_move_substate = PCOM_MOVE_SUBSTATE_GUNOUT;
     p_person->Genus.Person->pcom_move_counter = 0;
 }
-void PCOM_set_person_move_draw_h2h(Thing *p_person, std::int32_t special) {
-    Thing *p_special;
+void PCOM_set_person_move_draw_h2h(Entity* p_person, std::int32_t special) {
+    Entity* p_special;
 
     {
         set_person_draw_item(p_person, special);
@@ -2837,7 +2837,7 @@ void PCOM_set_person_move_draw_h2h(Thing *p_person, std::int32_t special) {
 // Makes the person put away his gun.
 //
 
-void PCOM_set_person_move_gun_away(Thing *p_person) {
+void PCOM_set_person_move_gun_away(Entity* p_person) {
     if (p_person->Genus.Person->SpecialUse) {
         p_person->Genus.Person->SpecialUse = NULL;
         p_person->Draw.Tweened->PersonID &= ~0xe0;
@@ -2857,7 +2857,7 @@ void PCOM_set_person_move_gun_away(Thing *p_person) {
 // Makes a person shoot his gun.
 //
 
-void PCOM_set_person_move_shoot(Thing *p_person) {
+void PCOM_set_person_move_shoot(Entity* p_person) {
     set_person_shoot(p_person, 1);
 
     p_person->Genus.Person->pcom_move_state = PCOM_MOVE_STATE_ANIMATION;
@@ -2871,12 +2871,12 @@ void PCOM_set_person_move_shoot(Thing *p_person) {
 //
 
 std::uint8_t gang_angle_priority[] = {0, 2, 6, 4, 1, 7, 3, 5};
-extern std::int32_t get_gangattack(Thing *p_person);
+extern std::int32_t get_gangattack(Entity* p_person);
 
-void check_players_gang(Thing *p_target) {
+void check_players_gang(Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0, count = 0;
-    Thing *p_person;
+    Entity* p_person;
 
     gang = p_target->Genus.Person->GangAttack;
     if (gang == 0)
@@ -2901,7 +2901,7 @@ void check_players_gang(Thing *p_target) {
     }
 }
 
-std::uint16_t count_gang(Thing *p_target) {
+std::uint16_t count_gang(Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0, count = 0;
 
@@ -2911,7 +2911,7 @@ std::uint16_t count_gang(Thing *p_target) {
 
     for (c0 = 0; c0 < 4; c0++) {
         if (gang_attacks[gang].Perp[c0]) {
-            Thing *p_person;
+            Entity* p_person;
             p_person = TO_THING(gang_attacks[gang].Perp[c0]);
 #ifndef PSX
 //			 AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,7,0xffff,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,2,0xff0000,1);
@@ -2922,9 +2922,9 @@ std::uint16_t count_gang(Thing *p_target) {
     return (count);
 }
 
-extern std::int32_t dist_to_target(Thing *p_person_a, Thing *p_person_b);
+extern std::int32_t dist_to_target(Entity* p_person_a, Entity* p_person_b);
 
-std::uint16_t get_any_gang_member(Thing *p_target) {
+std::uint16_t get_any_gang_member(Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0, count = 0, ret;
 
@@ -2945,7 +2945,7 @@ std::uint16_t get_any_gang_member(Thing *p_target) {
     return (0);
 }
 
-std::uint16_t get_nearest_gang_member(Thing *p_target) {
+std::uint16_t get_nearest_gang_member(Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0, count = 0, ret;
     std::int32_t bdist = 99999999, best_targ = 0, dist;
@@ -2966,7 +2966,7 @@ std::uint16_t get_nearest_gang_member(Thing *p_target) {
     return (best_targ);
 }
 
-std::uint16_t find_target_from_gang(Thing *p_target) {
+std::uint16_t find_target_from_gang(Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0, perp;
 
@@ -2989,7 +2989,7 @@ std::uint16_t find_target_from_gang(Thing *p_target) {
     return (0);
 }
 
-std::int32_t remove_from_gang_attack(Thing *p_person, Thing *p_target) {
+std::int32_t remove_from_gang_attack(Entity* p_person, Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0;
     std::int32_t removed = 0;
@@ -3011,7 +3011,7 @@ std::int32_t remove_from_gang_attack(Thing *p_person, Thing *p_target) {
     return (removed);
 }
 
-void scare_gang_attack(Thing *p_target) {
+void scare_gang_attack(Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0;
 
@@ -3030,9 +3030,9 @@ void scare_gang_attack(Thing *p_target) {
     }
 }
 
-void reset_gang_attack(Thing *p_target) {
+void reset_gang_attack(Entity* p_target) {
     std::uint16_t perps[4];
-    Thing *p_person;
+    Entity* p_person;
     std::uint16_t gang;
     std::int32_t c0;
 
@@ -3067,7 +3067,7 @@ void reset_gang_attack(Thing *p_target) {
         }
     }
 }
-void process_gang_attack(Thing *p_person, Thing *p_target) {
+void process_gang_attack(Entity* p_person, Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0;
     std::int32_t left, right, lleft, rright;
@@ -3154,9 +3154,9 @@ void process_gang_attack(Thing *p_person, Thing *p_target) {
     */
 }
 
-void push_into_attack_group_at_angle(Thing *p_person, std::int32_t gang, std::int32_t reqd_angle) {
+void push_into_attack_group_at_angle(Entity* p_person, std::int32_t gang, std::int32_t reqd_angle) {
     std::int32_t c0 = 4;
-    Thing *p_copy;
+    Entity* p_copy;
 
     MSG_add("try push in  at %d    [%d %d %d %d %d %d %d %d] \n", reqd_angle, gang_attacks[gang].Perp[0], gang_attacks[gang].Perp[1], gang_attacks[gang].Perp[2], gang_attacks[gang].Perp[3], gang_attacks[gang].Perp[4], gang_attacks[gang].Perp[5], gang_attacks[gang].Perp[6], gang_attacks[gang].Perp[7]);
 
@@ -3213,7 +3213,7 @@ void push_into_attack_group_at_angle(Thing *p_person, std::int32_t gang, std::in
     p_person->Genus.Person->AttackAngle = reqd_angle;
 }
 
-void PCOM_new_gang_attack(Thing *p_person, Thing *p_target) {
+void PCOM_new_gang_attack(Entity* p_person, Entity* p_target) {
     std::int32_t gang;
     std::int32_t c0;
 
@@ -3290,7 +3290,7 @@ void PCOM_new_gang_attack(Thing *p_person, Thing *p_target) {
 // Makes the person circle around a target.
 //
 
-void PCOM_set_person_move_circle(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_move_circle(Entity* p_person, Entity* p_target) {
     set_person_circle(p_person, p_target);
 
     //
@@ -3308,7 +3308,7 @@ void PCOM_set_person_move_circle(Thing *p_person, Thing *p_target) {
 // Makes a person get in a car.
 //
 
-void PCOM_set_person_move_getincar(Thing *p_person, Thing *p_vehicle, std::int32_t am_i_a_passenger, std::int32_t door) {
+void PCOM_set_person_move_getincar(Entity* p_person, Entity* p_vehicle, std::int32_t am_i_a_passenger, std::int32_t door) {
     ASSERT(door == 0 || door == 1);
 
     if (p_person->Genus.Person->Target) {
@@ -3335,7 +3335,7 @@ void PCOM_set_person_move_getincar(Thing *p_person, Thing *p_vehicle, std::int32
 // Makes a person leave the car he is in.
 //
 
-void PCOM_set_person_move_leavecar(Thing *p_person) {
+void PCOM_set_person_move_leavecar(Entity* p_person) {
     ASSERT(p_person->Genus.Person->Flags & (FLAG_PERSON_DRIVING | FLAG_PERSON_PASSENGER));
 
     if (p_person->Genus.Person->Target) {
@@ -3358,8 +3358,8 @@ void PCOM_set_person_move_leavecar(Thing *p_person) {
 // Go back to do what you normally do.
 //
 
-extern void PCOM_set_person_ai_navtokill(Thing *p_person, Thing *p_target);
-void PCOM_set_person_ai_normal(Thing *p_person) {
+extern void PCOM_set_person_ai_navtokill(Entity* p_person, Entity* p_target);
+void PCOM_set_person_ai_normal(Entity* p_person) {
     if (p_person->Genus.Person->Target) {
         remove_from_gang_attack(p_person, TO_THING(p_person->Genus.Person->Target));
     }
@@ -3376,7 +3376,7 @@ void PCOM_set_person_ai_normal(Thing *p_person) {
 // recovered and then go back to doing their normal thing.
 //
 
-void PCOM_set_person_ai_knocked_out(Thing *p_person) {
+void PCOM_set_person_ai_knocked_out(Entity* p_person) {
     p_person->Genus.Person->pcom_ai_state = PCOM_AI_STATE_KNOCKEDOUT;
     p_person->Genus.Person->pcom_ai_substate = 0;
     p_person->Genus.Person->pcom_ai_counter = 0;
@@ -3390,7 +3390,7 @@ void PCOM_set_person_ai_knocked_out(Thing *p_person) {
 // Make a cop try to arrest some naughty people.
 //
 
-void PCOM_set_person_ai_arrest(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_ai_arrest(Entity* p_person, Entity* p_target) {
     if (p_target->Genus.Person->PersonType == PERSON_DARCI)
         ASSERT(0);
 
@@ -3416,7 +3416,7 @@ void PCOM_set_person_ai_arrest(Thing *p_person, Thing *p_target) {
     PCOM_set_person_move_mav_to_thing(p_person, p_target, PCOM_MOVE_SPEED_RUN);
 }
 
-void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, std::int32_t alert_gang) {
+void PCOM_set_person_ai_kill_person(Entity* p_person, Entity* p_target, std::int32_t alert_gang) {
     if (p_person->Genus.Person->PersonType == PERSON_CIV) {
         ASSERT(0);
     }
@@ -3501,7 +3501,7 @@ void PCOM_set_person_ai_kill_person(Thing *p_person, Thing *p_target, std::int32
     p_person->Genus.Person->Target = THING_NUMBER(p_target);
 }
 
-void PCOM_set_person_ai_homesick(Thing *p_person) {
+void PCOM_set_person_ai_homesick(Entity* p_person) {
     std::int32_t home_x = (p_person->Genus.Person->HomeX << 0); // + 0x80;
     std::int32_t home_z = (p_person->Genus.Person->HomeZ << 0); // + 0x80;
 
@@ -3521,8 +3521,8 @@ void PCOM_set_person_ai_homesick(Thing *p_person) {
         PCOM_MOVE_SPEED_WALK);
 }
 
-void PCOM_set_person_ai_leavecar(Thing *p_person, std::int32_t excar_state, std::int32_t excar_substate, std::int32_t excar_arg) {
-    Thing *p_vehicle;
+void PCOM_set_person_ai_leavecar(Entity* p_person, std::int32_t excar_state, std::int32_t excar_substate, std::int32_t excar_arg) {
+    Entity* p_vehicle;
 
     ASSERT(p_person->Genus.Person->Flags & (FLAG_PERSON_DRIVING | FLAG_PERSON_PASSENGER));
 
@@ -3569,7 +3569,7 @@ void PCOM_set_person_ai_leavecar(Thing *p_person, std::int32_t excar_state, std:
 //
 
 void PCOM_set_person_ai_investigate(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t odd_x,
     std::int32_t odd_z) {
     if ((p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS))
@@ -3611,7 +3611,7 @@ void PCOM_set_person_ai_investigate(
 // Makes the person try to run away.
 //
 void PCOM_set_person_ai_flee_place(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t scary_x, // The place where the scary thing is.
     std::int32_t scary_z) {
     if ((p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS))
@@ -3677,7 +3677,7 @@ void PCOM_set_person_ai_flee_place(
     }
 }
 
-void PCOM_set_person_ai_flee_person(Thing *p_person, Thing *p_scary) {
+void PCOM_set_person_ai_flee_person(Entity* p_person, Entity* p_scary) {
     if (p_person->Genus.Person->pcom_ai != PCOM_AI_FLEE_PLAYER) {
         if (am_i_a_thug(p_person) && ((p_person->Genus.Person->pcom_bent & PCOM_BENT_FIGHT_BACK))) {
             return;
@@ -3756,7 +3756,7 @@ void PCOM_set_person_ai_flee_person(Thing *p_person, Thing *p_scary) {
     }
 }
 
-void PCOM_set_person_ai_aimless(Thing *p_person) {
+void PCOM_set_person_ai_aimless(Entity* p_person) {
     p_person->Genus.Person->pcom_ai_state = PCOM_AI_STATE_AIMLESS;
     p_person->Genus.Person->pcom_ai_substate = PCOM_AI_SUBSTATE_NONE;
     p_person->Genus.Person->pcom_ai_arg = 0;
@@ -3769,7 +3769,7 @@ void PCOM_set_person_ai_aimless(Thing *p_person) {
 // Goes into NAVTOKILL mode but starts off trying to shoot the target.
 //
 
-void PCOM_set_person_ai_navtokill_shoot(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_ai_navtokill_shoot(Entity* p_person, Entity* p_target) {
     if (p_target->Genus.Person->PersonType == PERSON_DARCI) {
         if (p_person->Genus.Person->PersonType == PERSON_COP)
             ASSERT(0);
@@ -3786,7 +3786,7 @@ void PCOM_set_person_ai_navtokill_shoot(Thing *p_person, Thing *p_target) {
     p_person->Genus.Person->Target = THING_NUMBER(p_target);
 }
 
-std::int32_t PCOM_target_sprinting_towards_me(Thing *p_person, Thing *p_target) {
+std::int32_t PCOM_target_sprinting_towards_me(Entity* p_person, Entity* p_target) {
     std::int32_t dangle = get_dangle(p_target, p_person);
 
     if (p_target->Genus.Person->Mode == PERSON_MODE_SPRINT) {
@@ -3801,7 +3801,7 @@ std::int32_t PCOM_target_sprinting_towards_me(Thing *p_person, Thing *p_target) 
     return false;
 }
 
-void PCOM_set_person_ai_navtokill(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_ai_navtokill(Entity* p_person, Entity* p_target) {
     if (p_target->Genus.Person->PersonType == PERSON_DARCI) {
         if (p_person->Genus.Person->PersonType == PERSON_COP)
             ASSERT(0);
@@ -3872,7 +3872,7 @@ void PCOM_set_person_ai_navtokill(Thing *p_person, Thing *p_target) {
     p_person->Genus.Person->Target = THING_NUMBER(p_target);
 }
 
-void PCOM_set_person_ai_follow(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_ai_follow(Entity* p_person, Entity* p_target) {
     if (p_person->Genus.Person->Target) {
         remove_from_gang_attack(p_person, TO_THING(p_person->Genus.Person->Target));
     }
@@ -3914,10 +3914,10 @@ void PCOM_set_person_ai_follow(Thing *p_person, Thing *p_target) {
     p_person->Genus.Person->pcom_ai_counter = 0;
 }
 
-void PCOM_set_person_ai_findcar(Thing *p_person, std::uint16_t car) {
+void PCOM_set_person_ai_findcar(Entity* p_person, std::uint16_t car) {
     std::int32_t speed;
 
-    Thing *p_car;
+    Entity* p_car;
 
     if (p_person->Genus.Person->Target) {
         remove_from_gang_attack(p_person, TO_THING(p_person->Genus.Person->Target));
@@ -4006,7 +4006,7 @@ void PCOM_set_person_ai_findcar(Thing *p_person, std::uint16_t car) {
 
 #ifdef BIKE
 
-void PCOM_set_person_ai_findbike(Thing *p_person) {
+void PCOM_set_person_ai_findbike(Entity* p_person) {
     std::int32_t bike;
     std::int32_t speed;
 
@@ -4032,7 +4032,7 @@ void PCOM_set_person_ai_findbike(Thing *p_person) {
 
         PCOM_set_person_ai_aimless(p_person);
     } else {
-        Thing *p_bike = TO_THING(bike);
+        Entity* p_bike = TO_THING(bike);
 
         //
         // If someone is driving the bike. Kill them so you can get onto it!
@@ -4075,7 +4075,7 @@ void PCOM_set_person_ai_findbike(Thing *p_person) {
 
 #endif
 
-void PCOM_set_person_ai_bdeactivate(Thing *p_person, Thing *p_bomb) {
+void PCOM_set_person_ai_bdeactivate(Entity* p_person, Entity* p_bomb) {
     std::int32_t speed;
 
     p_person->Genus.Person->pcom_ai_state = PCOM_AI_STATE_BDEACTIVATE;
@@ -4099,7 +4099,7 @@ void PCOM_set_person_ai_bdeactivate(Thing *p_person, Thing *p_bomb) {
         speed);
 }
 
-void PCOM_set_person_ai_snipe(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_ai_snipe(Entity* p_person, Entity* p_target) {
     if (p_person->Genus.Person->Target) {
         remove_from_gang_attack(p_person, TO_THING(p_person->Genus.Person->Target));
     }
@@ -4131,7 +4131,7 @@ void PCOM_set_person_ai_snipe(Thing *p_person, Thing *p_target) {
     PCOM_set_person_move_draw_gun(p_person);
 }
 
-void PCOM_set_person_ai_warm_hands(Thing *p_person) {
+void PCOM_set_person_ai_warm_hands(Entity* p_person) {
     if (p_person->Genus.Person->Target) {
         remove_from_gang_attack(p_person, TO_THING(p_person->Genus.Person->Target));
     }
@@ -4143,7 +4143,7 @@ void PCOM_set_person_ai_warm_hands(Thing *p_person) {
     PCOM_set_person_move_pause(p_person);
 }
 
-void PCOM_set_person_ai_hands_up(Thing *p_person, Thing *p_cop) {
+void PCOM_set_person_ai_hands_up(Entity* p_person, Entity* p_cop) {
     std::uint16_t anim;
 
     //
@@ -4169,7 +4169,7 @@ void PCOM_set_person_ai_hands_up(Thing *p_person, Thing *p_cop) {
     p_person->Genus.Person->Flags |= FLAG_PERSON_NO_RETURN_TO_NORMAL;
 }
 
-void PCOM_set_person_ai_talk_to(Thing *p_person, Thing *p_person_talked_at, std::uint8_t talk_substate, std::uint8_t stay_looking_at_eachother) {
+void PCOM_set_person_ai_talk_to(Entity* p_person, Entity* p_person_talked_at, std::uint8_t talk_substate, std::uint8_t stay_looking_at_eachother) {
     std::uint16_t anim;
 
     if (p_person->Genus.Person->Target) {
@@ -4216,7 +4216,7 @@ void PCOM_set_person_ai_talk_to(Thing *p_person, Thing *p_person_talked_at, std:
     }
 }
 
-void PCOM_set_person_ai_hitch(Thing *p_person, Thing *p_vehicle) {
+void PCOM_set_person_ai_hitch(Entity* p_person, Entity* p_vehicle) {
     std::int32_t speed;
 
     if (p_person->Genus.Person->Target) {
@@ -4248,7 +4248,7 @@ void PCOM_set_person_ai_hitch(Thing *p_person, Thing *p_vehicle) {
 // Makes a person start taunting someone.
 //
 
-void PCOM_set_person_ai_taunt(Thing *p_person, Thing *p_target) {
+void PCOM_set_person_ai_taunt(Entity* p_person, Entity* p_target) {
     if ((p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS))
         return;
     //
@@ -4328,7 +4328,7 @@ void PCOM_set_person_ai_taunt(Thing *p_person, Thing *p_target) {
 
 std::uint16_t PCOM_summon[PCOM_SUMMON_NUM_BODIES];
 
-void PCOM_set_person_ai_summon(Thing *p_person) {
+void PCOM_set_person_ai_summon(Entity* p_person) {
     std::int32_t i;
     std::int32_t num;
     std::int32_t bodies;
@@ -4355,7 +4355,7 @@ void PCOM_set_person_ai_summon(Thing *p_person) {
     bodies = 0;
 
     for (i = 0; i < num; i++) {
-        Thing *p_found = TO_THING(THING_array[i]);
+        Entity* p_found = TO_THING(THING_array[i]);
 
         ASSERT(p_found->Class == CLASS_PERSON);
 
@@ -4397,18 +4397,18 @@ void PCOM_set_person_ai_summon(Thing *p_person) {
 // Returns an item this person should pick up or NULL if this
 // person is not near enough an item or already has one.
 //
-extern bool PersonIsMIB(Thing *p_person);
+extern bool PersonIsMIB(Entity* p_person);
 /*
-bool PersonIsMIB(Thing* p_person)
+bool PersonIsMIB(Entity* p_person)
 {
         return (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
                 p_person->Genus.Person->PersonType == PERSON_MIB2 ||
                 p_person->Genus.Person->PersonType == PERSON_MIB3);
 };
 */
-bool PersonIsMIB(Thing *p_person);
+bool PersonIsMIB(Entity* p_person);
 
-Thing *PCOM_is_there_an_item_i_should_get(Thing *p_person) {
+Entity* PCOM_is_there_an_item_i_should_get(Entity* p_person) {
     std::uint16_t ans;
 
     if (PersonIsMIB(p_person)) {
@@ -4444,7 +4444,7 @@ Thing *PCOM_is_there_an_item_i_should_get(Thing *p_person) {
         1 << CLASS_SPECIAL);
 
     if (ans) {
-        Thing *p_special = TO_THING(ans);
+        Entity* p_special = TO_THING(ans);
 
         switch (p_special->Genus.Special->SpecialType) {
         case SPECIAL_GUN:
@@ -4481,7 +4481,7 @@ Thing *PCOM_is_there_an_item_i_should_get(Thing *p_person) {
     return NULL;
 }
 
-void PCOM_set_person_ai_getitem(Thing *p_person, Thing *p_special, std::int32_t move_speed, std::int32_t excar_state, std::int32_t excar_arg) {
+void PCOM_set_person_ai_getitem(Entity* p_person, Entity* p_special, std::int32_t move_speed, std::int32_t excar_state, std::int32_t excar_arg) {
     p_person->Genus.Person->pcom_ai_state = PCOM_AI_STATE_GETITEM;
     p_person->Genus.Person->pcom_ai_substate = PCOM_AI_SUBSTATE_NONE;
     p_person->Genus.Person->pcom_ai_arg = THING_NUMBER(p_special);
@@ -4496,8 +4496,8 @@ void PCOM_set_person_ai_getitem(Thing *p_person, Thing *p_special, std::int32_t 
         move_speed);
 }
 
-void PCOM_process_getitem(Thing *p_person) {
-    Thing *p_special = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+void PCOM_process_getitem(Entity* p_person) {
+    Entity* p_special = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     switch (p_person->Genus.Person->pcom_move_state) {
     case PCOM_MOVE_STATE_ANIMATION:
@@ -4575,7 +4575,7 @@ void PCOM_process_getitem(Thing *p_person) {
     }
 }
 
-void PCOM_process_summon(Thing *p_person) {
+void PCOM_process_summon(Entity* p_person) {
     std::int32_t i;
 
     switch (p_person->Genus.Person->pcom_ai_substate) {
@@ -4588,7 +4588,7 @@ void PCOM_process_summon(Thing *p_person) {
 
             for (i = 0; i < PCOM_SUMMON_NUM_BODIES; i++) {
                 if (PCOM_summon[i]) {
-                    Thing *p_summon = TO_THING(PCOM_summon[i]);
+                    Entity* p_summon = TO_THING(PCOM_summon[i]);
 
                     set_person_float_up(p_summon);
 
@@ -4631,7 +4631,7 @@ void PCOM_process_summon(Thing *p_person) {
         if (p_person->Genus.Person->pcom_ai_counter > PCOM_get_duration(50)) {
             for (i = 0; i < PCOM_SUMMON_NUM_BODIES; i++) {
                 if (PCOM_summon[i]) {
-                    Thing *p_summon = TO_THING(PCOM_summon[i]);
+                    Entity* p_summon = TO_THING(PCOM_summon[i]);
 
                     SPARK_Pinfo p1;
                     SPARK_Pinfo p2;
@@ -4672,7 +4672,7 @@ void PCOM_process_summon(Thing *p_person) {
         //
 
         {
-            Thing *darci = NET_PERSON(0);
+            Entity* darci = NET_PERSON(0);
 
             std::int32_t dx;
             std::int32_t dz;
@@ -4802,7 +4802,7 @@ THING_INDEX PCOM_create_person(
 #endif
 #endif
     } else {
-        Thing *p_person = TO_THING(p_index);
+        Entity* p_person = TO_THING(p_index);
 
         if (type == PERSON_COP) {
             if (ai == PCOM_AI_DRIVER)
@@ -4865,7 +4865,7 @@ THING_INDEX PCOM_create_person(
             // Create a shotgun and give it to the person.
             //
 
-            Thing *p_special = alloc_special(
+            Entity* p_special = alloc_special(
                 SPECIAL_SHOTGUN,
                 SPECIAL_SUBSTATE_NONE,
                 0, 0, 0, NULL);
@@ -4882,7 +4882,7 @@ THING_INDEX PCOM_create_person(
             // Create a shotgun and give it to the person.
             //
 
-            Thing *p_special = alloc_special(
+            Entity* p_special = alloc_special(
                 SPECIAL_AK47,
                 SPECIAL_SUBSTATE_NONE,
                 0, 0, 0, NULL);
@@ -4900,7 +4900,7 @@ THING_INDEX PCOM_create_person(
             // Create a shotgun and give it to the person.
             //
 
-            Thing *p_special = alloc_special(
+            Entity* p_special = alloc_special(
                 SPECIAL_KNIFE,
                 SPECIAL_SUBSTATE_NONE,
                 0, 0, 0, NULL);
@@ -4918,7 +4918,7 @@ THING_INDEX PCOM_create_person(
             // Create a baseball bat and give it to the person.
             //
 
-            Thing *p_special = alloc_special(
+            Entity* p_special = alloc_special(
                 SPECIAL_BASEBALLBAT,
                 SPECIAL_SUBSTATE_NONE,
                 0, 0, 0, NULL);
@@ -4936,7 +4936,7 @@ THING_INDEX PCOM_create_person(
             // Create a grenade and give it to the person.
             //
 
-            Thing *p_special = alloc_special(
+            Entity* p_special = alloc_special(
                 SPECIAL_GRENADE,
                 SPECIAL_SUBSTATE_NONE,
                 0, 0, 0, NULL);
@@ -4965,7 +4965,7 @@ THING_INDEX PCOM_create_player(
     std::int32_t world_z,
     std::int32_t id,
     std::int32_t yaw) {
-    Thing *p_person = create_player(
+    Entity* p_person = create_player(
         type,
         world_x,
         world_y,
@@ -4973,7 +4973,7 @@ THING_INDEX PCOM_create_player(
         id);
 
 #ifndef PSX
-    extern std::int32_t playing_level(const char *name);
+    extern std::int32_t playing_level(const char* name);
 
     if (playing_level("skymiss2.ucm"))
 #else
@@ -5003,7 +5003,7 @@ THING_INDEX PCOM_create_player(
             // Create a shotgun and give it to the person.
             //
 
-            Thing *p_special = alloc_special(
+            Entity* p_special = alloc_special(
                 SPECIAL_SHOTGUN,
                 SPECIAL_SUBSTATE_NONE,
                 0, 0, 0, NULL);
@@ -5028,7 +5028,7 @@ THING_INDEX PCOM_create_player(
 }
 
 void PCOM_change_person_attributes(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t colour,
     std::int32_t group,
     std::int32_t ai,
@@ -5058,7 +5058,7 @@ void PCOM_change_person_attributes(
     p_person->Genus.Person->pcom_move_follow = move_follow;
 
     if (p_person->Genus.Person->pcom_move == PCOM_MOVE_HANDS_UP) {
-        void drop_current_gun(Thing * p_person, std::int32_t change_anim);
+        void drop_current_gun(Entity * p_person, std::int32_t change_anim);
 
         drop_current_gun(p_person, 0);
     }
@@ -5086,13 +5086,13 @@ void PCOM_change_person_attributes(
 // Returns the zone flags for the place a person is.
 //
 
-std::uint8_t PCOM_get_zone_for_position(Thing *p_person) {
+std::uint8_t PCOM_get_zone_for_position(Entity* p_person) {
     std::uint8_t zone;
 
     std::int32_t dest_x;
     std::int32_t dest_z;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     //
     // We don't just look at where this person is- we also consider where he is going...
@@ -5115,7 +5115,7 @@ std::uint8_t PCOM_get_zone_for_position(Thing *p_person) {
 std::uint8_t PCOM_get_zone_for_position(std::int32_t x, std::int32_t z) {
     std::uint8_t zone;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     ph = &PAP_2HI(x >> 8, z >> 8);
 
@@ -5130,8 +5130,8 @@ std::uint8_t PCOM_get_zone_for_position(std::int32_t x, std::int32_t z) {
 // Returns a pointer to a player person you can see who is inside your zone.
 //
 
-Thing *PCOM_can_i_see_person_to_attack(Thing *p_person) {
-    Thing *p_target = NET_PERSON(0);
+Entity* PCOM_can_i_see_person_to_attack(Entity* p_person) {
+    Entity* p_target = NET_PERSON(0);
 
     if (p_target->State == STATE_DEAD ||
         p_target->State == STATE_DYING ||
@@ -5169,7 +5169,7 @@ Thing *PCOM_can_i_see_person_to_attack(Thing *p_person) {
 // anyone suitable.
 //
 
-Thing *PCOM_can_i_see_person_to_bully(Thing *p_person) {
+Entity* PCOM_can_i_see_person_to_bully(Entity* p_person) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -5178,9 +5178,9 @@ Thing *PCOM_can_i_see_person_to_bully(Thing *p_person) {
     std::int32_t score;
 
     std::int32_t best_score = INFINITY;
-    Thing *best_thing = NULL;
+    Entity* best_thing = NULL;
 
-    Thing *p_found;
+    Entity* p_found;
 
     //
     // Find all the people near us.
@@ -5284,7 +5284,7 @@ Thing *PCOM_can_i_see_person_to_bully(Thing *p_person) {
 #else
 #define MAX_ARREST_ME 5
 #endif
-Thing *arrest_me[MAX_ARREST_ME];
+Entity* arrest_me[MAX_ARREST_ME];
 std::uint16_t next_arrest = 0;
 
 void init_arrest() {
@@ -5300,10 +5300,10 @@ void do_arrests() {
     next_arrest = 0;
 }
 
-std::int32_t PCOM_call_cop_to_arrest_me(Thing *p_person, std::int32_t store_it) {
+std::int32_t PCOM_call_cop_to_arrest_me(Entity* p_person, std::int32_t store_it) {
     std::int32_t i;
 
-    Thing *p_found;
+    Entity* p_found;
     std::int32_t found_cop = 0;
 
 #ifdef DEBUG
@@ -5414,7 +5414,7 @@ std::int32_t PCOM_call_cop_to_arrest_me(Thing *p_person, std::int32_t store_it) 
 }
 
 /*
-Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
+Entity *PCOM_can_i_see_person_to_arrest(Entity *p_person)
 {
         std::int32_t i;
 
@@ -5425,9 +5425,9 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
         std::int32_t ignore_los = false;
 
         std::int32_t  best_score = INFINITY;
-        Thing *best_thing = NULL;
+        Entity *best_thing = NULL;
 
-        Thing *p_found;
+        Entity *p_found;
 
         //
         // Find all the people near us.
@@ -5546,7 +5546,7 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
                                 {
                                         if (p_found->Genus.Person->Target)
                                         {
-                                                Thing *p_target;
+                                                Entity *p_target;
 
                                                 //
                                                 // Try this person too...
@@ -5574,11 +5574,11 @@ Thing *PCOM_can_i_see_person_to_arrest(Thing *p_person)
 // Returns a pointer to a player person you can see.
 //
 
-Thing *PCOM_can_i_see_person_to_taunt(Thing *p_person) {
+Entity* PCOM_can_i_see_person_to_taunt(Entity* p_person) {
     std::int32_t i;
 
     for (i = 0; i < NO_PLAYERS; i++) {
-        Thing *p_target = NET_PERSON(0);
+        Entity* p_target = NET_PERSON(0);
 
         if (p_target->State == STATE_DEAD ||
             p_target->State == STATE_DYING ||
@@ -5598,7 +5598,7 @@ Thing *PCOM_can_i_see_person_to_taunt(Thing *p_person) {
 // Returns the next waypoint for a person to patrol.
 //
 
-std::int32_t PCOM_get_next_patrol_waypoint(Thing *p_person) {
+std::int32_t PCOM_get_next_patrol_waypoint(Entity* p_person) {
     std::int32_t waypoint;
 
     if (p_person->Genus.Person->pcom_move == PCOM_MOVE_PATROL) {
@@ -5623,10 +5623,10 @@ std::int32_t PCOM_get_next_patrol_waypoint(Thing *p_person) {
 // Processes a person who doesn't want to move who is in a car or on a bike.
 //
 
-void PCOM_process_driving_still(Thing *p_person) {
+void PCOM_process_driving_still(Entity* p_person) {
     ASSERT(p_person->Genus.Person->Flags & (FLAG_PERSON_DRIVING | FLAG_PERSON_BIKING));
 
-    Thing *p_vehicle;
+    Entity* p_vehicle;
 
     p_vehicle = TO_THING(p_person->Genus.Person->InCar);
 
@@ -5678,7 +5678,7 @@ void PCOM_process_driving_still(Thing *p_person) {
 // or on a bike.
 //
 
-void PCOM_process_driving_patrol(Thing *p_person) {
+void PCOM_process_driving_patrol(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -5687,7 +5687,7 @@ void PCOM_process_driving_patrol(Thing *p_person) {
     std::int32_t dest_x;
     std::int32_t dest_z;
 
-    Thing *p_vehicle;
+    Entity* p_vehicle;
 
     switch (p_person->Genus.Person->pcom_move_state) {
     case PCOM_MOVE_STATE_STILL:
@@ -5813,7 +5813,7 @@ void PCOM_process_driving_patrol(Thing *p_person) {
 // Processes a person driving or biking aimlessly around the city.
 //
 
-void PCOM_process_driving_wander(Thing *p_person) {
+void PCOM_process_driving_wander(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -5827,7 +5827,7 @@ void PCOM_process_driving_wander(Thing *p_person) {
     std::int32_t wtn1;
     std::int32_t wtn2;
 
-    Thing *p_vehicle;
+    Entity* p_vehicle;
 
     if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER) {
         p_vehicle = TO_THING(p_person->Genus.Person->InCar);
@@ -5838,13 +5838,13 @@ void PCOM_process_driving_wander(Thing *p_person) {
             p_person->Genus.Person->sewerbits++;
             if (p_person->Genus.Person->sewerbits > 50) {
                 std::int32_t dx, dz;
-                Thing *p_darci = NET_PERSON(0);
+                Entity* p_darci = NET_PERSON(0);
                 dx = abs((p_person->WorldPos.X - p_darci->WorldPos.X) >> 8);
                 dz = abs((p_person->WorldPos.Z - p_darci->WorldPos.Z) >> 8);
                 if (QDIST2(dx, dz) >= (DRAW_DIST << 8)) {
                     std::int32_t x, z, yaw;
 
-                    extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t * posx, std::int32_t * posz, std::int32_t * yaw, std::int32_t anywhere);
+                    extern std::int32_t WAND_find_good_start_point_for_car(std::int32_t* posx, std::int32_t* posz, std::int32_t* yaw, std::int32_t anywhere);
 
                     if (WAND_find_good_start_point_for_car(&x, &z, &yaw, 0)) {
                         GameCoord newpos;
@@ -5860,7 +5860,7 @@ void PCOM_process_driving_wander(Thing *p_person) {
 
                         //						p_vehicle->Draw.Mesh->Angle = yaw ^ 1024;
 
-                        Vehicle *veh = p_vehicle->Genus.Vehicle;
+                        Vehicle* veh = p_vehicle->Genus.Vehicle;
                         veh->Angle = yaw ^ 1024;
 
 #if PSX
@@ -6074,7 +6074,7 @@ void PCOM_process_driving_wander(Thing *p_person) {
 // Processes a person moving between patrol points.
 //
 
-void PCOM_process_patrol(Thing *p_person) {
+void PCOM_process_patrol(Entity* p_person) {
     std::int32_t waittime;
     std::int32_t waypoint;
 
@@ -6244,9 +6244,9 @@ void PCOM_process_patrol(Thing *p_person) {
     }
 }
 
-std::int32_t should_person_regen(Thing *p_person) {
+std::int32_t should_person_regen(Entity* p_person) {
     std::int32_t dx, dz;
-    Thing *p_darci = NET_PERSON(0);
+    Entity* p_darci = NET_PERSON(0);
     dx = abs((p_person->WorldPos.X - p_darci->WorldPos.X) >> 8);
     dz = abs((p_person->WorldPos.Z - p_darci->WorldPos.Z) >> 8);
     if (QDIST2(dx, dz) < (DRAW_DIST << 8))
@@ -6260,7 +6260,7 @@ std::int32_t should_person_regen(Thing *p_person) {
 
 extern std::uint32_t timer_bored;
 
-std::int32_t PCOM_do_regen(Thing *p_person) {
+std::int32_t PCOM_do_regen(Entity* p_person) {
     std::int32_t wand_x;
     std::int32_t wand_z;
 
@@ -6274,12 +6274,12 @@ std::int32_t PCOM_do_regen(Thing *p_person) {
     }
 
     if (p_person->Genus.Person->Target) {
-        Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+        Entity* p_target = TO_THING(p_person->Genus.Person->Target);
 
         remove_from_gang_attack(p_person, p_target);
     }
 
-    extern std::int32_t WAND_find_good_start_point(std::int32_t * mapx, std::int32_t * mapz);
+    extern std::int32_t WAND_find_good_start_point(std::int32_t* mapx, std::int32_t* mapz);
     if (WAND_find_good_start_point(&nx, &nz)) {
         GameCoord new_position;
 
@@ -6294,7 +6294,7 @@ std::int32_t PCOM_do_regen(Thing *p_person) {
         if ((signed) timer_bored > (BOREDOM_RATE * 5000) && BOREDOM_RATE != 255) // && BOREDOM_RATE)
                                                                                  //		if(0) //mdsoft
         {
-            Thing *darci;
+            Entity* darci;
             darci = NET_PERSON(0);
 
             if (darci->Genus.Person->PersonType != PERSON_DARCI && darci->Genus.Person->PersonType != PERSON_ROPER) {
@@ -6389,7 +6389,7 @@ std::int32_t PCOM_do_regen(Thing *p_person) {
 // Processes a person moving wandering around
 //
 
-void PCOM_process_wander(Thing *p_person) {
+void PCOM_process_wander(Entity* p_person) {
     std::int32_t wand_x;
     std::int32_t wand_z;
 
@@ -6550,8 +6550,8 @@ void PCOM_process_wander(Thing *p_person) {
 // The AI for combat.
 //
 
-void PCOM_process_killing(Thing *p_person) {
-    Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+void PCOM_process_killing(Entity* p_person) {
+    Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
     std::int32_t quick_kick = 0;
 
     if (p_person->State == STATE_JUMPING) {
@@ -6740,7 +6740,7 @@ void PCOM_process_killing(Thing *p_person) {
     if ((PTIME(p_person) & 0xff) == 0)
 #endif
     {
-        Thing *p_special = PCOM_is_there_an_item_i_should_get(p_person);
+        Entity* p_special = PCOM_is_there_an_item_i_should_get(p_person);
 
         if (p_special) {
             PCOM_set_person_ai_getitem(
@@ -6794,7 +6794,7 @@ void PCOM_process_killing(Thing *p_person) {
 //       PCOM_AI_STATE_FLEE_PERSON
 //
 
-void PCOM_process_fleeing(Thing *p_person) {
+void PCOM_process_fleeing(Entity* p_person) {
     switch (p_person->Genus.Person->pcom_ai_substate) {
     case PCOM_AI_SUBSTATE_SUPRISED:
 
@@ -6926,7 +6926,7 @@ void PCOM_process_fleeing(Thing *p_person) {
 // Processes a person investigating something.
 //
 
-void PCOM_process_investigating(Thing *p_person) {
+void PCOM_process_investigating(Entity* p_person) {
     std::int32_t dist;
 
     std::int32_t before;
@@ -7135,7 +7135,7 @@ void PCOM_process_investigating(Thing *p_person) {
 // The speed the person wants to follow the target at.
 //
 
-std::int32_t PCOM_follow_speed(Thing *p_person, Thing *p_target) {
+std::int32_t PCOM_follow_speed(Entity* p_person, Entity* p_target) {
     std::int32_t wantspeed;
 
     if (p_target->Genus.Person->PlayerID) {
@@ -7171,7 +7171,7 @@ std::int32_t PCOM_follow_speed(Thing *p_person, Thing *p_target) {
     return wantspeed;
 }
 
-void PCOM_process_following(Thing *p_person) {
+void PCOM_process_following(Entity* p_person) {
     std::int32_t dist;
     std::int32_t wantspeed;
 
@@ -7179,7 +7179,7 @@ void PCOM_process_following(Thing *p_person) {
     // Who are we following?
     //
 
-    Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+    Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     //
     // If our target is in a vehicle and we are not in it...
@@ -7280,7 +7280,7 @@ void PCOM_process_following(Thing *p_person) {
                         if ((PTIME(p_person) & 0x7f) == 0)
 #endif
                         {
-                            Thing *p_special = PCOM_is_there_an_item_i_should_get(p_person);
+                            Entity* p_special = PCOM_is_there_an_item_i_should_get(p_person);
 
                             if (p_special) {
                                 PCOM_set_person_ai_getitem(
@@ -7402,14 +7402,14 @@ void PCOM_process_following(Thing *p_person) {
 //
 
 void PCOM_find_mib_appear_pos(
-    Thing *p_mib,
-    Thing *p_target,
-    std::int32_t *appear_x,
-    std::int32_t *appear_z) {
+    Entity* p_mib,
+    Entity* p_target,
+    std::int32_t* appear_x,
+    std::int32_t* appear_z) {
 }
 
 #ifndef TARGET_DC
-void draw_view_line(Thing *p_person, Thing *p_target) {
+void draw_view_line(Entity* p_person, Entity* p_target) {
 #ifdef PSX
     return;
 #else
@@ -7461,12 +7461,12 @@ void draw_view_line(Thing *p_person, Thing *p_target) {
 }
 #endif
 
-void PCOM_process_navtokill(Thing *p_person) {
+void PCOM_process_navtokill(Entity* p_person) {
     std::int32_t dist;
     std::int32_t hit_distance;
     std::int32_t special;
 
-    Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+    Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     if (p_target->State == STATE_DEAD && p_target->Genus.Person->PlayerID) {
         //
@@ -7619,7 +7619,7 @@ void PCOM_process_navtokill(Thing *p_person) {
             //				if (((GAME_TURN + (THING_NUMBER(p_person) << 5)) & 0xff) == 0)
 #endif
             {
-                Thing *p_special = PCOM_is_there_an_item_i_should_get(p_person);
+                Entity* p_special = PCOM_is_there_an_item_i_should_get(p_person);
 
                 if (p_special) {
                     PCOM_set_person_ai_getitem(
@@ -7939,7 +7939,7 @@ void PCOM_process_navtokill(Thing *p_person) {
 
                 if (dist_to_target(p_person, p_target) < (10 << 8))
                     track_gun_sight(p_target, shoot_time - p_person->Genus.Person->pcom_ai_counter);
-                    //					ASSERT(dist_to_target(p_person,p_target)< (18<<8) );
+                //					ASSERT(dist_to_target(p_person,p_target)< (18<<8) );
 
 #ifndef TARGET_DC
                 // (a) doesn't work and (b) doesn't look any good. So it's toast.
@@ -8104,10 +8104,10 @@ void PCOM_process_navtokill(Thing *p_person) {
     p_person->Genus.Person->pcom_ai_counter += PCOM_TICKS_PER_TURN * TICK_RATIO >> TICK_SHIFT;
 }
 
-void PCOM_process_findcar(Thing *p_person) {
+void PCOM_process_findcar(Entity* p_person) {
     std::int32_t door;
 
-    Thing *p_vehicle = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+    Entity* p_vehicle = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
@@ -8137,7 +8137,7 @@ void PCOM_process_findcar(Thing *p_person) {
                 p_person->Genus.Person->pcom_ai_counter += 1;
             }
 
-            extern std::int32_t in_right_place_for_car(Thing * p_person, Thing * p_vehicle, std::int32_t * door);
+            extern std::int32_t in_right_place_for_car(Entity * p_person, Entity * p_vehicle, std::int32_t* door);
 
             door = 0;
 
@@ -8208,11 +8208,11 @@ void PCOM_process_findcar(Thing *p_person) {
 
 #ifdef BIKE
 
-void PCOM_process_findbike(Thing *p_person) {
+void PCOM_process_findbike(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
-    Thing *p_bike;
+    Entity* p_bike;
 
     switch (p_person->Genus.Person->pcom_ai_substate) {
     case PCOM_AI_SUBSTATE_GOTOBIKE:
@@ -8261,7 +8261,7 @@ void PCOM_process_findbike(Thing *p_person) {
 // Somebody who is talking.
 //
 
-void PCOM_process_talk(Thing *p_person) {
+void PCOM_process_talk(Entity* p_person) {
     if (p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_STILL) {
         //
         // The person stopped talking.
@@ -8277,8 +8277,8 @@ void PCOM_process_talk(Thing *p_person) {
     }
 }
 
-void PCOM_process_hands_up(Thing *p_person) {
-    Thing *p_cop;
+void PCOM_process_hands_up(Entity* p_person) {
+    Entity* p_cop;
     p_cop = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     p_person->Genus.Person->pcom_ai_counter += PCOM_TICKS_PER_TURN * TICK_RATIO >> TICK_SHIFT;
@@ -8301,14 +8301,14 @@ void PCOM_process_hands_up(Thing *p_person) {
 // Somebody who wants to get into a vehicle as a passenger.
 //
 
-void PCOM_process_hitch(Thing *p_person) {
+void PCOM_process_hitch(Entity* p_person) {
     std::int32_t door;
 
     switch (p_person->Genus.Person->pcom_ai_substate) {
     case PCOM_AI_SUBSTATE_GOTOCAR:
 
     {
-        Thing *p_vehicle = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+        Entity* p_vehicle = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
         ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
@@ -8323,7 +8323,7 @@ void PCOM_process_hitch(Thing *p_person) {
             p_person->Genus.Person->pcom_ai_counter += 1;
         }
 
-        extern std::int32_t in_right_place_for_car(Thing * p_person, Thing * p_vehicle, std::int32_t * door);
+        extern std::int32_t in_right_place_for_car(Entity * p_person, Entity * p_vehicle, std::int32_t* door);
 
         if (p_person->Genus.Person->pcom_ai_counter > 20 || in_right_place_for_car(p_person, p_vehicle, &door)) {
             //
@@ -8355,7 +8355,7 @@ void PCOM_process_hitch(Thing *p_person) {
 
         if (p_person->Genus.Person->pcom_move == PCOM_MOVE_FOLLOW) {
             std::int32_t i_target = EWAY_get_person(p_person->Genus.Person->pcom_move_follow);
-            Thing *p_target = TO_THING(i_target);
+            Entity* p_target = TO_THING(i_target);
 
             ASSERT(p_target->Class == CLASS_PERSON);
 
@@ -8384,7 +8384,7 @@ void PCOM_process_hitch(Thing *p_person) {
 // Somebody who is knocked out.
 //
 
-void PCOM_process_knockedout(Thing *p_person) {
+void PCOM_process_knockedout(Entity* p_person) {
     if (!(p_person->Genus.Person->Flags & FLAG_PERSON_KO)) {
         //
         // The person has recovered.
@@ -8394,8 +8394,8 @@ void PCOM_process_knockedout(Thing *p_person) {
     }
 }
 
-void PCOM_process_taunt(Thing *p_person) {
-    Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+void PCOM_process_taunt(Entity* p_person) {
+    Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     //
     // Always face who you are taunting.
@@ -8508,8 +8508,8 @@ void PCOM_process_taunt(Thing *p_person) {
 // Processes a cop trying to arrest someone!
 //
 
-void PCOM_process_arrest(Thing *p_person) {
-    Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+void PCOM_process_arrest(Entity* p_person) {
+    Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     if (p_target->State == STATE_DEAD) {
         //
@@ -8612,7 +8612,7 @@ void PCOM_process_arrest(Thing *p_person) {
 // Processes someone going home.
 //
 
-void PCOM_process_homesick(Thing *p_person) {
+void PCOM_process_homesick(Entity* p_person) {
     if (PCOM_finished_nav(p_person)) {
         //
         // Do what you normally do at home.
@@ -8622,7 +8622,7 @@ void PCOM_process_homesick(Thing *p_person) {
     }
 }
 
-void PCOM_process_bdeactivate(Thing *p_person) {
+void PCOM_process_bdeactivate(Entity* p_person) {
     switch (p_person->Genus.Person->pcom_ai_substate) {
     case PCOM_AI_SUBSTATE_GOTOBOMB:
 
@@ -8656,7 +8656,7 @@ void PCOM_process_bdeactivate(Thing *p_person) {
             // Deactivated the bomb. (Hurrah!)
             //
 
-            Thing *p_bomb = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+            Entity* p_bomb = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
             p_bomb->SubState = SPECIAL_SUBSTATE_NONE;
 
@@ -8677,8 +8677,8 @@ void PCOM_process_bdeactivate(Thing *p_person) {
     }
 }
 
-void PCOM_process_leavecar(Thing *p_person) {
-    Thing *p_vehicle;
+void PCOM_process_leavecar(Entity* p_person) {
+    Entity* p_vehicle;
 
     switch (p_person->Genus.Person->pcom_move_state) {
     case PCOM_MOVE_STATE_STILL:
@@ -8733,7 +8733,7 @@ void PCOM_process_leavecar(Thing *p_person) {
     }
 }
 
-void PCOM_process_snipe(Thing *p_person) {
+void PCOM_process_snipe(Entity* p_person) {
 #ifndef PSX
 
     //
@@ -8757,7 +8757,7 @@ void PCOM_process_snipe(Thing *p_person) {
 
 #endif
 
-    Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+    Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
     switch (p_person->Genus.Person->pcom_ai_substate) {
     case PCOM_AI_SUBSTATE_LOOK:
@@ -8899,9 +8899,9 @@ void PCOM_process_snipe(Thing *p_person) {
     }
 }
 
-void PCOM_process_warm_hands(Thing *p_person) {
+void PCOM_process_warm_hands(Entity* p_person) {
     std::int32_t i_fire;
-    Thing *p_fire;
+    Entity* p_fire;
 
     switch (p_person->Genus.Person->pcom_ai_substate) {
     case PCOM_AI_SUBSTATE_GOTOFIRE:
@@ -8984,7 +8984,7 @@ void PCOM_process_warm_hands(Thing *p_person) {
     }
 }
 
-std::int32_t person_drawn_recently(Thing *p_person) {
+std::int32_t person_drawn_recently(Entity* p_person) {
     return p_person->Flags & FLAGS_IN_VIEW;
 }
 
@@ -8992,7 +8992,7 @@ std::int32_t person_drawn_recently(Thing *p_person) {
 // Processes normal behaviour
 //
 
-void PCOM_teleport_home(Thing *p_person) {
+void PCOM_teleport_home(Entity* p_person) {
     GameCoord pos;
 
     pos.X = p_person->Genus.Person->HomeX << 8;
@@ -9004,9 +9004,9 @@ void PCOM_teleport_home(Thing *p_person) {
     p_person->Draw.Tweened->Angle = p_person->Genus.Person->HomeYaw << 3;
 }
 
-void PCOM_process_normal(Thing *p_person) {
+void PCOM_process_normal(Entity* p_person) {
     std::uint16_t i_target;
-    Thing *p_target;
+    Entity* p_target;
     std::int32_t dist;
 
     switch (p_person->Genus.Person->pcom_move) {
@@ -9146,7 +9146,7 @@ void PCOM_process_normal(Thing *p_person) {
                             std::int32_t best_prim = NULL;
                             std::int32_t best_dist = PCOM_MAX_BENCH_WALK;
 
-                            OB_Info *oi;
+                            OB_Info* oi;
 
                             mx1 = (p_person->WorldPos.X >> 8) - PCOM_MAX_BENCH_WALK >> PAP_SHIFT_LO;
                             mz1 = (p_person->WorldPos.Z >> 8) - PCOM_MAX_BENCH_WALK >> PAP_SHIFT_LO;
@@ -9313,14 +9313,14 @@ void PCOM_process_normal(Thing *p_person) {
 // Looks for an active bomb that the person can see.
 //
 
-std::uint16_t PCOM_find_bomb(Thing *p_person) {
+std::uint16_t PCOM_find_bomb(Entity* p_person) {
     std::int32_t i;
     std::int32_t score;
 
     std::int32_t best_thing;
     std::int32_t best_score;
 
-    Thing *p_found;
+    Entity* p_found;
 
     PCOM_found_num = THING_find_sphere(
         p_person->WorldPos.X >> 8,
@@ -9357,7 +9357,7 @@ std::uint16_t PCOM_find_bomb(Thing *p_person) {
 // Does the default processing for a person.
 //
 
-void PCOM_process_default(Thing *p_person) {
+void PCOM_process_default(Entity* p_person) {
     switch (p_person->Genus.Person->pcom_ai_state) {
     case PCOM_AI_STATE_NORMAL:
         PCOM_process_normal(p_person);
@@ -9465,11 +9465,11 @@ void PCOM_process_default(Thing *p_person) {
 // Alerts all nearby MIB / Guards / Gangs to attack / fight test... including the person himself.
 //
 
-void PCOM_alert_nearby_mib_to_attack(Thing *p_person) {
+void PCOM_alert_nearby_mib_to_attack(Entity* p_person) {
     {
         std::int32_t i;
         std::int32_t num_found;
-        Thing *p_found;
+        Entity* p_found;
 
         //
         // Alerts all nearby MIB to attack- including yourself!
@@ -9507,7 +9507,7 @@ void PCOM_alert_nearby_mib_to_attack(Thing *p_person) {
 // Returns who a bodyguard should be attacking...
 //
 
-Thing *PCOM_find_bodyguard_victim(Thing *p_bodyguard, Thing *p_client) {
+Entity* PCOM_find_bodyguard_victim(Entity* p_bodyguard, Entity* p_client) {
     std::int32_t i;
     std::int32_t dx;
     std::int32_t dy;
@@ -9515,8 +9515,8 @@ Thing *PCOM_find_bodyguard_victim(Thing *p_bodyguard, Thing *p_client) {
     std::int32_t dist;
     std::int32_t num_found;
     std::int32_t best_score = INFINITY;
-    Thing *best_victim = NULL;
-    Thing *p_found;
+    Entity* best_victim = NULL;
+    Entity* p_found;
 
     num_found = THING_find_sphere(
         p_bodyguard->WorldPos.X >> 8,
@@ -9576,7 +9576,7 @@ Thing *PCOM_find_bodyguard_victim(Thing *p_bodyguard, Thing *p_client) {
     return best_victim;
 }
 
-void PCOM_process_state_change(Thing *p_person) {
+void PCOM_process_state_change(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -9586,7 +9586,7 @@ void PCOM_process_state_change(Thing *p_person) {
 
     std::int32_t bomb;
 
-    Thing *p_target;
+    Entity* p_target;
     std::int32_t i_target;
 
     //
@@ -9635,7 +9635,7 @@ void PCOM_process_state_change(Thing *p_person) {
 
                                                 if (p_person->Genus.Person->pcom_ai_memory && !EWAY_stop_player_moving())
                                                 {
-                                                        Thing *p_nasty = TO_THING(p_person->Genus.Person->pcom_ai_memory);
+                                                        Entity *p_nasty = TO_THING(p_person->Genus.Person->pcom_ai_memory);
 
                                                         if (PCOM_get_dist_between(
                                                                         p_person,
@@ -9666,7 +9666,7 @@ void PCOM_process_state_change(Thing *p_person) {
         case PCOM_AI_STATE_NAVTOKILL:
 
         {
-            Thing *p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
+            Entity* p_target = TO_THING(p_person->Genus.Person->pcom_ai_arg);
 
             if (PCOM_get_dist_between(p_person, p_target) > 20 * 0x100) {
                 //
@@ -9940,7 +9940,7 @@ void PCOM_process_state_change(Thing *p_person) {
 
     {
         std::uint16_t i_client = EWAY_get_person(p_person->Genus.Person->pcom_ai_other);
-        Thing *p_client = NULL;
+        Entity* p_client = NULL;
 
         if (i_client) {
             p_client = TO_THING(i_client);
@@ -9974,7 +9974,7 @@ void PCOM_process_state_change(Thing *p_person) {
             //
 
             if (p_client) {
-                Thing *p_target = PCOM_find_bodyguard_victim(p_person, p_client);
+                Entity* p_target = PCOM_find_bodyguard_victim(p_person, p_client);
 
                 if (p_target) {
                     //
@@ -10308,8 +10308,8 @@ void PCOM_process_state_change(Thing *p_person) {
 
             std::int32_t dist;
             std::int32_t best_dist = INFINITY;
-            Thing *best_target = NULL;
-            Thing *p_found;
+            Entity* best_target = NULL;
+            Entity* p_found;
 
             list = thing_class_head[CLASS_PERSON];
 
@@ -10319,7 +10319,7 @@ void PCOM_process_state_change(Thing *p_person) {
             hate_example = EWAY_get_person(p_person->Genus.Person->pcom_ai_other);
 
             if (hate_example) {
-                Thing *p_example = TO_THING(hate_example);
+                Entity* p_example = TO_THING(hate_example);
 
                 ASSERT(p_example->Class == CLASS_PERSON);
 
@@ -10440,7 +10440,7 @@ void PCOM_process_state_change(Thing *p_person) {
                 p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FOLLOW) {
                 std::int32_t i;
 
-                Thing *p_found;
+                Entity* p_found;
 
                 //
                 // If you can see someone you hate...
@@ -10489,11 +10489,11 @@ void PCOM_process_state_change(Thing *p_person) {
 #define PCOM_RUNOVER_RUNAWAY (1 << 6) // Get our of the car and peg-it!
 #define PCOM_RUNOVER_REVERSE (1 << 7)
 
-Thing *PCOM_runover_scary_person;
+Entity* PCOM_runover_scary_person;
 
 // no messing here, -ve dangle means turning LEFT as most people would imagine it would
 
-std::int32_t PCOM_find_runover_thing(Thing *p_person, std::int32_t dangle) {
+std::int32_t PCOM_find_runover_thing(Entity* p_person, std::int32_t dangle) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -10521,10 +10521,10 @@ std::int32_t PCOM_find_runover_thing(Thing *p_person, std::int32_t dangle) {
     std::int32_t num;
     std::int32_t velocity;
 
-    Thing *p_vehicle;
-    Vehicle *veh;
-    Thing *p_found;
-    Vehicle *v_found;
+    Entity* p_vehicle;
+    Vehicle* veh;
+    Entity* p_found;
+    Vehicle* v_found;
 
     ASSERT(p_person->Genus.Person->Flags & (FLAG_PERSON_DRIVING | FLAG_PERSON_BIKING));
 
@@ -10834,7 +10834,7 @@ std::int32_t PCOM_find_runover_thing(Thing *p_person, std::int32_t dangle) {
     return what;
 }
 
-void PCOM_process_movement(Thing *p_person) {
+void PCOM_process_movement(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -10852,9 +10852,9 @@ void PCOM_process_movement(Thing *p_person) {
 
     std::int32_t renav = false;
 
-    Thing *p_vehicle;
-    Thing *p_target;
-    Thing *p_bike;
+    Entity* p_vehicle;
+    Entity* p_target;
+    Entity* p_bike;
 
 #ifdef BIKE
 
@@ -11204,7 +11204,7 @@ void PCOM_process_movement(Thing *p_person) {
         {
             ASSERT(p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_GOTO_THING);
 
-            Thing *p_target = TO_THING(p_person->Genus.Person->pcom_move_arg);
+            Entity* p_target = TO_THING(p_person->Genus.Person->pcom_move_arg);
 
             if (!PCOM_should_i_try_to_los_mav_to_person(p_person, p_target)) {
                 //
@@ -11393,7 +11393,7 @@ void PCOM_process_movement(Thing *p_person) {
     }
 }
 
-void PCOM_process_person(Thing *p_person) {
+void PCOM_process_person(Entity* p_person) {
     //
     // Do movement AI and low-level state stuff.
     //
@@ -11431,7 +11431,7 @@ void PCOM_process_person(Thing *p_person) {
                 add_thing_to_map(p_person);
 
                 if (pnear) {
-                    Thing *p_near;
+                    Entity* p_near;
 
                     //
                     // Is this person dancing?
@@ -11503,7 +11503,7 @@ void PCOM_process_person(Thing *p_person) {
                     newpos.Z = (p_person->Genus.Person->HomeZ << 16) + 0x8000;
                     newpos.Y = PAP_calc_map_height_at(newpos.X >> 8, newpos.Z >> 8);
 
-                    extern std::int32_t plant_feet(Thing * p_person); // in collide.cpp
+                    extern std::int32_t plant_feet(Entity * p_person); // in collide.cpp
 
                     plant_feet(p_person);
 
@@ -11593,7 +11593,7 @@ void process_noises() {
 
 void PCOM_oscillate_tympanum(
     std::int32_t type,
-    Thing *p_person,      // The person who caused the sound.
+    Entity* p_person,     // The person who caused the sound.
     std::int32_t sound_x, // The position of the sound.
     std::int32_t sound_y,
     std::int32_t sound_z,
@@ -11603,12 +11603,12 @@ void PCOM_oscillate_tympanum(
     std::int32_t found_upto;
     std::int32_t radius;
 
-    Thing *p_found;
+    Entity* p_found;
 
     if (stealth_debug && (p_person == NET_PERSON(0))) return;
 
     if (store_it) {
-        struct Noise *p_noise;
+        struct Noise* p_noise;
 
         if (noise_count >= MAX_NOISE) {
             ASSERT(0);
@@ -11962,11 +11962,11 @@ void PCOM_oscillate_tympanum(
 }
 
 void PCOM_youre_being_grappled(
-    Thing *p_victim,
-    Thing *p_attacker) {
+    Entity* p_victim,
+    Entity* p_attacker) {
 }
 
-std::int32_t on_same_side(Thing *p_victim, Thing *p_attacker) {
+std::int32_t on_same_side(Entity* p_victim, Entity* p_attacker) {
     if (p_victim->Genus.Person->PersonType == PERSON_ROPER || p_victim->Genus.Person->PersonType == PERSON_DARCI || p_victim->Genus.Person->PersonType == PERSON_COP) {
         if (p_attacker->Genus.Person->PersonType == PERSON_ROPER || p_attacker->Genus.Person->PersonType == PERSON_DARCI || p_attacker->Genus.Person->PersonType == PERSON_COP) {
             return (1);
@@ -11981,7 +11981,7 @@ std::int32_t on_same_side(Thing *p_victim, Thing *p_attacker) {
 // Returns true if the player hit the cop on purpose.
 //
 
-std::int32_t PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci) {
+std::int32_t PCOM_player_hit_cop_on_purpose(Entity* p_cop, Entity* p_darci) {
     if (p_darci->Genus.Person->Flags & FLAG_PERSON_FELON) {
         //
         // Darci is a known villain.
@@ -11994,7 +11994,7 @@ std::int32_t PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci) {
     // Is there somebody fighting Darci nearby?
     //
 
-    Thing *p_attacker;
+    Entity* p_attacker;
 
     p_attacker = is_person_under_attack(p_darci);
 
@@ -12037,11 +12037,11 @@ std::int32_t PCOM_player_hit_cop_on_purpose(Thing *p_cop, Thing *p_darci) {
 //
 // you have been attacked
 //
-extern void set_person_fight_idle(Thing *p_person);
+extern void set_person_fight_idle(Entity* p_person);
 
 void PCOM_attack_happened(
-    Thing *p_victim,
-    Thing *p_attacker) {
+    Entity* p_victim,
+    Entity* p_attacker) {
     if (p_victim->Genus.Person->PlayerID) {
         return;
     }
@@ -12055,7 +12055,7 @@ void PCOM_attack_happened(
 
         return;
     }
-    extern std::int32_t people_allowed_to_hit_each_other(Thing * p_victim, Thing * p_agressor);
+    extern std::int32_t people_allowed_to_hit_each_other(Entity * p_victim, Entity * p_agressor);
     if (!people_allowed_to_hit_each_other(p_victim, p_attacker)) {
         //
         // dont retaliate if you cant hurt them
@@ -12214,7 +12214,7 @@ flee:
     return;
 }
 
-void PCOM_attack_happened_but_missed(Thing *p_victim, Thing *p_attacker) {
+void PCOM_attack_happened_but_missed(Entity* p_victim, Entity* p_attacker) {
     if (p_victim->Genus.Person->PlayerID) {
         return;
     }
@@ -12360,7 +12360,7 @@ flee:
     return;
 }
 
-std::int32_t PCOM_jumping_navigating_person_continue_moving(Thing *p_person) {
+std::int32_t PCOM_jumping_navigating_person_continue_moving(Entity* p_person) {
     if (p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_GOTO_XZ ||
         p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_GOTO_WAYPOINT ||
         p_person->Genus.Person->pcom_move_state == PCOM_MOVE_STATE_GOTO_THING) {
@@ -12395,7 +12395,7 @@ std::int32_t PCOM_jumping_navigating_person_continue_moving(Thing *p_person) {
     return true;
 }
 
-void PCOM_knockdown_happened(Thing *p_person) {
+void PCOM_knockdown_happened(Entity* p_person) {
     //
     // This function doesn't do anything to the person. It just changes
     // state of the 'brain' to wait for recovery.
@@ -12417,7 +12417,7 @@ void PCOM_knockdown_happened(Thing *p_person) {
 char PCOM_debug_string[256];
 #endif
 
-char *PCOM_person_state_debug(Thing *p_person) {
+char* PCOM_person_state_debug(Entity* p_person) {
 #ifndef PSX
     std::int32_t i;
     char bent[256];
@@ -12474,11 +12474,11 @@ char *PCOM_person_state_debug(Thing *p_person) {
 
     return PCOM_debug_string;
 #else
-    return (char *) 0;
+    return (char*) 0;
 #endif
 }
 
-std::int32_t PCOM_cop_aiming_at_you(Thing *p_person, Thing *p_cop) {
+std::int32_t PCOM_cop_aiming_at_you(Entity* p_person, Entity* p_cop) {
     if (p_cop == NET_PERSON(0) && stealth_debug) {
         return 0;
     }
@@ -12560,8 +12560,8 @@ std::int32_t PCOM_cop_aiming_at_you(Thing *p_person, Thing *p_cop) {
 }
 
 void PCOM_make_people_talk_to_eachother(
-    Thing *p_person_a,
-    Thing *p_person_b,
+    Entity* p_person_a,
+    Entity* p_person_b,
     std::uint8_t is_a_asking_a_question,
     std::uint8_t stay_looking_at_eachother,
     std::uint8_t make_the_person_talked_at_listen) {
@@ -12584,8 +12584,8 @@ void PCOM_make_people_talk_to_eachother(
 }
 
 void PCOM_stop_people_talking_to_eachother(
-    Thing *p_person_a,
-    Thing *p_person_b) {
+    Entity* p_person_a,
+    Entity* p_person_b) {
     p_person_a->Genus.Person->Flags &= ~FLAG_PERSON_NO_RETURN_TO_NORMAL;
     p_person_b->Genus.Person->Flags &= ~FLAG_PERSON_NO_RETURN_TO_NORMAL;
 
@@ -12597,7 +12597,7 @@ void PCOM_stop_people_talking_to_eachother(
     }
 }
 
-std::int32_t PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b) {
+std::int32_t PCOM_person_a_hates_b(Entity* p_person_a, Entity* p_person_b) {
     ASSERT(p_person_a->Class == CLASS_PERSON);
     ASSERT(p_person_b->Class == CLASS_PERSON);
 
@@ -12669,7 +12669,7 @@ std::int32_t PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b) {
     return false;
 }
 
-THING_INDEX PCOM_person_wants_to_kill(Thing *p_person) {
+THING_INDEX PCOM_person_wants_to_kill(Entity* p_person) {
     if (p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_NAVTOKILL ||
         p_person->Genus.Person->pcom_ai_state == PCOM_AI_STATE_KILLING) {
         return p_person->Genus.Person->pcom_ai_arg;
@@ -12682,7 +12682,7 @@ THING_INDEX PCOM_person_wants_to_kill(Thing *p_person) {
 //
 // handler for PCOM_MOVE_STATE_PARK_CAR
 
-void ParkCar(Thing *p_person) {
+void ParkCar(Entity* p_person) {
     std::int32_t wangle;
     std::int32_t dangle;
 
@@ -12692,7 +12692,7 @@ void ParkCar(Thing *p_person) {
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
-    Thing *p_vehicle = TO_THING(p_person->Genus.Person->InCar);
+    Entity* p_vehicle = TO_THING(p_person->Genus.Person->InCar);
 
     //
     // What direction do we want the car to face?
@@ -12740,7 +12740,7 @@ void ParkCar(Thing *p_person) {
 //
 // AI for driving a car - states PCOM_MOVE_STATE_DRIVE_DOWN, PCOM_MOVE_STATE_PARK_CAR_ON_ROAD and PCOM_MOVE_STATE_DRIVETO
 
-void DriveCar(Thing *p_person) {
+void DriveCar(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -12755,13 +12755,13 @@ void DriveCar(Thing *p_person) {
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_DRIVING);
 
-    Thing *p_vehicle = TO_THING(p_person->Genus.Person->InCar);
+    Entity* p_vehicle = TO_THING(p_person->Genus.Person->InCar);
     ASSERT(p_vehicle);
 
 #ifndef PSX
 #ifndef TARGET_DC
 #ifndef NDEBUG
-    extern Thing *SelectedThing;
+    extern Entity* SelectedThing;
     if (LeftButton && (SelectedThing == p_vehicle)) {
         DebugBreak();
         LeftButton = 0;
@@ -13080,7 +13080,7 @@ void DriveCar(Thing *p_person) {
 //
 // AI for parking a bike
 
-void ParkBike(Thing *p_person) {
+void ParkBike(Entity* p_person) {
     std::int32_t wangle;
     std::int32_t dangle;
 
@@ -13095,7 +13095,7 @@ void ParkBike(Thing *p_person) {
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_BIKING);
 
-    Thing *p_bike = TO_THING(p_person->Genus.Person->InCar);
+    Entity* p_bike = TO_THING(p_person->Genus.Person->InCar);
 
     bc = BIKE_control_get(p_bike);
 
@@ -13149,7 +13149,7 @@ void ParkBike(Thing *p_person) {
 //
 // AI for driving a bike
 
-void DriveBike(Thing *p_person) {
+void DriveBike(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -13182,7 +13182,7 @@ void DriveBike(Thing *p_person) {
         return;
     }
 
-    Thing *p_bike = TO_THING(p_person->Genus.Person->InCar);
+    Entity* p_bike = TO_THING(p_person->Genus.Person->InCar);
 
     //
     // Where are we going?
@@ -13425,7 +13425,7 @@ void DriveBike(Thing *p_person) {
 
 #endif
 
-std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person) {
+std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Entity* p_person) {
     if (!p_person->Genus.Person->PlayerID) {
         switch (p_person->Genus.Person->pcom_move_state) {
         case PCOM_MOVE_STATE_GOTO_XZ:
@@ -13444,7 +13444,7 @@ std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person) {
     return 40;
 }
 
-void PCOM_make_driver_run_away(Thing *p_driver, Thing *p_scary) {
+void PCOM_make_driver_run_away(Entity* p_driver, Entity* p_scary) {
     if (p_driver->Genus.Person->pcom_ai_state == PCOM_AI_STATE_LEAVECAR ||
         p_driver->Genus.Person->pcom_ai_state == PCOM_AI_STATE_FLEE_PERSON) {
         return;

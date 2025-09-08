@@ -7,7 +7,7 @@
 #include "animate.h"
 #include <algorithm>
 
-TRIP_Wire *TRIP_wire; //[TRIP_MAX_WIRES];
+TRIP_Wire* TRIP_wire; //[TRIP_MAX_WIRES];
 std::int32_t TRIP_wire_upto;
 
 #ifndef PSX
@@ -24,7 +24,7 @@ std::uint8_t TRIP_create(
     std::int32_t z2) {
     std::int32_t i;
 
-    TRIP_Wire *tw;
+    TRIP_Wire* tw;
 
     //
     // Look for a tripwire that already exists.
@@ -153,8 +153,8 @@ void TRIP_process() {
     std::int32_t feet;
     std::int32_t head;
 
-    TRIP_Wire *tw;
-    Thing *darci = NET_PERSON(0);
+    TRIP_Wire* tw;
+    Entity* darci = NET_PERSON(0);
 
     for (i = 1; i < TRIP_wire_upto; i++) {
         tw = &TRIP_wire[i];
@@ -274,8 +274,8 @@ void TRIP_get_start() {
     TRIP_get_upto = 1;
 }
 
-TRIP_Info *TRIP_get_next() {
-    TRIP_Wire *tw;
+TRIP_Info* TRIP_get_next() {
+    TRIP_Wire* tw;
 
 tail_recurse:;
 
@@ -307,7 +307,7 @@ tail_recurse:;
 }
 
 std::int32_t TRIP_activated(std::uint8_t tripwire) {
-    TRIP_Wire *tw;
+    TRIP_Wire* tw;
 
     ASSERT(WITHIN(tripwire, 0, TRIP_wire_upto - 1));
 
@@ -317,7 +317,7 @@ std::int32_t TRIP_activated(std::uint8_t tripwire) {
 }
 
 void TRIP_deactivate(std::uint8_t tripwire) {
-    TRIP_Wire *tw;
+    TRIP_Wire* tw;
 
     ASSERT(WITHIN(tripwire, 0, TRIP_wire_upto - 1));
 

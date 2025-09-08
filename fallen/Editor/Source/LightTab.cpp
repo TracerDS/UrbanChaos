@@ -77,7 +77,7 @@ ControlDef light_tab_def[] =
         {0}
 };
 
-LightTab *the_lighttab;
+LightTab* the_lighttab;
 static light_x, light_y, light_z, light_bright;
 
 void redraw_tab(void);
@@ -86,7 +86,7 @@ void link_all_lights(void);
 void scan_undo_ambient(std::int32_t face, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t extra);
 //---------------------------------------------------------------
 
-LightTab::LightTab(EditorModule *parent) {
+LightTab::LightTab(EditorModule* parent) {
     Parent = parent;
 
     InitControlSet(light_tab_def);
@@ -96,9 +96,9 @@ LightTab::LightTab(EditorModule *parent) {
     SetControlState(CTRL_LIGHT_Y_AXIS_FREE, CTRL_SELECTED);
     SetControlState(CTRL_LIGHT_Z_AXIS_FREE, CTRL_SELECTED);
 
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetValueRange(0, 4096);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetCurrentValue(512);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetUpdateFunction(redraw_tab);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetValueRange(0, 4096);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetCurrentValue(512);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetUpdateFunction(redraw_tab);
     Axis = X_AXIS | Y_AXIS | Z_AXIS;
     CurrentLight = 0;
     Mode = 0;
@@ -106,21 +106,21 @@ LightTab::LightTab(EditorModule *parent) {
 
     the_lighttab = this;
 
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetValueRange(0, 255);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetUpdateFunction(redraw_tab);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetValueRange(0, 255);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetUpdateFunction(redraw_tab);
 
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetValueRange(0, 255);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetUpdateFunction(redraw_tab);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetValueRange(0, 255);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetUpdateFunction(redraw_tab);
 
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetValueRange(0, 255);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetUpdateFunction(redraw_tab);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetValueRange(0, 255);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetUpdateFunction(redraw_tab);
 
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_PARAM))->SetValueRange(0, 100);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_PARAM))->SetCurrentValue(50);
-    ((CHSlider *) GetControlPtr(CTRL_LIGHT_PARAM))->SetUpdateFunction(redraw_tab);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_PARAM))->SetValueRange(0, 100);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_PARAM))->SetCurrentValue(50);
+    ((CHSlider*) GetControlPtr(CTRL_LIGHT_PARAM))->SetUpdateFunction(redraw_tab);
 }
 
 LightTab::~LightTab() {
@@ -137,7 +137,7 @@ void LightTab::DrawTabContent(void) {
     if (CurrentLight) {
         std::int32_t bright;
         static std::int32_t old_bright;
-        bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+        bright = ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
         if (bright != old_bright) {
             apply_light_to_map(map_things[CurrentLight].X, map_things[CurrentLight].Y, map_things[CurrentLight].Z, -map_things[CurrentLight].IndexOther);
             old_bright = map_things[CurrentLight].IndexOther;
@@ -146,11 +146,11 @@ void LightTab::DrawTabContent(void) {
             //			RedrawModuleContent=1;
         }
 
-        map_things[CurrentLight].AngleX = ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->GetCurrentValue();
-        map_things[CurrentLight].AngleY = ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->GetCurrentValue();
-        map_things[CurrentLight].AngleZ = ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->GetCurrentValue();
+        map_things[CurrentLight].AngleX = ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->GetCurrentValue();
+        map_things[CurrentLight].AngleY = ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->GetCurrentValue();
+        map_things[CurrentLight].AngleZ = ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->GetCurrentValue();
 
-        map_things[CurrentLight].IndexOrig = ((CHSlider *) GetControlPtr(CTRL_LIGHT_PARAM))->GetCurrentValue();
+        map_things[CurrentLight].IndexOrig = ((CHSlider*) GetControlPtr(CTRL_LIGHT_PARAM))->GetCurrentValue();
 
         switch (map_things[CurrentLight].IndexOrig) {
         case LIGHT_TYPE_NORMAL:
@@ -314,7 +314,7 @@ void redraw_tab(void) {
         scan_map();
         remove_ambient_from_floor();
 
-        edit_info.amb_bright = ((CHSlider *) the_lighttab->GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+        edit_info.amb_bright = ((CHSlider*) the_lighttab->GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
         //			link_all_lights();
         scan_function = scan_apply_ambient;
         scan_map();
@@ -391,7 +391,7 @@ void LightTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
 //---------------------------------------------------------------
 
-void LightTab::HandleTab(MFPoint *current_point) {
+void LightTab::HandleTab(MFPoint* current_point) {
     std::int32_t update = 0;
 
     ModeTab::HandleTab(current_point);
@@ -446,7 +446,7 @@ std::int32_t LightTab::KeyboardInterface(void) {
     return (0);
 }
 
-inline std::int32_t normalise_xyz(std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+inline std::int32_t normalise_xyz(std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::int32_t dist;
 
     dist = (*x) * (*x) + (*y) * (*y) + (*z) * (*z);
@@ -798,7 +798,7 @@ void apply_light_to_map(std::int32_t x, std::int32_t y, std::int32_t z, std::int
 
 std::int16_t CreateALightThing(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t bright) {
     std::uint16_t map_thing;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     map_thing = find_empty_map_thing();
     if (!map_thing)
@@ -818,7 +818,7 @@ std::int16_t CreateALightThing(std::int32_t x, std::int32_t y, std::int32_t z, s
 
 std::int16_t LightTab::CreateLightThing(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t bright) {
     std::uint16_t map_thing;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     map_thing = find_empty_map_thing();
     if (!map_thing)
@@ -833,18 +833,18 @@ std::int16_t LightTab::CreateLightThing(std::int32_t x, std::int32_t y, std::int
     p_mthing->SubType = LIGHT_TYPE_NORMAL;
     p_mthing->IndexOther = (std::int16_t) bright;
 
-    p_mthing->AngleX = ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->GetCurrentValue();
-    p_mthing->AngleY = ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->GetCurrentValue();
-    p_mthing->AngleZ = ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->GetCurrentValue();
+    p_mthing->AngleX = ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->GetCurrentValue();
+    p_mthing->AngleY = ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->GetCurrentValue();
+    p_mthing->AngleZ = ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->GetCurrentValue();
 
-    p_mthing->IndexOrig = ((CHSlider *) GetControlPtr(CTRL_LIGHT_PARAM))->GetCurrentValue();
+    p_mthing->IndexOrig = ((CHSlider*) GetControlPtr(CTRL_LIGHT_PARAM))->GetCurrentValue();
 
     apply_light_to_map(x, y, z, bright);
 
     return (map_thing);
 }
 
-std::int32_t LightTab::ClickOnLight(MFPoint *clicked_point) {
+std::int32_t LightTab::ClickOnLight(MFPoint* clicked_point) {
     MFPoint local_point;
     std::int32_t x, y, w, h;
     std::int32_t drag;
@@ -873,11 +873,11 @@ std::int32_t LightTab::ClickOnLight(MFPoint *clicked_point) {
     return (0);
 }
 
-std::int32_t LightTab::DragALight(std::uint8_t flags, MFPoint *clicked_point, std::uint16_t copy) {
+std::int32_t LightTab::DragALight(std::uint8_t flags, MFPoint* clicked_point, std::uint16_t copy) {
     std::int32_t dx, dy, dz;
     std::uint16_t index;
     EdRect prim_rect;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
     static std::uint8_t col = 0;
     std::int32_t screen_change = 0;
     MFPoint local_point;
@@ -1016,7 +1016,7 @@ void LightTab::SetAmbientAngle(void) {
             edit_info.amb_dz = engine.MousePosZ - (engine.Z >> 8);
             normalise_xyz(&edit_info.amb_dx, &edit_info.amb_dy, &edit_info.amb_dz);
 
-            edit_info.amb_bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+            edit_info.amb_bright = ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
             //			link_all_lights();
             scan_function = scan_apply_ambient;
             scan_map();
@@ -1045,7 +1045,7 @@ void LightTab::SetAmbientAngle(void) {
         }
     }
 }
-std::int32_t LightTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t LightTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -1103,7 +1103,7 @@ std::int32_t LightTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
     return (screen_change);
 }
 
-std::int32_t LightTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t LightTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     std::int16_t thing;
     std::int16_t bright;
     switch (flags) {
@@ -1126,7 +1126,7 @@ std::int32_t LightTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
             break;
         case LIGHT_TAB_MODE_PLACE_LIGHT:
             if (SetWorldMouse(1)) {
-                bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+                bright = ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
                 CurrentLight = CreateLightThing(engine.MousePosX, engine.MousePosY, engine.MousePosZ, bright);
                 Mode = 0;
             }
@@ -1147,7 +1147,7 @@ std::int32_t LightTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
         case LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT:
         case LIGHT_TAB_MODE_PLACE_LIGHT:
             if (SetWorldMouse(1)) {
-                bright = ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
+                bright = ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->GetCurrentValue();
                 CurrentLight = CreateLightThing(engine.MousePosX, engine.MousePosY, engine.MousePosZ, bright);
                 Mode = LIGHT_TAB_MODE_REPEAT_PLACE_LIGHT;
             }
@@ -1162,9 +1162,9 @@ std::int32_t LightTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
     return (0);
 }
 
-std::uint16_t LightTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t LightTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     // This is a fudge to update the front screen buffer.
@@ -1298,7 +1298,7 @@ void LightTab::HandleControl(std::uint16_t control_id) {
         RequestUpdate();
         break;
     case CTRL_LIGHT_PLACE_AMBIENT:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetCurrentValue(256);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_BRIGHT))->SetCurrentValue(256);
         CurrentLight = 0;
         Mode = LIGHT_TAB_MODE_PLACE_AMBIENT;
         break;
@@ -1312,44 +1312,44 @@ void LightTab::HandleControl(std::uint16_t control_id) {
         break;
 
     case CTRL_LIGHT_WHITE:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
         RequestUpdate();
         break;
 
     case CTRL_LIGHT_PALE_BLUE:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(225);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(225);
         RequestUpdate();
         break;
 
     case CTRL_LIGHT_ORANGE:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(85);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(235);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(85);
         RequestUpdate();
         break;
 
     case CTRL_LIGHT_YELLOW:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(105);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(105);
         RequestUpdate();
         break;
 
     case CTRL_LIGHT_RED:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(55);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(55);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(55);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(55);
         RequestUpdate();
         break;
 
     case CTRL_LIGHT_BLUE:
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(75);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(75);
-        ((CHSlider *) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_RED))->SetCurrentValue(75);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_GREEN))->SetCurrentValue(75);
+        ((CHSlider*) GetControlPtr(CTRL_LIGHT_SLIDE_BLUE))->SetCurrentValue(255);
         RequestUpdate();
         break;
 

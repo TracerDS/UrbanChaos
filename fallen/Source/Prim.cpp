@@ -25,7 +25,7 @@
 // Extra info for each prim that isn't saved...
 //
 
-PrimInfo *prim_info; //[256];//MAX_PRIM_OBJECTS];
+PrimInfo* prim_info; //[256];//MAX_PRIM_OBJECTS];
 
 #if !defined(PSX) && !defined(TARGET_DC)
 struct SVector global_res[15560]; // max points per object?
@@ -33,7 +33,7 @@ std::int32_t global_flags[15560];
 std::uint16_t global_bright[15560];
 #endif
 
-extern struct KeyFrameChunk *test_chunk;
+extern struct KeyFrameChunk* test_chunk;
 
 #define USED_POINT (1 << 0)
 #define USED_FACE3 (1 << 1)
@@ -127,12 +127,12 @@ void compress_prims() {
 #if !defined(PSX) && !defined(TARGET_DC)
     std::int32_t c0, c1;
     std::int32_t sp, ep, sf, ef;
-    std::uint8_t *pf;
+    std::uint8_t* pf;
     std::int32_t count;
 
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
 
-    pf = (std::uint8_t *) &global_bright[0];
+    pf = (std::uint8_t*) &global_bright[0];
 
     memset(pf, 0, 15560 * 2);
 
@@ -204,8 +204,8 @@ void clear_prims() {
     // Mark all the prim objects as unloaded.
     //
 
-    memset((std::uint8_t *) &prim_objects[0], 0, sizeof(PrimObject) * MAX_PRIM_OBJECTS);
-    memset((std::uint8_t *) &prim_multi_objects[0], 0, sizeof(PrimMultiObject) * MAX_PRIM_MOBJECTS);
+    memset((std::uint8_t*) &prim_objects[0], 0, sizeof(PrimObject) * MAX_PRIM_OBJECTS);
+    memset((std::uint8_t*) &prim_multi_objects[0], 0, sizeof(PrimMultiObject) * MAX_PRIM_MOBJECTS);
 
     for (c0 = 0; c0 < MAX_ANIM_CHUNKS; c0++)
         anim_chunk[c0].MultiObject[0] = 0;
@@ -218,7 +218,7 @@ void clear_prims() {
 }
 
 // Smooth lighting on a prim
-std::int32_t sum_shared_brightness_prim(std::int16_t shared_point, struct PrimObject *p_obj) {
+std::int32_t sum_shared_brightness_prim(std::int16_t shared_point, struct PrimObject* p_obj) {
     std::int32_t c0, point;
     std::int32_t face;
     std::int32_t bright = 0;
@@ -246,7 +246,7 @@ std::int32_t sum_shared_brightness_prim(std::int16_t shared_point, struct PrimOb
         return (0);
 }
 
-void set_shared_brightness_prim(std::int16_t shared_point, std::int16_t bright, struct PrimObject *p_obj) {
+void set_shared_brightness_prim(std::int16_t shared_point, std::int16_t bright, struct PrimObject* p_obj) {
     std::int32_t c0, point;
     std::int32_t face;
 
@@ -268,7 +268,7 @@ void set_shared_brightness_prim(std::int16_t shared_point, std::int16_t bright, 
 void smooth_a_prim(std::int32_t prim) {
     std::int32_t face;
     std::int32_t bright;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t point;
 
     p_obj = &prim_objects[prim];
@@ -303,7 +303,7 @@ void smooth_a_prim(std::int32_t prim) {
 
 std::int32_t copy_prim_to_end(std::uint16_t prim, std::uint16_t direct, std::int16_t thing) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
 
     p_obj = &prim_objects[prim];
@@ -489,10 +489,10 @@ std::uint16_t calc_lights(std::int32_t x,std::int32_t y,std::int32_t z,struct SV
 */
 
 #ifndef PSX
-void calc_normal(std::int16_t face, struct SVector *p_normal) {
+void calc_normal(std::int16_t face, struct SVector* p_normal) {
     std::int32_t vx, vy, vz, wx, wy, wz;
-    struct PrimFace3 *this_face3;
-    struct PrimFace4 *this_face4;
+    struct PrimFace3* this_face3;
+    struct PrimFace4* this_face4;
     std::int32_t nx, ny, nz;
     std::int32_t length;
     struct PrimPoint *p_op0, *p_op1, *p_op2;
@@ -564,10 +564,10 @@ void calc_normal(std::int16_t face, struct SVector *p_normal) {
     p_normal->Z = -nz;
 }
 
-void quick_normal(std::int16_t face, std::int32_t *nx, std::int32_t *ny, std::int32_t *nz) {
+void quick_normal(std::int16_t face, std::int32_t* nx, std::int32_t* ny, std::int32_t* nz) {
     std::int32_t vx, vy, vz, wx, wy, wz;
-    struct PrimFace3 *this_face3;
-    struct PrimFace4 *this_face4;
+    struct PrimFace3* this_face3;
+    struct PrimFace4* this_face4;
     std::int32_t length;
     struct PrimPoint *p_op0, *p_op1, *p_op2;
     if (face == -9823) {
@@ -606,10 +606,10 @@ void quick_normal(std::int16_t face, std::int32_t *nx, std::int32_t *ny, std::in
 
 std::uint16_t apply_ambient_light_to_object(std::uint16_t object, std::int32_t lnx, std::int32_t lny, std::int32_t lnz, std::uint16_t intense) {
     //	std::int32_t	length,vx,vy,vz,wx,wy,wz;
-    struct MyMapElement *me;
-    struct MyObject *mo;
+    struct MyMapElement* me;
+    struct MyObject* mo;
     std::int32_t count, offset = 0, fred = 0;
-    struct PrimFace3 *this_face;
+    struct PrimFace3* this_face;
     std::int32_t nx, ny, nz;
     std::int32_t tmp_shade;
     std::uint16_t no_faces;
@@ -620,7 +620,7 @@ std::uint16_t apply_ambient_light_to_object(std::uint16_t object, std::int32_t l
     std::uint16_t no_faces4, start_face4;
     std::int32_t ox, oy, oz;
     //	,px,py,pz;
-    struct PrimFace4 *this_face4;
+    struct PrimFace4* this_face4;
     //	return(0);
 
     start_face4 = prim_objects[object].StartFace4;
@@ -768,9 +768,9 @@ void calc_prim_info() {
     std::int32_t below;
     std::int32_t num_points;
 
-    PrimObject *obj;
-    PrimInfo *inf;
-    PrimPoint *pt;
+    PrimObject* obj;
+    PrimInfo* inf;
+    PrimPoint* pt;
 
     prim_objects[29].coltype = PRIM_COLLIDE_NONE;
 
@@ -1010,10 +1010,10 @@ void calc_prim_normals() {
     SVector fnormal;
     std::int32_t p_index;
 
-    PrimObject *p_obj;
-    PrimFace3 *p_f3;
-    PrimFace4 *p_f4;
-    PrimPoint *p_pt;
+    PrimObject* p_obj;
+    PrimFace3* p_f3;
+    PrimFace4* p_f4;
+    PrimPoint* p_pt;
 
     for (i = 1; i < next_prim_object; i++) {
         p_obj = &prim_objects[i];
@@ -1187,7 +1187,7 @@ void calc_prim_normals() {
 }
 #endif
 
-PrimInfo *get_prim_info(std::int32_t prim) {
+PrimInfo* get_prim_info(std::int32_t prim) {
     ASSERT(WITHIN(prim, 1, 255));
 
     return &prim_info[prim];
@@ -1391,8 +1391,8 @@ void calc_slide_edges() {
     std::int32_t near_height;
     std::int32_t pos_face;
 
-    PrimFace4 *f;
-    PrimFace4 *g;
+    PrimFace4* f;
+    PrimFace4* g;
 
     std::int32_t index;
 
@@ -1701,14 +1701,14 @@ void get_rotated_point_world_pos(
     std::int32_t prim_yaw,
     std::int32_t prim_pitch,
     std::int32_t prim_roll,
-    std::int32_t *px,
-    std::int32_t *py,
-    std::int32_t *pz) {
+    std::int32_t* px,
+    std::int32_t* py,
+    std::int32_t* pz) {
     std::int32_t matrix[9];
 
     ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 
-    PrimObject *po = &prim_objects[prim];
+    PrimObject* po = &prim_objects[prim];
 
     std::int32_t num_points = po->EndPoint - po->StartPoint;
 
@@ -1756,7 +1756,7 @@ std::int32_t slide_along_prim(
     std::int32_t prim_z,
     std::int32_t prim_yaw,
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2,
     std::int32_t radius,
     std::int32_t shrink,
     std::int32_t dont_slide) // true => Don't move if the vector collides with the prim.
@@ -1768,7 +1768,7 @@ std::int32_t slide_along_prim(
     std::int16_t y_bot;
     std::int16_t y_top;
 
-    PrimInfo *pi;
+    PrimInfo* pi;
 
     x1 >>= 8;
     y1 >>= 8;
@@ -1848,10 +1848,10 @@ std::uint8_t prim_get_shadow_type(std::int32_t prim) {
 }
 
 #ifndef PSX
-void fn_anim_prim_normal(Thing *p_thing) {
-    Switch *the_switch;
+void fn_anim_prim_normal(Entity* p_thing) {
+    Switch* the_switch;
     std::int32_t tween_step;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
 
     draw_info = p_thing->Draw.Tweened;
     tween_step = draw_info->CurrentFrame->TweenStep << 1;
@@ -1921,7 +1921,7 @@ void fn_anim_prim_normal(Thing *p_thing) {
 
 void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t prim, std::int32_t yaw) {
     std::int32_t new_thing;
-    Thing *t_thing;
+    Entity* t_thing;
     new_thing = alloc_primary_thing(CLASS_ANIM_PRIM);
     if (new_thing) {
         t_thing = TO_THING(new_thing);
@@ -1980,7 +1980,7 @@ void create_anim_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32
 }
 
 void set_anim_prim_anim(std::int32_t anim_prim, std::int32_t anim) {
-    Thing *t_thing = TO_THING(anim_prim);
+    Entity* t_thing = TO_THING(anim_prim);
 
     ASSERT(WITHIN(anim, 1, anim_chunk[t_thing->Index].MaxAnimFrames - 1));
 
@@ -2078,7 +2078,7 @@ std::int32_t find_anim_prim(
 }
 
 void toggle_anim_prim_switch_state(std::int32_t anim_prim_thing_index) {
-    Thing *t_thing = TO_THING(anim_prim_thing_index);
+    Entity* t_thing = TO_THING(anim_prim_thing_index);
 
     //
     // Do nothing if the prim is animating.
@@ -2102,15 +2102,15 @@ void toggle_anim_prim_switch_state(std::int32_t anim_prim_thing_index) {
 #ifndef PSX
 void expand_anim_prim_bbox(
     std::int32_t prim,
-    GameKeyFrameElement *anim_info,
+    GameKeyFrameElement* anim_info,
 
-    std::int32_t *min_x,
-    std::int32_t *min_y,
-    std::int32_t *min_z,
+    std::int32_t* min_x,
+    std::int32_t* min_y,
+    std::int32_t* min_z,
 
-    std::int32_t *max_x,
-    std::int32_t *max_y,
-    std::int32_t *max_z) {
+    std::int32_t* max_x,
+    std::int32_t* max_y,
+    std::int32_t* max_z) {
     std::int32_t i;
 
     float px;
@@ -2122,7 +2122,7 @@ void expand_anim_prim_bbox(
     std::int32_t iz;
 
     Matrix33 mat;
-    PrimObject *po;
+    PrimObject* po;
 
     //
     // Build the rotation matrix.
@@ -2207,8 +2207,8 @@ void find_anim_prim_bboxes() {
     std::int32_t ele_count;
     std::int32_t start_object;
 
-    GameKeyFrameElement *ele;
-    AnimPrimBbox *pmb;
+    GameKeyFrameElement* ele;
+    AnimPrimBbox* pmb;
 
     for (i = 1; i < MAX_ANIM_CHUNKS; i++) {
         //
@@ -2283,13 +2283,13 @@ void mark_prim_objects_as_unloaded() {
     // Easy!
     //
 
-    memset((std::uint8_t *) prim_objects, 0, sizeof(PrimObject) * 256);
+    memset((std::uint8_t*) prim_objects, 0, sizeof(PrimObject) * 256);
 }
 
 #ifndef PSX
 void re_center_prim(std::int32_t prim, std::int32_t dx, std::int32_t dy, std::int32_t dz) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
 
     p_obj = &prim_objects[prim];
@@ -2342,7 +2342,7 @@ std::int32_t does_fence_lie_along_line(std::int32_t x1, std::int32_t z1, std::in
     std::int32_t exit;
     std::int32_t facet;
 
-    DFacet *df;
+    DFacet* df;
 
     SATURATE(mx1, 0, PAP_SIZE_LO - 1);
     SATURATE(mz1, 0, PAP_SIZE_LO - 1);
@@ -2414,8 +2414,8 @@ std::int32_t does_fence_lie_along_line(std::int32_t x1, std::int32_t z1, std::in
 void clear_all_wmove_flags() {
     std::int32_t i;
 
-    PrimFace3 *f3;
-    PrimFace4 *f4;
+    PrimFace3* f3;
+    PrimFace4* f4;
 
     for (i = 1; i < next_prim_face3; i++) {
         f3 = &prim_faces3[i];

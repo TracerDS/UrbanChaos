@@ -80,7 +80,7 @@ static void ScribbleCheck()
 #endif
 
 // Some externs
-extern std::int32_t is_person_ko(Thing *p_person);
+extern std::int32_t is_person_ko(Entity* p_person);
 
 // constants for physics
 
@@ -106,9 +106,9 @@ extern std::int32_t is_person_ko(Thing *p_person);
 extern bool allow_debug_keys;
 #endif
 
-static void siren(Vehicle *veh, std::uint8_t play);
-static inline void GetCarPoints(Thing *p_car, std::int32_t *x, std::int32_t *y, std::int32_t *z, std::int32_t step);
-extern std::int32_t is_person_ko_and_lay_down(Thing *p_person);
+static void siren(Vehicle* veh, std::uint8_t play);
+static inline void GetCarPoints(Entity* p_car, std::int32_t* x, std::int32_t* y, std::int32_t* z, std::int32_t step);
+extern std::int32_t is_person_ko_and_lay_down(Entity* p_person);
 //
 // random vehicle types
 //
@@ -137,7 +137,7 @@ struct VehInfo {
     std::uint16_t BodyPrim;
     std::int16_t BodyOffset;
     std::uint16_t NumVertices;
-    std::uint8_t *VertexAssignments;
+    std::uint8_t* VertexAssignments;
 
     std::int16_t HLX; // headlights x,y,z
     std::int16_t HLY;
@@ -156,14 +156,10 @@ struct VehInfo {
     std::uint8_t shad_elongate; // In 6-bit fixed point!
 };
 
-#define WHEELBASE_VAN         \
-    {-120, 120, -120, 120}, { \
-        150, 150, -165, -165  \
-    }
-#define WHEELBASE_CAR        \
-    {-85, 85, -85, 85}, {    \
-        160, 160, -120, -120 \
-    }
+#define WHEELBASE_VAN \
+    {-120, 120, -120, 120}, {150, 150, -165, -165}
+#define WHEELBASE_CAR \
+    {-85, 85, -85, 85}, {160, 160, -120, -120}
 
 #define ENGINE_LGV 17, 10, 4, 8  // light goods vehicle - slow in both directions, normal brakes
 #define ENGINE_CAR 21, 10, 4, 8  // car - faster than LGV, same brakes
@@ -187,7 +183,7 @@ struct VehInfo veh_info[VEH_TYPE_NUMBER] =
 #if !defined(PSX) && !defined(TARGET_DC)
 #ifndef NDEBUG
 
-Thing *SelectedThing = NULL;
+Entity* SelectedThing = NULL;
 
 void LookForSelectedThing() {
     std::int32_t world_x;
@@ -231,7 +227,7 @@ void LookForSelectedThing() {
 
 std::uint8_t sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim;
 
-void get_car_door_offsets(std::int32_t type, std::int32_t door, std::int32_t *dx, std::int32_t *dz) {
+void get_car_door_offsets(std::int32_t type, std::int32_t door, std::int32_t* dx, std::int32_t* dz) {
     ASSERT(door == 0 || door == 1);
 
     if (sneaky_do_it_for_positioning_a_person_to_do_the_enter_anim) {
@@ -277,7 +273,7 @@ StateFunction VEH_statefunctions[] =
 
 static std::int32_t car_matrix[9];
 
-static void make_car_matrix(Vehicle *v) {
+static void make_car_matrix(Vehicle* v) {
     // #ifndef PSX
     FMATRIX_calc(car_matrix, v->Angle, v->Tilt, v->Roll);
     // #else
@@ -289,7 +285,7 @@ static void make_car_matrix_p(std::int32_t angle, std::int32_t tilt, std::int32_
     FMATRIX_calc(car_matrix, angle, tilt, roll);
 }
 
-static void apply_car_matrix(std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+static void apply_car_matrix(std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::int32_t tx, ty, tz;
 
     tx = *x;
@@ -305,8 +301,8 @@ static void apply_car_matrix(std::int32_t *x, std::int32_t *y, std::int32_t *z) 
 // Returns NULL if there isn't a driver...
 //
 
-Thing *get_vehicle_driver(Thing *p_vehicle) {
-    Thing *p_driver;
+Entity* get_vehicle_driver(Entity* p_vehicle) {
+    Entity* p_driver;
 
     ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
@@ -321,9 +317,9 @@ Thing *get_vehicle_driver(Thing *p_vehicle) {
 
 // are we driving a car?
 
-inline bool is_driven_by_player(Thing *p_car) {
+inline bool is_driven_by_player(Entity* p_car) {
     if (p_car->Genus.Vehicle->Driver) {
-        Thing *p_driver = TO_THING(p_car->Genus.Vehicle->Driver);
+        Entity* p_driver = TO_THING(p_car->Genus.Vehicle->Driver);
 
         ASSERT(p_driver->Class == CLASS_PERSON);
 
@@ -337,7 +333,7 @@ inline bool is_driven_by_player(Thing *p_car) {
 
 // find things we might run over
 
-std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle) {
+std::int32_t VEH_find_runover_things(Entity* p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -451,7 +447,7 @@ std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index
 
 // find door position
 
-void VEH_find_door(Thing *p_vehicle, std::int32_t i_am_a_passenger, std::int32_t *door_x, std::int32_t *door_z) {
+void VEH_find_door(Entity* p_vehicle, std::int32_t i_am_a_passenger, std::int32_t* door_x, std::int32_t* door_z) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -536,7 +532,7 @@ void VEH_find_door(Thing *p_vehicle, std::int32_t i_am_a_passenger, std::int32_t
 // Returns true if the given car is completely on the road.
 //
 
-std::int32_t VEH_on_road(Thing *p_vehicle, std::int32_t step) {
+std::int32_t VEH_on_road(Entity* p_vehicle, std::int32_t step) {
     std::int32_t x[4];
     std::int32_t y[4];
     std::int32_t z[4];
@@ -573,7 +569,7 @@ std::int32_t VEH_on_road(Thing *p_vehicle, std::int32_t step) {
 
 // add damage to a specified area of a vehicle
 
-void VEH_add_damage(Vehicle *vp, std::uint8_t area, std::uint8_t hp) {
+void VEH_add_damage(Vehicle* vp, std::uint8_t area, std::uint8_t hp) {
     // max out at 2hp
     if (hp > 2) hp = 2;
 
@@ -606,7 +602,7 @@ void VEH_add_damage(Vehicle *vp, std::uint8_t area, std::uint8_t hp) {
 
 // bounce a vehicle
 
-void VEH_bounce(Vehicle *vp, std::uint8_t area, std::int32_t amount) {
+void VEH_bounce(Vehicle* vp, std::uint8_t area, std::int32_t amount) {
     amount *= 2;
 
     switch (area) {
@@ -684,8 +680,8 @@ void VEH_init_vehinfo() {
 #endif
 
     for (ii = 0; ii < VEH_TYPE_NUMBER; ii++) {
-        PrimObject *obj = &prim_objects[veh_info[ii].BodyPrim];
-        PrimInfo *inf = get_prim_info(veh_info[ii].BodyPrim);
+        PrimObject* obj = &prim_objects[veh_info[ii].BodyPrim];
+        PrimInfo* inf = get_prim_info(veh_info[ii].BodyPrim);
         std::int32_t px[6], pz[6];
 
         // create 6 crumple points
@@ -707,12 +703,12 @@ void VEH_init_vehinfo() {
 #ifdef TARGET_DC
         if (!bAllocatedVertexAssignments) {
             ASSERT(veh_info[ii].VertexAssignments == NULL);
-            veh_info[ii].VertexAssignments = (std::uint8_t *) MemAlloc(obj->EndPoint - obj->StartPoint);
+            veh_info[ii].VertexAssignments = (std::uint8_t*) MemAlloc(obj->EndPoint - obj->StartPoint);
         } else {
             ASSERT(veh_info[ii].VertexAssignments != NULL);
         }
 #else
-        veh_info[ii].VertexAssignments = (std::uint8_t *) MemAlloc(obj->EndPoint - obj->StartPoint);
+        veh_info[ii].VertexAssignments = (std::uint8_t*) MemAlloc(obj->EndPoint - obj->StartPoint);
 #endif
 
         // assign each vertex to the nearest crumple point
@@ -747,12 +743,12 @@ void VEH_init_vehinfo() {
 
 // find a free vehicle slot
 
-Vehicle *VEH_alloc() {
+Vehicle* VEH_alloc() {
     std::int32_t i;
 
     for (i = 0; i < MAX_VEHICLES; i++) {
         if (TO_VEHICLE(i)->Spring[0].Compression == VEH_NULL) {
-            Vehicle *ans = TO_VEHICLE(i);
+            Vehicle* ans = TO_VEHICLE(i);
 
             ans->Spring[0].Compression = MIN_COMPRESSION;
 
@@ -767,7 +763,7 @@ Vehicle *VEH_alloc() {
 
 // free a vehicle slot
 
-void VEH_dealloc(Vehicle *veh) {
+void VEH_dealloc(Vehicle* veh) {
     veh->Spring[0].Compression = VEH_NULL;
     if (veh->dlight) NIGHT_dlight_destroy(veh->dlight);
 }
@@ -776,8 +772,8 @@ void VEH_dealloc(Vehicle *veh) {
 // Initialises a vehicles drawmesh structure.
 //
 
-static void set_vehicle_draw(Thing *p_thing) {
-    DrawTween *draw;
+static void set_vehicle_draw(Entity* p_thing) {
+    DrawTween* draw;
     ASSERT(0);
     return;
 
@@ -805,9 +801,9 @@ THING_INDEX VEH_create(
     std::int32_t type,
     std::uint8_t key,
     std::uint8_t colour) {
-    DrawMesh *dm;
+    DrawMesh* dm;
     THING_INDEX ans = NULL;
-    Thing *p_thing;
+    Entity* p_thing;
     int ii;
 
     ANNOYINGSCRIBBLECHECK;
@@ -871,7 +867,7 @@ THING_INDEX VEH_create(
         ANNOYINGSCRIBBLECHECK;
 
         if (ans) {
-            Vehicle *vp;
+            Vehicle* vp;
 
             ANNOYINGSCRIBBLECHECK;
             p_thing = TO_THING(ans);
@@ -958,8 +954,8 @@ THING_INDEX VEH_create(
     return ans;
 }
 
-void reinit_vehicle(Thing *p_thing) {
-    Vehicle *vp = p_thing->Genus.Vehicle;
+void reinit_vehicle(Entity* p_thing) {
+    Vehicle* vp = p_thing->Genus.Vehicle;
 
     vp->VelX = 0;
     vp->VelY = 0;
@@ -995,7 +991,7 @@ void reinit_vehicle(Thing *p_thing) {
     p_thing->WorldPos.Y = (height + 107) << 8;
 }
 
-void free_vehicle(Thing *p_thing) {
+void free_vehicle(Entity* p_thing) {
     ASSERT(0);
     if (p_thing->Genus.Vehicle) {
         VEH_dealloc(p_thing->Genus.Vehicle);
@@ -1010,14 +1006,14 @@ void free_vehicle(Thing *p_thing) {
 //
 // (don't static functions have the "static" keyword?)
 
-std::int32_t calc_car_collision_turn(Thing *p_car, std::int32_t angle, std::int32_t tilt, std::int32_t roll);
-void calc_car_normal(std::int32_t *p, std::int32_t *dy, std::int32_t *nx, std::int32_t *ny, std::int32_t *nz);
-void calc_car_vect(std::int32_t p1, std::int32_t p2, std::int32_t *dy, std::int32_t *vx, std::int32_t *vy, std::int32_t *vz);
-void normalise_val256(std::int32_t *vx, std::int32_t *vy, std::int32_t *vz);
+std::int32_t calc_car_collision_turn(Entity* p_car, std::int32_t angle, std::int32_t tilt, std::int32_t roll);
+void calc_car_normal(std::int32_t* p, std::int32_t* dy, std::int32_t* nx, std::int32_t* ny, std::int32_t* nz);
+void calc_car_vect(std::int32_t p1, std::int32_t p2, std::int32_t* dy, std::int32_t* vx, std::int32_t* vy, std::int32_t* vz);
+void normalise_val256(std::int32_t* vx, std::int32_t* vy, std::int32_t* vz);
 
-void animate_car(Thing *p_car) {
+void animate_car(Entity* p_car) {
     std::int32_t tween_step;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     ASSERT(0);
     return;
 
@@ -1038,14 +1034,14 @@ void animate_car(Thing *p_car) {
     }
 }
 
-void draw_car(Thing *p_car) {
+void draw_car(Entity* p_car) {
     std::int32_t x[8], y[8], z[8];
     std::int32_t vector[3];
     std::int32_t dx, dy, dz;
     std::int32_t c0 = 0;
-    struct VehInfo *info;
+    struct VehInfo* info;
     std::int32_t tilt;
-    Vehicle *vp;
+    Vehicle* vp;
 
     vp = p_car->Genus.Vehicle;
     info = &veh_info[p_car->Genus.Vehicle->Type];
@@ -1071,7 +1067,7 @@ extern FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t world
         // Draw the car as an animating prim.
         //
 
-        extern void ANIM_obj_draw(Thing * p_thing, DrawTween * dt);
+        extern void ANIM_obj_draw(Entity * p_thing, DrawTween * dt);
 
         p_car->WorldPos.Y -= info->BodyOffset;
 
@@ -1468,7 +1464,7 @@ Suggested Readings:
 // ========================================================
 
 extern std::int32_t there_is_a_los_car(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2);
-extern std::int32_t should_i_collide_against_this_anim_prim(Thing *p_animprim);
+extern std::int32_t should_i_collide_against_this_anim_prim(Entity* p_animprim);
 
 VEH_Col VEH_col[VEH_MAX_COL];
 std::int32_t VEH_col_upto;
@@ -1488,11 +1484,11 @@ void VEH_collide_find_things(std::int32_t x, std::int32_t y, std::int32_t z, std
     std::int32_t dz;
     std::int32_t dist;
 
-    Thing *p_found;
-    VEH_Col *vc;
-    PrimInfo *pi;
-    AnimPrimBbox *apb;
-    OB_Info *oi;
+    Entity* p_found;
+    VEH_Col* vc;
+    PrimInfo* pi;
+    AnimPrimBbox* apb;
+    OB_Info* oi;
 
     //
     // Do we include bikes or not?
@@ -1751,7 +1747,7 @@ void VEH_shake_fences(std::int32_t mx, std::int32_t mz) {
     std::int32_t facet;
     std::int32_t f_list;
 
-    DFacet *df;
+    DFacet* df;
 
     f_list = PAP_2LO(mx >> 2, mz >> 2).ColVectHead;
 
@@ -1799,12 +1795,12 @@ void VEH_shake_fences(std::int32_t mx, std::int32_t mz) {
 
 // find closest car point to x,y,z
 
-static std::uint8_t find_closest_car_point(std::int32_t x, std::int32_t y, std::int32_t z, Thing *car) {
-    Vehicle *v = car->Genus.Vehicle;
+static std::uint8_t find_closest_car_point(std::int32_t x, std::int32_t y, std::int32_t z, Entity* car) {
+    Vehicle* v = car->Genus.Vehicle;
 
     make_car_matrix(v);
 
-    PrimInfo *inf;
+    PrimInfo* inf;
     std::int32_t xx[6], yy[6], zz[6];
 
     inf = get_prim_info(veh_info[car->Genus.Vehicle->Type].BodyPrim);
@@ -1851,7 +1847,7 @@ static std::uint8_t find_closest_car_point(std::int32_t x, std::int32_t y, std::
 //
 // (only if one of the cars is driven by player)
 
-void VEH_co_damage(Thing *v1, Thing *v2) {
+void VEH_co_damage(Entity* v1, Entity* v2) {
     if (!is_driven_by_player(v1) && !is_driven_by_player(v2)) return;
 
     std::uint8_t c1 = find_closest_car_point(v2->WorldPos.X >> 8, v2->WorldPos.Y >> 8, v2->WorldPos.Z >> 8, v1);
@@ -1873,8 +1869,8 @@ void VEH_co_damage(Thing *v1, Thing *v2) {
     }
 
     // set 2nd vehicle moving
-    Vehicle *vv1 = v1->Genus.Vehicle;
-    Vehicle *vv2 = v2->Genus.Vehicle;
+    Vehicle* vv1 = v1->Genus.Vehicle;
+    Vehicle* vv2 = v2->Genus.Vehicle;
 
     vv2->VelX = -vv2->VelX / 8 + vv1->VelX / 4;
     vv2->VelZ = -vv2->VelZ / 8 + vv1->VelZ / 4;
@@ -1904,9 +1900,9 @@ void VEH_co_damage(Thing *v1, Thing *v2) {
 //
 // generate corner points of the car
 
-static inline void GetCarPoints(Thing *p_car, std::int32_t *x, std::int32_t *y, std::int32_t *z, std::int32_t step) {
-    Vehicle *veh;
-    PrimInfo *pinfo;
+static inline void GetCarPoints(Entity* p_car, std::int32_t* x, std::int32_t* y, std::int32_t* z, std::int32_t step) {
+    Vehicle* veh;
+    PrimInfo* pinfo;
     int ii;
 
     veh = p_car->Genus.Vehicle;
@@ -1945,7 +1941,7 @@ static inline void GetCarPoints(Thing *p_car, std::int32_t *x, std::int32_t *y, 
 //
 // do damage to a prim after a collision
 
-static void DoDamage(Thing *p_car, VEH_Col *col) {
+static void DoDamage(Entity* p_car, VEH_Col* col) {
     // do car damage
     if (col->veh && col->veh->Class == CLASS_VEHICLE) // Might be a Balrog!
     {
@@ -1964,7 +1960,7 @@ static void DoDamage(Thing *p_car, VEH_Col *col) {
     }
     // do ob damage
     if (col->ob_index) {
-        Vehicle *veh = p_car->Genus.Vehicle;
+        Vehicle* veh = p_car->Genus.Vehicle;
         std::int32_t vel = Root(veh->VelX * veh->VelX + veh->VelZ * veh->VelZ);
 
         if (vel > 20000) {
@@ -2006,15 +2002,15 @@ extern std::uint8_t last_mav_square_z;
 extern std::int8_t last_mav_dx;
 extern std::int8_t last_mav_dz;
 
-static void CollideWithKerb(Thing *p_car);
-static void process_car(Thing *p_car);
+static void CollideWithKerb(Entity* p_car);
+static void process_car(Entity* p_car);
 
 //		1
 //   0    1
 //	8	    2
 //   3    2
 //     4
-void nudge_car(Thing *p_car, std::int32_t flags, std::int32_t *x, std::int32_t *z, std::int32_t neg) {
+void nudge_car(Entity* p_car, std::int32_t flags, std::int32_t* x, std::int32_t* z, std::int32_t neg) {
     std::int32_t dx = 0, dz = 0;
     switch (flags & 15) {
     case 1 + 2:
@@ -2088,9 +2084,9 @@ void nudge_car(Thing *p_car, std::int32_t flags, std::int32_t *x, std::int32_t *
     }
 }
 std::int32_t car_hit_flags;
-static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
-    Vehicle *veh = p_car->Genus.Vehicle;
-    VehInfo *vinfo = &veh_info[veh->Type];
+static std::int32_t CollideCar(Entity* p_car, std::int32_t step) {
+    Vehicle* veh = p_car->Genus.Vehicle;
+    VehInfo* vinfo = &veh_info[veh->Type];
 
     std::int32_t x[4], y[4], z[4];
     int ii;
@@ -2161,12 +2157,12 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
                 if (veh->Scrapin < 10) veh->Scrapin++;
 
-                    //				if (is_driven_by_player(p_car))
-                    //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
-                    //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
-                    //								true);
+                //				if (is_driven_by_player(p_car))
+                //				AENG_world_line((x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2, (z[ii] + z[jj]) / 2, 32, 0xffffff,
+                //								(x[ii] + x[jj]) / 2, (y[ii] + y[jj]) / 2 + 0xC00, (z[ii] + z[jj]) / 2, 0, 0xffffff,
+                //								true);
 
-                    // shake fence
+                // shake fence
 #ifndef PSX
                 VEH_shake_fences(last_mav_square_x, last_mav_square_z);
 #endif
@@ -2215,7 +2211,7 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
     // check against prims
     for (ii = 0; ii < VEH_col_upto; ii++) {
-        VEH_Col *vc = &VEH_col[ii];
+        VEH_Col* vc = &VEH_col[ii];
         int inside = 1;
 
         if (vc->type == VEH_COL_TYPE_BBOX) {
@@ -2336,10 +2332,10 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
     if (!flags) return 0;
 
-        //
-        // There has been a collision...
-        // Damage the car depending on how fast it is going
-        //
+    //
+    // There has been a collision...
+    // Damage the car depending on how fast it is going
+    //
 
 #if !defined(FAST_EDDIE) || !defined(_DEBUG)
     {
@@ -2461,7 +2457,7 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 
     // check against prims
     for (ii = 0; ii < VEH_col_upto; ii++) {
-        VEH_Col *vc = &VEH_col[ii];
+        VEH_Col* vc = &VEH_col[ii];
 
         if (vc->type == VEH_COL_TYPE_BBOX) {
             int jj;
@@ -2614,9 +2610,9 @@ static std::int32_t CollideCar(Thing *p_car, std::int32_t step) {
 //
 // nudge the car away from the kerb
 
-static void CollideWithKerb(Thing *p_car) {
-    Vehicle *veh = p_car->Genus.Vehicle;
-    VehInfo *vinfo = &veh_info[veh->Type];
+static void CollideWithKerb(Entity* p_car) {
+    Vehicle* veh = p_car->Genus.Vehicle;
+    VehInfo* vinfo = &veh_info[veh->Type];
 
     // make car matrix for new position (ignore tilt & roll)
     make_car_matrix_p((veh->Angle + ((veh->VelR * TICK_RATIO) >> TICK_SHIFT)) & 2047, 0, 0);
@@ -2661,7 +2657,7 @@ static void CollideWithKerb(Thing *p_car) {
 // to person - this gives an indication of the amount of HP the person
 // must lose
 
-std::int32_t GetRunoverHP(Thing *p_car, Thing *p_person) {
+std::int32_t GetRunoverHP(Entity* p_car, Entity* p_person) {
     std::int32_t tx = (p_person->WorldPos.X - p_car->WorldPos.X) >> 8;
     std::int32_t tz = (p_person->WorldPos.Z - p_car->WorldPos.Z) >> 8;
 
@@ -2678,7 +2674,7 @@ std::int32_t GetRunoverHP(Thing *p_car, Thing *p_person) {
 // Throws a person out of the car and knocks him over.
 //
 
-void VEH_throw_out_person(Thing *p_person, Thing *p_vehicle) {
+void VEH_throw_out_person(Entity* p_person, Entity* p_vehicle) {
     set_person_exit_vehicle(p_person);
 
     knock_person_down(
@@ -2699,11 +2695,11 @@ void VEH_throw_out_person(Thing *p_person, Thing *p_vehicle) {
 //
 // vehicle state handler
 
-static void do_car_input(Thing *p_thing);
+static void do_car_input(Entity* p_thing);
 
-void VEH_driving(Thing *p_thing) {
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Vehicle *veh = p_thing->Genus.Vehicle;
+void VEH_driving(Entity* p_thing) {
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Vehicle* veh = p_thing->Genus.Vehicle;
     std::int32_t dx, dy, dz;
     std::int32_t coltype;
     std::int32_t dwheel;
@@ -2742,7 +2738,7 @@ void VEH_driving(Thing *p_thing) {
                 p_thing->WorldPos.Z, 0, 0, 0);
 #else
             {
-                Thing *pyro;
+                Entity* pyro;
                 std::int32_t wave;
                 pyro = PYRO_create(p_thing->WorldPos, PYRO_FIREBOMB);
                 if (pyro)
@@ -2859,7 +2855,7 @@ void VEH_driving(Thing *p_thing) {
     }
 
     {
-        Thing *p_driver;
+        Entity* p_driver;
         p_driver = TO_THING(p_thing->Genus.Vehicle->Driver);
         if (p_driver->Class == CLASS_PERSON) {
             if (p_driver->Genus.Person->PlayerID) {
@@ -2938,8 +2934,8 @@ void VEH_driving(Thing *p_thing) {
         std::int32_t rx;
         std::int32_t rz;
 
-        PrimInfo *pi;
-        Thing *p_found;
+        PrimInfo* pi;
+        Entity* p_found;
 
         num = THING_find_sphere(
             p_thing->WorldPos.X >> 8,
@@ -3005,7 +3001,7 @@ void VEH_driving(Thing *p_thing) {
 
                 if (WITHIN(rx, pi->minx - 0x18, pi->maxx + 0x18) &&
                     WITHIN(rz, pi->minz - 0x18, pi->maxz + 0x18)) {
-                    Thing *p_driver = get_vehicle_driver(p_thing);
+                    Entity* p_driver = get_vehicle_driver(p_thing);
 
                     //
                     // Run this person over.
@@ -3159,7 +3155,7 @@ static void init_arctans() {
 
 extern std::int32_t analogue;
 
-void steering_wheel(Vehicle *veh, std::int32_t velocity, bool player) {
+void steering_wheel(Vehicle* veh, std::int32_t velocity, bool player) {
     std::int32_t inc = TICK_RATIO;
 
     if (!(veh->Flags & FLAG_FURN_DRIVING) || (veh->Flags & FLAG_VEH_IN_AIR)) {
@@ -3240,7 +3236,7 @@ void steering_wheel(Vehicle *veh, std::int32_t velocity, bool player) {
 //
 // play/stop the siren
 
-static void siren(Vehicle *veh, std::uint8_t play) {
+static void siren(Vehicle* veh, std::uint8_t play) {
     if (veh->Siren == play) return;
 
     if ((veh->Type == VEH_TYPE_POLICE) ||
@@ -3259,7 +3255,7 @@ static void siren(Vehicle *veh, std::uint8_t play) {
 //
 // run the pedals
 
-static inline void pedals(Vehicle *veh, VehInfo *vinfo, std::int32_t velocity, std::uint8_t &friction, std::uint16_t &move_cancel, std::int16_t &accel, Thing *p_thing) {
+static inline void pedals(Vehicle* veh, VehInfo* vinfo, std::int32_t velocity, std::uint8_t& friction, std::uint16_t& move_cancel, std::int16_t& accel, Entity* p_thing) {
     if (veh->DControl & VEH_ACCEL) veh->Skid = 0;
 
     // set GrabAction flag for preventing Darci getting out of the car
@@ -3362,9 +3358,9 @@ static inline void pedals(Vehicle *veh, VehInfo *vinfo, std::int32_t velocity, s
 //
 // handle inputs from the player
 
-static void do_car_input(Thing *p_thing) {
-    Vehicle *veh = p_thing->Genus.Vehicle;
-    VehInfo *vinfo = &veh_info[p_thing->Genus.Vehicle->Type];
+static void do_car_input(Entity* p_thing) {
+    Vehicle* veh = p_thing->Genus.Vehicle;
+    VehInfo* vinfo = &veh_info[p_thing->Genus.Vehicle->Type];
 
 #ifdef _DEBUG
     if (is_driven_by_player(p_thing)) {
@@ -3408,10 +3404,10 @@ static void do_car_input(Thing *p_thing) {
 
         if (move_cancel == INPUT_CAR_SIREN && p_thing->Genus.Vehicle->Driver) {
             // always cancel this key immediately
-            Thing *p_driver;
+            Entity* p_driver;
             p_driver = TO_THING(p_thing->Genus.Vehicle->Driver);
             if (p_driver->Genus.Person->PlayerID) {
-                Thing *p_player;
+                Entity* p_player;
                 p_player = NET_PLAYER(p_driver->Genus.Person->PlayerID - 1);
                 p_player->Genus.Player->InputDone = move_cancel;
             }
@@ -3469,10 +3465,10 @@ static void do_car_input(Thing *p_thing) {
 
             if (move_cancel && p_thing->Genus.Vehicle->Driver) {
                 // cancel keypress
-                Thing *p_driver;
+                Entity* p_driver;
                 p_driver = TO_THING(p_thing->Genus.Vehicle->Driver);
                 if (p_driver->Genus.Person->PlayerID) {
-                    Thing *p_player;
+                    Entity* p_player;
                     p_player = NET_PLAYER(p_driver->Genus.Person->PlayerID - 1);
                     p_player->Genus.Player->InputDone = move_cancel;
                 }
@@ -3863,7 +3859,7 @@ static void do_car_input(Thing *p_thing) {
 //
 // work out effect on car of the suspension parameters given
 
-inline static std::int32_t apply_thrust_to_suspension(Suspension *p_sus, std::int32_t velocity, std::int32_t penetrate_dist) {
+inline static std::int32_t apply_thrust_to_suspension(Suspension* p_sus, std::int32_t velocity, std::int32_t penetrate_dist) {
     std::int32_t acc;
     std::int32_t compression;
 
@@ -3900,7 +3896,7 @@ inline static std::int32_t apply_thrust_to_suspension(Suspension *p_sus, std::in
 //
 // allow suspension to expand (when in air)
 
-inline static void expand_suspension(Suspension *p_sus, std::int32_t size) {
+inline static void expand_suspension(Suspension* p_sus, std::int32_t size) {
     ASSERT(size >= 0);
 
     size -= size >> 2; // size = size * 200 / 256
@@ -3916,22 +3912,22 @@ inline static void expand_suspension(Suspension *p_sus, std::int32_t size) {
 // given where it is, work out the wheel's positions, the suspension
 // action and the car's orientation
 
-static void do_car_fall_and_tilt(Thing *p_car, std::int32_t *wx, std::int32_t *wy, std::int32_t *wz, std::int32_t *dy);
+static void do_car_fall_and_tilt(Entity* p_car, std::int32_t* wx, std::int32_t* wy, std::int32_t* wz, std::int32_t* dy);
 
-static void process_car(Thing *p_car) {
+static void process_car(Entity* p_car) {
     std::int32_t count;
     std::int32_t wheel;
     std::int32_t c0;
     std::int32_t wx[4], wy[4], wz[4];
     std::int32_t dy[4];
-    VehInfo *info;
-    Vehicle *vp;
+    VehInfo* info;
+    Vehicle* vp;
     std::int32_t squeaky = 0;
     std::int32_t crunchy = 0;
     /*
             {
                     std::int32_t	door;
-    extern std::int32_t in_right_place_for_car(Thing *p_person, Thing *p_vehicle, std::int32_t *door);
+    extern std::int32_t in_right_place_for_car(Entity *p_person, Entity *p_vehicle, std::int32_t *door);
                     in_right_place_for_car(NET_PERSON(0)
                             ,p_car, &door);
             }
@@ -4106,9 +4102,9 @@ static void process_car(Thing *p_car) {
 //
 //===============================================================
 
-static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int32_t *whx, std::int32_t *why, std::int32_t *whz, std::int32_t angle);
+static void calc_tilt_and_roll(std::int32_t* tilt, std::int32_t* roll, std::int32_t* whx, std::int32_t* why, std::int32_t* whz, std::int32_t angle);
 
-static void do_car_fall_and_tilt(Thing *car, std::int32_t *wx, std::int32_t *wy, std::int32_t *wz, std::int32_t *dy) {
+static void do_car_fall_and_tilt(Entity* car, std::int32_t* wx, std::int32_t* wy, std::int32_t* wz, std::int32_t* dy) {
     std::int32_t min_dy, max_dy;
     std::int32_t c0, pos_count, neg_count;
     std::int32_t remove;
@@ -4214,7 +4210,7 @@ static inline std::int32_t fast_root(std::int32_t num) {
 //
 // normalize a vector to magnitude 256
 
-static inline void normalise_val256(std::int32_t *vx, std::int32_t *vy, std::int32_t *vz) {
+static inline void normalise_val256(std::int32_t* vx, std::int32_t* vy, std::int32_t* vz) {
     std::int32_t len;
 
     len = *vx * *vx + *vy * *vy + *vz * *vz;
@@ -4239,7 +4235,7 @@ static inline void normalise_val256(std::int32_t *vx, std::int32_t *vy, std::int
 //
 // calculate tilt & roll from 3 vectors
 
-static inline void calc_tilt_n_roll_with_matrix(std::int32_t across_x, std::int32_t across_y, std::int32_t across_z, std::int32_t nose_x, std::int32_t nose_y, std::int32_t nose_z, std::int32_t nx, std::int32_t ny, std::int32_t nz, std::int32_t *angle, std::int32_t *tilt, std::int32_t *roll) {
+static inline void calc_tilt_n_roll_with_matrix(std::int32_t across_x, std::int32_t across_y, std::int32_t across_z, std::int32_t nose_x, std::int32_t nose_y, std::int32_t nose_z, std::int32_t nx, std::int32_t ny, std::int32_t nz, std::int32_t* angle, std::int32_t* tilt, std::int32_t* roll) {
     std::int32_t matrix[9];
 
     //
@@ -4265,7 +4261,7 @@ static inline void calc_tilt_n_roll_with_matrix(std::int32_t across_x, std::int3
 //
 // calculate tilt and roll for the car
 
-static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int32_t *whx, std::int32_t *why, std::int32_t *whz, std::int32_t angle) {
+static void calc_tilt_and_roll(std::int32_t* tilt, std::int32_t* roll, std::int32_t* whx, std::int32_t* why, std::int32_t* whz, std::int32_t angle) {
     std::int32_t nx, ny, nz;
 
     std::int32_t vx, vy, vz;
@@ -4393,8 +4389,8 @@ static void calc_tilt_and_roll(std::int32_t *tilt, std::int32_t *roll, std::int3
 }
 
 void VEH_reduce_health(
-    Thing *p_car,
-    Thing *p_person,
+    Entity* p_car,
+    Entity* p_person,
     std::int32_t damage) {
     ASSERT(p_car->Class == CLASS_VEHICLE);
 
@@ -4435,10 +4431,10 @@ void VEH_reduce_health(
     p_car->StateFn = VEH_driving;
 }
 
-Thing *vehicle_wheel_pos_vehicle;
-VehInfo *vehicle_wheel_pos_info;
+Entity* vehicle_wheel_pos_vehicle;
+VehInfo* vehicle_wheel_pos_info;
 
-void vehicle_wheel_pos_init(Thing *p_vehicle) {
+void vehicle_wheel_pos_init(Entity* p_vehicle) {
     vehicle_wheel_pos_vehicle = p_vehicle;
     vehicle_wheel_pos_info = &veh_info[p_vehicle->Genus.Vehicle->Type];
     ;
@@ -4448,9 +4444,9 @@ void vehicle_wheel_pos_init(Thing *p_vehicle) {
 
 void vehicle_wheel_pos_get(
     std::int32_t which,
-    std::int32_t *wx,
-    std::int32_t *wy,
-    std::int32_t *wz) {
+    std::int32_t* wx,
+    std::int32_t* wy,
+    std::int32_t* wz) {
     std::int32_t wheel_x;
     std::int32_t wheel_y;
     std::int32_t wheel_z;

@@ -20,16 +20,16 @@
 #include "ob.h"
 #include "elev.h"
 
-WARE_Ware *WARE_ware; //[WARE_MAX_WARES];
+WARE_Ware* WARE_ware; //[WARE_MAX_WARES];
 std::uint16_t WARE_ware_upto;
 
-std::uint16_t *WARE_nav; //[WARE_MAX_NAVS];
+std::uint16_t* WARE_nav; //[WARE_MAX_NAVS];
 std::uint16_t WARE_nav_upto;
 
-std::int8_t *WARE_height; //[WARE_MAX_HEIGHTS];
+std::int8_t* WARE_height; //[WARE_MAX_HEIGHTS];
 std::uint16_t WARE_height_upto;
 
-std::uint16_t *WARE_rooftex; //[WARE_MAX_ROOFTEXES];
+std::uint16_t* WARE_rooftex; //[WARE_MAX_ROOFTEXES];
 std::uint16_t WARE_rooftex_upto;
 
 std::uint8_t WARE_in;
@@ -42,7 +42,7 @@ std::int32_t WARE_calc_height_at(std::uint8_t ware, std::int32_t x, std::int32_t
     std::int32_t ans;
     std::int32_t index;
 
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(WITHIN(ware, 1, WARE_ware_upto - 1));
 
@@ -79,8 +79,8 @@ std::int32_t WARE_calc_height_at(std::uint8_t ware, std::int32_t x, std::int32_t
 //
 
 void WARE_bounding_box(std::int32_t dbuilding,
-                       std::int32_t *bx1, std::int32_t *bz1,
-                       std::int32_t *bx2, std::int32_t *bz2) {
+                       std::int32_t* bx1, std::int32_t* bz1,
+                       std::int32_t* bx2, std::int32_t* bz2) {
     std::int32_t i;
 
     std::int32_t x;
@@ -91,8 +91,8 @@ void WARE_bounding_box(std::int32_t dbuilding,
     std::int32_t x2;
     std::int32_t z2;
 
-    DBuilding *db;
-    DFacet *df;
+    DBuilding* db;
+    DFacet* df;
 
     std::int32_t height;
 
@@ -204,13 +204,13 @@ void WARE_init() {
     std::int32_t index;
     std::int32_t walkable;
 
-    DBuilding *db;
-    DFacet *df;
-    WARE_Ware *ww;
-    OB_Info *oi;
-    PrimInfo *pi;
-    RoofFace4 *p_f4;
-    DWalkable *p_walk;
+    DBuilding* db;
+    DFacet* df;
+    WARE_Ware* ww;
+    OB_Info* oi;
+    PrimInfo* pi;
+    RoofFace4* p_f4;
+    DWalkable* p_walk;
 
     //
     // Load the rooftop textures from the mapfile.
@@ -219,7 +219,7 @@ void WARE_init() {
 
     if (!save_psx) // psx has them allready loaded in load_game_map()
     {
-        char *ch;
+        char* ch;
 
         for (ch = ELEV_last_map_loaded; *ch; ch++);
 
@@ -231,7 +231,7 @@ void WARE_init() {
         ch[-2] = 'a';
         ch[-1] = 'p';
 
-        FILE *handle = MF_Fopen(ELEV_last_map_loaded, "rb");
+        FILE* handle = MF_Fopen(ELEV_last_map_loaded, "rb");
 
         if (!handle) {
             memset(WARE_roof_tex, 0, sizeof(std::uint16_t) * PAP_SIZE_HI * PAP_SIZE_HI);
@@ -503,7 +503,7 @@ void WARE_init() {
         for (mx = x1; mx <= x2; mx++)
             for (mz = z1; mz <= z2; mz++) {
                 for (oi = OB_find(mx, mz); oi->prim; oi++) {
-                    PrimInfo *pi = get_prim_info(oi->prim);
+                    PrimInfo* pi = get_prim_info(oi->prim);
 
                     if (oi->prim == 23) {
                         //
@@ -757,7 +757,7 @@ void WARE_exit()
 
 */
 
-MAV_Action WARE_mav_enter(Thing *p_person, std::uint8_t ware, std::uint8_t caps) {
+MAV_Action WARE_mav_enter(Entity* p_person, std::uint8_t ware, std::uint8_t caps) {
     std::uint8_t i;
     std::uint8_t best_door;
     std::int32_t best_dist = 0xffff;
@@ -767,7 +767,7 @@ MAV_Action WARE_mav_enter(Thing *p_person, std::uint8_t ware, std::uint8_t caps)
 
     MAV_Action ans;
 
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(WITHIN(ware, 1, WARE_ware_upto - 1));
 
@@ -833,15 +833,15 @@ MAV_Action WARE_mav_enter(Thing *p_person, std::uint8_t ware, std::uint8_t caps)
     return ans;
 }
 
-MAV_Action WARE_mav_inside(Thing *p_person, std::uint8_t dest_x, std::uint8_t dest_z, std::uint8_t caps) {
+MAV_Action WARE_mav_inside(Entity* p_person, std::uint8_t dest_x, std::uint8_t dest_z, std::uint8_t caps) {
     std::uint8_t start_x;
     std::uint8_t start_z;
 
-    std::uint16_t *old_mav;
+    std::uint16_t* old_mav;
     std::uint16_t old_mav_pitch;
 
     MAV_Action ma;
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE);
     ASSERT(WITHIN(p_person->Genus.Person->Ware, 1, WARE_ware_upto - 1));
@@ -911,7 +911,7 @@ MAV_Action WARE_mav_inside(Thing *p_person, std::uint8_t dest_x, std::uint8_t de
     return ma;
 }
 
-MAV_Action WARE_mav_exit(Thing *p_person, std::uint8_t caps) {
+MAV_Action WARE_mav_exit(Entity* p_person, std::uint8_t caps) {
     std::uint8_t i;
     std::uint8_t best_door = 0;
     std::uint8_t start_x;
@@ -923,11 +923,11 @@ MAV_Action WARE_mav_exit(Thing *p_person, std::uint8_t caps) {
     std::int32_t dz;
     std::int32_t dist;
 
-    std::uint16_t *old_mav;
+    std::uint16_t* old_mav;
     std::uint16_t old_mav_pitch;
 
     MAV_Action ans;
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE);
     ASSERT(WITHIN(p_person->Genus.Person->Ware, 1, WARE_ware_upto - 1));
@@ -1024,7 +1024,7 @@ MAV_Action WARE_mav_exit(Thing *p_person, std::uint8_t caps) {
 std::int32_t WARE_in_floorplan(std::uint8_t ware, std::uint8_t x, std::uint8_t z) {
     ASSERT(WITHIN(ware, 1, WARE_ware_upto - 1));
 
-    WARE_Ware *ww = &WARE_ware[ware];
+    WARE_Ware* ww = &WARE_ware[ware];
 
     if (WITHIN(x, ww->minx, ww->maxx) &&
         WITHIN(z, ww->minz, ww->maxz)) {
@@ -1050,7 +1050,7 @@ void WARE_debug() {
     std::int32_t x1, y1, z1;
     std::int32_t x2, y2, z2;
 
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     if (!Keys[KB_T]) {
         return;
@@ -1115,7 +1115,7 @@ void WARE_debug() {
 
             std::int32_t index;
 
-            MAV_Opt *mo;
+            MAV_Opt* mo;
 
             struct
             {
@@ -1210,7 +1210,7 @@ std::int32_t WARE_inside(std::uint8_t ware, std::int32_t x, std::int32_t y, std:
     std::int32_t index;
     std::int32_t height;
 
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(WITHIN(ware, 1, WARE_ware_upto - 1));
 
@@ -1269,7 +1269,7 @@ std::uint8_t WARE_get_caps(
     std::int32_t index;
     std::int32_t mo_index;
 
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(WITHIN(ware, 1, WARE_ware_upto - 1));
 

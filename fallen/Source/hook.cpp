@@ -93,7 +93,7 @@ void HOOK_make_loop(std::int32_t x, std::int32_t z) {
     std::int32_t mz;
     std::int32_t ground;
 
-    HOOK_Point *hp;
+    HOOK_Point* hp;
 
     dy = 0;
     angle = 0;
@@ -161,8 +161,8 @@ void HOOK_process_points(std::int32_t start_point) {
     std::int32_t ddist;
     std::int32_t ground;
 
-    HOOK_Point *hp;
-    HOOK_Point *hp_near;
+    HOOK_Point* hp;
+    HOOK_Point* hp_near;
 
     //
     // Process all the points.
@@ -676,12 +676,12 @@ void HOOK_process() {
 // ========================================================
 
 void HOOK_pos_grapple(
-    std::int32_t *x,
-    std::int32_t *y,
-    std::int32_t *z,
-    std::int32_t *yaw,
-    std::int32_t *pitch,
-    std::int32_t *roll) {
+    std::int32_t* x,
+    std::int32_t* y,
+    std::int32_t* z,
+    std::int32_t* yaw,
+    std::int32_t* pitch,
+    std::int32_t* roll) {
     *x = HOOK_point[0].x;
     *y = HOOK_point[0].y + 0x1000;
     *z = HOOK_point[0].z;
@@ -692,9 +692,9 @@ void HOOK_pos_grapple(
 }
 
 void HOOK_pos_point(std::int32_t point,
-                    std::int32_t *x,
-                    std::int32_t *y,
-                    std::int32_t *z) {
+                    std::int32_t* x,
+                    std::int32_t* y,
+                    std::int32_t* z) {
     ASSERT(WITHIN(point, 0, HOOK_NUM_POINTS - 1));
 
     *x = HOOK_point[point].x;

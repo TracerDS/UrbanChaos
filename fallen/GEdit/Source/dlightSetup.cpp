@@ -14,7 +14,7 @@
 #include "GEdit.h"
 #include <Commdlg.h>
 
-    //---------------------------------------------------------------
+//---------------------------------------------------------------
 
 std::int32_t lite_type, lite_speed, lite_steps, lite_mask, lite_rgbA, lite_rgbB;
 
@@ -44,13 +44,13 @@ static void InitSteps(HWND hWnd, char steps, std::int32_t mask) {
     }
 }
 
-static char *blank_string[] = {"!"};
+static char* blank_string[] = {"!"};
 
 bool CALLBACK lite_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
     HWND the_ctrl;
     LPTSTR lbitem_str;
-    NM_UPDOWN *lp_ntfy;
+    NM_UPDOWN* lp_ntfy;
 
     switch (message) {
     case WM_INITDIALOG:
@@ -165,7 +165,7 @@ bool CALLBACK lite_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
         }
 
     case WM_NOTIFY:
-        lp_ntfy = (NM_UPDOWN *) lParam;
+        lp_ntfy = (NM_UPDOWN*) lParam;
 
         if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
             InitSteps(hWnd, lp_ntfy->iPos + lp_ntfy->iDelta, ticklist_bitmask(hWnd, IDC_LIST1));
@@ -182,7 +182,7 @@ bool CALLBACK lite_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
         case IDC_BUTTON1:
         case IDC_BUTTON2: {
             CHOOSECOLOR choosecol;
-            std::int32_t *rgb;
+            std::int32_t* rgb;
             rgb = (LOWORD(wParam) == IDC_BUTTON1) ? &lite_rgbA : &lite_rgbB;
             choosecol.lStructSize = sizeof(choosecol);
             choosecol.hwndOwner = hWnd;
@@ -215,7 +215,7 @@ bool CALLBACK lite_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_lite_setup(EventPoint *the_ep) {
+void do_lite_setup(EventPoint* the_ep) {
     if (!the_ep) return;
     //	Set the dialog.
     lite_type = the_ep->Data[0];
@@ -244,7 +244,7 @@ void do_lite_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_lite_message(EventPoint *ep, char *msg) {
+char* get_lite_message(EventPoint* ep, char* msg) {
     if (!ep)
         strcpy(msg, "Unknown");
     else

@@ -5,7 +5,7 @@
 
 //---------------------------------------------------------------
 
-char *class_text[] =
+char* class_text[] =
     {
         "None",
         "Player",
@@ -20,7 +20,7 @@ char *class_text[] =
 
 //---------------------------------------------------------------
 
-char *genus_text[][10] =
+char* genus_text[][10] =
     {
         {"None"},
         {"None", "Darci", "Roper"},
@@ -30,7 +30,7 @@ char *genus_text[][10] =
         {"None", "BLANK", "BLANK", "Cop", "Thug", "Victim", "Mafiosa"},
         {"None"},
         {"None"},
-        {"None", "Player Trigger", "Thing Trigger", "Group Trigger", "Class Trigger"},
+        {"None", "Player Trigger", "Entity Trigger", "Group Trigger", "Class Trigger"},
         {"None", "Van", "Car"},
         {"None", "Key"},
         {"None"},
@@ -39,7 +39,7 @@ char *genus_text[][10] =
 
 //---------------------------------------------------------------
 
-char *condition_text[] =
+char* condition_text[] =
     {
         "NONE",
         "THING_DEAD",
@@ -59,7 +59,7 @@ char *condition_text[] =
 
 //---------------------------------------------------------------
 
-char *command_text[] =
+char* command_text[] =
     {
         "NONE",
         "ATTACK_PLAYER",
@@ -78,7 +78,7 @@ char *command_text[] =
 
 //---------------------------------------------------------------
 
-char *s_command_text[] =
+char* s_command_text[] =
     {
         "ALWAYS",
         "UNTIL_TRIGGER",

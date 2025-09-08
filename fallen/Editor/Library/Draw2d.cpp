@@ -16,22 +16,22 @@ void (*DrawHLineC)(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32
 void (*DrawVLine)(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour);
 void (*DrawVLineC)(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour);
 
-void (*DrawPoint)(MFPoint *the_point, std::uint32_t colour);
-void (*DrawPointC)(MFPoint *the_point, std::uint32_t colour);
+void (*DrawPoint)(MFPoint* the_point, std::uint32_t colour);
+void (*DrawPointC)(MFPoint* the_point, std::uint32_t colour);
 
 void (*DrawPixel)(std::int32_t x, std::int32_t y, std::uint32_t colour);
 void (*DrawPixelC)(std::int32_t x, std::int32_t y, std::uint32_t colour);
 
-void (*QuickText)(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
-void (*QuickTextC)(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
+void (*QuickText)(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
+void (*QuickTextC)(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
 void (*QuickChar)(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour);
 void (*QuickCharC)(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour);
 
-void (*DrawBSprite)(std::int32_t x, std::int32_t y, BSprite *the_sprite);
-void (*DrawBSpriteC)(std::int32_t x, std::int32_t y, BSprite *the_sprite);
+void (*DrawBSprite)(std::int32_t x, std::int32_t y, BSprite* the_sprite);
+void (*DrawBSpriteC)(std::int32_t x, std::int32_t y, BSprite* the_sprite);
 
-void (*DrawMonoBSprite)(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
-void (*DrawMonoBSpriteC)(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
+void (*DrawMonoBSprite)(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
+void (*DrawMonoBSpriteC)(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
 
 //---------------------------------------------------------------
 
@@ -63,12 +63,12 @@ extern void DrawVLineC16(std::int32_t x, std::int32_t y1, std::int32_t y2, std::
 extern void DrawVLine32(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour);
 extern void DrawVLineC32(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour);
 
-extern void DrawPoint8(MFPoint *the_point, std::uint32_t colour);
-extern void DrawPointC8(MFPoint *the_point, std::uint32_t colour);
-extern void DrawPoint16(MFPoint *the_point, std::uint32_t colour);
-extern void DrawPointC16(MFPoint *the_point, std::uint32_t colour);
-extern void DrawPoint32(MFPoint *the_point, std::uint32_t colour);
-extern void DrawPointC32(MFPoint *the_point, std::uint32_t colour);
+extern void DrawPoint8(MFPoint* the_point, std::uint32_t colour);
+extern void DrawPointC8(MFPoint* the_point, std::uint32_t colour);
+extern void DrawPoint16(MFPoint* the_point, std::uint32_t colour);
+extern void DrawPointC16(MFPoint* the_point, std::uint32_t colour);
+extern void DrawPoint32(MFPoint* the_point, std::uint32_t colour);
+extern void DrawPointC32(MFPoint* the_point, std::uint32_t colour);
 
 extern void DrawPixel8(std::int32_t x, std::int32_t y, std::uint32_t colour);
 extern void DrawPixelC8(std::int32_t x, std::int32_t y, std::uint32_t colour);
@@ -77,32 +77,32 @@ extern void DrawPixelC16(std::int32_t x, std::int32_t y, std::uint32_t colour);
 extern void DrawPixel32(std::int32_t x, std::int32_t y, std::uint32_t colour);
 extern void DrawPixelC32(std::int32_t x, std::int32_t y, std::uint32_t colour);
 
-extern void QuickText8(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
-extern void QuickTextC8(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
+extern void QuickText8(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
+extern void QuickTextC8(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
 extern void QuickChar8(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour);
 extern void QuickCharC8_16_32(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour);
-extern void QuickText16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
-extern void QuickTextC16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
+extern void QuickText16(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
+extern void QuickTextC16(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
 extern void QuickChar16(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour);
-extern void QuickText32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
-extern void QuickTextC32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour);
+extern void QuickText32(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
+extern void QuickTextC32(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour);
 extern void QuickChar32(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour);
 
-extern void DrawBSprite8(std::int32_t x, std::int32_t y, BSprite *the_sprite);
-extern void DrawBSprite16(std::int32_t x, std::int32_t y, BSprite *the_sprite);
-extern void DrawBSprite32(std::int32_t x, std::int32_t y, BSprite *the_sprite);
+extern void DrawBSprite8(std::int32_t x, std::int32_t y, BSprite* the_sprite);
+extern void DrawBSprite16(std::int32_t x, std::int32_t y, BSprite* the_sprite);
+extern void DrawBSprite32(std::int32_t x, std::int32_t y, BSprite* the_sprite);
 
-extern void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite);
-extern void DrawBSpriteC16(std::int32_t x, std::int32_t y, BSprite *the_sprite);
-extern void DrawBSpriteC32(std::int32_t x, std::int32_t y, BSprite *the_sprite);
+extern void DrawBSpriteC8(std::int32_t x, std::int32_t y, BSprite* the_sprite);
+extern void DrawBSpriteC16(std::int32_t x, std::int32_t y, BSprite* the_sprite);
+extern void DrawBSpriteC32(std::int32_t x, std::int32_t y, BSprite* the_sprite);
 
-extern void DrawMonoBSprite8(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
-extern void DrawMonoBSprite16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
-extern void DrawMonoBSprite32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
+extern void DrawMonoBSprite8(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
+extern void DrawMonoBSprite16(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
+extern void DrawMonoBSprite32(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
 
-extern void DrawMonoBSpriteC8(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
-extern void DrawMonoBSpriteC16(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
-extern void DrawMonoBSpriteC32(std::int32_t x, std::int32_t y, BSprite *the_sprite, std::uint32_t colour);
+extern void DrawMonoBSpriteC8(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
+extern void DrawMonoBSpriteC16(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
+extern void DrawMonoBSpriteC32(std::int32_t x, std::int32_t y, BSprite* the_sprite, std::uint32_t colour);
 
 //---------------------------------------------------------------
 // Set Function pointers for this display depth

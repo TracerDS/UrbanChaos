@@ -1,24 +1,24 @@
 // Thing.h
 // Guy Simmons, 15th October 1997.
 
-#ifndef THING_H
-#define THING_H
+#pragma once
+
 #include "../Headers/Game.h"
 #include "../Headers/drawtype.h"
 #include "../Headers/vehicle.h"
 
 //---------------------------------------------------------------
 /*
-#define	MAX_PRIMARY_THINGS		MAX_PLAYERS		+		\
-                                                                MAX_PROJECTILES	+		\
-                                                                MAX_PEOPLE		+		\
-                                                                MAX_FURNITURE	+		\
-                                                                MAX_SPECIALS	+		\
-                                                                BAT_MAX_BATS	+		\
-                                                                100
-#define	MAX_SECONDARY_THINGS	MAX_SWITCHES	+		\
-                                                                TRACK_BUFFER_LENGTH +   \
-                                                                1
+#define	MAX_PRIMARY_THINGS MAX_PLAYERS		+		\
+    MAX_PROJECTILES	+		\
+    MAX_PEOPLE		+		\
+    MAX_FURNITURE	+		\
+    MAX_SPECIALS	+		\
+    BAT_MAX_BATS	+		\
+    100
+#define	MAX_SECONDARY_THINGS MAX_SWITCHES	+		\
+    TRACK_BUFFER_LENGTH +   \
+    1
 */
 
 #define MAX_PRIMARY_THINGS (400)
@@ -60,24 +60,29 @@
 
 //---------------------------------------------------------------
 
-struct Thing {
-    std::uint8_t Class,
-        State,
-        OldState,
-        SubState;
+class Entity {
+public:
+    Entity() = default;
+    ~Entity() = default;
+public:
+    std::uint8_t Class;
+    std::uint8_t State;
+    std::uint8_t OldState;
+    std::uint8_t SubState;
+
     std::uint32_t Flags;
-    THING_INDEX Child,
-        Parent,
-        LinkChild,
-        LinkParent;
+    THING_INDEX Child;
+    THING_INDEX Parent;
+    THING_INDEX LinkChild;
+    THING_INDEX LinkParent;
 
     GameCoord WorldPos;
 
-    void (*StateFn)(Thing *); // Things state function.
+    void (*StateFn)(Entity*); // Things state function.
 
     union {
-        DrawTween *Tweened;
-        DrawMesh *Mesh;
+        DrawTween* Tweened;
+        DrawMesh* Mesh;
     } Draw;
 
     union {
@@ -119,9 +124,7 @@ struct Thing {
     THING_INDEX DogPoo2; // SwitchThing;	//	Temporary for building unlock switches.
 };
 
-typedef struct Thing Thing;
-
-extern std::uint16_t *thing_class_head;
+extern std::uint16_t* thing_class_head;
 
 //---------------------------------------------------------------
 
@@ -130,20 +133,20 @@ THING_INDEX alloc_primary_thing(std::uint16_t thing_class);
 void free_primary_thing(THING_INDEX thing);
 THING_INDEX alloc_secondary_thing(std::uint16_t secondary_thing);
 void free_secondary_thing(THING_INDEX thing);
-void add_thing_to_map(Thing *t_thing);
-void remove_thing_from_map(Thing *t_thing);
-void move_thing_on_map(Thing *t_thing, GameCoord *new_position);
+void add_thing_to_map(Entity *t_thing);
+void remove_thing_from_map(Entity *t_thing);
+void move_thing_on_map(Entity *t_thing, GameCoord *new_position);
 void process_things(std::int32_t f_r_i);
 
 void log_primary_used_list();
 void log_primary_unused_list();
 
-Thing *alloc_thing(std::int8_t classification);
-void free_thing(Thing *t_thing);
+Entity *alloc_thing(std::int8_t classification);
+void free_thing(Entity *t_thing);
 
-Thing *nearest_class(Thing *the_thing, std::uint32_t class_mask, std::uint32_t *closest);
+Entity *nearest_class(Entity *the_thing, std::uint32_t class_mask, std::uint32_t *closest);
 
-inline void set_thing_pos(Thing *t, std::int32_t x, std::int32_t y, std::int32_t z) {
+inline void set_thing_pos(Entity *t, std::int32_t x, std::int32_t y, std::int32_t z) {
     t->WorldPos.X = x;
     t->WorldPos.Y = y;
     t->WorldPos.Z = z;
@@ -154,14 +157,14 @@ inline void set_thing_pos(Thing *t, std::int32_t x, std::int32_t y, std::int32_t
 // This is in 8-bits per mapsquares and approximate.
 //
 
-std::int32_t THING_dist_between(Thing *p_thing_a, Thing *p_thing_b);
+std::int32_t THING_dist_between(Entity *p_thing_a, Entity *p_thing_b);
 
 //
 // Removes a thing from the map and the game. It clears up all the memory
 // it is supposed to aswell.
 //
 
-void THING_kill(Thing *t);
+void THING_kill(Entity *t);
 
 //
 // A handy array for finding things with...
@@ -212,7 +215,3 @@ std::int32_t THING_find_nearest(
     std::int32_t centre_z,
     std::int32_t radius,
     std::uint32_t classes);
-
-//---------------------------------------------------------------
-
-#endif

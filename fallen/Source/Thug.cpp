@@ -9,7 +9,7 @@
 #include "pap.h"
 
 std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
-std::int32_t person_normal_animate(Thing *p_person);
+std::int32_t person_normal_animate(Entity* p_person);
 
 #define THUG_IDLE 1
 
@@ -30,7 +30,7 @@ StateFunction thug_states[] =
 
 //---------------------------------------------------------------
 
-void fn_thug_init(Thing *t_thing) {
+void fn_thug_init(Entity* t_thing) {
     ASSERT(0);
     t_thing->DrawType = DT_ROT_MULTI;
     t_thing->Draw.Tweened->Angle = 0;
@@ -59,7 +59,7 @@ void fn_thug_init(Thing *t_thing) {
 
 //---------------------------------------------------------------
 
-void fn_thug_normal(Thing *t_thing) {
+void fn_thug_normal(Entity* t_thing) {
 #if 0
 
 	std::int16_t			angle_diff;

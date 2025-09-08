@@ -339,7 +339,7 @@ class Character {
     std::uint16_t MultiObject;
 #ifdef TARGET_DC
     // OI! This needs to be aligned on the DC, but it's probably a
-    // Good Thing to align it on the PC as well.
+    // Good Entity to align it on the PC as well.
     std::uint16_t wJunk;
 #endif
     Anim AnimList[50];

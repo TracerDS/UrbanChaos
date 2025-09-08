@@ -281,9 +281,9 @@ std::int32_t count_occurances(std::int32_t find) {
 
 std::int32_t count_used(std::int32_t find) {
     std::int32_t pow, count2, sprite;
-    POW_Pow *pp;
-    POW_Sprite *ps;
-    POW_Type *pt;
+    POW_Pow* pp;
+    POW_Sprite* ps;
+    POW_Type* pt;
 
     std::int32_t ret = 0;
 
@@ -327,7 +327,7 @@ void check_pows() {
 //
 
 void POW_insert_sprite(
-    POW_Pow *pp,
+    POW_Pow* pp,
     std::int32_t x,
     std::int32_t y,
     std::int32_t z,
@@ -341,7 +341,7 @@ void POW_insert_sprite(
     //
 
     std::int32_t sprite_index;
-    POW_Sprite *ps;
+    POW_Sprite* ps;
     if (POW_sprite_free == NULL) {
 #ifndef PSX
 //		PANEL_new_text(NULL, 500, "No more sprites");
@@ -409,8 +409,8 @@ void POW_new(std::int32_t type, std::int32_t x, std::int32_t y, std::int32_t z, 
 
     std::int32_t vector[3];
 
-    POW_Type *pt;
-    POW_Pow *pp;
+    POW_Type* pt;
+    POW_Pow* pp;
 
     ASSERT(WITHIN(type, 0, POW_TYPE_NUMBER - 1));
 
@@ -556,11 +556,11 @@ void POW_process() {
     std::int32_t vector[3];
 
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    POW_Pow *pp;
-    POW_Sprite *ps;
-    POW_Type *pt;
+    POW_Pow* pp;
+    POW_Sprite* ps;
+    POW_Type* pt;
 
     std::int32_t ticks;
     std::int32_t frame_ticks;

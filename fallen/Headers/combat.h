@@ -78,8 +78,8 @@ extern struct GangAttack gang_attacks[MAX_HISTORY];
 
 extern std::int32_t get_combat_type_for_node(std::uint8_t current_node);
 extern std::int32_t get_anim_and_node_for_action(std::uint8_t current_node, std::uint8_t action, std::uint16_t *new_anim);
-extern std::int32_t apply_violence(Thing *p_thing);
-extern std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std::int32_t type, std::int32_t damage, Thing *p_aggressor, struct GameFightCol *fight);
+extern std::int32_t apply_violence(Entity *p_thing);
+extern std::int32_t apply_hit_to_person(Entity *p_thing, std::int32_t angle, std::int32_t type, std::int32_t damage, Entity *p_aggressor, struct GameFightCol *fight);
 
 //
 // Looks for a target in the given direction relative to the given person.
@@ -99,10 +99,10 @@ extern std::int32_t apply_hit_to_person(Thing *p_thing, std::int32_t angle, std:
 #define FIND_DIR_DONT_TURN (1 << 10)
 
 std::int32_t find_attack_stance(
-    Thing *p_person,
+    Entity *p_person,
     std::int32_t attack_direction,
     std::int32_t attack_distance, // Desired distance from a person to attack them. 8-bits per mapsquare.
-    Thing **stance_target,
+    Entity **stance_target,
     GameCoord *stance_position, // 16-bits per mapsquare position at the desired distance.
     std::int32_t *stance_angle);
 
@@ -111,7 +111,7 @@ std::int32_t find_attack_stance(
 //
 
 std::int32_t turn_to_target(
-    Thing *p_person,
+    Entity *p_person,
     std::int32_t find_dir);
 
 //
@@ -119,8 +119,8 @@ std::int32_t turn_to_target(
 // to punch them and then does the punch- the same except you kick.
 //
 
-std::int32_t turn_to_target_and_punch(Thing *p_person);
-std::int32_t turn_to_target_and_kick(Thing *p_person);
+std::int32_t turn_to_target_and_punch(Entity *p_person);
+std::int32_t turn_to_target_and_kick(Entity *p_person);
 
 //
 // Finds the best anims for the person to punch or kick someone. If no
@@ -130,8 +130,8 @@ std::int32_t turn_to_target_and_kick(Thing *p_person);
 
 #define FIND_BEST_USE_DEFAULT (1 << 0)
 
-std::int32_t find_best_punch(Thing *p_person, std::uint32_t flag);
-std::int32_t find_best_kick(Thing *p_person, std::uint32_t flag);
+std::int32_t find_best_punch(Entity *p_person, std::uint32_t flag);
+std::int32_t find_best_kick(Entity *p_person, std::uint32_t flag);
 
 //
 // If somebody is attacking the given person, it returns a pointer to
@@ -139,7 +139,7 @@ std::int32_t find_best_kick(Thing *p_person, std::uint32_t flag);
 // and returns him.
 //
 
-Thing *is_person_under_attack(Thing *p_person);
-Thing *is_anyone_nearby_alive(Thing *p_person); // The nearest person alive to you.
+Entity *is_person_under_attack(Entity *p_person);
+Entity *is_anyone_nearby_alive(Entity *p_person); // The nearest person alive to you.
 
 #endif

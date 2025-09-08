@@ -56,7 +56,7 @@
 #include "target.h"
 #endif
 
-extern std::int32_t person_ok_for_conversation(Thing *p_person);
+extern std::int32_t person_ok_for_conversation(Entity* p_person);
 extern std::uint32_t timer_bored; // I don't care I'm making the game better not the code!
 //
 // The conditions that are part of boolean operations.
@@ -64,11 +64,11 @@ extern std::uint32_t timer_bored; // I don't care I'm making the game better not
 extern std::int32_t save_psx;
 std::int32_t EWAY_cond_upto;
 
-EWAY_Cond *EWAY_cond;   //[EWAY_MAX_CONDS];
-EWAY_Way *EWAY_way;     //[EWAY_MAX_WAYS];
-EWAY_Edef *EWAY_edef;   //[EWAY_MAX_EDEFS];
-char **EWAY_mess;       //[EWAY_MAX_MESSES];
-char *EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
+EWAY_Cond* EWAY_cond;   //[EWAY_MAX_CONDS];
+EWAY_Way* EWAY_way;     //[EWAY_MAX_WAYS];
+EWAY_Edef* EWAY_edef;   //[EWAY_MAX_EDEFS];
+char** EWAY_mess;       //[EWAY_MAX_MESSES];
+char* EWAY_mess_buffer; //[EWAY_MESS_BUFFER_SIZE];
 
 #if 0
 #define ANNOYINGSCRIBBLECHECK ScribbleCheck()
@@ -94,7 +94,7 @@ static void ScribbleCheck()
 
 #ifdef PSX
 // #define	ASSERT(x)
-extern char *PANEL_wide_cont;
+extern char* PANEL_wide_cont;
 extern char PANEL_wide_text[];
 
 #endif
@@ -110,7 +110,7 @@ std::int32_t EWAY_edef_upto;
 //
 // Magic dodgy flagness
 
-EWAY_Way *EWAY_magic_radius_flag;
+EWAY_Way* EWAY_magic_radius_flag;
 
 //
 // The messages.
@@ -143,13 +143,13 @@ std::int32_t EWAY_cam_jumped = 0;
 // The timers are indexed by the bottom byte of the arg of COUNTDOWN conditions.
 //
 
-std::uint16_t *EWAY_timer;
+std::uint16_t* EWAY_timer;
 
 //
 // The counters.
 //
 
-std::uint8_t *EWAY_counter;
+std::uint8_t* EWAY_counter;
 
 //
 // The fake wandering people messages.
@@ -166,7 +166,7 @@ std::uint16_t EWAY_fake_wander_text_annoyed_number;
 // The tutorial string.
 //
 
-char *EWAY_tutorial_string;
+char* EWAY_tutorial_string;
 std::int32_t EWAY_tutorial_counter;
 
 //
@@ -242,7 +242,7 @@ std::int32_t EWAY_conv_talk = 0;
 #ifndef PSX
 extern char ELEV_fname_level[_MAX_PATH];
 
-void get_level_word(char *str) {
+void get_level_word(char* str) {
     std::int32_t c0 = 0, c1 = 0;
 
     while (ELEV_fname_level[c0] != '\\' && c0 < 101) {
@@ -286,7 +286,7 @@ std::int32_t playing_combat_tutorial() {
     }
 }
 
-std::int32_t playing_level(const char *name) {
+std::int32_t playing_level(const char* name) {
     std::int32_t c0 = 0, c1 = 0;
 #ifdef VERSION_DEMO
 //	return 0;
@@ -315,7 +315,7 @@ std::int32_t playing_level(const char *name) {
     }
 }
 
-char *crap_levels[] =
+char* crap_levels[] =
     {
         "FTutor1.ucm",
         "Assault1.ucm",
@@ -360,7 +360,7 @@ std::int32_t playing_real_mission() {
     return PSX_real[wad_level - 1];
 }
 #endif
-Thing *talk_thing;
+Entity* talk_thing;
 
 //
 // Play the wav for the current mission with waypoint number waypoint
@@ -380,7 +380,7 @@ void EWAY_talk(std::uint32_t waypoint) {
 
     get_level_word(level);
 #ifdef TARGET_DC
-    extern char *pcSpeechLanguageDir;
+    extern char* pcSpeechLanguageDir;
     sprintf(str, "%s%s%s.ucm%d.wav", GetSpeechPath(), pcSpeechLanguageDir, level, waypoint);
 #else
     sprintf(str, "%stalk2\\%s.ucm%d.wav", GetSpeechPath(), level, waypoint);
@@ -439,7 +439,7 @@ void EWAY_talk_conv(std::uint32_t waypoint, std::int32_t conversation) {
     talk_thing = nullptr;
     get_level_word(level);
 #ifdef TARGET_DC
-    extern char *pcSpeechLanguageDir;
+    extern char* pcSpeechLanguageDir;
     sprintf(str, "%s%s%s.ucm%d%c.wav", GetSpeechPath(), pcSpeechLanguageDir, level, waypoint, 65 + conversation);
 #else
     sprintf(str, "%stalk2\\%s.ucm%d%c.wav", GetSpeechPath(), level, waypoint, 65 + conversation);
@@ -458,7 +458,7 @@ void EWAY_talk_conv(std::uint32_t waypoint, std::int32_t conversation) {
 
     MFX_QUICK_wait();
 
-    Thing *speaker = TO_THING(EWAY_conv_person_a);
+    Entity* speaker = TO_THING(EWAY_conv_person_a);
     EWAY_conv_talk = MFX_QUICK_play(str, speaker->WorldPos.X >> 8, speaker->WorldPos.Y >> 8, speaker->WorldPos.Z >> 8);
 #else
     MFX_Conv_wait();
@@ -471,10 +471,10 @@ void EWAY_talk_conv(std::uint32_t waypoint, std::int32_t conversation) {
 // #define	ASSERT(x) if(!(x)){asm("break 0");}
 #endif
 
-char *EWAY_get_mess(std::int32_t index) {
+char* EWAY_get_mess(std::int32_t index) {
     ASSERT(index < EWAY_mess_upto);
     ASSERT(EWAY_mess[index] >= &EWAY_mess_buffer[0] && EWAY_mess[index] < &EWAY_mess_buffer[EWAY_mess_buffer_upto]);
-    ASSERT(EWAY_mess[index] != (char *) 0x3c003c00);
+    ASSERT(EWAY_mess[index] != (char*) 0x3c003c00);
     ASSERT(index >= 0);
     return (EWAY_mess[index]);
 }
@@ -488,7 +488,7 @@ void EWAY_init() {
     //
     talk_thing = 0;
 
-    memset((std::uint8_t *) EWAY_way, 0, sizeof(EWAY_Way) * EWAY_MAX_WAYS);
+    memset((std::uint8_t*) EWAY_way, 0, sizeof(EWAY_Way) * EWAY_MAX_WAYS);
 
     EWAY_way_upto = 1;
 
@@ -496,7 +496,7 @@ void EWAY_init() {
     // Clear the people definitions.
     //
 
-    memset((std::uint8_t *) EWAY_edef, 0, sizeof(EWAY_Edef) * EWAY_MAX_EDEFS);
+    memset((std::uint8_t*) EWAY_edef, 0, sizeof(EWAY_Edef) * EWAY_MAX_EDEFS);
 
     EWAY_edef_upto = 1;
 
@@ -507,13 +507,13 @@ void EWAY_init() {
     EWAY_mess_buffer_upto = 0; // EWAY_mess_buffer;
     EWAY_mess_upto = 0;
 
-    memset((std::uint8_t *) EWAY_mess, 0, sizeof(char *) * EWAY_MAX_MESSES);
+    memset((std::uint8_t*) EWAY_mess, 0, sizeof(char*) * EWAY_MAX_MESSES);
 
     //
     // Clear the conditions.
     //
 
-    memset((std::uint8_t *) EWAY_cond, 0, sizeof(EWAY_Cond) * EWAY_MAX_CONDS);
+    memset((std::uint8_t*) EWAY_cond, 0, sizeof(EWAY_Cond) * EWAY_MAX_CONDS);
 
     EWAY_cond_upto = 1;
 
@@ -521,7 +521,7 @@ void EWAY_init() {
     // Clear the timers.
     //
 
-    memset((std::uint8_t *) EWAY_timer, 0, sizeof(std::uint16_t) * EWAY_MAX_TIMERS);
+    memset((std::uint8_t*) EWAY_timer, 0, sizeof(std::uint16_t) * EWAY_MAX_TIMERS);
 
     //
     // Clear camera and conversation stuff.
@@ -674,7 +674,7 @@ std::uint16_t EWAY_create_enemy(
     std::int32_t world_z,
     std::int32_t random) {
     THING_INDEX p_index;
-    Thing *p_person;
+    Entity* p_person;
     std::uint32_t f1 = 0, f2 = 0;
 
     ANNOYINGSCRIBBLECHECK;
@@ -782,9 +782,9 @@ std::uint16_t EWAY_create_item(
     std::int32_t world_x,
     std::int32_t world_y,
     std::int32_t world_z,
-    EWAY_Way *ew) {
+    EWAY_Way* ew) {
     std::int32_t way_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     ANNOYINGSCRIBBLECHECK;
 
@@ -822,7 +822,7 @@ std::uint16_t EWAY_create_item(
     if (p_thing)
         if (ew->ed.arg1 & EWAY_ARG_ITEM_STASHED_IN_PRIM) {
             std::int32_t ob_index;
-            OB_Info *oi;
+            OB_Info* oi;
             oi = OB_find_index(world_x, world_y, world_z, 2048, false);
             if (oi) {
                 ob_index = oi->index;
@@ -852,7 +852,7 @@ std::uint16_t EWAY_create_vehicle(
     std::int32_t world_y,
     std::int32_t world_z,
     std::int32_t yaw) {
-    Thing *p_thing = nullptr;
+    Entity* p_thing = nullptr;
     THING_INDEX p_index = 0;
     //	ASSERT(0);
 
@@ -1074,8 +1074,8 @@ std::int32_t ob_prim;
 std::int32_t ob_index;
 
 EWAY_Cond EWAY_create_cond(
-    EWAY_Way *ew,
-    EWAY_Conddef *ecd) {
+    EWAY_Way* ew,
+    EWAY_Conddef* ecd) {
     EWAY_Cond ans;
 
     ans.type = ecd->type;
@@ -1101,7 +1101,7 @@ EWAY_Cond EWAY_create_cond(
 
         std::int32_t vector[3];
 
-        PrimInfo *pi;
+        PrimInfo* pi;
 
         //
         // Look for a nearby tripwire.
@@ -1218,7 +1218,7 @@ EWAY_Cond EWAY_create_cond(
             std::int16_t dz;
             std::int16_t dist;
 
-            OB_Info *oi = OB_find(
+            OB_Info* oi = OB_find(
                 ew->x >> PAP_SHIFT_LO,
                 ew->z >> PAP_SHIFT_LO);
 
@@ -1318,14 +1318,14 @@ void EWAY_create(
     std::int32_t world_y,
     std::int32_t world_z,
     std::int32_t yaw,
-    EWAY_Conddef *ecd,
-    EWAY_Do *ed,
-    EWAY_Stay *es,
-    EWAY_Edef *ee,
+    EWAY_Conddef* ecd,
+    EWAY_Do* ed,
+    EWAY_Stay* es,
+    EWAY_Edef* ee,
     std::int32_t unreferenced,
     std::int32_t kludge_index,
     std::uint16_t magic_index) {
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     ANNOYINGSCRIBBLECHECK;
 
@@ -1368,7 +1368,7 @@ void EWAY_create(
         //		ew->ed.type == EWAY_DO_CREATE_VEHICLE ||	// For vehicles arg2 means something so it can't be cleared yet.
         ew->ed.type == EWAY_DO_CAMERA_TARGET) {
         //
-        // For these waypoint types, arg is the index of the last Thing
+        // For these waypoint types, arg is the index of the last Entity
         // to be created by it.  nullptr => it hasn't created anybody yet.
         //
         // (For a camera target with subtype THING has the waypoint that creates
@@ -1519,7 +1519,7 @@ void EWAY_create(
 #ifndef TARGET_DC
 std::int32_t EWAY_set_message(
     std::uint8_t number,
-    char *message) {
+    char* message) {
     std::int32_t len = strlen(message) + 1;
 
     if (!WITHIN(number, 0, EWAY_MAX_MESSES - 1)) {
@@ -1578,7 +1578,7 @@ std::int32_t EWAY_set_message(
 std::int32_t EWAY_find_id(std::int32_t id) {
     std::int32_t i;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         ew = &EWAY_way[i];
@@ -1596,7 +1596,7 @@ std::int32_t EWAY_find_id(std::int32_t id) {
 #ifndef PSX
 #ifndef TARGET_DC
 
-void EWAY_fix_cond(EWAY_Cond *ec) {
+void EWAY_fix_cond(EWAY_Cond* ec) {
     std::int32_t id;
     std::int32_t id1;
     std::int32_t id2;
@@ -1629,8 +1629,8 @@ void EWAY_fix_cond(EWAY_Cond *ec) {
             if (EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_ITEM) {
                 ec->arg1 = EWAY_way[ec->arg1].ed.subtype;
             } else if (EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_ENEMY) {
-                EWAY_Edef *ee;
-                EWAY_Way *ew = &EWAY_way[ec->arg1];
+                EWAY_Edef* ee;
+                EWAY_Way* ew = &EWAY_way[ec->arg1];
 
                 ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
 
@@ -1654,7 +1654,7 @@ void EWAY_fix_cond(EWAY_Cond *ec) {
 
 #ifndef PSX
 #ifndef TARGET_DC
-void EWAY_fix_do(EWAY_Do *ed, EWAY_Way *ew) {
+void EWAY_fix_do(EWAY_Do* ed, EWAY_Way* ew) {
     std::int32_t id;
     std::int32_t id1;
     std::int32_t id2;
@@ -1706,7 +1706,7 @@ void EWAY_fix_do(EWAY_Do *ed, EWAY_Way *ew) {
     }
 }
 
-void EWAY_fix_edef(EWAY_Edef *ee) {
+void EWAY_fix_edef(EWAY_Edef* ee) {
     if (ee->pcom_ai == PCOM_AI_BODYGUARD ||
         ee->pcom_ai == PCOM_AI_ASSASIN ||
         ee->pcom_ai == PCOM_AI_SHOOT_DEAD ||
@@ -1728,14 +1728,14 @@ void EWAY_fix_edef(EWAY_Edef *ee) {
 
 #ifndef PSX
 #ifndef TARGET_DC
-std::int32_t EWAY_load_message_file(char *fname, std::uint16_t *index, std::uint16_t *number) {
-    FILE *handle = MF_Fopen(fname, "rb");
+std::int32_t EWAY_load_message_file(char* fname, std::uint16_t* index, std::uint16_t* number) {
+    FILE* handle = MF_Fopen(fname, "rb");
 
     if (handle) {
         char line[512];
         char message[512];
-        char *ch;
-        char *start;
+        char* ch;
+        char* start;
 
         std::int32_t match;
         std::int32_t upto;
@@ -1777,7 +1777,7 @@ std::int32_t EWAY_load_message_file(char *fname, std::uint16_t *index, std::uint
     return false;
 }
 
-void EWAY_load_fake_wander_text(char *fname) {
+void EWAY_load_fake_wander_text(char* fname) {
 #ifndef PSX
     char name_buffer[_MAX_PATH];
     char str[100];
@@ -1885,7 +1885,7 @@ void EWAY_load_fake_wander_text(char *fname) {
 #endif
 #endif
 
-char *EWAY_get_fake_wander_message(std::int32_t type) {
+char* EWAY_get_fake_wander_message(std::int32_t type) {
 #ifdef TARGET_DC
     // We only have normal text on DC (not sure why not).
     std::uint16_t index = EWAY_fake_wander_text_normal_index;
@@ -1960,10 +1960,10 @@ void EWAY_created_last_waypoint() {
     std::int32_t total_points;
     std::int32_t num_guilty_people;
 
-    EWAY_Way *ew;
-    EWAY_Cond *ec;
-    EWAY_Do *ed;
-    EWAY_Edef *ee;
+    EWAY_Way* ew;
+    EWAY_Cond* ec;
+    EWAY_Do* ed;
+    EWAY_Edef* ee;
 
     //
     // Go through all the data and remap the dependent
@@ -1997,7 +1997,7 @@ void EWAY_created_last_waypoint() {
             std::int32_t best_dist = 0x300;
             std::int32_t best_way = 0;
 
-            EWAY_Way *ew_near;
+            EWAY_Way* ew_near;
 
             for (j = 1; j < EWAY_way_upto; j++) {
                 ew_near = &EWAY_way[j];
@@ -2056,7 +2056,7 @@ void EWAY_created_last_waypoint() {
                 break;
             }
         } else if (ew->ed.type == EWAY_DO_CREATE_ENEMY) {
-            EWAY_Edef *ee;
+            EWAY_Edef* ee;
 
             ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
 
@@ -2196,7 +2196,7 @@ std::int32_t global_write11=0;
 std::int32_t global_write12=0;
 */
 
-std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t EWAY_sub_condition_of_a_boolean = false) {
+std::int32_t EWAY_evaluate_condition(EWAY_Way* ew, EWAY_Cond* ec, std::int32_t EWAY_sub_condition_of_a_boolean = false) {
     std::int32_t ans = false;
 
     ANNOYINGSCRIBBLECHECK;
@@ -2213,7 +2213,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     case EWAY_COND_PROXIMITY:
 
     {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         if (darci) {
             {
@@ -2278,8 +2278,8 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     case EWAY_COND_BOOL_AND:
 
     {
-        EWAY_Cond *ec1 = &EWAY_cond[ec->arg1];
-        EWAY_Cond *ec2 = &EWAY_cond[ec->arg2];
+        EWAY_Cond* ec1 = &EWAY_cond[ec->arg1];
+        EWAY_Cond* ec2 = &EWAY_cond[ec->arg2];
 
         ans = EWAY_evaluate_condition(ew, ec1, true) && EWAY_evaluate_condition(ew, ec2, true);
     }
@@ -2289,8 +2289,8 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     case EWAY_COND_BOOL_OR:
 
     {
-        EWAY_Cond *ec1 = &EWAY_cond[ec->arg1];
-        EWAY_Cond *ec2 = &EWAY_cond[ec->arg2];
+        EWAY_Cond* ec1 = &EWAY_cond[ec->arg1];
+        EWAY_Cond* ec2 = &EWAY_cond[ec->arg2];
 
         ans = EWAY_evaluate_condition(ew, ec1, true) || EWAY_evaluate_condition(ew, ec2, true);
     }
@@ -2371,8 +2371,8 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             std::int32_t waypoint;
             std::int32_t index;
 
-            Thing *p_thing;
-            EWAY_Way *ew_dead;
+            Entity* p_thing;
+            EWAY_Way* ew_dead;
 
             waypoint = ec->arg1;
 
@@ -2408,7 +2408,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
                                                                                         }
                         */
 
-                        extern bool PersonIsMIB(Thing * p_person);
+                        extern bool PersonIsMIB(Entity * p_person);
 
                         if (p_thing->Class == CLASS_PERSON && PersonIsMIB(p_thing)) {
                             if (p_thing->Flags & FLAGS_ON_MAPWHO) {
@@ -2462,7 +2462,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     case EWAY_COND_PERSON_NEAR:
 
     {
-        Thing *p_person;
+        Entity* p_person;
 
         std::int32_t dx;
         std::int32_t dy;
@@ -2520,7 +2520,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     case EWAY_COND_PLAYER_CUBE:
 
     {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         ans = false; // By default...
 
@@ -2581,7 +2581,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             std::int32_t found_at_least_one_person;
             std::int32_t eway_max = EWAY_way_upto;
 
-            EWAY_Way *ew2;
+            EWAY_Way* ew2;
 
             ew2 = &EWAY_way[0];
             for (i = 0; i < eway_max; i++) {
@@ -2599,7 +2599,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
 
                     if (ew2->ed.type == EWAY_DO_CREATE_ENEMY) {
                         if (ew2->ed.arg1) {
-                            extern std::int32_t is_person_dead(Thing * p_person);
+                            extern std::int32_t is_person_dead(Entity * p_person);
 
                             if (!is_person_dead(TO_THING(ew2->ed.arg1))) {
                                 //
@@ -2633,7 +2633,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             std::int32_t i_person = EWAY_get_person(ec->arg1);
 
             if (i_person) {
-                Thing *p_person = TO_THING(i_person);
+                Entity* p_person = TO_THING(i_person);
 
                 //
                 // Is this person half dead?
@@ -2676,7 +2676,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             ASSERT(WITHIN(ec->arg1, 1, EWAY_way_upto - 1));
 
             if (EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_ENEMY) {
-                EWAY_Way *ew2 = &EWAY_way[ec->arg1];
+                EWAY_Way* ew2 = &EWAY_way[ec->arg1];
 
                 if (ew2->ed.arg1) {
                     //
@@ -2703,7 +2703,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     case EWAY_COND_RADIUS_USED:
 
     {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         if (darci) {
             std::int32_t dx = abs(ew->x - (darci->WorldPos.X >> 8));
@@ -2789,7 +2789,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             std::uint16_t index = EWAY_way[ec->arg1].ed.arg1;
 
             if (index) {
-                Thing *p_person = TO_THING(index);
+                Entity* p_person = TO_THING(index);
 
                 ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -2821,7 +2821,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             std::int32_t dx = ec->arg1;
             std::int32_t dz = ec->arg2;
 
-            Thing *darci = NET_PERSON(0);
+            Entity* darci = NET_PERSON(0);
 
             {
                 x1 = ew->x - dx;
@@ -2850,8 +2850,8 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             std::int32_t waypoint;
             std::int32_t index;
 
-            Thing *p_thing;
-            EWAY_Way *ew_dead;
+            Entity* p_thing;
+            EWAY_Way* ew_dead;
 
             waypoint = ec->arg1;
 
@@ -2923,7 +2923,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
         std::uint16_t person = EWAY_get_person(ec->arg1);
 
         if (person) {
-            Thing *p_person = TO_THING(person);
+            Entity* p_person = TO_THING(person);
 
             if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_IS_MURDERER) {
                 ans = true;
@@ -2944,7 +2944,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
             person = EWAY_get_person(ec->arg1);
 
             if (person) {
-                Thing *p_person = TO_THING(person);
+                Entity* p_person = TO_THING(person);
 
                 ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -2986,7 +2986,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
 #endif
 #endif
             } else {
-                Thing *p_thing = TO_THING(thing);
+                Entity* p_thing = TO_THING(thing);
                 std::int32_t radius = ec->arg2 * 64; // Radius in quarter map-squares.
 
                 std::int32_t dx = abs((p_thing->WorldPos.X >> 8) - ew->x);
@@ -3056,7 +3056,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
         ans = false;
 
         {
-            EWAY_Way *ew_other;
+            EWAY_Way* ew_other;
 
             ASSERT(WITHIN(ec->arg1, 1, EWAY_way_upto - 1));
 
@@ -3274,7 +3274,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
                 if (ew->ed.arg2 == EWAY_MESSAGE_WHO_STREETNAME) {
                 } else if (ew->ed.arg2 == EWAY_MESSAGE_WHO_TUTORIAL) {
                 } else {
-                    Thing *who_says = nullptr;
+                    Entity* who_says = nullptr;
 
                     if (ew->ed.arg2) {
                         std::int32_t who = EWAY_get_person(ew->ed.arg2);
@@ -3324,7 +3324,7 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
     }
 
     if ((ew->ed.type == EWAY_DO_CONVERSATION || ew->ed.type == EWAY_DO_AMBIENT_CONV) && ans) {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         //
         // Make sure that Darci isn't jumping or falling through the air!
@@ -3344,8 +3344,8 @@ std::int32_t EWAY_evaluate_condition(EWAY_Way *ew, EWAY_Cond *ec, std::int32_t E
         if (!person1 || !person2) {
             ans = false;
         } else {
-            Thing *p_person1 = TO_THING(person1);
-            Thing *p_person2 = TO_THING(person2);
+            Entity* p_person1 = TO_THING(person1);
+            Entity* p_person2 = TO_THING(person2);
 
             if (!person_ok_for_conversation(p_person1) ||
                 !person_ok_for_conversation(p_person2)) {
@@ -3396,8 +3396,8 @@ void EWAY_create_camera(std::int32_t waypoint) {
 
     ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
-    EWAY_Way *ew;
-    EWAY_Way *ew_target;
+    EWAY_Way* ew;
+    EWAY_Way* ew_target;
 
     ew = &EWAY_way[waypoint];
 
@@ -3469,9 +3469,9 @@ void EWAY_process_camera() {
     std::int32_t look_z;
     std::int32_t look_yaw = 0;
 
-    EWAY_Way *ew_go;
-    EWAY_Way *ew_look;
-    EWAY_Way *ew_next;
+    EWAY_Way* ew_go;
+    EWAY_Way* ew_look;
+    EWAY_Way* ew_next;
 
     ANNOYINGSCRIBBLECHECK;
 
@@ -3501,7 +3501,7 @@ void EWAY_process_camera() {
     //
 
     if (EWAY_cam_thing) {
-        Thing *p_thing = TO_THING(EWAY_cam_thing);
+        Entity* p_thing = TO_THING(EWAY_cam_thing);
 
         look_x = (p_thing->WorldPos.X >> 8);
         look_y = (p_thing->WorldPos.Y >> 8) + 0xa0;
@@ -3556,7 +3556,7 @@ void EWAY_process_camera() {
             if (ew_look->ed.arg1) {
                 ASSERT(WITHIN(ew_look->ed.arg1, 1, EWAY_way_upto - 1));
 
-                EWAY_Way *ew_thing;
+                EWAY_Way* ew_thing;
 
                 ew_thing = &EWAY_way[ew_look->ed.arg1];
 
@@ -3569,7 +3569,7 @@ void EWAY_process_camera() {
                     // Yes! Look at the thing.
                     //
 
-                    Thing *p_thing = TO_THING(ew_thing->ed.arg1);
+                    Entity* p_thing = TO_THING(ew_thing->ed.arg1);
 
                     look_x = (p_thing->WorldPos.X >> 8);
                     look_y = (p_thing->WorldPos.Y >> 8) + 0xa0;
@@ -3610,7 +3610,7 @@ void EWAY_process_camera() {
                     THING_FIND_LIVING);
 
                 if (look_index) {
-                    Thing *p_look = TO_THING(look_index);
+                    Entity* p_look = TO_THING(look_index);
 
                     look_x = p_look->WorldPos.X >> 8;
                     look_y = p_look->WorldPos.Y >> 8;
@@ -4058,8 +4058,8 @@ void EWAY_finish_conversation() {
 //
 
 void EWAY_process_conversation() {
-    char *ch;
-    char *str;
+    char* ch;
+    char* str;
 
     ANNOYINGSCRIBBLECHECK;
 
@@ -4205,8 +4205,8 @@ void EWAY_process_conversation() {
     //
 
     {
-        Thing *p_person_a = TO_THING(EWAY_conv_person_a);
-        Thing *p_person_b = TO_THING(EWAY_conv_person_b);
+        Entity* p_person_a = TO_THING(EWAY_conv_person_a);
+        Entity* p_person_b = TO_THING(EWAY_conv_person_b);
 
         if ((p_person_a->SubState != SUB_STATE_SIMPLE_ANIM && p_person_a->SubState != SUB_STATE_SIMPLE_ANIM_OVER && p_person_a->State != STATE_IDLE) ||
             (p_person_b->SubState != SUB_STATE_SIMPLE_ANIM && p_person_b->SubState != SUB_STATE_SIMPLE_ANIM_OVER && p_person_b->State != STATE_IDLE)) {
@@ -4225,7 +4225,7 @@ void EWAY_process_conversation() {
 // Processes a waypoint that is emitting steam.
 //
 
-void EWAY_process_emit_steam(EWAY_Way *ew) {
+void EWAY_process_emit_steam(EWAY_Way* ew) {
     std::int32_t tick;
 
     std::int32_t speed;
@@ -4305,7 +4305,7 @@ void EWAY_process_emit_steam(EWAY_Way *ew) {
 // Does what has to be done when a waypoint goes active.
 //
 
-void EWAY_set_active(EWAY_Way *ew) {
+void EWAY_set_active(EWAY_Way* ew) {
     std::int32_t has;
 
     ANNOYINGSCRIBBLECHECK;
@@ -4341,7 +4341,7 @@ void EWAY_set_active(EWAY_Way *ew) {
     case EWAY_DO_CREATE_ENEMY:
         // #ifndef PSX
         {
-            EWAY_Edef *ee;
+            EWAY_Edef* ee;
 
             ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
 
@@ -4372,10 +4372,10 @@ void EWAY_set_active(EWAY_Way *ew) {
     case EWAY_DO_CREATE_ITEM:
 
         extern void find_nice_place_near_person(
-            Thing * p_person,
-            std::int32_t * nice_x, // 8-bits per mapsquare
-            std::int32_t * nice_y,
-            std::int32_t * nice_z);
+            Entity * p_person,
+            std::int32_t* nice_x, // 8-bits per mapsquare
+            std::int32_t* nice_y,
+            std::int32_t* nice_z);
 
         if ((ew->ed.arg1 & EWAY_ARG_ITEM_FOLLOW_PERSON) &&
             ((ew->ec.type == EWAY_COND_KILLED_NOT_ARRESTED) ||
@@ -4395,7 +4395,7 @@ void EWAY_set_active(EWAY_Way *ew) {
                     std::int32_t item_y;
                     std::int32_t item_z;
 
-                    Thing *p_bloke = TO_THING(person);
+                    Entity* p_bloke = TO_THING(person);
 
                     find_nice_place_near_person(
                         p_bloke,
@@ -4511,7 +4511,7 @@ void EWAY_set_active(EWAY_Way *ew) {
 
         // water and similar stuff
         GameCoord posn;
-        Thing *pyro;
+        Entity* pyro;
 
         posn.X = ew->x << 8;
         posn.Y = ew->y << 8;
@@ -4592,7 +4592,7 @@ void EWAY_set_active(EWAY_Way *ew) {
                         LastKey = 0;
 #endif
                     } else {
-                        Thing *who_says = nullptr;
+                        Entity* who_says = nullptr;
 
                         if (ew->ed.arg2) {
                             std::int32_t who = EWAY_get_person(ew->ed.arg2);
@@ -4636,7 +4636,7 @@ void EWAY_set_active(EWAY_Way *ew) {
 
                                 std::int32_t yaw_car;
                                 if (NET_PERSON(0)->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-                                    Thing *p_vehicle = TO_THING(NET_PERSON(0)->Genus.Person->InCar);
+                                    Entity* p_vehicle = TO_THING(NET_PERSON(0)->Genus.Person->InCar);
                                     ASSERT(p_vehicle != nullptr);
                                     yaw_car = p_vehicle->Genus.Vehicle->Angle;
                                     // 2048 in a ful circle. and the car normally crosses at 1024,
@@ -4739,7 +4739,7 @@ void EWAY_set_active(EWAY_Way *ew) {
         //
 
         {
-            char *str;
+            char* str;
 
             if (!WITHIN(ew->ed.arg1, 0, EWAY_MAX_MESSES - 1)) {
                 CONSOLE_text("Too many navbeacon messages for the waypoint system! Tell Mark!");
@@ -4834,7 +4834,7 @@ void EWAY_set_active(EWAY_Way *ew) {
         ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
 
         {
-            EWAY_Edef *ee = &EWAY_edef[ew->index];
+            EWAY_Edef* ee = &EWAY_edef[ew->index];
 
             std::int32_t change = EWAY_get_person(ew->ed.arg1);
 
@@ -4849,7 +4849,7 @@ void EWAY_set_active(EWAY_Way *ew) {
 #endif
 #endif
             } else {
-                Thing *p_change = TO_THING(change);
+                Entity* p_change = TO_THING(change);
 
                 PCOM_change_person_attributes(
                     p_change,
@@ -4880,11 +4880,11 @@ void EWAY_set_active(EWAY_Way *ew) {
 #endif
 #endif
         } else {
-            Thing *p_change = TO_THING(change);
+            Entity* p_change = TO_THING(change);
 
             p_change->Genus.Person->pcom_bent = ew->ed.arg2;
             p_change->Genus.Person->pcom_zone = ew->ed.arg2 >> 8;
-            extern void PCOM_set_person_ai_normal(Thing * p_person);
+            extern void PCOM_set_person_ai_normal(Entity * p_person);
             PCOM_set_person_ai_normal(p_change);
         }
     } break;
@@ -4946,7 +4946,7 @@ void EWAY_set_active(EWAY_Way *ew) {
 #endif
 #endif
         } else {
-            EWAY_Way *ewk = &EWAY_way[ew->ed.arg1];
+            EWAY_Way* ewk = &EWAY_way[ew->ed.arg1];
 
             ewk->flag |= EWAY_FLAG_DEAD;
 
@@ -4956,7 +4956,7 @@ void EWAY_set_active(EWAY_Way *ew) {
 
             if (ewk->ed.type == EWAY_DO_CREATE_ENEMY) {
                 if (ewk->ed.arg1) {
-                    Thing *p_person = TO_THING(ewk->ed.arg1);
+                    Entity* p_person = TO_THING(ewk->ed.arg1);
 
                     ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -4984,14 +4984,14 @@ void EWAY_set_active(EWAY_Way *ew) {
                 }
             } else if (ewk->ed.type == EWAY_DO_CREATE_VEHICLE) {
                 if (ewk->ed.arg1) {
-                    Thing *p_vehicle = TO_THING(ewk->ed.arg1);
+                    Entity* p_vehicle = TO_THING(ewk->ed.arg1);
 
                     if (p_vehicle->Class == CLASS_VEHICLE) {
                         //
                         // Make the vehicle blow up!
                         //
 
-                        extern void VEH_reduce_health(Thing * p_car, Thing * p_person, std::int32_t damage);
+                        extern void VEH_reduce_health(Entity * p_car, Entity * p_person, std::int32_t damage);
 
                         VEH_reduce_health(
                             p_vehicle,
@@ -5033,7 +5033,7 @@ void EWAY_set_active(EWAY_Way *ew) {
                 std::int32_t person = EWAY_get_person(ewk->ed.arg1);
 
                 if (person) {
-                    Thing *p_person = TO_THING(person);
+                    Entity* p_person = TO_THING(person);
 
                     ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -5049,10 +5049,10 @@ void EWAY_set_active(EWAY_Way *ew) {
                 //
 
                 if (ewk->ed.arg1) {
-                    Thing *p_barrel = TO_THING(ewk->ed.arg1);
+                    Entity* p_barrel = TO_THING(ewk->ed.arg1);
 
                     if (p_barrel->Class == CLASS_BARREL) {
-                        void BARREL_dissapear(Thing * p_barrel);
+                        void BARREL_dissapear(Entity * p_barrel);
 
                         BARREL_dissapear(p_barrel);
                     }
@@ -5070,7 +5070,7 @@ void EWAY_set_active(EWAY_Way *ew) {
         std::uint16_t mess = ew->ed.arg1;
         std::int32_t percent = ew->ed.arg2 * CRIME_RATE_SCORE_MUL >> 8;
 
-        char *str;
+        char* str;
 
         if (!WITHIN(mess, 0, EWAY_MAX_MESSES - 1)) {
             str = "Too many messages for the waypoint system! Tell Mark!";
@@ -5174,10 +5174,10 @@ void EWAY_set_active(EWAY_Way *ew) {
                 //
 
                 {
-                    Thing *p_person_a = TO_THING(person_a);
-                    Thing *p_person_b = TO_THING(person_b);
+                    Entity* p_person_a = TO_THING(person_a);
+                    Entity* p_person_b = TO_THING(person_b);
 
-                    extern void push_people_apart(Thing * p_person, Thing * p_avoid);
+                    extern void push_people_apart(Entity * p_person, Entity * p_avoid);
 
                     push_people_apart(
                         p_person_a,
@@ -5241,7 +5241,7 @@ void EWAY_set_active(EWAY_Way *ew) {
 #endif
 #endif
         } else {
-            Thing *p_person = TO_THING(i_player);
+            Entity* p_person = TO_THING(i_player);
 
             //
             // first, preserve roper/darci's stats in the_game for saving later
@@ -5332,7 +5332,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
     case EWAY_DO_LOCK_VEHICLE:
 
     {
-        Thing *p_vehicle;
+        Entity* p_vehicle;
 
         if (!WITHIN(ew->ed.arg1, 1, EWAY_way_upto - 1)) {
 #ifndef FINAL
@@ -5341,10 +5341,10 @@ extern std::int32_t	SAVE_ingame(char* fname);
 #endif
 #endif
         } else {
-            EWAY_Way *ewv = &EWAY_way[ew->ed.arg1];
+            EWAY_Way* ewv = &EWAY_way[ew->ed.arg1];
 
             if (ewv->ed.arg1) {
-                Thing *p_vehicle = TO_THING(ewv->ed.arg1);
+                Entity* p_vehicle = TO_THING(ewv->ed.arg1);
 
                 if (p_vehicle->Class != CLASS_VEHICLE) {
 #ifndef FINAL
@@ -5384,7 +5384,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
     {
         std::int32_t i;
 
-        EWAY_Way *ewr;
+        EWAY_Way* ewr;
 
         for (i = 1; i < EWAY_way_upto; i++) {
             //					global_write4=i;
@@ -5472,7 +5472,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
         std::uint16_t veh = EWAY_get_person(ew->ed.arg1);
 
         if (veh) {
-            Thing *p_vehicle = TO_THING(veh);
+            Entity* p_vehicle = TO_THING(veh);
 
             ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
@@ -5485,7 +5485,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
     case EWAY_DO_EXTEND_COUNTDOWN:
 
         if (WITHIN(ew->ed.arg1, 1, EWAY_way_upto - 1)) {
-            EWAY_Way *ew_other = &EWAY_way[ew->ed.arg1];
+            EWAY_Way* ew_other = &EWAY_way[ew->ed.arg1];
 
             if (ew_other->ec.type == EWAY_COND_COUNTDOWN_SEE ||
                 ew_other->ec.type == EWAY_COND_COUNTDOWN) {
@@ -5506,7 +5506,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
         std::uint16_t i_thing = EWAY_get_person(ew->ed.arg1);
 
         if (i_thing) {
-            Thing *p_thing = TO_THING(i_thing);
+            Entity* p_thing = TO_THING(i_thing);
 
             if (p_thing->State == STATE_DEAD) {
                 //
@@ -5544,7 +5544,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
         std::int32_t person = EWAY_get_person(ew->ed.arg1);
 
         if (person) {
-            Thing *p_person = TO_THING(person);
+            Entity* p_person = TO_THING(person);
 
             ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -5655,7 +5655,7 @@ extern std::int32_t	SAVE_ingame(char* fname);
 // Does what has to be done when a waypoint goes inactive.
 //
 
-void EWAY_set_inactive(EWAY_Way *ew) {
+void EWAY_set_inactive(EWAY_Way* ew) {
     ANNOYINGSCRIBBLECHECK;
 
     ew->flag &= ~EWAY_FLAG_ACTIVE;
@@ -5790,7 +5790,7 @@ extern std::int16_t people_types[50];
 void count_people_types() {
     return;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
     std::int32_t i;
 
     for (i = 1; i < EWAY_way_upto; i++) {
@@ -5810,7 +5810,7 @@ void EWAY_process() {
 
     ANNOYINGSCRIBBLECHECK;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
     std::int32_t offset, step; //,start,end;
     std::int32_t eway_max = EWAY_way_upto;
 
@@ -6043,9 +6043,9 @@ void EWAY_process() {
 
 void EWAY_get_position(
     std::int32_t waypoint,
-    std::int32_t *world_x,
-    std::int32_t *world_y,
-    std::int32_t *world_z) {
+    std::int32_t* world_x,
+    std::int32_t* world_y,
+    std::int32_t* world_z) {
     ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
     *world_x = EWAY_way[waypoint].x;
@@ -6072,7 +6072,7 @@ std::uint16_t EWAY_get_person(std::int32_t waypoint) {
 
     ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     ew = &EWAY_way[waypoint];
 
@@ -6096,7 +6096,7 @@ std::int32_t EWAY_find_waypoint(
     std::uint8_t only_active) {
     std::int32_t i;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         //		global_write6=i;
@@ -6134,7 +6134,7 @@ std::int32_t EWAY_find_waypoint_rand(
     std::int32_t i;
     std::int32_t ans;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
 #define EWAY_FIND_RAND_MAX 32
 
@@ -6201,7 +6201,7 @@ std::int32_t EWAY_find_nearest_waypoint(
     std::int32_t best_dist = INFINITY;
     std::int32_t best_waypoint = EWAY_NO_MATCH;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         ew = &EWAY_way[i];
@@ -6232,13 +6232,13 @@ std::int32_t EWAY_find_nearest_waypoint(
 }
 
 std::int32_t EWAY_grab_camera(
-    std::int32_t *cam_x,
-    std::int32_t *cam_y,
-    std::int32_t *cam_z,
-    std::int32_t *cam_yaw,
-    std::int32_t *cam_pitch,
-    std::int32_t *cam_roll,
-    std::int32_t *cam_lens) {
+    std::int32_t* cam_x,
+    std::int32_t* cam_y,
+    std::int32_t* cam_z,
+    std::int32_t* cam_yaw,
+    std::int32_t* cam_pitch,
+    std::int32_t* cam_roll,
+    std::int32_t* cam_lens) {
     if (EWAY_cam_active) {
         //
         // If there is analogue control and the player is still moving
@@ -6285,7 +6285,7 @@ std::uint8_t EWAY_camera_warehouse() {
 }
 
 void EWAY_item_pickedup(std::int32_t waypoint) {
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
@@ -6297,7 +6297,7 @@ void EWAY_item_pickedup(std::int32_t waypoint) {
 }
 
 std::int32_t EWAY_get_delay(std::int32_t waypoint, std::int32_t default_delay) {
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     if (waypoint == 0) {
         return default_delay;
@@ -6319,7 +6319,7 @@ std::int32_t EWAY_get_delay(std::int32_t waypoint, std::int32_t default_delay) {
 }
 
 std::int32_t EWAY_is_active(std::int32_t waypoint) {
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     ASSERT(WITHIN(waypoint, 1, EWAY_way_upto - 1));
 
@@ -6336,7 +6336,7 @@ std::int32_t EWAY_used_person(std::uint16_t t_index) {
     std::uint16_t i;
     std::int32_t ans = false;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     //
     // Go through EVERY WAYPOINT looking for a waypoint with a condition
@@ -6359,7 +6359,7 @@ std::int32_t EWAY_used_person(std::uint16_t t_index) {
             ASSERT(WITHIN(ew->ec.arg1, 1, EWAY_way_upto - 1));
 
             if (EWAY_way[ew->ec.arg1].ed.type == EWAY_DO_CREATE_ENEMY) {
-                EWAY_Way *ew2 = &EWAY_way[ew->ec.arg1];
+                EWAY_Way* ew2 = &EWAY_way[ew->ec.arg1];
 
                 if (ew2->ed.arg1 == t_index) {
                     //
@@ -6407,7 +6407,7 @@ void EWAY_work_out_which_ones_are_in_warehouses() {
     std::int32_t i;
     std::int32_t id;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         //		global_write10=i;
@@ -6436,11 +6436,11 @@ void EWAY_work_out_which_ones_are_in_warehouses() {
 #define EWAY_CAM_VIEW_ANGLES 16 // Power of 2 please
 
 void EWAY_cam_get_position_for_angle(
-    Thing *p_thing,
+    Entity* p_thing,
     std::int32_t angle,
-    std::int32_t *vx,
-    std::int32_t *vy,
-    std::int32_t *vz) {
+    std::int32_t* vx,
+    std::int32_t* vy,
+    std::int32_t* vz) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -6463,7 +6463,7 @@ void EWAY_cam_get_position_for_angle(
 #endif
 #endif
 
-void EWAY_cam_converse(Thing *p_thing, Thing *p_listener) {
+void EWAY_cam_converse(Entity* p_thing, Entity* p_listener) {
     std::int32_t i;
     std::int32_t j;
 
@@ -6759,15 +6759,15 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener) {
 
 #ifdef MATTS_BUGGY_VERSION
 
-void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, std::uint8_t cam_flags) {
+void EWAY_cam_converse(Entity* p_thing, Entity* p_listener, std::uint8_t cam_flags) {
     std::int32_t thing_yaw, yaw;
     std::int32_t dx, dy, dz;
     std::int32_t cx, cy, cz;
     GameCoord targ;
     static std::uint8_t lineside = 0;
     static std::uint16_t tick = 0;
-    static Thing *p_last1 = 0;
-    static Thing *p_last2 = 0;
+    static Entity* p_last1 = 0;
+    static Entity* p_last2 = 0;
     static std::uint8_t lastflags = 0;
 
     // debug force:
@@ -6905,7 +6905,7 @@ void EWAY_cam_converse(Thing *p_thing, Thing *p_listener, std::uint8_t cam_flags
 #endif
 #ifndef PSX
 #ifndef TARGET_DC
-void EWAY_cam_look_at(Thing *p_thing) {
+void EWAY_cam_look_at(Entity* p_thing) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -7070,10 +7070,10 @@ void EWAY_cam_relinquish() {
     */
 }
 
-std::int32_t EWAY_find_or_create_waypoint_that_created_person(Thing *p_person) {
+std::int32_t EWAY_find_or_create_waypoint_that_created_person(Entity* p_person) {
     std::int32_t i;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         //		global_write11=i;
@@ -7096,8 +7096,8 @@ std::int32_t EWAY_find_or_create_waypoint_that_created_person(Thing *p_person) {
 }
 
 std::int32_t EWAY_conversation_happening(
-    THING_INDEX *person_a,
-    THING_INDEX *person_b) {
+    THING_INDEX* person_a,
+    THING_INDEX* person_b) {
     if (EWAY_conv_active) {
         *person_a = EWAY_conv_person_a;
         *person_b = EWAY_conv_person_b;
@@ -7111,7 +7111,7 @@ std::int32_t EWAY_conversation_happening(
 void EWAY_prim_activated(std::int32_t ob_index) {
     std::int32_t i;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         //		global_write12=i;
@@ -7128,7 +7128,7 @@ void EWAY_prim_activated(std::int32_t ob_index) {
 void EWAY_deduct_time_penalty(std::int32_t time_to_deduct_in_hundreths_of_a_second) {
     std::int32_t i;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 0; i < EWAY_MAX_WAYS; i++) {
         ew = &EWAY_way[i];
@@ -7152,8 +7152,8 @@ void EWAY_deduct_time_penalty(std::int32_t time_to_deduct_in_hundreths_of_a_seco
 
 #ifdef UNFINISHED
 void flag_undeletable_people() {
-    EWAY_Way *ew;
-    EWAY_Cond *ec;
+    EWAY_Way* ew;
+    EWAY_Cond* ec;
     std::int32_t i;
 
     for (i = 1; i < eway_max; i++) {
@@ -7176,7 +7176,7 @@ void flag_undeletable_people() {
                 ASSERT(WITHIN(ec->arg1, 1, EWAY_way_upto - 1));
 
                 if (EWAY_way[ec->arg1].ed.type == EWAY_DO_CREATE_ENEMY) {
-                    EWAY_Way *ew2 = &EWAY_way[ec->arg1];
+                    EWAY_Way* ew2 = &EWAY_way[ec->arg1];
 
                     if (ew2->ed.arg1) {
                         //
@@ -7216,7 +7216,7 @@ void flag_undeletable_people() {
                 std::uint16_t index = EWAY_way[ec->arg1].ed.arg1;
 
                 if (index) {
-                    Thing *p_person = TO_THING(index);
+                    Entity* p_person = TO_THING(index);
 
                     ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -7228,8 +7228,8 @@ void flag_undeletable_people() {
             std::int32_t waypoint;
             std::int32_t index;
 
-            Thing *p_thing;
-            EWAY_Way *ew_dead;
+            Entity* p_thing;
+            EWAY_Way* ew_dead;
 
             waypoint = ec->arg1;
 
@@ -7299,7 +7299,7 @@ void flag_undeletable_people() {
 // saved in the DAD file.
 void EWAY_reactivate_waypoints_that_arent_in_the_dad_file() {
     for (int i = 0; i < EWAY_way_upto; i++) {
-        EWAY_Way *ew = &EWAY_way[i];
+        EWAY_Way* ew = &EWAY_way[i];
 
         switch (ew->ed.type) {
         case EWAY_DO_CREATE_MIST:

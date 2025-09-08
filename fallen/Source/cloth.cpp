@@ -167,7 +167,7 @@ void CLOTH_init() {
             {0,  +1}
     };
 
-    CLOTH_Normal *cn;
+    CLOTH_Normal* cn;
 
     //
     // Mark all the cloth as unused.
@@ -286,8 +286,8 @@ std::uint8_t CLOTH_create(
     std::uint8_t map_x;
     std::uint8_t map_z;
 
-    CLOTH_Cloth *cc;
-    CLOTH_Point *cp;
+    CLOTH_Cloth* cc;
+    CLOTH_Point* cp;
 
     //
     // Look for an unused cloth.
@@ -389,7 +389,7 @@ found_unused_cloth:;
 }
 
 void CLOTH_point_lock(std::uint8_t cloth, std::uint8_t w, std::uint8_t h) {
-    CLOTH_Cloth *cc;
+    CLOTH_Cloth* cc;
 
     ASSERT(WITHIN(cloth, 1, CLOTH_MAX_CLOTH - 1));
     ASSERT(WITHIN(w, 0, CLOTH_WIDTH - 1));
@@ -401,8 +401,8 @@ void CLOTH_point_lock(std::uint8_t cloth, std::uint8_t w, std::uint8_t h) {
 }
 
 void CLOTH_point_move(std::uint8_t cloth, std::uint8_t w, std::uint8_t h, std::int32_t x, std::int32_t y, std::int32_t z) {
-    CLOTH_Cloth *cc;
-    CLOTH_Point *cp;
+    CLOTH_Cloth* cc;
+    CLOTH_Point* cp;
 
     ASSERT(WITHIN(cloth, 1, CLOTH_MAX_CLOTH - 1));
     ASSERT(WITHIN(w, 0, CLOTH_WIDTH - 1));
@@ -617,7 +617,7 @@ std::uint8_t CLOTH_get_first(std::uint8_t lo_map_x, std::uint8_t lo_map_z) {
 
 CLOTH_Info CLOTH_info;
 
-CLOTH_Info *CLOTH_get_info(std::uint8_t cloth) {
+CLOTH_Info* CLOTH_get_info(std::uint8_t cloth) {
     std::int32_t i;
     std::int32_t j;
 
@@ -639,12 +639,12 @@ CLOTH_Info *CLOTH_get_info(std::uint8_t cloth) {
     float cy;
     float cz;
 
-    CLOTH_Cloth *cc;
-    CLOTH_Point *cp;
-    CLOTH_Point *cp1;
-    CLOTH_Point *cp2;
-    CLOTH_Drawp *cd;
-    CLOTH_Normal *cn;
+    CLOTH_Cloth* cc;
+    CLOTH_Point* cp;
+    CLOTH_Point* cp1;
+    CLOTH_Point* cp2;
+    CLOTH_Drawp* cd;
+    CLOTH_Normal* cn;
 
     ASSERT(WITHIN(cloth, 1, CLOTH_MAX_CLOTH - 1));
 

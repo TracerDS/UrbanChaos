@@ -20,7 +20,7 @@
 std::int32_t enemyf_flags,
     enemyf_to_change;
 
-extern char *WaypointExtra(EventPoint *ep, char *msg);
+extern char* WaypointExtra(EventPoint* ep, char* msg);
 #define STR_LEN 800
 
 //---------------------------------------------------------------
@@ -105,7 +105,7 @@ bool CALLBACK efs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_enemy_flags_setup(EventPoint *the_ep) {
+void do_enemy_flags_setup(EventPoint* the_ep) {
     //	Set the dialog.
     enemyf_to_change = the_ep->Data[0];
     enemyf_flags = the_ep->Data[1];

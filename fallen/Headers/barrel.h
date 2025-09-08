@@ -78,7 +78,7 @@ std::uint16_t BARREL_alloc(
 // Returns the position on a burning barrel for where the flame should start.
 //
 
-GameCoord BARREL_fire_pos(Thing *p_barrel);
+GameCoord BARREL_fire_pos(Entity *p_barrel);
 
 //
 // For a moving vehicle- for instance.
@@ -102,8 +102,8 @@ void BARREL_hit_with_sphere(
 //
 
 void BARREL_shoot(
-    Thing *p_barrel,
-    Thing *p_shooter);
+    Entity *p_barrel,
+    Entity *p_shooter);
 
 //
 // Lets people pick up barrels.  This function positions the given barrel
@@ -112,7 +112,7 @@ void BARREL_shoot(
 // BARREL_throw()
 //
 
-void BARREL_position_on_hands(Thing *p_barrel, Thing *p_person);
-void BARREL_throw(Thing *p_barrel);
+void BARREL_position_on_hands(Entity *p_barrel, Entity *p_person);
+void BARREL_throw(Entity *p_barrel);
 
 #endif

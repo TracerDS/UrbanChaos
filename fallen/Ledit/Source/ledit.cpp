@@ -16,7 +16,7 @@
 #include "inside2.h"
 #include "memory.h"
 
-extern std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *room);
+extern std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t* room);
 
 HINSTANCE LEDIT_hinstance;
 
@@ -42,10 +42,10 @@ HWND LEDIT_handle_bpyellow;
 HWND LEDIT_handle_bpblue;
 HWND LEDIT_handle_bpred;
 
-const char *LEDIT_name_frame = "Urban Chaos lighting editor";
-const char *LEDIT_name_engine = "Engine view";
-const char *LEDIT_name_light = "Light info";
-const char *LEDIT_name_colour = "Color box";
+const char* LEDIT_name_frame = "Urban Chaos lighting editor";
+const char* LEDIT_name_engine = "Engine view";
+const char* LEDIT_name_light = "Light info";
+const char* LEDIT_name_colour = "Color box";
 
 HMENU LEDIT_main_menu;
 HACCEL LEDIT_accel;
@@ -433,7 +433,7 @@ void LEDIT_set_state_look() {
     // Update the menu.
     //
 
-    DrawMenuBar((struct HWND__ *) LEDIT_main_menu);
+    DrawMenuBar((struct HWND__*) LEDIT_main_menu);
 }
 
 //
@@ -516,7 +516,7 @@ void LEDIT_sync_colours() {
         if (LEDIT_edit_light) {
             ASSERT(WITHIN(LEDIT_edit_light, 1, ED_MAX_LIGHTS - 1));
 
-            ED_Light *el = &ED_light[LEDIT_edit_light];
+            ED_Light* el = &ED_light[LEDIT_edit_light];
 
             red = abs(el->red) << 1;
             green = abs(el->green) << 1;
@@ -606,7 +606,7 @@ void LEDIT_make_undoable() {
     EnableMenuItem(LEDIT_main_menu, ID_EDIT_UNDO_ARSE, (ED_undo_undo_valid()) ? MF_ENABLED : MF_GRAYED);
     EnableMenuItem(LEDIT_main_menu, ID_EDIT_REDO_ARSE, (ED_undo_redo_valid()) ? MF_ENABLED : MF_GRAYED);
 
-    DrawMenuBar((struct HWND__ *) LEDIT_main_menu);
+    DrawMenuBar((struct HWND__*) LEDIT_main_menu);
 }
 
 void LEDIT_undo() {
@@ -641,7 +641,7 @@ void LEDIT_redo() {
 //
 
 void LEDIT_collide_window_rect(
-    RECT *rect,
+    RECT* rect,
     HWND ignore_window) {
     std::int32_t i;
 
@@ -776,10 +776,10 @@ void LEDIT_collide_window_rect(
 //
 
 void LEDIT_get_light_signed(
-    std::int32_t *red,
-    std::int32_t *green,
-    std::int32_t *blue,
-    std::int32_t *range) {
+    std::int32_t* red,
+    std::int32_t* green,
+    std::int32_t* blue,
+    std::int32_t* range) {
     std::int32_t pos_red;
     std::int32_t pos_green;
     std::int32_t pos_blue;
@@ -818,10 +818,10 @@ void LEDIT_get_light_signed(
 }
 
 void LEDIT_get_light_unsigned(
-    std::int32_t *red,
-    std::int32_t *green,
-    std::int32_t *blue,
-    std::int32_t *range) {
+    std::int32_t* red,
+    std::int32_t* green,
+    std::int32_t* blue,
+    std::int32_t* range) {
     std::int32_t pos_red;
     std::int32_t pos_green;
     std::int32_t pos_blue;
@@ -1068,7 +1068,7 @@ void LEDIT_request_exit() {
 // Loads a new map.
 //
 
-void LEDIT_load_map(char *name) {
+void LEDIT_load_map(char* name) {
     if (ED_undo_undo_valid()) {
         switch (MessageBox(
             LEDIT_handle_frame,
@@ -1193,7 +1193,7 @@ void LEDIT_process() {
 
     std::uint8_t highlight;
 
-    ED_Light *el;
+    ED_Light* el;
 
     if (!LEDIT_map_valid) {
         //
@@ -1327,7 +1327,7 @@ void LEDIT_process() {
                                 INDOORS_INDEX = calc_inside_for_xyz(LEDIT_mouse_world_x,LEDIT_mouse_world_y-128,LEDIT_mouse_world_z,&INDOORS_ROOM);
                         }*/
         if (LEDIT_insides) {
-            ED_Light *el = 0;
+            ED_Light* el = 0;
             std::int32_t ei;
             ei = (LEDIT_mode == LEDIT_MODE_PLACE_LIGHT) ? LEDIT_last_placed : LEDIT_edit_light;
             if (ei) el = &ED_light[ei];                                                      // else TRACE("no ei\n");
@@ -1476,7 +1476,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
             // Move the edit light to the new place.
             //
 
-            ED_Light *el = &ED_light[LEDIT_edit_light];
+            ED_Light* el = &ED_light[LEDIT_edit_light];
 
             ED_light_move(
                 LEDIT_edit_light,
@@ -1490,7 +1490,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
             // Move the light we last placed to the new position.
             //
 
-            ED_Light *el = &ED_light[LEDIT_last_placed];
+            ED_Light* el = &ED_light[LEDIT_last_placed];
 
             ED_light_move(
                 LEDIT_last_placed,
@@ -1573,7 +1573,7 @@ LRESULT CALLBACK LEDIT_callback_frame(
         case ID_EDIT_INSIDES:
             LEDIT_insides ^= 1;
             CheckMenuItem(LEDIT_main_menu, ID_EDIT_INSIDES, MF_BYCOMMAND | (LEDIT_insides ? MF_CHECKED : MF_UNCHECKED));
-            DrawMenuBar((struct HWND__ *) LEDIT_main_menu);
+            DrawMenuBar((struct HWND__*) LEDIT_main_menu);
             break;
 
         case ID_EDIT_PLACELIGHT:
@@ -1777,7 +1777,7 @@ LRESULT CALLBACK LEDIT_callback_engine(
     std::int32_t world_y;
     std::int32_t world_z;
 
-    ED_Light *el;
+    ED_Light* el;
 
     switch (message_type) {
     case WM_PAINT:
@@ -1956,7 +1956,7 @@ LRESULT CALLBACK LEDIT_callback_engine(
     case WM_MOVING:
 
         LEDIT_collide_window_rect(
-            (RECT *) param_l,
+            (RECT*) param_l,
             window_handle);
 
         break;
@@ -1992,7 +1992,7 @@ LRESULT CALLBACK LEDIT_callback_light(
     case WM_MOVING:
 
         LEDIT_collide_window_rect(
-            (RECT *) param_l,
+            (RECT*) param_l,
             window_handle);
 
         break;
@@ -2191,7 +2191,7 @@ LRESULT CALLBACK LEDIT_callback_colour(
 
         cc.lStructSize = sizeof(cc);
         cc.hwndOwner = window_handle;
-        cc.hInstance = (struct HWND__ *) LEDIT_hinstance;
+        cc.hInstance = (struct HWND__*) LEDIT_hinstance;
         cc.lpCustColors = cr;
         cc.Flags = CC_ANYCOLOR | CC_RGBINIT | CC_FULLOPEN;
         cc.lCustData = 0;
@@ -2267,7 +2267,7 @@ void LEDIT_do() {
     LEDIT_class_frame.hIcon = LEDIT_icon;
     LEDIT_class_frame.hIconSm = LEDIT_icon;
     LEDIT_class_frame.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    LEDIT_class_frame.hbrBackground = (struct HBRUSH__ *) GetStockObject(WHITE_BRUSH);
+    LEDIT_class_frame.hbrBackground = (struct HBRUSH__*) GetStockObject(WHITE_BRUSH);
 
     if (!RegisterClassEx(&LEDIT_class_frame)) {
         //
@@ -2368,7 +2368,7 @@ void LEDIT_do() {
     LEDIT_class_engine.hIcon = nullptr;
     LEDIT_class_engine.hIconSm = nullptr;
     LEDIT_class_engine.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    LEDIT_class_engine.hbrBackground = (struct HBRUSH__ *) GetStockObject(GRAY_BRUSH);
+    LEDIT_class_engine.hbrBackground = (struct HBRUSH__*) GetStockObject(GRAY_BRUSH);
 
     if (RegisterClassEx(&LEDIT_class_engine) == 0) {
         //
@@ -2417,7 +2417,7 @@ void LEDIT_do() {
     LEDIT_class_light.hIcon = nullptr;
     LEDIT_class_light.hIconSm = nullptr;
     LEDIT_class_light.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    LEDIT_class_light.hbrBackground = (struct HBRUSH__ *) GetStockObject(LTGRAY_BRUSH);
+    LEDIT_class_light.hbrBackground = (struct HBRUSH__*) GetStockObject(LTGRAY_BRUSH);
 
     if (RegisterClassEx(&LEDIT_class_light) == 0) {
         //
@@ -2622,7 +2622,7 @@ void LEDIT_do() {
     LEDIT_class_colour.hIcon = nullptr;
     LEDIT_class_colour.hIconSm = nullptr;
     LEDIT_class_colour.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    LEDIT_class_colour.hbrBackground = (struct HBRUSH__ *) GetStockObject(BLACK_BRUSH);
+    LEDIT_class_colour.hbrBackground = (struct HBRUSH__*) GetStockObject(BLACK_BRUSH);
 
     if (RegisterClassEx(&LEDIT_class_colour) == 0) {
         //

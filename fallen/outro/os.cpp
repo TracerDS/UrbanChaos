@@ -36,7 +36,7 @@ HINSTANCE OS_last_instance;
 LPSTR OS_command_line;
 int OS_start_show_state;
 
-const char *OS_application_name = "Urban Chaos credits";
+const char* OS_application_name = "Urban Chaos credits";
 
 //
 // Our window class.
@@ -103,9 +103,9 @@ std::int32_t OS_midas_ok;
 //
 // ========================================================
 
-extern IDirectInput *OS_joy_direct_input;
-extern IDirectInputDevice *OS_joy_input_device;
-extern IDirectInputDevice2 *OS_joy_input_device2; // We need this newer interface to poll the joystick.
+extern IDirectInput* OS_joy_direct_input;
+extern IDirectInputDevice* OS_joy_input_device;
+extern IDirectInputDevice2* OS_joy_input_device2; // We need this newer interface to poll the joystick.
 
 float OS_joy_x;
 float OS_joy_y;
@@ -414,14 +414,14 @@ struct OS_Texture {
     LPDIRECTDRAWSURFACE4 ddsurface;
     LPDIRECT3DTEXTURE2 ddtx;
 
-    OS_Texture *next;
+    OS_Texture* next;
 };
 
 //
 // They are stored in a linked list and dynamically allocated.
 //
 
-OS_Texture *OS_texture_head;
+OS_Texture* OS_texture_head;
 
 //
 // Returns the number of bits set in 'mask' with a rather cunning algorithm.
@@ -444,7 +444,7 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
     LPVOID context) {
     std::int32_t format;
 
-    OS_Tformat *otf = (OS_Tformat *) malloc(sizeof(OS_Tformat));
+    OS_Tformat* otf = (OS_Tformat*) malloc(sizeof(OS_Tformat));
 
     if (!otf) {
         //
@@ -542,8 +542,8 @@ HRESULT CALLBACK OS_texture_enumerate_pixel_formats(
 
 void OS_calculate_mask_and_shift(
     std::uint32_t bitmask,
-    std::int32_t *mask,
-    std::int32_t *shift);
+    std::int32_t* mask,
+    std::int32_t* shift);
 #if 0
 {
 	std::int32_t i;
@@ -586,14 +586,14 @@ void OS_calculate_mask_and_shift(
 }
 #endif
 
-OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
+OS_Texture* OS_texture_create(char* fname, std::int32_t invert) {
     std::int32_t format;
 
-    OS_Texture *ot;
-    OS_Tformat *best_otf;
+    OS_Texture* ot;
+    OS_Tformat* best_otf;
 
     TGA_Info ti;
-    TGA_Pixel *data;
+    TGA_Pixel* data;
 
     char fullpath[_MAX_PATH];
 
@@ -612,7 +612,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
     // Allocate data for the texture.
     //
 
-    data = (TGA_Pixel *) malloc(256 * 256 * sizeof(TGA_Pixel));
+    data = (TGA_Pixel*) malloc(256 * 256 * sizeof(TGA_Pixel));
 
     if (!data) {
         //
@@ -702,7 +702,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
     // Create a new texture.
     //
 
-    ot = (OS_Texture *) malloc(sizeof(OS_Texture));
+    ot = (OS_Texture*) malloc(sizeof(OS_Texture));
 
     if (!ot) {
         //
@@ -754,7 +754,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
         &ot->ddsurface,
         nullptr);
 
-    const char *err;
+    const char* err;
 
     switch (res) {
     case DDERR_INCOMPATIBLEPRIMARY: err = "DDERR_INCOMPATIBLEPRIMARY			"; break;
@@ -791,7 +791,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
         std::int32_t i;
         std::int32_t j;
 
-        TGA_Pixel *tp;
+        TGA_Pixel* tp;
 
         //
         // Invert the texture.
@@ -831,7 +831,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
         std::int32_t j;
         std::uint16_t pixel_our;
         TGA_Pixel pixel_tga;
-        std::uint16_t *wscreen = (std::uint16_t *) ddsd.lpSurface;
+        std::uint16_t* wscreen = (std::uint16_t*) ddsd.lpSurface;
 
         //
         // 16 bits per pixel.
@@ -856,7 +856,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
     } else {
         std::int32_t i;
         std::int32_t j;
-        std::uint8_t *wscreen = (std::uint8_t *) ddsd.lpSurface;
+        std::uint8_t* wscreen = (std::uint8_t*) ddsd.lpSurface;
 
         //
         // 8 bits per pixel.
@@ -879,7 +879,7 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
     // Query the texture interface from the surface.
     //
 
-    VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void **) &ot->ddtx) == DD_OK);
+    VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void**) &ot->ddtx) == DD_OK);
 
     //
     // Insert this texture into the array.
@@ -897,9 +897,9 @@ OS_Texture *OS_texture_create(char *fname, std::int32_t invert) {
     return ot;
 }
 
-OS_Texture *OS_texture_create(std::int32_t size, std::int32_t format) {
-    OS_Texture *ot;
-    OS_Tformat *otf;
+OS_Texture* OS_texture_create(std::int32_t size, std::int32_t format) {
+    OS_Texture* ot;
+    OS_Tformat* otf;
 
     //
     // Make sure this texture is not too big.
@@ -962,7 +962,7 @@ OS_Texture *OS_texture_create(std::int32_t size, std::int32_t format) {
     // Create a new texture.
     //
 
-    ot = (OS_Texture *) malloc(sizeof(OS_Texture));
+    ot = (OS_Texture*) malloc(sizeof(OS_Texture));
 
     if (!ot) {
         //
@@ -1028,7 +1028,7 @@ OS_Texture *OS_texture_create(std::int32_t size, std::int32_t format) {
     // Query the texture interface from the surface.
     //
 
-    VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void **) &ot->ddtx) == DD_OK);
+    VERIFY(ot->ddsurface->QueryInterface(IID_IDirect3DTexture2, (void**) &ot->ddtx) == DD_OK);
 
     //
     // Insert this texture into the array.
@@ -1082,14 +1082,14 @@ void OS_texture_finished_creating() {
     */
 }
 
-std::int32_t OS_texture_size(OS_Texture *ot) {
+std::int32_t OS_texture_size(OS_Texture* ot) {
     return ot->size;
 }
 
 std::int32_t OS_bitmap_format;         // OS_TEXTURE_FORMAT_*
-std::uint16_t *OS_bitmap_uword_screen; // For 16-bit formats.
+std::uint16_t* OS_bitmap_uword_screen; // For 16-bit formats.
 std::int32_t OS_bitmap_uword_pitch;    // Pitch in UWORDS
-std::uint8_t *OS_bitmap_ubyte_screen;  // For the grayscale format.
+std::uint8_t* OS_bitmap_ubyte_screen;  // For the grayscale format.
 std::int32_t OS_bitmap_ubyte_pitch;    // Pitch in UBYTES
 std::int32_t OS_bitmap_width;
 std::int32_t OS_bitmap_height;
@@ -1102,8 +1102,8 @@ std::int32_t OS_bitmap_shift_g;
 std::int32_t OS_bitmap_shift_b;
 std::int32_t OS_bitmap_shift_a;
 
-void OS_texture_lock(OS_Texture *ot) {
-    OS_Tformat *otf;
+void OS_texture_lock(OS_Texture* ot) {
+    OS_Tformat* otf;
 
     HRESULT res;
 
@@ -1129,7 +1129,7 @@ void OS_texture_lock(OS_Texture *ot) {
         // 8-bits per pixel.
         //
 
-        OS_bitmap_ubyte_screen = (std::uint8_t *) ddsd.lpSurface;
+        OS_bitmap_ubyte_screen = (std::uint8_t*) ddsd.lpSurface;
         OS_bitmap_ubyte_pitch = ddsd.lPitch;
 
         OS_bitmap_uword_screen = nullptr;
@@ -1138,7 +1138,7 @@ void OS_texture_lock(OS_Texture *ot) {
         OS_bitmap_ubyte_screen = nullptr;
         OS_bitmap_ubyte_pitch = 0;
 
-        OS_bitmap_uword_screen = (std::uint16_t *) ddsd.lpSurface;
+        OS_bitmap_uword_screen = (std::uint16_t*) ddsd.lpSurface;
         OS_bitmap_uword_pitch = ddsd.lPitch >> 1;
     }
 
@@ -1155,7 +1155,7 @@ void OS_texture_lock(OS_Texture *ot) {
     OS_bitmap_shift_a = otf->shift_a;
 }
 
-void OS_texture_unlock(OS_Texture *ot) {
+void OS_texture_unlock(OS_Texture* ot) {
     //
     // Unlock the surface.
     //
@@ -1242,8 +1242,8 @@ void OS_pipeline_calculate() {
 
     OS_pipeline_method_mul = 0;
 
-    OS_Texture *ot1 = OS_texture_create(32, OS_TEXTURE_FORMAT_RGB);
-    OS_Texture *ot2 = OS_texture_create(32, OS_TEXTURE_FORMAT_RGB);
+    OS_Texture* ot1 = OS_texture_create(32, OS_TEXTURE_FORMAT_RGB);
+    OS_Texture* ot2 = OS_texture_create(32, OS_TEXTURE_FORMAT_RGB);
 
     while (1) {
         OS_init_renderstates();
@@ -1491,7 +1491,7 @@ void OS_undo_renderstate_type_changes() {
 //
 // ========================================================
 
-void OS_string(const char *fmt, ...) {
+void OS_string(const char* fmt, ...) {
     //
     // Work out the real message.
     //
@@ -1522,7 +1522,7 @@ void OS_ticks_reset() {
 //
 // ========================================================
 
-void OS_mouse_get(std::int32_t *x, std::int32_t *y) {
+void OS_mouse_get(std::int32_t* x, std::int32_t* y) {
     POINT point;
 
     GetCursorPos(&point);
@@ -2568,7 +2568,7 @@ void OS_transform(
     float world_x,
     float world_y,
     float world_z,
-    OS_Trans *os) {
+    OS_Trans* os) {
     os->x = world_x - OS_cam_x;
     os->y = world_y - OS_cam_y;
     os->z = world_z - OS_cam_z;
@@ -2684,7 +2684,7 @@ void OS_fps() {
         last_time = now;
     }
 
-    OS_Buffer *ob = OS_buffer_new();
+    OS_Buffer* ob = OS_buffer_new();
 
     for (i = 0; i < fps; i++) {
         switch ((i + 1) % 10) {
@@ -2766,25 +2766,25 @@ typedef struct os_buffer {
     std::int32_t max_flerts;
     std::int32_t max_indices;
 
-    OS_Flert *flert;
-    std::uint16_t *index;
+    OS_Flert* flert;
+    std::uint16_t* index;
 
-    OS_Buffer *next;
+    OS_Buffer* next;
 
 } OS_Buffer;
 
-OS_Buffer *OS_buffer_free;
+OS_Buffer* OS_buffer_free;
 
 //
 // Creates a new buffer.
 //
 
-OS_Buffer *OS_buffer_create() {
+OS_Buffer* OS_buffer_create() {
     //
     // Allocate the buffer.
     //
 
-    OS_Buffer *ob = (OS_Buffer *) malloc(sizeof(OS_Buffer));
+    OS_Buffer* ob = (OS_Buffer*) malloc(sizeof(OS_Buffer));
 
     //
     // Initialise the buffer.
@@ -2796,8 +2796,8 @@ OS_Buffer *OS_buffer_create() {
     ob->num_flerts = 0;
     ob->num_indices = 1;
 
-    ob->flert = (OS_Flert *) malloc(sizeof(OS_Flert) * ob->max_flerts);
-    ob->index = (std::uint16_t *) malloc(sizeof(std::uint16_t) * ob->max_indices);
+    ob->flert = (OS_Flert*) malloc(sizeof(OS_Flert) * ob->max_flerts);
+    ob->index = (std::uint16_t*) malloc(sizeof(std::uint16_t) * ob->max_indices);
 
     memset(ob->flert, 0, sizeof(OS_Flert) * ob->max_flerts);
     memset(ob->index, 0, sizeof(std::uint16_t) * ob->max_indices);
@@ -2812,8 +2812,8 @@ OS_Buffer *OS_buffer_create() {
 // it creates a new one.
 //
 
-OS_Buffer *OS_buffer_get() {
-    OS_Buffer *ans;
+OS_Buffer* OS_buffer_get() {
+    OS_Buffer* ans;
 
     if (OS_buffer_free) {
         ans = OS_buffer_free;
@@ -2830,13 +2830,13 @@ OS_Buffer *OS_buffer_get() {
 // Returns a buffer to the free list.
 //
 
-void OS_buffer_give(OS_Buffer *ob) {
+void OS_buffer_give(OS_Buffer* ob) {
     ob->next = OS_buffer_free;
     OS_buffer_free = ob;
 }
 
-OS_Buffer *OS_buffer_new() {
-    OS_Buffer *ob = OS_buffer_get();
+OS_Buffer* OS_buffer_new() {
+    OS_Buffer* ob = OS_buffer_get();
 
     ob->num_indices = 0;
     ob->num_flerts = 1;
@@ -2848,21 +2848,21 @@ OS_Buffer *OS_buffer_new() {
 // Grows the size of the flert array.
 //
 
-void OS_buffer_grow_flerts(OS_Buffer *ob) {
+void OS_buffer_grow_flerts(OS_Buffer* ob) {
     ob->max_flerts *= 2;
 
-    ob->flert = (OS_Flert *) realloc(ob->flert, ob->max_flerts * sizeof(OS_Flert));
+    ob->flert = (OS_Flert*) realloc(ob->flert, ob->max_flerts * sizeof(OS_Flert));
 }
 
-void OS_buffer_grow_indices(OS_Buffer *ob) {
+void OS_buffer_grow_indices(OS_Buffer* ob) {
     ob->max_indices *= 2;
 
-    ob->index = (std::uint16_t *) realloc(ob->index, ob->max_indices * sizeof(std::uint16_t));
+    ob->index = (std::uint16_t*) realloc(ob->index, ob->max_indices * sizeof(std::uint16_t));
 }
 
-void OS_buffer_add_vert(OS_Buffer *ob, OS_Vert *ov) {
-    OS_Trans *ot;
-    OS_Flert *of;
+void OS_buffer_add_vert(OS_Buffer* ob, OS_Vert* ov) {
+    OS_Trans* ot;
+    OS_Flert* of;
 
     //
     // Make sure we've got enough room for another vertex.
@@ -2904,10 +2904,10 @@ void OS_buffer_add_vert(OS_Buffer *ob, OS_Vert *ov) {
 }
 
 void OS_buffer_add_triangle(
-    OS_Buffer *ob,
-    OS_Vert *ov1,
-    OS_Vert *ov2,
-    OS_Vert *ov3) {
+    OS_Buffer* ob,
+    OS_Vert* ov1,
+    OS_Vert* ov2,
+    OS_Vert* ov3) {
     std::uint32_t clip_and =
         OS_trans[ov1->trans].clip &
         OS_trans[ov2->trans].clip &
@@ -2975,7 +2975,7 @@ void OS_buffer_add_triangle(
 }
 
 void OS_buffer_add_sprite(
-    OS_Buffer *ob,
+    OS_Buffer* ob,
     float x1, // Normalised to 0.0F - 1.0F
     float y1, // Normalised to 0.0F - 1.0F
     float x2, // Normalised to 0.0F - 1.0F
@@ -2988,7 +2988,7 @@ void OS_buffer_add_sprite(
     std::uint32_t fade) {
     std::int32_t i;
 
-    OS_Flert *of;
+    OS_Flert* of;
 
     //
     // Enough room in our buffer?
@@ -3059,7 +3059,7 @@ void OS_buffer_add_sprite(
 }
 
 void OS_buffer_add_sprite_rot(
-    OS_Buffer *ob,
+    OS_Buffer* ob,
     float x_mid,
     float y_mid,
     float size, // As a percentage of the width of the screen.
@@ -3073,7 +3073,7 @@ void OS_buffer_add_sprite_rot(
     float tu2, float tv2) {
     std::int32_t i;
 
-    OS_Flert *of;
+    OS_Flert* of;
 
     float dx = sin(angle) * size;
     float dy = cos(angle) * size;
@@ -3156,7 +3156,7 @@ void OS_buffer_add_sprite_rot(
 }
 
 void OS_buffer_add_sprite_arbitrary(
-    OS_Buffer *ob,
+    OS_Buffer* ob,
     float x1, // Normalised to 0.0F - 1.0F
     float y1, // Normalised to 0.0F - 1.0F
     float x2, // Normalised to 0.0F - 1.0F
@@ -3179,7 +3179,7 @@ void OS_buffer_add_sprite_arbitrary(
     float u;
     float v;
 
-    OS_Flert *of;
+    OS_Flert* of;
 
     //
     // Enough room in our buffer?
@@ -3265,7 +3265,7 @@ void OS_buffer_add_sprite_arbitrary(
 }
 
 void OS_buffer_add_line_3d(
-    OS_Buffer *ob,
+    OS_Buffer* ob,
     float X1,
     float Y1,
     float X2,
@@ -3279,7 +3279,7 @@ void OS_buffer_add_line_3d(
     std::uint32_t specular) {
     std::int32_t i;
 
-    OS_Flert *of;
+    OS_Flert* of;
 
     float dx;
     float dy;
@@ -3368,7 +3368,7 @@ void OS_buffer_add_line_3d(
 }
 
 void OS_buffer_add_line_2d(
-    OS_Buffer *ob,
+    OS_Buffer* ob,
     float x1,
     float y1,
     float x2,
@@ -3381,7 +3381,7 @@ void OS_buffer_add_line_2d(
     std::uint32_t specular) {
     std::int32_t i;
 
-    OS_Flert *of;
+    OS_Flert* of;
 
     float dx;
     float dy;
@@ -3476,9 +3476,9 @@ void OS_buffer_add_line_2d(
 }
 
 void OS_buffer_draw(
-    OS_Buffer *ob,
-    OS_Texture *ot1,
-    OS_Texture *ot2,
+    OS_Buffer* ob,
+    OS_Texture* ot1,
+    OS_Texture* ot2,
     std::uint32_t draw) {
     LPDIRECT3DDEVICE3 d3d = OS_frame.direct_3d;
 
@@ -3626,7 +3626,7 @@ void OS_hack() {
     {
         int i;
 
-        OS_Tformat *otf;
+        OS_Tformat* otf;
 
         //
         // Find the texture formats.

@@ -41,7 +41,7 @@
 #include "..\psxeng\headers\panel.h"
 #endif
 
-extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text);
+extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char* text);
 
 SPECIAL_Info SPECIAL_info[SPECIAL_NUM_TYPES] =
     {
@@ -77,13 +77,13 @@ SPECIAL_Info SPECIAL_info[SPECIAL_NUM_TYPES] =
         {"Wire Cutters",   PRIM_OBJ_ITEM_WRENCH,       SPECIAL_GROUP_USEFUL          },
 };
 
-void free_special(Thing *s_thing);
+void free_special(Entity* s_thing);
 
 //
 // Adds/removes the special from a person's
 //
 
-void special_pickup(Thing *p_special, Thing *p_person) {
+void special_pickup(Entity* p_special, Entity* p_person) {
     ASSERT(p_special->Class == CLASS_SPECIAL);
     ASSERT(p_person->Class == CLASS_PERSON);
 
@@ -98,7 +98,7 @@ void special_pickup(Thing *p_special, Thing *p_person) {
     }
 }
 
-void special_drop(Thing *p_special, Thing *p_person) {
+void special_drop(Entity* p_special, Entity* p_person) {
 #ifndef NDEBUG
     std::int32_t count = 0;
 #endif
@@ -108,7 +108,7 @@ void special_drop(Thing *p_special, Thing *p_person) {
     ASSERT(p_special->Genus.Special->SpecialType != SPECIAL_MINE);
 
     std::uint16_t next = p_person->Genus.Person->SpecialList;
-    std::uint16_t *prev = &p_person->Genus.Person->SpecialList;
+    std::uint16_t* prev = &p_person->Genus.Person->SpecialList;
 
     while (1) {
 #ifndef NDEBUG
@@ -125,7 +125,7 @@ void special_drop(Thing *p_special, Thing *p_person) {
             return;
         }
 
-        Thing *p_next = TO_THING(next);
+        Entity* p_next = TO_THING(next);
         ASSERT(p_next->Class == CLASS_SPECIAL);
 
         if (next == THING_NUMBER(p_special)) {
@@ -143,10 +143,10 @@ void special_drop(Thing *p_special, Thing *p_person) {
                 std::int32_t gz;
 
                 extern void find_nice_place_near_person( // In person.cpp
-                    Thing * p_person,
-                    std::int32_t * nice_x, // 8-bits per mapsquare
-                    std::int32_t * nice_y,
-                    std::int32_t * nice_z);
+                    Entity * p_person,
+                    std::int32_t* nice_x, // 8-bits per mapsquare
+                    std::int32_t* nice_y,
+                    std::int32_t* nice_z);
 
                 find_nice_place_near_person(
                     p_person,
@@ -204,7 +204,7 @@ void special_drop(Thing *p_special, Thing *p_person) {
 // Returns true if the person is carrying a two-handed weapon.
 //
 
-std::int32_t person_has_twohanded_weapon(Thing *p_person) {
+std::int32_t person_has_twohanded_weapon(Entity* p_person) {
     return (person_has_special(p_person, SPECIAL_SHOTGUN) ||
             person_has_special(p_person, SPECIAL_AK47) ||
             person_has_special(p_person, SPECIAL_BASEBALLBAT));
@@ -214,10 +214,10 @@ std::int32_t person_has_twohanded_weapon(Thing *p_person) {
 // Should this person pick up the item?
 //
 
-std::int32_t should_person_get_item(Thing *p_person, Thing *p_special) {
-    Thing *p_grenade;
-    Thing *p_explosives;
-    Thing *p_has;
+std::int32_t should_person_get_item(Entity* p_person, Entity* p_special) {
+    Entity* p_grenade;
+    Entity* p_explosives;
+    Entity* p_has;
 
     /*
     if(p_special->Velocity)
@@ -323,8 +323,8 @@ std::int32_t should_person_get_item(Thing *p_person, Thing *p_special) {
 // The player person has picked up the given item.
 //
 
-void person_get_item(Thing *p_person, Thing *p_special) {
-    Thing *p_gun;
+void person_get_item(Entity* p_person, Entity* p_special) {
+    Entity* p_gun;
 
     std::int32_t keep = false;
     std::int32_t x_message = 0;
@@ -422,7 +422,7 @@ void person_get_item(Thing *p_person, Thing *p_special) {
     case SPECIAL_SHOTGUN:
 
     {
-        Thing *p_gun = person_has_special(p_person, SPECIAL_SHOTGUN);
+        Entity* p_gun = person_has_special(p_person, SPECIAL_SHOTGUN);
 
         if (p_gun) {
             /*					p_has->Genus.Special->ammo += p_special->Genus.Special->ammo;
@@ -465,7 +465,7 @@ void person_get_item(Thing *p_person, Thing *p_special) {
     case SPECIAL_AK47:
 
     {
-        Thing *p_gun = person_has_special(p_person, SPECIAL_AK47);
+        Entity* p_gun = person_has_special(p_person, SPECIAL_AK47);
 
         if (p_gun) {
             /*					p_has->Genus.Special->ammo += p_special->Genus.Special->ammo;
@@ -506,7 +506,7 @@ void person_get_item(Thing *p_person, Thing *p_special) {
     case SPECIAL_GRENADE:
 
     {
-        Thing *p_has = person_has_special(p_person, SPECIAL_GRENADE);
+        Entity* p_has = person_has_special(p_person, SPECIAL_GRENADE);
 
         if (p_has) {
             if (p_has->Genus.Special->ammo < 100) // just to be on the safe side
@@ -537,7 +537,7 @@ void person_get_item(Thing *p_person, Thing *p_special) {
     case SPECIAL_EXPLOSIVES:
 
     {
-        Thing *p_has = person_has_special(p_person, SPECIAL_EXPLOSIVES);
+        Entity* p_has = person_has_special(p_person, SPECIAL_EXPLOSIVES);
 
         if (p_has) {
             p_has->Genus.Special->ammo += 1;
@@ -568,7 +568,7 @@ void person_get_item(Thing *p_person, Thing *p_special) {
     case SPECIAL_TREASURE:
 
     {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         //
         // Has a player picked us up?
@@ -687,7 +687,7 @@ void person_get_item(Thing *p_person, Thing *p_special) {
     }
 }
 
-void special_activate_mine(Thing *p_mine) {
+void special_activate_mine(Entity* p_mine) {
     ASSERT(p_mine->Class == CLASS_SPECIAL);
     ASSERT(p_mine->Genus.Special->SpecialType == SPECIAL_MINE);
 
@@ -739,7 +739,7 @@ void special_activate_mine(Thing *p_mine) {
 
 DIRT_Info special_di;
 
-void special_normal(Thing *s_thing) {
+void special_normal(Entity* s_thing) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -798,7 +798,7 @@ void special_normal(Thing *s_thing) {
     }
 
     if (s_thing->Genus.Special->OwnerThing && s_thing->Genus.Special->SpecialType != SPECIAL_EXPLOSIVES) {
-        Thing *p_owner = TO_THING(s_thing->Genus.Special->OwnerThing);
+        Entity* p_owner = TO_THING(s_thing->Genus.Special->OwnerThing);
         ASSERT(s_thing->Genus.Special->SpecialType != SPECIAL_MINE);
         ASSERT(s_thing->Genus.Special->SpecialType != SPECIAL_NONE);
 
@@ -995,7 +995,7 @@ void special_normal(Thing *s_thing) {
                     THING_ARRAY_SIZE,
                     (1 << CLASS_PERSON) | (1 << CLASS_VEHICLE) | (1 << CLASS_BAT));
 
-                Thing *p_found;
+                Entity* p_found;
 
                 for (i = 0; i < num_found; i++) {
                     p_found = TO_THING(THING_array[i]);
@@ -1021,7 +1021,7 @@ void special_normal(Thing *s_thing) {
                     case CLASS_PERSON:
 
                     {
-                        Thing *p_person = p_found;
+                        Entity* p_person = p_found;
 
                         dx = abs(p_person->WorldPos.X - s_thing->WorldPos.X);
                         dz = abs(p_person->WorldPos.Z - s_thing->WorldPos.Z);
@@ -1076,7 +1076,7 @@ void special_normal(Thing *s_thing) {
                         std::int32_t wy;
                         std::int32_t wz;
 
-                        Thing *p_vehicle = p_found;
+                        Entity* p_vehicle = p_found;
 
                         //
                         // Find out where the wheels are.
@@ -1121,7 +1121,7 @@ void special_normal(Thing *s_thing) {
         case SPECIAL_TREASURE:
 
             for (i = 0; i < NO_PLAYERS; i++) {
-                Thing *darci = NET_PERSON(i);
+                Entity* darci = NET_PERSON(i);
 
                 //
                 // Has a player picked us up?
@@ -1266,7 +1266,7 @@ void special_normal(Thing *s_thing) {
         try_pickup:;
             if (s_thing->Genus.Special->counter > 16 * 20) {
                 if (s_thing->Flags & FLAGS_ON_MAPWHO) {
-                    Thing *darci = NET_PERSON(0);
+                    Entity* darci = NET_PERSON(0);
 
                     //
                     // Has a player picked us up?
@@ -1298,7 +1298,7 @@ void special_normal(Thing *s_thing) {
 void init_specials() {
     // memset((std::uint8_t*)SPECIALS,0,sizeof(SPECIALS));
 
-    memset((std::uint8_t *) SPECIALS, 0, sizeof(Special) * MAX_SPECIALS);
+    memset((std::uint8_t*) SPECIALS, 0, sizeof(Special) * MAX_SPECIALS);
     SPECIAL_COUNT = 0;
 }
 
@@ -1316,7 +1316,7 @@ std::int32_t find_empty_special() {
     return NULL;
 }
 
-Thing *alloc_special(
+Entity* alloc_special(
     std::uint8_t type,
     std::uint8_t substate,
     std::int32_t world_x,
@@ -1324,9 +1324,9 @@ Thing *alloc_special(
     std::int32_t world_z,
     std::uint16_t waypoint) {
     std::int32_t c0;
-    DrawMesh *dm;
-    Special *new_special;
-    Thing *special_thing = NULL;
+    DrawMesh* dm;
+    Special* new_special;
+    Entity* special_thing = NULL;
     std::int32_t special_index;
 
     ASSERT(WITHIN(type, 1, SPECIAL_NUM_TYPES - 1));
@@ -1360,12 +1360,12 @@ Thing *alloc_special(
 
         std::int32_t score;
         std::int32_t best_score = -1;
-        Thing *best_thing = NULL;
+        Entity* best_thing = NULL;
 
         std::int32_t list = thing_class_head[CLASS_SPECIAL];
 
         while (list) {
-            Thing *p_hijack = TO_THING(list);
+            Entity* p_hijack = TO_THING(list);
 
             ASSERT(p_hijack->Class == CLASS_SPECIAL);
 
@@ -1441,7 +1441,7 @@ Thing *alloc_special(
 
     new_special = TO_SPECIAL(special_index);
     new_special->SpecialType = type;
-    new_special->Thing = THING_NUMBER(special_thing);
+    new_special->Entity = THING_NUMBER(special_thing);
     new_special->waypoint = waypoint;
     new_special->counter = 0;
     new_special->OwnerThing = NULL;
@@ -1510,7 +1510,7 @@ Thing *alloc_special(
 
 //---------------------------------------------------------------
 
-void free_special(Thing *special_thing) {
+void free_special(Entity* special_thing) {
     // Set the special type to none & free the thing.
 
     special_thing->Genus.Special->SpecialType = SPECIAL_NONE;
@@ -1521,9 +1521,9 @@ void free_special(Thing *special_thing) {
 
 //---------------------------------------------------------------
 
-Thing *person_has_special(Thing *p_person, std::int32_t special_type) {
+Entity* person_has_special(Entity* p_person, std::int32_t special_type) {
     std::int32_t special;
-    Thing *p_special;
+    Entity* p_special;
 
     for (special = p_person->Genus.Person->SpecialList; special; special = p_special->Genus.Special->NextSpecial) {
         p_special = TO_THING(special);
@@ -1536,8 +1536,8 @@ Thing *person_has_special(Thing *p_person, std::int32_t special_type) {
     return NULL;
 }
 
-void SPECIAL_throw_grenade(Thing *p_special) {
-    Thing *p_person = TO_THING(p_special->Genus.Special->OwnerThing);
+void SPECIAL_throw_grenade(Entity* p_special) {
+    Entity* p_person = TO_THING(p_special->Genus.Special->OwnerThing);
 
     //
     // Convert the grenade to some dirt.
@@ -1563,14 +1563,14 @@ void SPECIAL_throw_grenade(Thing *p_special) {
     }
 }
 
-void SPECIAL_prime_grenade(Thing *p_special) {
+void SPECIAL_prime_grenade(Entity* p_special) {
     p_special->SubState = SPECIAL_SUBSTATE_ACTIVATED;
     p_special->Genus.Special->timer = 16 * 20 * 6; // 6 second so self destruct.
 }
 
 /*
 
-void SPECIAL_throw_mine(Thing *p_special)
+void SPECIAL_throw_mine(Entity *p_special)
 {
         std::uint16_t dirt;
         std::uint16_t owner;
@@ -1609,8 +1609,8 @@ void SPECIAL_throw_mine(Thing *p_special)
 
 */
 
-void SPECIAL_set_explosives(Thing *p_person) {
-    Thing *p_special;
+void SPECIAL_set_explosives(Entity* p_person) {
+    Entity* p_special;
 
     p_special = person_has_special(p_person, SPECIAL_EXPLOSIVES);
 

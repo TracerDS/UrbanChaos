@@ -79,8 +79,8 @@ std::uint16_t PARTICLE_Add(std::int32_t x, std::int32_t y, std::int32_t z, std::
 
 // Some of the more commonly-used effects:
 std::uint16_t PARTICLE_Exhaust(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t density, std::uint8_t disperse);
-std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_t disperse);
+std::uint16_t PARTICLE_Exhaust2(Entity *object, std::uint8_t density, std::uint8_t disperse);
 std::uint16_t PARTICLE_Steam(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t axis, std::int32_t vel, std::int32_t range, std::uint8_t time);
-std::uint16_t PARTICLE_SGrenade(Thing *object, std::uint8_t time);
+std::uint16_t PARTICLE_SGrenade(Entity *object, std::uint8_t time);
 
 #endif

@@ -51,7 +51,7 @@ std::int32_t CAM_roll;
 float CAM_radians_yaw;
 float CAM_radians_pitch;
 float CAM_radians_roll;
-Thing *CAM_focus;
+Entity* CAM_focus;
 std::int32_t CAM_focus_yaw;
 std::int32_t CAM_focus_x;
 std::int32_t CAM_focus_y;
@@ -82,7 +82,7 @@ std::int32_t CAM_type;
 #define CAM_BEHIND_UP (CAM_focus->Class == CLASS_VEHICLE ? 0x14000 : CAM_behind_up)
 #endif
 
-void CAM_set_focus(Thing *focus) {
+void CAM_set_focus(Entity* focus) {
     CAM_focus = focus;
     CAM_want_valid = false;
     CAM_want_different = false;
@@ -134,7 +134,7 @@ void CAM_set_dangle(std::int32_t dyaw, std::int32_t dpitch) {
     CAM_dyaw = dyaw;
 }
 
-void CAM_get_dangle(std::int32_t *dyaw, std::int32_t *dpitch) {
+void CAM_get_dangle(std::int32_t* dyaw, std::int32_t* dpitch) {
     *dyaw = CAM_dyaw;
     *dpitch = CAM_dpitch;
 }
@@ -251,12 +251,12 @@ void CAM_work_out_focus_yaw() {
 
 void CAM_work_out_focus_pos() {
     void calc_sub_objects_position(
-        Thing * p_mthing,
+        Entity * p_mthing,
         std::int32_t tween,
         std::uint16_t object,
-        std::int32_t * x,
-        std::int32_t * y,
-        std::int32_t * z);
+        std::int32_t* x,
+        std::int32_t* y,
+        std::int32_t* z);
 
     switch (CAM_focus->Class) {
     case CLASS_PERSON:
@@ -269,7 +269,7 @@ void CAM_work_out_focus_pos() {
 
                                         if(CAM_focus->Genus.Person->Target)
                                         {
-                                                Thing	*p_thing;
+                                                Entity	*p_thing;
                                                 p_thing=TO_THING(CAM_focus->Genus.Person->Target);
 
                                                 CAM_focus_x=p_thing->WorldPos.X;
@@ -416,7 +416,7 @@ void CAM_look_at_thing(std::int32_t swoop) {
         //
 
         if (CAM_focus->Genus.Person->Target) {
-            Thing *p_thing;
+            Entity* p_thing;
             p_thing = TO_THING(CAM_focus->Genus.Person->Target);
 
             dx = p_thing->WorldPos.X - CAM_pos_x;
@@ -1924,15 +1924,15 @@ std::int32_t CAM_get_zoom() {
 }
 
 void CAM_get(
-    std::int32_t *world_x,
-    std::int32_t *world_y,
-    std::int32_t *world_z,
-    std::int32_t *yaw,
-    std::int32_t *pitch,
-    std::int32_t *roll,
-    float *radians_yaw,
-    float *radians_pitch,
-    float *radians_roll) {
+    std::int32_t* world_x,
+    std::int32_t* world_y,
+    std::int32_t* world_z,
+    std::int32_t* yaw,
+    std::int32_t* pitch,
+    std::int32_t* roll,
+    float* radians_yaw,
+    float* radians_pitch,
+    float* radians_roll) {
     std::int32_t lens;
 
     if (EWAY_grab_camera(
@@ -1976,24 +1976,24 @@ void CAM_get(
 }
 
 void CAM_get_psx(
-    std::int32_t *world_x,
-    std::int32_t *world_y,
-    std::int32_t *world_z,
-    std::int32_t *yaw,
-    std::int32_t *pitch,
-    std::int32_t *roll,
-    std::int32_t *radians_yaw,
-    std::int32_t *radians_pitch,
-    std::int32_t *radians_roll) {
+    std::int32_t* world_x,
+    std::int32_t* world_y,
+    std::int32_t* world_z,
+    std::int32_t* yaw,
+    std::int32_t* pitch,
+    std::int32_t* roll,
+    std::int32_t* radians_yaw,
+    std::int32_t* radians_pitch,
+    std::int32_t* radians_roll) {
     *world_x = CAM_pos_x >> 8;
     *world_y = CAM_pos_y >> 8;
     *world_z = CAM_pos_z >> 8;
     *yaw = CAM_yaw;
     *pitch = CAM_pitch;
     *roll = CAM_roll;
-    *radians_yaw = (std::int32_t)(CAM_radians_yaw * 65536);
-    *radians_pitch = (std::int32_t)(CAM_radians_pitch * 65536);
-    *radians_roll = (std::int32_t)(CAM_radians_roll * 65536);
+    *radians_yaw = (std::int32_t) (CAM_radians_yaw * 65536);
+    *radians_pitch = (std::int32_t) (CAM_radians_pitch * 65536);
+    *radians_roll = (std::int32_t) (CAM_radians_roll * 65536);
 
     if (CAM_shake) {
         *world_x += rand() % CAM_shake;
@@ -2007,20 +2007,20 @@ void CAM_get_psx(
 }
 
 void CAM_get_pos(
-    std::int32_t *world_x,
-    std::int32_t *world_y,
-    std::int32_t *world_z) {
+    std::int32_t* world_x,
+    std::int32_t* world_y,
+    std::int32_t* world_z) {
     *world_x = CAM_pos_x >> 8;
     *world_y = CAM_pos_y >> 8;
     *world_z = CAM_pos_z >> 8;
 }
 
 void CAM_get_dpos(
-    std::int32_t *dpos_x,
-    std::int32_t *dpos_y,
-    std::int32_t *dpos_z,
-    std::int32_t *yaw,
-    std::int32_t *pitch) {
+    std::int32_t* dpos_x,
+    std::int32_t* dpos_y,
+    std::int32_t* dpos_z,
+    std::int32_t* yaw,
+    std::int32_t* pitch) {
     *dpos_x = CAM_pos_x - CAM_focus_x >> 8;
     *dpos_y = CAM_pos_y - CAM_focus_y >> 8;
     *dpos_z = CAM_pos_z - CAM_focus_z >> 8;
@@ -2050,7 +2050,7 @@ void CAM_set_dpos(
     CAM_look_at_thing(false);
 }
 
-void CAM_set_to_leave_sewers_position(Thing *darci) {
+void CAM_set_to_leave_sewers_position(Entity* darci) {
     std::int32_t x;
     std::int32_t y;
     std::int32_t z;

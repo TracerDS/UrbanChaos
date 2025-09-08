@@ -29,7 +29,7 @@ void LEAD_create(
     std::int32_t world_z) {
     std::int32_t p_num;
 
-    LEAD_Lead *ll;
+    LEAD_Lead* ll;
 
     //
     // How many points do we need?
@@ -76,17 +76,17 @@ void LEAD_create(
 
 void LEAD_find_end(
     std::uint8_t lead_index,
-    std::int32_t *end_x,
-    std::int32_t *end_y,
-    std::int32_t *end_z) {
+    std::int32_t* end_x,
+    std::int32_t* end_y,
+    std::int32_t* end_z) {
     std::int32_t pos_x;
     std::int32_t pos_y;
     std::int32_t pos_z;
 
     ASSERT(WITHIN(lead_index, 1, LEAD_lead_upto - 1));
 
-    LEAD_Lead *ll;
-    Thing *p_thing;
+    LEAD_Lead* ll;
+    Entity* p_thing;
 
     ll = &LEAD_lead[lead_index];
 
@@ -157,9 +157,9 @@ void LEAD_attach() {
     THING_INDEX find[LEAD_MAX_FIND];
     std::int32_t found;
 
-    LEAD_Lead *ll;
-    LEAD_Point *lp;
-    Thing *p_found;
+    LEAD_Lead* ll;
+    LEAD_Point* lp;
+    Entity* p_found;
 
     for (i = 1; i < LEAD_lead_upto; i++) {
         ll = &LEAD_lead[i];

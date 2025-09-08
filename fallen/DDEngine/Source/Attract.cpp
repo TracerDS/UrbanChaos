@@ -26,7 +26,7 @@ void engine_attract() {
 //---------------------------------------------------------------
 
 extern Camera test_view;
-void game_engine(Camera *the_view);
+void game_engine(Camera* the_view);
 
 void engine_win_level() {
 }

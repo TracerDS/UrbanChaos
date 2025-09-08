@@ -145,7 +145,7 @@ std::int32_t get_height_on_plane_tri(std::int32_t x, std::int32_t z, std::int32_
 }
 
 std::int32_t get_height_on_plane_quad_f(std::int32_t x, std::int32_t z, std::uint16_t face) {
-    struct PrimFace4 *this_face4;
+    struct PrimFace4* this_face4;
     std::int32_t obj_x, obj_z, obj_y;
     std::int32_t ux, uy, uz, vx, vy, vz, wx, wy, wz;
 
@@ -171,7 +171,7 @@ std::int32_t get_height_on_plane_quad_f(std::int32_t x, std::int32_t z, std::uin
 }
 
 std::int32_t get_height_on_plane_tri_f(std::int32_t x, std::int32_t z, std::uint16_t face) {
-    struct PrimFace3 *this_face3;
+    struct PrimFace3* this_face3;
     std::int32_t obj_x, obj_z, obj_y;
     std::int32_t ux, uy, uz, vx, vy, vz, wx, wy, wz;
 
@@ -198,7 +198,7 @@ std::int32_t get_height_on_plane_tri_f(std::int32_t x, std::int32_t z, std::uint
 
 std::int32_t get_height_on_face_quad64_at(std::int32_t x, std::int32_t z, std::int32_t obj_x, std::int32_t obj_y, std::int32_t obj_z, std::uint16_t face) {
     std::int32_t ux, uy, uz, vx, vy, vz, wx, wy, wz;
-    struct PrimFace4 *this_face4;
+    struct PrimFace4* this_face4;
     std::int32_t ax, ay, az, bx, by, bz;
 
     std::int32_t top, bot;
@@ -263,7 +263,7 @@ std::int32_t get_height_on_face_quad64_at(std::int32_t x, std::int32_t z, std::i
 
 std::int32_t get_height_on_face_quad64(std::int32_t x, std::int32_t z, std::uint16_t face) {
     std::int32_t ux, uy, uz, vx, vy, vz, wx, wy, wz;
-    struct PrimFace4 *this_face4;
+    struct PrimFace4* this_face4;
     std::int32_t obj_x, obj_z, obj_y;
     std::int32_t ax, ay, az, bx, by, bz;
 
@@ -340,13 +340,13 @@ std::int32_t get_height_on_face_quad64(std::int32_t x, std::int32_t z, std::uint
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS(a, b) (((std::int32_t)((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
+#define SAME_SIGNS(a, b) (((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
 
 //
 // Lines that share a point count as intersecting.
 //
 
-std::int32_t lines_intersect(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4, std::int32_t *x, std::int32_t *y) {
+std::int32_t lines_intersect(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4, std::int32_t* x, std::int32_t* y) {
     long a1, a2, b1, b2, c1, c2;
     long r1, r2, r3, r4;
     long denom, offset, num;
@@ -461,13 +461,13 @@ std::uint8_t two4_line_intersection(std::int32_t x1, std::int32_t y1, std::int32
 }
 // std::int32_t	play_x,play_y,play_z;
 
-void insert_rect(struct SVECTOR *point, std::int32_t width, std::int32_t height) {
-    struct BucketRect *p_bucket;
+void insert_rect(struct SVECTOR* point, std::int32_t width, std::int32_t height) {
+    struct BucketRect* p_bucket;
 
     if (current_bucket_pool >= end_bucket_pool)
         return;
 
-    p_bucket = (struct BucketRect *) current_bucket_pool;
+    p_bucket = (struct BucketRect*) current_bucket_pool;
 
     setRect(p_bucket);
 
@@ -481,7 +481,7 @@ void insert_rect(struct SVECTOR *point, std::int32_t width, std::int32_t height)
 }
 
 std::int32_t calc_height_at(std::int32_t x, std::int32_t z) {
-    struct DepthStrip *me;
+    struct DepthStrip* me;
     std::int32_t new_y, h0, h1, h2, h3;
 
     if (x < 0 || x >= (EDIT_MAP_WIDTH << ELE_SHIFT) || z < 0 || z >= (EDIT_MAP_DEPTH << ELE_SHIFT))
@@ -516,7 +516,7 @@ std::int32_t calc_height_at(std::int32_t x, std::int32_t z) {
     return (new_y);
 }
 
-void process_camera(struct MapThing *p_thing) {
+void process_camera(struct MapThing* p_thing) {
     static r_camera_dist = 2000, r_camera_angle_x = 1200, camera_angle_y = 0;
     static r_camera_angle_dx = 0, r_camera_angle_dy = 0;
     std::int32_t dx, dy, dz, rx, ry, rz;
@@ -599,7 +599,7 @@ std::int32_t calc_height_on_face(std::int32_t x, std::int32_t z, std::int32_t fa
     std::int32_t storey;
     std::int32_t building;
     std::int32_t thing;
-    Thing *p_thing;
+    Entity* p_thing;
 
     if (face > 0) {
         wall = prim_faces4[face].ThingIndex;
@@ -632,7 +632,7 @@ std::int32_t calc_height_on_face(std::int32_t x, std::int32_t z, std::int32_t fa
     return (-100);
 }
 
-void calc_things_height(struct MapThing *p_thing) {
+void calc_things_height(struct MapThing* p_thing) {
     if (p_thing->OnFace) {
         if (p_thing->OnFace > 0) {
             p_thing->Y = calc_height_on_face(p_thing->X, p_thing->Y, p_thing->OnFace);
@@ -683,14 +683,14 @@ static std::uint16_t done_list[116], done_count = 0;
 void add_to_done_list(std::uint16_t p1, std::uint16_t p2) {
     if (done_count > 100)
         return;
-    done_list[done_count] = (std::uint16_t)(p1 | (p2 << 4));
+    done_list[done_count] = (std::uint16_t) (p1 | (p2 << 4));
     done_count++;
 }
 
 std::uint16_t is_it_done(std::uint16_t p1, std::uint16_t p2) {
     std::uint16_t flip1, flip2, c0;
-    flip2 = (std::uint16_t)(p1 | (p2 << 4));
-    flip1 = (std::uint16_t)(p2 | (p1 << 4));
+    flip2 = (std::uint16_t) (p1 | (p2 << 4));
+    flip1 = (std::uint16_t) (p2 | (p1 << 4));
     for (c0 = 0; c0 < done_count; c0++) {
         if (done_list[c0] == flip1 || done_list[c0] == flip2)
             return (1);
@@ -698,7 +698,7 @@ std::uint16_t is_it_done(std::uint16_t p1, std::uint16_t p2) {
     return (0);
 }
 
-void insert_col_for_quad(struct EditMapElement *p_ele, struct SVECTOR *points, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4) {
+void insert_col_for_quad(struct EditMapElement* p_ele, struct SVECTOR* points, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4) {
     std::int32_t c1, c2;
     std::uint32_t indi[4];
     std::int32_t az;
@@ -720,7 +720,7 @@ void insert_col_for_quad(struct EditMapElement *p_ele, struct SVECTOR *points, s
                         if (points[indi[c1]].X != points[indi[c2]].X || points[indi[c1]].Y != points[indi[c2]].Y)
                             if (!is_it_done((std::uint16_t) indi[c1], (std::uint16_t) indi[c2])) {
                                 //					insert_collision_vect(points[indi[c1]].X,points[indi[c1]].Y,points[indi[c1]].Z,points[indi[c2]].X,points[indi[c2]].Y,points[indi[c2]].Z,*((std::uint8_t*)&(p_ele->CubeType)),0);
-                                insert_collision_vect(points[indi[c1]].X, points[indi[c1]].Y, az, points[indi[c2]].X, points[indi[c2]].Y, az, *((std::uint8_t *) &(p_ele->CubeType)), 0, 0);
+                                insert_collision_vect(points[indi[c1]].X, points[indi[c1]].Y, az, points[indi[c2]].X, points[indi[c2]].Y, az, *((std::uint8_t*) &(p_ele->CubeType)), 0, 0);
                                 add_to_done_list((std::uint16_t) indi[c1], (std::uint16_t) indi[c2]);
                             }
                     }
@@ -749,7 +749,7 @@ void insert_col_for_quad(struct EditMapElement *p_ele, struct SVECTOR *points, s
     */
 }
 
-void insert_col_for_tri(struct EditMapElement *p_ele, struct SVECTOR *points, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
+void insert_col_for_tri(struct EditMapElement* p_ele, struct SVECTOR* points, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
     std::int32_t c1, c2;
     std::uint32_t indi[4];
     indi[0] = p1;
@@ -764,7 +764,7 @@ void insert_col_for_tri(struct EditMapElement *p_ele, struct SVECTOR *points, st
                     if (points[indi[c1]].Z == points[indi[c2]].Z) {
                         if (points[indi[c1]].Y != points[indi[c2]].Y)
                             if (!is_it_done((std::uint16_t) indi[c1], (std::uint16_t) indi[c2])) {
-                                insert_collision_vect(points[indi[c1]].X, points[indi[c1]].Y, points[indi[c1]].Z, points[indi[c2]].X, points[indi[c2]].Y, points[indi[c2]].Z, *((std::uint8_t *) &(p_ele->CubeType)), 0, 0);
+                                insert_collision_vect(points[indi[c1]].X, points[indi[c1]].Y, points[indi[c1]].Z, points[indi[c2]].X, points[indi[c2]].Y, points[indi[c2]].Z, *((std::uint8_t*) &(p_ele->CubeType)), 0, 0);
                                 add_to_done_list(indi[c1], indi[c2]);
                             }
                     }
@@ -772,7 +772,7 @@ void insert_col_for_tri(struct EditMapElement *p_ele, struct SVECTOR *points, st
     }
 }
 
-inline void rotate_local_points(std::int32_t angle, struct SVECTOR *point, std::int32_t x, std::int32_t y, std::int32_t z) {
+inline void rotate_local_points(std::int32_t angle, struct SVECTOR* point, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t cosa, sina;
     std::int32_t rx, rz;
     point->X -= x;
@@ -800,7 +800,7 @@ static std::uint8_t rotate_table[6][4] =
         {0,                CUBE_FLAG_RIGHT,  CUBE_FLAG_FRONT,  CUBE_FLAG_LEFT  }
 };
 
-void col_for_cube_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement *p_ele) {
+void col_for_cube_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement* p_ele) {
     struct SVECTOR points[8];
 
     points[0].X = x - HALF_ELE_SIZE;
@@ -867,7 +867,7 @@ void col_for_cube_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct 
 //  |			 |		   |
 //	9---8----7----6	 	   |
 //		   19	18	 17	   16
-void col_for_steps_lr_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement *p_ele) {
+void col_for_steps_lr_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement* p_ele) {
     struct SVECTOR points[20];
     std::int32_t c0;
     std::int32_t rot;
@@ -1006,7 +1006,7 @@ void col_for_steps_lr_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, str
     }
 }
 
-void col_for_ledge1_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement *p_ele) {
+void col_for_ledge1_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement* p_ele) {
     struct SVECTOR points[8];
 
     points[0].X = x - HALF_ELE_SIZE;
@@ -1072,7 +1072,7 @@ void col_for_ledge1_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struc
 //	|	   \   \
 //	2	5	1---4
 
-void col_for_slope_lr_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement *p_ele) {
+void col_for_slope_lr_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, struct EditMapElement* p_ele) {
     struct SVECTOR points[8];
     std::int32_t c0;
     std::int32_t rot;
@@ -1136,7 +1136,7 @@ void col_for_slope_lr_ele_at(std::int32_t x, std::int32_t y, std::int32_t z, str
 // general poly collision
 //  need to be able to set collision with the XY plane at some point along the Z axis
 
-std::uint32_t intersect_vector_xy(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t clip_z, std::int32_t *res_x, std::int32_t *res_y) {
+std::uint32_t intersect_vector_xy(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t clip_z, std::int32_t* res_x, std::int32_t* res_y) {
     std::int32_t ratio;
     std::int32_t vx, vy, vz;
 
@@ -1171,10 +1171,10 @@ std::int32_t is_point_in_clip(std::int32_t x, std::int32_t y, std::int32_t z) {
 }
 
 void clip_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t clip_z) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t c0, c1;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t point;
 
     std::int32_t c_x[12], c_y[12], clip_count = 0;
@@ -1383,7 +1383,7 @@ void highlight_point_on_face(std::int32_t fx, std::int32_t fy, std::int32_t fz, 
     }
 }
 
-extern void quick_normal(std::int16_t face, std::int32_t *nx, std::int32_t *ny, std::int32_t *nz);
+extern void quick_normal(std::int16_t face, std::int32_t* nx, std::int32_t* ny, std::int32_t* nz);
 
 void apply_vect_to_face(std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t face, std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
     std::int32_t x3, y3, z3, x4, y4, z4;
@@ -1575,7 +1575,7 @@ void apply_vect_to_face(std::int32_t x, std::int32_t y, std::int32_t z, std::int
 
 #define SHIFT_BEZ (10)
 #define BEZ_ONE (1 << SHIFT_BEZ)
-void clip_face_bez(std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t face, struct ColInfo *p_col) {
+void clip_face_bez(std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t face, struct ColInfo* p_col) {
     std::int32_t t = 0;
     std::int32_t bx, bz;
     std::int32_t px, pz;
@@ -1583,7 +1583,7 @@ void clip_face_bez(std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t 
     std::int32_t ox, oz;
     std::int32_t x0, z0, x1, z1, x2, z2, x3, z3;
 
-    static struct ColInfo *old_p_col;
+    static struct ColInfo* old_p_col;
 
     ox = p_col->Bezier.X[0];
     oz = p_col->Bezier.Z[0];
@@ -1626,11 +1626,11 @@ void clip_face_bez(std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t 
     old_p_col = p_col;
 }
 
-void clip_a_prim_with_bezier(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, struct ColInfo *p_col) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void clip_a_prim_with_bezier(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, struct ColInfo* p_col) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t c0, c1;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t point;
 
     std::int32_t c_x[12], c_y[12], clip_count = 0;
@@ -1672,7 +1672,7 @@ void clip_a_prim_with_bezier(std::uint16_t prim, std::int32_t x, std::int32_t y,
         }
 }
 
-std::int32_t is_point_in_clip_box(std::int32_t x, std::int32_t y, std::int32_t z, struct ColInfo *p_col) {
+std::int32_t is_point_in_clip_box(std::int32_t x, std::int32_t y, std::int32_t z, struct ColInfo* p_col) {
     if (x > p_col->Plane.Left && x < p_col->Plane.Right &&
         y > p_col->Plane.Top && y < p_col->Plane.Bottom &&
         z > p_col->Plane.Depth - 200 && z < p_col->Plane.Depth + 200)
@@ -1681,11 +1681,11 @@ std::int32_t is_point_in_clip_box(std::int32_t x, std::int32_t y, std::int32_t z
         return (0);
 }
 
-void clip_a_prim_with_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, struct ColInfo *p_col) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void clip_a_prim_with_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, struct ColInfo* p_col) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t point;
 
     p_obj = &prim_objects[prim];
@@ -1778,7 +1778,7 @@ void clip_a_prim_with_box(std::uint16_t prim, std::int32_t x, std::int32_t y, st
 }
 
 void col_for_map_thing(std::int32_t map_thing) {
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
@@ -1793,9 +1793,9 @@ void col_for_map_thing(std::int32_t map_thing) {
     }
 }
 
-void col_for_backgrounds(struct ColInfo *p_col) {
+void col_for_backgrounds(struct ColInfo* p_col) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     index = background_prim;
     //	LogText(" col for backs, type %d \n",p_col->Type);
     while (index) {
@@ -1817,7 +1817,7 @@ void col_for_backgrounds(struct ColInfo *p_col) {
 #define SHIFT_BEZ (10)
 #define BEZ_ONE (1 << SHIFT_BEZ)
 
-void calc_bounding_box_for_bezier(struct ColInfo *p_col) {
+void calc_bounding_box_for_bezier(struct ColInfo* p_col) {
     std::int32_t t = 0;
     std::int32_t bx, bz;
 
@@ -1897,11 +1897,11 @@ void calc_bounding_box_for_bezier(struct ColInfo *p_col) {
     col_data.Bottom = p_col->Bezier.Bottom;
 }
 
-void calc_collision_info(struct ColInfo *p_col) {
+void calc_collision_info(struct ColInfo* p_col) {
     std::int32_t dx, dy, dz;
-    struct DepthStrip *p_depth;
+    struct DepthStrip* p_depth;
     std::uint16_t index;
-    struct EditMapElement *p_ele;
+    struct EditMapElement* p_ele;
 
     switch (p_col->Type) {
     case COL_TYPE_PLANE:

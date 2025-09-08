@@ -67,7 +67,7 @@
 
 #ifndef PSX
 
-char *BAT_state_name[BAT_STATE_NUMBER] =
+char* BAT_state_name[BAT_STATE_NUMBER] =
     {
         "Idle",
         "Goto",
@@ -115,7 +115,7 @@ char *BAT_state_name[BAT_STATE_NUMBER] =
 
 std::uint16_t BAT_summon[BAT_SUMMON_NUM_BODIES];
 
-void BAT_find_summon_people(Thing *p_thing) {
+void BAT_find_summon_people(Entity* p_thing) {
     std::int32_t i;
     std::int32_t num;
     std::int32_t bodies;
@@ -142,7 +142,7 @@ void BAT_find_summon_people(Thing *p_thing) {
     bodies = 0;
 
     for (i = 0; i < num; i++) {
-        Thing *p_found = TO_THING(THING_array[i]);
+        Entity* p_found = TO_THING(THING_array[i]);
 
         ASSERT(p_found->Class == CLASS_PERSON);
 
@@ -175,7 +175,7 @@ void BAT_find_summon_people(Thing *p_thing) {
 // Creates sparks from the given bat to the summoning people.
 //
 
-void BAT_process_bane_sparks(Thing *p_thing) {
+void BAT_process_bane_sparks(Entity* p_thing) {
     std::int32_t i;
 
     static std::uint16_t last = 0;
@@ -187,7 +187,7 @@ void BAT_process_bane_sparks(Thing *p_thing) {
 
         for (i = 0; i < BAT_SUMMON_NUM_BODIES; i++) {
             if (BAT_summon[i]) {
-                Thing *p_summon = TO_THING(BAT_summon[i]);
+                Entity* p_summon = TO_THING(BAT_summon[i]);
 
                 SPARK_Pinfo p1;
                 SPARK_Pinfo p2;
@@ -256,7 +256,7 @@ void BAT_init() {
 #define BAT_ANIM_GENERIC_FLY (-1) // An anim that changes depending on the type of bat!
 #define BAT_ANIM_GENERIC_TAKE_HIT (-2)
 
-void BAT_set_anim(Thing *p_thing, std::int32_t anim) {
+void BAT_set_anim(Entity* p_thing, std::int32_t anim) {
     if (anim < 0) {
         static std::uint8_t generic_bat_anim[2][2] =
             {
@@ -270,7 +270,7 @@ void BAT_set_anim(Thing *p_thing, std::int32_t anim) {
         anim = generic_bat_anim[p_thing->Genus.Bat->type - 1][-anim - 1];
     }
 
-    DrawTween *dt = p_thing->Draw.Tweened;
+    DrawTween* dt = p_thing->Draw.Tweened;
 
     if (dt->CurrentAnim == anim) {
         return;
@@ -295,11 +295,11 @@ void BAT_set_anim(Thing *p_thing, std::int32_t anim) {
 // Animates the bat. Returns true if the current anim is over.
 //
 
-std::int32_t BAT_animate(Thing *p_thing) {
+std::int32_t BAT_animate(Entity* p_thing) {
     std::int32_t ret = false;
     std::int32_t tween_step;
 
-    DrawTween *dt = p_thing->Draw.Tweened;
+    DrawTween* dt = p_thing->Draw.Tweened;
 
     tween_step = dt->CurrentFrame->TweenStep << 1;
     tween_step = tween_step * TICK_RATIO >> TICK_SHIFT;
@@ -331,7 +331,7 @@ std::int32_t BAT_animate(Thing *p_thing) {
 // Makes a bat turn towards his target. Returns the angle difference.
 //
 
-std::int32_t BAT_turn_to_target(Thing *p_thing) {
+std::int32_t BAT_turn_to_target(Entity* p_thing) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -340,8 +340,8 @@ std::int32_t BAT_turn_to_target(Thing *p_thing) {
 
     std::int32_t turn;
 
-    Thing *p_target;
-    Bat *p_bat;
+    Entity* p_target;
+    Bat* p_bat;
 
     ASSERT(p_thing->Class == CLASS_BAT);
 
@@ -403,7 +403,7 @@ std::int32_t BAT_turn_to_target(Thing *p_thing) {
 // Makes the bat turn towards a given place. Returns the relative angle.
 //
 
-std::int32_t BAT_turn_to_place(Thing *p_thing, std::int32_t world_x, std::int32_t world_z) {
+std::int32_t BAT_turn_to_place(Entity* p_thing, std::int32_t world_x, std::int32_t world_z) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -412,7 +412,7 @@ std::int32_t BAT_turn_to_place(Thing *p_thing, std::int32_t world_x, std::int32_
 
     std::int32_t turn;
 
-    Bat *p_bat;
+    Bat* p_bat;
 
     ASSERT(p_thing->Class == CLASS_BAT);
 
@@ -468,14 +468,14 @@ std::int32_t BAT_turn_to_place(Thing *p_thing, std::int32_t world_x, std::int32_
 // Makes the bat emit a fireball.
 //
 
-void BAT_emit_fireball(Thing *p_thing) {
+void BAT_emit_fireball(Entity* p_thing) {
     ASSERT(p_thing->Class == CLASS_BAT);
 
-    Bat *p_bat = p_thing->Genus.Bat;
+    Bat* p_bat = p_thing->Genus.Bat;
 
     ASSERT(p_bat->target);
 
-    Thing *p_target = TO_THING(p_bat->target);
+    Entity* p_target = TO_THING(p_bat->target);
 
     std::int32_t dx;
     std::int32_t dy;
@@ -521,7 +521,7 @@ void BAT_emit_fireball(Thing *p_thing) {
 // Chooses a new state for the bat to be in.
 //
 
-void BAT_change_state(Thing *p_thing) {
+void BAT_change_state(Entity* p_thing) {
     ASSERT(p_thing->Class == CLASS_BAT);
 
     std::int32_t want_x;
@@ -531,8 +531,8 @@ void BAT_change_state(Thing *p_thing) {
     std::int32_t new_state;
     std::int32_t old_target;
 
-    Bat *p_bat = p_thing->Genus.Bat;
-    Thing *darci;
+    Bat* p_bat = p_thing->Genus.Bat;
+    Entity* darci;
 
     old_target = p_bat->target;
 
@@ -540,16 +540,16 @@ void BAT_change_state(Thing *p_thing) {
 
     if (p_bat->type == BAT_TYPE_BALROG) {
         if (p_bat->target) {
-            Thing *p_target = TO_THING(p_bat->target);
+            Entity* p_target = TO_THING(p_bat->target);
 
-            extern std::int32_t is_person_dead(Thing * p_person);
+            extern std::int32_t is_person_dead(Entity * p_person);
 
             if (p_target->Class == CLASS_PERSON && is_person_dead(p_target)) {
                 //
                 // Assume the Balrog killed this person.
                 //
 
-                extern std::uint8_t *EWAY_counter;
+                extern std::uint8_t* EWAY_counter;
 
                 if (EWAY_counter[8] < 255) {
                     EWAY_counter[8] += 1;
@@ -573,7 +573,7 @@ void BAT_change_state(Thing *p_thing) {
         std::int32_t best_dist = 0;
         std::int32_t best_index = 0;
 
-        Thing *p_found;
+        Entity* p_found;
 
         //
         // Find all the people near us.
@@ -613,7 +613,7 @@ void BAT_change_state(Thing *p_thing) {
             }
 
             if (p_found->Class == CLASS_PERSON) {
-                extern std::int32_t is_person_ko(Thing * p_person);
+                extern std::int32_t is_person_ko(Entity * p_person);
 
                 if (is_person_ko(p_found)) {
                     //
@@ -975,7 +975,7 @@ void BAT_change_state(Thing *p_thing) {
 
             for (i = 0; i < BAT_SUMMON_NUM_BODIES; i++) {
                 if (BAT_summon[i]) {
-                    Thing *p_summon = TO_THING(BAT_summon[i]);
+                    Entity* p_summon = TO_THING(BAT_summon[i]);
 
                     set_person_float_up(p_summon);
                 }
@@ -1004,7 +1004,7 @@ void BAT_change_state(Thing *p_thing) {
 
 void BAT_balrog_slide_along(
     std::int32_t x1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *z2) {
+    std::int32_t* x2, std::int32_t* z2) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -1225,7 +1225,7 @@ void BAT_balrog_slide_along(
 // Processes a bat thing.
 //
 
-void BAT_normal(Thing *p_thing) {
+void BAT_normal(Entity* p_thing) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -1577,13 +1577,13 @@ void BAT_normal(Thing *p_thing) {
     ;
     ;
     ;
-    Bat *p_bat = p_thing->Genus.Bat;
+    Bat* p_bat = p_thing->Genus.Bat;
     ;
     ;
     ;
     ;
     ;
-    Thing *p_target;
+    Entity* p_target;
     ;
     ;
 
@@ -1948,7 +1948,7 @@ void BAT_normal(Thing *p_thing) {
         case BAT_SUBSTATE_GROUND_WAIT:
 
         {
-            Thing *darci = NET_PERSON(0);
+            Entity* darci = NET_PERSON(0);
 
             //
             // Wake up when the player gets too near.
@@ -2083,7 +2083,7 @@ void BAT_normal(Thing *p_thing) {
         } else {
             ASSERT(p_bat->target); // triggered
 
-            Thing *p_target = TO_THING(p_bat->target);
+            Entity* p_target = TO_THING(p_bat->target);
 
             std::int32_t dangle;
 
@@ -2284,9 +2284,9 @@ void BAT_normal(Thing *p_thing) {
             PYRO_create(p_thing->WorldPos, PYRO_DUSTWAVE);
 
             {
-                Thing *darci = NET_PERSON(0);
+                Entity* darci = NET_PERSON(0);
 
-                extern std::int32_t is_person_dead(Thing * p_person);
+                extern std::int32_t is_person_dead(Entity * p_person);
 
                 if (!is_person_dead(darci)) {
                     if (THING_dist_between(p_thing, NET_PERSON(0)) < 0x600) {
@@ -2467,9 +2467,9 @@ THING_INDEX BAT_create(
     std::uint16_t yaw) {
     std::int32_t i;
 
-    Thing *p_thing;
-    Bat *p_bat;
-    DrawTween *dt;
+    Entity* p_thing;
+    Bat* p_bat;
+    DrawTween* dt;
 
     //
     // Get a thing structure.
@@ -2598,7 +2598,7 @@ found_unused_bat:;
         BAT_set_anim(p_thing, BAT_ANIM_BALROG_ROAR);
         // let's set this mutha alight
         {
-            Thing *pyro;
+            Entity* pyro;
             pyro = PYRO_create(p_thing->WorldPos, PYRO_IMMOLATE);
             if (pyro) {
                 pyro->Genus.Pyro->victim = p_thing;
@@ -2628,8 +2628,8 @@ found_unused_bat:;
 }
 
 void BAT_apply_hit(
-    Thing *p_me,
-    Thing *p_aggressor,
+    Entity* p_me,
+    Entity* p_aggressor,
     std::int32_t damage) {
     std::int32_t dx;
     std::int32_t dy;

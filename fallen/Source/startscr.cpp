@@ -160,7 +160,7 @@ bool show_game = 1;
 
 void STARTSCR_plonk_logo() {
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
     pp[0].specular = pp[1].specular = pp[2].specular = pp[3].specular = 0xff000000;
     pp[0].colour = pp[1].colour = pp[2].colour = pp[3].colour = 0xFFFFFFFF;
@@ -202,7 +202,7 @@ void draw_a_menu(std::int32_t menu) {
     complex = start_menu[menu].Type;
 
     for (c0 = 0; c0 < start_menu[menu].Count; c0++) {
-        char *str;
+        char* str;
 
         if (c0 == start_menu[menu].Current)
             text_colour = 0x00eeee00;
@@ -215,7 +215,7 @@ void draw_a_menu(std::int32_t menu) {
                 draw_centre_text_at(320, y, str, 0, 0);
         } else {
             std::int32_t item;
-            char *str;
+            char* str;
             item = startmenu2[c0 + start_menu[menu].StartIndex].Item;
             draw_text_at(150, y, startmenu2[c0 + start_menu[menu].StartIndex].Str, 0);
 
@@ -294,7 +294,7 @@ void draw_a_new_menu(std::int32_t menu, std::int32_t localctr) {
     complex = start_menu[menu].Type;
 
     for (c0 = 0; c0 < start_menu[menu].Count; c0++) {
-        char *str;
+        char* str;
 
         isthis = (c0 == start_menu[menu].Current);
         rgb = (localctr < 0xff) ? localctr : 0xff;
@@ -325,7 +325,7 @@ void draw_a_new_menu(std::int32_t menu, std::int32_t localctr) {
 
         } else {
             std::int32_t item;
-            char *str;
+            char* str;
             item = startmenu2[c0 + start_menu[menu].StartIndex].Item;
             //			font.DrawString(startmenu2[c0+start_menu[menu].StartIndex].Str,200,y,text_colour,2.0+(isthis*0.5f),isthis);
             flags = MENUFONT_RIGHTALIGN | (isthis ? MENUFONT_SHAKE : 0);
@@ -345,8 +345,8 @@ void draw_a_new_menu(std::int32_t menu, std::int32_t localctr) {
 
 #ifndef PSX
 
-char *LoadAString(MFFileHandle &file, char *txt) {
-    char *ptr = txt;
+char* LoadAString(MFFileHandle& file, char* txt) {
+    char* ptr = txt;
 
     *ptr = 0;
     while (1) {
@@ -361,8 +361,8 @@ char *LoadAString(MFFileHandle &file, char *txt) {
     return txt;
 }
 
-void SaveAString(MFFileHandle &file, char *txt) {
-    char *ptr = txt;
+void SaveAString(MFFileHandle& file, char* txt) {
+    char* ptr = txt;
     char crlf[] = {13, 10};
 
     FileWrite(file, txt, strlen(txt));
@@ -430,7 +430,7 @@ std::int32_t MainE3BodgeLoop() {
     }
     if (((abs(ticker) & 0xff) < 128) && !screen) {
         POLY_Point pp[4];
-        POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+        POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
         pp[0].specular = pp[1].specular = pp[2].specular = pp[3].specular = 0xff000000;
         pp[0].colour = pp[1].colour = pp[2].colour = pp[3].colour = 0xFF000000;
@@ -484,7 +484,7 @@ std::int32_t do_start_menu() {
     static bool doneload = 0;
 
     if (!doneload) {
-        char *lang = ENV_get_value_string("language");
+        char* lang = ENV_get_value_string("language");
         doneload = 1;
         if (!lang) lang = "text\\lang_english.txt";
         XLAT_load(lang);
@@ -655,8 +655,8 @@ std::int32_t do_start_menu() {
 }
 
 void test_the_widgets() {
-    static Form *form = NULL;
-    Widget *widget;
+    static Form* form = NULL;
+    Widget* widget;
 
     if (!form) {
         form = FORM_Create("main menu", NULL, 205, 105, 570, 385, 0xff7fffcf);
@@ -692,10 +692,10 @@ char export_pw[] = EXPORT_PW;
 char export_name[] = EXPORT_NAME;
 char export_co[] = EXPORT_CO;
 
-bool pass_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool pass_dlg(Form* form, Widget* widget, std::int32_t message) {
     /*	char pw[] = {25, 22, 1, 3, 10, 0, 6, 20, 6, 7, 27, 0 };
             char match[] = "mandelbrots";*/
-    char *pt;
+    char* pt;
     //	char* str,*pw2;
     std::int32_t i;
     static bool firstpass = 1;
@@ -741,14 +741,14 @@ bool pass_dlg(Form *form, Widget *widget, std::int32_t message) {
     return 0;
 }
 
-bool menu_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool menu_dlg(Form* form, Widget* widget, std::int32_t message) {
     if (widget) form->returncode = widget->tag;
     return 0;
 }
 
-std::int32_t LoadMissionList(Form *form, char *script, std::int32_t district = -1, std::uint8_t firstonly = FORCE_FIRST_MISSION);
+std::int32_t LoadMissionList(Form* form, char* script, std::int32_t district = -1, std::uint8_t firstonly = FORCE_FIRST_MISSION);
 
-bool game_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool game_dlg(Form* form, Widget* widget, std::int32_t message) {
     Widget *wig, *nxt;
     std::int32_t dist;
 
@@ -800,7 +800,7 @@ bool game_dlg(Form *form, Widget *widget, std::int32_t message) {
 
 void DrawPolaroid() {
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
     pp[0].colour = 0xFFFFFF;
     pp[0].specular = 0;
@@ -848,7 +848,7 @@ void DrawPolaroid() {
 
 std::uint16_t save_slot;
 
-bool save_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool save_dlg(Form* form, Widget* widget, std::int32_t message) {
     if (widget) {
         switch (widget->tag) {
         case 1:
@@ -862,7 +862,7 @@ bool save_dlg(Form *form, Widget *widget, std::int32_t message) {
     return 0;
 }
 
-bool brief_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool brief_dlg(Form* form, Widget* widget, std::int32_t message) {
     std::uint32_t c, t;
 
     if (!widget) {
@@ -882,7 +882,7 @@ bool brief_dlg(Form *form, Widget *widget, std::int32_t message) {
     return 0;
 }
 
-bool load_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool load_dlg(Form* form, Widget* widget, std::int32_t message) {
     if (widget) {
         switch (widget->tag) {
         case 1: form->returncode = -1; break;
@@ -896,15 +896,15 @@ bool load_dlg(Form *form, Widget *widget, std::int32_t message) {
     return 0;
 }
 
-bool esc_dlg(Form *form, Widget *widget, std::int32_t message) {
+bool esc_dlg(Form* form, Widget* widget, std::int32_t message) {
     if (!widget) {
         if ((message == WFN_CHAR) && (LastKey == 1)) form->returncode = -1;
     }
     return 0;
 }
 
-void SaveQuickGame(Form *form) {
-    Widget *widget;
+void SaveQuickGame(Form* form) {
+    Widget* widget;
     std::int32_t slot;
     char fn[_MAX_PATH];
     MFFileHandle file;
@@ -941,7 +941,7 @@ void LoadQuickGame() {
     FileClose(file);
 }
 
-void TemporaryMissionList(Widget *list) {
+void TemporaryMissionList(Widget* list) {
 #ifndef PSX
 
     char dir[_MAX_PATH];
@@ -999,7 +999,7 @@ void LoadMissionList(Widget *list, char* script) {
 }
 */
 
-void ParseMissionData(char *text, char version, MissionData *mdata) {
+void ParseMissionData(char* text, char version, MissionData* mdata) {
     int debug;
 
     switch (version) {
@@ -1030,13 +1030,13 @@ void ParseMissionData(char *text, char version, MissionData *mdata) {
     }
 }
 
-void MissionListCallback(char *script, MISSION_callback cb) {
+void MissionListCallback(char* script, MISSION_callback cb) {
     MFFileHandle file;
-    char *text;
+    char* text;
     std::int32_t ver = 0;
-    MissionData *mdata = MFnew<MissionData>();
+    MissionData* mdata = MFnew<MissionData>();
 
-    text = (char *) MemAlloc(4096);
+    text = (char*) MemAlloc(4096);
     memset(text, 0, 4096);
 
     file = FileOpen(script);
@@ -1065,15 +1065,15 @@ void testy() {
   MissionListCallback(MISSION_SCRIPT,testy2);
 }
 */
-std::int32_t LoadMissionList(Form *form, char *script, std::int32_t district, std::uint8_t firstonly) {
+std::int32_t LoadMissionList(Form* form, char* script, std::int32_t district, std::uint8_t firstonly) {
 #ifndef PSX
 
     MFFileHandle file;
-    char *text;
+    char* text;
     std::int32_t i, ver, mapx, mapy, dumpy = 100, ct = 0;
-    MissionData *mdata = MFnew<MissionData>();
+    MissionData* mdata = MFnew<MissionData>();
 
-    text = (char *) MemAlloc(4096);
+    text = (char*) MemAlloc(4096);
     memset(text, 0, 4096);
 
     i = 100;
@@ -1096,7 +1096,7 @@ std::int32_t LoadMissionList(Form *form, char *script, std::int32_t district, st
                 if (*script > 96) *script ^= 32;
 
             //			if (mapx&&mapy) FORM_AddWidget(form,WIDGET_Create(&BUTTON_Methods,mapx,mapy,640,mapy+20,title))->tag=++i;
-            Widget *widget;
+            Widget* widget;
 
             i++;
 
@@ -1128,15 +1128,15 @@ std::int32_t LoadMissionList(Form *form, char *script, std::int32_t district, st
 #endif
 }
 
-void LoadDistrictList(Form *form, char *script) {
+void LoadDistrictList(Form* form, char* script) {
 #ifndef PSX
 
     MFFileHandle file;
-    char *text;
+    char* text;
     char title[256];
     std::int32_t ver, mapx, mapy, i = 0;
 
-    text = (char *) MemAlloc(2048);
+    text = (char*) MemAlloc(2048);
     memset(text, 0, 2048);
 
     file = FileOpen(script);
@@ -1161,7 +1161,7 @@ void LoadDistrictList(Form *form, char *script) {
             for (script = title; *script; script++)
                 if (*script > 96) *script ^= 32;
 
-            Widget *widget;
+            Widget* widget;
 
             widget = FORM_AddWidget(form, WIDGET_Create(&GLYPH_Methods, mapx, mapy, mapx + 18, mapy + 18, title));
             widget->tag = ++i;
@@ -1179,15 +1179,15 @@ void LoadDistrictList(Form *form, char *script) {
 #endif
 }
 
-void LoadSpecificDistrict(Form *form, char *script, std::uint16_t district) {
+void LoadSpecificDistrict(Form* form, char* script, std::uint16_t district) {
 #ifndef PSX
 
     MFFileHandle file;
-    char *text;
+    char* text;
     char title[256];
     std::int32_t ver, mapx, mapy, i = 0;
 
-    text = (char *) MemAlloc(2048);
+    text = (char*) MemAlloc(2048);
     memset(text, 0, 2048);
 
     district++; // blah blah
@@ -1216,7 +1216,7 @@ void LoadSpecificDistrict(Form *form, char *script, std::uint16_t district) {
                 for (script = title; *script; script++)
                     if (*script > 96) *script ^= 32;
 
-                Widget *widget;
+                Widget* widget;
 
                 widget = FORM_AddWidget(form, WIDGET_Create(&GLYPH_Methods, mapx, mapy, mapx + 18, mapy + 18, title));
                 widget->tag = i;
@@ -1235,16 +1235,16 @@ void LoadSpecificDistrict(Form *form, char *script, std::uint16_t district) {
 #endif
 }
 
-void QuickDistrictList(Form *form, char *script) {
+void QuickDistrictList(Form* form, char* script) {
 #ifndef PSX
 
     MFFileHandle file;
-    char *text;
+    char* text;
     std::int32_t ver = 0;
     std::uint8_t index = 0;
-    MissionData *mdata = MFnew<MissionData>();
+    MissionData* mdata = MFnew<MissionData>();
 
-    text = (char *) MemAlloc(4096);
+    text = (char*) MemAlloc(4096);
     memset(text, 0, 4096);
 
     file = FileOpen(script);
@@ -1269,16 +1269,16 @@ void QuickDistrictList(Form *form, char *script) {
 #endif
 }
 
-std::uint8_t LoadMissionNumFromId(char *script, std::uint8_t id) {
+std::uint8_t LoadMissionNumFromId(char* script, std::uint8_t id) {
 #ifndef PSX
 
     MFFileHandle file;
-    char *text;
+    char* text;
     std::int32_t ver = 0;
     std::uint8_t index = 0;
-    MissionData *mdata = MFnew<MissionData>();
+    MissionData* mdata = MFnew<MissionData>();
 
-    text = (char *) MemAlloc(4096);
+    text = (char*) MemAlloc(4096);
     memset(text, 0, 4096);
 
     file = FileOpen(script);
@@ -1304,15 +1304,15 @@ std::uint8_t LoadMissionNumFromId(char *script, std::uint8_t id) {
 #endif
 }
 
-void LoadMissionFilename(char *script, std::uint8_t index, char *fn, std::uint8_t *id) {
+void LoadMissionFilename(char* script, std::uint8_t index, char* fn, std::uint8_t* id) {
 #ifndef PSX
 
     MFFileHandle file;
-    char *text;
-    MissionData *mdata = MFnew<MissionData>();
+    char* text;
+    MissionData* mdata = MFnew<MissionData>();
     std::int32_t ver = 0;
 
-    text = (char *) MemAlloc(4096);
+    text = (char*) MemAlloc(4096);
     memset(text, 0, 4096);
 
     index++;
@@ -1349,15 +1349,15 @@ void LoadMissionFilename(char *script, std::uint8_t index, char *fn, std::uint8_
 #endif
 }
 
-void LoadNextMissionFilename(std::uint8_t &current_index, char *fn, char *mtitle, char *script) {
+void LoadNextMissionFilename(std::uint8_t& current_index, char* fn, char* mtitle, char* script) {
 #ifndef PSX
 
     MFFileHandle file;
     char *text, *pt;
     std::int32_t ver = 0, ndx = 0;
-    MissionData *mdata = MFnew<MissionData>();
+    MissionData* mdata = MFnew<MissionData>();
 
-    text = (char *) MemAlloc(8192);
+    text = (char*) MemAlloc(8192);
     memset(text, 0, 8192);
 
     file = FileOpen(script);
@@ -1399,7 +1399,7 @@ void LoadNextMissionFilename(std::uint8_t &current_index, char *fn, char *mtitle
 #endif
 }
 
-char *LoadMissionBriefing(char *script, std::uint8_t index) {
+char* LoadMissionBriefing(char* script, std::uint8_t index) {
 #ifndef PSX
 
     MFFileHandle file;
@@ -1407,7 +1407,7 @@ char *LoadMissionBriefing(char *script, std::uint8_t index) {
     char fn[_MAX_PATH], mfn[_MAX_PATH];
     std::int32_t a, b, c, d, e, n, ver;
 
-    text = (char *) MemAlloc(8192);
+    text = (char*) MemAlloc(8192);
     memset(text, 0, 8192);
 
     index++;
@@ -1471,7 +1471,7 @@ char *LoadMissionBriefing(char *script, std::uint8_t index) {
 #endif
 }
 
-void ScanSavedGames(Widget *list) {
+void ScanSavedGames(Widget* list) {
 #ifndef PSX
 
     char dir[_MAX_PATH], ttl[_MAX_PATH];
@@ -1583,8 +1583,8 @@ bool TimeoutCheck() {
 // --- widgety core stuff ---
 
 std::int32_t MainWidgetLoop() {
-    static Form *form = NULL;
-    Widget *widget;
+    static Form* form = NULL;
+    Widget* widget;
     std::int32_t result;
     char *txt, *tmp;
 #ifdef USE_PASSWORD
@@ -1813,7 +1813,7 @@ std::int32_t MainWidgetLoop() {
 extern std::int32_t ELEV_load_user(std::int32_t mission);
 
 extern char ELEV_fname_level[];
-extern void save_whole_game(char *gamename);
+extern void save_whole_game(char* gamename);
 extern std::int32_t quick_load;
 // MissionListCallback
 void make_all_wads() {

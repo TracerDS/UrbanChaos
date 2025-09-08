@@ -147,12 +147,12 @@ std::int32_t draw_background(void) {
         }
 
         memset(WorkWindow, 0, -y * WorkScreenWidth);
-        ptr = (std::uint8_t *) WorkWindow - y * WorkScreenWidth;
-        ptr_dat = (std::uint8_t *) back_dat;
+        ptr = (std::uint8_t*) WorkWindow - y * WorkScreenWidth;
+        ptr_dat = (std::uint8_t*) back_dat;
         height = WorkScreenHeight + y;
     } else {
-        ptr = (std::uint8_t *) WorkWindow;
-        ptr_dat = (std::uint8_t *) back_dat + y * WorkScreenWidth;
+        ptr = (std::uint8_t*) WorkWindow;
+        ptr_dat = (std::uint8_t*) back_dat + y * WorkScreenWidth;
         if ((256 - y) < WorkScreenHeight) {
             height = (256 - y);
             if (height < 0)
@@ -207,7 +207,7 @@ void do_clip_keys(void) {
     }
 }
 extern void mini_game_test(void);
-extern void interface_thing2(struct MapThing *p_thing);
+extern void interface_thing2(struct MapThing* p_thing);
 
 // extern void	draw_col_vects(std::uint16_t	col_vect_link);
 // extern void	draw_actual_col_vect(std::uint16_t	col_vect);
@@ -241,7 +241,7 @@ void screen_shot(void) {
         header[0] = 0;
         header[1] = 0; // no colour map
         header[2] = 2;
-        p_w = (std::uint16_t *) &header[8];
+        p_w = (std::uint16_t*) &header[8];
         *p_w++ = 0;
         *p_w++ = 0;
         *p_w++ = WorkScreenPixelWidth;
@@ -253,8 +253,8 @@ void screen_shot(void) {
 
         FileWrite(handle, &header[0], (std::uint32_t) 20);
 
-        p_w = (std::uint16_t *) &header[20];
-        p_w2 = (std::uint16_t *) WorkScreen;
+        p_w = (std::uint16_t*) &header[20];
+        p_w2 = (std::uint16_t*) WorkScreen;
 
         for (y = 0; y < WorkScreenHeight; y++) {
             for (x = 0; x < WorkScreenPixelWidth; x++) {
@@ -273,11 +273,11 @@ void screen_shot(void) {
     }
 }
 
-LevelEditor *the_leveleditor;
+LevelEditor* the_leveleditor;
 void handle_icon_click(std::uint16_t id) {
     switch (id) {
     case ICON_LOAD_MAP: {
-        FileRequester *fr;
+        FileRequester* fr;
         char fname[100];
         fr = new FileRequester("data\\", "*.map", "Load A MAP", "temp.map");
         if (fr->Draw()) {
@@ -291,7 +291,7 @@ void handle_icon_click(std::uint16_t id) {
         delete fr;
     } break;
     case ICON_SAVE_MAP: {
-        FileRequester *fr;
+        FileRequester* fr;
         char fname[100];
         char temp_name[100];
 
@@ -322,9 +322,9 @@ void handle_icon_click(std::uint16_t id) {
         std::int32_t back_type = 0;
         std::uint8_t test_bloke = 0;
         std::uint8_t film = 0;
-        struct MapThing *darci;
+        struct MapThing* darci;
 
-        extern struct MapThing *init_test_bloke_system(void);
+        extern struct MapThing* init_test_bloke_system(void);
         extern void draw_test_bloke(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t anim, std::int32_t angle);
         //				if(!Keys[KB_B])
         {
@@ -559,27 +559,27 @@ void LevelEditor::SetupModule(void) {
     //	For style paint
     //
     StyleControls.InitControlSet(style_content_def);
-    ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+    ((CEditText*) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
 
-    ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString("No Anim");
+    ((CEditText*) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString("No Anim");
 
-    ((CVSlider *) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->SetUpdateFunction(slider_redraw);
+    ((CVSlider*) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->SetUpdateFunction(slider_redraw);
 
-    ((CVSlider *) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->SetValueRange(0, 60);
-    ((CVSlider *) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->SetCurrentValue(1);
+    ((CVSlider*) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->SetValueRange(0, 60);
+    ((CVSlider*) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->SetCurrentValue(1);
 
     //
     //	For Inside Styles
     //
     InStyleControls.InitControlSet(inside_style_content_def);
-    ((CEditText *) InStyleControls.GetControlPtr(CTRL_INSTYLE_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+    ((CEditText*) InStyleControls.GetControlPtr(CTRL_INSTYLE_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
 
-    ((CEditText *) InStyleControls.GetControlPtr(CTRL_INSTYLE_NAME_EDIT))->SetEditString("No Anim");
+    ((CEditText*) InStyleControls.GetControlPtr(CTRL_INSTYLE_NAME_EDIT))->SetEditString("No Anim");
 
-    ((CVSlider *) InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->SetUpdateFunction(slider_redraw_in);
+    ((CVSlider*) InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->SetUpdateFunction(slider_redraw_in);
 
-    ((CVSlider *) InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->SetValueRange(0, 50);
-    ((CVSlider *) InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->SetCurrentValue(1);
+    ((CVSlider*) InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->SetValueRange(0, 50);
+    ((CVSlider*) InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->SetCurrentValue(1);
 }
 
 //---------------------------------------------------------------
@@ -701,20 +701,20 @@ void LevelEditor::DestroyLevelTabs(void) {
 void build_texture(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, std::uint8_t page, std::uint8_t u0, std::uint8_t v0, std::uint8_t u1, std::uint8_t v1, std::uint8_t u2, std::uint8_t v2, std::uint8_t u3, std::uint8_t v3) {
     setPolyType4(current_bucket_pool, POLY_T);
 
-    setXY4((struct BucketQuad *) current_bucket_pool,
+    setXY4((struct BucketQuad*) current_bucket_pool,
            x, y,
            x + w, y,
            x, y + h,
            x + w, y + h);
 
-    setUV4NA((struct BucketQuad *) current_bucket_pool,
+    setUV4NA((struct BucketQuad*) current_bucket_pool,
              u0, v0, u1, v1, u2, v2, u3, v3, page);
 
-    ((struct BucketQuad *) current_bucket_pool)->DebugInfo = 0;
+    ((struct BucketQuad*) current_bucket_pool)->DebugInfo = 0;
 
     //	setShade4((struct BucketQuad*)current_bucket_pool,128,128,128,128);
 
-    add_bucket((void *) current_bucket_pool, 1);
+    add_bucket((void*) current_bucket_pool, 1);
     current_bucket_pool += sizeof(struct BucketQuad);
 }
 
@@ -778,10 +778,10 @@ void LevelEditor::DrawAnimTmapContent(std::int32_t current_anim_tmap) {
     render_view(0);
 }
 
-void LevelEditor::HandleAnimTmapClick(std::uint8_t flags, MFPoint *clicked_point) {
+void LevelEditor::HandleAnimTmapClick(std::uint8_t flags, MFPoint* clicked_point) {
     EdRect tex_rect;
     std::int32_t w, h = 32, count = 0, c0;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
     MFPoint local_point;
     std::int32_t current_anim_tmap;
 
@@ -987,7 +987,7 @@ void LevelEditor::DrawPSXTexContent(void) {
 void slider_redraw(void) {
     //		the_leveleditor->PaintMode->CurrentStylePos	=	((CVSlider*)the_leveleditor->StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
     //		the_leveleditor->RequestUpdate();
-    the_leveleditor->PaintMode->CurrentStylePos = ((CVSlider *) the_leveleditor->StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
+    the_leveleditor->PaintMode->CurrentStylePos = ((CVSlider*) the_leveleditor->StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
     if (LockWorkScreen()) {
         the_leveleditor->DrawContent();
         UnlockWorkScreen();
@@ -997,18 +997,18 @@ void slider_redraw(void) {
 void slider_redraw_in(void) {
     //		the_leveleditor->PaintMode->CurrentStylePos	=	((CVSlider*)the_leveleditor->StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
     //		the_leveleditor->RequestUpdate();
-    the_leveleditor->PaintMode->CurrentStylePos = ((CVSlider *) the_leveleditor->InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->GetCurrentValue();
+    the_leveleditor->PaintMode->CurrentStylePos = ((CVSlider*) the_leveleditor->InStyleControls.GetControlPtr(CTRL_INSTYLE_POS_SLIDER))->GetCurrentValue();
     if (LockWorkScreen()) {
         the_leveleditor->DrawContent();
         UnlockWorkScreen();
     }
     ShowWorkWindow(0);
 }
-std::int32_t LevelEditor::HandleTexStyleClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t LevelEditor::HandleTexStyleClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t scroll_pos = PaintMode->CurrentStylePos;
     std::int32_t c0, pos;
     EdRect tex_rect;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
     MFPoint local_point;
 
     local_point = *clicked_point;
@@ -1021,8 +1021,8 @@ std::int32_t LevelEditor::HandleTexStyleClick(std::uint8_t flags, MFPoint *click
         if (tex_rect.PointInRect(&local_point)) {
             // want to text edit the name
             PaintMode->CurrentStyleEdit = c0 + scroll_pos;
-            ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0 + scroll_pos][0]);
-            ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+            ((CEditText*) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0 + scroll_pos][0]);
+            ((CEditText*) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText*) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
 
             return (1);
         }
@@ -1073,10 +1073,10 @@ std::int32_t LevelEditor::HandleTexStyleClick(std::uint8_t flags, MFPoint *click
 }
 extern std::uint16_t page_remap[64 * 8];
 
-std::int32_t LevelEditor::HandlePSXTexClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t LevelEditor::HandlePSXTexClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t tex_page = PaintMode->CurrentStylePos;
     EdRect tex_rect;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
     MFPoint local_point;
     std::int32_t x, y, u, v, page;
 
@@ -1127,7 +1127,7 @@ void LevelEditor::HandleStyleControl(std::uint32_t control_id) {
         if (PaintMode->CurrentStyleEdit) {
             extern void fix_style_names(void);
             fix_style_names();
-            strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText *) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
+            strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText*) StyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
         }
         // if(CurrentAnim)
         //	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
@@ -1139,7 +1139,7 @@ void LevelEditor::HandleStyleControl(std::uint32_t control_id) {
         // SaveAllAnims(&test_chunk);
         break;
     case CTRL_STYLE_POS_SLIDER:
-        PaintMode->CurrentStylePos = ((CVSlider *) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
+        PaintMode->CurrentStylePos = ((CVSlider*) StyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
         slider_redraw();
         break;
     }
@@ -1168,7 +1168,7 @@ void LevelEditor::HandlePSXControl(std::uint32_t control_id) {
         PaintMode->CurrentStylePos = 3;
         break;
     case CTRL_PSX_NOREMAP: {
-        EdTexture *current_texture;
+        EdTexture* current_texture;
         std::int32_t u, v, page;
         current_texture = PaintMode->GetTexture();
         u = current_texture->U[0] + current_texture->U[1] + current_texture->U[2] + current_texture->U[3];
@@ -1227,17 +1227,17 @@ void LevelEditor::DrawTexInStyleContent(void) {
 
 void slider_redraw_inside(void) {
     if (LockWorkScreen()) {
-        the_leveleditor->PaintMode->CurrentStylePos = ((CVSlider *) the_leveleditor->InStyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
+        the_leveleditor->PaintMode->CurrentStylePos = ((CVSlider*) the_leveleditor->InStyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
         the_leveleditor->DrawContent();
         UnlockWorkScreen();
     }
     ShowWorkWindow(0);
 }
-std::int32_t LevelEditor::HandleTexInStyleClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t LevelEditor::HandleTexInStyleClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t scroll_pos = PaintMode->CurrentStylePos;
     std::int32_t c0, pos;
     EdRect tex_rect;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
     MFPoint local_point;
 
     local_point = *clicked_point;
@@ -1250,8 +1250,8 @@ std::int32_t LevelEditor::HandleTexInStyleClick(std::uint8_t flags, MFPoint *cli
         if (tex_rect.PointInRect(&local_point)) {
             // want to text edit the name
             PaintMode->CurrentStyleEdit = c0 + scroll_pos;
-            ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0 + scroll_pos][0]);
-            ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+            ((CEditText*) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetEditString(&texture_style_names[c0 + scroll_pos][0]);
+            ((CEditText*) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText*) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
 
             return (1);
         }
@@ -1296,19 +1296,19 @@ void save_texture_instyles(std::uint8_t world) {
     handle = FileCreate(fname, 1);
 
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        FileWrite(handle, (std::uint8_t*) &save_type, 4);
         temp = 9; // how many texture_pages
 
         temp = 64;
         temp2 = 16;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
-        FileWrite(handle, (std::uint8_t *) &temp2, 2);
-        FileWrite(handle, (std::uint8_t *) &inside_tex[0][0], sizeof(std::uint8_t) * temp * temp2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp2, 2);
+        FileWrite(handle, (std::uint8_t*) &inside_tex[0][0], sizeof(std::uint8_t) * temp * temp2);
         temp = 64;
         temp2 = 20;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
-        FileWrite(handle, (std::uint8_t *) &temp2, 2);
-        FileWrite(handle, (std::uint8_t *) &inside_names[0][0], temp * temp2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp2, 2);
+        FileWrite(handle, (std::uint8_t*) &inside_names[0][0], temp * temp2);
 
         FileClose(handle);
     }
@@ -1320,7 +1320,7 @@ void LevelEditor::HandleInStyleControl(std::uint32_t control_id) {
         if (PaintMode->CurrentStyleEdit) {
             extern void fix_style_names(void);
             fix_style_names();
-            strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText *) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
+            strcpy(&texture_style_names[PaintMode->CurrentStyleEdit][0], ((CEditText*) InStyleControls.GetControlPtr(CTRL_STYLE_NAME_EDIT))->GetEditString());
         }
         // if(CurrentAnim)
         //	CurrentAnim->SetAnimName(((CEditText*)AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
@@ -1331,7 +1331,7 @@ void LevelEditor::HandleInStyleControl(std::uint32_t control_id) {
         // SaveAllAnims(&test_chunk);
         break;
     case CTRL_STYLE_POS_SLIDER:
-        PaintMode->CurrentStylePos = ((CVSlider *) InStyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
+        PaintMode->CurrentStylePos = ((CVSlider*) InStyleControls.GetControlPtr(CTRL_STYLE_POS_SLIDER))->GetCurrentValue();
         slider_redraw_inside();
         break;
     }
@@ -1505,7 +1505,7 @@ void LevelEditor::DrawContent(void) {
     }
 }
 
-void LevelEditor::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+void LevelEditor::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -1551,10 +1551,10 @@ void LevelEditor::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
 //---------------------------------------------------------------
 // content clicks do different things depending on the tab selected
 
-void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
+void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint32_t update = 0;
     std::int32_t c0;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
     MFPoint local_point;
 
     switch (CurrentModeTab()->GetTabID()) {
@@ -1562,7 +1562,7 @@ void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point)
         switch (PaintMode->GetPaintMode()) {
         case INSTYLE_DEFINE:
             if (!HandleTexInStyleClick(flags, clicked_point)) {
-                Control *current_control;
+                Control* current_control;
 
                 InStyleControls.SetControlDrawArea();
                 local_point = *clicked_point;
@@ -1593,7 +1593,7 @@ void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point)
             break;
         case PSX_TEX_DEFINE:
             if (!HandlePSXTexClick(flags, clicked_point)) {
-                Control *current_control;
+                Control* current_control;
 
                 PSXControls.SetControlDrawArea();
                 local_point = *clicked_point;
@@ -1624,7 +1624,7 @@ void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point)
             break;
         case STYLE_DEFINE:
             if (!HandleTexStyleClick(flags, clicked_point)) {
-                Control *current_control;
+                Control* current_control;
 
                 StyleControls.SetControlDrawArea();
                 local_point = *clicked_point;
@@ -1789,19 +1789,19 @@ void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point)
                     current_texture = PaintMode->GetTexture();
                     if (hilited_face.PEle) {
                         selected_face = hilited_face;
-                        if (ShiftFlag && hilited_face.Face && hilited_face.PEle != (struct EditMapElement *) -2) { // selecting lots of faces
+                        if (ShiftFlag && hilited_face.Face && hilited_face.PEle != (struct EditMapElement*) -2) { // selecting lots of faces
                             if (face_is_in_list(hilited_face.Face))
                                 add_face_to_list(hilited_face.Face);
-                        } else if (hilited_face.PEle == (struct EditMapElement *) -2) {
-                            struct MiniTextureBits *tex;
+                        } else if (hilited_face.PEle == (struct EditMapElement*) -2) {
+                            struct MiniTextureBits* tex;
                             LogText(" get floor tex co-ords for on screen edit \n");
                             if (edit_info.RoofTex) {
-                                tex = (struct MiniTextureBits *) (&tex_map[selected_face.MapX][selected_face.MapZ]);
+                                tex = (struct MiniTextureBits*) (&tex_map[selected_face.MapX][selected_face.MapZ]);
                             } else {
-                                tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
+                                tex = (struct MiniTextureBits*) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
                             }
                             PaintMode->ConvertMiniTex(tex);
-                        } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
+                        } else if (hilited_face.PEle == (struct EditMapElement*) -1) {
                             if (hilited_face.Face < 0) {
                                 PaintMode->MyUndo.ApplyTexturePrim3(0, prim_faces3[-hilited_face.Face].TexturePage, -hilited_face.Face,
                                                                     prim_faces3[-hilited_face.Face].UV[0][0],
@@ -2051,7 +2051,7 @@ void LevelEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point)
 
 //---------------------------------------------------------------
 
-void LevelEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) {
+void LevelEditor::HandleControlClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
 
     if (CurrentModeTab()) {
@@ -2062,10 +2062,10 @@ void LevelEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point)
 //---------------------------------------------------------------
 extern void zoom_map_onto_screen(void);
 
-void ApplyShadow(struct EditFace *edit_face, std::int32_t shadow) {
+void ApplyShadow(struct EditFace* edit_face, std::int32_t shadow) {
     std::int32_t c0;
 
-    if (edit_face->PEle == (struct EditMapElement *) -2) {
+    if (edit_face->PEle == (struct EditMapElement*) -2) {
         {
             edit_map[edit_face->MapX][edit_face->MapZ].Flags = (edit_map[edit_face->MapX][edit_face->MapZ].Flags & ~7) | shadow;
         }
@@ -2077,7 +2077,7 @@ void LevelEditor::HandleModule(void) {
     std::int32_t c0,
         temp_u,
         temp_v;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
     MFPoint mouse_point;
     MFTime the_time;
     static std::int32_t last_msecond;
@@ -2204,12 +2204,12 @@ void LevelEditor::HandleModule(void) {
             if (LastKey == KB_Z) {
                 if (PaintMode->SubMode == FLOOR_PASTE_BRUSH) {
                     PaintMode->CutMapBlock.Rotate(1);
-                } else if (selected_face.PEle == (struct EditMapElement *) -2) {
-                    struct MiniTextureBits *tex;
+                } else if (selected_face.PEle == (struct EditMapElement*) -2) {
+                    struct MiniTextureBits* tex;
                     if (edit_info.RoofTex) {
-                        tex = (struct MiniTextureBits *) (&tex_map[selected_face.MapX][selected_face.MapZ]);
+                        tex = (struct MiniTextureBits*) (&tex_map[selected_face.MapX][selected_face.MapZ]);
                     } else {
-                        tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
+                        tex = (struct MiniTextureBits*) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
                     }
                     PaintMode->CurrentTextureRot++;
                     PaintMode->CurrentTextureRot &= 3;
@@ -2560,11 +2560,11 @@ void fix_all_selected_faces_for_tile_mode(void) {
 }
 
 #define POPUP_HEIGHT 10 * 20
-void LevelEditor::DoFacePopup(MFPoint *clicked_point) {
+void LevelEditor::DoFacePopup(MFPoint* clicked_point) {
     std::uint32_t flags;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
     std::uint8_t old_flags;
 
@@ -2581,10 +2581,10 @@ void LevelEditor::DoFacePopup(MFPoint *clicked_point) {
         case TAB_NONE:
             break;
         case TAB_PAINT:
-            if (hilited_face.PEle == (struct EditMapElement *) -2) {
+            if (hilited_face.PEle == (struct EditMapElement*) -2) {
                 return;
 
-            } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
+            } else if (hilited_face.PEle == (struct EditMapElement*) -1) {
                 if (hilited_face.Face < 0)
                     flags = prim_faces3[-hilited_face.Face].DrawFlags;
                 else
@@ -2689,8 +2689,8 @@ void LevelEditor::DoFacePopup(MFPoint *clicked_point) {
                 }
             }
 
-            if (hilited_face.PEle == (struct EditMapElement *) -2) {
-            } else if (hilited_face.PEle == (struct EditMapElement *) -1) {
+            if (hilited_face.PEle == (struct EditMapElement*) -2) {
+            } else if (hilited_face.PEle == (struct EditMapElement*) -1) {
                 if (next_face_selected > 1 && face_is_in_list(hilited_face.Face)) {
                     std::int32_t c0;
                     if ((flags & POLY_FLAG_TILED) && !(old_flags & POLY_FLAG_TILED)) {
@@ -2754,10 +2754,10 @@ void LevelEditor::DoFacePopup(MFPoint *clicked_point) {
     }
 }
 
-std::uint8_t LevelEditor::DoStylePopup(MFPoint *clicked_point, std::uint8_t flags) {
+std::uint8_t LevelEditor::DoStylePopup(MFPoint* clicked_point, std::uint8_t flags) {
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
     std::uint8_t old_flags;
 
@@ -2790,7 +2790,7 @@ std::uint8_t LevelEditor::DoStylePopup(MFPoint *clicked_point, std::uint8_t flag
     return (flags);
 }
 
-void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture *current_texture, std::uint8_t type, std::uint8_t side) {
+void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture* current_texture, std::uint8_t type, std::uint8_t side) {
     std::int32_t x, y, index;
     std::uint8_t sub_type;
     std::int32_t storey, wall_index;
@@ -2842,9 +2842,9 @@ void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture *curr
 
 //---------------------------------------------------------------
 
-void LevelEditor::TextureFace(std::int16_t face, PaintTab *texture_mode) {
+void LevelEditor::TextureFace(std::int16_t face, PaintTab* texture_mode) {
     std::int32_t c0;
-    EdTexture *current_texture;
+    EdTexture* current_texture;
 
     if (texture_mode->GetPaintMode() == PALETTE_PAINT) {
         if (face < 0) {
@@ -2973,7 +2973,7 @@ void LevelEditor::TextureFace(std::int16_t face, PaintTab *texture_mode) {
     }
 }
 
-void calc_face_midpoint(std::int16_t face, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_face_midpoint(std::int16_t face, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::int32_t x1 = 0, y1 = 0, z1 = 0, point;
     if (face > 0) {
         for (point = 0; point < 4; point++) {
@@ -2987,7 +2987,7 @@ void calc_face_midpoint(std::int16_t face, std::int32_t *x, std::int32_t *y, std
     *z = z1 >> 2;
 }
 
-std::int32_t find_map_coord(std::int32_t *x, std::int32_t *y, std::int32_t *z, struct EditMapElement *p_ele) {
+std::int32_t find_map_coord(std::int32_t* x, std::int32_t* y, std::int32_t* z, struct EditMapElement* p_ele) {
     /*
             std::int32_t index;
             struct	EditMapElement	*p_ele2;
@@ -3141,10 +3141,10 @@ std::int32_t flood_fill_texture(std::int32_t x, std::int32_t y, std::int32_t z, 
 }
 
 extern std::uint16_t make_poly_into_glass_shatter_prim(std::int16_t face, std::int16_t mid_x, std::int16_t mid_y, std::int16_t mid_z);
-bool LevelEditor::ApplyTexture(struct EditFace *edit_face) {
+bool LevelEditor::ApplyTexture(struct EditFace* edit_face) {
     std::int32_t c0;
 
-    if (edit_face->PEle == (struct EditMapElement *) -2) {
+    if (edit_face->PEle == (struct EditMapElement*) -2) {
         if (PaintMode == PALETTE_PAINT) {
         } else {
             LogText(" paint texture to floor at %d %d \n", edit_face->MapX, edit_face->MapZ);
@@ -3165,7 +3165,7 @@ bool LevelEditor::ApplyTexture(struct EditFace *edit_face) {
             }
         }
 
-    } else if (edit_face->PEle == (struct EditMapElement *) -1) {
+    } else if (edit_face->PEle == (struct EditMapElement*) -1) {
         std::int32_t mid_x, mid_y, mid_z;
 
         //		calc_face_midpoint(edit_face->Face,&mid_x,&mid_y,&mid_z);
@@ -3186,7 +3186,7 @@ bool LevelEditor::ApplyTexture(struct EditFace *edit_face) {
         std::uint32_t texbits;
         PaintMode->ConvertFreeToFixedEle(&edit_face->PEle->Textures[edit_face->Face], &x, &y, &width, &height, &page);
         if (ShiftFlag) {
-            texbits = (*(std::uint32_t *) &edit_face->PEle->Textures[edit_face->Face]);
+            texbits = (*(std::uint32_t*) &edit_face->PEle->Textures[edit_face->Face]);
 
             find_map_coord(&mx, &my, &mz, edit_face->PEle);
             static_face_no = edit_face->Face;

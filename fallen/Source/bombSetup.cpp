@@ -76,7 +76,7 @@ bool CALLBACK bomb_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_bomb_setup(EventPoint *the_ep) {
+void do_bomb_setup(EventPoint* the_ep) {
     //	Set the dialog.
     bomb_type = the_ep->Data[0];
     bomb_size = the_ep->Data[1];

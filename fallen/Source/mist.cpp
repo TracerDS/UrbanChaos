@@ -81,7 +81,7 @@ void MIST_create(
 #endif
     ASSERT(WITHIN(MIST_mist_upto, 0, MIST_MAX_MIST - 1));
 
-    MIST_Mist *mm = &MIST_mist[MIST_mist_upto++];
+    MIST_Mist* mm = &MIST_mist[MIST_mist_upto++];
 
     //
     // No too detailed and not to simple.
@@ -160,8 +160,8 @@ void MIST_gust(
     float ddu;
     float ddv;
 
-    MIST_Mist *mm;
-    MIST_Point *mp;
+    MIST_Mist* mm;
+    MIST_Point* mp;
 
     //
     // The stength (length) of the gust.  Change the length
@@ -322,7 +322,7 @@ void MIST_gust(
 void MIST_process() {
     std::int32_t i;
 #ifndef PSX
-    MIST_Point *mp;
+    MIST_Point* mp;
 
     for (i = 0; i < MIST_point_upto; i++) {
         mp = &MIST_point[i];
@@ -352,7 +352,7 @@ float MIST_off_v_odd;
 float MIST_off_u_even;
 float MIST_off_v_even;
 
-MIST_Mist *MIST_get_mist;
+MIST_Mist* MIST_get_mist;
 
 void MIST_get_start() {
     MIST_get_upto = 0;
@@ -365,7 +365,7 @@ std::int32_t MIST_get_detail() {
     float yaw_odd;
     float yaw_even;
 
-    MIST_Mist *mm;
+    MIST_Mist* mm;
 
     if (!WITHIN(MIST_get_upto, 0, MIST_mist_upto - 1)) {
         //
@@ -426,10 +426,10 @@ std::int32_t MIST_get_detail() {
     }
 }
 void MIST_get_point(std::int32_t px, std::int32_t pz,
-                    std::int32_t *x,
-                    std::int32_t *y,
-                    std::int32_t *z) {
-    MIST_Mist *mm = MIST_get_mist;
+                    std::int32_t* x,
+                    std::int32_t* y,
+                    std::int32_t* z) {
+    MIST_Mist* mm = MIST_get_mist;
 
     ASSERT(WITHIN(mm, &MIST_mist[0], &MIST_mist[MIST_mist_upto - 1]));
     ASSERT(WITHIN(px, 0, mm->detail - 1));
@@ -441,12 +441,12 @@ void MIST_get_point(std::int32_t px, std::int32_t pz,
 }
 
 void MIST_get_texture(std::int32_t px, std::int32_t pz,
-                      float *u,
-                      float *v) {
+                      float* u,
+                      float* v) {
     std::int32_t p_index;
 
-    MIST_Point *mp;
-    MIST_Mist *mm = MIST_get_mist;
+    MIST_Point* mp;
+    MIST_Mist* mm = MIST_get_mist;
 
     ASSERT(WITHIN(mm, &MIST_mist[0], &MIST_mist[MIST_mist_upto - 1]));
     ASSERT(WITHIN(px, 0, mm->detail - 1));

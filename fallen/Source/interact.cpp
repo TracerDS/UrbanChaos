@@ -14,7 +14,7 @@
 #ifndef PSX
 #include "..\editor\headers\prim_draw.h"
 #else
-extern void rotate_obj(std::int16_t xangle, std::int16_t yangle, std::int16_t zangle, Matrix33 *r3);
+extern void rotate_obj(std::int16_t xangle, std::int16_t yangle, std::int16_t zangle, Matrix33* r3);
 
 #endif
 /*
@@ -41,15 +41,15 @@ struct KeyFrame			*anim_array[300],
                                                 *van_array[20],
                                                 *thug_array[300];
 */
-struct GameKeyFrame *global_anim_array[4][450];
+struct GameKeyFrame* global_anim_array[4][450];
 
-struct KeyFrameChunk *test_chunk;
+struct KeyFrameChunk* test_chunk;
 #if !defined(PSX) && !defined(TARGET_DC)
 struct KeyFrameChunk test_chunk2;
 struct KeyFrameChunk test_chunk3;
 struct KeyFrameChunk thug_chunk;
 #endif
-struct KeyFrameElement *the_elements;
+struct KeyFrameElement* the_elements;
 struct GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
 struct GameKeyFrameChunk anim_chunk[MAX_ANIM_CHUNKS];
 
@@ -64,7 +64,7 @@ std::int32_t next_anim_chunk = 0;
 AnimPrimBbox anim_prim_bbox[MAX_ANIM_CHUNKS];
 #endif
 
-extern std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z);
+extern std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z);
 
 std::int32_t calc_angle(std::int32_t dx, std::int32_t dz) {
     std::int32_t angle = 0;
@@ -132,7 +132,7 @@ extern void highlight_face(std::int32_t face);
 
 #define ON_MAP(x, z) (((x) >= 0) && ((z) >= 0) && ((x) < MAP_WIDTH) && ((z) < MAP_HEIGHT))
 
-std::int32_t find_cable_y_along(struct DFacet *p_facet, std::int32_t along) {
+std::int32_t find_cable_y_along(struct DFacet* p_facet, std::int32_t along) {
     std::int32_t max_at, y;
     std::int32_t angle_step1, angle_step2, count;
 
@@ -179,15 +179,15 @@ std::int32_t find_cable_y_along(struct DFacet *p_facet, std::int32_t along) {
     return (y);
 }
 
-std::int32_t check_grab_cable_facet(std::int32_t facet, std::int32_t *grab_x, std::int32_t *grab_y, std::int32_t *grab_z, std::int32_t *grab_angle, std::int32_t radius, std::int32_t dy, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct DFacet *p_facet;
+std::int32_t check_grab_cable_facet(std::int32_t facet, std::int32_t* grab_x, std::int32_t* grab_y, std::int32_t* grab_z, std::int32_t* grab_angle, std::int32_t radius, std::int32_t dy, std::int32_t x, std::int32_t y, std::int32_t z) {
+    struct DFacet* p_facet;
     std::int32_t near_x, near_z, along;
     std::int32_t dist;
     std::int32_t cable_y;
 
     p_facet = &dfacets[facet];
 
-    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t * ret_x, std::int32_t * ret_z, std::int32_t * ret_along);
+    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z, std::int32_t* ret_along);
 
     dist = nearest_point_on_line_and_dist_and_along(
         p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -225,8 +225,8 @@ std::int32_t check_grab_cable_facet(std::int32_t facet, std::int32_t *grab_x, st
     return (1);
 }
 
-std::int32_t check_grab_ladder_facet(std::int32_t facet, std::int32_t *grab_x, std::int32_t *grab_y, std::int32_t *grab_z, std::int32_t *grab_angle, std::int32_t radius, std::int32_t dy, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct DFacet *p_facet;
+std::int32_t check_grab_ladder_facet(std::int32_t facet, std::int32_t* grab_x, std::int32_t* grab_y, std::int32_t* grab_z, std::int32_t* grab_angle, std::int32_t radius, std::int32_t dy, std::int32_t x, std::int32_t y, std::int32_t z) {
+    struct DFacet* p_facet;
     std::int32_t near_x, near_z, along;
     std::int32_t dist;
     std::int32_t cable_y;
@@ -234,7 +234,7 @@ std::int32_t check_grab_ladder_facet(std::int32_t facet, std::int32_t *grab_x, s
 
     p_facet = &dfacets[facet];
 
-    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t * ret_x, std::int32_t * ret_z, std::int32_t * ret_along);
+    extern std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z, std::int32_t* ret_along);
 
     dist = nearest_point_on_line_and_dist_and_along(
         p_facet->x[0] << 8, p_facet->z[0] << 8,
@@ -281,7 +281,7 @@ std::int32_t get_cable_along(std::int32_t facet, std::int32_t ax, std::int32_t a
 
     std::int32_t along;
 
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     p_facet = &dfacets[facet];
 
@@ -310,7 +310,7 @@ std::int32_t get_cable_along(std::int32_t facet, std::int32_t ax, std::int32_t a
     return along;
 }
 
-extern std::int32_t nearest_point_on_line_and_dist_calc_y(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_y, std::int32_t *ret_z);
+extern std::int32_t nearest_point_on_line_and_dist_calc_y(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_y, std::int32_t* ret_z);
 
 std::int32_t grab_px[4], grab_py[4], grab_pz[4];
 std::int32_t best_dist;
@@ -326,14 +326,14 @@ std::int32_t find_grab_face(
     std::int32_t radius,
     std::int32_t dy,
     std::int32_t angle,
-    std::int32_t *grab_x,
-    std::int32_t *grab_y,
-    std::int32_t *grab_z,
-    std::int32_t *grab_angle,
+    std::int32_t* grab_x,
+    std::int32_t* grab_y,
+    std::int32_t* grab_z,
+    std::int32_t* grab_angle,
     std::int32_t ignore_building,
     std::int32_t trench,
-    std::int32_t *type,
-    Thing *p_person) {
+    std::int32_t* type,
+    Entity* p_person) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -354,7 +354,7 @@ std::int32_t find_grab_face(
     std::int32_t cable = 0;
 
     std::int32_t thing;
-    Thing *p_thing;
+    Entity* p_thing;
     std::int32_t pass = 0;
 
     best_dist = radius;
@@ -463,8 +463,8 @@ round_again:;
                     std::int32_t face_angle;
                     std::int32_t dangle;
 
-                    PrimFace4 *p_f4;
-                    struct RoofFace4 *rf;
+                    PrimFace4* p_f4;
+                    struct RoofFace4* rf;
 
                     //				highlight_face(face);
 
@@ -955,10 +955,10 @@ std::int32_t find_grab_face_in_sewers(
     std::int32_t radius,
     std::int32_t dy,
     std::int32_t angle,
-    std::int32_t *grab_x,
-    std::int32_t *grab_y,
-    std::int32_t *grab_z,
-    std::int32_t *grab_angle) {
+    std::int32_t* grab_x,
+    std::int32_t* grab_y,
+    std::int32_t* grab_z,
+    std::int32_t* grab_angle) {
     std::int32_t i;
 
     std::int32_t mx;
@@ -976,7 +976,7 @@ std::int32_t find_grab_face_in_sewers(
     std::int32_t dist;
     std::int32_t dangle;
 
-    NS_Hi *nh;
+    NS_Hi* nh;
 
     const struct {
         std::int8_t dx;
@@ -1090,13 +1090,13 @@ struct Matrix33 r_matrix;
 struct Matrix31 offset;
 std::int32_t matrix[9];
 
-void calc_sub_objects_position(Thing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_sub_objects_position(Entity* p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     struct SVector temp; // max points per object?
-    struct GameKeyFrameElement *anim_info;
-    struct GameKeyFrameElement *anim_info_next;
-    struct Matrix33 *rot_mat;
+    struct GameKeyFrameElement* anim_info;
+    struct GameKeyFrameElement* anim_info_next;
+    struct Matrix33* rot_mat;
     std::int32_t wx, wy, wz;
-    DrawTween *dt = p_mthing->Draw.Tweened;
+    DrawTween* dt = p_mthing->Draw.Tweened;
 
 #ifdef PSX
     {
@@ -1104,7 +1104,7 @@ void calc_sub_objects_position(Thing *p_mthing, std::int32_t tween, std::uint16_
         //
         // stuff added for more compression of anims
         //
-        extern struct PrimPoint *anim_mids; //[256];
+        extern struct PrimPoint* anim_mids; //[256];
 
         index1 = dt->CurrentFrame->XYZIndex;
         index2 = dt->NextFrame->XYZIndex;
@@ -1211,16 +1211,16 @@ void calc_sub_objects_position(Thing *p_mthing, std::int32_t tween, std::uint16_
     if (object == SUB_OBJECT_LEFT_HAND || object == SUB_OBJECT_RIGHT_HAND)
         *y += HAND_HEIGHT;
 }
-void calc_sub_objects_position_fix8(Thing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_sub_objects_position_fix8(Entity* p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     struct SVector temp; // max points per object?
     struct Matrix33 r_matrix;
     struct Matrix31 offset;
-    struct GameKeyFrameElement *anim_info;
-    struct GameKeyFrameElement *anim_info_next;
-    struct Matrix33 *rot_mat;
+    struct GameKeyFrameElement* anim_info;
+    struct GameKeyFrameElement* anim_info_next;
+    struct Matrix33* rot_mat;
     std::int32_t wx, wy, wz;
 
-    DrawTween *dt = p_mthing->Draw.Tweened;
+    DrawTween* dt = p_mthing->Draw.Tweened;
 
 #ifdef PSX
     {
@@ -1228,7 +1228,7 @@ void calc_sub_objects_position_fix8(Thing *p_mthing, std::int32_t tween, std::ui
         //
         // stuff added for more compression of anims
         //
-        extern struct PrimPoint *anim_mids; //[256];
+        extern struct PrimPoint* anim_mids; //[256];
 
         index1 = dt->CurrentFrame->XYZIndex;
         index2 = dt->NextFrame->XYZIndex;
@@ -1265,7 +1265,7 @@ void calc_sub_objects_position_fix8(Thing *p_mthing, std::int32_t tween, std::ui
             p_mthing->Draw.Tweened->Roll,
             &r_matrix);
 
-        matrix_transformZMY((struct Matrix31 *) &temp, &r_matrix, &offset);
+        matrix_transformZMY((struct Matrix31*) &temp, &r_matrix, &offset);
         *x = (temp.X << 3);
         *y = (temp.Y << 3);
         *z = (temp.Z << 3);
@@ -1280,16 +1280,16 @@ void calc_sub_objects_position_fix8(Thing *p_mthing, std::int32_t tween, std::ui
         *y += HAND_HEIGHT;
 }
 #ifndef PSX
-void calc_sub_objects_position_keys(Thing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z, struct GameKeyFrame *frame1, struct GameKeyFrame *frame2) {
+void calc_sub_objects_position_keys(Entity* p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z, struct GameKeyFrame* frame1, struct GameKeyFrame* frame2) {
     struct SVector temp; // max points per object?
     struct Matrix33 r_matrix;
     struct Matrix31 offset;
-    struct GameKeyFrameElement *anim_info;
-    struct GameKeyFrameElement *anim_info_next;
-    struct Matrix33 *rot_mat;
+    struct GameKeyFrameElement* anim_info;
+    struct GameKeyFrameElement* anim_info_next;
+    struct Matrix33* rot_mat;
     std::int32_t wx, wy, wz;
 
-    DrawTween *dt = p_mthing->Draw.Tweened;
+    DrawTween* dt = p_mthing->Draw.Tweened;
 
 #ifdef PSX
     {
@@ -1297,7 +1297,7 @@ void calc_sub_objects_position_keys(Thing *p_mthing, std::int32_t tween, std::ui
         //
         // stuff added for more compression of anims
         //
-        extern struct PrimPoint *anim_mids; //[256];
+        extern struct PrimPoint* anim_mids; //[256];
 
         index1 = dt->CurrentFrame->XYZIndex;
         index2 = dt->NextFrame->XYZIndex;
@@ -1334,7 +1334,7 @@ void calc_sub_objects_position_keys(Thing *p_mthing, std::int32_t tween, std::ui
             p_mthing->Draw.Tweened->Roll,
             &r_matrix);
 
-        matrix_transformZMY((struct Matrix31 *) &temp, &r_matrix, &offset);
+        matrix_transformZMY((struct Matrix31*) &temp, &r_matrix, &offset);
         *x = temp.X; //+wx;
         *y = temp.Y; //+wy;
         *z = temp.Z; //+wz;
@@ -1349,10 +1349,10 @@ void calc_sub_objects_position_keys(Thing *p_mthing, std::int32_t tween, std::ui
         *y += HAND_HEIGHT;
 }
 #endif
-void calc_sub_objects_position_global(GameKeyFrame *cur_frame, GameKeyFrame *next_frame, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_sub_objects_position_global(GameKeyFrame* cur_frame, GameKeyFrame* next_frame, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     struct Matrix31 offset;
-    struct GameKeyFrameElement *anim_info;
-    struct GameKeyFrameElement *anim_info_next;
+    struct GameKeyFrameElement* anim_info;
+    struct GameKeyFrameElement* anim_info_next;
     std::int32_t wx, wy, wz;
 
 #ifdef PSX
@@ -1361,7 +1361,7 @@ void calc_sub_objects_position_global(GameKeyFrame *cur_frame, GameKeyFrame *nex
         //
         // stuff added for more compression of anims
         //
-        extern struct PrimPoint *anim_mids; //[256];
+        extern struct PrimPoint* anim_mids; //[256];
 
         index1 = cur_frame->XYZIndex;
         index2 = next_frame->XYZIndex;

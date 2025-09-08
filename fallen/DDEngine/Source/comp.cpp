@@ -64,7 +64,7 @@ TGA_Pixel COMP_tga_colour(float x, float y) {
 #endif
 }
 
-std::int32_t COMP_load(char *filename, COMP_Frame *cf) {
+std::int32_t COMP_load(char* filename, COMP_Frame* cf) {
 #ifdef TARGET_DC
     // This has been spoofed to save memory -
     // hopefully we won't need it.
@@ -141,10 +141,10 @@ std::int32_t COMP_load(char *filename, COMP_Frame *cf) {
 //
 
 std::int32_t COMP_square_error(
-    COMP_Frame *f1,
+    COMP_Frame* f1,
     std::int32_t sx1,
     std::int32_t sy1,
-    COMP_Frame *f2,
+    COMP_Frame* f2,
     std::int32_t sx2,
     std::int32_t sy2,
     std::int32_t size) {
@@ -157,8 +157,8 @@ std::int32_t COMP_square_error(
     std::int32_t x2;
     std::int32_t y2;
 
-    TGA_Pixel *tp1;
-    TGA_Pixel *tp2;
+    TGA_Pixel* tp1;
+    TGA_Pixel* tp2;
 
     std::int32_t error = 0;
 
@@ -192,10 +192,10 @@ std::int32_t COMP_square_error(
 //
 
 void COMP_square_copy(
-    COMP_Frame *f1,
+    COMP_Frame* f1,
     std::int32_t sx1,
     std::int32_t sy1,
-    COMP_Frame *f2,
+    COMP_Frame* f2,
     std::int32_t sx2,
     std::int32_t sy2,
     std::int32_t size) {
@@ -208,8 +208,8 @@ void COMP_square_copy(
     std::int32_t x2;
     std::int32_t y2;
 
-    TGA_Pixel *tp1;
-    TGA_Pixel *tp2;
+    TGA_Pixel* tp1;
+    TGA_Pixel* tp2;
 
     for (dx = 0; dx < size; dx++)
         for (dy = 0; dy < size; dy++) {
@@ -247,7 +247,7 @@ struct
 
 COMP_Frame COMP_frame;
 
-COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
+COMP_Delta* COMP_calc(COMP_Frame* f1, COMP_Frame* f2, COMP_Frame* ans) {
     std::int32_t i;
 
     std::int32_t sx;
@@ -276,9 +276,9 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
     std::uint8_t diff[COMP_SIZE * COMP_SIZE / 16];
     std::int32_t diff_upto = 0;
 
-    COMP_Pan *cp;
-    COMP_Update *cu;
-    IC_Packet *ip;
+    COMP_Pan* cp;
+    COMP_Update* cu;
+    IC_Packet* ip;
 
     std::int32_t cu_valid;
     std::int32_t cu_num;
@@ -325,9 +325,9 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
 
         found_best_pan:;
 
-        //
-        // The maximum error per-pixel we can live with.
-        //
+    //
+    // The maximum error per-pixel we can live with.
+    //
 
 #define COMP_MAX_ERROR_PER_PIXEL 32
 
@@ -346,7 +346,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
     // RLE the pan values
     //
 
-    cp = (COMP_Pan *) COMP_data.data;
+    cp = (COMP_Pan*) COMP_data.data;
 
     cp->num = 1;
     cp->pan = pan[0];
@@ -396,8 +396,8 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
     // Work out which packets we have to store in full.
     //
 
-    cu = (COMP_Update *) (cp + 1);
-    ip = (IC_Packet *) (cp + 1);
+    cu = (COMP_Update*) (cp + 1);
+    ip = (IC_Packet*) (cp + 1);
     cu_valid = false;
     cu_num = 0;
 
@@ -427,7 +427,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
                     //
 
                     *ip = IC_pack(
-                        (TGA_Pixel *) f2->p,
+                        (TGA_Pixel*) f2->p,
                         COMP_SIZE,
                         COMP_SIZE,
                         sx,
@@ -447,7 +447,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
                     // Create a new packet.
                     //
 
-                    cu = (COMP_Update *) ip;
+                    cu = (COMP_Update*) ip;
 
                     ASSERT((sx & 0x3) == 0);
                     ASSERT((sy & 0x3) == 0);
@@ -459,7 +459,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
                     ip = cu->ip;
 
                     *ip = IC_pack(
-                        (TGA_Pixel *) f2->p,
+                        (TGA_Pixel*) f2->p,
                         COMP_SIZE,
                         COMP_SIZE,
                         sx,
@@ -474,7 +474,7 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
 
                 IC_unpack(
                     *ip,
-                    (TGA_Pixel *) ans->p,
+                    (TGA_Pixel*) ans->p,
                     COMP_SIZE,
                     COMP_SIZE,
                     sx,
@@ -509,8 +509,8 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
         cu->last = true;
     }
 
-    std::uint8_t *data_start = COMP_data.data;
-    std::uint8_t *data_end = (std::uint8_t *) ip;
+    std::uint8_t* data_start = COMP_data.data;
+    std::uint8_t* data_end = (std::uint8_t*) ip;
 
     COMP_data.size = data_end - data_start;
 
@@ -518,28 +518,28 @@ COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
     // Done!
     //
 
-    return (COMP_Delta *) &COMP_data;
+    return (COMP_Delta*) &COMP_data;
 }
 
 void COMP_decomp(
-    COMP_Frame *base,
-    COMP_Delta *delta,
-    COMP_Frame *result) {
+    COMP_Frame* base,
+    COMP_Delta* delta,
+    COMP_Frame* result) {
     std::int32_t i;
     std::int32_t sx;
     std::int32_t sy;
     std::int32_t dx;
     std::int32_t dy;
 
-    COMP_Pan *cp;
-    COMP_Update *cu;
-    IC_Packet *ip;
+    COMP_Pan* cp;
+    COMP_Update* cu;
+    IC_Packet* ip;
 
     //
     // Use the pan info to copy over data.
     //
 
-    cp = (COMP_Pan *) delta->data;
+    cp = (COMP_Pan*) delta->data;
 
     sx = 0;
     sy = 0;
@@ -589,7 +589,7 @@ finished_panning:;
     // Put in all the packets.
     //
 
-    cu = (COMP_Update *) (cp + 1);
+    cu = (COMP_Update*) (cp + 1);
 
     while (1) {
         sx = cu->x;
@@ -605,7 +605,7 @@ finished_panning:;
 
             IC_unpack(
                 *ip,
-                (TGA_Pixel *) result->p,
+                (TGA_Pixel*) result->p,
                 COMP_SIZE,
                 COMP_SIZE,
                 sx,
@@ -626,7 +626,7 @@ finished_panning:;
             break;
         }
 
-        cu = (COMP_Update *) ip;
+        cu = (COMP_Update*) ip;
     }
 }
 
@@ -634,13 +634,13 @@ finished_panning:;
 
 // Spoof em, Danno.
 void COMP_decomp(
-    COMP_Frame *base,
-    COMP_Delta *delta,
-    COMP_Frame *result) {
+    COMP_Frame* base,
+    COMP_Delta* delta,
+    COMP_Frame* result) {
     ASSERT(false);
 }
 
-COMP_Delta *COMP_calc(COMP_Frame *f1, COMP_Frame *f2, COMP_Frame *ans) {
+COMP_Delta* COMP_calc(COMP_Frame* f1, COMP_Frame* f2, COMP_Frame* ans) {
     ASSERT(false);
     return (nullptr);
 }

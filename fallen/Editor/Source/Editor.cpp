@@ -17,12 +17,12 @@ std::uint32_t editor_turn,
 ControlSet module_set;
 EditorModule *CurrentModule,
     *ModuleList;
-EditorModule *test1;
+EditorModule* test1;
 EdRect module_bounds;
-GameEditor *game_editor;
-KeyFrameEditor *key_frame_editor;
-KeyFrameEditor2 *key_framer;
-LevelEditor *level_editor;
+GameEditor* game_editor;
+KeyFrameEditor* key_frame_editor;
+KeyFrameEditor2* key_framer;
+LevelEditor* level_editor;
 
 //
 // The current texture set.
@@ -31,7 +31,7 @@ LevelEditor *level_editor;
 std::int32_t editor_texture_set = 1;
 
 void update_modules();
-void add_module(EditorModule *the_module);
+void add_module(EditorModule* the_module);
 
 ControlDef module_def[] =
     {
@@ -44,7 +44,7 @@ ControlDef module_def[] =
 
 //---------------------------------------------------------------
 
-void handle_front_module(std::uint32_t clicked_area, MFPoint *clicked_point) {
+void handle_front_module(std::uint32_t clicked_area, MFPoint* clicked_point) {
     switch (clicked_area) {
     case OUTSIDE_WINDOW: // Invalid click.
         break;
@@ -76,7 +76,7 @@ void handle_front_module(std::uint32_t clicked_area, MFPoint *clicked_point) {
 }
 
 //---------------------------------------------------------------
-std::int32_t should_module_exist(EditorModule *m) {
+std::int32_t should_module_exist(EditorModule* m) {
     if (m == CurrentModule)
         return (1);
 
@@ -97,7 +97,7 @@ std::int32_t should_module_exist(EditorModule *m) {
 //		if(current_module==CurrentModule|| (CurrentModule==key_frame_editor && (current_module!=level_editor) && (current_module!=key_frame_editor) && (current_module!=game_editor) ) )
 
 void update_modules() {
-    EditorModule *current_module;
+    EditorModule* current_module;
 
     ClearWorkScreen(0);
     current_module = ModuleList;
@@ -115,7 +115,7 @@ void update_modules() {
 
 //---------------------------------------------------------------
 
-void bring_module_to_front(EditorModule *the_module) {
+void bring_module_to_front(EditorModule* the_module) {
     if (the_module == CurrentModule)
         return; // Already at the end of list (Front of display).
 
@@ -135,7 +135,7 @@ void bring_module_to_front(EditorModule *the_module) {
 
 //---------------------------------------------------------------
 
-EditorModule *point_in_module(MFPoint *clicked_point) {
+EditorModule* point_in_module(MFPoint* clicked_point) {
     EditorModule *clicked_module,
         *current_module;
 
@@ -154,7 +154,7 @@ EditorModule *point_in_module(MFPoint *clicked_point) {
 
 //---------------------------------------------------------------
 
-void add_module(EditorModule *the_module) {
+void add_module(EditorModule* the_module) {
     if (CurrentModule == nullptr) // Start of list?
     {
         ModuleList = the_module;
@@ -231,8 +231,8 @@ MFPoint last_mouse;
 void editor() {
     std::uint16_t clicked;
     std::uint32_t clicked_area;
-    Alert *quit_alert;
-    EditorModule *clicked_module;
+    Alert* quit_alert;
+    EditorModule* clicked_module;
     MFPoint mouse_point;
 
     editor_status = EDITOR_NORMAL;
@@ -586,7 +586,7 @@ void editor() {
 //---------------------------------------------------------------
 
 std::uint8_t editor_loop() {
-    GameTexture *the_texture;
+    GameTexture* the_texture;
     std::int32_t i;
 
     the_display.MenuOff();
@@ -601,7 +601,7 @@ std::uint8_t editor_loop() {
     */
     for (i = 0; i < 15; i++) {
         the_texture = &game_textures[i];
-        the_texture->TexturePtr = (std::uint16_t *) MemAlloc(TEXTURE_PAGE_SIZE);
+        the_texture->TexturePtr = (std::uint16_t*) MemAlloc(TEXTURE_PAGE_SIZE);
     }
     free_game_textures(FREE_SHARED_TEXTURES);
 

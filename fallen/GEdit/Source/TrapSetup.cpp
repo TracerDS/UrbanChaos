@@ -43,13 +43,13 @@ void InitSteps(HWND hWnd, char steps, std::int32_t mask) {
     }
 }
 
-char *blank_string[] = {"!"};
+char* blank_string[] = {"!"};
 
 bool CALLBACK traps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
     HWND the_ctrl;
     LPTSTR lbitem_str;
-    NM_UPDOWN *lp_ntfy;
+    NM_UPDOWN* lp_ntfy;
 
     switch (message) {
     case WM_INITDIALOG:
@@ -105,7 +105,7 @@ bool CALLBACK traps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         return ticklist_draw(hWnd, wParam, lParam);
 
     case WM_NOTIFY:
-        lp_ntfy = (NM_UPDOWN *) lParam;
+        lp_ntfy = (NM_UPDOWN*) lParam;
 
         //	Make the 'constitution' spin go up/down in steps of 5.
         if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
@@ -138,7 +138,7 @@ bool CALLBACK traps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 //---------------------------------------------------------------
 
-void do_trap_setup(EventPoint *the_ep) {
+void do_trap_setup(EventPoint* the_ep) {
     if (!the_ep) return;
     //	Set the dialog.
     trap_type = the_ep->Data[0];
@@ -167,7 +167,7 @@ void do_trap_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_trap_message(EventPoint *ep, char *msg) {
+char* get_trap_message(EventPoint* ep, char* msg) {
     if (!ep)
         strcpy(msg, "Unknown");
     else

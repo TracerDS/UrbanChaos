@@ -40,7 +40,7 @@ bool CALLBACK ways_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_waypoint_setup(EventPoint *the_ep) {
+void do_waypoint_setup(EventPoint* the_ep) {
     waypoint_delay = the_ep->Data[0];
     DialogBox(
         GEDIT_hinstance,
@@ -53,7 +53,7 @@ void do_waypoint_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_waypoint_message(EventPoint *ep, char *msg) {
+char* get_waypoint_message(EventPoint* ep, char* msg) {
     float f;
 
     if ((!ep) || !ep->Data[0])

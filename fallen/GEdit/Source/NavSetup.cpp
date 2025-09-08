@@ -13,10 +13,10 @@
 
 //---------------------------------------------------------------
 
-char *nav_text;
+char* nav_text;
 std::int32_t nav_person;
 
-extern char *WaypointExtra(EventPoint *ep, char *msg);
+extern char* WaypointExtra(EventPoint* ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -82,7 +82,7 @@ bool CALLBACK nav_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
                   0, 0) +
               1;
         if (nav_text) free(nav_text);
-        nav_text = (char *) malloc(len);
+        nav_text = (char*) malloc(len);
         ZeroMemory(nav_text, len);
 
         SendMessage(
@@ -112,12 +112,12 @@ bool CALLBACK nav_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_nav_setup(EventPoint *the_ep) {
+void do_nav_setup(EventPoint* the_ep) {
     //	Set the dialog.
-    nav_text = (char *) the_ep->Data[0];
+    nav_text = (char*) the_ep->Data[0];
     nav_person = the_ep->Data[1];
     if (!nav_text) {
-        nav_text = (char *) malloc(STR_LEN);
+        nav_text = (char*) malloc(STR_LEN);
         ZeroMemory(nav_text, STR_LEN);
         SetEPTextID(the_ep);
     }

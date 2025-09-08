@@ -68,17 +68,17 @@ HRESULT WINAPI EnumSurfacesCallbackFunc(
 
 // extern std::uint32_t get_hardware_input(std::uint16_t type);
 
-void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMStream, IDirectDrawSurface *back_surface) {
-    IMediaStream *pPrimaryVidStream;
-    IDirectDrawMediaStream *pDDStream;
-    IDirectDrawStreamSample *pSample;
+void RenderStreamToSurface(IDirectDrawSurface* pSurface, IMultiMediaStream* pMMStream, IDirectDrawSurface* back_surface) {
+    IMediaStream* pPrimaryVidStream;
+    IDirectDrawMediaStream* pDDStream;
+    IDirectDrawStreamSample* pSample;
     RECT rect;
     RECT midrect;
     DDSURFACEDESC ddsd;
 
     pMMStream->GetMediaStream(MSPID_PrimaryVideo, &pPrimaryVidStream);
     ASSERT(pPrimaryVidStream != nullptr);
-    pPrimaryVidStream->QueryInterface(IID_IDirectDrawMediaStream, (void **) &pDDStream);
+    pPrimaryVidStream->QueryInterface(IID_IDirectDrawMediaStream, (void**) &pDDStream);
     ASSERT(pDDStream != nullptr);
 
     InitStruct(ddsd);
@@ -152,8 +152,8 @@ void RenderStreamToSurface(IDirectDrawSurface *pSurface, IMultiMediaStream *pMMS
 #include "amstream.h" // DirectShow multimedia stream interfaces
 #include "ddstream.h" // DirectDraw multimedia stream interfaces
 
-void RenderFileToMMStream(const char *szFileName, IMultiMediaStream **ppMMStream, IDirectDraw *pDD) {
-    IAMMultiMediaStream *pAMStream = nullptr;
+void RenderFileToMMStream(const char* szFileName, IMultiMediaStream** ppMMStream, IDirectDraw* pDD) {
+    IAMMultiMediaStream* pAMStream = nullptr;
 
     HRESULT hres;
 
@@ -162,7 +162,7 @@ void RenderFileToMMStream(const char *szFileName, IMultiMediaStream **ppMMStream
         nullptr,
         CLSCTX_INPROC_SERVER,
         IID_IAMMultiMediaStream,
-        (void **) &pAMStream);
+        (void**) &pAMStream);
 
     WCHAR wPath[MAX_PATH]; // Wide (32-bit) string name
 
@@ -203,7 +203,7 @@ void RenderFileToMMStream(const char *szFileName, IMultiMediaStream **ppMMStream
 
 extern char DATA_DIR[];
 
-void InitBackImage(char *name) {
+void InitBackImage(char* name) {
     MFFileHandle image_file;
     std::int32_t height;
     char fname[200];
@@ -211,7 +211,7 @@ void InitBackImage(char *name) {
     sprintf(fname, "%sdata\\%s", DATA_DIR, name);
 
     if (image_mem == 0) {
-        image_mem = (std::uint8_t *) MemAlloc(640 * 480 * 3);
+        image_mem = (std::uint8_t*) MemAlloc(640 * 480 * 3);
     }
 
     if (!image_mem)
@@ -348,7 +348,7 @@ struct RGB_555 {
         B : 5;
 };
 
-void LoadBackImage(std::uint8_t *image_data) {
+void LoadBackImage(std::uint8_t* image_data) {
     ASSERT(0);
 
     std::uint16_t pixel,
@@ -369,7 +369,7 @@ void LoadBackImage(std::uint8_t *image_data) {
         switch (result) {
         case DD_OK:
             pitch = dd_sd.lPitch >> 1;
-            surface_mem = (std::uint16_t *) dd_sd.lpSurface;
+            surface_mem = (std::uint16_t*) dd_sd.lpSurface;
             for (height = 0; (unsigned) height < dd_sd.dwHeight; height++, surface_mem += pitch) {
                 for (width = 0; (unsigned) width < dd_sd.dwWidth; width++) {
                     pixel = the_display.GetFormattedPixel(*(image_data + 2), *(image_data + 1), *(image_data + 0));
@@ -509,9 +509,9 @@ HRESULT Display::Fini() {
 }
 
 HRESULT Display::GenerateDefaults() {
-    D3DDeviceInfo *new_device;
-    DDDriverInfo *new_driver;
-    DDModeInfo *new_mode;
+    D3DDeviceInfo* new_device;
+    DDDriverInfo* new_driver;
+    DDModeInfo* new_mode;
     HRESULT result;
 
     new_driver = ValidateDriver(nullptr);
@@ -564,7 +564,7 @@ HRESULT Display::GenerateDefaults() {
 }
 
 HRESULT Display::InitInterfaces() {
-    GUID *the_guid;
+    GUID* the_guid;
     HRESULT result;
 
     // Do we have a current DD Driver
@@ -591,7 +591,7 @@ HRESULT Display::InitInterfaces() {
     }
 
     // Get DD4 interface
-    result = lp_DD->QueryInterface((REFIID) IID_IDirectDraw4, (void **) &lp_DD4);
+    result = lp_DD->QueryInterface((REFIID) IID_IDirectDraw4, (void**) &lp_DD4);
     if (FAILED(result)) {
         // Error
         // Output error.
@@ -602,7 +602,7 @@ HRESULT Display::InitInterfaces() {
     }
 
     // Get D3D interface
-    result = lp_DD4->QueryInterface((REFIID) IID_IDirect3D3, (void **) &lp_D3D);
+    result = lp_DD4->QueryInterface((REFIID) IID_IDirect3D3, (void**) &lp_D3D);
     if (FAILED(result)) {
         // Error
         // Output error.
@@ -743,9 +743,9 @@ void PlayQuickMovie(std::int32_t type, std::int32_t language_ignored, bool bIgno
 
     HRESULT result = the_display.lp_DD4->CreateSurface(&mine, &mirror, nullptr);
 
-    IDirectDrawSurface *lpdds;
+    IDirectDrawSurface* lpdds;
 
-    if (SUCCEEDED(mirror->QueryInterface(IID_IDirectDrawSurface, (void **) &lpdds))) {
+    if (SUCCEEDED(mirror->QueryInterface(IID_IDirectDrawSurface, (void**) &lpdds))) {
         if (!type) {
             BinkPlay("bink\\" FMV1a ".bik", lpdds, quick_flipper);
             BinkPlay("bink\\" FMV1b ".bik", lpdds, quick_flipper);
@@ -929,8 +929,8 @@ HRESULT Display::FiniFullscreenMode() {
 
 void calculate_mask_and_shift(
     std::uint32_t bitmask,
-    std::int32_t *mask,
-    std::int32_t *shift) {
+    std::int32_t* mask,
+    std::int32_t* shift) {
     std::int32_t i;
     std::int32_t b;
     std::int32_t num_bits = 0;
@@ -1026,7 +1026,7 @@ HRESULT Display::InitFront() {
     }
 
     // create gamma control
-    result = lp_DD_FrontSurface->QueryInterface(IID_IDirectDrawGammaControl, (void **) &lp_DD_GammaControl);
+    result = lp_DD_FrontSurface->QueryInterface(IID_IDirectDrawGammaControl, (void**) &lp_DD_GammaControl);
     if (FAILED(result)) {
         lp_DD_GammaControl = nullptr;
         TRACE("No gamma\n");
@@ -1570,7 +1570,7 @@ HRESULT Display::ChangeMode(
     std::int32_t bpp,
     std::int32_t refresh) {
     HRESULT result;
-    DDDriverInfo *old_driver;
+    DDDriverInfo* old_driver;
     DDModeInfo *new_mode,
         *old_mode;
     D3DDeviceInfo *new_device,
@@ -1747,10 +1747,10 @@ HRESULT Display::Restore() {
 
 //---------------------------------------------------------------
 
-HRESULT Display::AddLoadedTexture(D3DTexture *the_texture) {
+HRESULT Display::AddLoadedTexture(D3DTexture* the_texture) {
 #ifdef DEBUG
     // Check that this isn't a circular list and that this texture isn't already loaded.
-    D3DTexture *t = TextureList;
+    D3DTexture* t = TextureList;
     int iCountdown = 10000;
     while (t != nullptr) {
         ASSERT(t != the_texture);
@@ -1772,13 +1772,13 @@ void Display::RemoveAllLoadedTextures() {
 }
 
 HRESULT Display::FreeLoadedTextures() {
-    D3DTexture *current_texture;
+    D3DTexture* current_texture;
 
     int iCountdown = 10000;
 
     current_texture = TextureList;
     while (current_texture) {
-        D3DTexture *next_texture = current_texture->NextTexture;
+        D3DTexture* next_texture = current_texture->NextTexture;
         current_texture->Destroy();
         current_texture = next_texture;
         iCountdown--;
@@ -1795,13 +1795,13 @@ HRESULT Display::FreeLoadedTextures() {
 static char clumpfile[MAX_PATH] = "";
 static size_t clumpsize = 0;
 
-void SetLastClumpfile(char *file, size_t size) {
+void SetLastClumpfile(char* file, size_t size) {
     strcpy(clumpfile, file);
     clumpsize = size;
 }
 
 HRESULT Display::ReloadTextures() {
-    D3DTexture *current_texture;
+    D3DTexture* current_texture;
 
     if (clumpfile[0]) {
         OpenTGAClump(clumpfile, clumpsize, true);
@@ -1809,7 +1809,7 @@ HRESULT Display::ReloadTextures() {
 
     current_texture = TextureList;
     while (current_texture) {
-        D3DTexture *next_texture = current_texture->NextTexture;
+        D3DTexture* next_texture = current_texture->NextTexture;
         current_texture->Reload();
         current_texture = next_texture;
     }
@@ -1852,7 +1852,7 @@ HRESULT Display::ShowWorkScreen() {
     return lp_DD_FrontSurface->Blt(&DisplayRect, lp_DD_WorkSurface, nullptr, DDBLT_WAIT, nullptr);
 }
 
-void *Display::screen_lock() {
+void* Display::screen_lock() {
     if (DisplayFlags & DISPLAY_LOCKED) {
         //
         // Don't do anything if you try to lock the screen twice in a row.
@@ -1872,7 +1872,7 @@ void *Display::screen_lock() {
             screen_height = ddsdesc.dwHeight;
             screen_pitch = ddsdesc.lPitch;
             screen_bbp = ddsdesc.ddpfPixelFormat.dwRGBBitCount;
-            screen = (std::uint8_t *) ddsdesc.lpSurface;
+            screen = (std::uint8_t*) ddsdesc.lpSurface;
 
             DisplayFlags |= DISPLAY_LOCKED;
         } else {
@@ -1899,19 +1899,19 @@ void Display::PlotPixel(std::int32_t x, std::int32_t y, std::uint8_t red, std::u
         if (WITHIN(x, 0, screen_width - 1) &&
             WITHIN(y, 0, screen_height - 1)) {
             if (CurrMode->GetBPP() == 16) {
-                std::uint16_t *dest;
+                std::uint16_t* dest;
 
                 std::uint16_t pixel = GetFormattedPixel(red, green, blue);
                 std::int32_t index = x + x + y * screen_pitch;
 
-                dest = (std::uint16_t *) (&(screen[index]));
+                dest = (std::uint16_t*) (&(screen[index]));
                 dest[0] = pixel;
             } else {
-                std::uint32_t *dest;
+                std::uint32_t* dest;
                 std::uint32_t pixel = GetFormattedPixel(red, green, blue);
                 std::int32_t index = x * 4 + y * screen_pitch;
 
-                dest = (std::uint32_t *) (screen + index);
+                dest = (std::uint32_t*) (screen + index);
                 dest[0] = pixel;
             }
         }
@@ -1929,15 +1929,15 @@ void Display::PlotFormattedPixel(std::int32_t x, std::int32_t y, std::uint32_t c
         if (WITHIN(x, 0, screen_width - 1) &&
             WITHIN(y, 0, screen_height - 1)) {
             if (CurrMode->GetBPP() == 16) {
-                std::uint16_t *dest;
+                std::uint16_t* dest;
                 std::int32_t index = x + x + y * screen_pitch;
 
-                dest = (std::uint16_t *) (&(screen[index]));
+                dest = (std::uint16_t*) (&(screen[index]));
                 dest[0] = colour;
             } else {
-                std::uint32_t *dest;
+                std::uint32_t* dest;
                 std::int32_t index = x * 4 + y * screen_pitch;
-                dest = (std::uint32_t *) (screen + index);
+                dest = (std::uint32_t*) (screen + index);
                 dest[0] = colour;
             }
         }
@@ -1950,7 +1950,7 @@ void Display::PlotFormattedPixel(std::int32_t x, std::int32_t y, std::uint32_t c
     }
 }
 
-void Display::GetPixel(std::int32_t x, std::int32_t y, std::uint8_t *red, std::uint8_t *green, std::uint8_t *blue) {
+void Display::GetPixel(std::int32_t x, std::int32_t y, std::uint8_t* red, std::uint8_t* green, std::uint8_t* blue) {
     std::int32_t index;
 
     std::uint32_t colour;
@@ -1963,15 +1963,15 @@ void Display::GetPixel(std::int32_t x, std::int32_t y, std::uint8_t *red, std::u
         if (WITHIN(x, 0, screen_width - 1) &&
             WITHIN(y, 0, screen_height - 1)) {
             if (CurrMode->GetBPP() == 16) {
-                std::uint16_t *dest;
+                std::uint16_t* dest;
                 std::int32_t index = x + x + y * screen_pitch;
 
-                dest = (std::uint16_t *) (&(screen[index]));
+                dest = (std::uint16_t*) (&(screen[index]));
                 colour = dest[0];
             } else {
-                std::uint32_t *dest;
+                std::uint32_t* dest;
                 std::int32_t index = 4 * x + y * screen_pitch;
-                dest = (std::uint32_t *) (screen + index);
+                dest = (std::uint32_t*) (screen + index);
                 colour = dest[0];
             }
 
@@ -2015,7 +2015,7 @@ void Display::blit_back_buffer() {
     }
 }
 
-void CopyBackground32(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
+void CopyBackground32(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
     DDSURFACEDESC2 mine;
     HRESULT res;
 
@@ -2024,7 +2024,7 @@ void CopyBackground32(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
     if (FAILED(res)) return;
 
     std::int32_t pitch = mine.lPitch >> 2;
-    std::uint32_t *mem = (std::uint32_t *) mine.lpSurface;
+    std::uint32_t* mem = (std::uint32_t*) mine.lpSurface;
     std::int32_t width;
     std::int32_t height;
 
@@ -2035,10 +2035,10 @@ void CopyBackground32(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
 
     std::int32_t lsy = -1;
     std::int32_t sy = 0;
-    std::uint32_t *lmem = nullptr;
+    std::uint32_t* lmem = nullptr;
 
     for (height = 0; (unsigned) height < mine.dwHeight; height++) {
-        std::uint8_t *src = image_data + 640 * 3 * (sy >> 16);
+        std::uint8_t* src = image_data + 640 * 3 * (sy >> 16);
 
         if ((sy >> 16) == lsy) {
             // repeat line
@@ -2047,7 +2047,7 @@ void CopyBackground32(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
             std::int32_t sx = 0;
 
             for (width = 0; (unsigned) width < mine.dwWidth; width++) {
-                std::uint8_t *pp = src + 3 * (sx >> 16);
+                std::uint8_t* pp = src + 3 * (sx >> 16);
 
                 mem[width] = the_display.GetFormattedPixel(pp[2], pp[1], pp[0]);
 
@@ -2065,7 +2065,7 @@ void CopyBackground32(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
     surface->Unlock(nullptr);
 }
 
-void CopyBackground(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
+void CopyBackground(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
     CopyBackground32(image_data, surface);
 }
 
@@ -2092,7 +2092,7 @@ void Display::use_this_background_surface(LPDIRECTDRAWSURFACE4 this_one) {
     lp_DD_Background_use_instead = this_one;
 }
 
-void Display::create_background_surface(std::uint8_t *image_data) {
+void Display::create_background_surface(std::uint8_t* image_data) {
     DDSURFACEDESC2 back;
     DDSURFACEDESC2 mine;
 
@@ -2213,7 +2213,7 @@ void Display::SetGamma(int black, int white) {
     lp_DD_GammaControl->SetGammaRamp(0, &ramp);
 }
 
-void Display::GetGamma(int *black, int *white) {
+void Display::GetGamma(int* black, int* white) {
     *black = ENV_get_value_number("BlackPoint", 0, "Gamma");
     *white = ENV_get_value_number("WhitePoint", 256, "Gamma");
 }

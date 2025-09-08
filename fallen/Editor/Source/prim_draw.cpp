@@ -10,16 +10,16 @@
 
 #define EDITOR 1
 
-extern std::uint16_t calc_lights(std::int32_t x, std::int32_t y, std::int32_t z, struct SVector *p_vect); // prim.c??
-extern void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
-extern void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2);
-extern void matrix_transform_small(struct Matrix31 *result, struct Matrix33 *trans, struct SMatrix31 *mat2);
+extern std::uint16_t calc_lights(std::int32_t x, std::int32_t y, std::int32_t z, struct SVector* p_vect); // prim.c??
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
+extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2);
 
 #ifdef EDITOR
 extern void do_quad_clip_list(std::int16_t face, std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3);                               // prim_edit.h
 extern void do_tri_clip_list(std::int16_t face, std::int32_t p0, std::int32_t p1, std::int32_t p2);                                                 // prim_edit.h
-extern bool check_mouse_over_prim_quad(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t face); // edit.h
-extern bool check_mouse_over_prim_tri(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t face);                   // edit.h
+extern bool check_mouse_over_prim_quad(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t face); // edit.h
+extern bool check_mouse_over_prim_tri(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t face);                   // edit.h
 extern struct SVector selected_prim_xyz;
 extern std::int16_t SelectFlag;
 extern std::int16_t SelectDrawn;
@@ -43,7 +43,7 @@ void	apply_matrix_to_vect(struct SVector *before,struct Matrix33	*matrix,struct 
 }
 */
 
-void add_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3, struct SVector *res, struct SVector *points, std::uint16_t *bright, std::int32_t *flags, struct PrimFace4 *p_f4) {
+void add_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3, struct SVector* res, struct SVector* points, std::uint16_t* bright, std::int32_t* flags, struct PrimFace4* p_f4) {
     std::int32_t az;
     std::uint32_t flag_and, flag_or;
 
@@ -62,35 +62,35 @@ void add_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int32_t p2, std::
                 current_bucket_pool,
                 p_f4->DrawFlags);
             setXY4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 res[p0].X, res[p0].Y,
                 res[p1].X, res[p1].Y,
                 res[p2].X, res[p2].Y,
                 res[p3].X, res[p3].Y);
 
             setUV4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->UV[0][0], p_f4->UV[0][1],
                 p_f4->UV[1][0], p_f4->UV[1][1],
                 p_f4->UV[2][0], p_f4->UV[2][1],
                 p_f4->UV[3][0], p_f4->UV[3][1],
                 p_f4->TexturePage);
 
-            setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+            setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
             //			setShade4((struct BucketQuad*)current_bucket_pool,p_f4->Bright[0],p_f4->Bright[1],p_f4->Bright[2],p_f4->Bright[3]);
-            setShade4((struct BucketQuad *) current_bucket_pool,
+            setShade4((struct BucketQuad*) current_bucket_pool,
                       CLIP256(p_f4->Bright[0] + bright[p0]),
                       CLIP256(p_f4->Bright[1] + bright[p1]),
                       CLIP256(p_f4->Bright[2] + bright[p2]),
                       CLIP256(p_f4->Bright[3] + bright[p3]));
 
-            add_bucket((void *) current_bucket_pool, az);
+            add_bucket((void*) current_bucket_pool, az);
             current_bucket_pool += sizeof(struct BucketQuad);
         }
 }
 
-inline void add_split_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int32_t p3, std::int32_t p2, struct SVector *info, struct SVector *res, std::int32_t *flags) {
+inline void add_split_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int32_t p3, std::int32_t p2, struct SVector* info, struct SVector* res, std::int32_t* flags) {
     std::int32_t az;
     std::uint32_t flag_and, flag_or;
 
@@ -108,27 +108,27 @@ inline void add_split_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int3
                 current_bucket_pool,
                 3);
             setXY4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 res[p0].X, res[p0].Y,
                 res[p1].X, res[p1].Y,
                 res[p2].X, res[p2].Y,
                 res[p3].X, res[p3].Y);
 
             setUV4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 info[p0].X, info[p0].Y,
                 info[p1].X, info[p1].Y,
                 info[p2].X, info[p2].Y,
                 info[p3].X, info[p3].Y, (std::int16_t) 0);
 
-            setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+            setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
             //			setShade4((struct BucketQuad*)current_bucket_pool,p_f4->Bright[0],p_f4->Bright[1],p_f4->Bright[2],p_f4->Bright[3]);
-            setShade4((struct BucketQuad *) current_bucket_pool,
+            setShade4((struct BucketQuad*) current_bucket_pool,
                       info[p0].Z, info[p1].Z,
                       info[p2].Z, info[p3].Z);
 
-            add_bucket((void *) current_bucket_pool, az);
+            add_bucket((void*) current_bucket_pool, az);
             current_bucket_pool += sizeof(struct BucketQuad);
         }
 }
@@ -136,13 +136,13 @@ inline void add_split_quad_to_bucket(std::int32_t p0, std::int32_t p1, std::int3
 #define AVERAGE2(x, y) (((x) + (y)) >> 1)
 #define AVERAGE4(x, y, A, B) (((x) + (y) + (A) + (B)) >> 2)
 
-inline void average_svect(struct SVector *mid, struct SVector *p1, struct SVector *p2) {
+inline void average_svect(struct SVector* mid, struct SVector* p1, struct SVector* p2) {
     mid->X = AVERAGE2(p1->X, p2->X);
     mid->Y = AVERAGE2(p1->Y, p2->Y);
     mid->Z = AVERAGE2(p1->Z, p2->Z);
 }
 
-inline void average_svect4(struct SVector *mid, struct SVector *p1, struct SVector *p2, struct SVector *p3, struct SVector *p4) {
+inline void average_svect4(struct SVector* mid, struct SVector* p1, struct SVector* p2, struct SVector* p3, struct SVector* p4) {
     mid->X = AVERAGE4(p1->X, p2->X, p3->X, p4->X);
     mid->Y = AVERAGE4(p1->Y, p2->Y, p3->Y, p4->Y);
     mid->Z = AVERAGE4(p1->Z, p2->Z, p3->Z, p4->Z);
@@ -158,7 +158,7 @@ inline void average_svect4(struct SVector *mid, struct SVector *p1, struct SVect
             p4   	  p7		 p3
 */
 
-std::uint32_t should_i_split_it(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector *res) {
+std::uint32_t should_i_split_it(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector* res) {
     std::int32_t top, bottom;
     std::int32_t left, right;
     top = std::min(std::min(std::min(res[p1].Y, res[p2].Y), res[p3].Y), res[p4].Y);
@@ -171,7 +171,7 @@ std::uint32_t should_i_split_it(std::int32_t p1, std::int32_t p2, std::int32_t p
     else
         return (0);
 }
-std::uint32_t check_flags(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p0, std::int32_t *flags) {
+std::uint32_t check_flags(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p0, std::int32_t* flags) {
     std::int32_t flags_or;
 
     flags_or = flags[p0] | flags[p1] | flags[p2] | flags[p3];
@@ -183,7 +183,7 @@ std::uint32_t check_flags(std::int32_t p1, std::int32_t p2, std::int32_t p3, std
     return (0);
 }
 
-void split_quad_r(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector *res, struct SVector *points, std::uint16_t *bright, std::int32_t *flags, struct SVector *info, std::uint16_t depth) {
+void split_quad_r(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector* res, struct SVector* points, std::uint16_t* bright, std::int32_t* flags, struct SVector* info, std::uint16_t depth) {
     struct SVector new_points[10], new_res[10], new_info[10];
     //	struct	PrimFace4	new_faces[10];
     std::int32_t new_flags[10];
@@ -221,11 +221,11 @@ void split_quad_r(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_
     average_svect(&new_info[8], &new_info[4], &new_info[1]);
     average_svect4(&new_info[9], &new_info[1], &new_info[2], &new_info[3], &new_info[4]);
 
-    new_flags[5] = rotate_point_gte((struct SVector *) &new_points[5], &new_res[5]);
-    new_flags[6] = rotate_point_gte((struct SVector *) &new_points[6], &new_res[6]);
-    new_flags[7] = rotate_point_gte((struct SVector *) &new_points[7], &new_res[7]);
-    new_flags[8] = rotate_point_gte((struct SVector *) &new_points[8], &new_res[8]);
-    new_flags[9] = rotate_point_gte((struct SVector *) &new_points[9], &new_res[9]);
+    new_flags[5] = rotate_point_gte((struct SVector*) &new_points[5], &new_res[5]);
+    new_flags[6] = rotate_point_gte((struct SVector*) &new_points[6], &new_res[6]);
+    new_flags[7] = rotate_point_gte((struct SVector*) &new_points[7], &new_res[7]);
+    new_flags[8] = rotate_point_gte((struct SVector*) &new_points[8], &new_res[8]);
+    new_flags[9] = rotate_point_gte((struct SVector*) &new_points[9], &new_res[9]);
 
     // now we have all the texture info, all the draw coords, all the shades
 
@@ -266,7 +266,7 @@ void split_quad_r(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_
     //	add_quad_to_bucket(p0,p1,p2,p3,res,points,bright,flags,p_f4);
 }
 
-inline void split_quad(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector *res, struct SVector *points, std::uint16_t *bright, std::int32_t *flags, struct PrimFace4 *p_f4, std::uint16_t depth) {
+inline void split_quad(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct SVector* res, struct SVector* points, std::uint16_t* bright, std::int32_t* flags, struct PrimFace4* p_f4, std::uint16_t depth) {
     struct SVector new_points[10], new_res[10], new_info[10];
     //	struct	PrimFace4	new_faces[10];
     std::int32_t new_flags[10];
@@ -315,11 +315,11 @@ inline void split_quad(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::i
     average_svect(&new_info[8], &new_info[4], &new_info[1]);
     average_svect4(&new_info[9], &new_info[1], &new_info[2], &new_info[3], &new_info[4]);
 
-    new_flags[5] = rotate_point_gte((struct SVector *) &new_points[5], &new_res[5]);
-    new_flags[6] = rotate_point_gte((struct SVector *) &new_points[6], &new_res[6]);
-    new_flags[7] = rotate_point_gte((struct SVector *) &new_points[7], &new_res[7]);
-    new_flags[8] = rotate_point_gte((struct SVector *) &new_points[8], &new_res[8]);
-    new_flags[9] = rotate_point_gte((struct SVector *) &new_points[9], &new_res[9]);
+    new_flags[5] = rotate_point_gte((struct SVector*) &new_points[5], &new_res[5]);
+    new_flags[6] = rotate_point_gte((struct SVector*) &new_points[6], &new_res[6]);
+    new_flags[7] = rotate_point_gte((struct SVector*) &new_points[7], &new_res[7]);
+    new_flags[8] = rotate_point_gte((struct SVector*) &new_points[8], &new_res[8]);
+    new_flags[9] = rotate_point_gte((struct SVector*) &new_points[9], &new_res[9]);
 
     // now we have all the texture info, all the draw coords, all the shades
 
@@ -358,14 +358,14 @@ inline void split_quad(std::int32_t p1, std::int32_t p2, std::int32_t p3, std::i
     //	add_quad_to_bucket(p0,p1,p2,p3,res,points,bright,flags,p_f4);
 }
 
-extern std::uint16_t is_it_clockwise(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3);
+extern std::uint16_t is_it_clockwise(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3);
 
 void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t shade) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::uint32_t flag_and, flag_or;
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     std::int32_t col = 0, cor = 0, cob = 0, cot = 0, total = 0;
@@ -458,11 +458,11 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                             p_f4->DrawFlags);
 
                         setCol4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             p_f4->Col2);
 
                         setXY4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             global_res[p0].X, global_res[p0].Y,
                             global_res[p1].X, global_res[p1].Y,
                             global_res[p2].X, global_res[p2].Y,
@@ -474,13 +474,13 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
 #endif
 
                         if (p_f4->FaceFlags & FACE_FLAG_ANIMATE) {
-                            struct AnimTmap *p_a;
+                            struct AnimTmap* p_a;
                             std::int32_t cur;
                             p_a = &anim_tmaps[p_f4->TexturePage];
                             cur = p_a->Current;
 
                             setUV4(
-                                (struct BucketQuad *) current_bucket_pool,
+                                (struct BucketQuad*) current_bucket_pool,
                                 p_a->UV[cur][0][0], p_a->UV[cur][0][1],
                                 p_a->UV[cur][1][0], p_a->UV[cur][1][1],
                                 p_a->UV[cur][2][0], p_a->UV[cur][2][1],
@@ -491,7 +491,7 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                             //						if(p_f4->TexturePage>15)
                             //							p_f4->TexturePage=15;
                             setUV4(
-                                (struct BucketQuad *) current_bucket_pool,
+                                (struct BucketQuad*) current_bucket_pool,
                                 p_f4->UV[0][0], p_f4->UV[0][1],
                                 p_f4->UV[1][0], p_f4->UV[1][1],
                                 p_f4->UV[2][0], p_f4->UV[2][1],
@@ -500,22 +500,22 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                             //								ASSERT(p_f4->TexturePage<8);
                         }
 
-                        setZ4((struct BucketQuad *) current_bucket_pool, -global_res[p0].Z, -global_res[p1].Z, -global_res[p2].Z, -global_res[p3].Z);
+                        setZ4((struct BucketQuad*) current_bucket_pool, -global_res[p0].Z, -global_res[p1].Z, -global_res[p2].Z, -global_res[p3].Z);
 
                         //			setShade4((struct BucketQuad*)current_bucket_pool,p_f4->Bright[0],p_f4->Bright[1],p_f4->Bright[2],p_f4->Bright[3]);
                         if (shade) {
-                            setShade4((struct BucketQuad *) current_bucket_pool,
+                            setShade4((struct BucketQuad*) current_bucket_pool,
                                       CLIP256(p_f4->Bright[0] + global_bright[p0]),
                                       CLIP256(p_f4->Bright[1] + global_bright[p1]),
                                       CLIP256(p_f4->Bright[2] + global_bright[p2]),
                                       CLIP256(p_f4->Bright[3] + global_bright[p3]));
                         } else {
-                            setShade4((struct BucketQuad *) current_bucket_pool, 128, 128, 128, 128);
+                            setShade4((struct BucketQuad*) current_bucket_pool, 128, 128, 128, 128);
                         }
-                        ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                        ((struct BucketQuad *) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
+                        ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                        ((struct BucketQuad*) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
 
-                        add_bucket((void *) current_bucket_pool, az);
+                        add_bucket((void*) current_bucket_pool, az);
 #ifdef EDITOR
                         if (check_mouse_over_prim_quad(global_res, p0, p1, p2, p3, c0)) {
                             selected_prim_xyz.X = x;
@@ -583,11 +583,11 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                         p_f3->DrawFlags);
 
                     setCol3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         p_f3->Col2);
 
                     setXY3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         global_res[p0].X, global_res[p0].Y,
                         global_res[p1].X, global_res[p1].Y,
                         global_res[p2].X, global_res[p2].Y);
@@ -601,7 +601,7 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                     //			if(p_f3->TexturePage>15)
                     //				p_f3->TexturePage=15;
                     setUV3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         p_f3->UV[0][0], p_f3->UV[0][1],
                         p_f3->UV[1][0], p_f3->UV[1][1],
                         p_f3->UV[2][0], p_f3->UV[2][1],
@@ -609,18 +609,18 @@ void draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                     //			ASSERT(p_f3->TexturePage<8);
 
                     if (shade) {
-                        setShade3((struct BucketTri *) current_bucket_pool,
+                        setShade3((struct BucketTri*) current_bucket_pool,
                                   CLIP256(p_f3->Bright[0] + global_bright[p0]),
                                   CLIP256(p_f3->Bright[1] + global_bright[p1]),
                                   CLIP256(p_f3->Bright[2] + global_bright[p2]));
                     } else {
-                        setShade3((struct BucketTri *) current_bucket_pool, 128, 128, 128);
+                        setShade3((struct BucketTri*) current_bucket_pool, 128, 128, 128);
                     }
 
-                    ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                    ((struct BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                    ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 #ifdef EDITOR
                     if (check_mouse_over_prim_tri(global_res, p0, p1, p2, c0)) {
                         selected_prim_xyz.X = x;
@@ -640,18 +640,18 @@ exit:;
     //	LogText(" draw a prim  left %d right %d top %d bot %d  ok %d \n",col,cor,cot,cob,total);
 }
 
-void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct PrimMultiAnim *anim_info, struct Matrix33 *rot_mat) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct PrimMultiAnim* anim_info, struct Matrix33* rot_mat) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::uint32_t flag_and, flag_or;
     struct SVector temp; // max points per object?
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
     std::int32_t i, j;
-    struct PrimMultiAnim *anim_info_next;
+    struct PrimMultiAnim* anim_info_next;
     struct Matrix31 offset;
 
     p_obj = &prim_objects[prim];
@@ -667,7 +667,7 @@ void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std:
     offset.M[0] = (anim_info->DX + (((anim_info_next->DX - anim_info->DX) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
     offset.M[1] = (anim_info->DY + (((anim_info_next->DY - anim_info->DY) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
     offset.M[2] = (anim_info->DZ + (((anim_info_next->DZ - anim_info->DZ) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -695,12 +695,12 @@ void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std:
     matrix_mult33(&mat_final, rot_mat, &mat2);
 
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
         //		matrix_transform((struct Matrix31*)&temp,&mat2, (struct Matrix31*)&prim_points[c0]);
         //      matrix now does the yz flip
         //		swap(temp.Y,temp.Z)  //MDOPT do this inside the matrix multiply
         //		temp.Y=-temp.Y;
-        global_flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &global_res[c0 - sp]);
+        global_flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &global_res[c0 - sp]);
     }
 
     engine.X += x << 8;
@@ -727,23 +727,23 @@ void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std:
 
                 setPolyGT4(current_bucket_pool);
 
-                setXY4((struct BucketQuad *) current_bucket_pool, global_res[p0].X, global_res[p0].Y, global_res[p1].X, global_res[p1].Y, global_res[p2].X, global_res[p2].Y, global_res[p3].X, global_res[p3].Y);
+                setXY4((struct BucketQuad*) current_bucket_pool, global_res[p0].X, global_res[p0].Y, global_res[p1].X, global_res[p1].Y, global_res[p2].X, global_res[p2].Y, global_res[p3].X, global_res[p3].Y);
 
                 setUV4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     p_f4->UV[0][0], p_f4->UV[0][1],
                     p_f4->UV[1][0], p_f4->UV[1][1],
                     p_f4->UV[2][0], p_f4->UV[2][1],
                     p_f4->UV[3][0], p_f4->UV[3][1],
                     p_f4->TexturePage);
 
-                setZ4((struct BucketQuad *) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z, global_res[p3].Z);
+                setZ4((struct BucketQuad*) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z, global_res[p3].Z);
 
-                setShade4((struct BucketQuad *) current_bucket_pool, p_f4->Bright[0], p_f4->Bright[1], p_f4->Bright[2], p_f4->Bright[3]);
-                ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketQuad *) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
+                setShade4((struct BucketQuad*) current_bucket_pool, p_f4->Bright[0], p_f4->Bright[1], p_f4->Bright[2], p_f4->Bright[3]);
+                ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketQuad*) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
 #ifdef EDITOR
@@ -772,15 +772,15 @@ void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std:
 
                 setPolyGT3(current_bucket_pool);
 
-                setXY3((struct BucketTri *) current_bucket_pool, global_res[p0].X, global_res[p0].Y, global_res[p1].X, global_res[p1].Y, global_res[p2].X, global_res[p2].Y);
+                setXY3((struct BucketTri*) current_bucket_pool, global_res[p0].X, global_res[p0].Y, global_res[p1].X, global_res[p1].Y, global_res[p2].X, global_res[p2].Y);
 
-                setUV3((struct BucketQuad *) current_bucket_pool, 0, 0, 32, 0, 32, 32, 1);
+                setUV3((struct BucketQuad*) current_bucket_pool, 0, 0, 32, 0, 32, 32, 1);
 
-                setShade3((struct BucketQuad *) current_bucket_pool, 128, 128, 128);
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                setShade3((struct BucketQuad*) current_bucket_pool, 128, 128, 128);
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 #ifdef EDITOR
                 check_mouse_over_prim_tri(global_res, p0, p1, p2, c0);
 #endif
@@ -790,11 +790,11 @@ void draw_a_rot_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std:
         p_f3++;
     }
 }
-extern void build_tween_matrix(struct Matrix33 *mat, struct CMatrix33 *cmat1, struct CMatrix33 *cmat2, std::int32_t tween);
+extern void build_tween_matrix(struct Matrix33* mat, struct CMatrix33* cmat1, struct CMatrix33* cmat2, std::int32_t tween);
 
-void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement* anim_info, struct GameKeyFrameElement* anim_info_next, struct Matrix33* rot_mat) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint16_t bright[1560];
     std::uint32_t flag_and, flag_or;
@@ -802,7 +802,7 @@ void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, st
     struct SVector res_shadow[1560], temp_shadow; // max points per object?
     std::int32_t flags_shadow[1560];
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
@@ -833,7 +833,7 @@ void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, st
             offset.M[2]+=(the_keyframe1->Dz+(((the_keyframe2->Dz-the_keyframe1->Dz)*tween)>>8))>>2;
     */
 
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -865,12 +865,12 @@ void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, st
         pp.Y = prim_points[c0].Y;
         pp.Z = prim_points[c0].Z;
 
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
         temp.X += mapx;
         temp.Y += mapy;
         temp.Z += mapz;
 
-        flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &res[c0 - sp]);
+        flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &res[c0 - sp]);
         bright[c0 - sp] = calc_lights(x, y, z, &pp);
     }
 
@@ -902,36 +902,36 @@ void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, st
                     p_f4->DrawFlags);
 
                 setCol4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     p_f4->Col2);
 
                 setXY4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y,
                     res[p3].X, res[p3].Y);
 
                 setUV4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     p_f4->UV[0][0], p_f4->UV[0][1],
                     p_f4->UV[1][0], p_f4->UV[1][1],
                     p_f4->UV[2][0], p_f4->UV[2][1],
                     p_f4->UV[3][0], p_f4->UV[3][1],
                     p_f4->TexturePage);
 
-                setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+                setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
                 setShade4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     CLIP256(p_f4->Bright[0] + bright[p0]),
                     CLIP256(p_f4->Bright[1] + bright[p1]),
                     CLIP256(p_f4->Bright[2] + bright[p2]),
                     CLIP256(p_f4->Bright[3] + bright[p3]));
-                ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketQuad *) current_bucket_pool)->DebugFlags = 0;
+                ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketQuad*) current_bucket_pool)->DebugFlags = 0;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }
@@ -963,21 +963,21 @@ void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, st
                     );
 
                     setCol3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         0);
 
                     setXY3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         res_shadow[p0].X, res_shadow[p0].Y,
                         res_shadow[p1].X, res_shadow[p1].Y,
                         res_shadow[p2].X, res_shadow[p2].Y, );
 
-                    setZ3((struct BucketTri *) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z);
+                    setZ3((struct BucketTri*) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z);
 
-                    ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                    ((struct BucketTri *) current_bucket_pool)->DebugFlags = 0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugFlags = 0;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 
                     current_bucket_pool += sizeof(struct BucketTri);
                 }
@@ -996,32 +996,32 @@ void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, st
                     p_f3->DrawFlags);
 
                 setCol3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->Col2);
 
                 setXY3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y);
 
                 setUV3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->UV[0][0], p_f3->UV[0][1],
                     p_f3->UV[1][0], p_f3->UV[1][1],
                     p_f3->UV[2][0], p_f3->UV[2][1],
                     p_f3->TexturePage);
 
                 setShade3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     CLIP256(p_f3->Bright[0] + bright[p0]),
                     CLIP256(p_f3->Bright[1] + bright[p1]),
                     CLIP256(p_f3->Bright[2] + bright[p2]));
 
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketTri *) current_bucket_pool)->DebugFlags = 0;
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugFlags = 0;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }

@@ -98,10 +98,10 @@ void SHAPE_semisphere(
     std::int32_t p1;
     std::int32_t p2;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     //
     // Construct two vectors orthogonal to (dx,dy,dz) and to eachother.
@@ -365,10 +365,10 @@ void SHAPE_semisphere_textured(
     std::int32_t p1;
     std::int32_t p2;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     //
     // Construct two vectors orthogonal to (dx,dy,dz) and to eachother.
@@ -623,9 +623,9 @@ void SHAPE_sphere(
 
     POLY_Point pp_top;
     POLY_Point pp_bot;
-    POLY_Point *pp;
-    POLY_Point *quad[4];
-    POLY_Point *tri[3];
+    POLY_Point* pp;
+    POLY_Point* quad[4];
+    POLY_Point* tri[3];
 
     //
     // The top and bottom points.
@@ -807,7 +807,7 @@ void SHAPE_sparky_line(
 
     POLY_Point pp[SHAPE_MAX_SPARKY_POINTS];
 
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     //
     // Transform all the points along the middle of the line.
@@ -1026,7 +1026,7 @@ void SHAPE_glitter(
     POLY_Point top;
     POLY_Point bot;
 
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     POLY_transform(
         float(x1),
@@ -1105,14 +1105,14 @@ void SHAPE_glitter(
 
 void SHAPE_tripwire_uvs(
     std::uint16_t counter,
-    float *u1,
-    float *v1,
-    float *u2,
-    float *v2,
-    float *u3,
-    float *v3,
-    float *u4,
-    float *v4) {
+    float* u1,
+    float* v1,
+    float* u2,
+    float* v2,
+    float* u3,
+    float* v3,
+    float* u4,
+    float* v4) {
     float v = float(counter & 0x7fff) * (1.0F / (128.0F * 256.0F));
 
     if (counter & 0x8000) {
@@ -1150,7 +1150,7 @@ void SHAPE_tripwire(
     float z2 = float(iz2);
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     float dx = x2 - x1;
     float dy = y2 - y1;
@@ -1289,7 +1289,7 @@ void SHAPE_waterfall(
     std::int32_t pz2 = mid_z + (dz << 7) + (-dx << 7);
 
     POLY_Point pp[6];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     for (i = 0; i < 3; i++) {
         switch (i) {
@@ -1384,7 +1384,7 @@ void SHAPE_droplet(
     POLY_Point top;
     POLY_Point bot;
 
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     POLY_flush_local_rot();
 
@@ -1465,7 +1465,7 @@ void SHAPE_droplet(
 
 void SHADOW_cylindrical_shadow(float px, float py, float pz, float radius, float length) {
     POLY_Point pp[6];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     POLY_transform(
         px - radius * -0.707F,
@@ -1542,9 +1542,9 @@ void SHADOW_cylindrical_shadow(float px, float py, float pz, float radius, float
     }
 }
 
-void SHAPE_prim_shadow(OB_Info *oi) {
+void SHAPE_prim_shadow(OB_Info* oi) {
     POLY_Point pp[6];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
 #define SHAPE_PRIM_SHADOW_RADIUS (24.0F)
 #define SHAPE_PRIM_SHADOW_LENGTH (128.0F)
@@ -1555,7 +1555,7 @@ void SHAPE_prim_shadow(OB_Info *oi) {
 
     std::int32_t i;
 
-    PrimInfo *pi;
+    PrimInfo* pi;
 
     float angle;
 
@@ -1576,7 +1576,7 @@ void SHAPE_prim_shadow(OB_Info *oi) {
 
     std::uint8_t order[3];
 
-    POLY_Point *pp_upto;
+    POLY_Point* pp_upto;
 
     switch (prim_get_shadow_type(oi->prim)) {
     case PRIM_SHADOW_NONE:
@@ -1870,9 +1870,9 @@ void SHAPE_alpha_sphere(
 
     POLY_Point pp_top;
     POLY_Point pp_bot;
-    POLY_Point *pp;
-    POLY_Point *quad[4];
-    POLY_Point *tri[3];
+    POLY_Point* pp;
+    POLY_Point* quad[4];
+    POLY_Point* tri[3];
 
     //
     // The top and bottom points.
@@ -2035,7 +2035,7 @@ void SHAPE_draw_balloon(std::int32_t balloon) {
 
     ASSERT(WITHIN(balloon, 1, BALLOON_balloon_upto - 1));
 
-    BALLOON_Balloon *bb;
+    BALLOON_Balloon* bb;
 
     bb = &BALLOON_balloon[balloon];
 

@@ -71,7 +71,7 @@ bool CALLBACK transferpick_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 //---------------------------------------------------------------
 
-void do_transfer_pick(EventPoint *the_ep) {
+void do_transfer_pick(EventPoint* the_ep) {
     //	Set the dialog.
     transfer_to = the_ep->Data[0];
 

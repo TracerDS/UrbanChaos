@@ -109,19 +109,19 @@ std::uint16_t BIKE_create(
 // Returns the THING_INDEX of a bike the person can get onto.
 //
 
-std::int32_t BIKE_person_can_mount(Thing *p_person);
+std::int32_t BIKE_person_can_mount(Entity *p_person);
 
 //
 // Tells the bike that somebody is getting on it.  It starts animating.
 //
 
-void BIKE_set_mounting(Thing *p_bike, Thing *p_person);
+void BIKE_set_mounting(Entity *p_bike, Entity *p_person);
 
 //
 // Tells the bike that nobody is on it any more.
 //
 
-void BIKE_set_parked(Thing *p_bike);
+void BIKE_set_parked(Entity *p_bike);
 
 //
 // How to steer a bike.
@@ -136,20 +136,20 @@ typedef struct
 
 } BIKE_Control;
 
-BIKE_Control BIKE_control_get(Thing *p_bike);
-void BIKE_control_set(Thing *p_bike, BIKE_Control bc);
+BIKE_Control BIKE_control_get(Entity *p_bike);
+void BIKE_control_set(Entity *p_bike, BIKE_Control bc);
 
 //
 // Returns the roll of the bike.
 //
 
-std::int32_t BIKE_get_roll(Thing *p_bike);
+std::int32_t BIKE_get_roll(Entity *p_bike);
 
 //
 // Returns the speed of the bike.
 //
 
-std::int32_t BIKE_get_speed(Thing *p_bike);
+std::int32_t BIKE_get_speed(Entity *p_bike);
 
 //
 // Bike drawing info
@@ -174,7 +174,7 @@ typedef struct
 
 } BIKE_Drawinfo;
 
-BIKE_Drawinfo BIKE_get_drawinfo(Thing *p_bike);
+BIKE_Drawinfo BIKE_get_drawinfo(Entity *p_bike);
 
 #endif
 

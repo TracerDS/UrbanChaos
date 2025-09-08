@@ -43,52 +43,52 @@
 
 //---------------------------------------------------------------
 // from supermap.cpp
-extern std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *room);
+extern std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t* room);
 
 // from aeng.cpp
 extern std::uint8_t AENG_transparent_warehouses;
 
 //---------------------------------------------------------------
 
-void do_creature_setup(EventPoint *the_ep);
-void do_message_setup(EventPoint *the_ep);
+void do_creature_setup(EventPoint* the_ep);
+void do_message_setup(EventPoint* the_ep);
 // void	do_shout_setup(EventPoint *the_ep);
-void do_vehicle_setup(EventPoint *the_ep);
-void do_bomb_setup(EventPoint *the_ep);
-void do_burn_setup(EventPoint *the_ep);
-char *get_vehicle_message(EventPoint *ep, char *msg);
-void do_vfx_setup(EventPoint *the_ep);
-void do_sfx_setup(EventPoint *the_ep);
-void do_wpt_pick(EventPoint *the_ep);
-void do_barrel_setup(EventPoint *the_ep);
-void do_spotfx_setup(EventPoint *the_ep);
-char *get_spotfx_message(EventPoint *ep, char *msg);
-void do_warefx_setup(EventPoint *the_ep);
-char *get_warefx_message(EventPoint *ep, char *msg);
-void do_treasure_setup(EventPoint *the_ep);
-char *get_treasure_message(EventPoint *ep, char *msg);
-void do_bonus_setup(EventPoint *the_ep);
+void do_vehicle_setup(EventPoint* the_ep);
+void do_bomb_setup(EventPoint* the_ep);
+void do_burn_setup(EventPoint* the_ep);
+char* get_vehicle_message(EventPoint* ep, char* msg);
+void do_vfx_setup(EventPoint* the_ep);
+void do_sfx_setup(EventPoint* the_ep);
+void do_wpt_pick(EventPoint* the_ep);
+void do_barrel_setup(EventPoint* the_ep);
+void do_spotfx_setup(EventPoint* the_ep);
+char* get_spotfx_message(EventPoint* ep, char* msg);
+void do_warefx_setup(EventPoint* the_ep);
+char* get_warefx_message(EventPoint* ep, char* msg);
+void do_treasure_setup(EventPoint* the_ep);
+char* get_treasure_message(EventPoint* ep, char* msg);
+void do_bonus_setup(EventPoint* the_ep);
 // char	*get_bonus_message(EventPoint *ep, char* msg);
-void do_converse_setup(EventPoint *the_ep);
-void do_counter_setup(EventPoint *the_ep);
-char *get_counter_message(EventPoint *ep, char *msg);
-void do_lite_setup(EventPoint *the_ep);
-char *get_lite_message(EventPoint *ep, char *msg);
-void do_nav_setup(EventPoint *the_ep);
-void do_anim_pick(EventPoint *the_ep);
-void do_transfer_pick(EventPoint *the_ep);
-void do_lock_setup(EventPoint *the_ep);
-void do_reset_pick(EventPoint *the_ep);
-void do_enemy_flags_setup(EventPoint *the_ep);
-void do_stall_setup(EventPoint *the_ep);
-void do_extend_setup(EventPoint *the_ep);
-void do_move_setup(EventPoint *the_ep);
-void do_pee_setup(EventPoint *the_ep);
-void do_sign_setup(EventPoint *the_ep);
+void do_converse_setup(EventPoint* the_ep);
+void do_counter_setup(EventPoint* the_ep);
+char* get_counter_message(EventPoint* ep, char* msg);
+void do_lite_setup(EventPoint* the_ep);
+char* get_lite_message(EventPoint* ep, char* msg);
+void do_nav_setup(EventPoint* the_ep);
+void do_anim_pick(EventPoint* the_ep);
+void do_transfer_pick(EventPoint* the_ep);
+void do_lock_setup(EventPoint* the_ep);
+void do_reset_pick(EventPoint* the_ep);
+void do_enemy_flags_setup(EventPoint* the_ep);
+void do_stall_setup(EventPoint* the_ep);
+void do_extend_setup(EventPoint* the_ep);
+void do_move_setup(EventPoint* the_ep);
+void do_pee_setup(EventPoint* the_ep);
+void do_sign_setup(EventPoint* the_ep);
 
 //---------------------------------------------------------------
 
-char *get_message_message(EventPoint *ep, char *msg);
+char* get_message_message(EventPoint* ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -128,7 +128,7 @@ EventPoint *hilited_ep = nullptr,
 
 extern int waypoint_colour,
     waypoint_group;
-extern char *GEDIT_map_name;
+extern char* GEDIT_map_name;
 extern bool map_valid;
 extern char map_name[];
 extern std::uint8_t button_colours[][3];
@@ -244,11 +244,11 @@ bool TypeHasProperties(std::int32_t type) {
     return 0;
 }
 
-bool HasProperties(EventPoint *ep) {
+bool HasProperties(EventPoint* ep) {
     return TypeHasProperties(ep->WaypointType);
 }
 
-void CleanProperties(EventPoint *ep) {
+void CleanProperties(EventPoint* ep) {
     /*	switch(ep->WaypointType) {
             case WPT_MESSAGE:
             case WPT_CONVERSATION:
@@ -259,11 +259,11 @@ void CleanProperties(EventPoint *ep) {
                     if (ep->Data[0])
                             free((void*)ep->Data[0]);
             }*/
-    if (HasText(ep)) free((void *) ep->Data[0]);
+    if (HasText(ep)) free((void*) ep->Data[0]);
     ZeroMemory(ep->Data, 10 * sizeof(ep->Data[0]));
 }
 
-std::int32_t OpenProperties(EventPoint *ep) {
+std::int32_t OpenProperties(EventPoint* ep) {
     if (!ep) return 0;
 
     switch (ep->WaypointType) {
@@ -338,7 +338,7 @@ std::int32_t OpenProperties(EventPoint *ep) {
         break;
 
     case WPT_SHOUT:
-        if (ep) ep->Data[0] = (std::int32_t) InputBox("Shout Code", "Enter code to be 'shouted':", (char *) ep->Data[0]);
+        if (ep) ep->Data[0] = (std::int32_t) InputBox("Shout Code", "Enter code to be 'shouted':", (char*) ep->Data[0]);
         break;
 
     case WPT_NAV_BEACON:
@@ -441,7 +441,7 @@ std::int32_t OpenProperties(EventPoint *ep) {
     return 0;
 }
 
-std::int32_t GetEventY(EventPoint *ep, bool base = 0) {
+std::int32_t GetEventY(EventPoint* ep, bool base = 0) {
     if (ep->Flags & WPT_FLAGS_INSIDE) {
         if (ep->Y)
             return get_inside_alt(ep->Y);
@@ -455,7 +455,7 @@ std::int32_t GetEventY(EventPoint *ep, bool base = 0) {
     }
 }
 
-std::int32_t GetNextFloor(EventPoint *ep, std::int8_t dir, std::uint16_t *room) {
+std::int32_t GetNextFloor(EventPoint* ep, std::int8_t dir, std::uint16_t* room) {
     std::int32_t y, base, floor = 0;
 
     if (ep->Y) { // is already inside
@@ -487,7 +487,7 @@ std::int32_t GetNextFloor(EventPoint *ep, std::int8_t dir, std::uint16_t *room) 
     return floor;
 }
 
-void SetMenuItemText(HMENU menu, std::int32_t item, char *str) {
+void SetMenuItemText(HMENU menu, std::int32_t item, char* str) {
     std::int32_t res;
 
     res = ModifyMenu(menu, item, MF_STRING | MF_BYCOMMAND, item, str);
@@ -499,7 +499,7 @@ void SetMenuItemText(HMENU menu, std::int32_t item, char *str) {
 
 //---------------------------------------------------------------
 
-char *WaypointTitle(EventPoint *ep, char *msg) {
+char* WaypointTitle(EventPoint* ep, char* msg) {
     if (!ep->WaypointType)
         sprintf(msg, "%d", EVENTPOINT_NUMBER(current_mission->EventPoints, ep));
     else
@@ -507,7 +507,7 @@ char *WaypointTitle(EventPoint *ep, char *msg) {
     return msg;
 }
 
-char *WaypointExtra(EventPoint *ep, char *msg) {
+char* WaypointExtra(EventPoint* ep, char* msg) {
     msg[0] = 0;
     if (ep) {
         switch (ep->WaypointType) {
@@ -580,7 +580,7 @@ char *WaypointExtra(EventPoint *ep, char *msg) {
     return msg;
 }
 
-void WaypointCaption(EventPoint *ep) {
+void WaypointCaption(EventPoint* ep) {
     char msg[300], msga[300], msgb[300];
 
     strcpy(msg, "Waypoint ");
@@ -614,7 +614,7 @@ void SetZone(std::int32_t x, std::int32_t y, std::uint8_t set) {
 
 LRESULT CALLBACK KeyboardProc(int code, WPARAM wParam, LPARAM lParam);
 
-void UpdateDir(EventPoint *ep) {
+void UpdateDir(EventPoint* ep) {
     std::int32_t dx, dz, dir;
 
     dx = mouse_world_x - ep->X;
@@ -645,7 +645,7 @@ std::uint8_t UpdatePrimDir(std::int32_t px, std::int32_t pz) {
 }
 
 std::int32_t LocatePrim(std::int32_t current) {
-    OB_Info *oi;
+    OB_Info* oi;
     std::int32_t best, dist, bestdist, x, z, mx, mz;
 
     best = -1;
@@ -676,7 +676,7 @@ LRESULT CALLBACK map_view_proc(
     UINT message,
     WPARAM wParam,
     LPARAM lParam) {
-    EventPoint *new_event;
+    EventPoint* new_event;
     HDC hdc;
     HMENU mv_menu;
     HRESULT result;
@@ -1142,7 +1142,7 @@ LRESULT CALLBACK map_view_proc(
         switch (LOWORD(wParam)) {
         case ID_EVENTPOINTROOT_PROPERTIES:
             if (hilited_ep) {
-                EventPoint *remember_me = hilited_ep;
+                EventPoint* remember_me = hilited_ep;
                 OpenProperties(hilited_ep);
                 if (selected_ep == remember_me) WaypointCaption(selected_ep);
             }
@@ -1235,8 +1235,8 @@ LRESULT CALLBACK map_view_proc(
             if (hilited_ep) {
                 std::int32_t i;
 
-                EventPoint *ep;
-                EventPoint *lower = nullptr;
+                EventPoint* ep;
+                EventPoint* lower = nullptr;
 
                 //
                 // Look for a lower numbered waypoint.
@@ -1282,7 +1282,7 @@ bool init_map_view() {
     new_class.hInstance = GEDIT_hinstance;
     new_class.hIcon = nullptr;
     new_class.hCursor = GEDIT_arrow;
-    new_class.hbrBackground = (struct HBRUSH__ *) GetStockObject(LTGRAY_BRUSH);
+    new_class.hbrBackground = (struct HBRUSH__*) GetStockObject(LTGRAY_BRUSH);
     new_class.lpszMenuName = nullptr;
     new_class.lpszClassName = GEDIT_map_name;
     new_class.hIconSm = nullptr;
@@ -1311,7 +1311,7 @@ void AENG_world_text(
     std::uint8_t blue,
     std::uint8_t green,
     std::uint8_t shadowed_or_not,
-    char *fmt, ...);
+    char* fmt, ...);
 void AENG_world_line(
     std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t width1, std::uint32_t colour1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t width2, std::uint32_t colour2,

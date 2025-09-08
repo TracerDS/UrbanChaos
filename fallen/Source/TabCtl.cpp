@@ -7,10 +7,10 @@
 #include "TabCtl.h"
 #include <commctrl.h>
 
-DLGTEMPLATE *WINAPI LockDlgResource(HINSTANCE hInstance, LPCSTR lpszResName) {
+DLGTEMPLATE* WINAPI LockDlgResource(HINSTANCE hInstance, LPCSTR lpszResName) {
     HRSRC hrsrc = FindResource(NULL, lpszResName, RT_DIALOG);
     HGLOBAL hglb = LoadResource(hInstance, hrsrc);
-    return (DLGTEMPLATE *) LockResource(hglb);
+    return (DLGTEMPLATE*) LockResource(hglb);
 }
 
 void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
@@ -18,9 +18,9 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
     va_list marker;
     std::uint16_t i, count = 0, j = 0;
     HWND hwndTab = GetDlgItem(wnd, tabctl);
-    char *pc;
+    char* pc;
     DLGPROC wp;
-    TabInfo *pTabInfo = new TabInfo;
+    TabInfo* pTabInfo = new TabInfo;
 
     pTabInfo->hwndTabCtl = hwndTab;
     pTabInfo->hwndDisplay = 0;
@@ -34,13 +34,13 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
     i = va_arg(marker, std::uint16_t);
     while (i) {
         count++;
-        pc = va_arg(marker, char *);
+        pc = va_arg(marker, char*);
         wp = va_arg(marker, DLGPROC);
         i = va_arg(marker, std::uint16_t);
     }
     va_end(marker);
 
-    pTabInfo->resTabs = new DLGTEMPLATE *[count];
+    pTabInfo->resTabs = new DLGTEMPLATE*[count];
     pTabInfo->ChildProc = new DLGPROC[count];
 
     va_start(marker, tabctl);
@@ -50,7 +50,7 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 
         tie.mask = TCIF_TEXT | TCIF_IMAGE;
         tie.iImage = -1;
-        tie.pszText = va_arg(marker, char *);
+        tie.pszText = va_arg(marker, char*);
         TabCtrl_InsertItem(hwndTab, j, &tie);
         pTabInfo->ChildProc[j] = va_arg(marker, DLGPROC);
         j++;
@@ -65,7 +65,7 @@ void TABCTL_add(HINSTANCE hInstance, HWND wnd, DWORD tabctl, ...) {
 
 void TABCTL_del(HWND wnd, DWORD tabctl) {
     HWND tabhWnd = GetDlgItem(wnd, tabctl);
-    TabInfo *pTabInfo = (TabInfo *) GetWindowLong(tabhWnd, GWL_USERDATA);
+    TabInfo* pTabInfo = (TabInfo*) GetWindowLong(tabhWnd, GWL_USERDATA);
     //	std::int32_t i;
 
     //  well there was me thinking we'd need to free up those Locked resources
@@ -83,7 +83,7 @@ void TABCTL_del(HWND wnd, DWORD tabctl) {
 
 void TABCTL_sel(HWND wnd, DWORD tabctl) {
     HWND tabhWnd = GetDlgItem(wnd, tabctl);
-    TabInfo *pTabInfo = (TabInfo *) GetWindowLong(tabhWnd, GWL_USERDATA);
+    TabInfo* pTabInfo = (TabInfo*) GetWindowLong(tabhWnd, GWL_USERDATA);
     int iSel = TabCtrl_GetCurSel(tabhWnd);
 
     // Destroy the current child dialog box, if any.
@@ -101,7 +101,7 @@ std::int32_t TABCTL_getsel(HWND wnd, DWORD tabctl) {
 
 HWND TABCTL_gethwnd(HWND wnd, DWORD tabctl) {
     HWND tabhWnd = GetDlgItem(wnd, tabctl);
-    TabInfo *pTabInfo = (TabInfo *) GetWindowLong(tabhWnd, GWL_USERDATA);
+    TabInfo* pTabInfo = (TabInfo*) GetWindowLong(tabhWnd, GWL_USERDATA);
     if (pTabInfo)
         return pTabInfo->hwndDisplay;
     else

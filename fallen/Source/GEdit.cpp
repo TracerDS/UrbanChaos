@@ -28,10 +28,10 @@
 
 //---------------------------------------------------------------
 // from supermap.cpp
-extern std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *room);
+extern std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t* room);
 
 // from MapView
-extern std::int32_t GetEventY(EventPoint *ep, bool base = 0);
+extern std::int32_t GetEventY(EventPoint* ep, bool base = 0);
 
 // from aeng.cpp
 extern std::uint8_t AENG_transparent_warehouses;
@@ -337,7 +337,7 @@ bool CALLBACK waypoint_tab_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
                 //				diff=(the_wheel<0) ? diff=-128 : diff=260;
                 //				selected_ep->Y=INDOORS_INDEX=calc_inside_for_xyz(selected_ep->X, GetEventY(selected_ep)+diff, selected_ep->Z,&INDOORS_ROOM);
 
-                extern std::int32_t GetNextFloor(EventPoint * ep, std::int8_t dir, std::uint16_t * room);
+                extern std::int32_t GetNextFloor(EventPoint * ep, std::int8_t dir, std::uint16_t* room);
                 selected_ep->Y = INDOORS_INDEX = GetNextFloor(selected_ep, the_wheel, &INDOORS_ROOM);
                 if (INDOORS_INDEX)
                     INDOORS_DBUILDING = inside_storeys[INDOORS_INDEX].Building;
@@ -813,8 +813,8 @@ bool CALLBACK mission_editor_proc(
     int c0;
     HWND the_ctrl;
     LPTSTR lbitem_str;
-    NMHDR *p_nmhdr;
-    NM_TREEVIEW *p_tview;
+    NMHDR* p_nmhdr;
+    NM_TREEVIEW* p_tview;
     POINT bottom_right,
         click_point,
         top_left;
@@ -1029,7 +1029,7 @@ bool CALLBACK mission_editor_proc(
 
                         for (x = 0; x < OB_SIZE; x++)
                             for (z = 0; z < OB_SIZE; z++) {
-                                OB_Info *oi = OB_find(x, z);
+                                OB_Info* oi = OB_find(x, z);
                                 std::uint8_t oict = 0;
                                 while ((oict < 31) && oi->prim) {
                                     if (oi->prim == prim_num) {
@@ -1248,7 +1248,7 @@ bool CALLBACK mission_editor_proc(
         break;
 
     case WM_NOTIFY:
-        p_nmhdr = (NMHDR *) lParam;
+        p_nmhdr = (NMHDR*) lParam;
         switch (p_nmhdr->idFrom) {
         case IDC_TAB1:
             if (p_nmhdr->code == TCN_SELCHANGE) TABCTL_sel(hWnd, IDC_TAB1);
@@ -1256,8 +1256,8 @@ bool CALLBACK mission_editor_proc(
         case IDC_WORKSPACE_TREE:
             if (p_nmhdr->code == TVN_SELCHANGED) {
                 //	Deal with a workspace selected item.
-                p_tview = (NM_TREEVIEW *) p_nmhdr;
-                handle_ws_select((WSElement *) p_tview->itemNew.lParam);
+                p_tview = (NM_TREEVIEW*) p_nmhdr;
+                handle_ws_select((WSElement*) p_tview->itemNew.lParam);
                 return true;
             }
             break;
@@ -1275,7 +1275,7 @@ bool CALLBACK mission_editor_proc(
                     the_item.mask = TVIF_PARAM;
                     if (TreeView_GetItem(ws_tree, &the_item)) {
                         if (the_item.lParam < 100) break;
-                        EventPoint *was_ep = hilited_ep, *ep = (EventPoint *) the_item.lParam;
+                        EventPoint *was_ep = hilited_ep, *ep = (EventPoint*) the_item.lParam;
                         if (ep != selected_ep) {
                             ws_sel_waypoint(ep);
                             process_view_wind();
@@ -1295,9 +1295,9 @@ bool CALLBACK mission_editor_proc(
                 }
                 break;
             case TVN_SELCHANGED:
-                p_tview = (NMTREEVIEW *) p_nmhdr;
+                p_tview = (NMTREEVIEW*) p_nmhdr;
                 if (p_tview->itemNew.lParam > 100) {
-                    selected_ep = (EventPoint *) p_tview->itemNew.lParam;
+                    selected_ep = (EventPoint*) p_tview->itemNew.lParam;
                     ep_to_controls2(selected_ep);
                     if (!leaping_disabled) {
                         cam_focus_x = selected_ep->X;
@@ -1593,7 +1593,7 @@ void menu_workspace_saved() {
  *		Version 2.0 control<-->ep routines
  */
 
-void ep_to_controls2(EventPoint *ep, std::int16_t tabpage, HWND tab) {
+void ep_to_controls2(EventPoint* ep, std::int16_t tabpage, HWND tab) {
     HWND ctl;
     char msg[800];
 
@@ -1653,7 +1653,7 @@ bool UseCheck(std::int32_t newtype, std::int32_t oldtype, std::int32_t mask) {
     return ((WaypointUses[newtype] & mask) && !(WaypointUses[oldtype] & mask));
 }
 
-void controls_to_ep2(EventPoint *ep, std::int16_t tabpage, HWND tab) {
+void controls_to_ep2(EventPoint* ep, std::int16_t tabpage, HWND tab) {
     //	HWND ctl;
     std::int32_t ndx;
 
@@ -1685,7 +1685,7 @@ void controls_to_ep2(EventPoint *ep, std::int16_t tabpage, HWND tab) {
             ep->Radius = (std::int32_t) malloc(_MAX_PATH);
 
         if (UseCheck(ep->TriggeredBy, ndx, WPU_RADTEXT))
-            free((void *) ep->Radius);
+            free((void*) ep->Radius);
 
         /*		if (UseCheck(ndx,ep->TriggeredBy,WPU_RADBOX))
                                 ep->Radius=0;*/

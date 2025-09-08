@@ -78,7 +78,7 @@ void	cross_work_window()
 #define BUILD_MODE_CONT_STOREY 3
 #define BUILD_MODE_EDIT_STOREY 4
 
-char *storey_name[] =
+char* storey_name[] =
     {
         "ZERO",
         "NORMAL",
@@ -155,7 +155,7 @@ ControlDef build_tab_def[] =
         {0}
 };
 
-BuildTab *the_build;
+BuildTab* the_build;
 
 //
 // The building the stairs have been calculated for.
@@ -181,8 +181,8 @@ class BuildingBlock {
     std::int32_t StoreyCount;
     std::int32_t X;
     std::int32_t Z;
-    struct FWall *PWall;
-    struct FStorey *PStorey;
+    struct FWall* PWall;
+    struct FStorey* PStorey;
     struct FBuilding PBuilding;
 
    public:
@@ -214,17 +214,17 @@ void BuildingBlock::Free(std::int32_t clear_textures) {
         if (clear_textures)
             for (c0 = 1; c0 < WallCount; c0++) {
                 if (PWall[c0].Textures && PWall[c0].Tcount) {
-                    MemFree((std::uint8_t *) PWall[c0].Textures);
+                    MemFree((std::uint8_t*) PWall[c0].Textures);
                 }
 
                 if (PWall[c0].Textures2 && PWall[c0].Tcount2) {
-                    MemFree((std::uint8_t *) PWall[c0].Textures2);
+                    MemFree((std::uint8_t*) PWall[c0].Textures2);
                 }
             }
-        MemFree((std::uint8_t *) PWall);
+        MemFree((std::uint8_t*) PWall);
     }
     if (PStorey)
-        MemFree((std::uint8_t *) PStorey);
+        MemFree((std::uint8_t*) PStorey);
 
     WallCount = 0;
     StoreyCount = 0;
@@ -248,8 +248,8 @@ void BuildingBlock::Allocate(std::int32_t building) {
 
     WallCount = nwall;
     StoreyCount = nstorey;
-    PWall = (struct FWall *) MemAlloc(nwall * sizeof(struct FWall));
-    PStorey = (struct FStorey *) MemAlloc(nstorey * sizeof(struct FStorey));
+    PWall = (struct FWall*) MemAlloc(nwall * sizeof(struct FWall));
+    PStorey = (struct FStorey*) MemAlloc(nstorey * sizeof(struct FStorey));
 }
 
 void BuildingBlock::Cut(std::int32_t building) {
@@ -278,7 +278,7 @@ void BuildingBlock::Cut(std::int32_t building) {
                 PWall[nwall].Next = 0;
             }
             if (wall_list[wall].Textures && wall_list[wall].Tcount) {
-                PWall[nwall].Textures = (std::uint8_t *) MemAlloc(wall_list[wall].Tcount);
+                PWall[nwall].Textures = (std::uint8_t*) MemAlloc(wall_list[wall].Tcount);
                 if (PWall[nwall].Textures)
                     memcpy(PWall[nwall].Textures, wall_list[wall].Textures, wall_list[wall].Tcount);
             } else {
@@ -286,7 +286,7 @@ void BuildingBlock::Cut(std::int32_t building) {
                 PWall[nwall].Tcount = 0;
             }
             if (wall_list[wall].Textures2 && wall_list[wall].Tcount2 && wall_list[wall].Tcount2 < 64) {
-                PWall[nwall].Textures2 = (std::uint8_t *) MemAlloc(wall_list[wall].Tcount2);
+                PWall[nwall].Textures2 = (std::uint8_t*) MemAlloc(wall_list[wall].Tcount2);
                 if (PWall[nwall].Textures2)
                     memcpy(PWall[nwall].Textures2, wall_list[wall].Textures2, wall_list[wall].Tcount2);
 
@@ -351,7 +351,7 @@ void BuildingBlock::Paste(std::int32_t x, std::int32_t z, std::int32_t flags) {
                     wall_list[nwall].DZ += dz;
 
                     if (PWall[wall].Textures && PWall[wall].Tcount) {
-                        wall_list[nwall].Textures = (std::uint8_t *) MemAlloc(wall_list[nwall].Tcount);
+                        wall_list[nwall].Textures = (std::uint8_t*) MemAlloc(wall_list[nwall].Tcount);
                         if (wall_list[nwall].Textures)
                             memcpy(wall_list[nwall].Textures, PWall[wall].Textures, wall_list[nwall].Tcount);
                     } else {
@@ -360,7 +360,7 @@ void BuildingBlock::Paste(std::int32_t x, std::int32_t z, std::int32_t flags) {
                     }
 
                     if (PWall[wall].Textures2 && PWall[wall].Tcount2) {
-                        wall_list[nwall].Textures2 = (std::uint8_t *) MemAlloc(wall_list[nwall].Tcount2);
+                        wall_list[nwall].Textures2 = (std::uint8_t*) MemAlloc(wall_list[nwall].Tcount2);
                         if (wall_list[nwall].Textures2)
                             memcpy(wall_list[nwall].Textures2, PWall[wall].Textures2, wall_list[nwall].Tcount2);
                     } else {
@@ -393,19 +393,19 @@ MapBlock::~MapBlock() {
 }
 
 void MapBlock::Free() {
-    MemFree((std::uint8_t *) Ptr);
+    MemFree((std::uint8_t*) Ptr);
 }
 
 void MapBlock::Allocate(std::int32_t w, std::int32_t h) {
     if (Ptr)
         Free();
 
-    Ptr = (struct DepthStrip *) MemAlloc(w * h * sizeof(struct DepthStrip));
+    Ptr = (struct DepthStrip*) MemAlloc(w * h * sizeof(struct DepthStrip));
 }
 
 void MapBlock::Cut(std::int32_t x, std::int32_t z, std::int32_t w, std::int32_t d, std::int32_t mode) {
     std::int32_t mx, mz;
-    struct DepthStrip *ptr;
+    struct DepthStrip* ptr;
     if (Ptr)
         Free();
     Allocate(w, d);
@@ -431,7 +431,7 @@ void MapBlock::Cut(std::int32_t x, std::int32_t z, std::int32_t w, std::int32_t 
 
 void MapBlock::Paste(std::int32_t x, std::int32_t z, std::int32_t flags, std::int32_t mode) {
     std::int32_t mx, mz;
-    struct DepthStrip *ptr;
+    struct DepthStrip* ptr;
     if (Ptr == 0)
         return;
 
@@ -461,23 +461,23 @@ void MapBlock::Rotate(std::int32_t dir) {
     if (Ptr == 0)
         return;
 
-    ptr_new = (struct DepthStrip *) MemAlloc(Width * Depth * sizeof(struct DepthStrip));
+    ptr_new = (struct DepthStrip*) MemAlloc(Width * Depth * sizeof(struct DepthStrip));
 
     ptr = Ptr;
 
     for (dz = 0; dz < Depth; dz++)
         for (dx = 0; dx < Width; dx++) {
             std::int32_t new_dx, new_dz;
-            struct MiniTextureBits *tex;
+            struct MiniTextureBits* tex;
 
-            tex = (struct MiniTextureBits *) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
+            tex = (struct MiniTextureBits*) (&edit_map[selected_face.MapX][selected_face.MapZ].Texture);
 
             new_dx = Depth - dz - 1;
             new_dz = dx;
             ptr_new[new_dx + new_dz * Depth] = *ptr;
-            tex = (struct MiniTextureBits *) (&ptr_new[new_dx + new_dz * Depth].Texture);
+            tex = (struct MiniTextureBits*) (&ptr_new[new_dx + new_dz * Depth].Texture);
             tex->Rot--;
-            ptr_new[new_dx + new_dz * Depth].Texture = *(std::uint16_t *) tex;
+            ptr_new[new_dx + new_dz * Depth].Texture = *(std::uint16_t*) tex;
 
             ptr++;
         }
@@ -514,7 +514,7 @@ std::int16_t get_new_wall() {
 
 void free_wall(std::int16_t wall) {
     if (wall_list[wall].Tcount && wall_list[wall].Textures) {
-        MemFree((void *) wall_list[wall].Textures);
+        MemFree((void*) wall_list[wall].Textures);
         wall_list[wall].Textures = 0;
         wall_list[wall].Tcount = 0;
     }
@@ -523,9 +523,9 @@ void free_wall(std::int16_t wall) {
 }
 
 void delete_all() {
-    memset((std::uint8_t *) wall_list, 0, sizeof(struct FWall) * MAX_WALLS);
-    memset((std::uint8_t *) storey_list, 0, sizeof(struct FStorey) * MAX_STOREYS);
-    memset((std::uint8_t *) building_list, 0, sizeof(struct FBuilding) * MAX_BUILDINGS);
+    memset((std::uint8_t*) wall_list, 0, sizeof(struct FWall) * MAX_WALLS);
+    memset((std::uint8_t*) storey_list, 0, sizeof(struct FStorey) * MAX_STOREYS);
+    memset((std::uint8_t*) building_list, 0, sizeof(struct FBuilding) * MAX_BUILDINGS);
 }
 
 std::int16_t get_new_storey() {
@@ -573,7 +573,7 @@ void clear_build_stuff() {
     }
 }
 
-BuildTab::BuildTab(EditorModule *parent) {
+BuildTab::BuildTab(EditorModule* parent) {
     Parent = parent;
 
     InitControlSet(build_tab_def);
@@ -675,7 +675,7 @@ void BuildTab::DrawTabContent() {
 //---------------------------------------------------------------
 extern void hilight_col_info();
 
-void BuildTab::AddHeightOffset(std::int32_t *x, std::int32_t *y) {
+void BuildTab::AddHeightOffset(std::int32_t* x, std::int32_t* y) {
     if (Texture & (6))
         return;
     //	*x-=((EditY-CurrentY)*ViewSize)/(BLOCK_SIZE<<4);
@@ -927,7 +927,7 @@ void BuildTab::HighlightVertexes(std::int32_t x, std::int32_t y, std::int32_t w,
     }
 }
 
-std::int32_t BuildTab::ClickInVertexStoreyList(std::int32_t building, std::int32_t storey_index, std::int32_t w, std::int32_t h, MFPoint *mouse_point, std::int32_t flags) {
+std::int32_t BuildTab::ClickInVertexStoreyList(std::int32_t building, std::int32_t storey_index, std::int32_t w, std::int32_t h, MFPoint* mouse_point, std::int32_t flags) {
     std::int32_t roof_flag = 0;
     EdRect rect;
     std::int32_t mx, mz, rect_size;
@@ -1163,7 +1163,7 @@ std::int32_t BuildTab::ClickInVertexStoreyList(std::int32_t building, std::int32
     return (0);
 }
 
-std::int32_t BuildTab::ClickInVertex(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *mouse_point, std::int32_t flags) {
+std::int32_t BuildTab::ClickInVertex(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* mouse_point, std::int32_t flags) {
     std::int32_t storey_index, found;
     std::int32_t building;
     std::int32_t found_one = 0;
@@ -1328,7 +1328,7 @@ void BuildTab::DrawContentRect(std::int32_t x1, std::int32_t z1, std::int32_t x2
     DrawContentLine(x1, z2, x1, z1, col);
 }
 
-std::int32_t find_nearest_point(std::int32_t x, std::int32_t z, std::int32_t index, std::int32_t *rx, std::int32_t *rz) {
+std::int32_t find_nearest_point(std::int32_t x, std::int32_t z, std::int32_t index, std::int32_t* rx, std::int32_t* rz) {
     std::int32_t best, best_dist = 0x7fffffff, dx, dz, dist;
 
     dx = (storey_list[index].DX - x);
@@ -1520,7 +1520,7 @@ void BuildTab::DrawFloorLabels(std::int32_t x, std::int32_t y, std::int32_t w, s
     render_view(0);
 }
 
-void draw_status_line(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, char *str) {
+void draw_status_line(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, char* str) {
     EdRect rect;
     rect.SetRect(x, y, w, h);
     rect.FillRect(CONTENT_COL);
@@ -1580,7 +1580,7 @@ void BuildTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
     std::int32_t c0, c1;
     std::int32_t mx, my, mz;
     std::int32_t index;
-    struct EditMapElement *p_ele;
+    struct EditMapElement* p_ele;
     std::int32_t roof_flag = 0;
     std::int32_t building;
     char str[100];
@@ -1772,7 +1772,7 @@ void BuildTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         std::int32_t z2;
         std::int32_t y1, y2;
 
-        EXTRA_Thing *et;
+        EXTRA_Thing* et;
 
         std::int32_t old_current_y;
 
@@ -2013,9 +2013,9 @@ void BuildTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
                     if (storey_index == inside_storey &&
                         building == inside_building) {
-                        //
-                        // Have we got generated the insides for this storey?
-                        //
+                    //
+                    // Have we got generated the insides for this storey?
+                    //
 #ifdef DOG_POO
                         if (inside_valid && 0) {
                             ID_Roominfo ri;
@@ -2218,7 +2218,7 @@ void BuildTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
 //---------------------------------------------------------------
 
-void BuildTab::HandleTab(MFPoint *current_point) {
+void BuildTab::HandleTab(MFPoint* current_point) {
     std::int32_t update = 0;
 
     ModeTab::HandleTab(current_point);
@@ -2335,7 +2335,7 @@ std::int32_t BuildTab::KeyboardInterface() {
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
-std::int32_t BuildTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t BuildTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -2393,7 +2393,7 @@ std::int32_t BuildTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
     return (screen_change);
 }
 
-std::int32_t BuildTab::CalcMapCoord(std::int32_t *mapx, std::int32_t *mapy, std::int32_t *mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *clicked_point) {
+std::int32_t BuildTab::CalcMapCoord(std::int32_t* mapx, std::int32_t* mapy, std::int32_t* mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* clicked_point) {
     std::int32_t width, count_across, count_high;
     std::int32_t mx, my, mz;
     std::int32_t dx, dy, dz;
@@ -2925,7 +2925,7 @@ void BuildTab::DeleteVertex() {
     }
 }
 
-std::int32_t BuildTab::ClickNearWall(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *mouse_point) {
+std::int32_t BuildTab::ClickNearWall(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* mouse_point) {
     std::int32_t mx, mz, rect_size;
     EdRect rect;
     std::int32_t best_building, best_storey = 0, best_wall = 0, best_dist = 0x7fffffff, dist;
@@ -3039,7 +3039,7 @@ std::int32_t BuildTab::WallOptions() {
     std::uint8_t flags;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
     std::uint8_t old_flags;
 
@@ -3169,7 +3169,7 @@ std::int32_t BuildTab::RoofOptions() {
     std::uint32_t flags = 0;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
 
     local_point.X = MouseX;
@@ -3237,7 +3237,7 @@ std::int32_t BuildTab::FenceOptions() {
     std::uint32_t flags = 0;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
     char str[100];
 
@@ -3556,7 +3556,7 @@ void BuildTab::CheckStoreyIntegrity(std::uint16_t storey) {
     }
 }
 
-std::int32_t BuildTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t BuildTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     std::int16_t thing;
     std::int32_t index;
     std::int16_t bright;
@@ -3790,9 +3790,9 @@ std::int32_t BuildTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
     return (0);
 }
 
-std::uint16_t BuildTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t BuildTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     // This is a fudge to update the front screen buffer.
@@ -3958,10 +3958,10 @@ void free_walls(std::int32_t wall) {
 
 void get_storey_bbox(
     std::int32_t storey,
-    std::int32_t *x1,
-    std::int32_t *z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x1,
+    std::int32_t* z1,
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t next;
     std::int32_t wall;
 
@@ -4027,8 +4027,8 @@ void delete_building(std::uint16_t building) {
 // the storey is not circular.  Non-circular storeys are not defined.
 //
 
-OUTLINE_Outline *get_storey_outline(std::int32_t storey) {
-    OUTLINE_Outline *oo;
+OUTLINE_Outline* get_storey_outline(std::int32_t storey) {
+    OUTLINE_Outline* oo;
 
     std::int32_t wall;
     std::int32_t x1;
@@ -4067,8 +4067,8 @@ OUTLINE_Outline *get_storey_outline(std::int32_t storey) {
 }
 
 std::int32_t do_storeys_overlap(std::int32_t s1, std::int32_t s2) {
-    OUTLINE_Outline *oos;
-    OUTLINE_Outline *ool;
+    OUTLINE_Outline* oos;
+    OUTLINE_Outline* ool;
     oos = get_storey_outline(s1);
     if (oos == nullptr)
         return (0);
@@ -4087,8 +4087,8 @@ std::int32_t set_storey_height(std::int32_t building, std::int32_t storey, std::
     std::int32_t link;
     std::int32_t y, offset_dy;
 
-    OUTLINE_Outline *oos;
-    OUTLINE_Outline *ool;
+    OUTLINE_Outline* oos;
+    OUTLINE_Outline* ool;
 
     if (storey == 0 || building == 0) {
         return (0);
@@ -4189,7 +4189,7 @@ std::int32_t set_storey_height(std::int32_t building, std::int32_t storey, std::
     return (0);
 }
 
-void load_textures_from_map(char *name) {
+void load_textures_from_map(char* name) {
     std::uint16_t temp_end_prim_point;
     std::uint16_t temp_end_prim_face4;
     std::uint16_t temp_end_prim_face3;
@@ -4218,12 +4218,12 @@ void load_textures_from_map(char *name) {
         std::int32_t dx, dz;
 
         LogText(" load map %s \n", name);
-        FileRead(handle, (std::uint8_t *) &save_type, 4);
+        FileRead(handle, (std::uint8_t*) &save_type, 4);
 
         if (save_type <= 8) {
             for (dx = 0; dx < EDIT_MAP_WIDTH; dx++) {
                 for (dz = 0; dz < EDIT_MAP_DEPTH; dz++) {
-                    size += FileRead(handle, (std::uint8_t *) &tinyfloor, sizeof(struct TinyStrip));
+                    size += FileRead(handle, (std::uint8_t*) &tinyfloor, sizeof(struct TinyStrip));
                     edit_map[dx][dz].MapThingIndex = tinyfloor.MapThingIndex;
                     edit_map[dx][dz].ColVectHead = tinyfloor.ColVectHead;
                     edit_map[dx][dz].Texture = tinyfloor.Texture;
@@ -4231,7 +4231,7 @@ void load_textures_from_map(char *name) {
                 }
             }
         } else {
-            size += FileRead(handle, (std::uint8_t *) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+            size += FileRead(handle, (std::uint8_t*) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
         }
         FileClose(handle);
     }
@@ -4420,7 +4420,7 @@ void BuildTab::HandleControl(std::uint16_t control_id) {
         if (Mode == BUILD_MODE_WAIT)
             if (EditBuilding) {
                 if (storey_list[EditStorey].StoreyType != STOREY_TYPE_NORMAL && storey_list[EditStorey].StoreyType != STOREY_TYPE_FENCE) {
-                    Alert *quit_alert;
+                    Alert* quit_alert;
 
                     quit_alert = new Alert;
                     quit_alert->HandleAlert("Can't add next storey to current floor (roof/firescape?) ", nullptr);
@@ -4472,7 +4472,7 @@ void BuildTab::HandleControl(std::uint16_t control_id) {
             }
         break;
     case CTRL_LOAD_TEXTURES: {
-        FileRequester *fr;
+        FileRequester* fr;
         char fname[100];
         fr = new FileRequester("data\\", "*.map", "Load A MAP", "temp.map");
         if (fr->Draw()) {
@@ -4518,7 +4518,7 @@ void BuildTab::HandleControl(std::uint16_t control_id) {
         break;
     case CTRL_DEL_ALL: {
         std::int32_t res;
-        Alert *quit_alert;
+        Alert* quit_alert;
 
         quit_alert = new Alert;
         res = quit_alert->HandleAlert("Delete ALL BUILDINGS you crazy fucker? ", nullptr);
@@ -4563,7 +4563,7 @@ void BuildTab::HandleControl(std::uint16_t control_id) {
         if (Mode == BUILD_MODE_WAIT)
             if (EditBuilding && EditStorey) {
                 if (storey_list[EditStorey].StoreyType != STOREY_TYPE_NORMAL) {
-                    Alert *quit_alert;
+                    Alert* quit_alert;
                     quit_alert = new Alert;
                     quit_alert->HandleAlert("Can't Duplicate current storey (roof/firescape?) ", nullptr);
                     delete quit_alert;
@@ -4803,7 +4803,7 @@ void BuildTab::HandleControl(std::uint16_t control_id) {
         if (Mode == BUILD_MODE_WAIT)
             if (EditBuilding) {
                 if (storey_list[EditStorey].StoreyType != STOREY_TYPE_NORMAL) {
-                    Alert *quit_alert;
+                    Alert* quit_alert;
 
                     quit_alert = new Alert;
                     quit_alert->HandleAlert("Can't add SKYLIGHT storey to current floor (roof/firescape?) ", nullptr);

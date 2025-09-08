@@ -108,7 +108,7 @@ void DIRT_set_focus(
 //
 
 void DIRT_gust(
-    Thing *p_thing, // The thing that caused the gust.
+    Entity *p_thing, // The thing that caused the gust.
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2);
 
@@ -151,33 +151,33 @@ std::int32_t DIRT_get_nearest_can_or_head_dist(std::int32_t x, std::int32_t y, s
 // it to their right hand.
 //
 
-void DIRT_pick_up_can_or_head(Thing *p_person);
+void DIRT_pick_up_can_or_head(Entity *p_person);
 
 //
 // Releases the given held coke can or head with the given power.
 //
 
-void DIRT_release_can_or_head(Thing *p_person, std::int32_t power); // 0 <= power <= 256
+void DIRT_release_can_or_head(Entity *p_person, std::int32_t power); // 0 <= power <= 256
 
 //
 // Beheads the given person. It takes the velocity from the position of
 // the attacker.  If attacker == nullptr, then a random velocity is given.
 //
 
-void DIRT_behead_person(Thing *p_person, Thing *p_attacker);
+void DIRT_behead_person(Entity *p_person, Entity *p_attacker);
 
 //
 // Creates a grenade thrown by the person with the given velocity and time
 // to detonation.  The ticks of the time to detonation is 16*20 ticks per second.
 //
 
-void DIRT_create_grenade(Thing *p_person, std::int32_t ticks_to_go, std::int32_t power);
+void DIRT_create_grenade(Entity *p_person, std::int32_t ticks_to_go, std::int32_t power);
 
 //
 // Creates/Destroys a mine.
 //
 
-std::uint16_t DIRT_create_mine(Thing *p_person);
+std::uint16_t DIRT_create_mine(Entity *p_person);
 void DIRT_destroy_mine(std::uint16_t dirt_mine);
 
 //
@@ -185,7 +185,7 @@ void DIRT_destroy_mine(std::uint16_t dirt_mine);
 // the person shot anything.
 //
 
-std::int32_t DIRT_shoot(Thing *p_person);
+std::int32_t DIRT_shoot(Entity *p_person);
 
 //
 // Makes a few newspapers and crisp packets appear and float around

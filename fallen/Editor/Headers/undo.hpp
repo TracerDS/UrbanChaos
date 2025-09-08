@@ -32,7 +32,7 @@ struct GenericUndo {
         } Texture;
         struct
         {
-            std::uint16_t Thing;
+            std::uint16_t Entity;
             std::uint16_t Prim;
             std::int32_t X;
             std::int32_t Y;

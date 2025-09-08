@@ -42,7 +42,7 @@ std::uint8_t SEWER_square[SEWER_SIZE][SEWER_SIZE];
 //
 
 void SEWER_init() {
-    memset((std::uint8_t *) SEWER_square, SEWER_TYPE_OFF, sizeof(SEWER_square));
+    memset((std::uint8_t*) SEWER_square, SEWER_TYPE_OFF, sizeof(SEWER_square));
 }
 
 void SEWER_square_on(std::int32_t x, std::int32_t z) {
@@ -174,9 +174,9 @@ void SEWER_precalc() {
         }
 }
 
-void SEWER_save(char *filename) {
+void SEWER_save(char* filename) {
 #ifndef PSX
-    FILE *handle = MF_Fopen(filename, "wb");
+    FILE* handle = MF_Fopen(filename, "wb");
 
     if (handle == NULL) {
         TRACE("Could not open sewage file %s\n", filename);
@@ -194,9 +194,9 @@ void SEWER_save(char *filename) {
 #endif
 }
 
-void SEWER_load(char *filename) {
+void SEWER_load(char* filename) {
 #ifndef PSX
-    FILE *handle = MF_Fopen(filename, "rb");
+    FILE* handle = MF_Fopen(filename, "rb");
 
     SEWER_init();
 
@@ -1004,7 +1004,7 @@ void SEWER_get_start(std::int32_t x, std::int32_t z) {
     }
 }
 
-SEWER_Face *SEWER_get_next() {
+SEWER_Face* SEWER_get_next() {
     if (!SEWER_got_floor) {
         SEWER_face.x[0] = SEWER_get_x + 0 << 8;
         SEWER_face.z[0] = SEWER_get_z + 0 << 8;
@@ -1638,7 +1638,7 @@ SEWER_Face *SEWER_get_next() {
     return NULL;
 }
 
-SEWER_Face *SEWER_get_water() {
+SEWER_Face* SEWER_get_water() {
     if (SEWER_get_type == SEWER_TYPE_OFF) {
         return NULL;
     }

@@ -14,13 +14,13 @@
 
 extern std::uint8_t player_visited[16][128];
 
-std::uint8_t *screenmem;
+std::uint8_t* screenmem;
 std::int32_t clip_left, clip_right, clip_top, clip_bot;
 
 void draw_quick_rect(std::int32_t csx, std::int32_t csy, std::int32_t pixelw, std::int32_t red, std::int32_t green, std::int32_t blue) {
     std::int32_t right, bot;
     std::int32_t dx, dy;
-    std::uint8_t *mem;
+    std::uint8_t* mem;
     std::uint32_t mod;
 
     if (csy >= clip_bot || csx >= clip_right)
@@ -194,7 +194,7 @@ void draw_shadow_rect(std::int32_t csx, std::int32_t csy, std::int32_t pixelw, s
 std::uint16_t screen_x, screen_y, screen_width, screen_height, block_size, screen_mx, screen_mz;
 std::int32_t screen_pitch;
 
-void get_screen_xy(std::int32_t *x, std::int32_t *z) {
+void get_screen_xy(std::int32_t* x, std::int32_t* z) {
     std::int32_t rx, rz;
 
     rx = (*x);
@@ -274,19 +274,19 @@ void map_beacon_draw(std::int32_t x, std::int32_t z, std::uint32_t col, std::uin
     }
 }
 
-void plan_view_shot(std::int32_t wx, std::int32_t wz, std::int32_t pixelw, std::int32_t sx, std::int32_t sy, std::int32_t w, std::int32_t h, std::uint8_t *mem) {
+void plan_view_shot(std::int32_t wx, std::int32_t wz, std::int32_t pixelw, std::int32_t sx, std::int32_t sy, std::int32_t w, std::int32_t h, std::uint8_t* mem) {
     std::int32_t minx, maxx, minz, maxz;
     std::int32_t lminx, lmaxx, lminz, lmaxz;
     std::int32_t x, z, csx, csy, c0;
     std::int32_t r, g, b, shadow;
     std::int32_t edge;
-    std::uint8_t *m;
+    std::uint8_t* m;
 
     MFFileHandle image_file;
     std::int32_t height;
-    std::uint8_t *image;
+    std::uint8_t* image;
 
-    extern std::uint8_t *image_mem;
+    extern std::uint8_t* image_mem;
     memcpy(mem, image_mem, 640 * 480 * 3);
     // yay for disk caches :-p
 

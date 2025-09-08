@@ -80,7 +80,7 @@ SKY_Cloud SKY_cloud[SKY_NUM_CLOUDS];
 #define SKY_wibble_s1 40
 #define SKY_wibble_s2 45
 
-void SKY_init(char *star_file) {
+void SKY_init(char* star_file) {
 #ifndef TARGET_DC
 
     std::int32_t i;
@@ -98,12 +98,12 @@ void SKY_init(char *star_file) {
     std::uint32_t spread;
     std::int32_t match;
 
-    FILE *handle;
+    FILE* handle;
 
     char line[128];
 
-    SKY_Cloud *sc;
-    SKY_Texture *st;
+    SKY_Cloud* sc;
+    SKY_Texture* st;
 
     //
     // Create all the clouds.
@@ -204,7 +204,7 @@ void SKY_init(char *star_file) {
     // London, England.
     //
 
-    SKY_Star *ss;
+    SKY_Star* ss;
 
     float dpitch = 39.0F * 2.0F * PI / 360.0F;
 
@@ -235,7 +235,7 @@ void SKY_draw_stars(
     SVector_F pos;
     POLY_Point pp;
 
-    SKY_Star *ss;
+    SKY_Star* ss;
 
     float xmul = float(RealDisplayWidth) / float(DisplayWidth);
     float ymul = float(RealDisplayHeight) / float(DisplayHeight);
@@ -311,12 +311,12 @@ void SKY_draw_poly_clouds(
     float width;
     float height;
 
-    SKY_Cloud *sc;
-    SKY_Texture *st;
+    SKY_Cloud* sc;
+    SKY_Texture* st;
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     quad[0] = &pp[0];
     quad[1] = &pp[1];
@@ -402,7 +402,7 @@ void SKY_draw_poly_clouds(
         // The sky texture.
         //
 
-        SKY_Texture *st;
+        SKY_Texture* st;
 
         ASSERT(WITHIN(sc->texture, 0, SKY_NUM_TEXTURES - 1));
 
@@ -467,7 +467,7 @@ void SKY_draw_poly_moon(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     quad[0] = &pp[0];
     quad[1] = &pp[1];
@@ -662,10 +662,10 @@ std::int32_t SKY_draw_moon_reflection(
     float mid_y,
     float mid_z,
     float max_dist,
-    float *moon_x1,
-    float *moon_y1,
-    float *moon_x2,
-    float *moon_y2) {
+    float* moon_x1,
+    float* moon_y1,
+    float* moon_x2,
+    float* moon_y2) {
     std::int32_t i;
     std::int32_t j;
 
@@ -692,7 +692,7 @@ std::int32_t SKY_draw_moon_reflection(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     std::int32_t angle1;
     std::int32_t angle2;
@@ -886,7 +886,7 @@ void SKY_draw_poly_sky(
     }
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     pp[0].X = 0.0F;
     pp[0].Y = screen_y - 256.0F;
@@ -1002,7 +1002,7 @@ void SKY_draw_poly_sky_old(float world_camera_x, float world_camera_y, float wor
     POLY_Point pp_bot[SKY_CIRCLE_STEPS];
     POLY_Point pp_top[SKY_CIRCLE_STEPS];
 
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     angle = 0.0F;
     max_dist = 66.0F * 256.0F;
@@ -1097,11 +1097,11 @@ void SKY_draw_poly_sky_old(float world_camera_x, float world_camera_y, float wor
                 quad[3]->v = 1.0F;
 
 #ifdef TARGET_DC
-                // These can trip in mad cases - ignore them.
-                // ASSERT ( quad[0]->Z < 0.0009f );
-                // ASSERT ( quad[1]->Z < 0.0009f );
-                // ASSERT ( quad[2]->Z < 0.0009f );
-                // ASSERT ( quad[3]->Z < 0.0009f );
+            // These can trip in mad cases - ignore them.
+            // ASSERT ( quad[0]->Z < 0.0009f );
+            // ASSERT ( quad[1]->Z < 0.0009f );
+            // ASSERT ( quad[2]->Z < 0.0009f );
+            // ASSERT ( quad[3]->Z < 0.0009f );
 #endif
 
                 POLY_add_quad(quad, POLY_PAGE_SKY, false, 1);

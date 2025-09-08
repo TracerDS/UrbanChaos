@@ -73,7 +73,7 @@ struct MFX_Voice {
     std::uint32_t flags;
     bool is3D;
     std::int32_t x, y, z; // coordinates of this voice
-    Thing* thing;         // thing this voice belongs to
+    Entity* thing;        // thing this voice belongs to
     MFX_QWave* queue;     // queue of samples to play
     std::int32_t queuesz; // number of queued samples
     MFX_Sample* smp;      // sample being played
@@ -691,7 +691,7 @@ static void TriggerPairedVoice(std::uint16_t channel_id) {
     PlayVoice(vptr);
 }
 // TODO: Review memory leak due to OpenAL Usage
-static std::uint8_t PlayWave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, bool is3D, std::int32_t x, std::int32_t y, std::int32_t z, Thing* thing) {
+static std::uint8_t PlayWave(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, bool is3D, std::int32_t x, std::int32_t y, std::int32_t z, Entity* thing) {
     MFX_Voice* vptr = GetVoiceForWave(channel_id, wave, flags);
 
     if (!vptr) {
@@ -794,7 +794,7 @@ void MFX_play_xyz(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t fl
     PlayWave(channel_id, wave, flags, true, x >> 8, y >> 8, z >> 8, nullptr);
 }
 
-void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Thing* p) {
+void MFX_play_thing(std::uint16_t channel_id, std::uint32_t wave, std::uint32_t flags, Entity* p) {
     PlayWave(channel_id, wave, flags, true, 0, 0, 0, p);
 }
 
@@ -833,7 +833,7 @@ void MFX_stop(std::int32_t channel_id, std::uint32_t wave) {
 }
 
 // stop all sounds attached to a thing
-void MFX_stop_attached(Thing* p) {
+void MFX_stop_attached(Entity* p) {
     for (int ii = 0; ii < MAX_VOICE; ii++) {
         if (Voices[ii].thing == p) FreeVoice(&Voices[ii]);
     }
@@ -1118,7 +1118,7 @@ void MFX_update() {
                 }
 
                 // free the old sample and set up the new one
-                Thing* thing = vptr->thing;
+                Entity* thing = vptr->thing;
                 FreeVoiceSource(vptr);
                 SetupVoice(vptr, vptr->id, qptr->wave, qptr->flags & ~MFX_PAIRED_TRK2, qptr->is3D);
                 vptr->thing = thing;

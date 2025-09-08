@@ -14,7 +14,7 @@
 
 #define LL_MAX_TEXTURES 4096
 
-LL_Texture *LL_texture[LL_MAX_TEXTURES];
+LL_Texture* LL_texture[LL_MAX_TEXTURES];
 
 //
 // All the sounds.
@@ -22,16 +22,16 @@ LL_Texture *LL_texture[LL_MAX_TEXTURES];
 
 #define LL_MAX_SOUNDS 4096
 
-LL_Sound *LL_sound[LL_MAX_SOUNDS];
+LL_Sound* LL_sound[LL_MAX_SOUNDS];
 
-LL_Texture *LL_create_texture(char *fname) {
+LL_Texture* LL_create_texture(char* fname) {
     std::int32_t i;
 
     //
     // Create the OS texture.
     //
 
-    OS_Texture *ot = OS_texture_create(fname);
+    OS_Texture* ot = OS_texture_create(fname);
 
     //
     // Do we already have this texture?
@@ -53,9 +53,9 @@ LL_Texture *LL_create_texture(char *fname) {
     // Create a new texture.
     //
 
-    LL_Texture *lt;
+    LL_Texture* lt;
 
-    lt = (LL_Texture *) MEM_alloc(sizeof(LL_Texture));
+    lt = (LL_Texture*) MEM_alloc(sizeof(LL_Texture));
     lt->ot = ot;
     lt->width = OS_texture_width(ot);
     lt->height = OS_texture_height(ot);
@@ -82,7 +82,7 @@ LL_Texture *LL_create_texture(char *fname) {
     return nullptr;
 }
 
-void LL_free_texture(LL_Texture *lt) {
+void LL_free_texture(LL_Texture* lt) {
     //
     // Free everything! We can't free OS_Textures!
     //
@@ -106,14 +106,14 @@ void LL_free_texture(LL_Texture *lt) {
     ASSERT(0);
 }
 
-LL_Sound *LL_create_sound(char *fname) {
+LL_Sound* LL_create_sound(char* fname) {
     std::int32_t i;
 
     //
     // Create the OS sound.
     //
 
-    OS_Sound *os = OS_sound_create(fname, OS_SOUND_TYPE_2D);
+    OS_Sound* os = OS_sound_create(fname, OS_SOUND_TYPE_2D);
 
     //
     // Do we already have this sound?
@@ -135,9 +135,9 @@ LL_Sound *LL_create_sound(char *fname) {
     // Create a new sound.
     //
 
-    LL_Sound *ls;
+    LL_Sound* ls;
 
-    ls = (LL_Sound *) MEM_alloc(sizeof(LL_Sound));
+    ls = (LL_Sound*) MEM_alloc(sizeof(LL_Sound));
     ls->os = os;
     ls->ref_count = 1;
 
@@ -162,7 +162,7 @@ LL_Sound *LL_create_sound(char *fname) {
     return nullptr;
 }
 
-void LL_free_sound(LL_Sound *ls) {
+void LL_free_sound(LL_Sound* ls) {
     //
     // Free everything! We can't free OS_Sounds!
     //
@@ -186,11 +186,11 @@ void LL_free_sound(LL_Sound *ls) {
     ASSERT(0);
 }
 
-LL_Buffer *LL_create_buffer(
+LL_Buffer* LL_create_buffer(
     std::int32_t type,
-    void *vert,
+    void* vert,
     std::int32_t num_verts,
-    std::uint16_t *index,
+    std::uint16_t* index,
     std::int32_t num_indices) {
     ASSERT(
         type == LL_BUFFER_TYPE_TLV ||
@@ -200,7 +200,7 @@ LL_Buffer *LL_create_buffer(
     // Create a new buffer.
     //
 
-    LL_Buffer *lb = (LL_Buffer *) MEM_alloc(sizeof(LL_Buffer));
+    LL_Buffer* lb = (LL_Buffer*) MEM_alloc(sizeof(LL_Buffer));
 
     lb->type = type;
     lb->vert_data = vert;
@@ -212,7 +212,7 @@ LL_Buffer *LL_create_buffer(
     return lb;
 }
 
-void LL_free_buffer(LL_Buffer *lb) {
+void LL_free_buffer(LL_Buffer* lb) {
     //
     // Free up data.
     //
@@ -237,16 +237,16 @@ void LL_free_buffer(LL_Buffer *lb) {
 OS_Vert LL_vert[OS_MAX_TRANS];
 
 void LL_draw_buffer(
-    LL_Buffer *lb,
-    LL_Texture *lt,   // nullptr => Draw untextured
+    LL_Buffer* lb,
+    LL_Texture* lt,   // nullptr => Draw untextured
     std::uint32_t rs) // The LL_RS_* renderstates ORed together.
 {
     std::int32_t i;
 
-    OS_Buffer *ob;
-    OS_Trans *ot;
-    OS_Vert *ov;
-    LL_Tlvert *tl;
+    OS_Buffer* ob;
+    OS_Trans* ot;
+    OS_Vert* ov;
+    LL_Tlvert* tl;
 
     ob = OS_buffer_new();
 

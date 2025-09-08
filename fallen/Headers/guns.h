@@ -7,13 +7,13 @@
 // Finds a target based on dist and angle (for pistol)
 //
 
-THING_INDEX find_target(Thing *p_person);
-THING_INDEX find_target_new(Thing *p_person);
+THING_INDEX find_target(Entity *p_person);
+THING_INDEX find_target_new(Entity *p_person);
 
 //
 // Much longer range. Greater limit on angle.
 //
 
-THING_INDEX find_snipe_target(Thing *p_person);
+THING_INDEX find_snipe_target(Entity *p_person);
 
 #endif

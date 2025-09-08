@@ -4,13 +4,13 @@
 #ifndef STATE_H
 #define STATE_H
 
-struct Thing;
+struct Entity;
 //---------------------------------------------------------------
 
 typedef struct
 {
     std::uint8_t State;
-    void (*StateFn)(Thing *);
+    void (*StateFn)(Entity *);
 } StateFunction;
 
 //---------------------------------------------------------------
@@ -23,9 +23,9 @@ typedef struct
 
 //---------------------------------------------------------------
 
-extern void set_state_function(Thing *t_thing, std::uint8_t state);
-extern void set_generic_person_state_function(Thing *t_thing, std::uint8_t state);
-extern void set_generic_person_just_function(Thing *t_thing, std::uint8_t state);
+extern void set_state_function(Entity *t_thing, std::uint8_t state);
+extern void set_generic_person_state_function(Entity *t_thing, std::uint8_t state);
+extern void set_generic_person_just_function(Entity *t_thing, std::uint8_t state);
 
 //---------------------------------------------------------------
 

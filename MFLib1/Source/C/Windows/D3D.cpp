@@ -12,7 +12,7 @@ std::uint32_t RequestFlags = 0;
 std::int32_t DeviceBitDepth;
 D3DDEVICEDESC d3d_DeviceDesc;
 GUID GUIDDevice;
-IDirect3DDevice2 *lp_D3D_Device;
+IDirect3DDevice2* lp_D3D_Device;
 LPDIRECT3D lp_D3D = nullptr;
 LPDIRECT3D2 lp_D3D_2 = nullptr;
 LPDIRECTDRAWSURFACE lp_DD_ZBuffer;
@@ -25,9 +25,9 @@ void SetupD3D2() {
     HRESULT dd_result;
 
     if (!GotD3D2) {
-        dd_result = lp_DD->QueryInterface(IID_IDirect3D, (LPVOID *) &lp_D3D);
+        dd_result = lp_DD->QueryInterface(IID_IDirect3D, (LPVOID*) &lp_D3D);
         if (dd_result == DD_OK) {
-            dd_result = lp_D3D->QueryInterface(IID_IDirect3D2, (LPVOID *) &lp_D3D_2);
+            dd_result = lp_D3D->QueryInterface(IID_IDirect3D2, (LPVOID*) &lp_D3D_2);
             if (dd_result == DD_OK) {
                 LogText("D3D2 installed.\n");
                 GotD3D2 = true;

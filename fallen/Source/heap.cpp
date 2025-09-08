@@ -31,14 +31,14 @@ std::uint8_t HEAP_heap[HEAP_SIZE];
 //
 
 typedef struct heap_free {
-    std::uint8_t *start;
-    std::uint8_t *end;
+    std::uint8_t* start;
+    std::uint8_t* end;
     std::int32_t size;
-    struct heap_free *next;
+    struct heap_free* next;
 
 } HEAP_Free;
 
-HEAP_Free *HEAP_free;
+HEAP_Free* HEAP_free;
 
 //
 // All memory blocks must be multiples of this. It is
@@ -52,7 +52,7 @@ HEAP_Free *HEAP_free;
 //
 
 void HEAP_check() {
-    HEAP_Free *hf;
+    HEAP_Free* hf;
 
     for (hf = HEAP_free; hf; hf = hf->next) {
         ASSERT(hf->size <= HEAP_SIZE);
@@ -65,19 +65,19 @@ void HEAP_init() {
     // Easy...
     //
 
-    HEAP_free = (HEAP_Free *) HEAP_heap;
+    HEAP_free = (HEAP_Free*) HEAP_heap;
 
-    HEAP_free->start = (std::uint8_t *) &HEAP_heap[0];
-    HEAP_free->end = (std::uint8_t *) &HEAP_heap[HEAP_SIZE];
+    HEAP_free->start = (std::uint8_t*) &HEAP_heap[0];
+    HEAP_free->end = (std::uint8_t*) &HEAP_heap[HEAP_SIZE];
     HEAP_free->size = HEAP_SIZE;
     HEAP_free->next = nullptr;
 
     HEAP_check();
 }
 
-void HEAP_add_to_free(HEAP_Free *bit) {
-    HEAP_Free *next;
-    HEAP_Free **prev;
+void HEAP_add_to_free(HEAP_Free* bit) {
+    HEAP_Free* next;
+    HEAP_Free** prev;
 
 #ifndef NDEBUG
     HEAP_check();
@@ -192,10 +192,10 @@ start_again_with_a_bigger_bit:;
     return;
 }
 
-void *HEAP_get(std::int32_t size) {
-    void *ans;
+void* HEAP_get(std::int32_t size) {
+    void* ans;
     HEAP_Free bit;
-    HEAP_Free *onheap;
+    HEAP_Free* onheap;
 
 #ifndef NDEBUG
     HEAP_check();
@@ -216,7 +216,7 @@ void *HEAP_get(std::int32_t size) {
     size += (HEAP_QUANTISE - 1);
     size &= ~(HEAP_QUANTISE - 1);
 
-    ASSERT(WITHIN((std::uint8_t *) HEAP_free, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
+    ASSERT(WITHIN((std::uint8_t*) HEAP_free, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
 
     //
     // Always take memory from the biggest block.
@@ -279,7 +279,7 @@ void *HEAP_get(std::int32_t size) {
         // Put the new bit on the heap.
         //
 
-        onheap = (HEAP_Free *) bit.start;
+        onheap = (HEAP_Free*) bit.start;
         *onheap = bit;
 
         //
@@ -308,8 +308,8 @@ std::int32_t HEAP_max_free() {
 // Gives back an unused block of memory.
 //
 
-void HEAP_give(void *mem, std::int32_t num_bytes) {
-    HEAP_Free *onheap = (HEAP_Free *) mem;
+void HEAP_give(void* mem, std::int32_t num_bytes) {
+    HEAP_Free* onheap = (HEAP_Free*) mem;
 
 #ifndef NDEBUG
     HEAP_check();
@@ -322,7 +322,7 @@ void HEAP_give(void *mem, std::int32_t num_bytes) {
     num_bytes += (HEAP_QUANTISE - 1);
     num_bytes &= ~(HEAP_QUANTISE - 1);
 
-    ASSERT(WITHIN((std::uint8_t *) onheap, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
+    ASSERT(WITHIN((std::uint8_t*) onheap, &HEAP_heap[0], &HEAP_heap[HEAP_SIZE - sizeof(HEAP_Free)]));
 
     //
     // Add the header.
@@ -331,7 +331,7 @@ void HEAP_give(void *mem, std::int32_t num_bytes) {
     //	ASSERT((((std::uint32_t)mem) & 0xff000000) == 0);
     ASSERT(num_bytes <= HEAP_SIZE);
 
-    onheap->start = (std::uint8_t *) mem;
+    onheap->start = (std::uint8_t*) mem;
     onheap->end = onheap->start + num_bytes;
     onheap->size = num_bytes;
     onheap->next = nullptr;

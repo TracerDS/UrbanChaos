@@ -79,7 +79,7 @@ void CONSOLE_draw() {
     OS_show();
 }
 
-void CONSOLE_print(char *fmt, ...) {
+void CONSOLE_print(char* fmt, ...) {
     //
     // Work out the real message.
     //
@@ -95,7 +95,7 @@ void CONSOLE_print(char *fmt, ...) {
     // Create a new line on the console.
     //
 
-    CONSOLE_Line *cl;
+    CONSOLE_Line* cl;
 
     cl = &CONSOLE_line[CONSOLE_line_upto++ % CONSOLE_MAX_LINES];
 
@@ -110,9 +110,9 @@ void CONSOLE_print(char *fmt, ...) {
     CONSOLE_draw();
 }
 
-char *CONSOLE_input() {
-    char *ch;
-    CONSOLE_Line *cl;
+char* CONSOLE_input() {
+    char* ch;
+    CONSOLE_Line* cl;
 
     std::int32_t flash = OS_ticks();
     std::int32_t draw = true;

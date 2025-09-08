@@ -26,7 +26,7 @@ extern void POLY_set_local_rotation_none();
 #endif
 
 #ifdef SUPERFACET_PERFORMANCE
-FILE *SUPERFACET_handle;
+FILE* SUPERFACET_handle;
 std::int32_t SUPERFACET_total_freed;
 std::int32_t SUPERFACET_total_converted;
 std::int32_t SUPERFACET_total_already_cached;
@@ -51,8 +51,8 @@ std::int32_t SUPERFACET_max_lverts;
 
 #define SUPERFACET_MAX_LVERTS (SUPERFACET_max_lverts)
 
-std::uint8_t *SUPERFACET_lvert_buffer;
-D3DLVERTEX *SUPERFACET_lvert;
+std::uint8_t* SUPERFACET_lvert_buffer;
+D3DLVERTEX* SUPERFACET_lvert;
 std::int32_t SUPERFACET_lvert_upto;
 
 //
@@ -63,7 +63,7 @@ std::int32_t SUPERFACET_max_indices;
 
 #define SUPERFACET_MAX_INDICES (SUPERFACET_max_indices)
 
-std::uint16_t *SUPERFACET_index;
+std::uint16_t* SUPERFACET_index;
 std::int32_t SUPERFACET_index_upto;
 
 //
@@ -120,7 +120,7 @@ typedef struct
 
 } SUPERFACET_Facet;
 
-SUPERFACET_Facet *SUPERFACET_facet;
+SUPERFACET_Facet* SUPERFACET_facet;
 
 //
 // A circular queue of facets. It remembers the order the
@@ -139,7 +139,7 @@ std::int32_t SUPERFACET_queue_end;
 //
 
 std::uint8_t SUPERFACET_matrix_buffer[sizeof(D3DMATRIX) + 32];
-D3DMATRIX *SUPERFACET_matrix;
+D3DMATRIX* SUPERFACET_matrix;
 
 //
 // The direction matrices for each direction of facet.
@@ -153,7 +153,7 @@ float SUPERFACET_direction_matrix[4][9];
 
 extern std::uint32_t facet_rand();
 extern void set_facet_seed(std::int32_t seed);
-extern std::int32_t texture_quad(POLY_Point *quad[4], std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::int32_t flipx = 0);
+extern std::int32_t texture_quad(POLY_Point* quad[4], std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::int32_t flipx = 0);
 
 //
 // Frees up the memory for the facet at the end of a queue.
@@ -163,8 +163,8 @@ void SUPERFACET_free_end_of_queue() {
     std::int32_t i;
     std::int32_t facet;
 
-    SUPERFACET_Facet *sf;
-    SUPERFACET_Call *sc;
+    SUPERFACET_Facet* sf;
+    SUPERFACET_Call* sc;
 
 #ifdef SUPERFACET_PERFORMANCE
     SUPERFACET_total_freed += 1;
@@ -239,12 +239,12 @@ void SUPERFACET_free_end_of_queue() {
 // coordinates in the quad.
 //
 
-LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(std::int32_t page, POLY_Point *quad[4]) {
+LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(std::int32_t page, POLY_Point* quad[4]) {
     std::int32_t i;
 
     ASSERT(WITHIN(page, 0, 511)); // Special subset of pages just for facets...
 
-    PolyPage *pp = &POLY_Page[page];
+    PolyPage* pp = &POLY_Page[page];
 
 #ifdef TEX_EMBED
 
@@ -268,7 +268,7 @@ LPDIRECT3DTEXTURE2 SUPERFACET_convert_texture(std::int32_t page, POLY_Point *qua
 // for each point.
 //
 
-NIGHT_Colour *SUPERFACET_colour_base;
+NIGHT_Colour* SUPERFACET_colour_base;
 
 //
 // Stolen from facet.cpp. Fills in POLY_buffer[] with the points
@@ -286,7 +286,7 @@ void SUPERFACET_make_facet_points(
     float dz,
     float block_height,
     std::int32_t height,
-    NIGHT_Colour *col,
+    NIGHT_Colour* col,
     std::int32_t foundation,
     std::int32_t count,
     std::int32_t hug) {
@@ -308,7 +308,7 @@ void SUPERFACET_make_facet_points(
 
             ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-            POLY_Point *pp = &POLY_buffer[POLY_buffer_upto++];
+            POLY_Point* pp = &POLY_buffer[POLY_buffer_upto++];
 
             if (hug) {
                 ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
@@ -368,11 +368,11 @@ void SUPERFACET_create_points(std::int32_t facet) {
     float block_height;
 
     LPDIRECT3DTEXTURE2 texture;
-    DFacet *df;
-    SUPERFACET_Facet *sf;
-    SUPERFACET_Call *sc;
-    POLY_Point *quad[4];
-    NIGHT_Colour *col;
+    DFacet* df;
+    SUPERFACET_Facet* sf;
+    SUPERFACET_Call* sc;
+    POLY_Point* quad[4];
+    NIGHT_Colour* col;
 
     ASSERT(WITHIN(facet, 0, next_dfacet - 1));
     ASSERT(WITHIN(facet, 0, SUPERFACET_MAX_FACETS - 1));
@@ -452,15 +452,15 @@ void SUPERFACET_fill_facet_points(
     std::int32_t foundation,
     std::int32_t style_index,
     float block_height,
-    SUPERFACET_Call *sc) {
+    SUPERFACET_Call* sc) {
     std::int32_t i;
     std::int32_t j;
     std::int32_t page;
     float vheight = float(block_height) * (1.0f / 256.0f);
 
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     LPDIRECT3DTEXTURE2 texture;
-    D3DLVERTEX *lv;
+    D3DLVERTEX* lv;
 
     std::int32_t row1 = FacetRows[base_row];
     std::int32_t row2 = FacetRows[base_row + 1];
@@ -745,10 +745,10 @@ void SUPERFACET_build_call(std::int32_t facet, std::int32_t call) {
     float block_height;
 
     LPDIRECT3DTEXTURE2 texture;
-    DFacet *df;
-    SUPERFACET_Facet *sf;
-    SUPERFACET_Call *sc;
-    POLY_Point *quad[4];
+    DFacet* df;
+    SUPERFACET_Facet* sf;
+    SUPERFACET_Call* sc;
+    POLY_Point* quad[4];
 
     ASSERT(WITHIN(facet, 0, next_dfacet - 1));
     ASSERT(WITHIN(facet, 0, SUPERFACET_MAX_FACETS - 1));
@@ -883,10 +883,10 @@ void SUPERFACET_create_calls(std::int32_t facet, std::int32_t direction) {
     std::int32_t style_index_step;
 
     LPDIRECT3DTEXTURE2 texture;
-    DFacet *df;
-    SUPERFACET_Facet *sf;
-    SUPERFACET_Call *sc;
-    POLY_Point *quad[4];
+    DFacet* df;
+    SUPERFACET_Facet* sf;
+    SUPERFACET_Call* sc;
+    POLY_Point* quad[4];
 
     ASSERT(WITHIN(facet, 0, next_dfacet - 1));
     ASSERT(WITHIN(facet, 0, SUPERFACET_MAX_FACETS - 1));
@@ -1048,9 +1048,9 @@ void SUPERFACET_convert_facet(std::int32_t facet) {
     std::int32_t memory;
     std::int32_t direction;
 
-    DFacet *df;
-    SUPERFACET_Facet *sf;
-    SUPERFACET_Call *sc;
+    DFacet* df;
+    SUPERFACET_Facet* sf;
+    SUPERFACET_Call* sc;
 
 #ifdef SUPERFACET_PERFORMANCE
     SUPERFACET_total_converted += 1;
@@ -1232,11 +1232,11 @@ void SUPERFACET_init() {
     // Allocate memory.
     //
 
-    SUPERFACET_lvert_buffer = (std::uint8_t *) MemAlloc(sizeof(D3DLVERTEX) * SUPERFACET_MAX_LVERTS + 32);
+    SUPERFACET_lvert_buffer = (std::uint8_t*) MemAlloc(sizeof(D3DLVERTEX) * SUPERFACET_MAX_LVERTS + 32);
     ASSERT(SUPERFACET_lvert_buffer != nullptr);
-    SUPERFACET_index = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * SUPERFACET_MAX_INDICES);
+    SUPERFACET_index = (std::uint16_t*) MemAlloc(sizeof(std::uint16_t) * SUPERFACET_MAX_INDICES);
     ASSERT(SUPERFACET_index != nullptr);
-    SUPERFACET_facet = (SUPERFACET_Facet *) MemAlloc(sizeof(SUPERFACET_Facet) * SUPERFACET_MAX_FACETS);
+    SUPERFACET_facet = (SUPERFACET_Facet*) MemAlloc(sizeof(SUPERFACET_Facet) * SUPERFACET_MAX_FACETS);
     ASSERT(SUPERFACET_facet != nullptr);
 
     //
@@ -1255,7 +1255,7 @@ void SUPERFACET_init() {
     SUPERFACET_free_range_start = 0;
     SUPERFACET_free_range_end = SUPERFACET_MAX_LVERTS;
 
-    SUPERFACET_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
+    SUPERFACET_lvert = (D3DLVERTEX*) ((std::int32_t(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
 
     SUPERFACET_lvert_upto = 0;
     SUPERFACET_index_upto = 0;
@@ -1263,7 +1263,7 @@ void SUPERFACET_init() {
     SUPERFACET_queue_start = 0;
     SUPERFACET_queue_end = 0;
 
-    SUPERFACET_matrix = (D3DMATRIX *) ((std::int32_t(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
+    SUPERFACET_matrix = (D3DMATRIX*) ((std::int32_t(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
 
     //
     // Build the direction matrices.
@@ -1331,10 +1331,10 @@ void SUPERFACET_redo_lighting(std::int32_t facet) {
     std::int32_t i;
     std::int32_t j;
 
-    DFacet *df;
-    SUPERFACET_Call *sc;
-    SUPERFACET_Facet *sf;
-    D3DLVERTEX *lv;
+    DFacet* df;
+    SUPERFACET_Call* sc;
+    SUPERFACET_Facet* sf;
+    D3DLVERTEX* lv;
 
     df = &dfacets[facet];
     sf = &SUPERFACET_facet[facet];
@@ -1354,7 +1354,7 @@ void SUPERFACET_redo_lighting(std::int32_t facet) {
     // Go through each call structure
     //
 
-    NIGHT_Colour *col = NIGHT_dfcache[df->Dfcache].colour;
+    NIGHT_Colour* col = NIGHT_dfcache[df->Dfcache].colour;
 
     for (i = 0; i < sf->num; i++) {
         ASSERT(WITHIN(sf->call + i, 0, SUPERFACET_MAX_CALLS - 1));
@@ -1408,7 +1408,7 @@ void SUPERFACET_start_frame() {
         SUPERFACET_free_range_start = 0;
         SUPERFACET_free_range_end = SUPERFACET_MAX_LVERTS;
 
-        SUPERFACET_lvert = (D3DLVERTEX *) ((std::int32_t(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
+        SUPERFACET_lvert = (D3DLVERTEX*) ((std::int32_t(SUPERFACET_lvert_buffer) + 31) & ~0x1f);
 
         SUPERFACET_lvert_upto = 0;
         SUPERFACET_index_upto = 0;
@@ -1416,7 +1416,7 @@ void SUPERFACET_start_frame() {
         SUPERFACET_queue_start = 0;
         SUPERFACET_queue_end = 0;
 
-        SUPERFACET_matrix = (D3DMATRIX *) ((std::int32_t(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
+        SUPERFACET_matrix = (D3DMATRIX*) ((std::int32_t(SUPERFACET_matrix_buffer) + 31) & ~0x1f);
     }
 #endif
 #endif
@@ -1463,8 +1463,8 @@ std::int32_t SUPERFACET_draw(std::int32_t facet) {
     std::int32_t i;
     std::int32_t j;
 
-    SUPERFACET_Facet *sf;
-    SUPERFACET_Call *sc;
+    SUPERFACET_Facet* sf;
+    SUPERFACET_Call* sc;
 
     D3DMULTIMATRIX d3dmm;
 

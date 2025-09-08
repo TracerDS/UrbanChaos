@@ -7,7 +7,7 @@
 
 //---------------------------------------------------------------
 
-void Window::SetupWindow(char *title, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height) {
+void Window::SetupWindow(char* title, std::uint32_t flags, std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height) {
     Flags = flags;
     StateFlags = 0;
 
@@ -17,7 +17,7 @@ void Window::SetupWindow(char *title, std::uint32_t flags, std::int32_t x, std::
     if (Flags & HAS_TITLE) {
         Title = title;
     }
-    ConstrainHeight((std::int32_t *) &height);
+    ConstrainHeight((std::int32_t*) &height);
     SetRect(x, y, width, height);
     ControlAreaHeight = 0;
     ControlAreaWidth = 0;
@@ -121,7 +121,7 @@ void Window::DrawWindow(void) {
 //---------------------------------------------------------------
 
 void Window::DrawControls(void) {
-    ModeTab *current_tab;
+    ModeTab* current_tab;
 
     if (TabList) {
         current_tab = TabList;
@@ -164,7 +164,7 @@ void Window::SizeWindow(std::int32_t dx, std::int32_t dy) {
 
 //---------------------------------------------------------------
 
-std::uint32_t Window::WhereInWindow(MFPoint *the_point) {
+std::uint32_t Window::WhereInWindow(MFPoint* the_point) {
     ModeTab *clicked_tab = 0,
             *current_tab;
 
@@ -223,7 +223,7 @@ std::uint32_t Window::WhereInWindow(MFPoint *the_point) {
 
 //---------------------------------------------------------------
 
-void Window::ConstrainHeight(std::int32_t *new_height) {
+void Window::ConstrainHeight(std::int32_t* new_height) {
     if (*new_height < 8)
         *new_height = 8;
     if (Flags & HAS_TITLE) {
@@ -243,7 +243,7 @@ void Window::ConstrainHeight(std::int32_t *new_height) {
 //---------------------------------------------------------------
 
 void Window::SetAreaSizes(void) {
-    ModeTab *current_tab;
+    ModeTab* current_tab;
     std::int32_t content_offset = 3;
 
     if (Flags & HAS_TITLE) {
@@ -332,7 +332,7 @@ void Window::DrawGrowBox(void) {
 
 //---------------------------------------------------------------
 
-void Window::BringTabToFront(ModeTab *the_tab) {
+void Window::BringTabToFront(ModeTab* the_tab) {
     if (the_tab == CurrentTab)
         return; // Already at the end of list (Front of display).
 
@@ -351,7 +351,7 @@ void Window::BringTabToFront(ModeTab *the_tab) {
 //---------------------------------------------------------------
 
 void Window::BringTabIDToFront(std::uint16_t id) {
-    ModeTab *current_tab;
+    ModeTab* current_tab;
 
     current_tab = TabList;
     while (current_tab) {
@@ -366,7 +366,7 @@ void Window::BringTabIDToFront(std::uint16_t id) {
 //---------------------------------------------------------------
 
 void Window::ActivateNextTab(void) {
-    ModeTab *clicked_tab;
+    ModeTab* clicked_tab;
 
     if (TabList) {
         if (CurrentTab->GetNextTabLink()) {
@@ -409,7 +409,7 @@ void Window::ActivateLastTab(void) {
 
 //---------------------------------------------------------------
 
-void Window::AddTab(ModeTab *the_tab) {
+void Window::AddTab(ModeTab* the_tab) {
     if (!CurrentTab) // Start of list?
     {
         TabList = the_tab;
@@ -426,7 +426,7 @@ void Window::AddTab(ModeTab *the_tab) {
 
 //---------------------------------------------------------------
 
-void Window::HandleTab(MFPoint *current_point) {
+void Window::HandleTab(MFPoint* current_point) {
     CurrentTab->HandleTab(current_point);
 }
 

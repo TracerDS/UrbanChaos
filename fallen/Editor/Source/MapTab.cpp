@@ -53,7 +53,7 @@ ControlDef map_tab_def[] =
         {0}
 };
 
-MapTab *the_maptab;
+MapTab* the_maptab;
 
 struct MapInfo map_info[MAX_MAP_INFO];
 std::uint16_t next_map_info = 1;
@@ -64,7 +64,7 @@ void redraw_map_tab(void);
 // MOVE THIS TO ANOTHER FILE
 void draw_world_map(void) {
     std::int32_t c0;
-    struct MapInfo *p_map;
+    struct MapInfo* p_map;
     std::int32_t prim;
 
     for (c0 = 1; c0 < next_map_info; c0++) {
@@ -79,7 +79,7 @@ void draw_world_map(void) {
     }
 }
 
-MapTab::MapTab(EditorModule *parent) {
+MapTab::MapTab(EditorModule* parent) {
     Parent = parent;
 
     InitControlSet(map_tab_def);
@@ -89,7 +89,7 @@ MapTab::MapTab(EditorModule *parent) {
     SetControlState(CTRL_MAP_Y_AXIS_FREE, CTRL_SELECTED);
     SetControlState(CTRL_MAP_Z_AXIS_FREE, CTRL_SELECTED);
     SetControlState(CTRL_MAP_DEF_MODE, CTRL_SELECTED);
-    ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetFlags(CONTROL_INACTIVE);
+    ((CEditText*) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetFlags(CONTROL_INACTIVE);
     Axis = X_AXIS | Y_AXIS | Z_AXIS;
     Mode = 0;
     DefMode = 1;
@@ -196,7 +196,7 @@ void MapTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w, s
 
 //---------------------------------------------------------------
 
-void MapTab::HandleTab(MFPoint *current_point) {
+void MapTab::HandleTab(MFPoint* current_point) {
     std::int32_t update = 0;
 
     ModeTab::HandleTab(current_point);
@@ -253,7 +253,7 @@ std::int32_t MapTab::KeyboardInterface(void) {
 
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
-inline std::int32_t normalise_xyz(std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+inline std::int32_t normalise_xyz(std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::int32_t dist;
 
     dist = (*x) * (*x) + (*y) * (*y) + (*z) * (*z);
@@ -301,7 +301,7 @@ void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x
                 DrawLineC(res[0].X,res[0].Y,res[1].X,res[1].Y,col);
 }
 */
-void draw_3d_text(std::int32_t x1, std::int32_t y1, std::int32_t z1, char *str, std::int32_t col) {
+void draw_3d_text(std::int32_t x1, std::int32_t y1, std::int32_t z1, char* str, std::int32_t col) {
     struct SVector point;
     struct SVector res;
     std::uint32_t f1;
@@ -315,7 +315,7 @@ void draw_3d_text(std::int32_t x1, std::int32_t y1, std::int32_t z1, char *str, 
 }
 
 void draw_a_map_info(std::uint8_t view_flag, std::uint16_t index) {
-    struct MapInfo *p_map;
+    struct MapInfo* p_map;
     std::int32_t col = WHITE_COL;
     EdRect rect;
     char str[100];
@@ -350,7 +350,7 @@ void hilight_map_info(std::uint8_t view_flag) {
         }
 }
 
-static void create_box_from_vect(EdRect *rect, std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
+static void create_box_from_vect(EdRect* rect, std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
     struct SVector point[2];
     struct SVector res[2];
     std::uint32_t f1, f2;
@@ -370,7 +370,7 @@ static void create_box_from_vect(EdRect *rect, std::int32_t x1, std::int32_t y1,
     rect->OutlineRect(WHITE_COL);
 }
 
-static void create_box_from_point(EdRect *rect, std::int32_t x1, std::int32_t y1, std::int32_t z1) {
+static void create_box_from_point(EdRect* rect, std::int32_t x1, std::int32_t y1, std::int32_t z1) {
     struct SVector point[1];
     struct SVector res[1];
     std::uint32_t f1, f2;
@@ -385,8 +385,8 @@ static void create_box_from_point(EdRect *rect, std::int32_t x1, std::int32_t y1
     rect->OutlineRect(WHITE_COL);
 }
 
-std::int32_t select_this_map_info(std::int32_t index, MFPoint *mouse) {
-    struct MapInfo *p_map;
+std::int32_t select_this_map_info(std::int32_t index, MFPoint* mouse) {
+    struct MapInfo* p_map;
     EdRect rect;
 
     p_map = &map_info[index];
@@ -428,10 +428,10 @@ std::int32_t select_this_map_info(std::int32_t index, MFPoint *mouse) {
     return (0);
 }
 
-extern void calc_prims_world_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, EdRect *rect);
+extern void calc_prims_world_box(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, EdRect* rect);
 
-void calc_things_world_box(std::int32_t map_thing, EdRect *rect) {
-    struct MapThing *p_mthing;
+void calc_things_world_box(std::int32_t map_thing, EdRect* rect) {
+    struct MapThing* p_mthing;
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
@@ -450,10 +450,10 @@ void calc_things_world_box(std::int32_t map_thing, EdRect *rect) {
 
 void SetBackgroundForMap(std::int16_t map) {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     EdRect rect;
     EdRect map_rect;
-    struct MapInfo *p_map;
+    struct MapInfo* p_map;
     p_map = &map_info[map];
 
     map_rect.SetRect(p_map->Left, p_map->Top, p_map->Bottom - p_map->Top, p_map->Right - p_map->Left);
@@ -469,7 +469,7 @@ void SetBackgroundForMap(std::int16_t map) {
     }
 }
 
-std::int32_t select_map_info(MFPoint *mouse, std::int32_t *ret) {
+std::int32_t select_map_info(MFPoint* mouse, std::int32_t* ret) {
     std::int32_t c0;
 
     for (c0 = 1; c0 < next_map_info; c0++) {
@@ -480,10 +480,10 @@ std::int32_t select_map_info(MFPoint *mouse, std::int32_t *ret) {
     return (0);
 }
 
-std::int32_t select_map_infoxyz(MFPoint *mouse) {
+std::int32_t select_map_infoxyz(MFPoint* mouse) {
     std::int32_t c0;
-    struct MapThing *p_mthing;
-    struct MapInfo *p_map;
+    struct MapThing* p_mthing;
+    struct MapInfo* p_map;
     EdRect rect;
 
     for (c0 = 1; c0 < next_map_info; c0++) {
@@ -505,7 +505,7 @@ std::int32_t select_map_infoxyz(MFPoint *mouse) {
     return (0);
 }
 
-void normal_info(struct MapInfo *p_map) {
+void normal_info(struct MapInfo* p_map) {
     if (p_map->Right < p_map->Left)
         SWAP(p_map->Left, p_map->Right);
 
@@ -513,7 +513,7 @@ void normal_info(struct MapInfo *p_map) {
         SWAP(p_map->Top, p_map->Bottom);
 }
 
-std::int32_t MapTab::DragAMapDef(std::uint8_t flags, MFPoint *clicked_point, std::uint16_t copy) {
+std::int32_t MapTab::DragAMapDef(std::uint8_t flags, MFPoint* clicked_point, std::uint16_t copy) {
     std::int32_t side;
     std::int32_t drag = 0;
     std::int32_t x, y, w, h;
@@ -543,7 +543,7 @@ std::int32_t MapTab::DragAMapDef(std::uint8_t flags, MFPoint *clicked_point, std
     drag = select_map_info(clicked_point, &side);
 
     if (drag) {
-        struct MapInfo *p_map;
+        struct MapInfo* p_map;
         p_map = &map_info[drag];
 
         CurrentMap = drag;
@@ -618,7 +618,7 @@ std::int32_t MapTab::DragAMapDef(std::uint8_t flags, MFPoint *clicked_point, std
     return (screen_change);
 }
 
-std::int32_t MapTab::DragAMapDefXYZ(std::uint8_t flags, MFPoint *clicked_point, std::uint16_t copy) {
+std::int32_t MapTab::DragAMapDefXYZ(std::uint8_t flags, MFPoint* clicked_point, std::uint16_t copy) {
     std::int32_t drag = 0;
     std::int32_t x, y, w, h;
     std::int32_t wwx, wwy, www, wwh;
@@ -658,7 +658,7 @@ std::int32_t MapTab::DragAMapDefXYZ(std::uint8_t flags, MFPoint *clicked_point, 
 
     if (drag) {
         std::int32_t dx, dy, dz;
-        struct MapInfo *p_map;
+        struct MapInfo* p_map;
         p_map = &map_info[drag];
 
         CurrentMap = drag;
@@ -720,7 +720,7 @@ std::int32_t MapTab::DragAMapDefXYZ(std::uint8_t flags, MFPoint *clicked_point, 
     return (screen_change);
 }
 
-std::int32_t MapTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t MapTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -788,7 +788,7 @@ void MapTab::SetMapPos(std::int32_t x, std::int32_t y, std::int32_t z) {
     map_info[CurrentMap].AngleY = 0;
 }
 
-std::int32_t MapTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t MapTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     x = x;
     y = y;
     w = w;
@@ -802,7 +802,7 @@ std::int32_t MapTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8
         case MAP_MODE_DEFINE_MAP:
             if (SetWorldMouse(1)) {
                 CurrentMap = CreateMapPlane(engine.MousePosX, engine.MousePosY, engine.MousePosZ);
-                strcpy(map_info[CurrentMap].Name, ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetEditString());
+                strcpy(map_info[CurrentMap].Name, ((CEditText*) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetEditString());
 
                 Mode = 0;
             }
@@ -849,9 +849,9 @@ std::int32_t MapTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8
     return (0);
 }
 
-std::uint16_t MapTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t MapTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     // This is a fudge to update the front screen buffer.
@@ -975,8 +975,8 @@ void MapTab::HandleControl(std::uint16_t control_id) {
         DefMode = 1;
         SetControlState(CTRL_MAP_DEF_MODE, CTRL_SELECTED);
         Mode = MAP_MODE_DEFINE_MAP;
-        ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetFlags(((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetFlags() & ~CONTROL_INACTIVE);
-        ((CEditText *) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetEditString("No Name");
+        ((CEditText*) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetFlags(((CEditText*) GetControlPtr(CTRL_MAP_EDIT_TEXT))->GetFlags() & ~CONTROL_INACTIVE);
+        ((CEditText*) GetControlPtr(CTRL_MAP_EDIT_TEXT))->SetEditString("No Name");
         RequestUpdate();
         break;
     case CTRL_MAP_DEF_MODE:

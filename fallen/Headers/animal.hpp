@@ -2,7 +2,7 @@
 
 class Animal {
 protected:
-    Thing* target;               // chasing, barking
+    Entity* target;               // chasing, barking
     std::uint16_t m_counter;       // random delays etc
     std::uint16_t m_dist;          // generically useful when pathfinding, chasing, etc
     std::uint16_t m_starty;        // initial height? remove?

@@ -55,7 +55,7 @@ extern std::int32_t stat_arrested_innocent;
 
 #define MAX_PLAYBACKS 3
 
-char *playbacks[] =
+char* playbacks[] =
     {
         "Data\\Game.pkt",
         "Data\\Game2.pkt",
@@ -64,7 +64,7 @@ std::int32_t current_playback = 0;
 
 // extern std::uint32_t get_hardware_input(std::uint16_t type);
 
-extern char *playback_name;
+extern char* playback_name;
 std::int32_t go_into_game;
 std::uint8_t auto_advance = 0;
 
@@ -74,8 +74,8 @@ std::uint8_t auto_advance = 0;
 // cycles between playing the intro, showing the high score table &
 // showing the 'PRESS START' bits.
 
-void LoadBackImage(std::uint8_t *image_data);
-void AENG_demo_attract(std::int32_t x, std::int32_t y, char *text);
+void LoadBackImage(std::uint8_t* image_data);
+void AENG_demo_attract(std::int32_t x, std::int32_t y, char* text);
 extern bool text_fudge;
 extern std::int32_t do_start_menu();
 
@@ -553,10 +553,10 @@ reinit_because_of_language_change:
 
 //---------------------------------------------------------------
 #ifdef PSX
-extern FONT2D_DrawString(char *chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb = 0xffffff, std::int32_t scale = 256, std::int32_t page = POLY_PAGE_FONT2D, std::int16_t fade = 0);
+extern FONT2D_DrawString(char* chr, std::uint32_t x, std::uint32_t y, std::uint32_t rgb = 0xffffff, std::int32_t scale = 256, std::int32_t page = POLY_PAGE_FONT2D, std::int16_t fade = 0);
 #endif
 
-inline void printf2d(std::int32_t x, std::int32_t &y, char *fmt, ...) {
+inline void printf2d(std::int32_t x, std::int32_t& y, char* fmt, ...) {
 #ifndef PSX
     char msg[_MAX_PATH];
 #else
@@ -633,7 +633,7 @@ void ScoresDraw() {
     s = ticks / (1000);
 
     for (c0 = 0; c0 < MAX_THINGS; c0++) {
-        Thing *p_thing;
+        Entity* p_thing;
 
         p_thing = TO_THING(c0);
 
@@ -727,11 +727,11 @@ void ScoresDraw() {
         {
             typedef struct
             {
-                char *level_fname;
-                char *level_name;
+                char* level_fname;
+                char* level_name;
                 std::int32_t mins;
                 std::int32_t secs;
-                char *who;
+                char* who;
 
             } Mime; // A mucky time!
 
@@ -825,7 +825,7 @@ void ScoresDraw() {
             std::int32_t i = 0;
 
             while (1) {
-                Mime *mm = &mucky_times[i];
+                Mime* mm = &mucky_times[i];
 
                 if (!mm->level_fname) {
                     break;
@@ -1146,9 +1146,9 @@ void ATTRACT_loadscreen_init() {
     the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
     // Really horrible hack.
-    void FRONTEND_scr_img_load_into_screenfull(char *name, CompressedBackground *screen);
+    void FRONTEND_scr_img_load_into_screenfull(char* name, CompressedBackground* screen);
     FRONTEND_scr_img_load_into_screenfull("e3load.tga", &(the_display.lp_DD_Background));
-    UnpackBackground((BYTE *) (the_display.lp_DD_Background), the_display.lp_DD_BackSurface);
+    UnpackBackground((BYTE*) (the_display.lp_DD_Background), the_display.lp_DD_BackSurface);
     // AENG_flip();
     the_display.lp_DD_FrontSurface->Flip(nullptr, DDFLIP_WAIT);
 
@@ -1235,7 +1235,7 @@ void ATTRACT_loadscreen_draw(std::int32_t completion) // completion is in 8-bit 
 
         // Two black lines.
         for (int iY = rect.top; iY < rect.top + 2; iY++) {
-            WORD *wPtr = (WORD *) ((char *) ddsd.lpSurface + iY * ddsd.lPitch);
+            WORD* wPtr = (WORD*) ((char*) ddsd.lpSurface + iY * ddsd.lPitch);
             wPtr += rect.left;
             for (int iX = rect.left; iX < rect.right; iX++) {
                 *wPtr++ = 0;
@@ -1243,7 +1243,7 @@ void ATTRACT_loadscreen_draw(std::int32_t completion) // completion is in 8-bit 
         }
 
         for (iY = rect.top + 2; iY < rect.bottom; iY++) {
-            WORD *wPtr = (WORD *) ((char *) ddsd.lpSurface + iY * ddsd.lPitch);
+            WORD* wPtr = (WORD*) ((char*) ddsd.lpSurface + iY * ddsd.lPitch);
             wPtr += rect.left;
             for (int iX = rect.left; iX < rect.right - 2; iX++) {
                 *wPtr++ = colour;

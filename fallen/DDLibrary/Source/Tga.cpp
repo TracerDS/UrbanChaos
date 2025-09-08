@@ -175,10 +175,10 @@ TGA_Info TGA_load_from_file(const char* file, std::int32_t max_width, std::int32
         for (int i = 0; i < ans.height; i++) {
             for (int j = 0; j < ans.width; j++) {
                 int num = (i & 1) | ((j & 1) << 1);
-                pdest->alpha = (std::uint8_t)(junk >> (num));
-                pdest->red = (std::uint8_t)(junk >> (num + 1));
-                pdest->green = (std::uint8_t)(junk >> (num + 2));
-                pdest->blue = (std::uint8_t)(junk >> (num + 3));
+                pdest->alpha = (std::uint8_t) (junk >> (num));
+                pdest->red = (std::uint8_t) (junk >> (num + 1));
+                pdest->green = (std::uint8_t) (junk >> (num + 2));
+                pdest->blue = (std::uint8_t) (junk >> (num + 3));
                 pdest++;
             }
         }
@@ -390,10 +390,10 @@ TGA_Info TGA_load_from_file(const char* file, std::int32_t max_width, std::int32
 
             for (int j = tga_height; j > 0; j--) {
                 for (int k = tga_width; k > 0; k--) {
-                    pdest->alpha = (std::uint8_t)(((DWORD) psrc1[0].alpha + (DWORD) psrc1[1].alpha + (DWORD) psrc2[0].alpha + (DWORD) psrc2[1].alpha) >> 2);
-                    pdest->red = (std::uint8_t)(((DWORD) psrc1[0].red + (DWORD) psrc1[1].red + (DWORD) psrc2[0].red + (DWORD) psrc2[1].red) >> 2);
-                    pdest->green = (std::uint8_t)(((DWORD) psrc1[0].green + (DWORD) psrc1[1].green + (DWORD) psrc2[0].green + (DWORD) psrc2[1].green) >> 2);
-                    pdest->blue = (std::uint8_t)(((DWORD) psrc1[0].blue + (DWORD) psrc1[1].blue + (DWORD) psrc2[0].blue + (DWORD) psrc2[1].blue) >> 2);
+                    pdest->alpha = (std::uint8_t) (((DWORD) psrc1[0].alpha + (DWORD) psrc1[1].alpha + (DWORD) psrc2[0].alpha + (DWORD) psrc2[1].alpha) >> 2);
+                    pdest->red = (std::uint8_t) (((DWORD) psrc1[0].red + (DWORD) psrc1[1].red + (DWORD) psrc2[0].red + (DWORD) psrc2[1].red) >> 2);
+                    pdest->green = (std::uint8_t) (((DWORD) psrc1[0].green + (DWORD) psrc1[1].green + (DWORD) psrc2[0].green + (DWORD) psrc2[1].green) >> 2);
+                    pdest->blue = (std::uint8_t) (((DWORD) psrc1[0].blue + (DWORD) psrc1[1].blue + (DWORD) psrc2[0].blue + (DWORD) psrc2[1].blue) >> 2);
                     pdest++;
                     psrc1 += 2;
                     psrc2 += 2;

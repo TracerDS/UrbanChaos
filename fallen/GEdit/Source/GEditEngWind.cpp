@@ -20,7 +20,7 @@
 extern int waypoint_colour,
     waypoint_group;
 extern volatile bool ShellActive;
-extern char *GEDIT_engine_name;
+extern char* GEDIT_engine_name;
 extern std::uint8_t button_colours[][3];
 extern HCURSOR GEDIT_arrow;
 extern HICON GEDIT_app_icon;

@@ -35,8 +35,8 @@
  *
  */
 
-void CHOPPER_draw_chopper(Thing *p_chopper) {
-    Chopper *chopper = CHOPPER_get_chopper(p_chopper);
+void CHOPPER_draw_chopper(Entity* p_chopper) {
+    Chopper* chopper = CHOPPER_get_chopper(p_chopper);
     std::int32_t matrix[9], vector[3];
 
     vector[0] = (chopper->dx / 64) & 2047;
@@ -165,11 +165,11 @@ void CHOPPER_draw_chopper(Thing *p_chopper) {
  *
  */
 
-void TRACKS_DrawTrack(Thing *p_thing) {
-    Track *walk = p_thing->Genus.Track;
+void TRACKS_DrawTrack(Entity* p_thing) {
+    Track* walk = p_thing->Genus.Track;
     std::int32_t x, y, z, id, diff;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::uint8_t fade;
     std::int32_t wpx, wpy, wpz;
     std::int16_t sx, sz;
@@ -280,7 +280,7 @@ extern std::int32_t next_free, next_used;
 void PARTICLE_Draw() {
     std::int32_t ctr;
     std::uint8_t ndx;
-    Particle *p;
+    Particle* p;
     float u, v, w, h, sz;
 
     //	p=particles;
@@ -344,7 +344,7 @@ std::int32_t pyro_seed;
 void draw_flames(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t lod, std::int32_t offset);
 void draw_flame_element(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t c0, std::uint8_t base, std::uint8_t rand = 1);
 
-void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front);
+void POLY_add_line_tex_uv(POLY_Point* p1, POLY_Point* p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front);
 
 // Pyro detail levels.
 #ifdef TARGET_DC
@@ -470,7 +470,7 @@ void SPRITE_draw_tex2(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     POLY_transform(
         world_x,
@@ -559,7 +559,7 @@ void draw_flame_element2(std::int32_t x, std::int32_t y, std::int32_t z, std::in
     std::int32_t page;
     float scale;
     float u, v, w, h;
-    std::uint8_t *palptr;
+    std::uint8_t* palptr;
     std::int32_t palndx;
     std::int32_t dx, dy, dz;
 
@@ -628,14 +628,14 @@ void draw_flame_element2(std::int32_t x, std::int32_t y, std::int32_t z, std::in
     }
 }
 
-void PYRO_draw_explosion(Pyrex *pyro);
-void PYRO_draw_explosion2(Pyro *pyro);
-void PYRO_draw_newdome(Pyro *pyro);
-void PYRO_draw_dustwave(Pyro *pyro);
-void PYRO_draw_streamer(Pyro *pyro);
-void PYRO_draw_twanger(Pyro *pyro);
-void PYRO_draw_blob(Pyro *pyro);
-void PYRO_draw_armageddon(Pyro *pyro);
+void PYRO_draw_explosion(Pyrex* pyro);
+void PYRO_draw_explosion2(Pyro* pyro);
+void PYRO_draw_newdome(Pyro* pyro);
+void PYRO_draw_dustwave(Pyro* pyro);
+void PYRO_draw_streamer(Pyro* pyro);
+void PYRO_draw_twanger(Pyro* pyro);
+void PYRO_draw_blob(Pyro* pyro);
+void PYRO_draw_armageddon(Pyro* pyro);
 /*
 void	check_pyro(Pyro *pyro)
 {
@@ -656,8 +656,8 @@ void	check_pyro(Pyro *pyro)
 
 }
 */
-void PYRO_draw_pyro(Thing *p_pyro) {
-    Pyro *pyro = PYRO_get_pyro(p_pyro);
+void PYRO_draw_pyro(Entity* p_pyro) {
+    Pyro* pyro = PYRO_get_pyro(p_pyro);
     std::int32_t fx, fy, fz;
     std::int32_t i, j;
     GameCoord pos;
@@ -690,7 +690,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
 
     switch (pyro->PyroType) {
     case PYRO_EXPLODE:
-        PYRO_draw_explosion((Pyrex *) pyro);
+        PYRO_draw_explosion((Pyrex*) pyro);
         break;
 
     case PYRO_FIREWALL:
@@ -709,7 +709,7 @@ void PYRO_draw_pyro(Thing *p_pyro) {
             std::int32_t radsqr, dx, dz, distsqr, radius, id;
             GameCoord ctr, edge;
             POLY_Point pp[3];
-            POLY_Point *tri[3];
+            POLY_Point* tri[3];
             POLY_Point temppnt;
 
             ctr = p_pyro->WorldPos;
@@ -958,11 +958,11 @@ void PYRO_draw_pyro(Thing *p_pyro) {
         if (pyro->victim) {
             if (!(pyro->victim->Flags & FLAGS_IN_VIEW)) break;
             if ((pyro->Flags & PYRO_FLAGS_FLICKER) || (pyro->Flags & PYRO_FLAGS_BONFIRE)) {
-                PrimObject *p_obj;
+                PrimObject* p_obj;
                 std::uint32_t sp;
                 std::uint32_t ep;
                 std::int32_t px, py, pz;
-                POLY_Point *pp;
+                POLY_Point* pp;
                 std::int32_t matrix[9];
                 GameCoord bob;
                 switch (pyro->victim->DrawType) {
@@ -1414,9 +1414,9 @@ extern RadPoint PYRO_defaultpoints[16];
 #define TEXSCALE 0.003f
 #define TEXSCALE2 0.006f
 
-void PYRO_draw_explosion(Pyrex *pyro) {
+void PYRO_draw_explosion(Pyrex* pyro) {
     POLY_Point pp[3];
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
     std::uint8_t i, j;
     std::int32_t ok, spec;
     std::int32_t cx, cy, cz;
@@ -1656,9 +1656,9 @@ void PYRO_draw_dustwave(Pyro *pyro) {
 }
 */
 
-void PYRO_draw_dustwave(Pyro *pyro) {
+void PYRO_draw_dustwave(Pyro* pyro) {
     POLY_Point pp[3], mid;
-    POLY_Point *tri[3] = {&pp[0], &pp[1], &pp[2]};
+    POLY_Point* tri[3] = {&pp[0], &pp[1], &pp[2]};
     std::int32_t cx, cy, cz, ok, fade;
     std::uint8_t sections, pass, sector, next;
     std::int32_t dxs[DUSTWAVE_SECTORS], dys[DUSTWAVE_SECTORS], dists[4], heights[4];
@@ -1817,9 +1817,9 @@ void PYRO_draw_dustwave(Pyro *pyro) {
 
 RadPoint PYRO_defaultpoints2[32];
 
-void PYRO_draw_explosion2(Pyro *pyro) {
+void PYRO_draw_explosion2(Pyro* pyro) {
     POLY_Point pp[3];
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
     std::uint8_t i, j, k, b;
     std::int32_t ok, spec, fade[4];
     std::int32_t cx, cy, cz;
@@ -1836,7 +1836,7 @@ void PYRO_draw_explosion2(Pyro *pyro) {
     // -- called only once, to init --
     if (!PYRO_defaultpoints2[0].flags) {
         std::int32_t height, radius;
-        RadPoint *pt;
+        RadPoint* pt;
 
         PYRO_defaultpoints2[0].flags = 1;
         pt = PYRO_defaultpoints2;
@@ -2009,9 +2009,9 @@ void PYRO_draw_explosion2(Pyro *pyro) {
     }
 }
 
-void PYRO_draw_newdome(Pyro *pyro) {
+void PYRO_draw_newdome(Pyro* pyro) {
     POLY_Point pp[3];
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
     std::uint8_t i, j, k, b;
     std::int32_t ok, spec, fade[4];
     std::int32_t cx, cy, cz;
@@ -2031,7 +2031,7 @@ void PYRO_draw_newdome(Pyro *pyro) {
     // -- called only once, to init --
     if (!PYRO_defaultpoints2[0].flags) {
         std::int32_t height, radius;
-        RadPoint *pt;
+        RadPoint* pt;
 
         PYRO_defaultpoints2[0].flags = 1;
         pt = PYRO_defaultpoints2;
@@ -2230,7 +2230,7 @@ void PYRO_alpha_line(
     }
 }
 
-void PYRO_draw_twanger(Pyro *pyro) {
+void PYRO_draw_twanger(Pyro* pyro) {
     std::int32_t cx, cy, cz, c;
     std::int32_t dx, dy, dz, tx, ty;
     std::int32_t col1, col2, dir, ang;
@@ -2280,7 +2280,7 @@ void PYRO_draw_twanger(Pyro *pyro) {
     }
 }
 
-void PYRO_draw_streambit(Pyro *pyro, std::int32_t cx, std::int32_t cy, std::int32_t cz, std::int32_t c, std::uint8_t i) {
+void PYRO_draw_streambit(Pyro* pyro, std::int32_t cx, std::int32_t cy, std::int32_t cz, std::int32_t c, std::uint8_t i) {
     std::int32_t x, y, z, dx, dy, dir;
 
     // get dir index
@@ -2296,7 +2296,7 @@ void PYRO_draw_streambit(Pyro *pyro, std::int32_t cx, std::int32_t cy, std::int3
     PARTICLE_Add(x, y, z, 0, -2, 0, POLY_PAGE_STEAM, 1 + ((rand() & 3) << 2), 0x888888, PFLAG_RESIZE | PFLAG_FADE, 40 + (rand() & 0xf), 4, 1, 5, 2);
 }
 
-void PYRO_draw_streamer(Pyro *pyro) {
+void PYRO_draw_streamer(Pyro* pyro) {
     std::uint8_t i;
     std::int32_t cx, cy, cz;
 
@@ -2314,11 +2314,11 @@ void PYRO_draw_streamer(Pyro *pyro) {
         }
 }
 
-void PYRO_draw_blob(Pyro *p_thing) {
+void PYRO_draw_blob(Pyro* p_thing) {
 }
 
-void PYRO_draw_armageddon(Pyro *pyro) {
-    Thing *thing;
+void PYRO_draw_armageddon(Pyro* pyro) {
+    Entity* thing;
     GameCoord pos;
     std::int16_t i, j;
 
@@ -2411,12 +2411,12 @@ void PYRO_draw_armageddon(Pyro *pyro) {
 
 #if 1
 
-extern void ANIM_obj_draw(Thing *p_thing, DrawTween *dt);
-extern void ANIM_obj_draw_warped(Thing *p_thing, DrawTween *dt);
+extern void ANIM_obj_draw(Entity* p_thing, DrawTween* dt);
+extern void ANIM_obj_draw_warped(Entity* p_thing, DrawTween* dt);
 
-void ANIMAL_draw(Thing *p_thing) {
+void ANIMAL_draw(Entity* p_thing) {
     std::uint8_t i;
-    Animal *animal = ANIMAL_get_animal(p_thing);
+    Animal* animal = ANIMAL_get_animal(p_thing);
     //	DrawTween *dt=ANIMAL_get_drawtween(animal);
 
     p_thing->WorldPos.Y = 100 << 8;
@@ -2449,9 +2449,9 @@ void ANIMAL_draw(Thing *p_thing) {
  *
  */
 
-void RIBBON_draw_ribbon(Ribbon *ribbon) {
+void RIBBON_draw_ribbon(Ribbon* ribbon) {
     POLY_Point pp[3];
-    POLY_Point *tri[3] = {&pp[0], &pp[1], &pp[2]};
+    POLY_Point* tri[3] = {&pp[0], &pp[1], &pp[2]};
     std::uint8_t i, p, ctr;
     std::int32_t id, spread;
     float vo, vs; // floats and what's more you'll damn well like 'em cos i said so
@@ -2569,7 +2569,7 @@ void SPRITE_draw_rotated(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::int32_t opp, adj, xofs, yofs, angle;
 
     POLY_transform(
@@ -2700,7 +2700,7 @@ void BLOOM_flare_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32
     std::int32_t dx, dy, fx, fy, cx, cy;
     std::int32_t i, sz, j;
     std::int32_t scale;
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::int32_t fc_x, fc_y, fc_z, dummy;
 
     if (!EWAY_grab_camera(
@@ -2912,7 +2912,7 @@ void BLOOM_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx,
  *
  */
 
-void DRAWXTRA_Special(Thing *p_thing) {
+void DRAWXTRA_Special(Entity* p_thing) {
     std::int32_t dx, dz, c0, flags = 0;
 
     switch (p_thing->Genus.Special->SpecialType) {
@@ -2959,7 +2959,7 @@ void DRAWXTRA_Special(Thing *p_thing) {
 
 void DRAW2D_Box(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t rgb, std::uint8_t flag, std::uint8_t depth) {
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
     //	std::int32_t page = flag ? POLY_PAGE_SUBTRACTIVE : POLY_PAGE_ALPHA;
     std::int32_t page = flag ? POLY_PAGE_SUBTRACTIVEALPHA : POLY_PAGE_ADDITIVEALPHA;
     float fdepth = (float) depth;
@@ -2984,7 +2984,7 @@ void DRAW2D_Box(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy
 
 void DRAW2D_Box_Page(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t rgb, std::int32_t page, std::uint8_t depth) {
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
     float fdepth = (float) depth;
 
     pp[0].colour = rgb;
@@ -3007,7 +3007,7 @@ void DRAW2D_Box_Page(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32
 
 void DRAW2D_Tri(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t tx, std::int32_t ty, std::int32_t rgb, std::uint8_t flag) {
     POLY_Point pp[3];
-    POLY_Point *tri[3] = {&pp[0], &pp[1], &pp[2]};
+    POLY_Point* tri[3] = {&pp[0], &pp[1], &pp[2]};
     std::int32_t page = flag ? POLY_PAGE_SUBTRACTIVEALPHA : POLY_PAGE_ADDITIVEALPHA;
 
     pp[0].colour = rgb;
@@ -3028,7 +3028,7 @@ void DRAW2D_Tri(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy
 
 void DRAW2D_Sprite(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, float u, float v, float ou, float ov, std::int32_t page, std::int32_t rgb) {
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
     pp[0].colour = rgb;
     pp[0].specular = 0;
@@ -3063,11 +3063,11 @@ void DRAW2D_Sprite(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t
  *
  */
 
-void DRAWXTRA_MIB_destruct(Thing *p_thing) {
+void DRAWXTRA_MIB_destruct(Entity* p_thing) {
     std::uint8_t i;
     std::int32_t ctr = p_thing->Genus.Person->Timer1;
     GameCoord posn;
-    Thing *thing;
+    Entity* thing;
     std::int32_t j;
 
     p_thing->WorldPos.Y += SIN(ctr >> 2) >> 7;
@@ -3241,7 +3241,7 @@ void DRAWXTRA_final_glow(std::int32_t x, std::int32_t y, std::int32_t z, std::ui
     float dy;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     colour = fade * 0x60 >> 8;
     colour |= colour << 8;

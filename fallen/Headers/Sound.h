@@ -25,11 +25,11 @@ extern std::int16_t world_type;
 //---------------------------------------------------------------
 /*
 void play_quicker_wave(std::int32_t sample);
-void play_quick_wave(Thing *p_thing,std::int32_t sample,std::int32_t mode);
+void play_quick_wave(Entity *p_thing,std::int32_t sample,std::int32_t mode);
 std::int32_t play_quick_wave_xyz(std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t sample,std::int32_t id,std::int32_t mode);
 std::int32_t play_quick_wave_old(WaveParams *wave,std::int32_t sample,std::int32_t id,std::int32_t mode);
 std::int32_t play_ambient_wave(std::int32_t sample,std::int32_t id,std::int32_t mode,std::int32_t range=256, std::uint8_t flags=0);
-std::int32_t play_object_wave(std::int32_t channel, Thing *p_thing,std::int32_t sample,std::int32_t mode);
+std::int32_t play_object_wave(std::int32_t channel, Entity *p_thing,std::int32_t sample,std::int32_t mode);
 void wave_move(std::int32_t channel, std::int32_t x, std::int32_t y, std::int32_t z);
 std::int32_t SOUND_query_current_wave(std::int32_t id);
 bool SOUND_query_looped(std::int32_t id);*/
@@ -43,13 +43,13 @@ void SOUND_reset();
 void SOUND_SewerPrecalc();
 void SOUND_InitFXGroups(char *fn);
 
-void PainSound(Thing *p_thing);
-void EffortSound(Thing *p_thing);
-void MinorEffortSound(Thing *p_thing);
-void ScreamFallSound(Thing *p_thing);
-void StopScreamFallSound(Thing *p_thing);
-void SOUND_Curious(Thing *p_thing);
-std::uint8_t SOUND_Gender(Thing *p_thing);
+void PainSound(Entity *p_thing);
+void EffortSound(Entity *p_thing);
+void MinorEffortSound(Entity *p_thing);
+void ScreamFallSound(Entity *p_thing);
+void StopScreamFallSound(Entity *p_thing);
+void SOUND_Curious(Entity *p_thing);
+std::uint8_t SOUND_Gender(Entity *p_thing);
 
 // std::int32_t	SOUND_Range(std::int32_t start, std::int32_t end);
 

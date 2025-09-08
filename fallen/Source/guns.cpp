@@ -5,15 +5,15 @@
 #include "wmove.h"
 #include "animate.h"
 
-extern std::int32_t is_person_dead(Thing *p_person);
+extern std::int32_t is_person_dead(Entity* p_person);
 
 #define GUN_RANGE_BLOCKS 13
 
 #define GUN_ANGLE_RANGE 64
 
-extern std::int32_t people_allowed_to_hit_each_other(Thing *p_victim, Thing *p_agressor);
+extern std::int32_t people_allowed_to_hit_each_other(Entity* p_victim, Entity* p_agressor);
 
-std::int32_t get_gun_aim_stats(Thing *p_person, std::int32_t *range, std::int32_t *spread) {
+std::int32_t get_gun_aim_stats(Entity* p_person, std::int32_t* range, std::int32_t* spread) {
     if (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
         p_person->Genus.Person->PersonType == PERSON_MIB2 ||
         p_person->Genus.Person->PersonType == PERSON_MIB3) {
@@ -33,7 +33,7 @@ std::int32_t get_gun_aim_stats(Thing *p_person, std::int32_t *range, std::int32_
         return (1);
 
     } else if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         //
         // Using a special.
@@ -71,7 +71,7 @@ std::int32_t get_gun_aim_stats(Thing *p_person, std::int32_t *range, std::int32_
 //
 // range is ideal range of weapon (can be used upto twice ideal range)
 //
-std::int32_t calc_target_score(Thing *p_person,Thing *p_target,std::int32_t range,std::int32_t spread)
+std::int32_t calc_target_score(Entity *p_person,Entity *p_target,std::int32_t range,std::int32_t spread)
 {
         std::int32_t	dx,dy,dz,dist;
         std::int32_t	angle;
@@ -132,10 +132,10 @@ std::int32_t calc_target_score(Thing *p_person,Thing *p_target,std::int32_t rang
 
 
 
-THING_INDEX find_target(Thing *p_person)
+THING_INDEX find_target(Entity *p_person)
 {
         THING_INDEX	current_thing,best=0;
-        Thing	*t_thing;
+        Entity	*t_thing;
         std::int32_t	score,best_score=-1;
         std::int32_t	range,spread;
 
@@ -199,7 +199,7 @@ THING_INDEX find_target(Thing *p_person)
 
 extern std::int32_t look_pitch;
 
-std::int32_t calc_target_score_new(Thing *darci, Thing *p_target) {
+std::int32_t calc_target_score_new(Entity* darci, Entity* p_target) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -464,7 +464,7 @@ std::int32_t calc_target_score_new(Thing *darci, Thing *p_target) {
             return (0);
         }
 
-        extern std::int32_t BARREL_is_stacked(Thing * p_barrel);
+        extern std::int32_t BARREL_is_stacked(Entity * p_barrel);
 
         if (BARREL_is_stacked(p_target)) {
             score -= 0x80; // Less likely to target stacked barrels.
@@ -481,14 +481,14 @@ std::int32_t calc_target_score_new(Thing *darci, Thing *p_target) {
         if (darci->OnFace > 0) {
             ASSERT(WITHIN(darci->OnFace, 1, next_prim_face4 - 1));
 
-            PrimFace4 *f4 = &prim_faces4[darci->OnFace];
+            PrimFace4* f4 = &prim_faces4[darci->OnFace];
 
             ASSERT(f4->FaceFlags & FACE_FLAG_WALKABLE);
 
             if (f4->FaceFlags & FACE_FLAG_WMOVE) {
                 std::int32_t wmove_index = f4->ThingIndex;
 
-                WMOVE_Face *wf;
+                WMOVE_Face* wf;
 
                 ASSERT(WITHIN(wmove_index, 1, WMOVE_face_upto - 1));
 
@@ -518,7 +518,7 @@ std::int32_t calc_target_score_new(Thing *darci, Thing *p_target) {
     return score;
 }
 
-THING_INDEX find_target_new(Thing *p_person) {
+THING_INDEX find_target_new(Entity* p_person) {
     std::int32_t i;
     std::int32_t range;
     std::int32_t spread;
@@ -528,8 +528,8 @@ THING_INDEX find_target_new(Thing *p_person) {
     std::int32_t best_score = 0;
     std::int32_t best_target = 0;
 
-    Thing *p_found;
-    Thing *p_enemy;
+    Entity* p_found;
+    Entity* p_enemy;
 
     if (!get_gun_aim_stats(p_person, &range, &spread)) {
         //
@@ -585,7 +585,7 @@ extern void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t 
         enemy = PCOM_person_wants_to_kill(p_person);
 
         if (enemy) {
-            Thing *p_enemy = TO_THING(enemy);
+            Entity* p_enemy = TO_THING(enemy);
 
             //
             // We should not be a player here...
@@ -624,7 +624,7 @@ extern void FONT2D_DrawString_3d(char*str, std::uint32_t world_x, std::uint32_t 
 }
 
 #ifndef PSX
-std::int32_t calc_snipe_target_score(Thing *p_person, Thing *p_target) {
+std::int32_t calc_snipe_target_score(Entity* p_person, Entity* p_target) {
     std::int32_t dx, dy, dz, dist;
     std::int32_t angle;
     std::int32_t angle_diff;
@@ -664,9 +664,9 @@ std::int32_t calc_snipe_target_score(Thing *p_person, Thing *p_target) {
     return (score);
 }
 
-THING_INDEX find_snipe_target(Thing *p_person) {
+THING_INDEX find_snipe_target(Entity* p_person) {
     THING_INDEX current_thing, best = 0;
-    Thing *t_thing;
+    Entity* t_thing;
     std::int32_t score, best_score = -1;
 
     current_thing = PRIMARY_USED;

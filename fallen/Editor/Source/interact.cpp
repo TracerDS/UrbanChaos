@@ -11,22 +11,22 @@
 // #include	"building.hpp"
 #include "edit.h"
 
-extern void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
-extern void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2);
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
 
 extern std::uint8_t two4_line_intersection(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4);
 extern std::int32_t point_in_quad(std::int32_t px, std::int32_t pz, std::int32_t x, std::int32_t y, std::int32_t z, std::int16_t face);
-extern void process_camera(struct MapThing *p_thing);
-extern std::uint16_t calc_lights(std::int32_t x, std::int32_t y, std::int32_t z, struct SVECTOR *p_vect); // prim.h
+extern void process_camera(struct MapThing* p_thing);
+extern std::uint16_t calc_lights(std::int32_t x, std::int32_t y, std::int32_t z, struct SVECTOR* p_vect); // prim.h
 
-void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next, struct Matrix33 *rot_mat);
-void load_all_anims(KeyFrameChunk *the_chunk, Anim **anim_list);
+void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement* anim_info, struct KeyFrameElement* anim_info_next, struct Matrix33* rot_mat);
+void load_all_anims(KeyFrameChunk* the_chunk, Anim** anim_list);
 
 std::uint16_t find_empty_map_thing();
 
 extern void setup_anim_stuff();                                              // edutils
-extern void load_key_frame_chunks(KeyFrameChunk *the_chunk, char *vue_name); // edutils
-extern void load_chunk_texture_info(KeyFrameChunk *the_chunk);               // edutils
+extern void load_key_frame_chunks(KeyFrameChunk* the_chunk, char* vue_name); // edutils
+extern void load_chunk_texture_info(KeyFrameChunk* the_chunk);               // edutils
 extern void reset_anim_stuff();
 extern void clear_anim_stuff();
 extern std::uint16_t find_empty_map_thing();
@@ -61,11 +61,11 @@ struct KeyFrame			*anim_array[200],
 struct KeyFrameChunk test_chunk,
     test_chunk2,
     test_chunk3;
-struct KeyFrameElement *the_elements;
+struct KeyFrameElement* the_elements;
 
 static std::int32_t anim_no = 0, max_anim = 0;
 
-struct MapThing *cam_thing;
+struct MapThing* cam_thing;
 std::uint16_t cam_chap;
 
 struct AnimModes {
@@ -139,7 +139,7 @@ struct AnimModes anim_modes[] =
         {0, 0, 0, 0, 0, 0          },
 };
 
-char *id_name[] =
+char* id_name[] =
     {
         "none",
         "FIRST SLOPE",
@@ -158,7 +158,7 @@ std::int32_t is_thing_on_this_quad(std::int32_t x, std::int32_t z, std::int32_t 
     std::int32_t storey;
     std::int32_t building;
     std::int32_t thing;
-    Thing *p_thing;
+    Entity* p_thing;
 
     ASSERT(WITHIN(face, 1, next_prim_face4));
 
@@ -186,7 +186,7 @@ std::int32_t is_thing_on_this_quad(std::int32_t x, std::int32_t z, std::int32_t 
 #ifdef DOGPOO
 
 #define PERSON_RADIUS (50)
-std::int32_t check_vect(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing *p_thing, std::int32_t scale) {
+std::int32_t check_vect(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing* p_thing, std::int32_t scale) {
     std::int32_t cell_dx, cell_dz;
     std::uint32_t col;
     std::int32_t len;
@@ -221,7 +221,7 @@ std::int32_t check_vect(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz,
     return (col);
 }
 
-std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing *p_thing, std::int32_t radius) {
+std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing* p_thing, std::int32_t radius) {
     std::int32_t x, y, z;
     std::int32_t dx, dz;
     std::int32_t cell_radius;
@@ -241,7 +241,7 @@ std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_
     return (0);
 }
 
-std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing *p_thing) {
+std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing* p_thing) {
     std::uint32_t col;
     std::int32_t on_its_quad = 0;
     std::int32_t on_connected_quad = 0;
@@ -386,7 +386,7 @@ void	place_player_on_nearby_face(struct MapThing p_thing)
 }
 */
 
-void interface_thing2(struct MapThing *p_thing) {
+void interface_thing2(struct MapThing* p_thing) {
     std::int32_t dx = 0, dy = 0, dz = 0;
     static turn;
     std::int32_t col;
@@ -478,7 +478,7 @@ void setup_game() {
     //	load_chunk_texture_info(&test_chunk);
     if (darci_list) {
         std::int32_t c0 = 0;
-        Anim *curr;
+        Anim* curr;
 
         curr = darci_list;
         while (curr) {
@@ -495,7 +495,7 @@ void setup_game() {
     load_chunk_texture_info(&test_chunk2);
     if (roper_list) {
         std::int32_t c0 = 0;
-        Anim *curr;
+        Anim* curr;
 
         curr = roper_list;
         while (curr) {
@@ -511,7 +511,7 @@ void setup_game() {
     load_chunk_texture_info(&test_chunk3);
     if (cop_list) {
         std::int32_t c0 = 0;
-        Anim *curr;
+        Anim* curr;
 
         curr = cop_list;
         while (curr) {
@@ -562,7 +562,7 @@ void reset_game() {
 
 struct MapThing man_thing;
 
-struct MapThing *init_test_bloke_system() {
+struct MapThing* init_test_bloke_system() {
     setup_game();
 
     man_thing.X = engine.X >> 8;
@@ -604,13 +604,13 @@ struct MapThing *init_test_bloke_system() {
  }
 */
 
-void calc_sub_objects_position(struct MapThing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_sub_objects_position(struct MapThing* p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     struct SVECTOR temp; // max points per object?
     struct Matrix33 r_matrix;
     struct Matrix31 offset;
-    struct KeyFrameElement *anim_info;
-    struct KeyFrameElement *anim_info_next;
-    struct Matrix33 *rot_mat;
+    struct KeyFrameElement* anim_info;
+    struct KeyFrameElement* anim_info_next;
+    struct Matrix33* rot_mat;
 
     anim_info = &p_mthing->CurrentFrame->FirstElement[object];
     anim_info_next = &p_mthing->NextFrame->FirstElement[object];
@@ -626,19 +626,19 @@ void calc_sub_objects_position(struct MapThing *p_mthing, std::int32_t tween, st
         p_mthing->AngleZ,
         &r_matrix);
 
-    matrix_transformZMY((struct Matrix31 *) &temp, &r_matrix, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, &r_matrix, &offset);
     *x = temp.X;
     *y = temp.Y;
     *z = temp.Z;
 }
 
-void calc_sub_objects_position_ele(struct MapThing *p_mthing, KeyFrameElement *current, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_sub_objects_position_ele(struct MapThing* p_mthing, KeyFrameElement* current, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     struct SVECTOR temp; // max points per object?
     struct Matrix33 r_matrix;
     struct Matrix31 offset;
-    struct KeyFrameElement *anim_info;
-    struct KeyFrameElement *anim_info_next;
-    struct Matrix33 *rot_mat;
+    struct KeyFrameElement* anim_info;
+    struct KeyFrameElement* anim_info_next;
+    struct Matrix33* rot_mat;
 
     anim_info = &current[object];
 
@@ -652,14 +652,14 @@ void calc_sub_objects_position_ele(struct MapThing *p_mthing, KeyFrameElement *c
         p_mthing->AngleZ,
         &r_matrix);
 
-    matrix_transformZMY((struct Matrix31 *) &temp, &r_matrix, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, &r_matrix, &offset);
     *x = temp.X;
     *y = temp.Y;
     *z = temp.Z;
 }
 
-void animate_bloke(struct MapThing *p_thing) {
-    struct KeyFrame *the_keyframe;
+void animate_bloke(struct MapThing* p_thing) {
+    struct KeyFrame* the_keyframe;
     static std::int32_t prev_fixed, prev_x, prev_y, prev_z;
     static std::int32_t prev_dx = 0, prev_dy = 0, prev_dz = 0;
     std::int32_t fixed, next_fixed, x, y, z;
@@ -863,7 +863,7 @@ void animate_bloke(struct MapThing *p_thing) {
 void draw_test_bloke(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t anim, std::int32_t angle) {
     std::int32_t c0, c1;
     struct Matrix33 r_matrix;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     p_mthing = &man_thing;
     if (anim)
@@ -895,7 +895,7 @@ void draw_test_bloke(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_
 
 // std::int32_t	calc_shadow_co_ord((struct Matrix31*)&temp,&temp_shadow,10000,10000,10000);//light co_ord
 extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
-std::int32_t calc_shadow_co_ord(struct SVECTOR *input, struct SVECTOR *output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z) {
+std::int32_t calc_shadow_co_ord(struct SVECTOR* input, struct SVECTOR* output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z) {
     std::int32_t dx, dy, dz;
     std::int32_t alt = 0;
     std::int32_t m, c;
@@ -950,9 +950,9 @@ std::int32_t calc_shadow_co_ord(struct SVECTOR *input, struct SVECTOR *output, s
 
 std::uint8_t store_pos = 0;
 
-void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next, struct Matrix33 *rot_mat) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement* anim_info, struct KeyFrameElement* anim_info_next, struct Matrix33* rot_mat) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint16_t bright[1560];
     std::uint32_t flag_and, flag_or;
@@ -960,7 +960,7 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
     struct SVECTOR res_shadow[1560], temp_shadow; // max points per object?
     std::int32_t flags_shadow[1560];
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
@@ -991,7 +991,7 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
             offset.M[2]+=(the_keyframe1->Dz+(((the_keyframe2->Dz-the_keyframe1->Dz)*tween)>>8))>>2;
     */
 
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -1027,15 +1027,15 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
     matrix_mult33(&mat_final, rot_mat, &mat2);
 
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform((struct Matrix31 *) &temp, &mat_final, (struct Matrix31 *) &prim_points[c0]);
+        matrix_transform((struct Matrix31*) &temp, &mat_final, (struct Matrix31*) &prim_points[c0]);
         temp.X += mapx;
         temp.Y += mapy;
         temp.Z += mapz;
         calc_shadow_co_ord(&temp, &temp_shadow, 9000 * 2, 4000, 8000 * 2); // light co_ord
-        flags_shadow[c0 - sp] = rotate_point_gte((struct SVECTOR *) &temp_shadow, &res_shadow[c0 - sp]);
+        flags_shadow[c0 - sp] = rotate_point_gte((struct SVECTOR*) &temp_shadow, &res_shadow[c0 - sp]);
 
-        flags[c0 - sp] = rotate_point_gte((struct SVECTOR *) &temp, &res[c0 - sp]);
-        bright[c0 - sp] = calc_lights(x, y, z, (struct SVECTOR *) &prim_points[c0]);
+        flags[c0 - sp] = rotate_point_gte((struct SVECTOR*) &temp, &res[c0 - sp]);
+        bright[c0 - sp] = calc_lights(x, y, z, (struct SVECTOR*) &prim_points[c0]);
     }
 
     //	engine.X+=x<<8;
@@ -1068,21 +1068,21 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
                         POLY_F);
 
                     setCol4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         0);
 
                     setXY4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         res_shadow[p0].X, res_shadow[p0].Y,
                         res_shadow[p1].X, res_shadow[p1].Y,
                         res_shadow[p2].X, res_shadow[p2].Y,
                         res_shadow[p3].X, res_shadow[p3].Y);
 
-                    setZ4((struct BucketQuad *) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z, -res_shadow[p3].Z);
-                    ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                    ((struct BucketQuad *) current_bucket_pool)->DebugFlags = 0;
+                    setZ4((struct BucketQuad*) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z, -res_shadow[p3].Z);
+                    ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketQuad*) current_bucket_pool)->DebugFlags = 0;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 
                     current_bucket_pool += sizeof(struct BucketQuad);
                 }
@@ -1102,36 +1102,36 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
                     p_f4->DrawFlags);
 
                 setCol4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     p_f4->Col);
 
                 setXY4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y,
                     res[p3].X, res[p3].Y);
 
                 setUV4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     p_f4->UV[0][0], p_f4->UV[0][1],
                     p_f4->UV[1][0], p_f4->UV[1][1],
                     p_f4->UV[2][0], p_f4->UV[2][1],
                     p_f4->UV[3][0], p_f4->UV[3][1],
                     p_f4->TexturePage);
 
-                setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+                setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
                 setShade4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     CLIP256(p_f4->Bright[0] + bright[p0]),
                     CLIP256(p_f4->Bright[1] + bright[p1]),
                     CLIP256(p_f4->Bright[2] + bright[p2]),
                     CLIP256(p_f4->Bright[3] + bright[p3]));
-                ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketQuad *) current_bucket_pool)->DebugFlags = 0;
+                ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketQuad*) current_bucket_pool)->DebugFlags = 0;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }
@@ -1163,21 +1163,21 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
                     );
 
                     setCol3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         0);
 
                     setXY3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         res_shadow[p0].X, res_shadow[p0].Y,
                         res_shadow[p1].X, res_shadow[p1].Y,
                         res_shadow[p2].X, res_shadow[p2].Y, );
 
-                    setZ3((struct BucketTri *) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z);
+                    setZ3((struct BucketTri*) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z);
 
-                    ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                    ((struct BucketTri *) current_bucket_pool)->DebugFlags = 0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugFlags = 0;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 
                     current_bucket_pool += sizeof(struct BucketTri);
                 }
@@ -1196,32 +1196,32 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
                     p_f3->DrawFlags);
 
                 setCol3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->Col);
 
                 setXY3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y);
 
                 setUV3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->UV[0][0], p_f3->UV[0][1],
                     p_f3->UV[1][0], p_f3->UV[1][1],
                     p_f3->UV[2][0], p_f3->UV[2][1],
                     p_f3->TexturePage);
 
                 setShade3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     CLIP256(p_f3->Bright[0] + bright[p0]),
                     CLIP256(p_f3->Bright[1] + bright[p1]),
                     CLIP256(p_f3->Bright[2] + bright[p2]));
 
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketTri *) current_bucket_pool)->DebugFlags = 0;
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugFlags = 0;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }
@@ -1236,11 +1236,11 @@ void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::in
 
 //---------------------------------------------------------------
 
-std::int32_t get_distance(Coord *position1, Coord *position2);
-std::int32_t get_approx_distance(Coord *position1, Coord *position2);
-std::int32_t get_distance_xz(Coord *position1, Coord *position2);
-std::int32_t get_angle_xz(Coord *position1, Coord *position2);
-std::int32_t get_angle_yz(Coord *position1, Coord *position2);
+std::int32_t get_distance(Coord* position1, Coord* position2);
+std::int32_t get_approx_distance(Coord* position1, Coord* position2);
+std::int32_t get_distance_xz(Coord* position1, Coord* position2);
+std::int32_t get_angle_xz(Coord* position1, Coord* position2);
+std::int32_t get_angle_yz(Coord* position1, Coord* position2);
 
 std::int32_t cam_x_offset = 0,
              cam_y_offset = 0,
@@ -1248,7 +1248,7 @@ std::int32_t cam_x_offset = 0,
 
 Coord thing_position;
 
-void set_game_camera(struct MapThing *track_thing) {
+void set_game_camera(struct MapThing* track_thing) {
     std::int32_t angle_xz,
         angle_yz,
         cam_distance,
@@ -1378,7 +1378,7 @@ void set_game_camera(struct MapThing *track_thing) {
     if (Keys[KB_G]) {
         std::int32_t mid_x, mid_y, mid_z;
         extern std::uint16_t make_poly_into_glass_shatter_prim(std::int16_t face, std::int16_t mid_x, std::int16_t mid_y, std::int16_t mid_z);
-        extern void calc_face_midpoint(std::int16_t face, std::int32_t * x, std::int32_t * y, std::int32_t * z);
+        extern void calc_face_midpoint(std::int16_t face, std::int32_t* x, std::int32_t* y, std::int32_t* z);
         calc_face_midpoint(31989, &mid_x, &mid_y, &mid_z);
         make_poly_into_glass_shatter_prim(31989, mid_x, mid_y, mid_z);
         Keys[KB_G] = 0;
@@ -1388,14 +1388,14 @@ void set_game_camera(struct MapThing *track_thing) {
 
 //---------------------------------------------------------------
 
-void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chunk) {
+void load_anim(MFFileHandle file_handle, Anim* the_anim, KeyFrameChunk* the_chunk) {
     char anim_name[ANIM_NAME_SIZE];
     std::int32_t anim_flags,
         c0,
         frame_count,
         frame_id,
         tween_step;
-    KeyFrame *the_frame;
+    KeyFrame* the_frame;
     std::int16_t chunk_id;
     std::int16_t fixed = 0;
     char version = 0;
@@ -1431,7 +1431,7 @@ void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chun
             LogText(" fight count load = %d \n", count);
 
             for (c0 = 0; c0 < count; c0++) {
-                fcol = (struct FightCol *) MemAlloc(sizeof(struct FightCol));
+                fcol = (struct FightCol*) MemAlloc(sizeof(struct FightCol));
                 if (fcol) {
                     FileRead(file_handle, fcol, sizeof(struct FightCol));
                     if (c0 == 0) {
@@ -1453,11 +1453,11 @@ void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chun
 
 //---------------------------------------------------------------
 
-void save_anim(MFFileHandle file_handle, Anim *the_anim) {
+void save_anim(MFFileHandle file_handle, Anim* the_anim) {
     std::uint32_t anim_flags;
     std::int32_t c0,
         frame_count;
-    KeyFrame *frame_list;
+    KeyFrame* frame_list;
     std::uint8_t version = 1;
 
     frame_list = the_anim->GetFrameList();
@@ -1480,7 +1480,7 @@ void save_anim(MFFileHandle file_handle, Anim *the_anim) {
 
 //---------------------------------------------------------------
 
-void create_anim(Anim **the_list) {
+void create_anim(Anim** the_list) {
     char text[32];
     Anim *next_anim,
         *the_anim;
@@ -1509,7 +1509,7 @@ void create_anim(Anim **the_list) {
 
 //---------------------------------------------------------------
 
-void load_all_anims(KeyFrameChunk *the_chunk, Anim **anim_list) {
+void load_all_anims(KeyFrameChunk* the_chunk, Anim** anim_list) {
     std::int32_t anim_count,
         c0;
     MFFileHandle file_handle;

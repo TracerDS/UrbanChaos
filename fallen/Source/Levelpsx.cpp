@@ -10,7 +10,7 @@ std::uint16_t comlist_map[MAX_COMLISTS],
     waypoint_map[MAX_WAYPOINTS];
 THING_INDEX thing_map[MAX_THINGS];
 
-void store_player_pos(ThingDef *the_def);
+void store_player_pos(ThingDef* the_def);
 
 #define MFFileHandle std::int32_t
 //---------------------------------------------------------------
@@ -27,13 +27,13 @@ bool load_waypoint_def(MFFileHandle the_file) {
 
 //---------------------------------------------------------------
 
-bool load_condition_def(MFFileHandle the_file, ConditionDef *the_def) {
+bool load_condition_def(MFFileHandle the_file, ConditionDef* the_def) {
     return true;
 }
 
 //---------------------------------------------------------------
 
-bool load_command_def(MFFileHandle the_file, CommandDef *the_def) {
+bool load_command_def(MFFileHandle the_file, CommandDef* the_def) {
     return true;
 }
 

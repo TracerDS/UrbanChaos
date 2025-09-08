@@ -9,9 +9,9 @@
 
 // #include	"collide.hpp"  //needed for ele_shift
 
-extern void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
-extern void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2);
-extern void matrix_transform_small(struct Matrix31 *result, struct Matrix33 *trans, struct SMatrix31 *mat2);
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
+extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2);
 
 // static		counter;
 
@@ -122,7 +122,7 @@ ControlDef prim_pick_tab_def[] =
         {0}
 };
 
-PrimPickTab *the_primpicktab;
+PrimPickTab* the_primpicktab;
 void redraw_all_prims(void);
 
 std::uint16_t prim_count[256];
@@ -208,7 +208,7 @@ void rotate_prim_thing(std::uint16_t thing) {
     */
 }
 
-PrimPickTab::PrimPickTab(EditorModule *parent) {
+PrimPickTab::PrimPickTab(EditorModule* parent) {
     Parent = parent;
     the_primpicktab = this;
 
@@ -230,9 +230,9 @@ PrimPickTab::PrimPickTab(EditorModule *parent) {
     SetControlState(CTRL_PRIM_Z_AXIS_FREE, CTRL_SELECTED);
     SetControlState(CTRL_PRIM_VIEW_SIDE, CTRL_DESELECTED);
 
-    ((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetValueRange(0, 266 / 3);
-    ((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetCurrentValue(0);
-    ((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetUpdateFunction(redraw_all_prims);
+    ((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetValueRange(0, 266 / 3);
+    ((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetCurrentValue(0);
+    ((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetUpdateFunction(redraw_all_prims);
     Axis = X_AXIS | Y_AXIS | Z_AXIS;
     PrimScale = 2688;
     BackScale = 40;
@@ -354,9 +354,9 @@ void PrimPickTab::DrawTabContent(void) {
     EdRect content_rect;
 
     if (PrimTabMode == PRIM_MODE_SINGLE)
-        ((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetValueRange(0, 266 / 3);
+        ((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetValueRange(0, 266 / 3);
     else
-        ((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetValueRange(0, next_prim_multi_object + 9);
+        ((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetValueRange(0, next_prim_multi_object + 9);
 
     content_rect = ContentRect;
     content_rect.ShrinkRect(1, 1);
@@ -375,22 +375,22 @@ void PrimPickTab::DrawTabContent(void) {
 //---------------------------------------------------------------
 
 void PrimPickTab::DrawAPrimInRect(std::uint32_t prim, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
-    char *text;
-    std::int32_t *flags; //[560];
-    struct SVector *res; //[560]; //max points per object?
+    char* text;
+    std::int32_t* flags; //[560];
+    struct SVector* res; //[560]; //max points per object?
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t min_x = 999999, max_x = -999999, min_y = 999999, max_y = -999999;
     std::int32_t width, height, scale, scale_y;
     EdRect rect;
     std::int32_t os;
 
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 13000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 13000);
     if (flags == 0)
         return;
 
-    res = (struct SVector *) MemAlloc(sizeof(struct SVector) * 13000);
+    res = (struct SVector*) MemAlloc(sizeof(struct SVector) * 13000);
     if (res == 0) {
         MemFree(flags);
         return;
@@ -488,22 +488,22 @@ void PrimPickTab::DrawAPrimInRect(std::uint32_t prim, std::int32_t x, std::int32
 }
 
 void PrimPickTab::DrawABuildingInRect(std::uint32_t prim, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
-    char *text;
-    std::int32_t *flags; //[560];
-    struct SVector *res; //[560]; //max points per object?
+    char* text;
+    std::int32_t* flags; //[560];
+    struct SVector* res; //[560]; //max points per object?
     std::int32_t c0;
-    struct BuildingObject *p_obj;
+    struct BuildingObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t min_x = 999999, max_x = -999999, min_y = 999999, max_y = -999999;
     std::int32_t width, height, scale, scale_y;
     EdRect rect;
     std::int32_t os;
 
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 3000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 3000);
     if (flags == 0)
         return;
 
-    res = (struct SVector *) MemAlloc(sizeof(struct SVector) * 3000);
+    res = (struct SVector*) MemAlloc(sizeof(struct SVector) * 3000);
     if (res == 0) {
         MemFree(flags);
         return;
@@ -599,26 +599,26 @@ void PrimPickTab::DrawAMultiPrimInRect(std::uint32_t prim, std::int32_t x, std::
         *flags;
     EdRect bounds_rect,
         outline_rect;
-    struct KeyFrame *the_frame;
-    struct KeyFrameElement *the_element;
+    struct KeyFrame* the_frame;
+    struct KeyFrameElement* the_element;
     struct Matrix31 offset;
     struct Matrix33 r_matrix;
-    struct PrimObject *the_obj;
+    struct PrimObject* the_obj;
     struct SVector *rotate_vectors,
         t_vector,
         t_vector2;
 
     // This bit bodged in for now.
-    extern struct KeyFrameChunk *test_chunk;
+    extern struct KeyFrameChunk* test_chunk;
     if (!test_chunk->MultiObject)
         return;
     the_frame = &test_chunk->KeyFrames[0];
     //
 
     c1 = 0;
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 3000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
-    rotate_vectors = (struct SVector *) MemAlloc(sizeof(struct SVector) * 3000);
+    rotate_vectors = (struct SVector*) MemAlloc(sizeof(struct SVector) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
 
     min_x = min_y = 999999;
@@ -666,14 +666,14 @@ void PrimPickTab::DrawAMultiPrimInRect(std::uint32_t prim, std::int32_t x, std::
         offset.M[0] = the_element->OffsetX;
         offset.M[1] = the_element->OffsetY;
         offset.M[2] = the_element->OffsetZ;
-        matrix_transformZMY((struct Matrix31 *) &t_vector, &r_matrix, &offset);
+        matrix_transformZMY((struct Matrix31*) &t_vector, &r_matrix, &offset);
 
         engine.X -= t_vector.X << 8;
         engine.Y -= t_vector.Y << 8;
         engine.Z -= t_vector.Z << 8;
 
         for (c1 = 0; c1 < num_points; c1++) {
-            matrix_transform_small((struct Matrix31 *) &t_vector2, &r_matrix, (struct SMatrix31 *) &prim_points[c1]);
+            matrix_transform_small((struct Matrix31*) &t_vector2, &r_matrix, (struct SMatrix31*) &prim_points[c1]);
             flags[c1] = rotate_point_gte(&t_vector2, &rotate_vectors[c1]);
             if (rotate_vectors[c1].X < min_x)
                 min_x = rotate_vectors[c1].X;
@@ -807,7 +807,7 @@ void PrimPickTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t
     drawrect.FillRect(CONTENT_COL_BR);
     drawrect.HiliteRect(HILITE_COL, HILITE_COL);
     set_camera_plan();
-    extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
+    extern void find_map_clip(std::int32_t* minx, std::int32_t* maxx, std::int32_t* minz, std::int32_t* maxz);
     {
         std::int32_t minx, maxx, minz, maxz;
 
@@ -894,7 +894,7 @@ void PrimPickTab::DrawPrims(void) {
         prim_diff = 0;
 
         for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
-            struct MapThing *t_mthing;
+            struct MapThing* t_mthing;
             t_mthing = &map_things[c0];
 
             switch (t_mthing->Type) {
@@ -933,7 +933,7 @@ void PrimPickTab::DrawPrims(void) {
     engine.ShowDebug = 0;
     engine.BucketSize = MAX_BUCKETS >> 4;
 
-    prim = (((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->GetCurrentValue() * 3) + 1;
+    prim = (((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->GetCurrentValue() * 3) + 1;
 
     if (PrimTabMode == PRIM_MODE_ANIM_KEY) {
         EdRect frame_rect, rect;
@@ -950,7 +950,7 @@ void PrimPickTab::DrawPrims(void) {
                 if (prim == CurrentPrim)
                     rect.FillRect(LOLITE_COL);
 
-                extern void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect * bounds_rect, struct GameKeyFrame * the_frame, struct Matrix33 * r_matrix, std::int32_t person_id, struct GameKeyFrameChunk * the_chunk);
+                extern void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect* bounds_rect, struct GameKeyFrame* the_frame, struct Matrix33* r_matrix, std::int32_t person_id, struct GameKeyFrameChunk* the_chunk);
 
                 if (anim_chunk[prim].MultiObject[0])
                     drawkeyframeboxgamechunk(anim_chunk[prim].MultiObject[0], &rect, anim_chunk[prim].AnimList[1], &r_matrix, 0, &anim_chunk[prim]);
@@ -1009,7 +1009,7 @@ void redraw_all_prims(void) {
 }
 //---------------------------------------------------------------
 
-void PrimPickTab::HandleTab(MFPoint *current_point) {
+void PrimPickTab::HandleTab(MFPoint* current_point) {
     std::int32_t update = 0;
 
     ModeTab::HandleTab(current_point);
@@ -1123,7 +1123,7 @@ std::int32_t PrimPickTab::KeyboardInterface(void) {
     return (0);
 }
 
-void find_things_min_point(std::int32_t drag, std::int32_t *px, std::int32_t *py, std::int32_t *pz) {
+void find_things_min_point(std::int32_t drag, std::int32_t* px, std::int32_t* py, std::int32_t* pz) {
     std::int32_t c0;
     std::int32_t mx, my, mz;
 
@@ -1146,7 +1146,7 @@ void find_things_min_point(std::int32_t drag, std::int32_t *px, std::int32_t *py
         }
     }
 }
-void find_things_max_point(std::int32_t drag, std::int32_t *px, std::int32_t *py, std::int32_t *pz) {
+void find_things_max_point(std::int32_t drag, std::int32_t* px, std::int32_t* py, std::int32_t* pz) {
     std::int32_t c0;
     std::int32_t mx, my, mz;
 
@@ -1170,7 +1170,7 @@ void find_things_max_point(std::int32_t drag, std::int32_t *px, std::int32_t *py
     }
 }
 
-void find_things_min_point_corner(std::int32_t drag, std::int32_t *px, std::int32_t *py, std::int32_t *pz) {
+void find_things_min_point_corner(std::int32_t drag, std::int32_t* px, std::int32_t* py, std::int32_t* pz) {
     std::int32_t c0;
     std::int32_t mx, my, mz;
     std::int32_t dist, mdist = 99999, best = 0;
@@ -1201,7 +1201,7 @@ void find_things_min_point_corner(std::int32_t drag, std::int32_t *px, std::int3
     }
 }
 
-void find_things_max_point_corner(std::int32_t drag, std::int32_t *px, std::int32_t *py, std::int32_t *pz) {
+void find_things_max_point_corner(std::int32_t drag, std::int32_t* px, std::int32_t* py, std::int32_t* pz) {
     std::int32_t c0;
     std::int32_t mx, my, mz;
     std::int32_t dist, mdist = -99999, best = 0;
@@ -1236,7 +1236,7 @@ void find_things_max_point_corner(std::int32_t drag, std::int32_t *px, std::int3
 // button 0 is left
 // button 1 is right (for creating a new prim identical to the last
 
-std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint *clicked_point, std::int32_t button) {
+std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint* clicked_point, std::int32_t button) {
     static std::uint8_t col = 0;
     std::int32_t screen_change = 0;
     MFPoint local_point;
@@ -1288,7 +1288,7 @@ std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint *clicked_point, 
             }
             */
 
-    extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
+    extern void find_map_clip(std::int32_t* minx, std::int32_t* maxx, std::int32_t* minz, std::int32_t* maxz);
     {
         std::int32_t minx, maxx, minz, maxz;
 
@@ -1461,7 +1461,7 @@ std::int32_t PrimPickTab::DragAPrim(std::uint8_t flags, MFPoint *clicked_point, 
     return (screen_change);
 }
 
-std::int32_t PrimPickTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t PrimPickTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -1521,7 +1521,7 @@ std::int32_t PrimPickTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point)
 
 extern std::int32_t calc_edit_height_at(std::int32_t x, std::int32_t z);
 
-std::int32_t PrimPickTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t PrimPickTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     std::int16_t thing;
 
     // Stop compiler moaning.
@@ -1609,9 +1609,9 @@ std::int32_t PrimPickTab::HandleModuleContentClick(MFPoint *clicked_point, std::
     return (0);
 }
 
-std::uint16_t PrimPickTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t PrimPickTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     // This is a fudge to update the front screen buffer.
@@ -1629,7 +1629,7 @@ std::uint16_t PrimPickTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_p
                 x,
                 y,
 
-                prim = (((CVSlider *) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->GetCurrentValue() * 3) + 1;
+                prim = (((CVSlider*) GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->GetCurrentValue() * 3) + 1;
 
             switch (PrimTabMode) {
             case PRIM_MODE_SINGLE:
@@ -1761,7 +1761,7 @@ std::int32_t PrimPickTab::SetWorldMouse(std::uint32_t flag) {
 
 void add_a_background_thing(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::uint16_t map_thing;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     map_thing = find_empty_map_thing();
     if (!map_thing)
@@ -1813,7 +1813,7 @@ void PrimPickTab::HandleControl(std::uint16_t control_id) {
     */
     case CTRL_PRIM_REPLACE:
         if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
-            FileRequester *fr;
+            FileRequester* fr;
             char fname[100];
 
             clear_map2();
@@ -1921,7 +1921,7 @@ void PrimPickTab::HandleControl(std::uint16_t control_id) {
             std::int32_t c0;
 
             for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
-                struct MapThing *t_mthing;
+                struct MapThing* t_mthing;
                 t_mthing = &map_things[c0];
 
                 switch (t_mthing->Type) {
@@ -2091,7 +2091,7 @@ void PrimPickTab::HandleControl(std::uint16_t control_id) {
 
         if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
             std::int32_t i;
-            PrimObject *po;
+            PrimObject* po;
 
             //
             // Grow the selected prim.
@@ -2116,7 +2116,7 @@ void PrimPickTab::HandleControl(std::uint16_t control_id) {
 
         if (CurrentPrim && PrimTabMode == PRIM_MODE_SINGLE) {
             std::int32_t i;
-            PrimObject *po;
+            PrimObject* po;
 
             //
             // Shrink the selected prims.
@@ -2205,7 +2205,7 @@ void PrimPickTab::HandleControl(std::uint16_t control_id) {
             std::int32_t mid_y;
             std::int32_t mid_z;
 
-            PrimObject *po;
+            PrimObject* po;
 
             //
             // Shrink the selected prims.

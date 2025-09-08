@@ -25,14 +25,14 @@ extern std::int32_t build_psx;
 // The wander system for vehicles.
 //
 
-ROAD_Node *ROAD_node;
+ROAD_Node* ROAD_node;
 std::int32_t ROAD_node_upto;
 
 //
 // The nodes at the edge of the map.
 //
 
-std::uint8_t *ROAD_edge; //[ROAD_MAX_EDGES];
+std::uint8_t* ROAD_edge; //[ROAD_MAX_EDGES];
 std::uint16_t ROAD_edge_upto;
 
 //
@@ -41,9 +41,9 @@ std::uint16_t ROAD_edge_upto;
 
 void ROAD_node_pos(
     std::int32_t node,
-    std::int32_t *node_x,
-    std::int32_t *node_z) {
-    ROAD_Node *rn;
+    std::int32_t* node_x,
+    std::int32_t* node_z) {
+    ROAD_Node* rn;
 
     ASSERT(WITHIN(node, 1, ROAD_node_upto - 1));
 
@@ -60,9 +60,9 @@ std::int32_t ROAD_bend(std::int32_t n1, std::int32_t n2, std::int32_t n3) {
     ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(n3, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn1 = &ROAD_node[n1];
-    ROAD_Node *rn2 = &ROAD_node[n2];
-    ROAD_Node *rn3 = &ROAD_node[n3];
+    ROAD_Node* rn1 = &ROAD_node[n1];
+    ROAD_Node* rn2 = &ROAD_node[n2];
+    ROAD_Node* rn3 = &ROAD_node[n3];
 
     std::int32_t x12 = rn2->x - rn1->x;
     std::int32_t z12 = rn2->z - rn1->z;
@@ -78,7 +78,7 @@ std::int32_t ROAD_bend(std::int32_t n1, std::int32_t n2, std::int32_t n3) {
 std::int32_t ROAD_node_degree(std::int32_t node) {
     ASSERT(WITHIN(node, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn = &ROAD_node[node];
+    ROAD_Node* rn = &ROAD_node[node];
 
     std::int32_t degree = 0;
 
@@ -94,12 +94,12 @@ std::int32_t ROAD_node_degree(std::int32_t node) {
 //
 // return the nearer of rn1 and rn2 in nn, and the distance squared in nnd; wx,wz = WorldPos >> 8
 
-std::int32_t ROAD_nearest_node(std::int32_t rn1, std::int32_t rn2, std::int32_t wx, std::int32_t wz, std::int32_t *nnd) {
+std::int32_t ROAD_nearest_node(std::int32_t rn1, std::int32_t rn2, std::int32_t wx, std::int32_t wz, std::int32_t* nnd) {
     ASSERT(WITHIN(rn1, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(rn2, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *prn1 = &ROAD_node[rn1];
-    ROAD_Node *prn2 = &ROAD_node[rn2];
+    ROAD_Node* prn1 = &ROAD_node[rn1];
+    ROAD_Node* prn2 = &ROAD_node[rn2];
 
     std::int32_t x1 = (prn1->x << 8) + 0x80;
     std::int32_t z1 = (prn1->z << 8) + 0x80;
@@ -135,8 +135,8 @@ void ROAD_sink() {
 
     std::int32_t page;
 
-    PAP_Hi *ph;
-    MapElement *me;
+    PAP_Hi* ph;
+    MapElement* me;
 
     for (mx = 0; mx < MAP_WIDTH - 1; mx++)
         for (mz = 0; mz < MAP_HEIGHT - 1; mz++) {
@@ -225,7 +225,7 @@ void ROAD_sink() {
 #endif
 
 std::int32_t ROAD_is_road(std::int32_t map_x, std::int32_t map_z) {
-    PAP_Hi *ph;
+    PAP_Hi* ph;
     std::int32_t num;
 
     if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
@@ -265,7 +265,7 @@ std::int32_t ROAD_is_road(std::int32_t map_x, std::int32_t map_z) {
 }
 
 std::int32_t ROAD_is_zebra(std::int32_t map_x, std::int32_t map_z) {
-    PAP_Hi *ph;
+    PAP_Hi* ph;
     std::int32_t num;
 
     if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
@@ -323,8 +323,8 @@ std::int32_t ROAD_find_node(std::int32_t x, std::int32_t z) {
 void ROAD_connect(std::int32_t n1, std::int32_t n2) {
     std::int32_t i;
 
-    ROAD_Node *rn1;
-    ROAD_Node *rn2;
+    ROAD_Node* rn1;
+    ROAD_Node* rn2;
 
     ASSERT(WITHIN(n1, 1, ROAD_MAX_NODES - 1));
     ASSERT(WITHIN(n2, 1, ROAD_MAX_NODES - 1));
@@ -398,8 +398,8 @@ void ROAD_disconnect(std::int32_t n1, std::int32_t n2) {
     ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn1 = &ROAD_node[n1];
-    ROAD_Node *rn2 = &ROAD_node[n2];
+    ROAD_Node* rn1 = &ROAD_node[n1];
+    ROAD_Node* rn2 = &ROAD_node[n2];
 
     for (i = 0; i < 4; i++) {
         if (rn1->c[i] == n2) {
@@ -453,15 +453,15 @@ std::int32_t ROAD_intersect(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2,
 
-    std::int32_t *in1,
-    std::int32_t *in2,
-    std::int32_t *ix, // Intersection point
-    std::int32_t *iz) {
+    std::int32_t* in1,
+    std::int32_t* in2,
+    std::int32_t* ix, // Intersection point
+    std::int32_t* iz) {
     std::int32_t i;
     std::int32_t j;
 
-    ROAD_Node *rn;
-    ROAD_Node *rm;
+    ROAD_Node* rn;
+    ROAD_Node* rm;
 
     std::int32_t minx;
     std::int32_t maxx;
@@ -600,8 +600,8 @@ void ROAD_split(std::int32_t n1, std::int32_t n2, std::int32_t splitx, std::int3
     ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn1 = &ROAD_node[n1];
-    ROAD_Node *rn2 = &ROAD_node[n2];
+    ROAD_Node* rn1 = &ROAD_node[n1];
+    ROAD_Node* rn2 = &ROAD_node[n2];
 
     //
     // Make sure this split point lies on the road and it in the
@@ -778,7 +778,7 @@ std::int32_t ROAD_is_middle(std::int32_t map_x, std::int32_t map_z) {
 }
 
 std::int32_t ROAD_is_end_of_the_line(std::int32_t n) {
-    ROAD_Node *rn;
+    ROAD_Node* rn;
 
     ASSERT(WITHIN(n, 1, ROAD_node_upto - 1));
 
@@ -814,7 +814,7 @@ void ROAD_wander_calc() {
     std::int32_t p1valid;
     std::int32_t p2valid;
 
-    ROAD_Node *rn;
+    ROAD_Node* rn;
 
     //
     // Clear all road info.
@@ -938,8 +938,8 @@ void ROAD_wander_calc() {
 #ifndef NDEBUG
 
                 {
-                    ROAD_Node *rn1 = rn;
-                    ROAD_Node *rn2 = &ROAD_node[rn->c[0]];
+                    ROAD_Node* rn1 = rn;
+                    ROAD_Node* rn2 = &ROAD_node[rn->c[0]];
 
                     ASSERT(
                         rn1->x == rn2->x ||
@@ -954,17 +954,17 @@ void ROAD_wander_calc() {
 #endif
 
 void ROAD_find_me_somewhere_to_appear(
-    std::int32_t *world_x, // Current position on calling, new position on return.
-    std::int32_t *world_z,
-    std::int32_t *nrn1, // The new road you are on.
-    std::int32_t *nrn2,
-    std::int32_t *nyaw) {
+    std::int32_t* world_x, // Current position on calling, new position on return.
+    std::int32_t* world_z,
+    std::int32_t* nrn1, // The new road you are on.
+    std::int32_t* nrn2,
+    std::int32_t* nyaw) {
     std::uint8_t i;
     std::uint8_t e;
     std::int32_t dx;
     std::int32_t dz;
 
-    ROAD_Node *rn;
+    ROAD_Node* rn;
 
     *nrn1 = 0;
     *nrn2 = 0;
@@ -973,8 +973,8 @@ void ROAD_find_me_somewhere_to_appear(
         ASSERT(WITHIN(ROAD_edge[i], 1, ROAD_node_upto - 1));
         ASSERT(WITHIN(ROAD_node[ROAD_edge[i]].c[0], 1, ROAD_node_upto - 1));
 
-        ROAD_Node *rn1 = &ROAD_node[ROAD_edge[i]];
-        ROAD_Node *rn2 = &ROAD_node[rn1->c[0]];
+        ROAD_Node* rn1 = &ROAD_node[ROAD_edge[i]];
+        ROAD_Node* rn2 = &ROAD_node[rn1->c[0]];
 
         ASSERT(
             rn1->x == rn2->x ||
@@ -1089,7 +1089,7 @@ void ROAD_debug() {
     std::int32_t my;
     std::int32_t mz;
 
-    ROAD_Node *rn;
+    ROAD_Node* rn;
 
     //
     // Draw all the nodes.
@@ -1145,8 +1145,8 @@ std::int32_t ROAD_signed_dist(
     ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn1 = &ROAD_node[n1];
-    ROAD_Node *rn2 = &ROAD_node[n2];
+    ROAD_Node* rn1 = &ROAD_node[n1];
+    ROAD_Node* rn2 = &ROAD_node[n2];
 
     if (rn1->x == rn2->x) {
         std::int32_t minz = rn1->z;
@@ -1189,12 +1189,12 @@ void ROAD_find(
     std::int32_t world_x,
     std::int32_t world_z,
 
-    std::int32_t *n1,
-    std::int32_t *n2) {
+    std::int32_t* n1,
+    std::int32_t* n2) {
     std::int32_t i;
     std::int32_t j;
 
-    ROAD_Node *rn;
+    ROAD_Node* rn;
 
     std::int32_t dist;
 
@@ -1229,8 +1229,8 @@ void ROAD_find(
 void ROAD_whereto_now(
     std::int32_t n1,
     std::int32_t n2,
-    std::int32_t *wtn1,
-    std::int32_t *wtn2) {
+    std::int32_t* wtn1,
+    std::int32_t* wtn2) {
     std::int32_t i;
     std::int32_t score;
 
@@ -1240,7 +1240,7 @@ void ROAD_whereto_now(
     ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn = &ROAD_node[n2];
+    ROAD_Node* rn = &ROAD_node[n2];
 
     for (i = 0; i < 4; i++) {
         if (rn->c[i]) {
@@ -1265,16 +1265,16 @@ void ROAD_whereto_now(
 void ROAD_get_dest(
     std::int32_t n1,
     std::int32_t n2,
-    std::int32_t *world_x,
-    std::int32_t *world_z) {
+    std::int32_t* world_x,
+    std::int32_t* world_z) {
     std::int32_t dx;
     std::int32_t dz;
 
     ASSERT(WITHIN(n1, 1, ROAD_node_upto - 1));
     ASSERT(WITHIN(n2, 1, ROAD_node_upto - 1));
 
-    ROAD_Node *rn1 = &ROAD_node[n1];
-    ROAD_Node *rn2 = &ROAD_node[n2];
+    ROAD_Node* rn1 = &ROAD_node[n1];
+    ROAD_Node* rn2 = &ROAD_node[n2];
 
     dx = SIGN(rn2->x - rn1->x) * ROAD_LANE;
     dz = SIGN(rn2->z - rn1->z) * ROAD_LANE;
@@ -1313,7 +1313,7 @@ void ROAD_calc_mapsquare_type() {
     std::int32_t index;
     std::int32_t look;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     std::uint8_t done[512];
 
@@ -1382,7 +1382,7 @@ std::int32_t ROAD_get_mapsquare_type(std::int32_t mx, std::int32_t mz) {
     std::int32_t offset;
     std::int32_t index;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     ph = &PAP_2HI(mx, mz);
 
