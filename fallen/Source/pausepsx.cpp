@@ -154,7 +154,7 @@ static char* pause_menu[PAUSE_MENU_SIZE] =
 #endif
 
 extern void DRAW2D_Box_Page(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t rgb);
-extern void PANEL_draw_stats(Thing* who);
+extern void PANEL_draw_stats(Entity* who);
 extern std::int32_t Wadmenu_MuckyTime;
 
 std::int32_t PAUSE_handler() {

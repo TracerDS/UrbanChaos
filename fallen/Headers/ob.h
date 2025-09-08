@@ -171,7 +171,7 @@ void OB_damage(
     std::int32_t from_dz,
     std::int32_t ob_x, // The position of the ob!
     std::int32_t ob_z,
-    Thing *p_aggressor); // Who caused the damage or nullptr if you don't know
+    Entity *p_aggressor); // Who caused the damage or nullptr if you don't know
 
 //
 // Returns true if there is a prim at (x,y,z)

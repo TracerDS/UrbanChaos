@@ -1,4 +1,4 @@
-// Thing.cpp
+// Entity.cpp
 // Guy Simmons, 14th October 1997.
 
 #include "Game.h"
@@ -17,7 +17,7 @@
 #include "memory.h"
 // extern std::uint32_t	get_hardware_input(std::uint16_t type);
 
-std::uint16_t *thing_class_head;
+std::uint16_t* thing_class_head;
 
 THING_INDEX THING_array[THING_ARRAY_SIZE];
 std::int32_t tick_tock_unclipped = 0;
@@ -51,7 +51,7 @@ std::uint16_t class_priority[] =
 void init_things() {
     std::int16_t c0, c1;
 
-    memset((std::uint8_t *) THINGS, 0, sizeof(Thing) * MAX_THINGS);
+    memset((std::uint8_t*) THINGS, 0, sizeof(Entity) * MAX_THINGS);
 
     for (c0 = 1; c0 < MAX_PRIMARY_THINGS; c0++) {
         TO_THING(c0)->LinkParent = c0 - 1;
@@ -75,7 +75,7 @@ void init_things() {
     SECONDARY_UNUSED = c1;
     SECONDARY_COUNT = 0;
 
-    memset((std::uint8_t *) thing_class_head, 0, CLASS_END * 2);
+    memset((std::uint8_t*) thing_class_head, 0, CLASS_END * 2);
 }
 #endif
 //---------------------------------------------------------------
@@ -139,9 +139,9 @@ void free_primary_thing(THING_INDEX thing) {
 #if I_WAS_MAKING_SURE_OF_IT
 
     {
-        Thing *p_thing;
-        Thing *p_parent;
-        Thing *p_child;
+        Entity* p_thing;
+        Entity* p_parent;
+        Entity* p_child;
 
         p_thing = TO_THING(thing);
 
@@ -218,11 +218,11 @@ void free_secondary_thing(THING_INDEX thing) {
 
 //---------------------------------------------------------------
 
-void add_thing_to_map(Thing *t_thing) {
+void add_thing_to_map(Entity* t_thing) {
     std::int32_t mx;
     std::int32_t mz;
 
-    PAP_Lo *pl;
+    PAP_Lo* pl;
 
     if (!(t_thing->Flags & FLAGS_ON_MAPWHO)) // Does thing currently exist on map?
     {
@@ -270,11 +270,11 @@ void add_thing_to_map(Thing *t_thing) {
 
 //---------------------------------------------------------------
 
-void remove_thing_from_map(Thing *t_thing) {
+void remove_thing_from_map(Entity* t_thing) {
     std::int32_t mx;
     std::int32_t mz;
 
-    PAP_Lo *pl;
+    PAP_Lo* pl;
 
     if (t_thing->Flags & FLAGS_ON_MAPWHO) // Does thing currently exist on map?
     {
@@ -301,7 +301,7 @@ void remove_thing_from_map(Thing *t_thing) {
 
 //---------------------------------------------------------------
 
-void move_thing_on_map(Thing *t_thing, GameCoord *new_position) {
+void move_thing_on_map(Entity* t_thing, GameCoord* new_position) {
     std::int32_t cur_mx = t_thing->WorldPos.X >> (8 + PAP_SHIFT_LO);
     std::int32_t cur_mz = t_thing->WorldPos.Z >> (8 + PAP_SHIFT_LO);
 
@@ -370,7 +370,7 @@ void move_thing_on_map(Thing *t_thing, GameCoord *new_position) {
 
     */
 }
-void move_thing_on_map_dxdydz(Thing *t_thing, std::int32_t dx, std::int32_t dy, std::int32_t dz) {
+void move_thing_on_map_dxdydz(Entity* t_thing, std::int32_t dx, std::int32_t dy, std::int32_t dz) {
     GameCoord new_position;
     new_position.X = t_thing->WorldPos.X + dx;
     new_position.Y = t_thing->WorldPos.Y + dy;
@@ -387,7 +387,7 @@ void log_primary_used_list() {
     DebugText("\nPRIMARY USED\n");
     thing = PRIMARY_USED;
     while (thing) {
-        DebugText("Thing - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
+        DebugText("Entity - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
         thing = TO_THING(thing)->LinkChild;
     }
 }
@@ -400,7 +400,7 @@ void log_primary_unused_list() {
     DebugText("\nPRIMARY UNUSED\n");
     thing = PRIMARY_UNUSED;
     while (thing) {
-        DebugText("Thing - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
+        DebugText("Entity - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
         thing = TO_THING(thing)->LinkChild;
     }
 }
@@ -413,7 +413,7 @@ void log_secondary_used_list() {
     DebugText("\nSECONDARY USED\n");
     thing = SECONDARY_USED;
     while (thing) {
-        DebugText("Thing - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
+        DebugText("Entity - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
         thing = TO_THING(thing)->LinkChild;
     }
 }
@@ -426,13 +426,13 @@ void log_secondary_unused_list() {
     DebugText("\nSECONDARY UNUSED\n");
     thing = SECONDARY_UNUSED;
     while (thing) {
-        DebugText("Thing - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
+        DebugText("Entity - %ld\nThing->Parent - %ld\nThing->Child - %ld\n", thing, TO_THING(thing)->LinkParent, TO_THING(thing)->LinkChild);
         thing = TO_THING(thing)->LinkChild;
     }
 }
 
 //---------------------------------------------------------------
-void Time(struct MFTime *the_time);
+void Time(struct MFTime* the_time);
 
 void wait_ticks(std::int32_t wait) {
     struct MFTime the_time;
@@ -558,7 +558,7 @@ void do_packets() {
                         count++;
                         //					PACKET_DATA(answer.player_id)=*(std::uint16_t*)(answer.player.data);
 
-                        packets[answer.player_id] = *(NET_packet *) (answer.player.data);
+                        packets[answer.player_id] = *(NET_packet*) (answer.player.data);
                     }
                 }
             }
@@ -686,7 +686,7 @@ void end_record() {
 
     sprintf(fname, "replay%02d.gam", record_input[0].input);
     handle = PCcreat(fname, 0);
-    PCwrite(handle, (std::uint8_t *) record_input, record_index * sizeof(struct recorder));
+    PCwrite(handle, (std::uint8_t*) record_input, record_index * sizeof(struct recorder));
     PCclose(handle);
 }
 
@@ -762,43 +762,43 @@ std::uint16_t class_check[] =
         CLASS_BAT,
         0};
 
-void copy_important_thing_bits(const Thing *src, Thing *dst) {
-    memcpy(dst, src, sizeof(Thing));
+void copy_important_thing_bits(const Entity* src, Entity* dst) {
+    memcpy(dst, src, sizeof(Entity));
     dst->Draw.Tweened = NULL;
     dst->Genus.Vehicle = NULL;
     dst->Flags &= ~FLAGS_HAS_ATTACHED_SOUND;
     dst->StateFn = NULL;
 }
 
-void store_thing(Thing *p_thing) {
-    Thing temp;
+void store_thing(Entity* p_thing) {
+    Entity temp;
 
     copy_important_thing_bits(p_thing, &temp);
 
     FileWrite(verifier_file, &temp, sizeof(temp));
 }
 
-void check_thing(Thing *p_thing) {
-    Thing temp;
+void check_thing(Entity* p_thing) {
+    Entity temp;
 
     copy_important_thing_bits(p_thing, &temp);
 
-    Thing file;
+    Entity file;
 
     FileRead(verifier_file, &file, sizeof(file));
 
-    Thing file2;
+    Entity file2;
 
     copy_important_thing_bits(&file, &file2);
 
     if (memcmp(&file2, &temp, sizeof(file2))) {
         TRACE("Game turn = %d\n", GAME_TURN);
-        TRACE("Thing# = %d\n", THING_NUMBER(p_thing));
+        TRACE("Entity# = %d\n", THING_NUMBER(p_thing));
         ASSERT(0);
     }
 }
 
-void for_things(void (*fn)(Thing *p_thing)) {
+void for_things(void (*fn)(Entity* p_thing)) {
     int ix = 0;
 
     while (class_check[ix]) {
@@ -807,7 +807,7 @@ void for_things(void (*fn)(Thing *p_thing)) {
         list = thing_class_head[class_check[ix]];
 
         while (list) {
-            Thing *p_thing = TO_THING(list);
+            Entity* p_thing = TO_THING(list);
 
             ASSERT(p_thing->Class == class_check[ix]);
 
@@ -914,8 +914,8 @@ extern std::int16_t noise_count;
 extern void process_noises();
 
 void process_things(std::int32_t frame_rate_independant) {
-    Thing *p_thing;
-    Thing *t_thing;
+    Entity* p_thing;
+    Entity* t_thing;
     THING_INDEX current_thing;
 
     std::int32_t count = 0;
@@ -1090,8 +1090,8 @@ inline bool is_class_primary(std::int8_t classification) {
 
 //---------------------------------------------------------------
 
-Thing *alloc_thing(std::int8_t classification) {
-    Thing *t_thing = NULL;
+Entity* alloc_thing(std::int8_t classification) {
+    Entity* t_thing = NULL;
     THING_INDEX new_thing;
 
     if (is_class_primary(classification))
@@ -1111,7 +1111,7 @@ Thing *alloc_thing(std::int8_t classification) {
 
 //---------------------------------------------------------------
 
-void free_thing(Thing *t_thing) {
+void free_thing(Entity* t_thing) {
     if (t_thing->Flags & FLAGS_HAS_ATTACHED_SOUND) MFX_stop_attached(t_thing);
     if (is_class_primary(t_thing->Class))
         free_primary_thing(THING_NUMBER(t_thing));
@@ -1123,14 +1123,14 @@ void free_thing(Thing *t_thing) {
 
 /*
 // 'closest' is set outside of the function & defines the bounds of the check.
-Thing *nearest_class(Thing *the_thing,std::uint32_t class_mask,std::uint32_t *closest)
+Entity *nearest_class(Entity *the_thing,std::uint32_t class_mask,std::uint32_t *closest)
 {
         std::uint32_t			distance,
                                         radius;
         std::int32_t			cx,cz,
                                         min_x,max_x,
                                         min_z,max_z;
-        Thing			*possible_nearest,
+        Entity			*possible_nearest,
                                         *nearest			=	NULL;
         THING_INDEX		current_thing;
 
@@ -1187,7 +1187,7 @@ Thing *nearest_class(Thing *the_thing,std::uint32_t class_mask,std::uint32_t *cl
 
 //---------------------------------------------------------------
 
-void THING_kill(Thing *p_thing) {
+void THING_kill(Entity* p_thing) {
     //
     // Remove from the map.
     //
@@ -1224,7 +1224,7 @@ void THING_kill(Thing *p_thing) {
     }
 }
 
-std::int32_t THING_dist_between(Thing *p_thing_a, Thing *p_thing_b) {
+std::int32_t THING_dist_between(Entity* p_thing_a, Entity* p_thing_b) {
     std::int32_t dx = abs(p_thing_b->WorldPos.X - p_thing_a->WorldPos.X >> 8);
     std::int32_t dy = abs(p_thing_b->WorldPos.Y - p_thing_a->WorldPos.Y >> 8);
     std::int32_t dz = abs(p_thing_b->WorldPos.Z - p_thing_a->WorldPos.Z >> 8);
@@ -1240,7 +1240,7 @@ std::uint8_t hit_player = 0;
 //
 // if classes & 1<<31  then its really find sphere
 //
-std::int32_t THING_find_sphere(std::int32_t pos_x, std::int32_t pos_y, std::int32_t pos_z, std::int32_t radius, THING_INDEX *array, std::int32_t array_size, std::uint32_t classes) {
+std::int32_t THING_find_sphere(std::int32_t pos_x, std::int32_t pos_y, std::int32_t pos_z, std::int32_t radius, THING_INDEX* array, std::int32_t array_size, std::uint32_t classes) {
     std::uint8_t mx;
     std::uint8_t mz;
 
@@ -1258,7 +1258,7 @@ std::int32_t THING_find_sphere(std::int32_t pos_x, std::int32_t pos_y, std::int3
     std::int16_t array_upto;
 
     THING_INDEX t_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     //
     // Find the bounding rectangle in which to search.
@@ -1342,14 +1342,14 @@ std::int32_t THING_find_sphere(std::int32_t pos_x, std::int32_t pos_y, std::int3
     return array_upto;
 }
 
-std::int32_t THING_find_box(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, THING_INDEX *array, std::int32_t array_size, std::uint32_t classes) {
+std::int32_t THING_find_box(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, THING_INDEX* array, std::int32_t array_size, std::uint32_t classes) {
     std::int32_t mx;
     std::int32_t mz;
 
     std::int32_t array_upto;
 
     THING_INDEX t_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     //
     // Make sure the bounding rectangle is on the map.
@@ -1414,7 +1414,7 @@ std::int32_t THING_find_nearest_xyz_p(
     std::int32_t centre_z,
     std::int32_t radius,
     std::uint32_t classes,
-    Thing *p_person) {
+    Entity* p_person) {
     std::int32_t mx;
     std::int32_t mz;
 
@@ -1433,7 +1433,7 @@ std::int32_t THING_find_nearest_xyz_p(
     std::int32_t best_thing = NULL;
 
     THING_INDEX t_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     //
     // Find the bounding rectangle in which to search.
@@ -1507,6 +1507,6 @@ std::int32_t THING_find_nearest(
     return (THING_find_nearest_xyz_p(centre_x, centre_y, centre_z, radius, classes, 0));
 }
 
-std::int32_t THING_find_nearest_person(Thing *p_person, std::int32_t radius, std::uint32_t classes) {
+std::int32_t THING_find_nearest_person(Entity* p_person, std::int32_t radius, std::uint32_t classes) {
     return (THING_find_nearest_xyz_p(p_person->WorldPos.X >> 8, p_person->WorldPos.Y >> 8, p_person->WorldPos.Z >> 8, radius, classes, p_person));
 }

@@ -273,8 +273,8 @@ extern GenusFunctions people_functions[];
 extern StateFunction generic_people_functions[];
 
 void init_persons();
-Thing *alloc_person(std::uint8_t type, std::uint8_t random_number);
-void free_person(Thing *person_thing);
+Entity *alloc_person(std::uint8_t type, std::uint8_t random_number);
+void free_person(Entity *person_thing);
 THING_INDEX create_person(
     std::int32_t type,
     std::int32_t random_number,
@@ -315,74 +315,74 @@ extern char *PERSON_mode_name[PERSON_MODE_NUMBER];
 #define PERSON_SPEED_YOMP 5
 #define PERSON_SPEED_CRAWL 6
 
-void set_anim(Thing *p_person, std::int32_t anim);
-void tween_to_anim(Thing *p_person, std::int32_t anim);
-void queue_anim(Thing *p_person, std::int32_t anim);
-void set_person_draw_gun(Thing *p_person);
-void set_person_shoot(Thing *p_person, std::uint16_t shoot_target);
-void set_person_gun_away(Thing *p_person);
-void set_person_flip(Thing *p_person, std::int32_t dir);
-void set_person_idle(Thing *p_person);
-std::int32_t set_person_punch(Thing *p_person); // Automatically slashes if you have a knife out
-std::int32_t set_person_kick(Thing *p_person);
-void set_person_standing_jump(Thing *p_person);
-void set_person_running_jump(Thing *p_person);
-void set_person_pulling_up(Thing *p_thing);
-void set_person_drop_down(Thing *p_person, std::int32_t flag);
-void set_person_climb_ladder(Thing *p_person, std::uint16_t storey);
-void set_thing_velocity(Thing *t_thing, std::int32_t vel);
-void set_person_running(Thing *p_person);
-void set_person_walking(Thing *p_person);
-void set_person_step_left(Thing *p_person);
-void set_person_step_right(Thing *p_person);
-void set_person_enter_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door);
-void set_person_exit_vehicle(Thing *p_person);
-void set_person_mount_bike(Thing *p_person, Thing *p_bike);
-void set_person_dismount_bike(Thing *p_person);
-void set_person_grappling_hook_pickup(Thing *p_person);
-void set_person_grappling_hook_release(Thing *p_person);
-void set_person_can_pickup(Thing *p_person);                      // Bends down to pickup a coke can or a head
-void set_person_can_release(Thing *p_person, std::int32_t power); // Throws a coke can or a head. power = 0 - 256
-void set_person_special_pickup(Thing *p_person);                  // Bends down to pick up a special
-void set_person_barrel_pickup(Thing *p_person);
-void set_person_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags);
-void set_person_goto_xz(Thing *p_person, std::int32_t x, std::int32_t z, std::int32_t speed); // No mavigation- just walks there.
-void set_person_circle(Thing *p_person, Thing *p_target);                                     // Makes the person circle around someone.
-void general_process_person(Thing *p_person);
-void set_person_dead_normal(Thing *p_thing, Thing *p_aggressor, std::int32_t death_type, std::int32_t anim);
-std::int32_t set_person_land_on_fence(Thing *p_person, std::int32_t wall, std::int32_t set_pos, std::int32_t while_walking = 0);
+void set_anim(Entity *p_person, std::int32_t anim);
+void tween_to_anim(Entity *p_person, std::int32_t anim);
+void queue_anim(Entity *p_person, std::int32_t anim);
+void set_person_draw_gun(Entity *p_person);
+void set_person_shoot(Entity *p_person, std::uint16_t shoot_target);
+void set_person_gun_away(Entity *p_person);
+void set_person_flip(Entity *p_person, std::int32_t dir);
+void set_person_idle(Entity *p_person);
+std::int32_t set_person_punch(Entity *p_person); // Automatically slashes if you have a knife out
+std::int32_t set_person_kick(Entity *p_person);
+void set_person_standing_jump(Entity *p_person);
+void set_person_running_jump(Entity *p_person);
+void set_person_pulling_up(Entity *p_thing);
+void set_person_drop_down(Entity *p_person, std::int32_t flag);
+void set_person_climb_ladder(Entity *p_person, std::uint16_t storey);
+void set_thing_velocity(Entity *t_thing, std::int32_t vel);
+void set_person_running(Entity *p_person);
+void set_person_walking(Entity *p_person);
+void set_person_step_left(Entity *p_person);
+void set_person_step_right(Entity *p_person);
+void set_person_enter_vehicle(Entity *p_person, Entity *p_vehicle, std::int32_t door);
+void set_person_exit_vehicle(Entity *p_person);
+void set_person_mount_bike(Entity *p_person, Entity *p_bike);
+void set_person_dismount_bike(Entity *p_person);
+void set_person_grappling_hook_pickup(Entity *p_person);
+void set_person_grappling_hook_release(Entity *p_person);
+void set_person_can_pickup(Entity *p_person);                      // Bends down to pickup a coke can or a head
+void set_person_can_release(Entity *p_person, std::int32_t power); // Throws a coke can or a head. power = 0 - 256
+void set_person_special_pickup(Entity *p_person);                  // Bends down to pick up a special
+void set_person_barrel_pickup(Entity *p_person);
+void set_person_recoil(Entity *p_person, std::int32_t anim, std::uint8_t flags);
+void set_person_goto_xz(Entity *p_person, std::int32_t x, std::int32_t z, std::int32_t speed); // No mavigation- just walks there.
+void set_person_circle(Entity *p_person, Entity *p_target);                                     // Makes the person circle around someone.
+void general_process_person(Entity *p_person);
+void set_person_dead_normal(Entity *p_thing, Entity *p_aggressor, std::int32_t death_type, std::int32_t anim);
+std::int32_t set_person_land_on_fence(Entity *p_person, std::int32_t wall, std::int32_t set_pos, std::int32_t while_walking = 0);
 
 //
 // Makes a person start/stop floating...
 //
 
-void set_person_float_up(Thing *p_person);
-void set_person_float_down(Thing *p_person); // Only call when someone is already floating!
+void set_person_float_up(Entity *p_person);
+void set_person_float_down(Entity *p_person); // Only call when someone is already floating!
 
 //
 // This person is doing an animation initiated by PCOM_set_person_move_animation().
 // All the state does is wait for the animation to finish and then go idle.
 //
 
-void set_person_do_a_simple_anim(Thing *p_person, std::int32_t anim);
+void set_person_do_a_simple_anim(Entity *p_person, std::int32_t anim);
 
 //
 // The person only draws the special if she has a special of that type.
 //
 
-void set_person_draw_item(Thing *p_person, std::int32_t special_type);
-void set_person_item_away(Thing *p_person);
-void set_person_standing_jump_forwards(Thing *p_person);
-void set_person_standing_jump_backwards(Thing *p_person);
-void set_person_walk_backwards(Thing *p_person);
-void set_person_traverse(Thing *p_person, std::int32_t right);
-void set_person_fight_step(Thing *p_person, std::int32_t dir);
-void set_person_block(Thing *p_person);
-void set_person_croutch(Thing *p_person);
-void set_person_crawling(Thing *p_person);
-void set_person_idle_croutch(Thing *p_person);
-void set_person_idle_uncroutch(Thing *p_person);
-void set_person_ko_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags);
+void set_person_draw_item(Entity *p_person, std::int32_t special_type);
+void set_person_item_away(Entity *p_person);
+void set_person_standing_jump_forwards(Entity *p_person);
+void set_person_standing_jump_backwards(Entity *p_person);
+void set_person_walk_backwards(Entity *p_person);
+void set_person_traverse(Entity *p_person, std::int32_t right);
+void set_person_fight_step(Entity *p_person, std::int32_t dir);
+void set_person_block(Entity *p_person);
+void set_person_croutch(Entity *p_person);
+void set_person_crawling(Entity *p_person);
+void set_person_idle_croutch(Entity *p_person);
+void set_person_idle_uncroutch(Entity *p_person);
+void set_person_ko_recoil(Entity *p_person, std::int32_t anim, std::uint8_t flags);
 
 //
 // Once a person is knocked out and lying on the ground.
@@ -392,32 +392,32 @@ void set_person_ko_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags
 #define PERSON_ON_HIS_BACK 1
 #define PERSON_ON_HIS_SOMETHING 2
 
-std::int32_t person_is_lying_on_what(Thing *p_person);
+std::int32_t person_is_lying_on_what(Entity *p_person);
 
 //
 // Makes a person sit down on a bench!
 //
 
-void set_person_sit_down(Thing *p_person);
+void set_person_sit_down(Entity *p_person);
 
 //
 // Entering a vehicle where you are just going to be a passenger.
 // Door is the side of the car to get into.
 //
 
-void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door);
+void set_person_passenger_in_vehicle(Entity *p_person, Entity *p_vehicle, std::int32_t door);
 
 //
 // Sets the person sliding towards the given target.
 //
 
-void set_person_sliding_tackle(Thing *p_person, Thing *p_target);
+void set_person_sliding_tackle(Entity *p_person, Entity *p_target);
 
 //
 // Makes the person turn slightly towards the target.
 //
 
-void turn_towards_thing(Thing *p_person, Thing *p_target);
+void turn_towards_thing(Entity *p_person, Entity *p_target);
 
 //
 // Kills the person in one of various ways!
@@ -437,8 +437,8 @@ void turn_towards_thing(Thing *p_person, Thing *p_target);
 #define PERSON_DEATH_TYPE_GET_DOWN 13 // Gets up again! Not really dead!
 
 void set_person_dead(
-    Thing *p_thing,
-    Thing *p_aggressor,
+    Entity *p_thing,
+    Entity *p_aggressor,
     std::int32_t death_type,
     std::int32_t behind,
     std::int32_t height);
@@ -448,7 +448,7 @@ void set_person_dead(
 // He is DEAD as far as the game is concerned...
 //
 
-void set_person_injured(Thing *p_person);
+void set_person_injured(Entity *p_person);
 
 //
 // Takes off 'hitpoints' from a person's health and knocks them down
@@ -457,24 +457,24 @@ void set_person_injured(Thing *p_person);
 //
 
 void knock_person_down(
-    Thing *p_person,
+    Entity *p_person,
     std::int32_t hitpoints,
     std::int32_t origin_x,
     std::int32_t origin_z,
-    Thing *p_aggressor); // or nullptr if you don't know who's responsible
+    Entity *p_aggressor); // or nullptr if you don't know who's responsible
 
 //
 // Makes 'a' look at 'b'
 //
 
-std::int32_t set_face_thing(Thing *p_person_a, Thing *p_person_b);
+std::int32_t set_face_thing(Entity *p_person_a, Entity *p_person_b);
 
 //
 // Makes the person look at the given place.
 //
 
 void set_face_pos(
-    Thing *p_person,
+    Entity *p_person,
     std::int32_t world_x,
     std::int32_t world_z);
 
@@ -491,21 +491,21 @@ void set_face_pos(
 #define PERSON_ON_METAL 6
 #define PERSON_ON_SEWATER 7
 
-std::int32_t person_is_on(Thing *p_person);
+std::int32_t person_is_on(Entity *p_person);
 
 //
 // Obvious really. Take into account distance, FOV and LOS.
 //
 
-std::int32_t can_i_see_player(Thing *p_person);
-std::int32_t can_a_see_b(Thing *p_person_a, Thing *p_thing_b, std::int32_t range = 0, std::int32_t no_los = 0); // 'b' needn't be a person
-std::int32_t can_i_see_place(Thing *p_person, std::int32_t x, std::int32_t y, std::int32_t z);
+std::int32_t can_i_see_player(Entity *p_person);
+std::int32_t can_a_see_b(Entity *p_person_a, Entity *p_thing_b, std::int32_t range = 0, std::int32_t no_los = 0); // 'b' needn't be a person
+std::int32_t can_i_see_place(Entity *p_person, std::int32_t x, std::int32_t y, std::int32_t z);
 
 //
 // Relative angle of the target from the person.
 //
 
-std::int32_t get_dangle(Thing *p_person, Thing *p_target);
+std::int32_t get_dangle(Entity *p_person, Entity *p_target);
 
 //
 // Works out how quickly a person's aim should improve depending
@@ -515,7 +515,7 @@ std::int32_t get_dangle(Thing *p_person, Thing *p_target);
 std::int32_t calc_dist_benefit_to_gun(std::int32_t dist);
 
 // (JCL) return scale value for engine
-std::int32_t person_get_scale(Thing *t);
+std::int32_t person_get_scale(Entity *t);
 
 //---------------------------------------------------------------
 

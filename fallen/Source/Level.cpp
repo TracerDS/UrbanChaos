@@ -18,10 +18,10 @@
 #define FileOpen(x) PCopen(x, 0, 0)
 #define FileClose(x) PCclose(x)
 #define FileCreate(x, y) PCopen(x, 1, 0)
-#define FileRead(h, a, s) PCread(h, (char *) a, s)
-#define FileWrite(h, a, s) PCwrite(h, (char *) a, s)
+#define FileRead(h, a, s) PCread(h, (char*) a, s)
+#define FileWrite(h, a, s) PCwrite(h, (char*) a, s)
 #define FileSeek(h, m, o) PClseek(h, o, m)
-#define ZeroMemory(a, s) memset((std::uint8_t *) a, 0, s);
+#define ZeroMemory(a, s) memset((std::uint8_t*) a, 0, s);
 
 #endif
 
@@ -30,12 +30,12 @@ std::uint16_t comlist_map[MAX_COMLISTS],
     waypoint_map[MAX_WAYPOINTS];
 THING_INDEX thing_map[MAX_THINGS];
 
-void store_player_pos(ThingDef *the_def);
+void store_player_pos(ThingDef* the_def);
 
 //---------------------------------------------------------------
 
 bool load_thing_def(MFFileHandle the_file) {
-    Thing *b_thing;
+    Entity* b_thing;
     ThingDef the_def;
 
     FileRead(the_file, &the_def.Version, sizeof(the_def.Version));
@@ -140,7 +140,7 @@ bool load_waypoint_def(MFFileHandle the_file) {
 
 //---------------------------------------------------------------
 
-bool load_condition_def(MFFileHandle the_file, ConditionDef *the_def) {
+bool load_condition_def(MFFileHandle the_file, ConditionDef* the_def) {
     FileRead(the_file, &the_def->Version, sizeof(the_def->Version));
     if (the_def->Version == 0) {
         FileRead(the_file, &the_def->Flags, sizeof(the_def->Flags));
@@ -156,7 +156,7 @@ bool load_condition_def(MFFileHandle the_file, ConditionDef *the_def) {
 
 //---------------------------------------------------------------
 
-bool load_command_def(MFFileHandle the_file, CommandDef *the_def) {
+bool load_command_def(MFFileHandle the_file, CommandDef* the_def) {
     FileRead(the_file, &the_def->Version, sizeof(the_def->Version));
     if (the_def->Version == 0) {
         FileRead(the_file, &the_def->Flags, sizeof(the_def->Flags));
@@ -174,9 +174,9 @@ bool load_command_def(MFFileHandle the_file, CommandDef *the_def) {
 
 bool load_clist_def(MFFileHandle the_file) {
     std::int32_t c0;
-    Condition *the_condition;
+    Condition* the_condition;
     ConditionDef the_con_def;
-    ConditionList *the_clist;
+    ConditionList* the_clist;
     ConditionListDef the_def;
 
     FileRead(the_file, &the_def.Version, sizeof(the_def.Version));
@@ -212,9 +212,9 @@ bool load_clist_def(MFFileHandle the_file) {
 
 bool load_comlist_def(MFFileHandle the_file) {
     std::int32_t c0;
-    Command *the_command;
+    Command* the_command;
     CommandDef the_com_def;
-    CommandList *the_comlist;
+    CommandList* the_comlist;
     CommandListDef the_def;
 
     FileRead(the_file, &the_def.Version, sizeof(the_def.Version));
@@ -255,10 +255,10 @@ bool load_level(std::uint32_t level) {
         clist_count,
         thing_count,
         waypoint_count;
-    Command *the_command;
-    Condition *the_condition;
+    Command* the_command;
+    Condition* the_condition;
     MFFileHandle level_file;
-    Thing *current_thing;
+    Entity* current_thing;
 
     init_waypoints();
     init_clists();
@@ -420,7 +420,7 @@ bool load_level(std::uint32_t level) {
             }
 
             //
-            //	Remap all the Thing references.
+            //	Remap all the Entity references.
             //
             for (c0 = 1; c0 < MAX_THINGS; c0++) {
                 current_thing = TO_THING(c0);
@@ -464,7 +464,7 @@ bool load_level(std::uint32_t level) {
                         current_thing->Genus.Furniture->Command = COMMAND_NUMBER(com_lists[comlist_map[current_thing->Genus.Furniture->Command]].TheList);
 
                         if (current_thing->Genus.Furniture->Command) {
-                            struct Command *com = TO_COMMAND(current_thing->Genus.Furniture->Command);
+                            struct Command* com = TO_COMMAND(current_thing->Genus.Furniture->Command);
 
                             if (com->CommandType == COM_PATROL_WAYPOINT) {
                                 current_thing->Genus.Furniture->Waypoint = waypoint_map[com->Data1];

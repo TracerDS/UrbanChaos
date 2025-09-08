@@ -183,7 +183,7 @@ void MATRIX_3x3mul(float a[9], float m[9], float n[9]) {
         }                                                                \
     }
 
-void MATRIX_rotate_about_its_x(float *matrix, float angle) {
+void MATRIX_rotate_about_its_x(float* matrix, float angle) {
     MATRIX_ROTATE_ABOUT_Z(
         matrix[1], matrix[4], matrix[7],
         matrix[2], matrix[5], matrix[8],
@@ -191,7 +191,7 @@ void MATRIX_rotate_about_its_x(float *matrix, float angle) {
         -angle);
 }
 
-void MATRIX_rotate_about_its_y(float *matrix, float angle) {
+void MATRIX_rotate_about_its_y(float* matrix, float angle) {
     MATRIX_ROTATE_ABOUT_Z(
         matrix[2], matrix[5], matrix[8],
         matrix[0], matrix[3], matrix[6],
@@ -199,7 +199,7 @@ void MATRIX_rotate_about_its_y(float *matrix, float angle) {
         -angle);
 }
 
-void MATRIX_rotate_about_its_z(float *matrix, float angle) {
+void MATRIX_rotate_about_its_z(float* matrix, float angle) {
     MATRIX_ROTATE_ABOUT_Z(
         matrix[0], matrix[3], matrix[6],
         matrix[1], matrix[4], matrix[7],

@@ -108,7 +108,7 @@ void fini_workspace() {
 
 //---------------------------------------------------------------
 
-bool get_element_at_point(POINT *click_point, WSElement **the_element) {
+bool get_element_at_point(POINT* click_point, WSElement** the_element) {
     HTREEITEM item_handle;
     TV_HITTESTINFO hit_test;
     TV_ITEM the_item;
@@ -124,7 +124,7 @@ bool get_element_at_point(POINT *click_point, WSElement **the_element) {
             the_item.hItem = item_handle;
             the_item.mask = TVIF_PARAM;
             if (TreeView_GetItem(ws_tree, &the_item)) {
-                *the_element = (WSElement *) the_item.lParam;
+                *the_element = (WSElement*) the_item.lParam;
                 if (*the_element) {
                     last_clicked = item_handle;
                     return true;
@@ -137,9 +137,9 @@ bool get_element_at_point(POINT *click_point, WSElement **the_element) {
 
 //---------------------------------------------------------------
 
-void handle_ws_context(POINT *click_point) {
+void handle_ws_context(POINT* click_point) {
     HMENU ws_menu;
-    WSElement *the_element;
+    WSElement* the_element;
 
     //	Validate the parameters.
     if (ws_tree && click_point) {
@@ -163,10 +163,10 @@ void handle_ws_context(POINT *click_point) {
 
 //---------------------------------------------------------------
 
-bool handle_ws_dblclk(POINT *click_point) {
+bool handle_ws_dblclk(POINT* click_point) {
     //	char				item_text[_MAX_PATH];
     //	TV_ITEM				the_item;
-    WSElement *the_element;
+    WSElement* the_element;
     HTREEITEM next;
 
     //	Validate the parameters.
@@ -230,7 +230,7 @@ bool handle_ws_dblclk(POINT *click_point) {
 
 //---------------------------------------------------------------
 
-void handle_ws_select(WSElement *the_element) {
+void handle_ws_select(WSElement* the_element) {
     switch (the_element->ElementType) {
     case ET_NONE:
         break;
@@ -284,14 +284,14 @@ void handle_ws_select(WSElement *the_element) {
 //---------------------------------------------------------------
 
 void ws_add_map() {
-    char *text_buffer;
+    char* text_buffer;
     std::uint16_t item_count,
         new_map;
     HTREEITEM map_item;
     OPENFILENAME open_map;
     TV_INSERTSTRUCT tv_is;
     TV_ITEM map_info;
-    WSElement *new_element;
+    WSElement* new_element;
 
     //	Set up the open file structure.
     ZeroMemory(&open_map, sizeof(OPENFILENAME));
@@ -309,7 +309,7 @@ void ws_add_map() {
 
     if (GetOpenFileName(&open_map)) {
         //	Check to see if this map is part of the workspace.
-        text_buffer = (char *) malloc(_MAX_PATH);
+        text_buffer = (char*) malloc(_MAX_PATH);
         map_item = TreeView_GetChild(ws_tree, root_item.TreeItem);
         while (map_item) {
             map_info.mask = TVIF_TEXT;
@@ -430,7 +430,7 @@ void ws_new_mission() {
     map_item.hItem = map_handle;
     map_item.mask = TVIF_PARAM;
     TreeView_GetItem(ws_tree, &map_item);
-    map_element = (WSElement *) map_item.lParam;
+    map_element = (WSElement*) map_item.lParam;
 
     //	Now find a spare mission structure.
     new_mission = alloc_mission(map_element->MapRef);
@@ -496,7 +496,7 @@ void ws_add_light_map() {
     char temp[_MAX_PATH];
     OPENFILENAME open_map;
     TV_INSERTSTRUCT tv_is;
-    WSElement *new_element;
+    WSElement* new_element;
 
     //	Set up the open file structure.
     sprintf(current_mission->LightMapName, "*.lgt");
@@ -542,7 +542,7 @@ void ws_add_citsez_map() {
     char temp[_MAX_PATH];
     OPENFILENAME open_map;
     TV_INSERTSTRUCT tv_is;
-    WSElement *new_element;
+    WSElement* new_element;
 
     //	Set up the open file structure.
     sprintf(current_mission->CitSezMapName, "*.txt");
@@ -645,7 +645,7 @@ bool create_workspace() {
 bool close_workspace() {
     int result;
     std::uint16_t c0, c1;
-    Mission *the_mission;
+    Mission* the_mission;
     TV_ITEM set_item;
 
     if (workspace_changed) {
@@ -701,7 +701,7 @@ bool load_workspace(bool try_loading_default) {
         count,
         ep_count,
         size;
-    FILE *file_handle;
+    FILE* file_handle;
     HTREEITEM current_item,
         map_handle,
         mission_handle;
@@ -735,7 +735,7 @@ bool load_workspace(bool try_loading_default) {
     GetCurrentDirectory(_MAX_PATH, curr_directory);
 
     if (try_loading_default) {
-        FILE *handle = fopen("last_workspace.ini", "rb");
+        FILE* handle = fopen("last_workspace.ini", "rb");
 
         if (handle) {
             fread(workspace_path, 1, _MAX_PATH, handle);
@@ -780,7 +780,7 @@ bool load_workspace(bool try_loading_default) {
                 // Make this the default workspace to load next time.
                 //
 
-                FILE *handle = fopen("last_workspace.ini", "wb");
+                FILE* handle = fopen("last_workspace.ini", "wb");
 
                 if (handle) {
                     fwrite(workspace_path, 1, _MAX_PATH, handle);
@@ -843,7 +843,7 @@ bool load_workspace(bool try_loading_default) {
                 if (mission_pool[c0].Flags & MISSION_FLAG_USED) {
                     //  Fix changed stuff:
                     if (gm_vers < 4) {
-                        EventPoint *ep;
+                        EventPoint* ep;
                         for (c1 = 0, ep = mission_pool[c0].EventPoints; c1 < ep_count; c1++, ep++) {
                             if (ep->WaypointType == WPT_CREATE_ENEMIES) {
                                 ep->Data[0] = MAKELONG(ep->Data[0], ep->Data[1]);
@@ -864,7 +864,7 @@ bool load_workspace(bool try_loading_default) {
                         set_item.hItem = current_item;
                         set_item.mask = TVIF_PARAM;
                         TreeView_GetItem(ws_tree, &set_item);
-                        map_element = (WSElement *) set_item.lParam;
+                        map_element = (WSElement*) set_item.lParam;
                         if (map_element && mission_pool[c0].MapIndex == map_element->MapRef) {
                             map_handle = current_item;
                             break;
@@ -963,7 +963,7 @@ bool save_workspace() {
     std::uint8_t gm_vers;
     std::uint32_t c0, c1,
         data;
-    FILE *file_handle;
+    FILE* file_handle;
     //	EventPoint	*ep_base;
 
     //	Set the 'busy' cursor.
@@ -1004,7 +1004,7 @@ bool save_workspace() {
                 write_event_extra(file_handle, &mission_pool[c0].EventPoints[c1]);
 
             // Write out the zoning information
-            fwrite((void *) MissionZones[c0], 128 * 128, 1, file_handle);
+            fwrite((void*) MissionZones[c0], 128 * 128, 1, file_handle);
         }
 
         fclose(file_handle);
@@ -1043,7 +1043,7 @@ void remove_children(HTREEITEM parent) {
             TreeView_GetItem(ws_tree, &item_info);
 
             //	Delete the WSElement.
-            delete (WSElement *) item_info.lParam;
+            delete (WSElement*) item_info.lParam;
 
             //	Delete the tree item.
             TreeView_DeleteItem(ws_tree, parent);
@@ -1089,11 +1089,11 @@ void reset_wptlist() {
             */
 }
 
-void fill_wptlist(Mission *mish) {
+void fill_wptlist(Mission* mish) {
     std::int32_t ndx = mish->UsedEPoints;
-    EventPoint *ep_base = mish->EventPoints;
+    EventPoint* ep_base = mish->EventPoints;
 
-    EventPoint *ep;
+    EventPoint* ep;
 
     while (ndx) {
         ep = TO_EVENTPOINT(ep_base, ndx);
@@ -1107,7 +1107,7 @@ void fini_wptlist() {
 
 //---------------------------------------------------------------
 
-HTREEITEM ws_root_waypoint(char *msg, std::int32_t type, LPARAM param) {
+HTREEITEM ws_root_waypoint(char* msg, std::int32_t type, LPARAM param) {
     TV_INSERTSTRUCT tv_is;
 
     if (msg[0] == 0) {
@@ -1176,7 +1176,7 @@ HTREEITEM ws_find_child(HTREEITEM parent, LPARAM param) {
     return 0;
 }
 
-std::int32_t ws_image_from_type(EventPoint *ep) {
+std::int32_t ws_image_from_type(EventPoint* ep) {
     switch (ep->WaypointType) {
     case WPT_NONE:
     case WPT_SIMPLE:
@@ -1247,7 +1247,7 @@ std::int32_t ws_image_from_type(EventPoint *ep) {
     return -1;
 }
 
-std::int32_t ws_category_from_type(EventPoint *ep) {
+std::int32_t ws_category_from_type(EventPoint* ep) {
     switch (ep->WaypointType) {
         // misc
     case WPT_NONE:
@@ -1325,7 +1325,7 @@ std::int32_t ws_category_from_type(EventPoint *ep) {
     return -1;
 }
 
-void ws_add_waypoint(EventPoint *ep) {
+void ws_add_waypoint(EventPoint* ep) {
     HTREEITEM parent;
     std::int32_t code;
     TV_INSERTSTRUCT tv_is;
@@ -1361,7 +1361,7 @@ void ws_add_waypoint(EventPoint *ep) {
     }
 }
 
-void ws_set_waypoint(EventPoint *ep, char ndx) {
+void ws_set_waypoint(EventPoint* ep, char ndx) {
     //  HTREEITEM item;
 
     //  item=ws_find_child(0,ws_category_from_type(ep));
@@ -1380,7 +1380,7 @@ void ws_set_waypoint(EventPoint *ep, char ndx) {
       }*/
 }
 
-void ws_sel_waypoint(EventPoint *ep) {
+void ws_sel_waypoint(EventPoint* ep) {
     HTREEITEM item;
     if (!ep) {
         TreeView_SelectItem(wpt_tree, 0);
@@ -1393,7 +1393,7 @@ void ws_sel_waypoint(EventPoint *ep) {
     }
 }
 
-void ws_del_waypoint(EventPoint *ep) {
+void ws_del_waypoint(EventPoint* ep) {
     HTREEITEM parent, item;
     parent = ws_find_child(0, ws_category_from_type(ep));
     if (parent) {

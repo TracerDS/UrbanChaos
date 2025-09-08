@@ -49,7 +49,7 @@ void SHADOW_do() {
 
     std::int32_t which;
 
-    RoofFace4 *rf;
+    RoofFace4* rf;
 
     std::int32_t shadow[8] =
         {
@@ -172,12 +172,12 @@ void SHADOW_do() {
     {
         std::int32_t i;
 
-        PrimFace4 *f4;
+        PrimFace4* f4;
 
-        PrimPoint *p0;
-        PrimPoint *p1;
-        PrimPoint *p2;
-        PrimPoint *p3;
+        PrimPoint* p0;
+        PrimPoint* p1;
+        PrimPoint* p2;
+        PrimPoint* p3;
 
         std::int32_t x;
         std::int32_t y;

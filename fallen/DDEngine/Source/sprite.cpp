@@ -13,7 +13,7 @@ void SPRITE_draw_tex_distorted(
     std::uint32_t specular,
     std::int32_t page,
     std::int32_t sort,
-    SPRITE_draw_tex_distorted_params *pParams) {
+    SPRITE_draw_tex_distorted_params* pParams) {
 #define GET_FROM_PARAMS(argname) float argname = pParams->argname
     GET_FROM_PARAMS(u);
     GET_FROM_PARAMS(v);
@@ -47,7 +47,7 @@ void SPRITE_draw_tex_distorted(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     POLY_transform(
         world_x,
@@ -144,7 +144,7 @@ void SPRITE_draw(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     POLY_transform(
         world_x,
@@ -242,7 +242,7 @@ void SPRITE_draw_tex(
 
     POLY_Point mid;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     POLY_transform(
         world_x,

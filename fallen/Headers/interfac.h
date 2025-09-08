@@ -89,14 +89,14 @@
 // Functions
 //
 
-extern void apply_button_input(struct Thing *p_thing, std::int32_t input);
-extern void process_hardware_level_input_for_player(Thing *p_thing);
+extern void apply_button_input(struct Entity *p_thing, std::int32_t input);
+extern void process_hardware_level_input_for_player(Entity *p_thing);
 extern void init_user_interface();
-extern std::int32_t continue_action(Thing *p_person);
-extern std::int32_t continue_moveing(Thing *p_person);
-extern std::int32_t continue_firing(Thing *p_person);
-extern std::int32_t person_get_in_car(Thing *p_person); // Returns true if it finds a car and set the person's InCar field
-extern std::int32_t person_get_in_specific_car(Thing *p_person, Thing *p_vehicle);
+extern std::int32_t continue_action(Entity *p_person);
+extern std::int32_t continue_moveing(Entity *p_person);
+extern std::int32_t continue_firing(Entity *p_person);
+extern std::int32_t person_get_in_car(Entity *p_person); // Returns true if it finds a car and set the person's InCar field
+extern std::int32_t person_get_in_specific_car(Entity *p_person, Entity *p_vehicle);
 
 // Numbers to feed as "type" to get_hardware_input().
 #define INPUT_TYPE_KEY (1 << 0)

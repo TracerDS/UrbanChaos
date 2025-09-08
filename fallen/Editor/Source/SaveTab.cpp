@@ -30,7 +30,7 @@ SaveTab::SaveTab() {
     MapLevels();
 
     sprintf(lev_name, "Level %d", CurrentLevel);
-    ((CStaticText *) GetControlPtr(3))->SetString1(lev_name);
+    ((CStaticText*) GetControlPtr(3))->SetString1(lev_name);
 }
 
 //---------------------------------------------------------------
@@ -51,7 +51,7 @@ void SaveTab::DrawTabContent(void) {
 
 //---------------------------------------------------------------
 
-std::uint16_t SaveTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t SaveTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     char lev_name[32];
     std::uint16_t select_pos;
     MFPoint local_point;
@@ -66,7 +66,7 @@ std::uint16_t SaveTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point
         if (select_pos) {
             CurrentLevel = select_pos - 1;
             sprintf(lev_name, "Level %d", CurrentLevel);
-            ((CStaticText *) GetControlPtr(3))->SetString1(lev_name);
+            ((CStaticText*) GetControlPtr(3))->SetString1(lev_name);
         } else {
             local_point = *clicked_point;
             switch (HandleControlSetClick(flags, &local_point)) {
@@ -89,7 +89,7 @@ std::uint16_t SaveTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point
 
 //---------------------------------------------------------------
 
-void SaveTab::HandleTab(MFPoint *current_point) {
+void SaveTab::HandleTab(MFPoint* current_point) {
     std::uint8_t update = 0;
     std::uint16_t select_pos;
     MFPoint local_point;
@@ -187,7 +187,7 @@ void SaveTab::DrawLevelBox(void) {
 
 //---------------------------------------------------------------
 
-std::uint16_t SaveTab::LevelHilitePos(MFPoint *current_point) {
+std::uint16_t SaveTab::LevelHilitePos(MFPoint* current_point) {
     std::int32_t c0, c1,
         level_count = 0,
         x_offset,
@@ -258,10 +258,10 @@ void SaveTab::LoadLevel(void) {
     CommandListDef the_comlist_def;
     ConditionDef the_con_def;
     ConditionListDef the_conlist_def;
-    EditCommand *the_command;
-    EditComList *the_comlist;
-    EditCondition *the_condition;
-    EditCondList *the_conlist;
+    EditCommand* the_command;
+    EditComList* the_comlist;
+    EditCondition* the_condition;
+    EditCondList* the_conlist;
     MFFileHandle load_file;
     ThingDef the_t_def;
     WaypointDef the_w_def;
@@ -436,7 +436,7 @@ void SaveTab::LoadLevel(void) {
                 if (edit_conditions[c0].Used) {
                     the_condition = &edit_conditions[c0];
 
-                    //	Remap the Thing reference data.
+                    //	Remap the Entity reference data.
                     switch (the_condition->ConditionType) {
                     case CON_NONE:
                         break;
@@ -577,7 +577,7 @@ void SaveTab::LoadLevel(void) {
             }
 
             //
-            //	Remap Thing references.
+            //	Remap Entity references.
             //
             for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
                 if (map_things[c0].Type == MAP_THING_TYPE_ED_THING) {
@@ -639,8 +639,8 @@ void SaveTab::SaveLevel(void) {
     CommandListDef current_comlist;
     ConditionDef current_condition;
     ConditionListDef current_clist;
-    EditCommand *the_command;
-    EditCondition *the_condition;
+    EditCommand* the_command;
+    EditCondition* the_condition;
     MFFileHandle save_file;
     ThingDef current_thing;
     WaypointDef current_waypoint;

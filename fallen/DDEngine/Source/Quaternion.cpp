@@ -4,7 +4,7 @@
 #include "Quaternion.h"
 #include "..\headers\fmatrix.h"
 
-void QUATERNION_BuildTweenInteger(struct Matrix33 *dest, struct CMatrix33 *cm1, struct CMatrix33 *cm2, std::int32_t tween);
+void QUATERNION_BuildTweenInteger(struct Matrix33* dest, struct CMatrix33* cm1, struct CMatrix33* cm2, std::int32_t tween);
 
 // JCL 22/12/98
 // lots of code shamelessly ripped (and then fixed...) from the Gamasutra Web site.
@@ -13,7 +13,7 @@ void QUATERNION_BuildTweenInteger(struct Matrix33 *dest, struct CMatrix33 *cm1, 
 
 #define DELTA 0.05 //! guess????????????
 
-void QuatSlerp(CQuaternion *from, CQuaternion *to, float t, CQuaternion *res) {
+void QuatSlerp(CQuaternion* from, CQuaternion* to, float t, CQuaternion* res) {
     float to1[4];
     double omega, cosom, sinom, scale0, scale1;
 
@@ -59,7 +59,7 @@ void QuatSlerp(CQuaternion *from, CQuaternion *to, float t, CQuaternion *res) {
 }
 
 //***************************************************************************************************
-void QuatMul(CQuaternion *q1, CQuaternion *q2, CQuaternion *res) {
+void QuatMul(CQuaternion* q1, CQuaternion* q2, CQuaternion* res) {
     float A, B, C, D, E, F, G, H;
 
     A = (q1->w + q1->x) * (q2->w + q2->x);
@@ -78,7 +78,7 @@ void QuatMul(CQuaternion *q1, CQuaternion *q2, CQuaternion *res) {
 }
 
 //***************************************************************************************************
-void EulerToQuat(float roll, float pitch, float yaw, CQuaternion *quat) {
+void EulerToQuat(float roll, float pitch, float yaw, CQuaternion* quat) {
     float cr, cp, cy, sr, sp, sy, cpcy, spsy;
 
     // calculate trig identities
@@ -100,7 +100,7 @@ void EulerToQuat(float roll, float pitch, float yaw, CQuaternion *quat) {
 }
 
 //***************************************************************************************************
-void QuatToMatrix(CQuaternion *quat, FloatMatrix *fm) {
+void QuatToMatrix(CQuaternion* quat, FloatMatrix* fm) {
     float wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
 
     // calculate coefficients
@@ -131,7 +131,7 @@ void QuatToMatrix(CQuaternion *quat, FloatMatrix *fm) {
 }
 
 //***************************************************************************************************
-void MatrixToQuat(FloatMatrix *fm, CQuaternion *quat) {
+void MatrixToQuat(FloatMatrix* fm, CQuaternion* quat) {
     float tr, s, q[4];
     int i, j, k;
 
@@ -178,7 +178,7 @@ void MatrixToQuat(FloatMatrix *fm, CQuaternion *quat) {
 
 // temporary matrix conversion stuff
 
-void cmat_to_fmat(CMatrix33 *cm, FloatMatrix *fm) {
+void cmat_to_fmat(CMatrix33* cm, FloatMatrix* fm) {
     fm->M[0][0] = float(((cm->M[0] & CMAT0_MASK) >> 20)) / 512.f;
     fm->M[0][1] = float(((cm->M[0] & CMAT1_MASK) >> 10)) / 512.f;
     fm->M[0][2] = float(((cm->M[0] & CMAT2_MASK) >> 00)) / 512.f;
@@ -204,7 +204,7 @@ void cmat_to_fmat(CMatrix33 *cm, FloatMatrix *fm) {
 }
 
 //***************************************************************************************************
-void fmat_to_mat(FloatMatrix *fm, Matrix33 *m) {
+void fmat_to_mat(FloatMatrix* fm, Matrix33* m) {
     m->M[0][0] = std::int32_t(fm->M[0][0] * 32768.f);
     m->M[0][1] = std::int32_t(fm->M[0][1] * 32768.f);
     m->M[0][2] = std::int32_t(fm->M[0][2] * 32768.f);
@@ -225,7 +225,7 @@ bool is_unit(float a, float b, float c) {
     return (fabs(1.0 - (a * a + b * b + c * c)) < 0.01);
 }
 
-bool check_isonormal(FloatMatrix &m) {
+bool check_isonormal(FloatMatrix& m) {
     bool r = true;
 
     if ((m.M[0][0] == 0) && (m.M[0][1] == 0) && (m.M[0][2] == 0))
@@ -265,11 +265,11 @@ bool check_isonormal(FloatMatrix &m) {
     return true;
 }
 
-void build_tween_matrix(struct Matrix33 *mat, struct CMatrix33 *cmat1, struct CMatrix33 *cmat2, std::int32_t tween);
+void build_tween_matrix(struct Matrix33* mat, struct CMatrix33* cmat1, struct CMatrix33* cmat2, std::int32_t tween);
 
 // external stuff
 
-void CQuaternion::BuildTween(struct Matrix33 *dest, struct CMatrix33 *cm1, struct CMatrix33 *cm2, std::int32_t tween) {
+void CQuaternion::BuildTween(struct Matrix33* dest, struct CMatrix33* cm1, struct CMatrix33* cm2, std::int32_t tween) {
     //	* construct the quaternions from the compressed integer matrices
     //  * SLERP the quaternions using the tween value
     //  * construct a non-compressed integer matrix from the resulting quaternion
@@ -350,7 +350,7 @@ struct QuatInt {
 };
 
 //***************************************************************************************************
-void MatrixToQuatInteger(Matrix33 *m, QuatInt *quat) {
+void MatrixToQuatInteger(Matrix33* m, QuatInt* quat) {
     std::int32_t tr, s;
     std::int32_t q[4];
     std::int32_t i, j, k;
@@ -394,7 +394,7 @@ void MatrixToQuatInteger(Matrix33 *m, QuatInt *quat) {
 }
 
 //***************************************************************************************************
-void QuatToMatrixInteger(QuatInt *quat, Matrix33 *m) {
+void QuatToMatrixInteger(QuatInt* quat, Matrix33* m) {
     std::int32_t wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
 
     // calculate coefficients
@@ -443,7 +443,7 @@ void BuildACosTable() {
 //***************************************************************************************************
 #define DELTA_INT 1638
 
-void QuatSlerpInteger(QuatInt *from, QuatInt *to, std::int32_t tween, QuatInt *res) {
+void QuatSlerpInteger(QuatInt* from, QuatInt* to, std::int32_t tween, QuatInt* res) {
     std::int32_t to1[4];
     //    double	omega, cosom, sinom;
     std::int32_t omega, cosom, sinom;
@@ -500,7 +500,7 @@ void QuatSlerpInteger(QuatInt *from, QuatInt *to, std::int32_t tween, QuatInt *r
 }
 
 //***************************************************************************************************
-void cmat_to_mat(CMatrix33 *cm, Matrix33 *m) {
+void cmat_to_mat(CMatrix33* cm, Matrix33* m) {
     m->M[0][0] = ((cm->M[0] & CMAT0_MASK) >> 20) << 6;
     m->M[0][1] = ((cm->M[0] & CMAT1_MASK) >> 10) << 6;
     m->M[0][2] = ((cm->M[0] & CMAT2_MASK) >> 00) << 6;
@@ -526,7 +526,7 @@ void cmat_to_mat(CMatrix33 *cm, Matrix33 *m) {
 }
 
 //***************************************************************************************************
-bool check_isonormal_integer(Matrix33 &m) {
+bool check_isonormal_integer(Matrix33& m) {
     // check handedness
     std::int32_t x = (m.M[0][1] * m.M[1][2] - m.M[0][2] * m.M[1][1]) >> 15;
     std::int32_t y = (m.M[0][2] * m.M[1][0] - m.M[0][0] * m.M[1][2]) >> 15;
@@ -541,7 +541,7 @@ bool check_isonormal_integer(Matrix33 &m) {
 }
 
 //***************************************************************************************************
-void QUATERNION_BuildTweenInteger(struct Matrix33 *dest, struct CMatrix33 *cm1, struct CMatrix33 *cm2, std::int32_t tween) {
+void QUATERNION_BuildTweenInteger(struct Matrix33* dest, struct CMatrix33* cm1, struct CMatrix33* cm2, std::int32_t tween) {
     //	* construct the quaternions from the compressed integer matrices
     //  * SLERP the quaternions using the tween value
     //  * construct a non-compressed integer matrix from the resulting quaternion

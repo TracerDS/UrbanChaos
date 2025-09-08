@@ -6,10 +6,10 @@
 #include "back.h"
 #include "os.h"
 
-OS_Texture *BACK_ot_roper;
-OS_Texture *BACK_ot_darci;
-OS_Texture *BACK_ot_mib;
-OS_Texture *BACK_ot_line;
+OS_Texture* BACK_ot_roper;
+OS_Texture* BACK_ot_darci;
+OS_Texture* BACK_ot_mib;
+OS_Texture* BACK_ot_line;
 
 void BACK_init() {
     static std::int32_t done;
@@ -29,12 +29,12 @@ void BACK_init() {
 void BACK_draw() {
     std::uint32_t colour;
 
-    OS_Buffer *ob;
+    OS_Buffer* ob;
 
     float between = 0.0F;
 
-    OS_Texture *ot1;
-    OS_Texture *ot2;
+    OS_Texture* ot1;
+    OS_Texture* ot2;
 
     std::int32_t now = OS_ticks();
 

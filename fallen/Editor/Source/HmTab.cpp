@@ -69,8 +69,8 @@ void VD_transform(
     std::int32_t x_3d,
     std::int32_t y_3d,
     std::int32_t z_3d,
-    std::int32_t *x_2d,
-    std::int32_t *y_2d) {
+    std::int32_t* x_2d,
+    std::int32_t* y_2d) {
     std::int32_t xc;
     std::int32_t yc;
 
@@ -111,7 +111,7 @@ void VD_transform(
 // view.
 //
 
-void VD_untransform(std::int32_t x_2d, std::int32_t y_2d, std::int32_t *x_3d, std::int32_t *y_3d, std::int32_t *z_3d) {
+void VD_untransform(std::int32_t x_2d, std::int32_t y_2d, std::int32_t* x_3d, std::int32_t* y_3d, std::int32_t* z_3d) {
     std::int32_t xc;
     std::int32_t yc;
 
@@ -151,16 +151,16 @@ void VD_untransform(std::int32_t x_2d, std::int32_t y_2d, std::int32_t *x_3d, st
 // Saves all the prims with interesting info.
 //
 
-void HMTAB_save_primgrids(char *fname) {
+void HMTAB_save_primgrids(char* fname) {
     std::int32_t i;
     std::int32_t j;
 
-    HMTAB_Prim *hp;
+    HMTAB_Prim* hp;
 
     HM_Header hm_h;
     HM_Primgrid hm_pg;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(fname, "wb");
 
@@ -257,16 +257,16 @@ file_error:;
     return;
 }
 
-void HMTAB_load_primgrids(char *fname) {
+void HMTAB_load_primgrids(char* fname) {
     std::int32_t i;
     std::int32_t j;
 
-    HMTAB_Prim *hp;
+    HMTAB_Prim* hp;
 
     HM_Header hm_h;
     HM_Primgrid hm_pg;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(fname, "rb");
 
@@ -337,11 +337,11 @@ file_error:;
 void HmTab::draw_prim(std::uint16_t prim) {
     ASSERT(WITHIN(prim, 1, next_prim_object - 1));
 
-    PrimObject *po = &prim_objects[prim];
-    PrimPoint *pp1;
-    PrimPoint *pp2;
-    PrimFace3 *f3;
-    PrimFace4 *f4;
+    PrimObject* po = &prim_objects[prim];
+    PrimPoint* pp1;
+    PrimPoint* pp2;
+    PrimFace3* f3;
+    PrimFace4* f4;
 
     std::int32_t i;
     std::int32_t j;
@@ -456,9 +456,9 @@ void HmTab::draw_grid(std::uint16_t prim) {
     ASSERT(WITHIN(prim, 1, next_prim_object - 1));
     ASSERT(WITHIN(prim, 1, HMTAB_MAX_PRIMS - 1));
 
-    PrimInfo *pi = get_prim_info(prim);
-    PrimObject *po = &prim_objects[prim];
-    HMTAB_Prim *hp = &HMTAB_prim[prim];
+    PrimInfo* pi = get_prim_info(prim);
+    PrimObject* po = &prim_objects[prim];
+    HMTAB_Prim* hp = &HMTAB_prim[prim];
 
     if (!hp->defined) {
         //
@@ -719,9 +719,9 @@ void HmTab::draw_cog(std::uint16_t prim) {
     ASSERT(WITHIN(prim, 1, next_prim_object - 1));
     ASSERT(WITHIN(prim, 1, HMTAB_MAX_PRIMS - 1));
 
-    PrimInfo *pi = get_prim_info(prim);
-    PrimObject *po = &prim_objects[prim];
-    HMTAB_Prim *hp = &HMTAB_prim[prim];
+    PrimInfo* pi = get_prim_info(prim);
+    PrimObject* po = &prim_objects[prim];
+    HMTAB_Prim* hp = &HMTAB_prim[prim];
 
     if (!hp->defined) {
         //
@@ -842,9 +842,9 @@ std::int32_t move_point(std::uint16_t prim, std::int32_t mouse_x, std::int32_t m
     ASSERT(WITHIN(prim, 1, next_prim_object - 1));
     ASSERT(WITHIN(prim, 1, HMTAB_MAX_PRIMS - 1));
 
-    PrimInfo *pi = get_prim_info(prim);
-    PrimObject *po = &prim_objects[prim];
-    HMTAB_Prim *hp = &HMTAB_prim[prim];
+    PrimInfo* pi = get_prim_info(prim);
+    PrimObject* po = &prim_objects[prim];
+    HMTAB_Prim* hp = &HMTAB_prim[prim];
 
     if (!hp->defined) {
         //
@@ -1051,9 +1051,9 @@ ControlDef HMTab_def[] =
 // The parent of this tab.
 //
 
-EditorModule *HMTAB_parent;
+EditorModule* HMTAB_parent;
 
-HmTab::HmTab(EditorModule *parent) {
+HmTab::HmTab(EditorModule* parent) {
     //
     // Install our buttons.
     //
@@ -1113,7 +1113,7 @@ void HmTab::DrawTabContent() {
     ShowWorkWindow(0);
 }
 
-void HmTab::HandleTab(MFPoint *current_point) {
+void HmTab::HandleTab(MFPoint* current_point) {
     std::int32_t change = false;
 
     //
@@ -1162,9 +1162,9 @@ void HmTab::HandleTab(MFPoint *current_point) {
     }
 }
 
-std::uint16_t HmTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t HmTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     //
@@ -1242,7 +1242,7 @@ void HmTab::HandleControl(std::uint16_t control_id) {
 
     ASSERT(WITHIN(HMTAB_current_prim, 1, HMTAB_MAX_PRIMS - 1));
 
-    HMTAB_Prim *hp = &HMTAB_prim[HMTAB_current_prim];
+    HMTAB_Prim* hp = &HMTAB_prim[HMTAB_current_prim];
 
     old_x_res = hp->x_res;
     old_y_res = hp->y_res;
@@ -1370,7 +1370,7 @@ void HmTab::HandleControl(std::uint16_t control_id) {
 
         ASSERT(WITHIN(HMTAB_current_prim, 1, HMTAB_MAX_PRIMS - 1));
 
-        HMTAB_Prim *hp = &HMTAB_prim[HMTAB_current_prim];
+        HMTAB_Prim* hp = &HMTAB_prim[HMTAB_current_prim];
 
         if (!hp->defined) {
             hp->defined = 1;
@@ -1466,7 +1466,7 @@ void HmTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w, st
     SetWorkWindowBounds(wwx, wwy, www, wwh); // Restore clip rectangle.
 }
 
-std::int32_t HmTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t HmTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     std::int32_t mouse_x;
     std::int32_t mouse_y;
 

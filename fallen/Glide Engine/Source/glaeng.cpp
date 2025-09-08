@@ -312,7 +312,7 @@ void AENG_draw()
 	MapElement *me;
 
 	THING_INDEX t_index;
-	Thing      *p_thing;
+	Entity      *p_thing;
 
 	POLY_Point *tri [3];
 	POLY_Point *quad[4];
@@ -405,7 +405,7 @@ void AENG_draw()
 	//
 
 	{
-		Thing *darci = NET_PERSON(0);
+		Entity *darci = NET_PERSON(0);
 		std::uint8_t *bitmap;
 		std::uint8_t  u_res;
 		std::uint8_t  v_res;
@@ -502,7 +502,7 @@ void AENG_draw()
 		std::int32_t face_height;
 		std::uint8_t face_order[4] = {0,1,3,2};
 
-		Thing *p_fthing;
+		Entity *p_fthing;
 
 		//
 		// Colvect we have already done.

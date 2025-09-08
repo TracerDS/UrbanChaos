@@ -15,8 +15,8 @@ EditCondList edit_clists[MAX_EDIT_CLISTS],
     *win_conditions,
     *lose_conditions;
 
-void add_clist(EditCondList *the_clist);
-void remove_clist(EditCondList *the_clist);
+void add_clist(EditCondList* the_clist);
+void remove_clist(EditCondList* the_clist);
 
 //---------------------------------------------------------------
 
@@ -31,9 +31,9 @@ void init_ed_clists() {
 
 //---------------------------------------------------------------
 
-EditCondList *alloc_ed_clist() {
+EditCondList* alloc_ed_clist() {
     std::uint16_t c0;
-    EditCondList *the_clist;
+    EditCondList* the_clist;
 
     for (c0 = 1; c0 < MAX_EDIT_CLISTS; c0++) {
         if (!edit_clists[c0].Used) {
@@ -56,8 +56,8 @@ EditCondList *alloc_ed_clist() {
 
 //---------------------------------------------------------------
 
-void free_ed_clist(EditCondList *the_clist) {
-    EditCondition *current_condition;
+void free_ed_clist(EditCondList* the_clist) {
+    EditCondition* current_condition;
 
     //	Firstly remove all conditions.
     current_condition = the_clist->ConditionList;
@@ -77,7 +77,7 @@ void free_ed_clist(EditCondList *the_clist) {
 
 //---------------------------------------------------------------
 
-void add_clist(EditCondList *the_clist) {
+void add_clist(EditCondList* the_clist) {
     //	Add to list.
     the_clist->Prev = clists_end;
     the_clist->Next = nullptr;
@@ -94,7 +94,7 @@ void add_clist(EditCondList *the_clist) {
 
 //---------------------------------------------------------------
 
-void remove_clist(EditCondList *the_clist) {
+void remove_clist(EditCondList* the_clist) {
     EditCondList *next_clist,
         *prev_clist;
 
@@ -115,7 +115,7 @@ void remove_clist(EditCondList *the_clist) {
 
 //---------------------------------------------------------------
 
-void add_condition(EditCondList *the_clist, EditCondition *the_condition) {
+void add_condition(EditCondList* the_clist, EditCondition* the_condition) {
     if (!the_clist || !the_condition) {
         // Error.
         return;
@@ -139,7 +139,7 @@ void add_condition(EditCondList *the_clist, EditCondition *the_condition) {
 
 //---------------------------------------------------------------
 
-void remove_condition(EditCondList *the_clist, EditCondition *the_condition) {
+void remove_condition(EditCondList* the_clist, EditCondition* the_condition) {
     EditCondition *next_condition,
         *prev_condition;
 
@@ -162,7 +162,7 @@ void remove_condition(EditCondList *the_clist, EditCondition *the_condition) {
 
 //---------------------------------------------------------------
 
-void move_condition(EditCondList *the_clist, EditCondition *insert_point, EditCondition *the_condition) {
+void move_condition(EditCondList* the_clist, EditCondition* insert_point, EditCondition* the_condition) {
 }
 
 //---------------------------------------------------------------
@@ -181,9 +181,9 @@ void init_ed_conditions() {
 
 //---------------------------------------------------------------
 
-EditCondition *alloc_ed_condition() {
+EditCondition* alloc_ed_condition() {
     std::uint16_t c0;
-    EditCondition *the_condition;
+    EditCondition* the_condition;
 
     for (c0 = 1; c0 < MAX_EDIT_CONDITIONS; c0++) {
         if (edit_conditions[c0].Used == false) {
@@ -206,7 +206,7 @@ EditCondition *alloc_ed_condition() {
 
 //---------------------------------------------------------------
 
-void free_ed_condition(EditCondition *the_condition) {
+void free_ed_condition(EditCondition* the_condition) {
     the_condition->Used = false;
     ed_condition_count--;
 }
@@ -220,8 +220,8 @@ EditComList edit_comlists[MAX_EDIT_COMLISTS],
     *comlists,
     *comlists_end;
 
-void add_comlist(EditComList *the_comlist);
-void remove_comlist(EditComList *the_comlist);
+void add_comlist(EditComList* the_comlist);
+void remove_comlist(EditComList* the_comlist);
 
 //---------------------------------------------------------------
 
@@ -236,9 +236,9 @@ void init_ed_comlists() {
 
 //---------------------------------------------------------------
 
-EditComList *alloc_ed_comlist() {
+EditComList* alloc_ed_comlist() {
     std::uint16_t c0;
-    EditComList *the_comlist;
+    EditComList* the_comlist;
 
     for (c0 = 1; c0 < MAX_EDIT_COMLISTS; c0++) {
         if (!edit_comlists[c0].Used) {
@@ -261,8 +261,8 @@ EditComList *alloc_ed_comlist() {
 
 //---------------------------------------------------------------
 
-void free_ed_comlist(EditComList *the_comlist) {
-    EditCommand *current_command;
+void free_ed_comlist(EditComList* the_comlist) {
+    EditCommand* current_command;
 
     //	Firstly remove all commands.
     current_command = the_comlist->CommandList;
@@ -282,7 +282,7 @@ void free_ed_comlist(EditComList *the_comlist) {
 
 //---------------------------------------------------------------
 
-void add_comlist(EditComList *the_comlist) {
+void add_comlist(EditComList* the_comlist) {
     //	Add to list.
     the_comlist->Prev = comlists_end;
     the_comlist->Next = nullptr;
@@ -299,7 +299,7 @@ void add_comlist(EditComList *the_comlist) {
 
 //---------------------------------------------------------------
 
-void remove_comlist(EditComList *the_comlist) {
+void remove_comlist(EditComList* the_comlist) {
     EditComList *next_comlist,
         *prev_comlist;
 
@@ -320,7 +320,7 @@ void remove_comlist(EditComList *the_comlist) {
 
 //---------------------------------------------------------------
 
-void add_command(EditComList *the_comlist, EditCommand *the_command) {
+void add_command(EditComList* the_comlist, EditCommand* the_command) {
     if (!the_comlist || !the_command) {
         // Error.
         return;
@@ -344,7 +344,7 @@ void add_command(EditComList *the_comlist, EditCommand *the_command) {
 
 //---------------------------------------------------------------
 
-void remove_command(EditComList *the_comlist, EditCommand *the_command) {
+void remove_command(EditComList* the_comlist, EditCommand* the_command) {
     EditCommand *next_command,
         *prev_command;
 
@@ -367,7 +367,7 @@ void remove_command(EditComList *the_comlist, EditCommand *the_command) {
 
 //---------------------------------------------------------------
 
-void move_command(EditComList *the_comlist, EditCommand *insert_point, EditCommand *the_command) {
+void move_command(EditComList* the_comlist, EditCommand* insert_point, EditCommand* the_command) {
 }
 
 //---------------------------------------------------------------
@@ -386,9 +386,9 @@ void init_ed_commands() {
 
 //---------------------------------------------------------------
 
-EditCommand *alloc_ed_command() {
+EditCommand* alloc_ed_command() {
     std::uint16_t c0;
-    EditCommand *the_command;
+    EditCommand* the_command;
 
     for (c0 = 1; c0 < MAX_EDIT_COMMANDS; c0++) {
         if (edit_commands[c0].Used == false) {
@@ -411,7 +411,7 @@ EditCommand *alloc_ed_command() {
 
 //---------------------------------------------------------------
 
-void free_ed_command(EditCommand *the_command) {
+void free_ed_command(EditCommand* the_command) {
     the_command->Used = false;
     ed_command_count--;
 }

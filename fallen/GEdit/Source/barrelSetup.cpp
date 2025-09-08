@@ -60,7 +60,7 @@ bool CALLBACK barrel_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void do_barrel_setup(EventPoint *the_ep) {
+void do_barrel_setup(EventPoint* the_ep) {
     //	Set the dialog.
     barrel_type = the_ep->Data[0];
 

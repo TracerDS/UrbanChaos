@@ -17,8 +17,8 @@
 
 //---------------------------------------------------------------
 
-extern char *class_text[];
-extern char *genus_text[][10];
+extern char* class_text[];
+extern char* genus_text[][10];
 
 //---------------------------------------------------------------
 
@@ -145,7 +145,7 @@ void GameEditor::DrawContent() {
 
 extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
-void GameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
+void GameEditor::HandleContentClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t new_thing;
     std::int32_t mappos;
 
@@ -285,7 +285,7 @@ void GameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) 
 
 //---------------------------------------------------------------
 
-void GameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) {
+void GameEditor::HandleControlClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
 
     if (CurrentModeTab()) {
@@ -482,11 +482,11 @@ MenuDef2 block_popup[] =
         {"Place Waypoint"},
         {"!"}};
 
-void GameEditor::DoBlockPopup(MFPoint *clicked_point) {
+void GameEditor::DoBlockPopup(MFPoint* clicked_point) {
     std::uint16_t new_wp;
     std::uint32_t control_id;
     std::int32_t mappos;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
 
     local_point = *clicked_point;
@@ -519,7 +519,7 @@ void GameEditor::DoBlockPopup(MFPoint *clicked_point) {
 static ControlDef thing_popup_def = {POPUP_MENU, 0, ""};
 MenuDef2 thing_popup[] =
     {
-        {"Delete Thing"},
+        {"Delete Entity"},
         {"^"},
         {"Snap to Floor"},
         {"Snap to Surface"},
@@ -527,12 +527,12 @@ MenuDef2 thing_popup[] =
         {"Link to Waypoint"},
         {"!"}};
 
-void GameEditor::DoThingPopup(MFPoint *clicked_point) {
+void GameEditor::DoThingPopup(MFPoint* clicked_point) {
     std::uint32_t control_id;
     std::int32_t thing_x,
         thing_y,
         thing_z;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
 
     local_point = *clicked_point;
@@ -550,7 +550,7 @@ void GameEditor::DoThingPopup(MFPoint *clicked_point) {
     switch (control_id >> 8) {
     case 0: // Null.
         break;
-    case 1: // Delete Thing.
+    case 1: // Delete Entity.
         delete_thing(HilitedItem.ItemRef);
         HilitedItem.ItemType = ED_ITEM_NONE;
         SelectedItem.ItemType = ED_ITEM_NONE;
@@ -583,7 +583,7 @@ void GameEditor::HandleWaypointDrag() {
         new_z,
         x_diff,
         y_diff;
-    EditWaypoint *the_wp;
+    EditWaypoint* the_wp;
 
     the_wp = &edit_waypoints[HilitedItem.ItemRef];
     if (ShiftFlag) {
@@ -643,11 +643,11 @@ MenuDef2 way_popup[] =
         {"Snap to Surface"},
         {"!"}};
 
-void GameEditor::DoWaypointPopup(MFPoint *clicked_point) {
+void GameEditor::DoWaypointPopup(MFPoint* clicked_point) {
     std::uint16_t new_wp;
     std::uint32_t control_id;
     std::int32_t c0, mappos;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
 
     local_point = *clicked_point;
@@ -738,7 +738,7 @@ void GameEditor::HandleSizeDrag() {
 
 #define MAX_RADIUS (24)
 extern TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
-extern TinyXZ *radius_ptr[MAX_RADIUS + 2];
+extern TinyXZ* radius_ptr[MAX_RADIUS + 2];
 std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y, std::int32_t z);
 
 void GameEditor::GameEdEngine() {
@@ -751,14 +751,14 @@ void GameEditor::GameEdEngine() {
         flag_and, flag_or,
         mx, my, mz,
         radius;
-    MapThing *p_mthing;
+    MapThing* p_mthing;
     SVector base_point,
         new_point,
         point,
         buffer_points[MAX_RADIUS * (MAX_RADIUS + 1) * 4],
         wp_points[MAX_EDIT_WAYPOINTS],
         *ptr;
-    TinyXZ *ptr_rad;
+    TinyXZ* ptr_rad;
 
     current_bucket_pool = bucket_pool;
 
@@ -776,19 +776,19 @@ void GameEditor::GameEdEngine() {
             point.Y = edit_waypoints[c0].Y;
             point.Z = edit_waypoints[c0].Z;
             if (!(rotate_point_gte(&point, &wp_points[c0]) & EF_CLIPFLAGS)) {
-                ((BucketWaypoint *) current_bucket_pool)->BucketType = BT_WAYPOINT;
-                ((BucketWaypoint *) current_bucket_pool)->X = wp_points[c0].X;
-                ((BucketWaypoint *) current_bucket_pool)->Y = wp_points[c0].Y;
-                ((BucketWaypoint *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_WAYPOINT;
-                ((BucketWaypoint *) current_bucket_pool)->EditRef.ItemRef = c0;
+                ((BucketWaypoint*) current_bucket_pool)->BucketType = BT_WAYPOINT;
+                ((BucketWaypoint*) current_bucket_pool)->X = wp_points[c0].X;
+                ((BucketWaypoint*) current_bucket_pool)->Y = wp_points[c0].Y;
+                ((BucketWaypoint*) current_bucket_pool)->EditRef.ItemType = ED_ITEM_WAYPOINT;
+                ((BucketWaypoint*) current_bucket_pool)->EditRef.ItemRef = c0;
 
                 base_point = point;
                 base_point.Y = calc_height_at(base_point.X, base_point.Z);
                 rotate_point_gte(&base_point, &new_point);
-                ((BucketWaypoint *) current_bucket_pool)->BaseX = new_point.X;
-                ((BucketWaypoint *) current_bucket_pool)->BaseY = new_point.Y;
+                ((BucketWaypoint*) current_bucket_pool)->BaseX = new_point.X;
+                ((BucketWaypoint*) current_bucket_pool)->BaseY = new_point.Y;
 
-                add_bucket((void *) current_bucket_pool, new_point.Z - 300);
+                add_bucket((void*) current_bucket_pool, new_point.Z - 300);
                 current_bucket_pool += sizeof(BucketWaypoint);
             }
         }
@@ -800,18 +800,18 @@ void GameEditor::GameEdEngine() {
             if (current_bucket_pool >= end_bucket_pool)
                 goto exit;
 
-            ((BucketLine *) current_bucket_pool)->BucketType = BT_LINE;
-            ((BucketLine *) current_bucket_pool)->X1 = wp_points[c0].X;
-            ((BucketLine *) current_bucket_pool)->Y1 = wp_points[c0].Y;
-            ((BucketLine *) current_bucket_pool)->X2 = wp_points[edit_waypoints[c0].Next].X;
-            ((BucketLine *) current_bucket_pool)->Y2 = wp_points[edit_waypoints[c0].Next].Y;
+            ((BucketLine*) current_bucket_pool)->BucketType = BT_LINE;
+            ((BucketLine*) current_bucket_pool)->X1 = wp_points[c0].X;
+            ((BucketLine*) current_bucket_pool)->Y1 = wp_points[c0].Y;
+            ((BucketLine*) current_bucket_pool)->X2 = wp_points[edit_waypoints[c0].Next].X;
+            ((BucketLine*) current_bucket_pool)->Y2 = wp_points[edit_waypoints[c0].Next].Y;
 
-            add_bucket((void *) current_bucket_pool, 1);
+            add_bucket((void*) current_bucket_pool, 1);
             current_bucket_pool += sizeof(BucketLine);
         }
     }
 
-    memset((std::uint8_t *) buffer_flags, 0, MAX_RADIUS * (MAX_RADIUS + 1) * 4 * 4);
+    memset((std::uint8_t*) buffer_flags, 0, MAX_RADIUS * (MAX_RADIUS + 1) * 4 * 4);
     ptr = &buffer_points[MAX_RADIUS + MAX_RADIUS * MAX_RADIUS * 2];
 
     point.X = (mx << ELE_SHIFT);
@@ -891,17 +891,17 @@ void GameEditor::GameEdEngine() {
                         base_point = point;
                         base_point.Y = calc_height_at(base_point.X, base_point.Z);
                         rotate_point_gte(&base_point, &new_point);
-                        ((BucketMapThing *) current_bucket_pool)->BaseX = new_point.X;
-                        ((BucketMapThing *) current_bucket_pool)->BaseY = new_point.Y;
+                        ((BucketMapThing*) current_bucket_pool)->BaseX = new_point.X;
+                        ((BucketMapThing*) current_bucket_pool)->BaseY = new_point.Y;
 
                         rotate_point_gte(&point, &new_point);
-                        ((BucketMapThing *) current_bucket_pool)->BucketType = BT_MAP_THING;
-                        ((BucketMapThing *) current_bucket_pool)->X = new_point.X;
-                        ((BucketMapThing *) current_bucket_pool)->Y = new_point.Y;
-                        ((BucketMapThing *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_THING;
-                        ((BucketMapThing *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+                        ((BucketMapThing*) current_bucket_pool)->BucketType = BT_MAP_THING;
+                        ((BucketMapThing*) current_bucket_pool)->X = new_point.X;
+                        ((BucketMapThing*) current_bucket_pool)->Y = new_point.Y;
+                        ((BucketMapThing*) current_bucket_pool)->EditRef.ItemType = ED_ITEM_THING;
+                        ((BucketMapThing*) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
 
-                        add_bucket((void *) current_bucket_pool, new_point.Z - 300);
+                        add_bucket((void*) current_bucket_pool, new_point.Z - 300);
                         current_bucket_pool += sizeof(BucketMapThing);
 
                         // Do the size thing for switches.
@@ -909,15 +909,15 @@ void GameEditor::GameEdEngine() {
                             if (current_bucket_pool >= end_bucket_pool)
                                 goto exit;
 
-                            ((BucketSphereArea *) current_bucket_pool)->BucketType = BT_SPHERE_AREA;
-                            ((BucketSphereArea *) current_bucket_pool)->X = new_point.X;
-                            ((BucketSphereArea *) current_bucket_pool)->Y = new_point.Y;
-                            ((BucketSphereArea *) current_bucket_pool)->Radius = (p_mthing->Data[0] * EdEngine.Scale) >> 11;
-                            ((BucketSphereArea *) current_bucket_pool)->ShowSizeHook = true;
-                            ((BucketSphereArea *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_SIZE_HOOK;
-                            ((BucketSphereArea *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+                            ((BucketSphereArea*) current_bucket_pool)->BucketType = BT_SPHERE_AREA;
+                            ((BucketSphereArea*) current_bucket_pool)->X = new_point.X;
+                            ((BucketSphereArea*) current_bucket_pool)->Y = new_point.Y;
+                            ((BucketSphereArea*) current_bucket_pool)->Radius = (p_mthing->Data[0] * EdEngine.Scale) >> 11;
+                            ((BucketSphereArea*) current_bucket_pool)->ShowSizeHook = true;
+                            ((BucketSphereArea*) current_bucket_pool)->EditRef.ItemType = ED_ITEM_SIZE_HOOK;
+                            ((BucketSphereArea*) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
 
-                            add_bucket((void *) current_bucket_pool, 1);
+                            add_bucket((void*) current_bucket_pool, 1);
                             current_bucket_pool += sizeof(BucketSphereArea);
                         }
 
@@ -926,14 +926,14 @@ void GameEditor::GameEdEngine() {
                             if (current_bucket_pool >= end_bucket_pool)
                                 goto exit;
 
-                            ((BucketLine *) current_bucket_pool)->BucketType = BT_LINE;
-                            ((BucketLine *) current_bucket_pool)->X1 = new_point.X;
-                            ((BucketLine *) current_bucket_pool)->Y1 = new_point.Y;
+                            ((BucketLine*) current_bucket_pool)->BucketType = BT_LINE;
+                            ((BucketLine*) current_bucket_pool)->X1 = new_point.X;
+                            ((BucketLine*) current_bucket_pool)->Y1 = new_point.Y;
 
-                            ((BucketLine *) current_bucket_pool)->X2 = wp_points[p_mthing->CommandRef].X;
-                            ((BucketLine *) current_bucket_pool)->Y2 = wp_points[p_mthing->CommandRef].Y;
+                            ((BucketLine*) current_bucket_pool)->X2 = wp_points[p_mthing->CommandRef].X;
+                            ((BucketLine*) current_bucket_pool)->Y2 = wp_points[p_mthing->CommandRef].Y;
 
-                            add_bucket((void *) current_bucket_pool, 1);
+                            add_bucket((void*) current_bucket_pool, 1);
                             current_bucket_pool += sizeof(BucketLine);
                         }
                         break;
@@ -949,7 +949,7 @@ void GameEditor::GameEdEngine() {
                     if (((flag_or & EF_BEHIND_YOU) == 0) && !(flag_and & EF_CLIPFLAGS) && (flag_and & EF_TRANSLATED)) {
                         std::uint8_t tx, ty, tsize, page;
                         std::int32_t az;
-                        DepthStrip *p_map;
+                        DepthStrip* p_map;
 
                         if (current_bucket_pool >= end_bucket_pool)
                             goto exit;
@@ -963,49 +963,49 @@ void GameEditor::GameEdEngine() {
                             POLY_GT);
 
                         setCol4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             1);
 
                         setXY4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             buffer_points[dx + dz * MAX_RADIUS * 2].X, buffer_points[dx + dz * MAX_RADIUS * 2].Y,
                             buffer_points[dx + dz * MAX_RADIUS * 2 + 1].X, buffer_points[dx + dz * MAX_RADIUS * 2 + 1].Y,
                             buffer_points[dx + (dz + 1) * MAX_RADIUS * 2].X, buffer_points[dx + (dz + 1) * MAX_RADIUS * 2].Y,
                             buffer_points[dx + (dz + 1) * MAX_RADIUS * 2 + 1].X, buffer_points[dx + (dz + 1) * MAX_RADIUS * 2 + 1].Y);
 
                         p_map = &edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)];
-                        tx = ((struct MiniTextureBits *) (&p_map->Texture))->X << 5;
-                        ty = ((struct MiniTextureBits *) (&p_map->Texture))->Y << 5;
-                        page = ((struct MiniTextureBits *) (&p_map->Texture))->Page;
+                        tx = ((struct MiniTextureBits*) (&p_map->Texture))->X << 5;
+                        ty = ((struct MiniTextureBits*) (&p_map->Texture))->Y << 5;
+                        page = ((struct MiniTextureBits*) (&p_map->Texture))->Page;
                         tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&p_map->Texture))->Size]-1;
-                        switch (((struct MiniTextureBits *) (&p_map->Texture))->Rot) {
+                        switch (((struct MiniTextureBits*) (&p_map->Texture))->Rot) {
                         case 0:
-                            setUV4((struct BucketQuad *) current_bucket_pool, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
+                            setUV4((struct BucketQuad*) current_bucket_pool, tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize, page);
                             break;
                         case 1:
-                            setUV4((struct BucketQuad *) current_bucket_pool, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
+                            setUV4((struct BucketQuad*) current_bucket_pool, tx + tsize, ty, tx + tsize, ty + tsize, tx, ty, tx, ty + tsize, page);
                             break;
                         case 2:
-                            setUV4((struct BucketQuad *) current_bucket_pool, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
+                            setUV4((struct BucketQuad*) current_bucket_pool, tx + tsize, ty + tsize, tx, ty + tsize, tx + tsize, ty, tx, ty, page);
                             break;
                         case 3:
-                            setUV4((struct BucketQuad *) current_bucket_pool, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
+                            setUV4((struct BucketQuad*) current_bucket_pool, tx, ty + tsize, tx, ty, tx + tsize, ty + tsize, tx + tsize, ty, page);
                             break;
                         }
 
-                        setZ4((struct BucketQuad *) current_bucket_pool, az, 0, 0, 0);
+                        setZ4((struct BucketQuad*) current_bucket_pool, az, 0, 0, 0);
 
-                        setShade4((BucketQuad *) current_bucket_pool,
+                        setShade4((BucketQuad*) current_bucket_pool,
                                   edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS)].Bright,
                                   edit_map[(dx + mx - MAX_RADIUS + 1)][(dz + mz - MAX_RADIUS)].Bright,
                                   edit_map[(dx + mx - MAX_RADIUS)][(dz + mz - MAX_RADIUS + 1)].Bright,
                                   edit_map[(dx + mx - MAX_RADIUS + 1)][(dz + mz - MAX_RADIUS + 1)].Bright);
 
-                        ((BucketQuad *) current_bucket_pool)->DebugInfo = az;
-                        ((BucketQuad *) current_bucket_pool)->DebugFlags = 0;
-                        ((BucketQuad *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_MAP_BLOCK;
-                        ((BucketQuad *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
-                        add_bucket((void *) current_bucket_pool, az + 300);
+                        ((BucketQuad*) current_bucket_pool)->DebugInfo = az;
+                        ((BucketQuad*) current_bucket_pool)->DebugFlags = 0;
+                        ((BucketQuad*) current_bucket_pool)->EditRef.ItemType = ED_ITEM_MAP_BLOCK;
+                        ((BucketQuad*) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+                        add_bucket((void*) current_bucket_pool, az + 300);
 
                         current_bucket_pool += sizeof(struct BucketQuad);
                     }
@@ -1033,9 +1033,9 @@ std::int32_t GameEditor::DrawFacet(std::uint16_t facet_index, std::int32_t x, st
                  c0,
                  facet_flags,
                  sp, mp, ep;
-    BuildingFacet *p_facet;
-    PrimFace3 *p_f3;
-    PrimFace4 *p_f4;
+    BuildingFacet* p_facet;
+    PrimFace3* p_f3;
+    PrimFace4* p_f4;
 
     p_facet = &building_facets[facet_index];
     facet_flags = p_facet->FacetFlags;
@@ -1070,8 +1070,8 @@ std::int32_t GameEditor::DrawFacet(std::uint16_t facet_index, std::int32_t x, st
     }
     for (c0 = mp; c0 < ep; c0++) {
         // transform all points for this Object
-        global_flags[c0 - sp] = rotate_point_gte((struct SVector *) &prim_points[c0], &global_res[c0 - sp]);
-        global_bright[c0 - sp] = calc_lights(x, y, z, (struct SVector *) &prim_points[c0]);
+        global_flags[c0 - sp] = rotate_point_gte((struct SVector*) &prim_points[c0], &global_res[c0 - sp]);
+        global_bright[c0 - sp] = calc_lights(x, y, z, (struct SVector*) &prim_points[c0]);
     }
     engine.X += x << 8;
     engine.Y += y << 8;
@@ -1105,11 +1105,11 @@ std::int32_t GameEditor::DrawFacet(std::uint16_t facet_index, std::int32_t x, st
                     p_f4->DrawFlags);
 
                 setCol4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     ((std::uint8_t) p_f4->Col2));
 
                 setXY4(
-                    (struct BucketQuad *) current_bucket_pool,
+                    (struct BucketQuad*) current_bucket_pool,
                     global_res[p0].X, global_res[p0].Y,
                     global_res[p1].X, global_res[p1].Y,
                     global_res[p2].X, global_res[p2].Y,
@@ -1118,27 +1118,27 @@ std::int32_t GameEditor::DrawFacet(std::uint16_t facet_index, std::int32_t x, st
                 // RUD
                 if (p_f4->DrawFlags & POLY_FLAG_TEXTURED) {
                     setUV4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         p_f4->UV[0][0], p_f4->UV[0][1],
                         p_f4->UV[1][0], p_f4->UV[1][1],
                         p_f4->UV[2][0], p_f4->UV[2][1],
                         p_f4->UV[3][0], p_f4->UV[3][1],
                         (std::uint8_t) p_f4->TexturePage);
                 }
-                setZ4((struct BucketQuad *) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z, global_res[p3].Z);
+                setZ4((struct BucketQuad*) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z, global_res[p3].Z);
 
-                setShade4((struct BucketQuad *) current_bucket_pool,
+                setShade4((struct BucketQuad*) current_bucket_pool,
                           CLIP256(p_f4->Bright[0] + global_bright[p0]),
                           CLIP256(p_f4->Bright[1] + global_bright[p1]),
                           CLIP256(p_f4->Bright[2] + global_bright[p2]),
                           CLIP256(p_f4->Bright[3] + global_bright[p3]));
 
-                ((BucketQuad *) current_bucket_pool)->DebugInfo = az;
-                ((BucketQuad *) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
-                ((BucketQuad *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_BUILDING;
-                ((BucketQuad *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+                ((BucketQuad*) current_bucket_pool)->DebugInfo = az;
+                ((BucketQuad*) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
+                ((BucketQuad*) current_bucket_pool)->EditRef.ItemType = ED_ITEM_BUILDING;
+                ((BucketQuad*) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
                 current_bucket_pool += sizeof(struct BucketQuad);
             } else {
                 if (flag_and & EF_OFF_LEFT)
@@ -1180,11 +1180,11 @@ std::int32_t GameEditor::DrawFacet(std::uint16_t facet_index, std::int32_t x, st
                         p_f3->DrawFlags);
 
                     setCol3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         p_f3->Col2);
 
                     setXY3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         global_res[p0].X, global_res[p0].Y,
                         global_res[p1].X, global_res[p1].Y,
                         global_res[p2].X, global_res[p2].Y);
@@ -1192,26 +1192,26 @@ std::int32_t GameEditor::DrawFacet(std::uint16_t facet_index, std::int32_t x, st
                     // RUD
                     if (p_f3->DrawFlags & POLY_FLAG_TEXTURED) {
                         setUV3(
-                            (struct BucketTri *) current_bucket_pool,
+                            (struct BucketTri*) current_bucket_pool,
                             p_f3->UV[0][0], p_f3->UV[0][1],
                             p_f3->UV[1][0], p_f3->UV[1][1],
                             p_f3->UV[2][0], p_f3->UV[2][1],
                             p_f3->TexturePage);
                     }
 
-                    setShade3((struct BucketTri *) current_bucket_pool,
+                    setShade3((struct BucketTri*) current_bucket_pool,
                               CLIP256(p_f3->Bright[0] + global_bright[p0]),
                               CLIP256(p_f3->Bright[1] + global_bright[p1]),
                               CLIP256(p_f3->Bright[2] + global_bright[p2]));
 
-                    setZ3((struct BucketQuad *) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z);
+                    setZ3((struct BucketQuad*) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z);
 
-                    ((BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                    ((BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
-                    ((BucketTri *) current_bucket_pool)->EditRef.ItemType = ED_ITEM_BUILDING;
-                    ((BucketTri *) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
+                    ((BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                    ((BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                    ((BucketTri*) current_bucket_pool)->EditRef.ItemType = ED_ITEM_BUILDING;
+                    ((BucketTri*) current_bucket_pool)->EditRef.ItemRef = CurrentThing;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
                     current_bucket_pool += sizeof(struct BucketQuad);
                 }
             p_f3++;
@@ -1227,17 +1227,17 @@ exit:;
 
 // This is mad, however it works & it's only the editor after all.
 void GameEditor::ScanEngine() {
-    void *bucket;
+    void* bucket;
     std::uint32_t c0,
         offset_x,
         offset_y;
-    BucketHead *p;
-    BucketMapThing *the_map_thing;
-    BucketQuad *the_quad;
-    BucketSphereArea *the_sphere;
-    BucketTri *the_tri;
-    BucketWaypoint *the_waypoint;
-    MapThing *t_mthing;
+    BucketHead* p;
+    BucketMapThing* the_map_thing;
+    BucketQuad* the_quad;
+    BucketSphereArea* the_sphere;
+    BucketTri* the_tri;
+    BucketWaypoint* the_waypoint;
+    MapThing* t_mthing;
     MFPoint mouse_point;
 
     HilitedItem.ItemType = ED_ITEM_NONE;
@@ -1252,9 +1252,9 @@ void GameEditor::ScanEngine() {
             bucket = p->BucketPtr;
             {
                 while (bucket) {
-                    switch (((BucketGeneric *) bucket)->BucketType) {
+                    switch (((BucketGeneric*) bucket)->BucketType) {
                     case BT_QUAD:
-                        the_quad = (BucketQuad *) bucket;
+                        the_quad = (BucketQuad*) bucket;
                         if (the_quad->DrawFlags & POLY_FLAG_DOUBLESIDED) {
                             if (
                                 (Z_NORMAL(the_quad->P[0], the_quad->P[1])) > 0 &&
@@ -1273,7 +1273,7 @@ void GameEditor::ScanEngine() {
                         }
                         break;
                     case BT_TRI:
-                        the_tri = (BucketTri *) bucket;
+                        the_tri = (BucketTri*) bucket;
                         if (the_tri->DrawFlags & POLY_FLAG_DOUBLESIDED) {
                             if (
                                 (Z_NORMAL(the_tri->P[0], the_tri->P[1])) > 0 &&
@@ -1294,7 +1294,7 @@ void GameEditor::ScanEngine() {
                     case BT_RECT:
                         break;
                     case BT_MAP_THING:
-                        the_map_thing = (BucketMapThing *) bucket;
+                        the_map_thing = (BucketMapThing*) bucket;
                         if (
                             mouse_point.X >= the_map_thing->X - (THING_BOX_SIZE >> 1) &&
                             mouse_point.X < the_map_thing->X + (THING_BOX_SIZE >> 1) &&
@@ -1308,7 +1308,7 @@ void GameEditor::ScanEngine() {
                         }
                         break;
                     case BT_WAYPOINT:
-                        the_waypoint = (BucketWaypoint *) bucket;
+                        the_waypoint = (BucketWaypoint*) bucket;
                         if (
                             mouse_point.X >= the_waypoint->X - (WP_BOX_SIZE >> 1) &&
                             mouse_point.X < the_waypoint->X + (WP_BOX_SIZE >> 1) &&
@@ -1320,7 +1320,7 @@ void GameEditor::ScanEngine() {
                     case BT_LINE:
                         break;
                     case BT_SPHERE_AREA:
-                        the_sphere = (BucketSphereArea *) bucket;
+                        the_sphere = (BucketSphereArea*) bucket;
                         offset_x = ((SIN(256) * the_sphere->Radius) >> 16) + the_sphere->X;
                         offset_y = (-(COS(256) * the_sphere->Radius) >> 16) + the_sphere->Y;
                         if (
@@ -1335,7 +1335,7 @@ void GameEditor::ScanEngine() {
                     case BT_RECT_AREA:
                         break;
                     }
-                    bucket = ((BucketGeneric *) bucket)->BucketPtr;
+                    bucket = ((BucketGeneric*) bucket)->BucketPtr;
                 }
             }
             p--;
@@ -1346,24 +1346,24 @@ void GameEditor::ScanEngine() {
 //---------------------------------------------------------------
 
 extern std::int32_t view_mode;
-void draw_quad_bucket(struct BucketQuad *p_b, std::int32_t z);
+void draw_quad_bucket(struct BucketQuad* p_b, std::int32_t z);
 
 void GameEditor::RenderEngine() {
-    void *bucket;
+    void* bucket;
     std::uint32_t c0,
         draw_colour,
         offset_x,
         offset_y;
-    BucketHead *p;
-    BucketLine *the_line;
+    BucketHead* p;
+    BucketLine* the_line;
     BucketMapThing *hilited_thing = nullptr,
                    *selected_thing = nullptr,
                    *the_map_thing;
-    BucketQuad *the_quad;
-    BucketRectArea *the_rect;
+    BucketQuad* the_quad;
+    BucketRectArea* the_rect;
     BucketSphereArea *hilited_sphere = nullptr,
                      *the_sphere;
-    BucketTri *the_tri;
+    BucketTri* the_tri;
     BucketWaypoint *hilited_waypoint,
         *selected_wp,
         *the_waypoint;
@@ -1387,9 +1387,9 @@ void GameEditor::RenderEngine() {
         {
             p->BucketPtr = 0;
             while (bucket) {
-                switch (((BucketGeneric *) bucket)->BucketType) {
+                switch (((BucketGeneric*) bucket)->BucketType) {
                 case BT_QUAD:
-                    the_quad = (BucketQuad *) bucket;
+                    the_quad = (BucketQuad*) bucket;
                     if (
                         the_quad->EditRef.ItemType == SelectedItem.ItemType &&
                         the_quad->EditRef.ItemRef == SelectedItem.ItemRef &&
@@ -1416,7 +1416,7 @@ void GameEditor::RenderEngine() {
                     my_quad_noz(&the_quad->P[0], &the_quad->P[1], &the_quad->P[3], &the_quad->P[2]);
                     break;
                 case BT_TRI:
-                    the_tri = (BucketTri *) bucket;
+                    the_tri = (BucketTri*) bucket;
                     if (
                         the_tri->EditRef.ItemType == SelectedItem.ItemType &&
                         the_tri->EditRef.ItemRef == SelectedItem.ItemRef &&
@@ -1446,7 +1446,7 @@ void GameEditor::RenderEngine() {
                 case BT_RECT:
                     break;
                 case BT_MAP_THING:
-                    the_map_thing = (BucketMapThing *) bucket;
+                    the_map_thing = (BucketMapThing*) bucket;
                     DrawVLineC(the_map_thing->BaseX, the_map_thing->Y, the_map_thing->BaseY, 0xffff);
                     draw_colour = RED_COL;
 
@@ -1478,7 +1478,7 @@ void GameEditor::RenderEngine() {
                         0xffff);
                     break;
                 case BT_WAYPOINT:
-                    the_waypoint = (BucketWaypoint *) bucket;
+                    the_waypoint = (BucketWaypoint*) bucket;
                     DrawVLineC(the_waypoint->BaseX, the_waypoint->Y, the_waypoint->BaseY, 0xffff);
                     draw_colour = GREEN_COL;
 
@@ -1503,11 +1503,11 @@ void GameEditor::RenderEngine() {
                         draw_colour);
                     break;
                 case BT_LINE:
-                    the_line = (BucketLine *) bucket;
+                    the_line = (BucketLine*) bucket;
                     DrawLineC(the_line->X1, the_line->Y1, the_line->X2, the_line->Y2, 0xffff);
                     break;
                 case BT_SPHERE_AREA:
-                    the_sphere = (BucketSphereArea *) bucket;
+                    the_sphere = (BucketSphereArea*) bucket;
                     draw_colour = BLUE_COL;
 
                     offset_x = ((SIN(256) * the_sphere->Radius) >> 16) + the_sphere->X;
@@ -1532,7 +1532,7 @@ void GameEditor::RenderEngine() {
 
                     break;
                 }
-                bucket = ((BucketGeneric *) bucket)->BucketPtr;
+                bucket = ((BucketGeneric*) bucket)->BucketPtr;
             }
         }
         p--;
@@ -1594,7 +1594,7 @@ void GameEditor::RenderEngine() {
 
 //---------------------------------------------------------------
 
-void GameEditor::MapText(std::int32_t x, std::int32_t y, char *the_str, std::uint32_t col) {
+void GameEditor::MapText(std::int32_t x, std::int32_t y, char* the_str, std::uint32_t col) {
     QuickTextC(x - 1, y, the_str, 0);
     QuickTextC(x + 1, y, the_str, 0);
     QuickTextC(x, y + 1, the_str, 0);
@@ -1604,7 +1604,7 @@ void GameEditor::MapText(std::int32_t x, std::int32_t y, char *the_str, std::uin
 
 //---------------------------------------------------------------
 
-void GameEditor::MapThingInfo(std::int32_t x, std::int32_t y, BucketMapThing *the_map_thing) {
+void GameEditor::MapThingInfo(std::int32_t x, std::int32_t y, BucketMapThing* the_map_thing) {
     char info_text[256];
     EdRect info_rect;
 
@@ -1614,7 +1614,7 @@ void GameEditor::MapThingInfo(std::int32_t x, std::int32_t y, BucketMapThing *th
     info_rect.ShrinkRect(2, 2);
     info_rect.HiliteRect(LOLITE_COL, HILITE_COL);
 
-    sprintf(info_text, "Thing No: %ld", the_map_thing->EditRef.ItemRef);
+    sprintf(info_text, "Entity No: %ld", the_map_thing->EditRef.ItemRef);
     MapText(info_rect.GetLeft() + 1, info_rect.GetTop() + 1, info_text, 0xffff);
 
     sprintf(info_text, "MapX : %ld", map_things[the_map_thing->EditRef.ItemRef].X);
@@ -1629,7 +1629,7 @@ void GameEditor::MapThingInfo(std::int32_t x, std::int32_t y, BucketMapThing *th
 
 //---------------------------------------------------------------
 
-void GameEditor::MapWaypointInfo(std::int32_t x, std::int32_t y, BucketWaypoint *the_waypoint) {
+void GameEditor::MapWaypointInfo(std::int32_t x, std::int32_t y, BucketWaypoint* the_waypoint) {
     char info_text[256];
     EdRect info_rect;
 
@@ -1654,7 +1654,7 @@ void GameEditor::MapWaypointInfo(std::int32_t x, std::int32_t y, BucketWaypoint 
 
 //---------------------------------------------------------------
 
-void GameEditor::MapSphereInfo(std::int32_t x, std::int32_t y, BucketSphereArea *the_sphere) {
+void GameEditor::MapSphereInfo(std::int32_t x, std::int32_t y, BucketSphereArea* the_sphere) {
     float radius;
     char info_text[256];
     EdRect info_rect;

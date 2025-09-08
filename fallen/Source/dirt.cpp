@@ -173,10 +173,10 @@ void DIRT_init(
     std::int32_t i;
     std::int32_t prob_sum;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     THING_INDEX index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     DIRT_focus_x = 0;
     DIRT_focus_z = 0;
@@ -197,7 +197,7 @@ void DIRT_init(
     //
 
     for (i = 0; i < DIRT_MAX_DIRT; i++) {
-        memset((std::uint8_t *) &DIRT_dirt[i], 0, sizeof(DIRT_Dirt));
+        memset((std::uint8_t*) &DIRT_dirt[i], 0, sizeof(DIRT_Dirt));
         DIRT_dirt[i].type = DIRT_TYPE_UNUSED;
     }
 
@@ -238,7 +238,7 @@ void DIRT_init(
         std::int32_t mx;
         std::int32_t mz;
 
-        OB_Info *oi;
+        OB_Info* oi;
 
         for (mx = 0; mx < PAP_SIZE_LO; mx++)
             for (mz = 0; mz < PAP_SIZE_LO; mz++) {
@@ -265,10 +265,10 @@ void DIRT_init(
 // Returns a piece of dirt that isn't very important (offscreen or far away).
 //
 
-DIRT_Dirt *DIRT_find_useless() {
+DIRT_Dirt* DIRT_find_useless() {
     std::int32_t i;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     //
     // Find offscreen or unused dirt.
@@ -328,9 +328,9 @@ void DIRT_set_focus(
     std::int32_t type;
     std::int32_t done;
 
-    DIRT_Dirt *dd;
-    PAP_Hi *ph;
-    PAP_Hi *ph2;
+    DIRT_Dirt* dd;
+    PAP_Hi* ph;
+    PAP_Hi* ph2;
 
     struct
     {
@@ -662,7 +662,7 @@ void DIRT_set_focus(
 // Pigeon state initialisation functions.
 //
 
-void DIRT_pigeon_init_wait(DIRT_Dirt *dd) {
+void DIRT_pigeon_init_wait(DIRT_Dirt* dd) {
     dd->UU.Pidgeon.state = DIRT_PIGEON_WAIT;
     dd->counter = Random() & 0x1f;
     dd->counter += 16;
@@ -672,7 +672,7 @@ void DIRT_pigeon_init_wait(DIRT_Dirt *dd) {
     dd->UU.Pidgeon.tween += 5;
 }
 
-void DIRT_pigeon_init_peck(DIRT_Dirt *dd) {
+void DIRT_pigeon_init_peck(DIRT_Dirt* dd) {
     dd->UU.Pidgeon.state = DIRT_PIGEON_PECK;
     dd->counter = Random() & 0x3;
     dd->counter += 9;
@@ -685,7 +685,7 @@ void DIRT_pigeon_init_peck(DIRT_Dirt *dd) {
 // Either starts walking or starts running.
 //
 
-void DIRT_pigeon_init_walk(DIRT_Dirt *dd) {
+void DIRT_pigeon_init_walk(DIRT_Dirt* dd) {
     std::int32_t mx;
     std::int32_t mz;
 
@@ -792,7 +792,7 @@ void DIRT_pigeon_init_walk(DIRT_Dirt *dd) {
 #define DIRT_PIGEON_HOPUP 1
 #define DIRT_PIGEON_HOPDOWN 2
 
-void DIRT_pigeon_init_hop(DIRT_Dirt *dd, std::uint8_t upordown) {
+void DIRT_pigeon_init_hop(DIRT_Dirt* dd, std::uint8_t upordown) {
     ASSERT(dd->UU.Pidgeon.state == DIRT_PIGEON_WALK || dd->UU.Pidgeon.state == DIRT_PIGEON_RUN);
 
     dd->UU.Pidgeon.state = DIRT_PIGEON_HOP;
@@ -809,7 +809,7 @@ void DIRT_pigeon_init_hop(DIRT_Dirt *dd, std::uint8_t upordown) {
     }
 }
 
-void DIRT_pigeon_init_flee(DIRT_Dirt *dd, std::int32_t scare_x, std::int32_t scare_z) {
+void DIRT_pigeon_init_flee(DIRT_Dirt* dd, std::int32_t scare_x, std::int32_t scare_z) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -891,7 +891,7 @@ void DIRT_pigeon_init_flee(DIRT_Dirt *dd, std::int32_t scare_x, std::int32_t sca
 // Pigeon state processing functions.
 //
 
-void DIRT_pigeon_process_wait(DIRT_Dirt *dd) {
+void DIRT_pigeon_process_wait(DIRT_Dirt* dd) {
     if (dd->UU.Pidgeon.tween == 0) {
         if (dd->UU.Pidgeon.morph1 == MORPH_PIGEON_STAND) {
             dd->UU.Pidgeon.morph1 = MORPH_PIGEON_HEADCOCK;
@@ -910,13 +910,13 @@ void DIRT_pigeon_process_wait(DIRT_Dirt *dd) {
     }
 }
 
-void DIRT_pigeon_process_peck(DIRT_Dirt *dd) {
+void DIRT_pigeon_process_peck(DIRT_Dirt* dd) {
     if (dd->UU.Pidgeon.tween < 255) {
         dd->UU.Pidgeon.tween += 1;
     }
 }
 
-void DIRT_pigeon_process_walkrun(DIRT_Dirt *dd) {
+void DIRT_pigeon_process_walkrun(DIRT_Dirt* dd) {
     dd->UU.Pidgeon.tween += abs(dd->dx) + abs(dd->dz) << 3;
 
     dd->x += dd->dx;
@@ -949,7 +949,7 @@ void DIRT_pigeon_process_walkrun(DIRT_Dirt *dd) {
     }
 }
 
-void DIRT_pigeon_process_hop(DIRT_Dirt *dd) {
+void DIRT_pigeon_process_hop(DIRT_Dirt* dd) {
     if (dd->UU.Pidgeon.tween > 0) {
         //
         // Wait a while before hopping...
@@ -991,7 +991,7 @@ void DIRT_pigeon_process_hop(DIRT_Dirt *dd) {
 // the pigeon flags.
 //
 
-void DIRT_pigeon_start_doing_something_new(DIRT_Dirt *dd) {
+void DIRT_pigeon_start_doing_something_new(DIRT_Dirt* dd) {
     std::int32_t i;
     std::int32_t num;
     std::int32_t total;
@@ -1081,7 +1081,7 @@ void DIRT_pigeon_start_doing_something_new(DIRT_Dirt *dd) {
 // Process a pigeon.
 //
 
-void DIRT_pigeon_process(DIRT_Dirt *dd) {
+void DIRT_pigeon_process(DIRT_Dirt* dd) {
     ASSERT(dd->type == DIRT_TYPE_PIGEON);
 
     if (dd->counter == 0) {
@@ -1127,7 +1127,7 @@ void DIRT_new_water(
     std::int32_t dy,
     std::int32_t dz,
     std::int32_t dirt_type) {
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
@@ -1252,7 +1252,7 @@ void DIRT_new_sparks(std::int32_t px, std::int32_t py, std::int32_t pz, std::uin
         PARTICLE_Add(px << 8, py << 8, pz << 8, 0, 0, 0, POLY_PAGE_EXPLODE2_ADDITIVE, 2 + ((Random() & 1) << 2), 0xFFffffff, PFLAG_FADE, 2, 15 + (Random() & 0x3f), 1, 0x7f, 0);
 }
 
-void DIRT_spark_shower(DIRT_Dirt *dd) {
+void DIRT_spark_shower(DIRT_Dirt* dd) {
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
         // No dirt if there is no floor!
@@ -1287,7 +1287,7 @@ void DIRT_process() {
     std::int32_t oldz;
     std::int32_t collided;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
@@ -1673,7 +1673,7 @@ void DIRT_process() {
                 std::int32_t py;
                 std::int32_t pz;
 
-                Thing *p_person = TO_THING(dd->droll); // droll => owner
+                Entity* p_person = TO_THING(dd->droll); // droll => owner
 
                 calc_sub_objects_position(
                     p_person,
@@ -1845,7 +1845,7 @@ void DIRT_process() {
 }
 
 void DIRT_gust(
-    Thing *p_thing,
+    Entity* p_thing,
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2) {
     std::int32_t i;
@@ -1861,7 +1861,7 @@ void DIRT_gust(
     std::int32_t dpitch;
     std::int32_t droll;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
@@ -2078,7 +2078,7 @@ std::int32_t DIRT_get_nearest_can_or_head_dist(std::int32_t x, std::int32_t y, s
     std::int32_t dist;
     std::int32_t best_dist = INFINITY;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     for (i = 0; i < DIRT_MAX_DIRT; i++) {
         dd = &DIRT_dirt[i];
@@ -2099,7 +2099,7 @@ std::int32_t DIRT_get_nearest_can_or_head_dist(std::int32_t x, std::int32_t y, s
     return best_dist;
 }
 
-void DIRT_pick_up_can_or_head(Thing *p_person) {
+void DIRT_pick_up_can_or_head(Entity* p_person) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -2111,7 +2111,7 @@ void DIRT_pick_up_can_or_head(Thing *p_person) {
     std::int32_t best_can = 0;
     std::int32_t best_dist = INFINITY;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     for (i = 0; i < DIRT_MAX_DIRT; i++) {
         dd = &DIRT_dirt[i];
@@ -2146,7 +2146,7 @@ void DIRT_pick_up_can_or_head(Thing *p_person) {
     return;
 }
 
-void DIRT_release_can_or_head(Thing *p_person, std::int32_t power) // 0 <= power <= 256
+void DIRT_release_can_or_head(Entity* p_person, std::int32_t power) // 0 <= power <= 256
 {
     std::int32_t dx;
     std::int32_t dy;
@@ -2154,7 +2154,7 @@ void DIRT_release_can_or_head(Thing *p_person, std::int32_t power) // 0 <= power
 
     std::int32_t vector[3];
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     //
     // The speed of the coke can.
@@ -2194,7 +2194,7 @@ void DIRT_release_can_or_head(Thing *p_person, std::int32_t power) // 0 <= power
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_CANNING;
 }
 
-std::int32_t DIRT_get_info(std::int32_t which, DIRT_Info *ans) {
+std::int32_t DIRT_get_info(std::int32_t which, DIRT_Info* ans) {
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
         // No dirt if there is no floor!
@@ -2203,7 +2203,7 @@ std::int32_t DIRT_get_info(std::int32_t which, DIRT_Info *ans) {
         return false;
     }
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     ASSERT(WITHIN(which, 0, DIRT_MAX_DIRT - 1));
 
@@ -2274,7 +2274,7 @@ std::int32_t DIRT_get_info(std::int32_t which, DIRT_Info *ans) {
         break;
 
     case DIRT_TYPE_HELDCAN: {
-        Thing *p_person = TO_THING(dd->droll); // droll => owner
+        Entity* p_person = TO_THING(dd->droll); // droll => owner
 
         if (p_person->Genus.Person->InCar)
             return (0);
@@ -2481,7 +2481,7 @@ void DIRT_gale(std::int32_t dx,std::int32_t dz)
 */
 
 void DIRT_mark_as_offscreen(std::int32_t which) {
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     ASSERT(WITHIN(which, 0, DIRT_MAX_DIRT - 1));
 
@@ -2497,7 +2497,7 @@ void DIRT_mark_as_offscreen(std::int32_t which) {
     }
 }
 
-std::int32_t DIRT_shoot(Thing *p_person) {
+std::int32_t DIRT_shoot(Entity* p_person) {
     std::int32_t i;
     std::int32_t dx;
     std::int32_t dz;
@@ -2509,7 +2509,7 @@ std::int32_t DIRT_shoot(Thing *p_person) {
     std::int32_t best_dirt;
     std::int32_t best_score = -INFINITY;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
@@ -2606,7 +2606,7 @@ std::int32_t DIRT_shoot(Thing *p_person) {
     }
 }
 
-void DIRT_behead_person(Thing *p_person, Thing *p_attacker) {
+void DIRT_behead_person(Entity* p_person, Entity* p_attacker) {
 #ifdef BEHEAD
 
     std::int32_t i;
@@ -2621,7 +2621,7 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker) {
     std::int32_t best_dirt = 0;
     std::int32_t best_score = 0;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     //
     // Pick a random bit of dirt.
@@ -2691,7 +2691,7 @@ void DIRT_behead_person(Thing *p_person, Thing *p_attacker) {
 }
 
 #ifndef PSX
-std::uint16_t DIRT_create_mine(Thing *p_person) {
+std::uint16_t DIRT_create_mine(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -2699,7 +2699,7 @@ std::uint16_t DIRT_create_mine(Thing *p_person) {
 
     std::int32_t vector[3];
 
-    DIRT_Dirt *dd = DIRT_find_useless();
+    DIRT_Dirt* dd = DIRT_find_useless();
 
     //
     // The speed of the mine.
@@ -2770,7 +2770,7 @@ void DIRT_create_papers(
     std::int32_t i;
     std::int32_t created;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
@@ -2819,7 +2819,7 @@ void DIRT_create_cans(
     std::int32_t i;
     std::int32_t useangle;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //
@@ -2867,7 +2867,7 @@ void DIRT_create_brass(
     std::int32_t i;
     std::int32_t useangle;
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         //

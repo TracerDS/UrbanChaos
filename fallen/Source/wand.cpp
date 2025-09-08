@@ -20,8 +20,8 @@ void WAND_init() {
     std::int32_t mx;
     std::int32_t mz;
 
-    PAP_Hi *ph;
-    OB_Info *oi;
+    PAP_Hi* ph;
+    OB_Info* oi;
 
     //
     // Clear the 'wander' bit from the mapwho.
@@ -121,7 +121,7 @@ std::int32_t WAND_square_is_wander(std::int32_t mx, std::int32_t mz) {
 // Returns true if the person wants to wander on this square.
 //
 
-std::int32_t WAND_square_for_person(Thing *p_person, std::int32_t mx, std::int32_t mz) {
+std::int32_t WAND_square_for_person(Entity* p_person, std::int32_t mx, std::int32_t mz) {
     if (p_person->Class == CLASS_BAT) {
         return WAND_square_is_wander(mx, mz) || ROAD_is_road(mx, mz);
     } else {
@@ -138,9 +138,9 @@ std::int32_t WAND_square_for_person(Thing *p_person, std::int32_t mx, std::int32
 }
 
 void WAND_get_next_place(
-    Thing *p_person,
-    std::int32_t *wand_world_x,
-    std::int32_t *wand_world_z) {
+    Entity* p_person,
+    std::int32_t* wand_world_x,
+    std::int32_t* wand_world_z) {
     std::int32_t i;
 
     std::int32_t mx;
@@ -315,8 +315,8 @@ void WAND_draw(std::int32_t map_x, std::int32_t map_z) {
 
 #define SEARCH_SIZE 1
 
-std::int32_t WAND_find_good_start_point(std::int32_t *mapx, std::int32_t *mapz) {
-    Thing *p_person;
+std::int32_t WAND_find_good_start_point(std::int32_t* mapx, std::int32_t* mapz) {
+    Entity* p_person;
     std::int32_t dx, dz, x, z, minx, maxx, minz, maxz;
     std::int32_t angle;
 
@@ -356,7 +356,7 @@ std::int32_t WAND_find_good_start_point(std::int32_t *mapx, std::int32_t *mapz) 
     return (0);
 }
 #define SEARCH_SIZE2 2
-std::int32_t WAND_find_good_start_point_near(std::int32_t *mapx, std::int32_t *mapz) {
+std::int32_t WAND_find_good_start_point_near(std::int32_t* mapx, std::int32_t* mapz) {
     std::int32_t dx, dz, x, z, minx, maxx, minz, maxz;
     std::int32_t angle;
 
@@ -384,8 +384,8 @@ std::int32_t WAND_find_good_start_point_near(std::int32_t *mapx, std::int32_t *m
 
     return (0);
 }
-std::int32_t WAND_find_good_start_point_for_car(std::int32_t *posx, std::int32_t *posz, std::int32_t *yaw, std::int32_t anywhere) {
-    Thing *p_person = NET_PERSON(0);
+std::int32_t WAND_find_good_start_point_for_car(std::int32_t* posx, std::int32_t* posz, std::int32_t* yaw, std::int32_t anywhere) {
+    Entity* p_person = NET_PERSON(0);
     std::int32_t x, z;
 
     // get a random heading

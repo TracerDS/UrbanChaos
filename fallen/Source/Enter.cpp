@@ -21,8 +21,8 @@ std::int32_t ENTER_valid(std::int32_t dbuilding) {
     std::int32_t dx;
     std::int32_t dz;
 
-    DBuilding *db;
-    DFacet *df;
+    DBuilding* db;
+    DFacet* df;
 
     ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
@@ -59,7 +59,7 @@ std::int32_t ENTER_valid(std::int32_t dbuilding) {
 // building has a bounding box of (0,0)-(1,1)
 //
 
-void ENTER_building_box(std::int32_t dbuilding, std::int32_t *bx1, std::int32_t *bz1, std::int32_t *bx2, std::int32_t *bz2) {
+void ENTER_building_box(std::int32_t dbuilding, std::int32_t* bx1, std::int32_t* bz1, std::int32_t* bx2, std::int32_t* bz2) {
     std::int32_t i;
 
     std::int32_t x;
@@ -70,8 +70,8 @@ void ENTER_building_box(std::int32_t dbuilding, std::int32_t *bx1, std::int32_t 
     std::int32_t x2;
     std::int32_t z2;
 
-    DBuilding *db;
-    DFacet *df;
+    DBuilding* db;
+    DFacet* df;
 
     std::int32_t height;
 
@@ -167,11 +167,11 @@ ENTER_Okay ENTER_can_i(THING_INDEX me) {
     std::int32_t f_list;
     std::int32_t exit;
 
-    DFacet *df;
+    DFacet* df;
 
     ENTER_Okay ans;
 
-    Thing *p_me = TO_THING(me);
+    Entity* p_me = TO_THING(me);
 
     ASSERT(p_me->Class == CLASS_PERSON);
 
@@ -291,7 +291,7 @@ ENTER_Okay ENTER_can_i(THING_INDEX me) {
     return ans;
 }
 
-std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t *map_x, std::uint8_t *map_z) {
+std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t* map_x, std::uint8_t* map_z) {
     //
     // We can do this in a really bad way!  Move forward and turn around.
     // If you can then go into the INSIDE_BUILDING, then we can leave
@@ -303,12 +303,12 @@ std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t *map_x, std::uint8_t *map_
 
 void ENTER_get_extents(
     std::int32_t dbuilding,
-    std::int32_t *height_ground_floor,
-    std::int32_t *height_of_top_storey) {
+    std::int32_t* height_ground_floor,
+    std::int32_t* height_of_top_storey) {
     ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
-    DFacet *df;
-    DBuilding *db = &dbuildings[dbuilding];
+    DFacet* df;
+    DBuilding* db = &dbuildings[dbuilding];
 
     std::int32_t i;
     std::int32_t top;
@@ -402,8 +402,8 @@ std::int32_t ENTER_setup_stairs(std::int32_t dbuilding) {
 
     ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
-    DFacet *df;
-    DBuilding *db = &dbuildings[dbuilding];
+    DFacet* df;
+    DBuilding* db = &dbuildings[dbuilding];
 
     //
     // Initialise the stair module.
@@ -503,14 +503,14 @@ std::int32_t ENTER_setup(std::int32_t dbuilding, std::int32_t height, std::uint8
     std::int32_t result;
     std::int32_t ground_floor;
 
-    ID_Stair *stair;
+    ID_Stair* stair;
     std::int32_t num_stairs;
     std::int32_t stairs_ok;
 
     ASSERT(WITHIN(dbuilding, 1, next_dbuilding - 1));
 
-    DFacet *df;
-    DBuilding *db = &dbuildings[dbuilding];
+    DFacet* df;
+    DBuilding* db = &dbuildings[dbuilding];
 
     if (db->Type == BUILDING_TYPE_CRATE_IN ||
         db->Type == BUILDING_TYPE_CRATE_OUT) {
@@ -716,7 +716,7 @@ std::int32_t ENTER_valid(std::int32_t dbuilding) {
     return false;
 }
 
-void ENTER_building_box(std::int32_t dbuilding, std::int32_t *bx1, std::int32_t *bz1, std::int32_t *bx2, std::int32_t *bz2) {
+void ENTER_building_box(std::int32_t dbuilding, std::int32_t* bx1, std::int32_t* bz1, std::int32_t* bx2, std::int32_t* bz2) {
     *bx1 = 0;
     *bz1 = 0;
     *bx2 = 0;
@@ -729,14 +729,14 @@ ENTER_Okay ENTER_can_i(THING_INDEX me) {
     ans.dbuilding = nullptr;
 }
 
-std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t *map_x, std::uint8_t *map_z) {
+std::int32_t ENTER_leave(THING_INDEX me, std::uint8_t* map_x, std::uint8_t* map_z) {
     return false;
 }
 
 void ENTER_get_extents(
     std::int32_t dbuilding,
-    std::int32_t *height_ground_floor,
-    std::int32_t *height_of_top_storey) {
+    std::int32_t* height_ground_floor,
+    std::int32_t* height_of_top_storey) {
     *height_ground_floor = 0;  // min;
     *height_of_top_storey = 0; // max;
 }

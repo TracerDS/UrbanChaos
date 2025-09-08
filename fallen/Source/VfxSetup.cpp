@@ -61,7 +61,7 @@ bool CALLBACK vfx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_vfx_setup(EventPoint *the_ep) {
+void do_vfx_setup(EventPoint* the_ep) {
     //	Set the dialog.
     vfx_types = the_ep->Data[0];
     vfx_scale = the_ep->Data[1];

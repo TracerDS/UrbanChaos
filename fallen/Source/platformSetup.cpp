@@ -57,7 +57,7 @@ bool CALLBACK plats_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 //---------------------------------------------------------------
 
-void do_platform_setup(EventPoint *the_ep) {
+void do_platform_setup(EventPoint* the_ep) {
     platform_speed = the_ep->Data[0];
     platform_flags = the_ep->Data[1];
     DialogBox(

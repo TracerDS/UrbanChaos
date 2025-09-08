@@ -17,16 +17,16 @@ StateFunction switch_functions[] =
 //---------------------------------------------------------------
 
 void init_switches() {
-    memset((std::uint8_t *) SWITCHES, 0, sizeof(SWITCHES));
+    memset((std::uint8_t*) SWITCHES, 0, sizeof(SWITCHES));
     SWITCH_COUNT = 0;
 }
 
 //---------------------------------------------------------------
 
-Thing *alloc_switch(std::uint8_t type) {
+Entity* alloc_switch(std::uint8_t type) {
     std::int32_t c0;
-    Switch *new_switch;
-    Thing *switch_thing = NULL;
+    Switch* new_switch;
+    Entity* switch_thing = NULL;
 
     // Run through the switch array & find an unused one.
     for (c0 = 0; c0 < MAX_SWITCHES; c0++) {
@@ -35,7 +35,7 @@ Thing *alloc_switch(std::uint8_t type) {
             if (switch_thing) {
                 new_switch = TO_SWITCH(c0);
                 new_switch->SwitchType = type;
-                new_switch->Thing = THING_NUMBER(switch_thing);
+                new_switch->Entity = THING_NUMBER(switch_thing);
 
                 switch_thing->Genus.Switch = new_switch;
 
@@ -50,7 +50,7 @@ Thing *alloc_switch(std::uint8_t type) {
 
 //---------------------------------------------------------------
 
-void free_switch(Thing *switch_thing) {
+void free_switch(Entity* switch_thing) {
     // Set the person type to none & free the thing.
     switch_thing->Genus.Switch->SwitchType = SWITCH_NONE;
     remove_thing_from_map(switch_thing);
@@ -62,7 +62,7 @@ void free_switch(Thing *switch_thing) {
 THING_INDEX create_switch() {
     /*
     Switch			*the_switch;
-    Thing			*s_thing;
+    Entity			*s_thing;
     THING_INDEX		thing_number	=	0;
 
 
@@ -87,9 +87,9 @@ THING_INDEX create_switch() {
 
 //---------------------------------------------------------------
 
-void process_switch_sphere(Thing *s_thing, GameCoord *scanee_coord) {
+void process_switch_sphere(Entity* s_thing, GameCoord* scanee_coord) {
     std::int32_t distance;
-    Switch *the_switch;
+    Switch* the_switch;
 
     the_switch = s_thing->Genus.Switch;
     distance = SDIST3(
@@ -105,29 +105,29 @@ void process_switch_sphere(Thing *s_thing, GameCoord *scanee_coord) {
 
 //---------------------------------------------------------------
 
-void fn_switch_player(Thing *s_thing) {
+void fn_switch_player(Entity* s_thing) {
     process_switch_sphere(s_thing, &NET_PERSON(0)->WorldPos);
 }
 
 //---------------------------------------------------------------
 
-void fn_switch_thing(Thing *s_thing) {
+void fn_switch_thing(Entity* s_thing) {
     process_switch_sphere(s_thing, &TO_THING(s_thing->Genus.Switch->Scanee)->WorldPos);
 }
 
 //---------------------------------------------------------------
 
-void fn_switch_group(Thing *s_thing) {
+void fn_switch_group(Entity* s_thing) {
 }
 
 //---------------------------------------------------------------
 
-void fn_switch_class(Thing *s_thing) {
+void fn_switch_class(Entity* s_thing) {
     /*
 
     std::uint32_t		distance;
     Switch		*the_switch;
-    Thing		*nearest_thing;
+    Entity		*nearest_thing;
 
 
     the_switch		=	s_thing->Genus.Switch;

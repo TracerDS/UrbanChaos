@@ -132,7 +132,7 @@ std::int32_t ID_floor_z2;
 #define ID_FLOOR(x, z) (&ID_floor[(x) - ID_floor_x1][(z) - ID_floor_z1])
 #endif
 
-ID_Square *ID_floor_slow(std::int32_t x, std::int32_t z) {
+ID_Square* ID_floor_slow(std::int32_t x, std::int32_t z) {
     std::int32_t sx;
     std::int32_t sz;
 
@@ -298,7 +298,7 @@ std::uint16_t ID_floor_texture[ID_MAX_FLOOR_TEXTURES];
 // The stairs...
 //
 
-ID_Stair *ID_stair;
+ID_Stair* ID_stair;
 std::int32_t ID_num_stairs;
 
 //
@@ -478,10 +478,10 @@ std::uint16_t ID_get_texture(std::int32_t room_type, std::int32_t texture_type, 
 
 std::int32_t ID_get_texture_uvs(
     std::uint16_t texture,
-    float *u0, float *v0,
-    float *u1, float *v1,
-    float *u2, float *v2,
-    float *u3, float *v3) {
+    float* u0, float* v0,
+    float* u1, float* v1,
+    float* u2, float* v2,
+    float* u3, float* v3) {
     float u;
     float v;
 
@@ -491,7 +491,7 @@ std::int32_t ID_get_texture_uvs(
     std::int32_t page = 0;
 #ifndef PSX
 
-    ID_Texture *it;
+    ID_Texture* it;
 
     base_u = ID_GET_TEXTURE_BASEU(texture);
     base_v = ID_GET_TEXTURE_BASEV(texture);
@@ -606,7 +606,7 @@ void ID_add_face_to_square(
     std::uint16_t point[4];
     std::uint16_t flag;
 
-    ID_Square *is;
+    ID_Square* is;
 
     ASSERT(WITHIN(ID_face_upto, 1, ID_MAX_FACES - 1));
 
@@ -829,7 +829,7 @@ void ID_wall_colvects_insert() {
     std::uint8_t wall_height_inside;
     std::uint8_t wall_height_outside;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
 #define MAX_POINTS 12
 
@@ -988,10 +988,10 @@ void ID_wall_colvects_remove() {
 std::int32_t ID_is_wall_on_room_perim(
     std::int32_t wall,
     std::int32_t room,
-    std::int32_t *x1,
-    std::int32_t *z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x1,
+    std::int32_t* z1,
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t x;
     std::int32_t z;
 
@@ -1014,7 +1014,7 @@ std::int32_t ID_is_wall_on_room_perim(
     std::int32_t found_start;
     std::int32_t flip_ends;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     ASSERT(WITHIN(wall, 0, ID_wall_upto - 1));
 
@@ -1548,10 +1548,10 @@ void ID_find_segment_wall(
     std::int32_t z1,
     std::int32_t x2,
     std::int32_t z2,
-    std::int32_t *wall,
-    std::int32_t *bwmul,
-    std::int32_t *bwadd,
-    std::int32_t *length) {
+    std::int32_t* wall,
+    std::int32_t* bwmul,
+    std::int32_t* bwadd,
+    std::int32_t* length) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -1563,7 +1563,7 @@ void ID_find_segment_wall(
     std::int32_t wx2;
     std::int32_t wz2;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     //
     // Find the wall that this segment belongs to.  If the wall
@@ -1711,7 +1711,7 @@ void ID_add_wall_faces(std::int32_t wall) {
     std::uint16_t texture;
     std::uint8_t quad;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     ASSERT(WITHIN(wall, 0, ID_wall_upto - 1));
 
@@ -1887,7 +1887,7 @@ void ID_add_room_faces(std::int32_t room) {
     std::int32_t block_type;
     std::int32_t wall_faces_type;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     //
     // Work out the perimeter of the room.
@@ -1965,8 +1965,8 @@ void ID_add_room_faces(std::int32_t room) {
             std::int32_t x2, std::int32_t z2,
             std::int32_t x3, std::int32_t z3,
             std::int32_t width,
-            std::int32_t * res_x,
-            std::int32_t * res_z);
+            std::int32_t* res_x,
+            std::int32_t* res_z);
 
         //
         // Use fixed-point 8 from now on.
@@ -2106,7 +2106,7 @@ void ID_clear_inside_walls() {
     std::int32_t x;
     std::int32_t z;
 
-    ID_Square *is;
+    ID_Square* is;
 
     for (x = ID_floor_x1; x <= ID_floor_x2; x++)
         for (z = ID_floor_z1; z <= ID_floor_z2; z++) {
@@ -2138,7 +2138,7 @@ void ID_clear_inside_walls() {
 // couldn't find a suitable place.
 //
 
-std::int32_t ID_get_wall_start(std::int32_t *x, std::int32_t *z) {
+std::int32_t ID_get_wall_start(std::int32_t* x, std::int32_t* z) {
     std::int32_t wall;
     std::int32_t dx;
     std::int32_t dz;
@@ -2218,7 +2218,7 @@ void ID_generate_collision_bits(std::int32_t wall) {
     std::int32_t x1, z1;
     std::int32_t x2, z2;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     ASSERT(WITHIN(wall, 0, ID_wall_upto - 1));
 
@@ -2303,7 +2303,7 @@ void ID_generate_on_wall_bits(std::int32_t wall) {
     std::int32_t x1, z1;
     std::int32_t x2, z2;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     ASSERT(WITHIN(wall, 0, ID_wall_upto - 1));
 
@@ -2532,7 +2532,7 @@ std::int32_t ID_intersects_badly(std::int32_t x1, std::int32_t z1, std::int32_t 
     std::int32_t dx;
     std::int32_t dz;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     for (i = 0; i < ID_wall_upto; i++) {
         iw = &ID_wall[i];
@@ -2600,7 +2600,7 @@ void ID_find_rooms() {
     std::int32_t dx;
     std::int32_t dz;
 
-    ID_Square *is;
+    ID_Square* is;
 
     //
     // Clear old rooms.
@@ -2753,10 +2753,10 @@ void ID_generate_room_info() {
     std::int32_t height;
     std::int32_t room;
 
-    ID_Room *ir;
-    ID_Square *is;
-    ID_Wall *iw;
-    ID_Stair *it;
+    ID_Room* ir;
+    ID_Square* is;
+    ID_Wall* iw;
+    ID_Stair* it;
 
     //
     // Initialise each room.
@@ -2925,7 +2925,7 @@ void ID_find_flats() {
     std::int32_t neighbour;
     std::int32_t changed;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     //
     // Mark all rooms as not being in a flat.
@@ -3043,7 +3043,7 @@ void ID_assign_flat_room_types(std::int32_t flat) {
     std::uint8_t size[ID_MAX_ROOMS];
     std::uint8_t order[ID_MAX_ROOMS];
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     //
     // Find all the rooms in this flat.
@@ -3171,7 +3171,7 @@ void ID_assign_room_types(std::int32_t storey_type) {
     std::uint8_t size[ID_MAX_ROOMS];
     std::uint8_t order[ID_MAX_ROOMS];
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     for (i = 1; i < ID_room_upto; i++) {
         ir = &ID_room[i];
@@ -3506,14 +3506,14 @@ std::int32_t ID_make_connecting_doors(std::int32_t storey_type) {
         DO_CONNECT(r2, r1);    \
     }
 
-    ID_Room *ir;
-    ID_Wall *iw;
+    ID_Room* ir;
+    ID_Wall* iw;
 
     //
     // Mark all rooms as unconnected.
     //
 
-    memset((std::uint8_t *) connected, 0, sizeof(connected));
+    memset((std::uint8_t*) connected, 0, sizeof(connected));
 
     //
     // Go through all the rooms and decide where are door(s) should be.
@@ -3927,7 +3927,7 @@ THING_INDEX ID_add_furniture(MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t dir, 
 
     /*
 
-    Thing *p_thing;
+    Entity *p_thing;
 
     THING_INDEX t_index;
 
@@ -3991,7 +3991,7 @@ void ID_fit_doors() {
     std::int32_t ajar; // 0 => Shut, 512 => open
     std::int32_t angle;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     for (i = 0; i < ID_wall_upto; i++) {
         iw = &ID_wall[i];
@@ -4169,7 +4169,7 @@ void ID_fit_stairs() {
     std::int32_t stairdir;
     std::int32_t stairprim;
 
-    ID_Stair *it;
+    ID_Stair* it;
 
     for (i = 0; i < ID_num_stairs; i++) {
         it = &ID_stair[i];
@@ -4438,7 +4438,7 @@ std::int32_t ID_fit_loo(std::int32_t room) {
 
     std::int32_t floor_area;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     ASSERT(WITHIN(room, 1, ID_room_upto - 1));
     ASSERT(ID_room[room].type == ID_ROOM_TYPE_LOO);
@@ -4871,7 +4871,7 @@ std::int32_t ID_fit_lounge(std::int32_t room) {
     std::int32_t treez;
     std::int32_t treedir;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     ASSERT(WITHIN(room, 1, ID_room_upto - 1));
     ASSERT(ID_room[room].type == ID_ROOM_TYPE_LOUNGE);
@@ -5338,7 +5338,7 @@ std::int32_t ID_fit_radiators() {
     std::int32_t bwadd;
     std::int32_t length;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     for (i = 1; i < ID_room_upto; i++) {
         ir = &ID_room[i];
@@ -5488,7 +5488,7 @@ std::int32_t ID_fit_radiators() {
 void ID_place_furniture() {
     std::int32_t i;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     //
     // Put down the stairs.
@@ -5555,7 +5555,7 @@ std::int32_t ID_goes_through_stairs(std::int32_t x1, std::int32_t z1, std::int32
     std::int32_t dx;
     std::int32_t dz;
 
-    ID_Stair *it;
+    ID_Stair* it;
 
     //
     // This function only works if the wall is orthogonal.
@@ -5638,7 +5638,7 @@ std::int32_t ID_generate_inside_walls(std::int32_t storey_type) {
     std::int32_t forbid_x = INFINITY;
     std::int32_t forbid_z = INFINITY;
 
-    ID_Square *is;
+    ID_Square* is;
 
     struct
     {
@@ -6035,7 +6035,7 @@ std::int32_t ID_is_there_a_room_accessible_from_only_one_other_room() {
 
     std::int32_t nextroom;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     struct
     {
@@ -6118,8 +6118,8 @@ std::int32_t ID_score_layout_house_ground() {
     std::int32_t found_corridor;
     std::int32_t score;
 
-    ID_Room *ir;
-    ID_Stair *it;
+    ID_Room* ir;
+    ID_Stair* it;
 
     //
     // We favour rectangular rooms whose ratio of width to
@@ -6216,7 +6216,7 @@ std::int32_t ID_score_layout_warehouse() {
     std::int32_t biggest;
     std::int32_t score;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     //
     // We want the biggest room to be really big!
@@ -6278,7 +6278,7 @@ std::int32_t ID_score_layout_apartement() {
     std::int32_t nz;
     std::int32_t nroom;
 
-    ID_Room *ir;
+    ID_Room* ir;
 
     std::int32_t score = ID_rand() & 0xff;
 
@@ -6427,9 +6427,9 @@ void ID_calculate_in_squares() {
     std::uint8_t next;
     std::uint8_t next1;
     std::uint8_t next2;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     //
     // First work out which squares are outside and which squares are inside. Any squares
@@ -6646,9 +6646,9 @@ std::int32_t ID_calculate_in_points() {
     std::uint8_t next;
     std::uint8_t next1;
     std::uint8_t next2;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     //
     // Clear the linked lists.
@@ -6886,12 +6886,12 @@ std::int32_t ID_generate_floorplan(std::int32_t storey_type, ID_Stair stair[], s
     std::uint8_t next;
     std::uint8_t next1;
     std::uint8_t next2;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
     std::int32_t num_walls;
     std::int32_t find_best_start;
 
-    ID_Wall *iw;
-    ID_Stair *is;
+    ID_Wall* iw;
+    ID_Stair* is;
 
     //
     // Remember where the stairs are.
@@ -7135,8 +7135,8 @@ void ID_get_stair_space_position(
     std::int32_t sz1,
     std::int32_t sx2, // The second stair square.
     std::int32_t sz2,
-    std::int32_t *stair_x,
-    std::int32_t *stair_z) {
+    std::int32_t* stair_x,
+    std::int32_t* stair_z) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -7216,7 +7216,7 @@ void ID_get_stair_space_position(
 // Returns the position you teleport up to.
 //
 
-void ID_teleport_up_pos(ID_Stair *it, std::int32_t *tx, std::int32_t *tz) {
+void ID_teleport_up_pos(ID_Stair* it, std::int32_t* tx, std::int32_t* tz) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -7236,7 +7236,7 @@ void ID_teleport_up_pos(ID_Stair *it, std::int32_t *tx, std::int32_t *tz) {
 // Returns the position you teleport down to.
 //
 
-void ID_teleport_down_pos(ID_Stair *it, std::int32_t *tx, std::int32_t *tz) {
+void ID_teleport_down_pos(ID_Stair* it, std::int32_t* tx, std::int32_t* tz) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -7255,9 +7255,9 @@ void ID_teleport_down_pos(ID_Stair *it, std::int32_t *tx, std::int32_t *tz) {
 std::int32_t ID_change_floor(
     std::int32_t x,
     std::int32_t z,
-    std::int32_t *new_x,
-    std::int32_t *new_z,
-    std::int32_t *handle) {
+    std::int32_t* new_x,
+    std::int32_t* new_z,
+    std::int32_t* handle) {
     std::int32_t i;
 
     std::int32_t map_x = x >> 8;
@@ -7269,7 +7269,7 @@ std::int32_t ID_change_floor(
     std::int32_t quadrant;
     std::int32_t ans;
 
-    ID_Stair *it;
+    ID_Stair* it;
 
     if (ID_FLOOR(map_x, map_z)->flag & ID_FLOOR_FLAG_STAIR) {
         //
@@ -7372,10 +7372,10 @@ std::int32_t ID_change_floor(
 }
 
 void ID_get_floorplan_bounding_box(
-    std::int32_t *x1,
-    std::int32_t *z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x1,
+    std::int32_t* z1,
+    std::int32_t* x2,
+    std::int32_t* z2) {
     *x1 = ID_floor_x1;
     *z1 = ID_floor_z1;
     *x2 = ID_floor_x2;
@@ -7394,10 +7394,10 @@ std::int32_t ID_am_i_completely_outside(std::int32_t x, std::int32_t z) {
 }
 
 std::int32_t ID_get_mapsquare_texture(std::int32_t x, std::int32_t z,
-                                      float *u0, float *v0,
-                                      float *u1, float *v1,
-                                      float *u2, float *v2,
-                                      float *u3, float *v3) {
+                                      float* u0, float* v0,
+                                      float* u1, float* v1,
+                                      float* u2, float* v2,
+                                      float* u3, float* v3) {
     std::uint16_t texture;
     std::int32_t page;
 
@@ -7406,7 +7406,7 @@ std::int32_t ID_get_mapsquare_texture(std::int32_t x, std::int32_t z,
     texture = ID_floor_texture[ID_FLOOR(x, z)->texid];
 
     std::int32_t i;
-    ID_Stair *it;
+    ID_Stair* it;
 
     for (i = 0; i < ID_num_stairs; i++) {
         it = &ID_stair[i];
@@ -7582,7 +7582,7 @@ std::int32_t ID_is_point_a_mapsquare(std::int32_t face, std::int32_t point) {
     return (ID_face[face].flag & (ID_FACE_FLAG_ONFLOOR0 << point));
 }
 
-void ID_get_point_mapsquare(std::int32_t face, std::int32_t point, std::int32_t *x, std::int32_t *z) {
+void ID_get_point_mapsquare(std::int32_t face, std::int32_t point, std::int32_t* x, std::int32_t* z) {
     std::int32_t p_index;
 
     ASSERT(WITHIN(face, 1, ID_face_upto - 1));
@@ -7596,7 +7596,7 @@ void ID_get_point_mapsquare(std::int32_t face, std::int32_t point, std::int32_t 
     *z = p_index >> 8;
 }
 
-void ID_get_point_position(std::int32_t face, std::int32_t point, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void ID_get_point_position(std::int32_t face, std::int32_t point, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::int32_t p_index;
 
     ASSERT(WITHIN(face, 1, ID_face_upto - 1));
@@ -7678,7 +7678,7 @@ std::uint8_t ID_get_mapsquare_room(std::int32_t x, std::int32_t z) {
     return ans;
 }
 
-void ID_get_room_camera(std::uint8_t room, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void ID_get_room_camera(std::uint8_t room, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     ASSERT(WITHIN(room, 1, ID_room_upto - 1));
 
     *x = ID_room[room].cam_x;
@@ -7690,7 +7690,7 @@ void ID_get_room_camera(std::uint8_t room, std::int32_t *x, std::int32_t *y, std
 void ID_remove_inside_things() {
     std::int32_t i;
 
-    Thing *p_thing;
+    Entity* p_thing;
 
 #define ID_MAX_INSIDE_THINGS 64
 
@@ -7720,10 +7720,10 @@ void ID_remove_inside_things() {
 }
 
 std::int32_t ID_get_face_texture(std::int32_t face,
-                                 float *u0, float *v0,
-                                 float *u1, float *v1,
-                                 float *u2, float *v2,
-                                 float *u3, float *v3) {
+                                 float* u0, float* v0,
+                                 float* u1, float* v1,
+                                 float* u2, float* v2,
+                                 float* u3, float* v3) {
     std::uint16_t texture;
     std::int32_t page;
 
@@ -7780,8 +7780,8 @@ std::int32_t ID_calc_height_at(std::int32_t x, std::int32_t z) {
     std::int32_t x_map = x >> 8;
     std::int32_t z_map = z >> 8;
 
-    ID_Square *is;
-    ID_Stair *it;
+    ID_Square* is;
+    ID_Stair* it;
 
     is = ID_FLOOR(x_map, z_map);
 
@@ -7914,8 +7914,8 @@ std::int32_t ID_collide_2d(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2,
     std::int32_t radius,
-    std::int32_t *slide_x,
-    std::int32_t *slide_z) {
+    std::int32_t* slide_x,
+    std::int32_t* slide_z) {
     std::int32_t i;
     std::int32_t j;
 
@@ -7937,7 +7937,7 @@ std::int32_t ID_collide_2d(
 
     std::int32_t collided;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     //
     // Collision with the walls treated as sausages
@@ -8167,8 +8167,8 @@ std::int32_t ID_collide_2d(
 std::int32_t ID_collide_2d_old(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2,
-    std::int32_t *slide_x,
-    std::int32_t *slide_z) {
+    std::int32_t* slide_x,
+    std::int32_t* slide_z) {
     std::int32_t i;
     std::int32_t j;
 
@@ -8199,7 +8199,7 @@ std::int32_t ID_collide_2d_old(
     std::int32_t bot;
     std::int32_t top;
 
-    ID_Wall *iw;
+    ID_Wall* iw;
 
     //
     // Collide with all the walls.
@@ -8488,7 +8488,7 @@ void ID_editor_start_get_stairs() {
 
 char ID_room_name[ID_MAX_ROOM_NAME];
 
-std::int32_t ID_editor_get_room(ID_Roominfo *ans) {
+std::int32_t ID_editor_get_room(ID_Roominfo* ans) {
     std::int32_t room;
 
     if (ID_editor_get_room_upto >= ID_room_upto) {
@@ -8499,7 +8499,7 @@ std::int32_t ID_editor_get_room(ID_Roominfo *ans) {
         std::int32_t x;
         std::int32_t z;
 
-        ID_Room *ir = &ID_room[ID_editor_get_room_upto];
+        ID_Room* ir = &ID_room[ID_editor_get_room_upto];
 
         for (x = ir->x1; x <= ir->x2; x++)
             for (z = ir->z1; z <= ir->z2; z++) {
@@ -8560,8 +8560,8 @@ std::int32_t ID_editor_get_room(ID_Roominfo *ans) {
     }
 }
 
-std::int32_t ID_editor_get_wall(ID_Wallinfo *ans) {
-    ID_Wall *iw;
+std::int32_t ID_editor_get_wall(ID_Wallinfo* ans) {
+    ID_Wall* iw;
 
     while (1) {
         if (ID_editor_get_wall_upto >= ID_wall_upto) {
@@ -8592,13 +8592,13 @@ std::int32_t ID_editor_get_wall(ID_Wallinfo *ans) {
     }
 }
 
-std::int32_t ID_editor_get_stair(ID_Stairinfo *ans) {
+std::int32_t ID_editor_get_stair(ID_Stairinfo* ans) {
     if (ID_editor_get_stair_upto >= ID_num_stairs) {
         return false;
     } else {
         ASSERT(WITHIN(ID_editor_get_stair_upto, 0, ID_num_stairs - 1));
 
-        ID_Stair *it = &ID_stair[ID_editor_get_stair_upto];
+        ID_Stair* it = &ID_stair[ID_editor_get_stair_upto];
 
         ans->x1 = it->x1;
         ans->z1 = it->z1;
@@ -8621,7 +8621,7 @@ std::int32_t ID_get_num_furn() {
     return ID_furn_upto;
 }
 
-ID_Finfo *ID_get_furn(std::int32_t number) {
+ID_Finfo* ID_get_furn(std::int32_t number) {
     ASSERT(WITHIN(number, 0, ID_furn_upto - 1));
 
     ID_get_finfo.x = ID_furn[number].x;
@@ -8645,7 +8645,7 @@ std::int32_t ID_get_num_furn() {
     return (0);
 }
 
-ID_Finfo *ID_get_furn(std::int32_t number) {
+ID_Finfo* ID_get_furn(std::int32_t number) {
     return (NULL);
 }
 
@@ -8653,8 +8653,8 @@ std::int32_t ID_collide_2d(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2,
     std::int32_t radius,
-    std::int32_t *slide_x,
-    std::int32_t *slide_z) {
+    std::int32_t* slide_x,
+    std::int32_t* slide_z) {
     return (0);
 }
 
@@ -8662,10 +8662,10 @@ void ID_this_is_where_i_am(std::int32_t x, std::int32_t z) {
 }
 
 void ID_get_floorplan_bounding_box(
-    std::int32_t *x1,
-    std::int32_t *z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x1,
+    std::int32_t* z1,
+    std::int32_t* x2,
+    std::int32_t* z2) {
     *x1 = 0;
     *z1 = 0;
     *x2 = 0;

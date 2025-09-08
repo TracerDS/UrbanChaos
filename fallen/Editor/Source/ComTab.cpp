@@ -72,7 +72,7 @@ std::uint16_t command_field_widths[][MAX_FIELDS] =
         {0,                  0,             0,             0            }
 };
 
-CommandTab *the_com_tab;
+CommandTab* the_com_tab;
 
 //---------------------------------------------------------------
 //	Callback functions.
@@ -97,8 +97,8 @@ CommandTab::CommandTab() {
 
     InitControlSet(com_tab_def);
 
-    ((CHSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetUpdateFunction(draw_comlists_box);
-    ((CHSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetUpdateFunction(draw_comlist_box);
+    ((CHSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->SetUpdateFunction(draw_comlists_box);
+    ((CHSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->SetUpdateFunction(draw_comlist_box);
 }
 
 //---------------------------------------------------------------
@@ -126,7 +126,7 @@ void CommandTab::DrawTabContent() {
         break;
     case COM_MODE_SELECT_THING:
         message_height = QTStringHeight() + 12;
-        message_width = QTStringWidth("Select A Thing") + 12;
+        message_width = QTStringWidth("Select A Entity") + 12;
         message_rect.SetRect(
             150 - (message_width >> 1),
             220 - (message_height >> 1),
@@ -137,7 +137,7 @@ void CommandTab::DrawTabContent() {
         QuickTextC(
             message_rect.GetLeft() + 6,
             message_rect.GetTop() + 6,
-            "Select A Thing",
+            "Select A Entity",
             0);
         break;
     case COM_MODE_SELECT_WAYPOINT:
@@ -198,11 +198,11 @@ void CommandTab::UpdateTab(std::uint8_t update_level) {
 
 //---------------------------------------------------------------
 
-std::uint16_t CommandTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t CommandTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint8_t update = UPDATE_NONE;
     std::uint16_t select_pos;
     std::uint32_t control_id = 0;
-    EditComList *the_comlist;
+    EditComList* the_comlist;
     MFPoint local_point;
 
     if (TabMode) {
@@ -235,11 +235,11 @@ std::uint16_t CommandTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_po
         if (select_pos) {
             CurrentComList = HilitetedList(select_pos);
             if (CurrentComList) {
-                ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
+                ((CEditText*) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
                 if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
-                    ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
+                    ((CVSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
                 } else {
-                    ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, 0);
+                    ((CVSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, 0);
                 }
             }
         } else {
@@ -274,7 +274,7 @@ std::uint16_t CommandTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_po
 
 //---------------------------------------------------------------
 
-void CommandTab::HandleTab(MFPoint *current_point) {
+void CommandTab::HandleTab(MFPoint* current_point) {
     std::uint8_t update = UPDATE_NONE;
     EdRect command_rect,
         lists_rect;
@@ -334,9 +334,9 @@ void CommandTab::HandleControl(std::uint16_t control_id) {
         if (CurrentComList) {
             // set up the new command list.
             if (ed_comlist_count > MAX_VIEW_LISTS) {
-                ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_comlist_count - MAX_VIEW_LISTS);
+                ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_comlist_count - MAX_VIEW_LISTS);
             }
-            ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
+            ((CEditText*) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString(CurrentComList->ComListName);
 
             // Allocate the first command.
             add_command(CurrentComList, alloc_ed_command());
@@ -345,7 +345,7 @@ void CommandTab::HandleControl(std::uint16_t control_id) {
     case CTRL_LISTS_SLIDER:
         break;
     case CTRL_COMLIST_EDIT:
-        strcpy(CurrentComList->ComListName, ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->GetEditString());
+        strcpy(CurrentComList->ComListName, ((CEditText*) GetControlPtr(CTRL_COMLIST_EDIT))->GetEditString());
         break;
     case CTRL_COMLIST_SLIDER:
         break;
@@ -354,7 +354,7 @@ void CommandTab::HandleControl(std::uint16_t control_id) {
             // Create a new command.
             add_command(CurrentComList, alloc_ed_command());
             if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
-                ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
+                ((CVSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, CurrentComList->CommandCount - MAX_VIEW_COMMANDS);
             }
         }
         break;
@@ -363,9 +363,9 @@ void CommandTab::HandleControl(std::uint16_t control_id) {
 
 //---------------------------------------------------------------
 
-void CommandTab::DoComListPopup(MFPoint *clicked_point, EditComList *the_comlist) {
+void CommandTab::DoComListPopup(MFPoint* clicked_point, EditComList* the_comlist) {
     std::uint32_t control_id = 0;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
 
     comlist_popup_def.ControlLeft = clicked_point->X + 4;
     comlist_popup_def.ControlTop = clicked_point->Y - 4;
@@ -380,10 +380,10 @@ void CommandTab::DoComListPopup(MFPoint *clicked_point, EditComList *the_comlist
     case 1:
         if (CurrentComList == the_comlist) {
             CurrentComList = nullptr;
-            ((CEditText *) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString("");
+            ((CEditText*) GetControlPtr(CTRL_COMLIST_EDIT))->SetEditString("");
         }
         if (ed_comlist_count > MAX_VIEW_LISTS) {
-            ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_comlist_count - MAX_VIEW_LISTS) - 1);
+            ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_comlist_count - MAX_VIEW_LISTS) - 1);
         }
         free_ed_comlist(the_comlist);
         break;
@@ -392,12 +392,12 @@ void CommandTab::DoComListPopup(MFPoint *clicked_point, EditComList *the_comlist
 
 //---------------------------------------------------------------
 
-void CommandTab::DoCommandPopup(MFPoint *clicked_point, std::uint16_t select_pos) {
+void CommandTab::DoCommandPopup(MFPoint* clicked_point, std::uint16_t select_pos) {
     std::uint8_t field;
     std::uint32_t control_id = 0;
-    CPopUp *the_control = 0;
-    EditCommand *the_command;
-    EditCondList *the_cond_list;
+    CPopUp* the_control = 0;
+    EditCommand* the_command;
+    EditCondList* the_cond_list;
 
     the_command = HilitetedCommand(select_pos);
     if (the_command) {
@@ -512,14 +512,14 @@ void CommandTab::DoCommandPopup(MFPoint *clicked_point, std::uint16_t select_pos
 
 //---------------------------------------------------------------
 
-void CommandTab::CommonCommandOptions(std::uint32_t id, EditCommand *the_command) {
+void CommandTab::CommonCommandOptions(std::uint32_t id, EditCommand* the_command) {
     switch (id) {
     case 0: // nullptr.
         break;
     case 1: // Delete Condition.
         if (the_command) {
             if (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) {
-                ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) - 1);
+                ((CVSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->SetValueRange(0, (CurrentComList->CommandCount > MAX_VIEW_COMMANDS) - 1);
             }
         }
         remove_command(CurrentComList, the_command);
@@ -538,7 +538,7 @@ void CommandTab::CommonCommandOptions(std::uint32_t id, EditCommand *the_command
 
 //---------------------------------------------------------------
 
-EditCondList *CommandTab::SelectConditionList() {
+EditCondList* CommandTab::SelectConditionList() {
     bool exit = false;
     std::uint8_t update = 2;
     std::uint16_t select_pos;
@@ -561,9 +561,9 @@ EditCondList *CommandTab::SelectConditionList() {
     select_set.ControlSetBounds(&bounds_rect);
     select_set.InitControlSet(select_clist_def);
     if (ed_clist_count > MAX_VIEW_LISTS) {
-        ((CVSlider *) select_set.GetControlPtr(1))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
+        ((CVSlider*) select_set.GetControlPtr(1))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
     }
-    ((CVSlider *) select_set.GetControlPtr(1))->SetCurrentValue(0);
+    ((CVSlider*) select_set.GetControlPtr(1))->SetCurrentValue(0);
 
     while (SHELL_ACTIVE && !exit) {
         SetWorkWindowBounds(0, 0, WorkScreenPixelWidth, WorkScreenHeight);
@@ -626,7 +626,7 @@ EditCondList *CommandTab::SelectConditionList() {
 
                     // Skip the beginning of the list to match the slider bar position.
                     current_list = clists;
-                    c0 = ((CVSlider *) select_set.GetControlPtr(1))->GetCurrentValue();
+                    c0 = ((CVSlider*) select_set.GetControlPtr(1))->GetCurrentValue();
                     while (current_list && c0) {
                         c0--;
                         current_list = current_list->Next;
@@ -677,7 +677,7 @@ EditCondList *CommandTab::SelectConditionList() {
 void CommandTab::DrawListsBox() {
     std::uint16_t select_pos;
     std::int32_t c0;
-    EditComList *current_list;
+    EditComList* current_list;
     EdRect item_rect,
         lists_rect;
     MFPoint local_point;
@@ -695,7 +695,7 @@ void CommandTab::DrawListsBox() {
 
     // Skip the beginning of the list to match the slider bar position.
     current_list = comlists;
-    c0 = ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
+    c0 = ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
     while (current_list && c0) {
         c0--;
         current_list = current_list->Next;
@@ -731,7 +731,7 @@ void CommandTab::DrawCurrentList() {
     std::uint16_t select_pos;
     std::int32_t c0, c1,
         x_pos;
-    EditCommand *current_command;
+    EditCommand* current_command;
     EdRect field_rects[MAX_FIELDS],
         list_rect;
     MFPoint local_point;
@@ -751,7 +751,7 @@ void CommandTab::DrawCurrentList() {
         // Skip the beginning of the list to match the slider bar position.
         current_command = CurrentComList->CommandList;
         if (current_command) {
-            c0 = ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->GetCurrentValue();
+            c0 = ((CVSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->GetCurrentValue();
             while (current_command && c0) {
                 c0--;
                 current_command = current_command->Next;
@@ -788,7 +788,7 @@ void CommandTab::DrawCurrentList() {
                 case COM_ATTACK_PLAYER:
                     break;
                 case COM_ATTACK_THING:
-                    sprintf(&field_text[1][0], "Thing %d", current_command->Data1);
+                    sprintf(&field_text[1][0], "Entity %d", current_command->Data1);
                     break;
                 case COM_ATTACK_GROUP:
                     break;
@@ -797,7 +797,7 @@ void CommandTab::DrawCurrentList() {
                 case COM_DEFEND_PLAYER:
                     break;
                 case COM_DEFEND_THING:
-                    sprintf(&field_text[1][0], "Thing %d", current_command->Data1);
+                    sprintf(&field_text[1][0], "Entity %d", current_command->Data1);
                     break;
                 case COM_DEFEND_GROUP:
                     break;
@@ -865,7 +865,7 @@ void CommandTab::DrawCurrentList() {
 
 //---------------------------------------------------------------
 
-std::uint16_t CommandTab::ListsHilitePos(MFPoint *current_point) {
+std::uint16_t CommandTab::ListsHilitePos(MFPoint* current_point) {
     std::uint16_t c0;
     EdRect item_rect,
         lists_rect;
@@ -890,14 +890,14 @@ std::uint16_t CommandTab::ListsHilitePos(MFPoint *current_point) {
 
 //---------------------------------------------------------------
 
-EditComList *CommandTab::HilitetedList(std::uint16_t select_pos) {
+EditComList* CommandTab::HilitetedList(std::uint16_t select_pos) {
     std::uint32_t c0;
-    EditComList *current_list;
+    EditComList* current_list;
 
     current_list = comlists;
 
     //	Skip the beginning of the list to match the slider bar position.
-    c0 = ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
+    c0 = ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
     while (current_list && c0) {
         c0--;
         current_list = current_list->Next;
@@ -915,10 +915,10 @@ EditComList *CommandTab::HilitetedList(std::uint16_t select_pos) {
 
 //---------------------------------------------------------------
 
-std::uint16_t CommandTab::CurrentListHilitePos(MFPoint *current_point) {
+std::uint16_t CommandTab::CurrentListHilitePos(MFPoint* current_point) {
     std::uint16_t c0, c1;
     std::int32_t x_pos;
-    EditCommand *current_command;
+    EditCommand* current_command;
     EdRect command_rect,
         field_rects[MAX_FIELDS],
         list_rect;
@@ -963,15 +963,15 @@ std::uint16_t CommandTab::CurrentListHilitePos(MFPoint *current_point) {
 
 //---------------------------------------------------------------
 
-EditCommand *CommandTab::HilitetedCommand(std::uint16_t select_pos) {
+EditCommand* CommandTab::HilitetedCommand(std::uint16_t select_pos) {
     std::uint32_t c0;
-    EditCommand *current_command = nullptr;
+    EditCommand* current_command = nullptr;
 
     if (CurrentComList) {
         current_command = CurrentComList->CommandList;
 
         //	Skip the beginning of the list to match the slider bar position.
-        c0 = ((CVSlider *) GetControlPtr(CTRL_COMLIST_SLIDER))->GetCurrentValue();
+        c0 = ((CVSlider*) GetControlPtr(CTRL_COMLIST_SLIDER))->GetCurrentValue();
         while (current_command && c0) {
             c0--;
             current_command = current_command->Next;

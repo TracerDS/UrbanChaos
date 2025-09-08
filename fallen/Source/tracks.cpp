@@ -27,13 +27,13 @@
 #define TRACK_MUDDY_COLOUR 0x482000
 #define TRACK_ONSNOW_COLOUR 0x000000
 
-Track *tracks;                                   //[TRACK_BUFFER_LENGTH];
+Track* tracks;                                   //[TRACK_BUFFER_LENGTH];
 std::uint16_t track_head, track_tail, track_eob; // stopped them being pointers by MikeD
 
 void TRACKS_InitOnce(std::int16_t size) {
     track_eob = size;            //&tracks[TRACK_BUFFER_LENGTH]; // yes, intentionally one past the end of the buffer
     track_head = track_tail = 0; // tracks;
-    memset((std::uint8_t *) tracks, 0, sizeof(Track) * size);
+    memset((std::uint8_t*) tracks, 0, sizeof(Track) * size);
 }
 
 void TRACKS_Reset(std::int16_t size) {
@@ -46,7 +46,7 @@ void TRACKS_Reset(std::int16_t size) {
     TRACKS_InitOnce(size);
 }
 
-inline void RShift8(std::int32_t &x, std::int32_t &y, std::int32_t &z) {
+inline void RShift8(std::int32_t& x, std::int32_t& y, std::int32_t& z) {
     x >>= 8;
     y >>= 8;
     z >>= 8;
@@ -66,7 +66,7 @@ void TRACKS_Draw() {
 }
 */
 // Figure out the offsets given the width
-void TRACKS_CalcDiffs(Track &track, std::uint8_t width) {
+void TRACKS_CalcDiffs(Track& track, std::uint8_t width) {
     /*  std::int32_t x,z,sf;
       std::uint32_t ux,uz,f;
 
@@ -104,7 +104,7 @@ void TRACKS_CalcDiffs(Track &track, std::uint8_t width) {
 void TRACKS_AddQuad(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t page, std::int32_t colour, std::uint8_t width, std::uint8_t flip, std::uint8_t flags) {
     Track track;
     //	THING_INDEX t_index;
-    Thing *thing;
+    Entity* thing;
 
     thing = alloc_thing(CLASS_TRACK);
     if (thing) {
@@ -133,7 +133,7 @@ void TRACKS_AddQuad(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t
 }
 
 // Add a track unit supplying a completed track entry
-void TRACKS_AddTrack(Track &track) {
+void TRACKS_AddTrack(Track& track) {
     *(TO_TRACK(track_head)) = track;
 
     // debug -- back up x/y/z
@@ -307,7 +307,7 @@ std::int32_t TRACKS_GroundAtXZ(std::int32_t X, std::int32_t Z) {
     return PERSON_ON_DUNNO;
 }
 
-void TRACKS_Bleed(Thing *bleeder) {
+void TRACKS_Bleed(Entity* bleeder) {
     // #ifdef VERSION_GERMAN
     if (!VIOLENCE)
         return;
@@ -339,7 +339,7 @@ void TRACKS_Bleed(Thing *bleeder) {
     TRACKS_AddQuad(x, y, z, dx, 0, dz, POLY_PAGE_BLOODSPLAT, 0x00ffffff, sz, 0, TRACK_FLAGS_SPLUTTING);
 }
 
-void TRACKS_Bloodpool(Thing *bleeder) {
+void TRACKS_Bloodpool(Entity* bleeder) {
     // #ifdef VERSION_GERMAN
     if (!VIOLENCE)
         return;

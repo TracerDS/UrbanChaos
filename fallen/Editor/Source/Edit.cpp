@@ -25,7 +25,7 @@
         t.DrawFlags = (POLY_FLAG_GOURAD | POLY_FLAG_TEXTURED); \
     }
 
-extern void load_palette(char *palette);
+extern void load_palette(char* palette);
 extern std::int32_t calc_edit_height_at(std::int32_t x, std::int32_t z);
 extern std::int32_t next_inside; // building.cpp
 
@@ -34,14 +34,14 @@ extern std::uint16_t page_count[];
 extern std::uint16_t moved_from[16 * 64];
 extern std::uint16_t moved_to[16 * 64];
 
-extern std::uint16_t *psx_remap; //[128];
+extern std::uint16_t* psx_remap; //[128];
 extern std::uint16_t page_remap[];
 
 struct MapBlock2 {
     std::int32_t X;
     std::int32_t Y;
     std::int32_t Z;
-    struct DepthStrip *MapPtr;
+    struct DepthStrip* MapPtr;
     std::int32_t AngleX; // wont need this I suspect
     std::int32_t AngleY;
     std::int32_t AngleZ; // wont need this I suspect
@@ -50,7 +50,7 @@ struct MapBlock2 {
     std::int32_t MapHeight;
     std::int32_t MapDepth; // (unchangeable?)
 
-    char *name;
+    char* name;
 };
 
 // std::uint8_t	texture_sizes[]={8,16,32,64,96,128,160,192};
@@ -129,7 +129,7 @@ void free_edit_memory() {
     std::int32_t c0;
     for (c0 = 0; c0 < MAX_WALLS; c0++) {
         if (wall_list[c0].Textures && wall_list[c0].Tcount) {
-            MemFree((void *) wall_list[c0].Textures);
+            MemFree((void*) wall_list[c0].Textures);
             wall_list[c0].Textures = 0;
             wall_list[c0].Tcount = 0;
         }
@@ -196,7 +196,7 @@ extern std::uint16_t apply_ambient_light_to_object(std::uint16_t object, std::in
 
 std::int32_t place_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::uint16_t map_thing;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     y = 0;
 
@@ -224,7 +224,7 @@ std::int32_t place_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, s
 
 std::int32_t place_anim_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::uint16_t map_thing;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     y = 0;
 
@@ -247,7 +247,7 @@ std::int32_t place_anim_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t
 }
 
 std::int32_t is_thing_on_map(std::int32_t index) {
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::int32_t map;
 
     p_thing = TO_MTHING(index);
@@ -269,16 +269,16 @@ std::uint16_t is_road[] =
 extern void move_texture(std::uint16_t from, std::uint16_t to);
 extern std::uint16_t get_split_bits(std::uint16_t tex);
 
-void save_game_map(char *name) {
+void save_game_map(char* name) {
     std::uint16_t temp1, temp2, temp3, temp;
     std::int32_t save_type = 26, ob_size;
     std::int32_t x, y, z;
     std::int32_t c0;
     MapElement me;
-    Thing th;
-    struct MapThing *t_mthing;
+    Entity th;
+    struct MapThing* t_mthing;
     std::int32_t next_texture = 64 * 4;
-    std::uint16_t *tex_map_psx;
+    std::uint16_t* tex_map_psx;
 
     MFFileHandle handle = FILE_OPEN_ERROR;
     MFFileHandle jandle = FILE_OPEN_ERROR;
@@ -288,7 +288,7 @@ void save_game_map(char *name) {
     //
 
     char gamename[256];
-    char *ch;
+    char* ch;
 
     strcpy(gamename, name);
 
@@ -306,8 +306,8 @@ void save_game_map(char *name) {
     *ch++ = 'm';
     *ch++ = '\000';
 
-    memset((char *) moved_from, 0, 16 * 64 * 2);
-    memset((char *) moved_to, 0, 16 * 64 * 2);
+    memset((char*) moved_from, 0, 16 * 64 * 2);
+    memset((char*) moved_to, 0, 16 * 64 * 2);
 
     jandle = FileCreate(gamename, 1);
     if (jandle != FILE_CREATION_ERROR) {
@@ -323,13 +323,13 @@ void save_game_map(char *name) {
         PAP_Lo pap_lo;
         std::int32_t c0;
 
-        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        FileWrite(handle, (std::uint8_t*) &save_type, 4);
 
         extern void add_flat_roof_to_pap();
         add_flat_roof_to_pap();
 
         ob_size = sizeof(OB_ob_upto) + (sizeof(OB_Ob) * OB_ob_upto) + (sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
-        FileWrite(handle, (std::uint8_t *) &ob_size, 4);
+        FileWrite(handle, (std::uint8_t*) &ob_size, 4);
 
         memset(&me, 0, sizeof(me));
 
@@ -344,7 +344,7 @@ void save_game_map(char *name) {
             next_texture++;
             c0++;
         }
-        tex_map_psx = (std::uint16_t *) MemAlloc(128 * 128 * 2);
+        tex_map_psx = (std::uint16_t*) MemAlloc(128 * 128 * 2);
 
         for (x = 0; x < MAP_WIDTH; x++)
             for (z = 0; z < MAP_HEIGHT; z++) {
@@ -419,19 +419,19 @@ void save_game_map(char *name) {
                 } else {
                     memset(&pap_hi, 0, sizeof(pap_hi));
                 }
-                FileWrite(handle, (std::uint8_t *) &pap_hi, sizeof(pap_hi));
+                FileWrite(handle, (std::uint8_t*) &pap_hi, sizeof(pap_hi));
             }
         if (save_psx) {
             std::uint32_t check;
 
             check = 128 * 128 * 2;
 
-            FileWrite(handle, (std::uint8_t *) &check, 4);
-            FileWrite(handle, (std::uint8_t *) tex_map_psx, 128 * 128 * 2);
+            FileWrite(handle, (std::uint8_t*) &check, 4);
+            FileWrite(handle, (std::uint8_t*) tex_map_psx, 128 * 128 * 2);
             check = 666;
-            FileWrite(handle, (std::uint8_t *) &check, 4);
+            FileWrite(handle, (std::uint8_t*) &check, 4);
         }
-        MemFree((void *) tex_map_psx);
+        MemFree((void*) tex_map_psx);
 
         temp = 0;
         for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
@@ -444,7 +444,7 @@ void save_game_map(char *name) {
             }
         }
 
-        FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
+        FileWrite(handle, (std::uint8_t*) &temp, sizeof(temp));
         for (c0 = 0; c0 < MAX_MAP_THINGS; c0++) {
             struct LoadGameThing io_thing;
             t_mthing = &map_things[c0];
@@ -457,7 +457,7 @@ void save_game_map(char *name) {
                 io_thing.Z = t_mthing->Z;
                 io_thing.AngleY = t_mthing->AngleY;
                 io_thing.IndexOther = t_mthing->IndexOther;
-                FileWrite(handle, (std::uint8_t *) &io_thing, sizeof(struct LoadGameThing));
+                FileWrite(handle, (std::uint8_t*) &io_thing, sizeof(struct LoadGameThing));
                 break;
             }
         }
@@ -473,7 +473,7 @@ void save_game_map(char *name) {
 
         extern void save_super_map(MFFileHandle handle);
         save_super_map(handle);
-        FileWrite(handle, (std::uint8_t *) &editor_texture_set, sizeof(editor_texture_set));
+        FileWrite(handle, (std::uint8_t*) &editor_texture_set, sizeof(editor_texture_set));
 
         {
             std::int32_t si, pi;
@@ -496,7 +496,7 @@ void save_game_map(char *name) {
                     psx_textures_xy[si][pi] |= flip << 14;
                 }
             }
-            FileWrite(handle, (std::uint8_t *) psx_textures_xy, 2 * 200 * 5);
+            FileWrite(handle, (std::uint8_t*) psx_textures_xy, 2 * 200 * 5);
         }
         FileClose(handle);
     }
@@ -506,7 +506,7 @@ void save_game_map(char *name) {
         // Save out a special extras file.
         //
 
-        FILE *handle = fopen("data\\game.ext", "wb");
+        FILE* handle = fopen("data\\game.ext", "wb");
 
         if (handle) {
             fwrite(EXTRA_thing, 1, sizeof(EXTRA_thing), handle);
@@ -530,7 +530,7 @@ void save_game_map(char *name) {
     //	CopyFile(gamename, "data\\game.map", false);
 }
 
-void save_tex_remap(char *name) {
+void save_tex_remap(char* name) {
     char name2[128];
     std::int32_t c0;
     MFFileHandle handle = FILE_OPEN_ERROR;
@@ -547,15 +547,15 @@ void save_tex_remap(char *name) {
 
     handle = FileCreate(name2, 1);
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &type, sizeof(type));
-        FileWrite(handle, (std::uint8_t *) &count, sizeof(count));
+        FileWrite(handle, (std::uint8_t*) &type, sizeof(type));
+        FileWrite(handle, (std::uint8_t*) &count, sizeof(count));
 
-        FileWrite(handle, (std::uint8_t *) &page_remap, sizeof(std::uint16_t) * count);
+        FileWrite(handle, (std::uint8_t*) &page_remap, sizeof(std::uint16_t) * count);
     }
     FileClose(handle);
 }
 
-void load_tex_remap(char *name) {
+void load_tex_remap(char* name) {
     char name2[128];
     std::int32_t c0;
     MFFileHandle handle = FILE_OPEN_ERROR;
@@ -574,10 +574,10 @@ void load_tex_remap(char *name) {
 
     handle = FileOpen(name2);
     if (handle != FILE_OPEN_ERROR) {
-        FileRead(handle, (std::uint8_t *) &type, sizeof(type));
-        FileRead(handle, (std::uint8_t *) &count, sizeof(count));
+        FileRead(handle, (std::uint8_t*) &type, sizeof(type));
+        FileRead(handle, (std::uint8_t*) &count, sizeof(count));
 
-        FileRead(handle, (std::uint8_t *) &page_remap, sizeof(std::uint16_t) * count);
+        FileRead(handle, (std::uint8_t*) &page_remap, sizeof(std::uint16_t) * count);
         if (type == 0) {
             std::int32_t c0;
             std::uint16_t page;
@@ -601,7 +601,7 @@ void load_tex_remap(char *name) {
     FileClose(handle);
 }
 
-void save_map(char *name, std::int32_t quick) {
+void save_map(char* name, std::int32_t quick) {
     std::uint16_t temp;
     std::int32_t save_type = 27;
     std::int32_t c0;
@@ -643,74 +643,74 @@ void save_map(char *name, std::int32_t quick) {
 
     handle = FileCreate(name, 1);
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &save_type, 4);
-        FileWrite(handle, (std::uint8_t *) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        FileWrite(handle, (std::uint8_t*) &save_type, 4);
+        FileWrite(handle, (std::uint8_t*) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-        FileWrite(handle, (std::uint8_t *) tex_map, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        FileWrite(handle, (std::uint8_t*) tex_map, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-        FileWrite(handle, (std::uint8_t *) edit_map_roof_height, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+        FileWrite(handle, (std::uint8_t*) edit_map_roof_height, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
-        FileWrite(handle, (std::uint8_t *) &end_prim_point, sizeof(std::uint16_t));
-        FileWrite(handle, (std::uint8_t *) &end_prim_face4, sizeof(std::uint16_t));
-        FileWrite(handle, (std::uint8_t *) &end_prim_face3, sizeof(std::uint16_t));
-        FileWrite(handle, (std::uint8_t *) &end_prim_object, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &end_prim_point, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &end_prim_face4, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &end_prim_face3, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &end_prim_object, sizeof(std::uint16_t));
 
         temp = MAX_PRIM_POINTS - end_prim_point;
-        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &temp, sizeof(std::uint16_t));
 
         temp = MAX_PRIM_FACES4 - end_prim_face4;
-        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &temp, sizeof(std::uint16_t));
 
         temp = MAX_PRIM_FACES3 - end_prim_face3;
-        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &temp, sizeof(std::uint16_t));
 
         temp = MAX_PRIM_OBJECTS - end_prim_object;
-        FileWrite(handle, (std::uint8_t *) &temp, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &temp, sizeof(std::uint16_t));
 
-        FileWrite(handle, (std::uint8_t *) &prim_points[end_prim_point], sizeof(struct PrimPoint) * (MAX_PRIM_POINTS - end_prim_point));
-        FileWrite(handle, (std::uint8_t *) &prim_faces4[end_prim_face4], sizeof(struct PrimFace4) * (MAX_PRIM_FACES4 - end_prim_face4));
-        FileWrite(handle, (std::uint8_t *) &prim_faces3[end_prim_face3], sizeof(struct PrimFace3) * (MAX_PRIM_FACES3 - end_prim_face3));
-        FileWrite(handle, (std::uint8_t *) &prim_objects[end_prim_object], sizeof(struct PrimObject) * (MAX_PRIM_OBJECTS - end_prim_object));
-        FileWrite(handle, (std::uint8_t *) &background_prim, sizeof(std::uint16_t));
+        FileWrite(handle, (std::uint8_t*) &prim_points[end_prim_point], sizeof(struct PrimPoint) * (MAX_PRIM_POINTS - end_prim_point));
+        FileWrite(handle, (std::uint8_t*) &prim_faces4[end_prim_face4], sizeof(struct PrimFace4) * (MAX_PRIM_FACES4 - end_prim_face4));
+        FileWrite(handle, (std::uint8_t*) &prim_faces3[end_prim_face3], sizeof(struct PrimFace3) * (MAX_PRIM_FACES3 - end_prim_face3));
+        FileWrite(handle, (std::uint8_t*) &prim_objects[end_prim_object], sizeof(struct PrimObject) * (MAX_PRIM_OBJECTS - end_prim_object));
+        FileWrite(handle, (std::uint8_t*) &background_prim, sizeof(std::uint16_t));
 
         // Moved to the end for versions 26+
         //		FileWrite(handle,(std::uint8_t*)&map_things[0],sizeof(struct MapThing)*MAX_MAP_THINGS);
-        FileWrite(handle, (std::uint8_t *) &edit_info.amb_dx, 4 * 5);
-        FileWrite(handle, (std::uint8_t *) &next_col_info, 2);
-        FileWrite(handle, (std::uint8_t *) col_info, sizeof(struct ColInfo) * next_col_info);
+        FileWrite(handle, (std::uint8_t*) &edit_info.amb_dx, 4 * 5);
+        FileWrite(handle, (std::uint8_t*) &next_col_info, 2);
+        FileWrite(handle, (std::uint8_t*) col_info, sizeof(struct ColInfo) * next_col_info);
 
         temp = MAX_WINDOWS;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
         temp = MAX_WALLS;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
         temp = MAX_STOREYS;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
         temp = MAX_BUILDINGS;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
 
-        FileWrite(handle, (std::uint8_t *) window_list, sizeof(struct FWindow) * MAX_WINDOWS);
+        FileWrite(handle, (std::uint8_t*) window_list, sizeof(struct FWindow) * MAX_WINDOWS);
         for (c0 = 0; c0 < MAX_WALLS; c0++) {
-            FileWrite(handle, (std::uint8_t *) &wall_list[c0], sizeof(struct FWall) * 1);
+            FileWrite(handle, (std::uint8_t*) &wall_list[c0], sizeof(struct FWall) * 1);
             if (wall_list[c0].Tcount && wall_list[c0].Textures) {
-                FileWrite(handle, (std::uint8_t *) wall_list[c0].Textures, wall_list[c0].Tcount);
+                FileWrite(handle, (std::uint8_t*) wall_list[c0].Textures, wall_list[c0].Tcount);
             }
             if (wall_list[c0].Tcount2 && wall_list[c0].Textures2) {
-                FileWrite(handle, (std::uint8_t *) wall_list[c0].Textures2, wall_list[c0].Tcount2);
+                FileWrite(handle, (std::uint8_t*) wall_list[c0].Textures2, wall_list[c0].Tcount2);
             }
         }
 
-        FileWrite(handle, (std::uint8_t *) &storey_list[0], sizeof(struct FStorey) * MAX_STOREYS);
-        FileWrite(handle, (std::uint8_t *) building_list, sizeof(struct FBuilding) * MAX_BUILDINGS);
+        FileWrite(handle, (std::uint8_t*) &storey_list[0], sizeof(struct FStorey) * MAX_STOREYS);
+        FileWrite(handle, (std::uint8_t*) building_list, sizeof(struct FBuilding) * MAX_BUILDINGS);
 
         temp = next_inside;
-        FileWrite(handle, (std::uint8_t *) &temp, sizeof(temp));
-        FileWrite(handle, (std::uint8_t *) &room_ids[0], sizeof(struct RoomID) * temp);
+        FileWrite(handle, (std::uint8_t*) &temp, sizeof(temp));
+        FileWrite(handle, (std::uint8_t*) &room_ids[0], sizeof(struct RoomID) * temp);
 
-        FileWrite(handle, (std::uint8_t *) EXTRA_thing, sizeof(EXTRA_thing));
+        FileWrite(handle, (std::uint8_t*) EXTRA_thing, sizeof(EXTRA_thing));
 
-        FileWrite(handle, (std::uint8_t *) &editor_texture_set, sizeof(editor_texture_set));
+        FileWrite(handle, (std::uint8_t*) &editor_texture_set, sizeof(editor_texture_set));
 
-        FileWrite(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+        FileWrite(handle, (std::uint8_t*) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
 
         FileClose(handle);
     }
@@ -725,7 +725,7 @@ void save_map(char *name, std::int32_t quick) {
 
 void set_things_faces(std::int16_t thing) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
 
     p_obj = &prim_objects[map_things[thing].IndexOther];
     for (c0 = p_obj->StartFace4; c0 < p_obj->EndFace4; c0++) {
@@ -758,13 +758,13 @@ void clear_map() {
     //	next_col_vect=1;
     //	next_col_vect_link=1;
 
-    memset((std::uint8_t *) &edit_map[0][0], 0, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_HEIGHT);
+    memset((std::uint8_t*) &edit_map[0][0], 0, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_HEIGHT);
     //	memset((std::uint8_t*)&edit_map_eles[0],0,sizeof(EditMapElement)*65000);
-    memset((std::uint8_t *) &map_things[0], 0, sizeof(struct MapThing) * MAX_MAP_THINGS);
+    memset((std::uint8_t*) &map_things[0], 0, sizeof(struct MapThing) * MAX_MAP_THINGS);
 
-    memset((std::uint8_t *) wall_list, 0, sizeof(struct FWall) * MAX_WALLS);
-    memset((std::uint8_t *) storey_list, 0, sizeof(struct FStorey) * MAX_STOREYS);
-    memset((std::uint8_t *) building_list, 0, sizeof(struct FBuilding) * MAX_BUILDINGS);
+    memset((std::uint8_t*) wall_list, 0, sizeof(struct FWall) * MAX_WALLS);
+    memset((std::uint8_t*) storey_list, 0, sizeof(struct FStorey) * MAX_STOREYS);
+    memset((std::uint8_t*) building_list, 0, sizeof(struct FBuilding) * MAX_BUILDINGS);
 }
 
 std::int32_t fix_storey(std::int32_t storey, std::int32_t building, std::uint8_t magnify) {
@@ -862,27 +862,27 @@ void save_texture_styles(std::uint8_t world) {
     handle = FileCreate(fname, 1);
 
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        FileWrite(handle, (std::uint8_t*) &save_type, 4);
         temp = 9; // how many texture_pages
 
         //		FileWrite(handle,(std::uint8_t*)&temp,2);
         //		FileWrite(handle,(std::uint8_t*)&texture_info[0],sizeof(struct TextureInfo)*8*8*temp);
         temp = 200;
         temp2 = 5;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
-        FileWrite(handle, (std::uint8_t *) &temp2, 2);
-        FileWrite(handle, (std::uint8_t *) &textures_xy[0][0], sizeof(struct TXTY) * temp * temp2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp2, 2);
+        FileWrite(handle, (std::uint8_t*) &textures_xy[0][0], sizeof(struct TXTY) * temp * temp2);
         temp = 200;
         temp2 = 21;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
-        FileWrite(handle, (std::uint8_t *) &temp2, 2);
-        FileWrite(handle, (std::uint8_t *) &texture_style_names[0][0], temp * temp2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp2, 2);
+        FileWrite(handle, (std::uint8_t*) &texture_style_names[0][0], temp * temp2);
         if (save_type > 2) {
             temp = 200;
             temp2 = 5;
-            FileWrite(handle, (std::uint8_t *) &temp, 2);
-            FileWrite(handle, (std::uint8_t *) &temp2, 2);
-            FileWrite(handle, (std::uint8_t *) &textures_flags[0][0], sizeof(std::uint8_t) * temp * temp2);
+            FileWrite(handle, (std::uint8_t*) &temp, 2);
+            FileWrite(handle, (std::uint8_t*) &temp2, 2);
+            FileWrite(handle, (std::uint8_t*) &textures_flags[0][0], sizeof(std::uint8_t) * temp * temp2);
         }
 
         FileClose(handle);
@@ -920,25 +920,25 @@ void save_texture_styles_psx(std::uint8_t world) {
     handle = FileCreate(fname, 1);
 
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &save_type, 4);
+        FileWrite(handle, (std::uint8_t*) &save_type, 4);
         temp = 9; // how many texture_pages
 
         temp = 200;
         temp2 = 5;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
-        FileWrite(handle, (std::uint8_t *) &temp2, 2);
-        FileWrite(handle, (std::uint8_t *) &temp_t[0][0], sizeof(struct TXTY) * temp * temp2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp2, 2);
+        FileWrite(handle, (std::uint8_t*) &temp_t[0][0], sizeof(struct TXTY) * temp * temp2);
         temp = 200;
         temp2 = 21;
-        FileWrite(handle, (std::uint8_t *) &temp, 2);
-        FileWrite(handle, (std::uint8_t *) &temp2, 2);
-        FileWrite(handle, (std::uint8_t *) &texture_style_names[0][0], temp * temp2);
+        FileWrite(handle, (std::uint8_t*) &temp, 2);
+        FileWrite(handle, (std::uint8_t*) &temp2, 2);
+        FileWrite(handle, (std::uint8_t*) &texture_style_names[0][0], temp * temp2);
         if (save_type > 2) {
             temp = 200;
             temp2 = 5;
-            FileWrite(handle, (std::uint8_t *) &temp, 2);
-            FileWrite(handle, (std::uint8_t *) &temp2, 2);
-            FileWrite(handle, (std::uint8_t *) &temp_t[0][0], sizeof(std::uint8_t) * temp * temp2);
+            FileWrite(handle, (std::uint8_t*) &temp, 2);
+            FileWrite(handle, (std::uint8_t*) &temp2, 2);
+            FileWrite(handle, (std::uint8_t*) &temp_t[0][0], sizeof(std::uint8_t) * temp * temp2);
         }
 
         FileClose(handle);
@@ -1103,7 +1103,7 @@ void process_map() {
     QuickTextC((x & 7) * 60, 90 + (x >> 3) * 20, str, 0);
 }
 
-std::int32_t load_map(char *name) {
+std::int32_t load_map(char* name) {
     std::uint16_t temp_end_prim_point;
     std::uint16_t temp_end_prim_face4;
     std::uint16_t temp_end_prim_face3;
@@ -1142,12 +1142,12 @@ std::int32_t load_map(char *name) {
         PAP_clear();
 
         LogText(" load map %s \n", name);
-        FileRead(handle, (std::uint8_t *) &save_type, 4);
+        FileRead(handle, (std::uint8_t*) &save_type, 4);
 
         if (save_type <= 8) {
             for (dx = 0; dx < EDIT_MAP_WIDTH; dx++) {
                 for (dz = 0; dz < EDIT_MAP_DEPTH; dz++) {
-                    size += FileRead(handle, (std::uint8_t *) &tinyfloor, sizeof(struct TinyStrip));
+                    size += FileRead(handle, (std::uint8_t*) &tinyfloor, sizeof(struct TinyStrip));
                     edit_map[dx][dz].MapThingIndex = tinyfloor.MapThingIndex;
                     edit_map[dx][dz].ColVectHead = tinyfloor.ColVectHead;
                     edit_map[dx][dz].Texture = tinyfloor.Texture;
@@ -1155,13 +1155,13 @@ std::int32_t load_map(char *name) {
                 }
             }
         } else {
-            size += FileRead(handle, (std::uint8_t *) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+            size += FileRead(handle, (std::uint8_t*) edit_map, sizeof(struct DepthStrip) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
         }
 
         if (save_type > 19) {
-            FileRead(handle, (std::uint8_t *) tex_map, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+            FileRead(handle, (std::uint8_t*) tex_map, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
         } else {
-            memset((std::uint8_t *) tex_map, 0, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+            memset((std::uint8_t*) tex_map, 0, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
         }
 
         //
@@ -1174,9 +1174,9 @@ std::int32_t load_map(char *name) {
             }
 
         if (save_type > 18) {
-            FileRead(handle, (std::uint8_t *) edit_map_roof_height, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+            FileRead(handle, (std::uint8_t*) edit_map_roof_height, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
         } else {
-            memset((std::uint8_t *) &edit_map_roof_height[0][0], 0, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+            memset((std::uint8_t*) &edit_map_roof_height[0][0], 0, sizeof(std::int8_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
         }
 
         if (save_type < 13) {
@@ -1195,15 +1195,15 @@ std::int32_t load_map(char *name) {
 
         LogText(" after map %d \n", size);
 
-        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_point, sizeof(std::uint16_t));
-        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_face4, sizeof(std::uint16_t));
-        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_face3, sizeof(std::uint16_t));
-        size += FileRead(handle, (std::uint8_t *) &temp_end_prim_object, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &temp_end_prim_point, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &temp_end_prim_face4, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &temp_end_prim_face3, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &temp_end_prim_object, sizeof(std::uint16_t));
 
-        size += FileRead(handle, (std::uint8_t *) &no_prim_point, sizeof(std::uint16_t));
-        size += FileRead(handle, (std::uint8_t *) &no_prim_face4, sizeof(std::uint16_t));
-        size += FileRead(handle, (std::uint8_t *) &no_prim_face3, sizeof(std::uint16_t));
-        size += FileRead(handle, (std::uint8_t *) &no_prim_object, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &no_prim_point, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &no_prim_face4, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &no_prim_face3, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &no_prim_object, sizeof(std::uint16_t));
 
         end_prim_point = MAX_PRIM_POINTS - no_prim_point;
         end_prim_face4 = MAX_PRIM_FACES4 - no_prim_face4;
@@ -1214,7 +1214,7 @@ std::int32_t load_map(char *name) {
             std::int32_t c0;
             struct OldPrimPoint pp;
             for (c0 = 0; c0 < no_prim_point; c0++) {
-                size += FileRead(handle, (std::uint8_t *) &pp, sizeof(struct OldPrimPoint));
+                size += FileRead(handle, (std::uint8_t*) &pp, sizeof(struct OldPrimPoint));
 
                 prim_points[end_prim_point + c0].X = (std::int16_t) pp.X;
                 prim_points[end_prim_point + c0].Y = (std::int16_t) pp.Y;
@@ -1222,12 +1222,12 @@ std::int32_t load_map(char *name) {
             }
 
         } else {
-            size += FileRead(handle, (std::uint8_t *) &prim_points[end_prim_point], sizeof(struct PrimPoint) * (no_prim_point));
+            size += FileRead(handle, (std::uint8_t*) &prim_points[end_prim_point], sizeof(struct PrimPoint) * (no_prim_point));
         }
         LogText(" after prim points %d \n", size);
-        size += FileRead(handle, (std::uint8_t *) &prim_faces4[end_prim_face4], sizeof(struct PrimFace4) * (no_prim_face4));
+        size += FileRead(handle, (std::uint8_t*) &prim_faces4[end_prim_face4], sizeof(struct PrimFace4) * (no_prim_face4));
         LogText(" after prim face4 %d \n", size);
-        size += FileRead(handle, (std::uint8_t *) &prim_faces3[end_prim_face3], sizeof(struct PrimFace3) * (no_prim_face3));
+        size += FileRead(handle, (std::uint8_t*) &prim_faces3[end_prim_face3], sizeof(struct PrimFace3) * (no_prim_face3));
         LogText(" after prim face3 %d \n", size);
 
         if (save_type < 27) {
@@ -1249,7 +1249,7 @@ std::int32_t load_map(char *name) {
                 //				memcpy(prim_names[prim],oldprim.ObjectName,32);
             }
         } else {
-            size += FileRead(handle, (std::uint8_t *) &prim_objects[end_prim_object], sizeof(struct PrimObject) * (no_prim_object));
+            size += FileRead(handle, (std::uint8_t*) &prim_objects[end_prim_object], sizeof(struct PrimObject) * (no_prim_object));
             LogText(" after prim objects %d \n", size);
         }
 
@@ -1279,11 +1279,11 @@ std::int32_t load_map(char *name) {
             prim_objects[c0].EndFace4 += -temp_end_prim_face4 + end_prim_face4;
         }
 
-        size += FileRead(handle, (std::uint8_t *) &background_prim, sizeof(std::uint16_t));
+        size += FileRead(handle, (std::uint8_t*) &background_prim, sizeof(std::uint16_t));
         background_prim = 0;
 
         if (save_type < 26) {
-            size += FileRead(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+            size += FileRead(handle, (std::uint8_t*) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
 
             for (c0 = 1; c0 < MAX_MAP_THINGS; c0++) {
                 map_things[c0].MapChild = 0;
@@ -1300,27 +1300,27 @@ std::int32_t load_map(char *name) {
             }
         }
 
-        size += FileRead(handle, (std::uint8_t *) &edit_info.amb_dx, 4 * 5);
-        size += FileRead(handle, (std::uint8_t *) &next_col_info, 2);
-        size += FileRead(handle, (std::uint8_t *) col_info, sizeof(struct ColInfo) * next_col_info);
+        size += FileRead(handle, (std::uint8_t*) &edit_info.amb_dx, 4 * 5);
+        size += FileRead(handle, (std::uint8_t*) &next_col_info, 2);
+        size += FileRead(handle, (std::uint8_t*) col_info, sizeof(struct ColInfo) * next_col_info);
         LogText(" after col_info %d \n", size);
 
-        size += FileRead(handle, (std::uint8_t *) &temp[0], 2);
-        size += FileRead(handle, (std::uint8_t *) &temp[1], 2);
-        size += FileRead(handle, (std::uint8_t *) &temp[2], 2);
-        size += FileRead(handle, (std::uint8_t *) &temp[3], 2);
+        size += FileRead(handle, (std::uint8_t*) &temp[0], 2);
+        size += FileRead(handle, (std::uint8_t*) &temp[1], 2);
+        size += FileRead(handle, (std::uint8_t*) &temp[2], 2);
+        size += FileRead(handle, (std::uint8_t*) &temp[3], 2);
 
-        size += FileRead(handle, (std::uint8_t *) window_list, sizeof(struct FWindow) * temp[0]);
+        size += FileRead(handle, (std::uint8_t*) window_list, sizeof(struct FWindow) * temp[0]);
         LogText(" after windows %d \n", size);
 
         for (c0 = 0; c0 < MAX_WALLS; c0++) {
             if (wall_list[c0].Textures && wall_list[c0].Tcount) {
-                MemFree((void *) wall_list[c0].Textures);
+                MemFree((void*) wall_list[c0].Textures);
                 wall_list[c0].Textures = 0;
                 wall_list[c0].Tcount = 0;
             }
             if (wall_list[c0].Textures2 && wall_list[c0].Tcount2) {
-                MemFree((void *) wall_list[c0].Textures2);
+                MemFree((void*) wall_list[c0].Textures2);
                 wall_list[c0].Textures2 = 0;
                 wall_list[c0].Tcount2 = 0;
             }
@@ -1328,26 +1328,26 @@ std::int32_t load_map(char *name) {
 
         if (save_type >= 17) {
             for (c0 = 0; c0 < MAX_WALLS; c0++) {
-                size += FileRead(handle, (std::uint8_t *) &wall_list[c0], sizeof(struct FWall) * 1);
+                size += FileRead(handle, (std::uint8_t*) &wall_list[c0], sizeof(struct FWall) * 1);
                 if (wall_list[c0].Tcount && wall_list[c0].Textures) {
-                    wall_list[c0].Textures = (std::uint8_t *) MemAlloc(wall_list[c0].Tcount);
+                    wall_list[c0].Textures = (std::uint8_t*) MemAlloc(wall_list[c0].Tcount);
                     ASSERT(wall_list[c0].Textures);
 
-                    size += FileRead(handle, (std::uint8_t *) wall_list[c0].Textures, wall_list[c0].Tcount);
+                    size += FileRead(handle, (std::uint8_t*) wall_list[c0].Textures, wall_list[c0].Tcount);
                 }
                 if (save_type > 21) {
                     if (wall_list[c0].Tcount2 && wall_list[c0].Textures2) {
-                        wall_list[c0].Textures2 = (std::uint8_t *) MemAlloc(wall_list[c0].Tcount2);
+                        wall_list[c0].Textures2 = (std::uint8_t*) MemAlloc(wall_list[c0].Tcount2);
                         ASSERT(wall_list[c0].Textures2);
 
-                        size += FileRead(handle, (std::uint8_t *) wall_list[c0].Textures2, wall_list[c0].Tcount2);
+                        size += FileRead(handle, (std::uint8_t*) wall_list[c0].Textures2, wall_list[c0].Tcount2);
                     }
                 } else {
                     wall_list[c0].Tcount2 = 0;
                     wall_list[c0].Textures2 = 0;
                 }
             }
-            size += FileRead(handle, (std::uint8_t *) storey_list, sizeof(struct FStorey) * temp[2]);
+            size += FileRead(handle, (std::uint8_t*) storey_list, sizeof(struct FStorey) * temp[2]);
             LogText(" after storeys %d \n", size);
             if (save_type < 21) {
                 for (c0 = 0; c0 < temp[2]; c0++) {
@@ -1361,9 +1361,9 @@ std::int32_t load_map(char *name) {
             }
 
         } else {
-            size += FileRead(handle, (std::uint8_t *) wall_list, sizeof(struct FWall) * temp[1]);
+            size += FileRead(handle, (std::uint8_t*) wall_list, sizeof(struct FWall) * temp[1]);
             LogText(" after walls %d \n", size);
-            size += FileRead(handle, (std::uint8_t *) storey_list, sizeof(struct FStorey) * temp[2]);
+            size += FileRead(handle, (std::uint8_t*) storey_list, sizeof(struct FStorey) * temp[2]);
             LogText(" after storeys %d \n", size);
 
             if (save_type < 21) {
@@ -1373,16 +1373,16 @@ std::int32_t load_map(char *name) {
             }
         }
 
-        size += FileRead(handle, (std::uint8_t *) building_list, sizeof(struct FBuilding) * temp[3]);
+        size += FileRead(handle, (std::uint8_t*) building_list, sizeof(struct FBuilding) * temp[3]);
         // LogText(" after buildings %d \n",size);
 
         if (save_type > 22) {
             std::uint16_t temp;
             std::int32_t c0, stair;
 
-            FileRead(handle, (std::uint8_t *) &temp, sizeof(temp));
+            FileRead(handle, (std::uint8_t*) &temp, sizeof(temp));
             next_inside = temp;
-            FileRead(handle, (std::uint8_t *) &room_ids[0], sizeof(struct RoomID) * temp);
+            FileRead(handle, (std::uint8_t*) &room_ids[0], sizeof(struct RoomID) * temp);
             for (c0 = 1; c0 < next_inside; c0++) {
                 for (stair = 0; stair < MAX_STAIRS_PER_FLOOR; stair++) {
                     if (room_ids[c0].StairFlags[stair]) {
@@ -1445,11 +1445,11 @@ std::int32_t load_map(char *name) {
         }
 
         if (save_type >= 14) {
-            FileRead(handle, (std::uint8_t *) EXTRA_thing, sizeof(EXTRA_thing));
+            FileRead(handle, (std::uint8_t*) EXTRA_thing, sizeof(EXTRA_thing));
         }
 
         if (save_type >= 21) {
-            FileRead(handle, (std::uint8_t *) &editor_texture_set, sizeof(editor_texture_set));
+            FileRead(handle, (std::uint8_t*) &editor_texture_set, sizeof(editor_texture_set));
         } else {
             editor_texture_set = 1;
         }
@@ -1476,7 +1476,7 @@ std::int32_t load_map(char *name) {
         }
 
         if (save_type >= 26) {
-            size += FileRead(handle, (std::uint8_t *) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+            size += FileRead(handle, (std::uint8_t*) &map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
 
             for (c0 = 1; c0 < MAX_MAP_THINGS; c0++) {
                 map_things[c0].MapChild = 0;
@@ -1499,7 +1499,7 @@ std::int32_t load_map(char *name) {
 
         {
             std::int32_t index;
-            struct MapThing *p_thing;
+            struct MapThing* p_thing;
             index = background_prim;
             while (index) {
                 p_thing = TO_MTHING(index);
@@ -1546,7 +1546,7 @@ void setup_ambient(std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32
     edit_info.amb_flags = flags;
 }
 
-std::uint16_t is_it_clockwise(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
+std::uint16_t is_it_clockwise(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
     std::int32_t z;
     std::int32_t vx, vy, wx, wy;
 
@@ -1562,7 +1562,7 @@ std::uint16_t is_it_clockwise(struct SVector *res, std::int32_t p1, std::int32_t
         return 0;
 }
 
-void set_quad_buckets_texture(struct BucketQuad *p_bucket, struct TextureBits *texture) {
+void set_quad_buckets_texture(struct BucketQuad* p_bucket, struct TextureBits* texture) {
     std::uint8_t sx, sy, w, h;
 
     sx = texture->X << 3;
@@ -1575,12 +1575,12 @@ void set_quad_buckets_texture(struct BucketQuad *p_bucket, struct TextureBits *t
 inline void insert_bucket_vect(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int16_t col) {
     std::int32_t flag_and, flag_or;
     std::int32_t az;
-    struct BucketVect *p_bucket;
+    struct BucketVect* p_bucket;
 
     if (current_bucket_pool >= end_bucket_pool)
         return;
 
-    p_bucket = (struct BucketVect *) current_bucket_pool;
+    p_bucket = (struct BucketVect*) current_bucket_pool;
 
     az = (z1 + z2) >> 1;
 
@@ -1607,15 +1607,15 @@ std::uint16_t is_it_clockwise_xy(std::int32_t x1, std::int32_t y1, std::int32_t 
         return 0;
 }
 
-inline struct BucketQuad *insert_quad(std::int32_t *flags, struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct TextureBits t) {
+inline struct BucketQuad* insert_quad(std::int32_t* flags, struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, struct TextureBits t) {
     std::int32_t flag_and, flag_or;
     std::int32_t az;
-    struct BucketQuad *p_bucket;
+    struct BucketQuad* p_bucket;
 
     if (current_bucket_pool >= end_bucket_pool)
         return (0);
 
-    p_bucket = (struct BucketQuad *) current_bucket_pool;
+    p_bucket = (struct BucketQuad*) current_bucket_pool;
 
     az = (res[p1].Z + res[p2].Z + res[p3].Z + res[p4].Z) >> 2;
 
@@ -1642,14 +1642,14 @@ inline struct BucketQuad *insert_quad(std::int32_t *flags, struct SVector *res, 
         return (0);
 }
 
-inline struct BucketTri *insert_tri(std::int32_t *flags, struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
+inline struct BucketTri* insert_tri(std::int32_t* flags, struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3) {
     std::int32_t flag_and, flag_or;
-    struct BucketTri *p_bucket;
+    struct BucketTri* p_bucket;
 
     if (current_bucket_pool >= end_bucket_pool)
         return (0);
 
-    p_bucket = (struct BucketTri *) current_bucket_pool;
+    p_bucket = (struct BucketTri*) current_bucket_pool;
 
     flag_and = flags[p1] & flags[p2] & flags[p3];
     flag_or = flags[p1] | flags[p2] | flags[p3];
@@ -1705,7 +1705,7 @@ std::uint8_t check_big_point_triangle(std::int32_t x, std::int32_t y, std::int32
 //
 // p2   p3
 
-bool check_mouse_over_prim_quad(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t face) {
+bool check_mouse_over_prim_quad(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t face) {
     std::int32_t az;
 
     az = (res[p1].Z + res[p2].Z + res[p3].Z + res[p4].Z) >> 2;
@@ -1717,8 +1717,8 @@ bool check_mouse_over_prim_quad(struct SVector *res, std::int32_t p1, std::int32
                 hilited_face.Face = face;
                 hilited_face.EditTurn = editor_turn;
                 hilited_face.Z = az;
-                hilited_face.PEle = (struct EditMapElement *) -1;
-                hilited_face.Bucket = (struct BucketHead *) current_bucket_pool;
+                hilited_face.PEle = (struct EditMapElement*) -1;
+                hilited_face.Bucket = (struct BucketHead*) current_bucket_pool;
                 return true;
             }
         }
@@ -1734,15 +1734,15 @@ bool check_mouse_over_floor_quad(std::int32_t x1, std::int32_t y1, std::int32_t 
             hilited_face.Face = face;
             hilited_face.EditTurn = editor_turn;
             hilited_face.Z = az;
-            hilited_face.PEle = (struct EditMapElement *) -2;
-            hilited_face.Bucket = (struct BucketHead *) current_bucket_pool;
+            hilited_face.PEle = (struct EditMapElement*) -2;
+            hilited_face.Bucket = (struct BucketHead*) current_bucket_pool;
             return true;
         }
     }
     return false;
 }
 
-bool check_mouse_over_prim_tri(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t face) {
+bool check_mouse_over_prim_tri(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t face) {
     std::int32_t az;
 
     az = (res[p1].Z + res[p2].Z + res[p3].Z) / 3;
@@ -1752,8 +1752,8 @@ bool check_mouse_over_prim_tri(struct SVector *res, std::int32_t p1, std::int32_
                 hilited_face.Face = -face;
                 hilited_face.EditTurn = editor_turn;
                 hilited_face.Z = az;
-                hilited_face.PEle = (struct EditMapElement *) -1;
-                hilited_face.Bucket = (struct BucketHead *) current_bucket_pool;
+                hilited_face.PEle = (struct EditMapElement*) -1;
+                hilited_face.Bucket = (struct BucketHead*) current_bucket_pool;
                 return true;
             }
         }
@@ -1761,7 +1761,7 @@ bool check_mouse_over_prim_tri(struct SVector *res, std::int32_t p1, std::int32_
     return false;
 }
 
-void check_mouse_quad(struct EditMapElement *p_ele, struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t wx, std::int32_t wy, std::int32_t wz, std::int32_t face) {
+void check_mouse_quad(struct EditMapElement* p_ele, struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t p4, std::int32_t wx, std::int32_t wy, std::int32_t wz, std::int32_t face) {
     std::int32_t az;
     static count;
     if (hilited_face.EditTurn != editor_turn) {
@@ -1816,7 +1816,7 @@ void gamut_fiddle() {
     std::uint8_t temp_pal[768];
     std::int32_t c0, temp;
     static std::int32_t gamut = 0;
-    std::uint8_t *pal;
+    std::uint8_t* pal;
 
     if ((pal = PALETTE) == 0)
         return;
@@ -2181,7 +2181,7 @@ void draw_3d_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_
     engine.ClipFlag = temp;
 }
 
-void draw_3d_text(std::int32_t x1, std::int32_t y1, std::int32_t z1, char *str, std::uint8_t col) {
+void draw_3d_text(std::int32_t x1, std::int32_t y1, std::int32_t z1, char* str, std::uint8_t col) {
     struct SVector p1;
     struct SVector res1, res2;
 
@@ -2461,7 +2461,7 @@ void draw_editor_grid() {
 #endif
 }
 
-void set_screen_box(std::int32_t x, std::int32_t y, std::int32_t z, EdRect *rect, std::int32_t w, std::int32_t h) {
+void set_screen_box(std::int32_t x, std::int32_t y, std::int32_t z, EdRect* rect, std::int32_t w, std::int32_t h) {
     struct SVector p, res;
     std::int32_t temp;
     temp = engine.ClipFlag;
@@ -2474,8 +2474,8 @@ void set_screen_box(std::int32_t x, std::int32_t y, std::int32_t z, EdRect *rect
     engine.ClipFlag = temp;
 }
 
-void calc_things_screen_box(std::int32_t map_thing, EdRect *rect) {
-    struct MapThing *p_mthing;
+void calc_things_screen_box(std::int32_t map_thing, EdRect* rect) {
+    struct MapThing* p_mthing;
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
@@ -2504,7 +2504,7 @@ std::int32_t hilight_map_things(std::uint16_t type) {
     std::int32_t mx, my, mz;
     std::uint16_t index;
     EdRect prim_rect;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
     static std::uint8_t col = 250;
     std::int32_t screen_change = 0;
     col++;
@@ -2542,7 +2542,7 @@ std::int32_t hilight_map_things(std::uint16_t type) {
 std::int32_t hilight_map_backgrounds(std::uint16_t type) {
     EdRect prim_rect;
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::int32_t screen_change = 0;
     static std::uint8_t col = 250;
     col++;
@@ -2561,11 +2561,11 @@ std::int32_t hilight_map_backgrounds(std::uint16_t type) {
     return (screen_change);
 }
 
-std::int32_t select_map_backgrounds(MFPoint *mouse, std::uint16_t type) {
+std::int32_t select_map_backgrounds(MFPoint* mouse, std::uint16_t type) {
     EdRect prim_rect;
     std::int16_t index;
     static std::uint8_t col = 250;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
 
     col++;
     if (col == 0)
@@ -2582,12 +2582,12 @@ std::int32_t select_map_backgrounds(MFPoint *mouse, std::uint16_t type) {
     return (0);
 }
 
-std::int32_t select_map_things(MFPoint *mouse, std::uint16_t type) {
+std::int32_t select_map_things(MFPoint* mouse, std::uint16_t type) {
     std::int32_t dx, dy, dz;
     std::int32_t mx, my, mz;
     std::uint16_t index;
     EdRect prim_rect;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
     static std::uint8_t col = 0;
     std::int32_t screen_change = 0;
     col++;
@@ -2614,19 +2614,19 @@ std::int32_t select_map_things(MFPoint *mouse, std::uint16_t type) {
     return (0);
 }
 
-extern struct KeyFrameChunk *test_chunk;
-extern void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next, struct Matrix33 *rot_mat);
+extern struct KeyFrameChunk* test_chunk;
+extern void draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement* anim_info, struct KeyFrameElement* anim_info_next, struct Matrix33* rot_mat);
 
 void draw_map_thing(std::int32_t map_thing) {
     std::int32_t c0, c1;
     struct Matrix33 r_matrix;
-    struct MapThing *p_mthing;
-    struct GameKeyFrameChunk *the_chunk;
+    struct MapThing* p_mthing;
+    struct GameKeyFrameChunk* the_chunk;
 
     p_mthing = TO_MTHING(map_thing);
     switch (p_mthing->Type) {
     case MAP_THING_TYPE_ANIM_PRIM:
-        extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement * anim_info, struct GameKeyFrameElement * anim_info_next, struct Matrix33 * rot_mat);
+        extern void draw_anim_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement* anim_info, struct GameKeyFrameElement* anim_info_next, struct Matrix33* rot_mat);
         //			break;
         rotate_obj(
             p_mthing->AngleX,
@@ -2738,9 +2738,9 @@ extern void	find_things_min_point(std::int32_t drag,std::int32_t *px,std::int32_
 
 extern std::int32_t play_x, play_y, play_z;
 
-void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t *mid_x, std::int32_t *mid_y, std::int32_t *mid_z) {
+void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t* mid_x, std::int32_t* mid_y, std::int32_t* mid_z) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
 
     p_obj = &prim_objects[prim];
@@ -2766,9 +2766,9 @@ void scan_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
     }
 }
 
-void scan_a_prim_at_dist(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t *dist) {
+void scan_a_prim_at_dist(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t* dist) {
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t dx, dy, dz;
     std::int32_t c_dist;
@@ -2794,7 +2794,7 @@ void scan_a_prim_at_dist(std::uint16_t prim, std::int32_t x, std::int32_t y, std
 
 void zoom_map_onto_screen() {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::int32_t mid_x = 0, mid_y = 0, mid_z = 0, mx, my, mz, count = 0;
     std::int32_t dist, b_dist = -999999;
 
@@ -2835,7 +2835,7 @@ void zoom_map_onto_screen() {
 
 void draw_linked_background() {
     std::int16_t index;
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     index = background_prim;
     while (index) {
         p_thing = TO_MTHING(index);
@@ -2852,7 +2852,7 @@ void draw_linked_background() {
 //
 //   3   4
 
-std::int32_t add_floor_tri_to_bucket(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t x3, std::int32_t y3, std::int32_t z3, struct DepthStrip *p_map, std::int32_t s1, std::int32_t s2, std::int32_t s3, std::int32_t shadow_flag, std::int32_t tx1, std::int32_t ty1, std::int32_t tx2, std::int32_t ty2, std::int32_t tx3, std::int32_t ty3, std::int32_t page) {
+std::int32_t add_floor_tri_to_bucket(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t x3, std::int32_t y3, std::int32_t z3, struct DepthStrip* p_map, std::int32_t s1, std::int32_t s2, std::int32_t s3, std::int32_t shadow_flag, std::int32_t tx1, std::int32_t ty1, std::int32_t tx2, std::int32_t ty2, std::int32_t tx3, std::int32_t ty3, std::int32_t page) {
     std::int32_t az;
     if (current_bucket_pool > end_bucket_pool)
         return (0);
@@ -2862,16 +2862,16 @@ std::int32_t add_floor_tri_to_bucket(std::int32_t x1, std::int32_t y1, std::int3
         POLY_GT);
 
     setXY3(
-        (struct BucketTri *) current_bucket_pool,
+        (struct BucketTri*) current_bucket_pool,
         x1, y1,
         x2, y2,
         x3, y3
 
     );
 
-    setUV3((struct BucketTri *) current_bucket_pool, tx1, ty1, tx2, ty2, tx3, ty3, page);
+    setUV3((struct BucketTri*) current_bucket_pool, tx1, ty1, tx2, ty2, tx3, ty3, page);
 
-    setZ3((struct BucketTri *) current_bucket_pool, z1, z2, z3);
+    setZ3((struct BucketTri*) current_bucket_pool, z1, z2, z3);
 
     if (shadow_flag) {
         s1 -= SHADOW_SIZE;
@@ -2882,10 +2882,10 @@ std::int32_t add_floor_tri_to_bucket(std::int32_t x1, std::int32_t y1, std::int3
         CLIPNEG(s3);
     }
 
-    setShade3((struct BucketTri *) current_bucket_pool, s1, s2, s3);
-    ((struct BucketTri *) current_bucket_pool)->DebugInfo = z1;
-    ((struct BucketTri *) current_bucket_pool)->DebugFlags = 0;
-    add_bucket((void *) current_bucket_pool, az + 300);
+    setShade3((struct BucketTri*) current_bucket_pool, s1, s2, s3);
+    ((struct BucketTri*) current_bucket_pool)->DebugInfo = z1;
+    ((struct BucketTri*) current_bucket_pool)->DebugFlags = 0;
+    add_bucket((void*) current_bucket_pool, az + 300);
 
     current_bucket_pool += sizeof(struct BucketTri);
     return (0);
@@ -2901,7 +2901,7 @@ std::int32_t add_floor_tri_to_bucket(std::int32_t x1, std::int32_t y1, std::int3
     tx4 = x4;                                     \
     ty4 = y4;
 
-std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t x4, std::int32_t y4, std::int32_t z4, struct DepthStrip *p_map, std::int32_t s1, std::int32_t s2, std::int32_t s3, std::int32_t s4, std::uint16_t tex) {
+std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t x4, std::int32_t y4, std::int32_t z4, struct DepthStrip* p_map, std::int32_t s1, std::int32_t s2, std::int32_t s3, std::int32_t s4, std::uint16_t tex) {
     std::int32_t az;
     std::uint8_t tx, ty, tsize, page;
     std::int32_t shadow;
@@ -2918,7 +2918,7 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
     }
 
     if (p_map->Walkable == -1) {
-        struct AnimTmap *p_a;
+        struct AnimTmap* p_a;
         std::int32_t cur;
 
         p_a = &anim_tmaps[p_map->Texture];
@@ -2928,11 +2928,11 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
         tsize = 32;
 
     } else {
-        tx = ((struct MiniTextureBits *) (&tex))->X << 5;
-        ty = ((struct MiniTextureBits *) (&tex))->Y << 5;
-        page = ((struct MiniTextureBits *) (&tex))->Page;
+        tx = ((struct MiniTextureBits*) (&tex))->X << 5;
+        ty = ((struct MiniTextureBits*) (&tex))->Y << 5;
+        page = ((struct MiniTextureBits*) (&tex))->Page;
         tsize = 31; // floor_texture_sizes[((struct	MiniTextureBits*)(&tex))->Size]-1;
-        switch (((struct MiniTextureBits *) (&tex))->Rot) {
+        switch (((struct MiniTextureBits*) (&tex))->Rot) {
         case 0:
             SET_TX_TY(tx, ty, tx + tsize, ty, tx, ty + tsize, tx + tsize, ty + tsize);
             break;
@@ -2998,11 +2998,11 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
         POLY_GT);
 
     setCol4(
-        (struct BucketQuad *) current_bucket_pool,
+        (struct BucketQuad*) current_bucket_pool,
         1);
 
     setXY4(
-        (struct BucketQuad *) current_bucket_pool,
+        (struct BucketQuad*) current_bucket_pool,
         x1, y1,
         x2, y2,
         x3, y3,
@@ -3012,16 +3012,16 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
 
     //	if(SelectFlag)
     //		do_quad_clip_list(c0,p0,p1,p2,p3);
-    setUV4((struct BucketQuad *) current_bucket_pool, tx1, ty1, tx2, ty2, tx3, ty3, tx4, ty4, page);
+    setUV4((struct BucketQuad*) current_bucket_pool, tx1, ty1, tx2, ty2, tx3, ty3, tx4, ty4, page);
     //	tx,ty,tx+tsize,ty,tx,ty+tsize,tx+tsize,ty+tsize,page);
 
-    setZ4((struct BucketQuad *) current_bucket_pool, z1, z2, z3, z4);
+    setZ4((struct BucketQuad*) current_bucket_pool, z1, z2, z3, z4);
 
     //			setShade4((struct BucketQuad*)current_bucket_pool,p_f4->Bright[0],p_f4->Bright[1],p_f4->Bright[2],p_f4->Bright[3]);
-    setShade4((struct BucketQuad *) current_bucket_pool, s1, s2, s3, s4);
-    ((struct BucketQuad *) current_bucket_pool)->DebugInfo = z1;
-    ((struct BucketQuad *) current_bucket_pool)->DebugFlags = 0;
-    add_bucket((void *) current_bucket_pool, az + 300);
+    setShade4((struct BucketQuad*) current_bucket_pool, s1, s2, s3, s4);
+    ((struct BucketQuad*) current_bucket_pool)->DebugInfo = z1;
+    ((struct BucketQuad*) current_bucket_pool)->DebugFlags = 0;
+    add_bucket((void*) current_bucket_pool, az + 300);
 
     /*
             if(check_mouse_over_prim_quad(global_res,p0,p1,p2,p3,c0))
@@ -3037,8 +3037,8 @@ std::int32_t add_floor_face_to_bucket(std::int32_t x1, std::int32_t y1, std::int
 
 #define SWAP_ROW()                         \
     {                                      \
-        struct SVector *temp_ptr_sv;       \
-        std::uint32_t *temp_ptr_flag;      \
+        struct SVector* temp_ptr_sv;       \
+        std::uint32_t* temp_ptr_flag;      \
         temp_ptr_sv = prev_row_ptr;        \
         prev_row_ptr = row_ptr;            \
         row_ptr = temp_ptr_sv;             \
@@ -3053,10 +3053,10 @@ void draw_map_floor() {
     std::int32_t mx, my, mz;
     struct SVector point, row[2][66];
     std::uint32_t row_flags[2][66];
-    struct SVector *row_ptr;
-    std::uint32_t *row_flag_ptr;
-    struct SVector *prev_row_ptr;
-    std::uint32_t *prev_row_flag_ptr;
+    struct SVector* row_ptr;
+    std::uint32_t* row_flag_ptr;
+    struct SVector* prev_row_ptr;
+    std::uint32_t* prev_row_flag_ptr;
     std::int32_t row_count;
     std::uint16_t texture;
 
@@ -3154,7 +3154,7 @@ void draw_map_floor() {
     }
 }
 
-void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, std::int32_t *maxz) {
+void find_map_clip(std::int32_t* minx, std::int32_t* maxx, std::int32_t* minz, std::int32_t* maxz) {
     std::int32_t dx, dy, dz;
     std::int32_t mx, my, mz;
 
@@ -3244,7 +3244,7 @@ void find_map_clip(std::int32_t *minx, std::int32_t *maxx, std::int32_t *minz, s
 void draw_editor_map(std::uint32_t flags) {
     std::int32_t dx, dy, dz;
     std::int32_t mx, my, mz;
-    struct EditMapElement *p_ele;
+    struct EditMapElement* p_ele;
     std::uint16_t index;
 
     animate_texture_maps();
@@ -3508,24 +3508,24 @@ enum {
 // ------------------------------------
 
 // Forward declaration.
-void ChunkReader(FILE *f, int ind, long p);
+void ChunkReader(FILE* f, int ind, long p);
 
-void SkipReader(FILE *f, int ind, long p) {
+void SkipReader(FILE* f, int ind, long p) {
 }
 
-void RGBFReader(FILE *f, int ind, long p) {
+void RGBFReader(FILE* f, int ind, long p) {
     float c[3];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Red: %f, Green: %f, Blue: %f\n", ind, "", c[0], c[1], c[2]);
 }
 
-void RGBBReader(FILE *f, int ind, long p) {
+void RGBBReader(FILE* f, int ind, long p) {
     byte c[3];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Red: %d, Green: %d, Blue: %d\n", ind, "", c[0], c[1], c[2]);
 }
 
-void ASCIIZReader(FILE *f, int ind, long p) {
+void ASCIIZReader(FILE* f, int ind, long p) {
     int c;
 
     // Read ASCIIZ name
@@ -3534,7 +3534,7 @@ void ASCIIZReader(FILE *f, int ind, long p) {
     printf("\"\n");
 }
 
-void ObjBlockReader(FILE *f, int ind, long p) {
+void ObjBlockReader(FILE* f, int ind, long p) {
     int c;
 
     // Read ASCIIZ object name
@@ -3544,7 +3544,7 @@ void ObjBlockReader(FILE *f, int ind, long p) {
     ChunkReader(f, ind, p);
 }
 
-void VertListReader(FILE *f, int ind, long p) {
+void VertListReader(FILE* f, int ind, long p) {
     word nv;
     float c[3];
 
@@ -3556,7 +3556,7 @@ void VertListReader(FILE *f, int ind, long p) {
     }
 }
 
-void FaceListReader(FILE *f, int ind, long p) {
+void FaceListReader(FILE* f, int ind, long p) {
     word nv;
     word c[3];
     word flags;
@@ -3578,7 +3578,7 @@ void FaceListReader(FILE *f, int ind, long p) {
     ChunkReader(f, ind, p);
 }
 
-void FaceMatReader(FILE *f, int ind, long p) {
+void FaceMatReader(FILE* f, int ind, long p) {
     int c;
     word n, nf;
 
@@ -3595,7 +3595,7 @@ void FaceMatReader(FILE *f, int ind, long p) {
     }
 }
 
-void MapListReader(FILE *f, int ind, long p) {
+void MapListReader(FILE* f, int ind, long p) {
     word nv;
     float c[2];
 
@@ -3607,7 +3607,7 @@ void MapListReader(FILE *f, int ind, long p) {
     }
 }
 
-void SmooListReader(FILE *f, int ind, long p) {
+void SmooListReader(FILE* f, int ind, long p) {
     dword s;
     int i;
 
@@ -3621,7 +3621,7 @@ void SmooListReader(FILE *f, int ind, long p) {
     }
 }
 
-void TrMatrixReader(FILE *f, int ind, long p) {
+void TrMatrixReader(FILE* f, int ind, long p) {
     float rot[9];
     float trans[3];
     if (fread(&rot, sizeof(rot), 1, f) != 1) return;
@@ -3634,7 +3634,7 @@ void TrMatrixReader(FILE *f, int ind, long p) {
            ind, "", trans[0], trans[1], trans[2]);
 }
 
-void LightReader(FILE *f, int ind, long p) {
+void LightReader(FILE* f, int ind, long p) {
     float c[3];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    X: %f, Y: %f, Z: %f\n", ind, "", c[0], c[1], c[2]);
@@ -3642,14 +3642,14 @@ void LightReader(FILE *f, int ind, long p) {
     ChunkReader(f, ind, p);
 }
 
-void SpotLightReader(FILE *f, int ind, long p) {
+void SpotLightReader(FILE* f, int ind, long p) {
     float c[5];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Target X: %f, Y: %f, Z: %f; Hotspot %f, Falloff %f\n",
            ind, "", c[0], c[1], c[2], c[3], c[4]);
 }
 
-void CameraReader(FILE *f, int ind, long p) {
+void CameraReader(FILE* f, int ind, long p) {
     float c[8];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Position: X: %f, Y: %f, Z: %f\n", ind, "", c[0], c[1], c[2]);
@@ -3657,7 +3657,7 @@ void CameraReader(FILE *f, int ind, long p) {
     printf("%*s    Bank: %f, Lens: %f\n", ind, "", c[6], c[7]);
 }
 
-void MatNameReader(FILE *f, int ind, long p) {
+void MatNameReader(FILE* f, int ind, long p) {
     int c;
 
     // Read ASCIIZ object name
@@ -3665,7 +3665,7 @@ void MatNameReader(FILE *f, int ind, long p) {
     ASCIIZReader(f, ind, p);
 }
 
-void MapFileReader(FILE *f, int ind, long p) {
+void MapFileReader(FILE* f, int ind, long p) {
     int c;
 
     // Read ASCIIZ filename
@@ -3673,14 +3673,14 @@ void MapFileReader(FILE *f, int ind, long p) {
     ASCIIZReader(f, ind, p);
 }
 
-void FramesReader(FILE *f, int ind, long p) {
+void FramesReader(FILE* f, int ind, long p) {
     dword c[2];
     if (fread(&c, sizeof(c), 1, f) != 1) return;
     printf("%*s    Start: %ld, End: %ld\n",
            ind, "", c[0], c[1]);
 }
 
-void TrackObjNameReader(FILE *f, int ind, long p) {
+void TrackObjNameReader(FILE* f, int ind, long p) {
     int c;
     word w[2];
     word parent;
@@ -3694,7 +3694,7 @@ void TrackObjNameReader(FILE *f, int ind, long p) {
            ind, "", w[0], w[1], parent);
 }
 
-void PivotPointReader(FILE *f, int ind, long p) {
+void PivotPointReader(FILE* f, int ind, long p) {
     float pos[3];
 
     if (fread(&pos, sizeof(pos), 1, f) != 1) return;
@@ -3709,12 +3709,12 @@ void PivotPointReader(FILE *f, int ind, long p) {
 */
 
 // NOTE THIS IS NOT A CHUNK, but A PART OF SEVERAL CHUNKS
-void SplineFlagsReader(FILE *f, int ind, word flags) {
+void SplineFlagsReader(FILE* f, int ind, word flags) {
     int i;
     float dat;
 
     for (i = 0; i < 16; i++) {
-        static const char *flagnames[] = {
+        static const char* flagnames[] = {
             "SPLINETension",
             "SPLINEContinuity",
             "SPLINEBias",
@@ -3733,7 +3733,7 @@ void SplineFlagsReader(FILE *f, int ind, word flags) {
     }
 }
 
-void TrackPosReader(FILE *f, int ind, long p) {
+void TrackPosReader(FILE* f, int ind, long p) {
     word n, nf;
     float pos[3];
     word unkown;
@@ -3755,7 +3755,7 @@ void TrackPosReader(FILE *f, int ind, long p) {
     }
 }
 
-void TrackRotReader(FILE *f, int ind, long p) {
+void TrackRotReader(FILE* f, int ind, long p) {
     word n, nf;
     float pos[4];
     word unkown;
@@ -3789,7 +3789,7 @@ void TrackRotReader(FILE *f, int ind, long p) {
     }
 }
 
-void TrackScaleReader(FILE *f, int ind, long p) {
+void TrackScaleReader(FILE* f, int ind, long p) {
     word n, nf;
     float pos[3];
     word unkown;
@@ -3811,7 +3811,7 @@ void TrackScaleReader(FILE *f, int ind, long p) {
     }
 }
 
-void ObjNumberReader(FILE *f, int ind, long p) {
+void ObjNumberReader(FILE* f, int ind, long p) {
     word n;
 
     if (fread(&n, sizeof(n), 1, f) != 1) return;
@@ -3822,8 +3822,8 @@ void ObjNumberReader(FILE *f, int ind, long p) {
 
 struct {
     word id;
-    const char *name;
-    void (*func)(FILE *f, int ind, long p);
+    const char* name;
+    void (*func)(FILE* f, int ind, long p);
 } ChunkNames[] = {
     {CHUNK_RGBF,         "RGB float",               RGBFReader        },
     {CHUNK_RGBB,         "RGB byte",                RGBBReader        },
@@ -3891,7 +3891,7 @@ int FindChunk(word id) {
 int Verbose = 0;
 int Quiet = 0;
 
-void ChunkReader(FILE *f, int ind, long p) {
+void ChunkReader(FILE* f, int ind, long p) {
     TChunkHeader h;
     int n;
     long pc;
@@ -3927,7 +3927,7 @@ void ChunkReader(FILE *f, int ind, long p) {
 // ------------------------------------
 
 void read_3ds() {
-    FILE *f;
+    FILE* f;
     long p;
     return;
 
@@ -3946,12 +3946,12 @@ void read_3ds() {
 }
 
 struct TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
-struct TinyXZ *radius_ptr[MAX_RADIUS + 2];
+struct TinyXZ* radius_ptr[MAX_RADIUS + 2];
 
 void build_radius_info() {
-    std::int8_t *grid;
+    std::int8_t* grid;
     std::int32_t dx, dz;
-    struct TinyXZ *ptr_rad;
+    struct TinyXZ* ptr_rad;
     std::int32_t actual_radius, radius, radius_offset, old_radius = 0;
     std::int32_t angle;
     std::int32_t sum_count = 0;
@@ -3959,7 +3959,7 @@ void build_radius_info() {
 
     ptr_rad = radius_pool;
 
-    grid = (std::int8_t *) MemAlloc((MAX_RADIUS + 1) * (MAX_RADIUS + 1) * 4);
+    grid = (std::int8_t*) MemAlloc((MAX_RADIUS + 1) * (MAX_RADIUS + 1) * 4);
     if (grid) {
         for (radius = (MAX_RADIUS << 2); radius > 3; radius--) {
             if ((radius >> 2) != old_radius) {
@@ -4029,7 +4029,7 @@ void init_editor() {
                     }
             }
     */
-    memset((std::uint8_t *) tex_map, 0, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
+    memset((std::uint8_t*) tex_map, 0, sizeof(std::uint16_t) * EDIT_MAP_WIDTH * EDIT_MAP_DEPTH);
 
     engine.X = (((EDIT_MAP_WIDTH << (ELE_SHIFT - 1)) + 0 * HALF_ELE_SIZE) << 8);
     engine.Y = (((1 << ELE_SHIFT) + 0 * HALF_ELE_SIZE) << 8);
@@ -4070,19 +4070,19 @@ void init_editor() {
 }
 
 extern TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
-extern TinyXZ *radius_ptr[MAX_RADIUS + 2];
+extern TinyXZ* radius_ptr[MAX_RADIUS + 2];
 
 void draw_quick_map() {
     std::int32_t radius;
     std::int32_t dx, dz, cdx, cdz;
     struct SVector point, ret_point;
-    struct TinyXZ *ptr_rad;
+    struct TinyXZ* ptr_rad;
     std::int32_t clip_flags;
 
     struct SVector buffer_points[MAX_RADIUS * (MAX_RADIUS + 1) * 4];
     std::uint32_t buffer_flags[MAX_RADIUS * (MAX_RADIUS + 1) * 4];
-    std::uint32_t *ptr_flag;
-    struct SVector *ptr;
+    std::uint32_t* ptr_flag;
+    struct SVector* ptr;
     std::int32_t mx, my, mz;
     std::uint16_t texture;
 
@@ -4092,7 +4092,7 @@ void draw_quick_map() {
 
     //	LogText(" draw arround (%d,%d,%d)\n",mx,my,mz);
 
-    memset((std::uint8_t *) buffer_flags, 0, MAX_RADIUS * (MAX_RADIUS + 1) * 4 * 4);
+    memset((std::uint8_t*) buffer_flags, 0, MAX_RADIUS * (MAX_RADIUS + 1) * 4 * 4);
 
     ptr = &buffer_points[MAX_RADIUS + MAX_RADIUS * MAX_RADIUS * 2];
 

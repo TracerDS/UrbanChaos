@@ -66,7 +66,7 @@ bool CALLBACK burn_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_burn_setup(EventPoint *the_ep) {
+void do_burn_setup(EventPoint* the_ep) {
     //	Set the dialog.
     burn_type = the_ep->Data[0];
 

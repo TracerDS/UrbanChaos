@@ -17,7 +17,7 @@
 RenderState RenderState::s_State;
 
 _inline DWORD FloatAsDword(float fArg) {
-    return (*((DWORD *) (&fArg)));
+    return (*((DWORD*) (&fArg)));
 }
 
 // RenderState
@@ -181,7 +181,7 @@ void RenderState::SetEffect(DWORD effect) {
 //
 // validate the render state for the PerMedia 2 ;)
 
-char *RenderState::Validate() {
+char* RenderState::Validate() {
     // check which alpha modes are used
     if (AlphaBlendEnable) {
         if ((SrcBlend == D3DBLEND_ONE) && (DestBlend == D3DBLEND_ZERO)) return nullptr;
@@ -302,7 +302,7 @@ void RenderState::SetChanged() {
 
 // Returns true if the renderstates are equivalent,
 // ie you don't need any renderstate changes to go from one to the other.
-bool RenderState::IsSameRenderState(RenderState *pRS) {
+bool RenderState::IsSameRenderState(RenderState* pRS) {
     bool bRes = true;
 
 #define CHECK_RS(name)       \

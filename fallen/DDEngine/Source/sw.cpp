@@ -33,7 +33,7 @@ extern D3DTexture TEXTURE_texture[];
 // Our back-buffer.
 //
 
-std::uint32_t *SW_buffer;
+std::uint32_t* SW_buffer;
 #ifdef TARGET_DC
 // Spoof that sucker!
 std::uint32_t SW_buffer_memory[1];
@@ -61,7 +61,7 @@ typedef struct
 {
     char name[256];
     std::int32_t size;
-    TGA_Pixel *data;
+    TGA_Pixel* data;
     std::uint8_t blurred;
     std::uint8_t halved;
 
@@ -96,10 +96,10 @@ typedef struct sw_masked {
     std::int32_t x2, y2, z2, r2, g2, b2, u2, v2;
     std::int32_t x3, y3, z3, r3, g3, b3, u3, v3;
 
-    TGA_Pixel *tga;
+    TGA_Pixel* tga;
     std::int32_t tga_size;
 
-    struct sw_masked *next;
+    struct sw_masked* next;
 
 } SW_Masked;
 
@@ -122,7 +122,7 @@ std::int32_t SW_masked_upto;
 #define SW_MAX_BUCKETS 256
 #endif
 
-SW_Masked *SW_masked_bucket[SW_MAX_BUCKETS];
+SW_Masked* SW_masked_bucket[SW_MAX_BUCKETS];
 
 //
 // The alpha sprites.
@@ -135,11 +135,11 @@ typedef struct sw_alpha {
 
     std::int32_t wz, wa, wr, wg, wb;
 
-    TGA_Pixel *tga;
+    TGA_Pixel* tga;
     std::uint16_t tga_size;
     std::uint16_t mode;
 
-    sw_alpha *next;
+    sw_alpha* next;
 
 } SW_Alpha;
 
@@ -156,8 +156,8 @@ std::int32_t SW_alpha_upto;
 // The sprite buckets.
 //
 
-SW_Alpha *SW_alpha_bucket[SW_MAX_BUCKETS];
-SW_Alpha **SW_alpha_bucket_end[SW_MAX_BUCKETS]; // The address of the last pointer of the linked list- so we can add sprites at the end!
+SW_Alpha* SW_alpha_bucket[SW_MAX_BUCKETS];
+SW_Alpha** SW_alpha_bucket_end[SW_MAX_BUCKETS]; // The address of the last pointer of the linked list- so we can add sprites at the end!
 
 void SW_set_page(std::int32_t page, std::int32_t type) {
     if (!WITHIN(page, 0, SW_MAX_TEXTURES - 1)) {
@@ -193,11 +193,11 @@ typedef struct sw_span {
     std::int32_t v;  // 16-bit fixed point.
     std::int32_t dv; // 16-bit fixed point.
 
-    TGA_Pixel *tga;
+    TGA_Pixel* tga;
     std::uint16_t tga_size;
     std::uint16_t a; // a is for alpha
 
-    struct sw_span *next;
+    struct sw_span* next;
 
 } SW_Span;
 
@@ -222,7 +222,7 @@ std::int32_t SW_span_upto;
 // Defined in the header
 // #define SW_MAX_HEIGHT 480
 
-SW_Span *SW_line[SW_MAX_HEIGHT];
+SW_Span* SW_line[SW_MAX_HEIGHT];
 
 #ifndef TARGET_DC
 
@@ -345,8 +345,8 @@ extern std::int32_t ALWAYS_recippt[ALWAYS_HOW_MANY_RECIPPT];
 
 #ifndef NDEBUG
 
-std::int32_t ALWAYS_recip_slow(std::int32_t x, char *file, std::int32_t line);
-std::int32_t ALWAYS_recippt_slow(std::int32_t x, char *file, std::int32_t line);
+std::int32_t ALWAYS_recip_slow(std::int32_t x, char* file, std::int32_t line);
+std::int32_t ALWAYS_recippt_slow(std::int32_t x, char* file, std::int32_t line);
 
 #define RECIPPT(x) (ALWAYS_recippt_slow(x, __FILE__, __LINE__))
 #define RECIP(x) (ALWAYS_recip_slow(x, __FILE__, __LINE__))
@@ -392,7 +392,7 @@ void ALWAYS_init() {
 
 #ifndef NDEBUG
 
-std::int32_t ALWAYS_recip_slow(std::int32_t x, char *file, std::int32_t line) {
+std::int32_t ALWAYS_recip_slow(std::int32_t x, char* file, std::int32_t line) {
     if (x <= -ALWAYS_HOW_MANY_RECIPS_MINUS ||
         x >= ALWAYS_HOW_MANY_RECIPS) {
         ASSERT(0);
@@ -403,7 +403,7 @@ std::int32_t ALWAYS_recip_slow(std::int32_t x, char *file, std::int32_t line) {
     return ALWAYS_recip[x];
 }
 
-std::int32_t ALWAYS_recippt_slow(std::int32_t x, char *file, std::int32_t line) {
+std::int32_t ALWAYS_recippt_slow(std::int32_t x, char* file, std::int32_t line) {
     if (x < 0 ||
         x >= ALWAYS_HOW_MANY_RECIPPT) {
         ASSERT(0);
@@ -471,11 +471,11 @@ void SW_init(
 // new spans from the arrays.
 //
 
-void SW_insert_span(SW_Span *ss, std::int32_t line) {
+void SW_insert_span(SW_Span* ss, std::int32_t line) {
     std::int32_t pixels;
 
-    SW_Span *ss_next;
-    SW_Span **ss_prev;
+    SW_Span* ss_next;
+    SW_Span** ss_prev;
 
     //
     // Valid span?
@@ -559,7 +559,7 @@ void SW_insert_span(SW_Span *ss, std::int32_t line) {
 
                         ASSERT(WITHIN(SW_span_upto, 0, SW_MAX_SPANS - 1));
 
-                        SW_Span *ss_extra;
+                        SW_Span* ss_extra;
 
                         ss_extra = &SW_span[SW_span_upto++];
 
@@ -690,7 +690,7 @@ void SW_insert_span(SW_Span *ss, std::int32_t line) {
 
                         ASSERT(WITHIN(SW_span_upto, 0, SW_MAX_SPANS - 1));
 
-                        SW_Span *ss_extra;
+                        SW_Span* ss_extra;
 
                         ss_extra = &SW_span[SW_span_upto++];
 
@@ -797,11 +797,11 @@ void SW_insert_span(SW_Span *ss, std::int32_t line) {
 #define SW_MODE_ALPHA_NOZ 3
 #define SW_MODE_ADDITIVE_NOZ 4
 
-void SW_draw_span_reference(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+void SW_draw_span_reference(SW_Span* ss, std::int32_t line, std::int32_t mode) {
     std::int32_t i;
     std::int32_t x;
 
-    std::uint32_t *dest;
+    std::uint32_t* dest;
     std::uint32_t pixel;
     std::int32_t a;
     std::int32_t r;
@@ -1046,28 +1046,28 @@ void SW_draw_span_reference(SW_Span *ss, std::int32_t line, std::int32_t mode) {
 #define ALPHA_ADD 2
 #define ALPHA_BLEND 3
 
-inline void SW_draw_span_masked(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+inline void SW_draw_span_masked(SW_Span* ss, std::int32_t line, std::int32_t mode) {
 #undef ALPHA_MODE
 #define ALPHA_MODE ALPHA_TEST
 
 #include "tom.cpp"
 }
 
-inline void SW_draw_span_alpha(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+inline void SW_draw_span_alpha(SW_Span* ss, std::int32_t line, std::int32_t mode) {
 #undef ALPHA_MODE
 #define ALPHA_MODE ALPHA_BLEND
 
 #include "tom.cpp"
 }
 
-inline void SW_draw_span_additive(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+inline void SW_draw_span_additive(SW_Span* ss, std::int32_t line, std::int32_t mode) {
 #undef ALPHA_MODE
 #define ALPHA_MODE ALPHA_ADD
 
 #include "tom.cpp"
 }
 
-void SW_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+void SW_draw_span(SW_Span* ss, std::int32_t line, std::int32_t mode) {
     switch (mode) {
     case SW_MODE_MASKED:
         SW_draw_span_masked(ss, line, mode);
@@ -1102,7 +1102,7 @@ void SW_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
 #else // #ifndef TARGET_DC
 
 // Cheezily wrapped for now.
-void SW_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+void SW_draw_span(SW_Span* ss, std::int32_t line, std::int32_t mode) {
     SW_draw_span_reference(ss, line, mode);
 }
 
@@ -1112,7 +1112,7 @@ void SW_add_masked_triangle(
     std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t r1, std::int32_t g1, std::int32_t b1, std::int32_t u1, std::int32_t v1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r2, std::int32_t g2, std::int32_t b2, std::int32_t u2, std::int32_t v2,
     std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t r3, std::int32_t g3, std::int32_t b3, std::int32_t u3, std::int32_t v3,
-    TGA_Pixel *tga,
+    TGA_Pixel* tga,
     std::int32_t tga_size) {
     //
     // The zsort value of the triangle.
@@ -1132,7 +1132,7 @@ void SW_add_masked_triangle(
 
     ASSERT(WITHIN(SW_masked_upto, 0, SW_MAX_MASKED - 1));
 
-    SW_Masked *sm = &SW_masked[SW_masked_upto++];
+    SW_Masked* sm = &SW_masked[SW_masked_upto++];
 
     sm->x1 = x1;
     sm->y1 = y1;
@@ -1174,7 +1174,7 @@ void SW_add_alpha_sprite(
     std::int32_t x2, std::int32_t y2, std::int32_t u2, std::int32_t v2,
     std::int32_t x3, std::int32_t y3, std::int32_t u3, std::int32_t v3,
     std::int32_t wz, std::int32_t wa, std::int32_t wr, std::int32_t wg, std::int32_t wb, // For the whole triangle.
-    TGA_Pixel *tga,
+    TGA_Pixel* tga,
     std::int32_t tga_size,
     std::int32_t mode) {
     //
@@ -1191,7 +1191,7 @@ void SW_add_alpha_sprite(
 
     ASSERT(WITHIN(SW_alpha_upto, 0, SW_MAX_ALPHAS - 1));
 
-    SW_Alpha *sa = &SW_alpha[SW_alpha_upto++];
+    SW_Alpha* sa = &SW_alpha[SW_alpha_upto++];
 
     sa->x1 = x1;
     sa->y1 = y1;
@@ -1228,12 +1228,12 @@ void SW_add_alpha_sprite(
 // Clips the span and then draws the bits that survive.
 //
 
-void SW_clip_and_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
+void SW_clip_and_draw_span(SW_Span* ss, std::int32_t line, std::int32_t mode) {
     std::int32_t ss_sort;
     std::int32_t ss_next_sort;
     std::int32_t pixels;
 
-    SW_Span *ss_next;
+    SW_Span* ss_next;
 
     //
     // Valid span?
@@ -1306,7 +1306,7 @@ void SW_clip_and_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
 
                         ASSERT(WITHIN(SW_span_upto, 0, SW_MAX_SPANS - 1));
 
-                        SW_Span *ss_extra = &SW_span[SW_span_upto++];
+                        SW_Span* ss_extra = &SW_span[SW_span_upto++];
 
                         pixels = ss_next->x2 - ss->x1;
 
@@ -1412,7 +1412,7 @@ void SW_clip_and_draw_span(SW_Span *ss, std::int32_t line, std::int32_t mode) {
 // Swizzles a texture.
 //
 
-void SW_swizzle(TGA_Pixel *tga, std::int32_t size) {
+void SW_swizzle(TGA_Pixel* tga, std::int32_t size) {
     std::int32_t i;
 
     std::int32_t x;
@@ -1421,7 +1421,7 @@ void SW_swizzle(TGA_Pixel *tga, std::int32_t size) {
     std::int32_t index_normal;
     std::int32_t index_swizzle;
 
-    TGA_Pixel *buffer;
+    TGA_Pixel* buffer;
 
     //
     // Use the back buffer memory as a temporary swizzle buffer.
@@ -1429,7 +1429,7 @@ void SW_swizzle(TGA_Pixel *tga, std::int32_t size) {
 
     ASSERT(size <= 256);
 
-    buffer = (TGA_Pixel *) SW_buffer_memory;
+    buffer = (TGA_Pixel*) SW_buffer_memory;
 
     memcpy(buffer, tga, size * size * sizeof(TGA_Pixel));
 
@@ -1465,7 +1465,7 @@ void SW_swizzle(TGA_Pixel *tga, std::int32_t size) {
         }
 }
 
-void SW_blur(TGA_Pixel *tga, std::int32_t size) {
+void SW_blur(TGA_Pixel* tga, std::int32_t size) {
     std::int32_t i;
 
     std::int32_t x;
@@ -1485,7 +1485,7 @@ void SW_blur(TGA_Pixel *tga, std::int32_t size) {
     std::int32_t samples;
     std::int32_t index;
 
-    TGA_Pixel *buffer;
+    TGA_Pixel* buffer;
 
     //
     // Use the back buffer memory as a temporary blur buffer.
@@ -1493,7 +1493,7 @@ void SW_blur(TGA_Pixel *tga, std::int32_t size) {
 
     ASSERT(size <= 256);
 
-    buffer = (TGA_Pixel *) SW_buffer_memory;
+    buffer = (TGA_Pixel*) SW_buffer_memory;
 
     memcpy(buffer, tga, size * size * sizeof(TGA_Pixel));
 
@@ -1565,7 +1565,7 @@ void SW_blur(TGA_Pixel *tga, std::int32_t size) {
         }
 }
 
-void SW_halfsize(TGA_Pixel *tga, std::int32_t size) {
+void SW_halfsize(TGA_Pixel* tga, std::int32_t size) {
     std::int32_t i;
 
     std::int32_t x;
@@ -1587,7 +1587,7 @@ void SW_halfsize(TGA_Pixel *tga, std::int32_t size) {
     std::int32_t index1;
     std::int32_t index2;
 
-    TGA_Pixel *buffer;
+    TGA_Pixel* buffer;
 
     ASSERT(size >= 32);
 
@@ -1597,7 +1597,7 @@ void SW_halfsize(TGA_Pixel *tga, std::int32_t size) {
 
     ASSERT(size <= 256);
 
-    buffer = (TGA_Pixel *) SW_buffer_memory;
+    buffer = (TGA_Pixel*) SW_buffer_memory;
 
     memcpy(buffer, tga, size * size * sizeof(TGA_Pixel));
 
@@ -1654,13 +1654,13 @@ void SW_reload_textures() {
     std::int32_t tt_index;
     TGA_Info ti;
 
-    SW_Texture *st;
+    SW_Texture* st;
 
     //
     // Is this the last level?
     //
 
-    extern std::int32_t playing_level(const char *name);
+    extern std::int32_t playing_level(const char* name);
 
     if (playing_level("Finale1.ucm")) {
         mulshift = 1;
@@ -1672,7 +1672,7 @@ void SW_reload_textures() {
     // Load from clumps where required.
     //
 
-    extern void TEXTURE_initialise_clumping(char *fname_level);
+    extern void TEXTURE_initialise_clumping(char* fname_level);
 
     TEXTURE_initialise_clumping(ELEV_fname_level);
 
@@ -1834,7 +1834,7 @@ void SW_reload_textures() {
                 // We already have data here...
                 //
             } else {
-                st->data = (TGA_Pixel *) MemAlloc(32 * 32 * sizeof(TGA_Pixel));
+                st->data = (TGA_Pixel*) MemAlloc(32 * 32 * sizeof(TGA_Pixel));
                 st->size = 32;
 
                 memset(st->data, -1, 32 * 32 * sizeof(TGA_Pixel));
@@ -1845,7 +1845,7 @@ void SW_reload_textures() {
             //
 
             if (st->data) {
-                TGA_Pixel *no_longer_valid = st->data;
+                TGA_Pixel* no_longer_valid = st->data;
 
                 MemFree(st->data);
 
@@ -1913,7 +1913,7 @@ void SW_reload_textures() {
                     st->size = 128;
                 }
 
-                st->data = (TGA_Pixel *) MemAlloc(st->size * st->size * sizeof(TGA_Pixel));
+                st->data = (TGA_Pixel*) MemAlloc(st->size * st->size * sizeof(TGA_Pixel));
                 st->blurred = false;
 
                 strcpy(st->name, TEXTURE_texture[tt_index].texture_name);
@@ -1932,7 +1932,7 @@ void SW_reload_textures() {
                     if (ti.width < st->size) {
                         st->size = ti.width;
 
-                        st->data = (TGA_Pixel *) realloc(st->data, st->size * st->size * sizeof(TGA_Pixel));
+                        st->data = (TGA_Pixel*) realloc(st->data, st->size * st->size * sizeof(TGA_Pixel));
                     }
 
                     if (i < 64 * 22) {
@@ -1948,7 +1948,7 @@ void SW_reload_textures() {
 
                             st->size >>= 1;
                             st->halved = true;
-                            st->data = (TGA_Pixel *) realloc(st->data, st->size * st->size * sizeof(TGA_Pixel));
+                            st->data = (TGA_Pixel*) realloc(st->data, st->size * st->size * sizeof(TGA_Pixel));
                         }
                     }
 
@@ -2011,9 +2011,9 @@ void SW_render_spans_tom() {
     std::uint32_t wrap, wrap1, wrap2;
     int tempx1, tempx2;
 
-    SW_Span *ss;
+    SW_Span* ss;
 
-    std::uint32_t *last_dest;
+    std::uint32_t* last_dest;
     _int64 mmt1, mmt2, mmt3, mmt4, umask, vmask, wrapmask, uinc, vinc, notumask, notvmask, alpha_test_value, alpha_mask;
     std::uint32_t utemp, vtemp;
 
@@ -2072,7 +2072,7 @@ void SW_render_spans_tom() {
                 v = ss->v;
                 ud = ss->du;
                 vd = ss->dv;
-                tex = (std::uint32_t *) (ss->tga);
+                tex = (std::uint32_t*) (ss->tga);
 
                 // Remember this is for DWORDS - assembler doesn't automagically scale.
 #if SWIZZLE
@@ -2880,7 +2880,7 @@ hor_loop:
 
 main_loop_done:
 
-                        // Do we need to do the last pixel?
+                    // Do we need to do the last pixel?
 				;Is the last pixel odd?
 				mov		ecx,[tempx2]
 				test	ecx,0x1
@@ -2984,7 +2984,7 @@ void SW_render_spans_eddie() {
     std::int32_t pg;
     std::int32_t pb;
 
-    SW_Span *ss;
+    SW_Span* ss;
 
     for (i = SW_render_top; i < SW_render_bot; i++) {
         for (ss = SW_line[i]; ss; ss = ss->next) {
@@ -2998,8 +2998,8 @@ void SW_render_spans_eddie() {
             std::uint32_t dgdr = ((ss->dg >> 8) << 16) | ((ss->dr >> 8) & 0xFFFF);
             std::uint32_t dzdb = (ss->db >> 8) & 0xFFFF;
 
-            std::uint32_t *dest = SW_buffer /*_screen*/ + ss->x1 + i * SW_buffer_pitch;
-            std::uint32_t *src = (std::uint32_t *) ss->tga;
+            std::uint32_t* dest = SW_buffer /*_screen*/ + ss->x1 + i * SW_buffer_pitch;
+            std::uint32_t* src = (std::uint32_t*) ss->tga;
 
             if (ss->tga_size == 64) {
 #define SHIFT 6
@@ -3037,7 +3037,7 @@ void SW_render_spans_eddie() {
 					mov			ecx,count
 
 myloop64:
-                        // get U + V * 64
+                    // get U + V * 64
 					mov			edi,ebx // edi = V (6:26)
 					mov			edx,eax // edx = U (6:26)
 
@@ -3130,7 +3130,7 @@ myloop64:
 					mov			ecx,count
 
 myloop32:
-                        // get U + V * 32
+                    // get U + V * 32
 					mov			edi,ebx // edi = V (6:26)
 					mov			edx,eax // edx = U (6:26)
 
@@ -3228,7 +3228,7 @@ myloop32:
 myloopany:
 					mov			count,edi
 
-                        // get U + V * <n>
+                                               // get U + V * <n>
 					mov			edi,ebx
 					mov			ecx,[shift1]
 					shr			edi,cl
@@ -3244,33 +3244,33 @@ myloopany:
 
 					add			edi,src
 
-                        // load texel
+                                      // load texel
 					mov			edx,DWORD PTR [edx + edi]
 
-                    // get shade
+                                  // get shade
 					movq		mm1,mm7 // mm1 = 00|BB|GG|RR
 					psrlw		mm1,8 // mm1 = 00|0B|0G|0R
 
-                    // expand 
+                                  // expand 
 					movd		mm0,edx
 					punpcklbw	mm0,mm5 // mm0 = 00|0B|0G|0R
 
-                        // multiply
+                                      // multiply
 					pmullw		mm1,mm0 // mm1 = 00|BB|GG|RR shaded colour
 
-                        // increment colour
+                                      // increment colour
 					paddw		mm7,mm6 // increment R,G,B
 
-                        // double with saturation
+                                      // double with saturation
 					paddusw		mm1,mm1
 
-                        // shift down
+                                      // shift down
 					psrlw		mm1,8 // mm1 = 00|0B|0G|0R
 
-                    // pack back to 00000GBR
+                                  // pack back to 00000GBR
 					packuswb	mm1,mm5 // mm1 = 00000BGR
 
-                        // mov back to integer unit
+                                      // mov back to integer unit
 					movd		edx,mm1
 
 					mov			edi,count
@@ -3332,7 +3332,7 @@ void SW_add_triangle(
         return;
     }
 
-    SW_Texture *st;
+    SW_Texture* st;
 
     st = &SW_texture[page];
 
@@ -3370,7 +3370,7 @@ void SW_add_triangle(
         }
     }
 
-    TGA_Pixel *tga = st->data;
+    TGA_Pixel* tga = st->data;
     std::int32_t tga_size = st->size;
 
     if (tga_size != 256) {
@@ -3516,13 +3516,13 @@ void SW_add_triangle(
     std::int32_t x, y;
     std::int32_t i, j;
     std::int32_t shade;
-    std::uint32_t *dest;
+    std::uint32_t* dest;
     std::uint8_t colour;
 
     std::int32_t recip_y3y1;
     std::int32_t recip_y2y1;
 
-    SW_Span *ss;
+    SW_Span* ss;
 
     // Sort the points so that y1 <= y2 <= y3
 
@@ -4149,7 +4149,7 @@ void SW_draw_masked_triangle(
     std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t r1, std::int32_t g1, std::int32_t b1, std::int32_t u1, std::int32_t v1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r2, std::int32_t g2, std::int32_t b2, std::int32_t u2, std::int32_t v2,
     std::int32_t x3, std::int32_t y3, std::int32_t z3, std::int32_t r3, std::int32_t g3, std::int32_t b3, std::int32_t u3, std::int32_t v3,
-    TGA_Pixel *tga,
+    TGA_Pixel* tga,
     std::int32_t tga_size) {
     std::int32_t xa, xb, za, zb, ra, rb, ga, gb, ba, bb, ua, ub, va, vb;
     std::int32_t dax, dbx, daz, dbz, dar, dbr, dag, dbg, dab, dbb, dau, dbu, dav, dbv;
@@ -4162,13 +4162,13 @@ void SW_draw_masked_triangle(
     std::int32_t x, y;
     std::int32_t i, j;
     std::int32_t shade;
-    std::uint32_t *dest;
+    std::uint32_t* dest;
     std::uint8_t colour;
 
     std::int32_t recip_y3y1;
     std::int32_t recip_y2y1;
 
-    SW_Span *ss;
+    SW_Span* ss;
 
     // Sort the points so that y1 <= y2 <= y3
 
@@ -4789,7 +4789,7 @@ void SW_draw_alpha_sprite(
     std::int32_t x3, std::int32_t y3, std::int32_t u3, std::int32_t v3,
     std::int32_t wz, std::int32_t wa, std::int32_t wr, std::int32_t wg, std::int32_t wb,
     std::int32_t mode,
-    TGA_Pixel *tga,
+    TGA_Pixel* tga,
     std::int32_t tga_size) {
     std::int32_t xa, xb, ua, ub, va, vb;
     std::int32_t dax, dbx, dau, dbu, dav, dbv;
@@ -4802,13 +4802,13 @@ void SW_draw_alpha_sprite(
     std::int32_t x, y;
     std::int32_t i, j;
     std::int32_t shade;
-    std::uint32_t *dest;
+    std::uint32_t* dest;
     std::uint8_t colour;
 
     std::int32_t recip_y3y1;
     std::int32_t recip_y2y1;
 
-    SW_Span *ss;
+    SW_Span* ss;
 
     //
     // Make the zed compatible with the other triangle draws.
@@ -5350,8 +5350,8 @@ void SW_render() {
     std::int32_t i;
     std::int32_t mode;
 
-    SW_Masked *sm;
-    SW_Alpha *sa;
+    SW_Masked* sm;
+    SW_Alpha* sa;
 
     for (i = SW_MAX_BUCKETS - 1; i >= 0; i--) {
         if (i == 2) {
@@ -5398,7 +5398,7 @@ void SW_test_triangle(
         return;
     }
 
-    SW_Texture *st;
+    SW_Texture* st;
 
     st = &SW_texture[page];
 
@@ -5410,7 +5410,7 @@ void SW_test_triangle(
         return;
     }
 
-    TGA_Pixel *tga = st->data;
+    TGA_Pixel* tga = st->data;
     std::int32_t tga_size = st->size;
 
     if (tga_size != 256) {
@@ -5461,7 +5461,7 @@ void SW_test_triangle(
         std::int32_t i, j;
         std::int32_t r, g, b;
         std::int32_t shade;
-        std::uint32_t *dest;
+        std::uint32_t* dest;
         std::uint8_t colour;
 
         std::int32_t recip_y3y1;
@@ -5982,9 +5982,9 @@ void SW_test_triangle(
 void SW_copy_to_bb() {
     std::int32_t x;
     std::int32_t y;
-    std::uint32_t *source;
-    std::uint32_t *dest_l;
-    std::uint16_t *dest_w;
+    std::uint32_t* source;
+    std::uint32_t* dest_l;
+    std::uint16_t* dest_w;
 
     //
     // Render the scene anc copy over the back buffer.
@@ -6001,7 +6001,7 @@ void SW_copy_to_bb() {
             // This should be easy!
             //
 
-            SW_buffer = (std::uint32_t *) the_display.screen;
+            SW_buffer = (std::uint32_t*) the_display.screen;
             SW_buffer_pitch = the_display.screen_pitch >> 2;
 
             SW_render();
@@ -6026,7 +6026,7 @@ void SW_copy_to_bb() {
 
             for (y = 0; y < height; y++) {
                 source = SW_PIXEL(0, y);
-                dest_w = (std::uint16_t *) (the_display.screen + y * the_display.screen_pitch);
+                dest_w = (std::uint16_t*) (the_display.screen + y * the_display.screen_pitch);
 
                 for (x = 0; x < width; x++) {
                     *dest_w = the_display.GetFormattedPixel(*source >> 16, (*source >> 8) & 0xff, *source & 0xff);

@@ -8,10 +8,10 @@
 #include "mf.h"
 #include "os.h"
 
-void MF_load_textures(IMP_Mesh *im) {
+void MF_load_textures(IMP_Mesh* im) {
     std::int32_t i;
 
-    IMP_Mat *it;
+    IMP_Mat* it;
 
     for (i = 0; i < im->num_mats; i++) {
         it = &im->mat[i];
@@ -40,16 +40,16 @@ void MF_load_textures(IMP_Mesh *im) {
     }
 }
 
-void MF_backup(IMP_Mesh *im) {
-    im->old_vert = (IMP_Vert *) malloc(sizeof(IMP_Vert) * im->num_verts);
-    im->old_svert = (IMP_Svert *) malloc(sizeof(IMP_Svert) * im->num_sverts);
+void MF_backup(IMP_Mesh* im) {
+    im->old_vert = (IMP_Vert*) malloc(sizeof(IMP_Vert) * im->num_verts);
+    im->old_svert = (IMP_Svert*) malloc(sizeof(IMP_Svert) * im->num_sverts);
 
     memcpy(im->old_vert, im->vert, sizeof(IMP_Vert) * im->num_verts);
     memcpy(im->old_svert, im->svert, sizeof(IMP_Svert) * im->num_sverts);
 }
 
 void MF_rotate_mesh(
-    IMP_Mesh *im,
+    IMP_Mesh* im,
     float yaw,
     float pitch,
     float roll,
@@ -117,7 +117,7 @@ void MF_rotate_mesh(
 }
 
 void MF_rotate_mesh(
-    IMP_Mesh *im,
+    IMP_Mesh* im,
     float pos_x,
     float pos_y,
     float pos_z,
@@ -169,10 +169,10 @@ void MF_rotate_mesh(
     }
 }
 
-void MF_transform_points(IMP_Mesh *im) {
+void MF_transform_points(IMP_Mesh* im) {
     std::int32_t i;
 
-    IMP_Vert *iv;
+    IMP_Vert* iv;
 
     ASSERT(im->num_verts <= OS_MAX_TRANS);
 
@@ -187,10 +187,10 @@ void MF_transform_points(IMP_Mesh *im) {
     }
 }
 
-void MF_invert_zeds(IMP_Mesh *im) {
+void MF_invert_zeds(IMP_Mesh* im) {
     std::int32_t i;
 
-    IMP_Vert *iv;
+    IMP_Vert* iv;
 
     ASSERT(im->num_verts <= OS_MAX_TRANS);
 
@@ -200,7 +200,7 @@ void MF_invert_zeds(IMP_Mesh *im) {
 }
 
 void MF_ambient(
-    IMP_Mesh *im,
+    IMP_Mesh* im,
     float light_dx,
     float light_dy,
     float light_dz,
@@ -216,7 +216,7 @@ void MF_ambient(
     std::int32_t b;
     float dprod;
 
-    IMP_Svert *is;
+    IMP_Svert* is;
 
     //
     // Normalise the light vector
@@ -261,7 +261,7 @@ void MF_ambient(
 }
 
 void MF_diffuse_spotlight(
-    IMP_Mesh *im,
+    IMP_Mesh* im,
     float light_x,
     float light_y,
     float light_z,
@@ -279,8 +279,8 @@ void MF_diffuse_spotlight(
 
     float dprod;
 
-    IMP_Vert *iv;
-    IMP_Svert *is;
+    IMP_Vert* iv;
+    IMP_Svert* is;
 
     //
     // The position of the light map on the mesh.
@@ -375,7 +375,7 @@ void MF_diffuse_spotlight(
 }
 
 void MF_specular_spotlight(
-    IMP_Mesh *im,
+    IMP_Mesh* im,
     float light_x,
     float light_y,
     float light_z,
@@ -410,9 +410,9 @@ void MF_specular_spotlight(
 
     float bright;
 
-    IMP_Vert *iv;
-    IMP_Svert *is;
-    IMP_Mat *it;
+    IMP_Vert* iv;
+    IMP_Svert* is;
+    IMP_Mat* it;
 
     for (i = 0; i < im->num_sverts; i++) {
         is = &im->svert[i];
@@ -560,13 +560,13 @@ void MF_specular_spotlight(
 
 OS_Vert MF_vert[MF_MAX_SVERTS];
 
-void MF_add_triangles_normal(IMP_Mesh *im, std::uint32_t draw) {
+void MF_add_triangles_normal(IMP_Mesh* im, std::uint32_t draw) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
 
     //
     // Build an array of OS_Verts using the shared vertices in the mesh.
@@ -628,13 +628,13 @@ void MF_add_triangles_normal(IMP_Mesh *im, std::uint32_t draw) {
     }
 }
 
-void MF_add_triangles_normal_colour(IMP_Mesh *im, std::uint32_t draw, std::uint32_t colour) {
+void MF_add_triangles_normal_colour(IMP_Mesh* im, std::uint32_t draw, std::uint32_t colour) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
 
     //
     // Build an array of OS_Verts using the shared vertices in the mesh.
@@ -696,15 +696,15 @@ void MF_add_triangles_normal_colour(IMP_Mesh *im, std::uint32_t draw, std::uint3
     }
 }
 
-void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw) {
+void MF_add_triangles_light(IMP_Mesh* im, OS_Texture* ot, std::uint32_t draw) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
-    IMP_Vert *iv;
-    OS_Buffer *ob;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
+    IMP_Vert* iv;
+    OS_Buffer* ob;
 
     //
     // Build the array of OS_Verts.
@@ -758,16 +758,16 @@ void MF_add_triangles_light(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw) {
         draw);
 }
 
-void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw) {
+void MF_add_triangles_light_bumpmapped(IMP_Mesh* im, OS_Texture* ot, std::uint32_t draw) {
     std::int32_t i;
     std::int32_t pass;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
-    IMP_Vert *iv;
-    OS_Buffer *ob;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
+    IMP_Vert* iv;
+    OS_Buffer* ob;
 
     for (pass = 0; pass < 2; pass++) {
         //
@@ -867,17 +867,17 @@ void MF_add_triangles_light_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32
     }
 }
 
-void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw) {
+void MF_add_triangles_specular(IMP_Mesh* im, OS_Texture* ot, std::uint32_t draw) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Face *ic;
-    IMP_Vert *iv;
-    OS_Buffer *ob;
-    OS_Vert *ov1;
-    OS_Vert *ov2;
-    OS_Vert *ov3;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Face* ic;
+    IMP_Vert* iv;
+    OS_Buffer* ob;
+    OS_Vert* ov1;
+    OS_Vert* ov2;
+    OS_Vert* ov3;
 
     //
     // Build the array of OS_Verts.
@@ -938,15 +938,15 @@ void MF_add_triangles_specular(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw)
         draw);
 }
 
-void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uint32_t draw) {
+void MF_add_triangles_specular_bumpmapped(IMP_Mesh* im, OS_Texture* ot, std::uint32_t draw) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
-    IMP_Vert *iv;
-    OS_Buffer *ob;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
+    IMP_Vert* iv;
+    OS_Buffer* ob;
 
     //
     // Build the array of OS_Verts.
@@ -1123,15 +1123,15 @@ void MF_add_triangles_specular_bumpmapped(IMP_Mesh *im, OS_Texture *ot, std::uin
 
 */
 
-void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS_Texture *ot_diffdot, std::uint32_t draw) {
+void MF_add_triangles_specular_shadowed(IMP_Mesh* im, OS_Texture* ot_specdot, OS_Texture* ot_diffdot, std::uint32_t draw) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
-    IMP_Vert *iv;
-    OS_Buffer *ob;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
+    IMP_Vert* iv;
+    OS_Buffer* ob;
 
     //
     // Build the array of OS_Verts.
@@ -1185,13 +1185,13 @@ void MF_add_triangles_specular_shadowed(IMP_Mesh *im, OS_Texture *ot_specdot, OS
         draw);
 }
 
-void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, std::uint32_t colour, float width, std::uint32_t draw) {
+void MF_add_wireframe(IMP_Mesh* im, OS_Texture* ot, std::uint32_t colour, float width, std::uint32_t draw) {
     std::int32_t i;
 
-    OS_Trans *ot1;
-    OS_Trans *ot2;
+    OS_Trans* ot1;
+    OS_Trans* ot2;
 
-    OS_Buffer *ob = OS_buffer_new();
+    OS_Buffer* ob = OS_buffer_new();
 
     for (i = 0; i < im->num_lines; i++) {
         ot1 = &OS_trans[im->line[i].v1];
@@ -1214,15 +1214,15 @@ void MF_add_wireframe(IMP_Mesh *im, OS_Texture *ot, std::uint32_t colour, float 
     OS_buffer_draw(ob, ot, nullptr, draw);
 }
 
-void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, std::int32_t pass, std::uint32_t draw) {
+void MF_add_triangles_bumpmapped_pass(IMP_Mesh* im, std::int32_t pass, std::uint32_t draw) {
     std::int32_t i;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
-    IMP_Vert *iv;
-    OS_Buffer *ob;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
+    IMP_Vert* iv;
+    OS_Buffer* ob;
 
     //
     // Build the array of OS_Verts.
@@ -1318,14 +1318,14 @@ void MF_add_triangles_bumpmapped_pass(IMP_Mesh *im, std::int32_t pass, std::uint
     }
 }
 
-void MF_add_triangles_texture_after_bumpmap(IMP_Mesh *im) {
+void MF_add_triangles_texture_after_bumpmap(IMP_Mesh* im) {
     std::int32_t i;
     std::uint32_t draw;
 
-    IMP_Svert *is;
-    OS_Vert *ov;
-    IMP_Mat *it;
-    IMP_Face *ic;
+    IMP_Svert* is;
+    OS_Vert* ov;
+    IMP_Mat* it;
+    IMP_Face* ic;
 
     //
     // Build an array of OS_Verts using the shared vertices in the mesh.

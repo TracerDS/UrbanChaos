@@ -81,8 +81,8 @@ struct CSData {
     std::uint8_t version;
     std::uint8_t channelcount;
     std::uint8_t pad1, pad2;
-    CSChannel *channels;
-    CSEditChannel *editchannels;
+    CSChannel* channels;
+    CSEditChannel* editchannels;
 };
 
 struct CSChannel {
@@ -91,7 +91,7 @@ struct CSChannel {
     std::uint8_t pad1, pad2;
     std::uint16_t index;       // of the sound/character or the type of fx
     std::uint16_t packetcount; //
-    CSPacket *packets;         //
+    CSPacket* packets;         //
 };
 
 struct CSPacket {
@@ -109,8 +109,8 @@ struct CSPacket {
 // a toss about
 
 struct CSEditChannel {
-    CSChannel *data;
-    Thing *thing;
+    CSChannel* data;
+    Entity* thing;
 };
 
 //---------------------------------------------------------------
@@ -121,14 +121,14 @@ char interpolate_strings[] = "snap|linear|smooth in|smooth out|smooth both";
 
 #define SLOMO_RATE (10)
 
-PropertyEditor *pedit;
-TreeBrowser *browser;
-DragServer *drag;
-TimeLine *timeline;
-TimeLineRuler *ruler;
-TimeLineScroll *scroll;
-CSData *cutscene;
-CSPacket *current_packet = 0;
+PropertyEditor* pedit;
+TreeBrowser* browser;
+DragServer* drag;
+TimeLine* timeline;
+TimeLineRuler* ruler;
+TimeLineScroll* scroll;
+CSData* cutscene;
+CSPacket* current_packet = 0;
 
 HWND CUTSCENE_edit_wnd = 0;
 bool CUTSCENE_mouselook = 0;
@@ -147,16 +147,16 @@ extern void calc_camera_pos();
 //---------------------------------------------------------------
 // Data structure handlers -- alloc, free, etc
 
-void CUTSCENE_chan_free(CSChannel &chan) {
+void CUTSCENE_chan_free(CSChannel& chan) {
     int i;
-    CSPacket *pkt = chan.packets;
+    CSPacket* pkt = chan.packets;
     for (i = 0; i < chan.packetcount; i++, pkt++)
         if ((pkt->type == PT_TEXT) && (pkt->pos.X))
-            free((char *) pkt->pos.X);
+            free((char*) pkt->pos.X);
     if (chan.packets) delete[] chan.packets;
 }
 
-void CUTSCENE_editchan_free(CSEditChannel &chan) {
+void CUTSCENE_editchan_free(CSEditChannel& chan) {
     if (chan.thing) {
         // if (chan.data->type==CT_CHAR) free_person(chan.thing);
         THING_kill(chan.thing);
@@ -164,7 +164,7 @@ void CUTSCENE_editchan_free(CSEditChannel &chan) {
     chan.thing = 0;
 }
 
-void CUTSCENE_chan_delete(CSData *cutscene, int chan) {
+void CUTSCENE_chan_delete(CSData* cutscene, int chan) {
     CSChannel *buff, *buff2;
     CSEditChannel *edit, *edit2;
     int ct = cutscene->channelcount - 1;
@@ -173,7 +173,7 @@ void CUTSCENE_chan_delete(CSData *cutscene, int chan) {
 
     buff = cutscene->channels + chan;
 
-    // frees Thing structures and the like associated with the channel
+    // frees Entity structures and the like associated with the channel
     CUTSCENE_editchan_free(cutscene->editchannels[chan]);
     // this only frees the resources allocated by the channel, not the channel itself :(
     // yes, that sucks
@@ -205,8 +205,8 @@ void CUTSCENE_chan_delete(CSData *cutscene, int chan) {
     cutscene->editchannels = edit;
 }
 
-CSData *CUTSCENE_data_alloc() {
-    CSData *data = new CSData;
+CSData* CUTSCENE_data_alloc() {
+    CSData* data = new CSData;
     data->channelcount = 0;
     data->version = CUTSCENE_DATA_VERSION;
     data->channels = 0;
@@ -214,7 +214,7 @@ CSData *CUTSCENE_data_alloc() {
     return data;
 }
 
-void CUTSCENE_data_free(CSData *data) {
+void CUTSCENE_data_free(CSData* data) {
     if (data->channels) {
         int i;
         for (i = 0; i < data->channelcount; i++) {
@@ -227,8 +227,8 @@ void CUTSCENE_data_free(CSData *data) {
     delete data;
 }
 
-CSChannel *CUTSCENE_add_channel(CSData *data) {
-    CSChannel *buff = new CSChannel[data->channelcount + 1];
+CSChannel* CUTSCENE_add_channel(CSData* data) {
+    CSChannel* buff = new CSChannel[data->channelcount + 1];
     memcpy(buff, data->channels, sizeof(data->channels[0]) * data->channelcount);
     delete[] data->channels;
     //	data->channelcount++;
@@ -240,7 +240,7 @@ CSChannel *CUTSCENE_add_channel(CSData *data) {
     buff->index = 0;
     buff->type = 0;
 
-    CSEditChannel *buff2 = new CSEditChannel[data->channelcount + 1];
+    CSEditChannel* buff2 = new CSEditChannel[data->channelcount + 1];
     memcpy(buff2, data->editchannels, sizeof(data->editchannels[0]) * data->channelcount);
     delete[] data->editchannels;
     data->editchannels = buff2;
@@ -252,8 +252,8 @@ CSChannel *CUTSCENE_add_channel(CSData *data) {
     return buff;
 }
 
-CSPacket *CUTSCENE_add_packet(CSChannel *chan) {
-    CSPacket *buff = new CSPacket[chan->packetcount + 1];
+CSPacket* CUTSCENE_add_packet(CSChannel* chan) {
+    CSPacket* buff = new CSPacket[chan->packetcount + 1];
     memcpy(buff, chan->packets, sizeof(chan->packets[0]) * chan->packetcount);
     delete[] chan->packets;
     chan->packetcount++;
@@ -265,15 +265,15 @@ CSPacket *CUTSCENE_add_packet(CSChannel *chan) {
     return buff;
 }
 
-void CUTSCENE_del_packet(CSChannel *chan, int pack) {
-    CSPacket *buff;
-    CSPacket *buff2;
+void CUTSCENE_del_packet(CSChannel* chan, int pack) {
+    CSPacket* buff;
+    CSPacket* buff2;
     int ct = chan->packetcount - 1;
 
     if ((pack < 0) || (pack >= chan->packetcount)) return;
 
     buff = chan->packets + pack;
-    if ((buff->type == PT_TEXT) && (buff->pos.X)) free((char *) buff->pos.X);
+    if ((buff->type == PT_TEXT) && (buff->pos.X)) free((char*) buff->pos.X);
 
     buff2 = buff = new CSPacket[ct];
     if (pack > 0) {
@@ -288,8 +288,8 @@ void CUTSCENE_del_packet(CSChannel *chan, int pack) {
     chan->packets = buff;
 }
 
-CSPacket *CUTSCENE_get_packet(CSChannel *chan, int cell) {
-    CSPacket *pkt = chan->packets;
+CSPacket* CUTSCENE_get_packet(CSChannel* chan, int cell) {
+    CSPacket* pkt = chan->packets;
     int ctr = 1;
     if ((cell < 0) || (cell > 2000)) return 0;
     while (pkt && (pkt->start != cell)) {
@@ -304,37 +304,37 @@ CSPacket *CUTSCENE_get_packet(CSChannel *chan, int cell) {
 // Load/save cutscene data
 //-----------------------------------------------------
 
-void CUTSCENE_write_packet(FILE *file_handle, CSPacket *pack, int version) {
-    fwrite((void *) pack, sizeof(CSPacket), 1, file_handle);
+void CUTSCENE_write_packet(FILE* file_handle, CSPacket* pack, int version) {
+    fwrite((void*) pack, sizeof(CSPacket), 1, file_handle);
     if ((pack->type == PT_TEXT) && (pack->pos.X)) {
-        int l = strlen((char *) pack->pos.X);
-        fwrite((void *) &l, sizeof(l), 1, file_handle);
-        fwrite((void *) pack->pos.X, l, 1, file_handle);
+        int l = strlen((char*) pack->pos.X);
+        fwrite((void*) &l, sizeof(l), 1, file_handle);
+        fwrite((void*) pack->pos.X, l, 1, file_handle);
     }
 }
 
-void CUTSCENE_write_channel(FILE *file_handle, CSChannel *chan, int version) {
+void CUTSCENE_write_channel(FILE* file_handle, CSChannel* chan, int version) {
     std::int32_t packnum;
-    CSPacket *pack = chan->packets;
+    CSPacket* pack = chan->packets;
 
-    fwrite((void *) chan, sizeof(CSChannel), 1, file_handle);
+    fwrite((void*) chan, sizeof(CSChannel), 1, file_handle);
     for (packnum = 0; packnum < chan->packetcount; packnum++, pack++) CUTSCENE_write_packet(file_handle, pack, version);
 }
 
-void CUTSCENE_write(FILE *file_handle, CSData *cutscene) {
+void CUTSCENE_write(FILE* file_handle, CSData* cutscene) {
     std::uint8_t channum;
-    CSChannel *chan = cutscene->channels;
+    CSChannel* chan = cutscene->channels;
     cutscene->version = CUTSCENE_DATA_VERSION;
-    fwrite((void *) &cutscene->version, 1, 1, file_handle);
-    fwrite((void *) &cutscene->channelcount, 1, 1, file_handle);
+    fwrite((void*) &cutscene->version, 1, 1, file_handle);
+    fwrite((void*) &cutscene->channelcount, 1, 1, file_handle);
     for (channum = 0; channum < cutscene->channelcount; channum++, chan++) CUTSCENE_write_channel(file_handle, chan, cutscene->version);
 }
 
 // --- read ---
 
-void CUTSCENE_read_packet(FILE *file_handle, CSChannel *chan, int version) {
-    CSPacket *pack = CUTSCENE_add_packet(chan);
-    fread((void *) pack, sizeof(CSPacket), 1, file_handle);
+void CUTSCENE_read_packet(FILE* file_handle, CSChannel* chan, int version) {
+    CSPacket* pack = CUTSCENE_add_packet(chan);
+    fread((void*) pack, sizeof(CSPacket), 1, file_handle);
     switch (version) {
     case 1:
         if (pack->type == PT_CAM) pack->length = 0xff7f;
@@ -344,31 +344,31 @@ void CUTSCENE_read_packet(FILE *file_handle, CSChannel *chan, int version) {
     case PT_TEXT:
         if (pack->pos.X) {
             int l;
-            fread((void *) &l, sizeof(l), 1, file_handle);
+            fread((void*) &l, sizeof(l), 1, file_handle);
             pack->pos.X = (int) malloc(l + 1);
-            ZeroMemory((void *) pack->pos.X, l + 1);
-            fread((void *) pack->pos.X, l, 1, file_handle);
+            ZeroMemory((void*) pack->pos.X, l + 1);
+            fread((void*) pack->pos.X, l, 1, file_handle);
         }
         break;
     }
 }
 
-void CUTSCENE_read_channel(FILE *file_handle, CSData *cutscene) {
+void CUTSCENE_read_channel(FILE* file_handle, CSData* cutscene) {
     std::int32_t packnum, packct;
-    CSChannel *chan = CUTSCENE_add_channel(cutscene);
-    fread((void *) chan, sizeof(CSChannel), 1, file_handle);
+    CSChannel* chan = CUTSCENE_add_channel(cutscene);
+    fread((void*) chan, sizeof(CSChannel), 1, file_handle);
     chan->packets = 0;
     packct = chan->packetcount;
     chan->packetcount = 0;
     for (packnum = 0; packnum < packct; packnum++) CUTSCENE_read_packet(file_handle, chan, cutscene->version);
 }
 
-void CUTSCENE_read(FILE *file_handle, CSData **cutsceneref) {
+void CUTSCENE_read(FILE* file_handle, CSData** cutsceneref) {
     std::uint8_t channum, chanct;
-    CSData *cutscene = CUTSCENE_data_alloc();
+    CSData* cutscene = CUTSCENE_data_alloc();
     *cutsceneref = cutscene;
-    fread((void *) &cutscene->version, 1, 1, file_handle);
-    fread((void *) &chanct, 1, 1, file_handle); // cutscene->channelcount will be updated by read_channel's call to add_channel...
+    fread((void*) &cutscene->version, 1, 1, file_handle);
+    fread((void*) &chanct, 1, 1, file_handle); // cutscene->channelcount will be updated by read_channel's call to add_channel...
     for (channum = 0; channum < chanct; channum++) CUTSCENE_read_channel(file_handle, cutscene);
 }
 
@@ -376,7 +376,7 @@ void CUTSCENE_read(FILE *file_handle, CSData **cutsceneref) {
 // Recreate in-editor data for cutscene
 //-----------------------------------------------------
 
-Thing *CUTSCENE_create_person(std::uint8_t person_type, std::int32_t x, std::int32_t y, std::int32_t z) {
+Entity* CUTSCENE_create_person(std::uint8_t person_type, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t person_index;
 
     person_index = create_person(
@@ -388,14 +388,14 @@ Thing *CUTSCENE_create_person(std::uint8_t person_type, std::int32_t x, std::int
     return TO_THING(person_index);
 }
 
-char *PeopleStrings[] = {"Darci", "Roper", "Cop", "Civvy", "Rasta Thug", "Grey Thug",
+char* PeopleStrings[] = {"Darci", "Roper", "Cop", "Civvy", "Rasta Thug", "Grey Thug",
                          "Red Thug", "Tart", "Slag", "Hostage", "Mechanic", "Tramp", "MIB 1", "MIB 2", "MIB 3"};
 
-void CUTSCENE_recreate(CSData *cutscene) {
+void CUTSCENE_recreate(CSData* cutscene) {
     int channum, pktnum, image, who;
-    CSChannel *chan;
-    CSEditChannel *edit;
-    CSPacket *pkt;
+    CSChannel* chan;
+    CSEditChannel* edit;
+    CSPacket* pkt;
     char msg[600];
 
     chan = cutscene->channels;
@@ -470,10 +470,10 @@ void CUTSCENE_recreate(CSData *cutscene) {
     timeline->Repaint();
 }
 
-void CUTSCENE_remove(CSData *cutscene) {
+void CUTSCENE_remove(CSData* cutscene) {
     int channum;
-    CSChannel *chan;
-    CSEditChannel *edit;
+    CSChannel* chan;
+    CSEditChannel* edit;
 
     chan = cutscene->channels;
     edit = cutscene->editchannels;
@@ -534,9 +534,9 @@ void InitProps(PropertyEditor *pedit, std::uint16_t type) {
         }
 }
 */
-std::int32_t LoadAllAnimNames(char *fname, TreeBrowser *browser, std::int32_t base_ctr);
+std::int32_t LoadAllAnimNames(char* fname, TreeBrowser* browser, std::int32_t base_ctr);
 
-int GetItemIndex(char *str, char *pathtail) {
+int GetItemIndex(char* str, char* pathtail) {
     int i;
     char combined[_MAX_PATH];
 
@@ -553,11 +553,11 @@ int GetItemIndex(char *str, char *pathtail) {
     return 0;
 }
 
-int ScanWavs(TreeBrowser *browser, char *path, bool subdirs, HTREEITEM parent, std::uint8_t indent, std::int32_t param, std::int32_t img, std::int32_t imgfld, char *pathtail) {
+int ScanWavs(TreeBrowser* browser, char* path, bool subdirs, HTREEITEM parent, std::uint8_t indent, std::int32_t param, std::int32_t img, std::int32_t imgfld, char* pathtail) {
     HANDLE handle;
     bool res;
     WIN32_FIND_DATA data;
-    char *pt;
+    char* pt;
     int count = 0, itemndx;
 
     handle = FindFirstFile(path, &data);
@@ -657,7 +657,7 @@ VOID CALLBACK tf(HWND hWnd, UINT message, UINT idEvent, DWORD dwTime) {
 void SkipBodyPartInfo(MFFileHandle file_handle) {
     std::int32_t c0, c1;
     std::int32_t no_people, no_body_bits, string_len;
-    char *dummy;
+    char* dummy;
     std::uint8_t dummy2;
 
     FileRead(file_handle, &no_people, sizeof(std::int32_t));
@@ -667,7 +667,7 @@ void SkipBodyPartInfo(MFFileHandle file_handle) {
     FileRead(file_handle, &string_len, sizeof(std::int32_t));
 
     for (c0 = 0; c0 < no_people; c0++) {
-        dummy = (char *) malloc(string_len + 1);
+        dummy = (char*) malloc(string_len + 1);
         FileRead(file_handle, dummy, string_len);
         free(dummy);
         for (c1 = 0; c1 < no_body_bits; c1++)
@@ -675,7 +675,7 @@ void SkipBodyPartInfo(MFFileHandle file_handle) {
     }
 }
 
-void LoadAnim(MFFileHandle file_handle, TreeBrowser *browser, std::int32_t num) {
+void LoadAnim(MFFileHandle file_handle, TreeBrowser* browser, std::int32_t num) {
     char anim_name[ANIM_NAME_SIZE];
     char full_name[ANIM_NAME_SIZE + 20];
     std::int32_t c0,
@@ -729,7 +729,7 @@ void LoadAnim(MFFileHandle file_handle, TreeBrowser *browser, std::int32_t num) 
     }
 }
 
-std::int32_t LoadAllAnimNames(char *fname, TreeBrowser *browser, std::int32_t base_ctr) {
+std::int32_t LoadAllAnimNames(char* fname, TreeBrowser* browser, std::int32_t base_ctr) {
     std::int32_t anim_count, version,
         c0;
     MFFileHandle file_handle;
@@ -799,11 +799,11 @@ void MouselookToggle() {
     }
 }
 
-int get_index_from_string(char *string, char *opts) {
+int get_index_from_string(char* string, char* opts) {
     char *pt, *buff;
     int i = 0, r = -1;
 
-    buff = (char *) malloc(strlen(opts) + 1);
+    buff = (char*) malloc(strlen(opts) + 1);
     strcpy(buff, opts);
     opts = buff; // now we can play with opts without destroying the original
     while (pt = strchr(opts, '|')) {
@@ -818,8 +818,8 @@ int get_index_from_string(char *string, char *opts) {
     return r;
 }
 
-char *get_string_from_index(int index, char *opts, char *result) {
-    char *pt = opts;
+char* get_string_from_index(int index, char* opts, char* result) {
+    char* pt = opts;
 
     while (index--) {
         pt = strchr(pt, '|');
@@ -836,25 +836,25 @@ char *get_string_from_index(int index, char *opts, char *result) {
     return result;
 }
 
-int CUTSCENE_get_chan_from_item(CSData *cutscene, Thing *dragitem) {
+int CUTSCENE_get_chan_from_item(CSData* cutscene, Entity* dragitem) {
     int channum;
-    CSEditChannel *chan = cutscene->editchannels;
+    CSEditChannel* chan = cutscene->editchannels;
     for (channum = 0; channum < cutscene->channelcount; channum++, chan++)
         if (chan->thing == dragitem) return channum;
     return -1;
 }
 
-void CUTSCENE_match_selection_to_item(CSData *cutscene, Thing *dragitem) {
+void CUTSCENE_match_selection_to_item(CSData* cutscene, Entity* dragitem) {
     int chan = CUTSCENE_get_chan_from_item(cutscene, dragitem);
     SendMessage(GetDlgItem(CUTSCENE_edit_wnd, IDC_LIST2), LB_SETCURSEL, chan, 0);
     current_packet = CUTSCENE_get_packet(cutscene->channels + chan, timeline->GetReadHead());
 }
 
-Thing *CUTSCENE_item_from_point(CSData *cutscene, std::int32_t x, std::int32_t y, std::int32_t z) {
+Entity* CUTSCENE_item_from_point(CSData* cutscene, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t chanctr, packctr;
-    CSChannel *chan;
+    CSChannel* chan;
     //	CSPacket *pack;
-    CSEditChannel *edit;
+    CSEditChannel* edit;
     chan = cutscene->channels;
     edit = cutscene->editchannels;
     for (chanctr = 0; chanctr < cutscene->channelcount; chanctr++) {
@@ -867,9 +867,9 @@ Thing *CUTSCENE_item_from_point(CSData *cutscene, std::int32_t x, std::int32_t y
     return 0;
 }
 
-bool CUTSCENE_find_surrounding_packets(CSChannel *chan, int cell, int *left, int *right) {
+bool CUTSCENE_find_surrounding_packets(CSChannel* chan, int cell, int* left, int* right) {
     int leftmax = -1, rightmin = 2001, packctr = 0;
-    CSPacket *pack;
+    CSPacket* pack;
     *left = -1;
     *right = 2001;
     pack = chan->packets;
@@ -886,7 +886,7 @@ bool CUTSCENE_find_surrounding_packets(CSChannel *chan, int cell, int *left, int
     return ((leftmax > -1) && (rightmin < 2000));
 }
 
-extern std::int32_t person_normal_animate(Thing *p_person);
+extern std::int32_t person_normal_animate(Entity* p_person);
 
 inline int LERPValue(int a, int b, int m) {
     return a + (((b - a) * m) / 256);
@@ -898,7 +898,7 @@ inline int LERPAngle(int a, int b, int m) {
     return a + (((b - a) * m) / 256);
 }
 
-void LERPAnim(CSChannel *chan, Thing *person, int cell) {
+void LERPAnim(CSChannel* chan, Entity* person, int cell) {
     int left, right, lastpos, pos, dist, a, mult, smoothmult, smoothin, smoothout;
     int x, y, z;
     CSPacket *pktA, *pktB;
@@ -1002,7 +1002,7 @@ void LERPAnim(CSChannel *chan, Thing *person, int cell) {
     person_normal_animate(person);
 }
 
-void LERPCamera(CSChannel *chan, int cell) {
+void LERPCamera(CSChannel* chan, int cell) {
     int x, y, z, p, a, left, right, dist, pos, mult, smoothin, smoothout, smoothmult, lens;
     CSPacket *pktA, *pktB;
 
@@ -1086,9 +1086,9 @@ void LERPCamera(CSChannel *chan, int cell) {
 
 void SnapAnimation() {
     int left, right, channum, cell;
-    CSChannel *chan;
-    CSEditChannel *edit;
-    CSPacket *pktA;
+    CSChannel* chan;
+    CSEditChannel* edit;
+    CSPacket* pktA;
     GameCoord posA, posB;
 
     channum = timeline->GetSelectedRow();
@@ -1158,8 +1158,8 @@ void DoEraseChan(int channum) {
 }
 
 void DoErase(int do_row = -1, int do_cell = -1) {
-    CSChannel *chan = 0;
-    CSPacket *pkt = 0;
+    CSChannel* chan = 0;
+    CSPacket* pkt = 0;
     int pack, length;
 
     if ((do_row < 0) || (do_cell < 0)) {
@@ -1296,10 +1296,10 @@ void DoHandleShit() {
     EndPaint(handle, &ps);
 }
 
-bool browserCB(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *str) {
+bool browserCB(TreeBrowser* tb, int reason, int index, HTREEITEM item, char* str) {
     int image = tb->GetImageFromItem(item);
-    CSChannel *chan;
-    CSEditChannel *echan;
+    CSChannel* chan;
+    CSEditChannel* echan;
     std::int32_t x, y, z, who;
 
     switch (reason) {
@@ -1345,8 +1345,8 @@ bool browserCB(TreeBrowser *tb, int reason, int index, HTREEITEM item, char *str
     }
 }
 
-void Update3DStuff(CSChannel *chan, CSEditChannel *edit, int cell) {
-    CSPacket *pkt;
+void Update3DStuff(CSChannel* chan, CSEditChannel* edit, int cell) {
+    CSPacket* pkt;
     int index, lens;
 
     pkt = CUTSCENE_get_packet(chan, cell);
@@ -1392,7 +1392,7 @@ void Update3DStuff(CSChannel *chan, CSEditChannel *edit, int cell) {
 
     case PT_TEXT:
         if (pkt->pos.X)
-            strcpy(subtitle_str, (char *) pkt->pos.X);
+            strcpy(subtitle_str, (char*) pkt->pos.X);
         else
             subtitle_str[0] = 0;
         break;
@@ -1426,10 +1426,10 @@ int UnMangleLerp(int flags, int which) {
     }
 }
 
-bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
-    CSChannel *chan;
-    CSEditChannel *edit;
-    CSPacket *pkt;
+bool timelineCB(TimeLine* tb, int reason, int index, int subline, int cell) {
+    CSChannel* chan;
+    CSEditChannel* edit;
+    CSPacket* pkt;
     int channum;
     char str[255];
 
@@ -1509,7 +1509,7 @@ bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
         case PT_TEXT:
             pedit->Add("Type", "Subtitle", PROPTYPE_READONLY);
             if (pkt->pos.X)
-                strcpy(subtitle_str, (char *) pkt->pos.X);
+                strcpy(subtitle_str, (char*) pkt->pos.X);
             else
                 subtitle_str[0] = 0;
             pedit->Add("Text", subtitle_str, PROPTYPE_STRING);
@@ -1521,7 +1521,7 @@ bool timelineCB(TimeLine *tb, int reason, int index, int subline, int cell) {
     return 0;
 }
 
-bool propeditCB(PropertyEditor *tb, int reason, int index, char *value) {
+bool propeditCB(PropertyEditor* tb, int reason, int index, char* value) {
     int res, i;
 
     switch (reason) {
@@ -1601,9 +1601,9 @@ bool propeditCB(PropertyEditor *tb, int reason, int index, char *value) {
             case PT_TEXT:
                 switch (index) {
                 case 1:
-                    free((char *) current_packet->pos.X);
+                    free((char*) current_packet->pos.X);
                     current_packet->pos.X = (int) malloc(strlen(value) + 1);
-                    strcpy((char *) current_packet->pos.X, value);
+                    strcpy((char*) current_packet->pos.X, value);
                 }
                 break;
             }
@@ -1631,7 +1631,7 @@ LRESULT CALLBACK scene_map_view_proc(
     UINT message,
     WPARAM wParam,
     LPARAM lParam) {
-    static Thing *dragitem = nullptr;
+    static Entity* dragitem = nullptr;
     static int dragmode = 0;
     std::int32_t wx, wy, wz, dx, dz, angle;
 
@@ -1640,7 +1640,7 @@ LRESULT CALLBACK scene_map_view_proc(
         std::uint16_t sx = LOWORD(lParam);
         std::uint16_t sy = HIWORD(lParam);
         if (GI_get_pixel_world_pos(sx, sy, &wx, &wy, &wz, 0)) {
-            Thing *dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
+            Entity* dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
             if (dragtest) {
                 dragitem = dragtest;
                 SetCapture(hWnd);
@@ -1653,7 +1653,7 @@ LRESULT CALLBACK scene_map_view_proc(
         std::uint16_t sx = LOWORD(lParam);
         std::uint16_t sy = HIWORD(lParam);
         if (GI_get_pixel_world_pos(sx, sy, &wx, &wy, &wz, 0)) {
-            Thing *dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
+            Entity* dragtest = CUTSCENE_item_from_point(cutscene, wx, wy, wz);
             if (dragtest) {
                 dragitem = dragtest;
                 CUTSCENE_match_selection_to_item(cutscene, dragitem);
@@ -1793,12 +1793,12 @@ bool CALLBACK cuts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
         case ID_CEDIT_CAMERA_PUNCHIN:
             if (!current_packet) {
                 int channum = timeline->GetSelectedRow();
-                CSChannel *chan = cutscene->channels + channum;
+                CSChannel* chan = cutscene->channels + channum;
                 if ((channum >= 0) && (channum < cutscene->channelcount)) {
-                    CSEditChannel *edit = &cutscene->editchannels[channum];
+                    CSEditChannel* edit = &cutscene->editchannels[channum];
                     switch (chan->type) {
                     case CT_CAM: {
-                        CSPacket *p = CUTSCENE_add_packet(chan);
+                        CSPacket* p = CUTSCENE_add_packet(chan);
                         p->start = timeline->GetReadHead();
                         p->type = PT_CAM;
                         p->length = 0xff7f; // fully faded in, and normal lens length
@@ -1808,7 +1808,7 @@ bool CALLBACK cuts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
                         break;
                     }
                     case CT_TEXT: {
-                        CSPacket *p = CUTSCENE_add_packet(chan);
+                        CSPacket* p = CUTSCENE_add_packet(chan);
                         p->start = timeline->GetReadHead();
                         p->type = PT_TEXT;
                         p->length = 1;
@@ -1890,8 +1890,8 @@ bool CALLBACK cuts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
                 ScreenToClient(timeline->hWnd, &pt);
                 int chan = timeline->GetRowFromY(pt.y);
                 if ((chan >= 0) && (chan < cutscene->channelcount)) {
-                    CSChannel *chn = cutscene->channels + chan;
-                    CSEditChannel *edit = &cutscene->editchannels[chan];
+                    CSChannel* chn = cutscene->channels + chan;
+                    CSEditChannel* edit = &cutscene->editchannels[chan];
                     int which, x = timeline->GetCellFromX(pt.x - 100);
                     int length = 1;
 
@@ -1901,7 +1901,7 @@ bool CALLBACK cuts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
                     DoErase(chan, x);
 
-                    CSPacket *p = CUTSCENE_add_packet(&cutscene->channels[chan]);
+                    CSPacket* p = CUTSCENE_add_packet(&cutscene->channels[chan]);
 
                     p->start = x;
                     switch (browser->drag_item.iImage) {
@@ -1975,11 +1975,11 @@ bool CALLBACK cuts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-extern std::int32_t load_anim_system(struct GameKeyFrameChunk *game_chunk, char *name, std::int32_t type = 0);
+extern std::int32_t load_anim_system(struct GameKeyFrameChunk* game_chunk, char* name, std::int32_t type = 0);
 extern void setup_anim_stuff();
 extern void setup_global_anim_array();
 
-void do_cutscene_setup(EventPoint *the_ep) {
+void do_cutscene_setup(EventPoint* the_ep) {
     HWND dlg;
     MSG msg;
     HRESULT result;
@@ -2000,7 +2000,7 @@ void do_cutscene_setup(EventPoint *the_ep) {
     new_class.hInstance = GEDIT_hinstance;
     new_class.hIcon = nullptr;
     new_class.hCursor = GEDIT_arrow;
-    new_class.hbrBackground = (struct HBRUSH__ *) GetStockObject(BLACK_BRUSH);
+    new_class.hbrBackground = (struct HBRUSH__*) GetStockObject(BLACK_BRUSH);
     new_class.lpszMenuName = nullptr;
     new_class.lpszClassName = "Scene Map View";
     new_class.hIconSm = nullptr;
@@ -2011,7 +2011,7 @@ void do_cutscene_setup(EventPoint *the_ep) {
         cutscene = CUTSCENE_data_alloc();
         the_ep->Data[0] = (std::int32_t) cutscene;
     } else {
-        cutscene = (CSData *) the_ep->Data[0];
+        cutscene = (CSData*) the_ep->Data[0];
     }
 
     CEDIT_accel = LoadAccelerators(GEDIT_hinstance, MAKEINTRESOURCE(IDR_CEDIT_ACCELERATORS));

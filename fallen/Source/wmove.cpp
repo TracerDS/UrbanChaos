@@ -14,7 +14,7 @@
 extern bool allow_debug_keys;
 extern std::int32_t save_psx;
 
-WMOVE_Face *WMOVE_face; //[WMOVE_MAX_FACES];
+WMOVE_Face* WMOVE_face; //[WMOVE_MAX_FACES];
 std::int32_t WMOVE_face_upto;
 
 #ifndef PSX
@@ -29,7 +29,7 @@ void WMOVE_init() {
 // Returns how many wmove faces a given thing needs.
 //
 
-std::int32_t WMOVE_get_num_faces(Thing *p_thing) {
+std::int32_t WMOVE_get_num_faces(Entity* p_thing) {
     switch (p_thing->Class) {
     case CLASS_PERSON:
     case CLASS_PLAT:
@@ -75,7 +75,7 @@ std::uint16_t WMOVE_matrix_thing;
 std::uint16_t WMOVE_matrix_turn;
 
 void WMOVE_get_pos(
-    Thing *p_thing,
+    Entity* p_thing,
     WMOVE_Point pos[3],
     std::int32_t number) {
     std::int32_t i;
@@ -102,7 +102,7 @@ void WMOVE_get_pos(
     std::int32_t cos_yaw;
     std::int32_t matrix[4];
 
-    PrimInfo *pi;
+    PrimInfo* pi;
 
     std::uint16_t get_vehicle_body_prim(std::int32_t type);
 
@@ -199,7 +199,7 @@ void WMOVE_get_pos(
 
         */
 
-        const static WMOVE_Tri *tri_vehicle[VEH_TYPE_NUMBER] =
+        const static WMOVE_Tri* tri_vehicle[VEH_TYPE_NUMBER] =
             {
                 tri_van,
                 tri_car,
@@ -211,7 +211,7 @@ void WMOVE_get_pos(
                 tri_car,
                 tri_van};
 
-        const WMOVE_Tri *use = &((tri_vehicle[p_thing->Genus.Vehicle->Type])[number]);
+        const WMOVE_Tri* use = &((tri_vehicle[p_thing->Genus.Vehicle->Type])[number]);
 
         //
         // Find this things matrix.
@@ -237,7 +237,7 @@ void WMOVE_get_pos(
         std::int32_t offy = get_vehicle_body_offset(p_thing->Genus.Vehicle->Type);
         std::int32_t prim = get_vehicle_body_prim(p_thing->Genus.Vehicle->Type);
 
-        PrimObject *po = &prim_objects[prim];
+        PrimObject* po = &prim_objects[prim];
 
         for (i = 0; i < 3; i++) {
             x = prim_points[po->StartPoint + use->p[i]].X;
@@ -355,7 +355,7 @@ void WMOVE_get_pos(
     }
 }
 
-void WMOVE_create(Thing *p_thing) {
+void WMOVE_create(Entity* p_thing) {
     std::int32_t i;
 
     std::int32_t dax;
@@ -370,9 +370,9 @@ void WMOVE_create(Thing *p_thing) {
     std::int32_t wmove;
     std::int32_t number;
 
-    PrimPoint *pp;
-    PrimFace4 *f4;
-    WMOVE_Face *wf;
+    PrimPoint* pp;
+    PrimFace4* f4;
+    WMOVE_Face* wf;
 
 #ifdef TARGET_DC
     // This doesn't work yet - MarkZA needs to fix it so it doesn't scribble on Darci's mesh.
@@ -517,7 +517,7 @@ void WMOVE_remove(std::uint8_t which_class)
 	std::int32_t i;
 
 	WMOVE_Face *wf;
-	Thing      *p_thing;
+	Entity      *p_thing;
 
 	for (i = 1; i < WMOVE_face_upto; i++)
 	{
@@ -563,9 +563,9 @@ void WMOVE_process() {
     std::int32_t dby;
     std::int32_t dbz;
 
-    WMOVE_Face *wf;
-    PrimFace4 *f4;
-    Thing *p_thing;
+    WMOVE_Face* wf;
+    PrimFace4* f4;
+    Entity* p_thing;
 
     //
     // Update the positions of all the walkable faces.
@@ -690,10 +690,10 @@ void WMOVE_relative_pos(
     std::int32_t last_x,
     std::int32_t last_y,
     std::int32_t last_z,
-    std::int32_t *now_x,
-    std::int32_t *now_y,
-    std::int32_t *now_z,
-    std::int32_t *now_dangle) {
+    std::int32_t* now_x,
+    std::int32_t* now_y,
+    std::int32_t* now_z,
+    std::int32_t* now_dangle) {
     std::int32_t xo;
     std::int32_t yo;
     std::int32_t zo;
@@ -723,12 +723,12 @@ void WMOVE_relative_pos(
 
     std::int32_t dangle;
 
-    WMOVE_Face *wf;
-    PrimFace4 *f4;
-    PrimPoint *pp0;
-    PrimPoint *pp1;
-    PrimPoint *pp2;
-    PrimPoint *pp3;
+    WMOVE_Face* wf;
+    PrimFace4* f4;
+    PrimPoint* pp0;
+    PrimPoint* pp1;
+    PrimPoint* pp2;
+    PrimPoint* pp3;
 
     ASSERT(WITHIN(wmove_index, 1, WMOVE_face_upto - 1));
 
@@ -881,12 +881,12 @@ void WMOVE_relative_pos(
 void WMOVE_draw() {
     std::int32_t i;
 
-    WMOVE_Face *wf;
-    PrimFace4 *f4;
-    PrimPoint *pp0;
-    PrimPoint *pp1;
-    PrimPoint *pp2;
-    PrimPoint *pp3;
+    WMOVE_Face* wf;
+    PrimFace4* f4;
+    PrimPoint* pp0;
+    PrimPoint* pp1;
+    PrimPoint* pp2;
+    PrimPoint* pp3;
 
     std::uint32_t colour;
 

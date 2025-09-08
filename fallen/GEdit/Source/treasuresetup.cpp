@@ -40,7 +40,7 @@ bool CALLBACK treasure_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 //---------------------------------------------------------------
 
-void do_treasure_setup(EventPoint *the_ep) {
+void do_treasure_setup(EventPoint* the_ep) {
     treasure_value = the_ep->Data[0];
     DialogBox(
         GEDIT_hinstance,
@@ -53,7 +53,7 @@ void do_treasure_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_treasure_message(EventPoint *ep, char *msg) {
+char* get_treasure_message(EventPoint* ep, char* msg) {
     if ((!ep) || !ep->Data[0])
         msg[0] = 0;
     else {

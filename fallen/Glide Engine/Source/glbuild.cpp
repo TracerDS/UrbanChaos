@@ -8,7 +8,7 @@
 #include "light.h"
 #include "build.h"
 
-void BUILD_draw(Thing *p_thing)
+void BUILD_draw(Entity *p_thing)
 {
 	std::int32_t i;
 
@@ -299,7 +299,7 @@ void BUILD_draw(Thing *p_thing)
 
 void BUILD_draw_inside()
 {
-	Thing *p_thing = TO_THING(INDOORS_THING);
+	Entity *p_thing = TO_THING(INDOORS_THING);
 
 	std::int32_t i;
 

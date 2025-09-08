@@ -6,7 +6,7 @@
 
 //**************************************************************************************************
 // JCL - Body Part parent names
-char *body_part_parent[][2] =
+char* body_part_parent[][2] =
     {
         {"pelvis",   ""        },
         {"lfemur",   "pelvis"  },
@@ -67,7 +67,7 @@ std::int32_t body_part_children[][5] =
 };
 
 //**************************************************************************************************
-inline void uncompress_matrix(CMatrix33 *cm, Matrix33 *m) {
+inline void uncompress_matrix(CMatrix33* cm, Matrix33* m) {
     std::int32_t v;
 
     v = ((cm->M[0] & CMAT0_MASK) << 2) >> 22;
@@ -102,9 +102,9 @@ inline void uncompress_matrix(CMatrix33 *cm, Matrix33 *m) {
 // utility function to calculate the position offset of a body part given various bits of information
 // about its parent...
 
-void HIERARCHY_Get_Body_Part_Offset(Matrix31 *dest_position, Matrix31 *base_position,
-                                    CMatrix33 *parent_base_matrix, Matrix31 *parent_base_position,
-                                    Matrix33 *parent_curr_matrix, Matrix31 *parent_curr_position) {
+void HIERARCHY_Get_Body_Part_Offset(Matrix31* dest_position, Matrix31* base_position,
+                                    CMatrix33* parent_base_matrix, Matrix31* parent_base_position,
+                                    Matrix33* parent_curr_matrix, Matrix31* parent_curr_position) {
     // build the partial matrix
     struct Matrix33 pmatq, pmati, cmati;
 

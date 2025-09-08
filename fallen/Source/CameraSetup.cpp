@@ -17,7 +17,7 @@
 //---------------------------------------------------------------
 
 std::int32_t camera_type, camera_move, camera_speed, camera_delay, camera_freeze, camera_lock, camera_cant_interrupt;
-EventPoint *use_me_to_debug;
+EventPoint* use_me_to_debug;
 
 //---------------------------------------------------------------
 
@@ -85,7 +85,7 @@ bool CALLBACK cams_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_camera_setup(EventPoint *the_ep) {
+void do_camera_setup(EventPoint* the_ep) {
     use_me_to_debug = the_ep;
     camera_move = the_ep->Data[0];
     camera_type = the_ep->Data[1];
@@ -114,7 +114,7 @@ void do_camera_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_camera_message(EventPoint *ep, char *msg) {
+char* get_camera_message(EventPoint* ep, char* msg) {
     if ((!ep) || (!ep->Data[0]) || (!ep->Data[1]))
         strcpy(msg, "Unknown");
     else

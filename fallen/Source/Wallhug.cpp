@@ -110,7 +110,7 @@ static std::uint32_t bresenham() {
 //----------------------------------------------------------------------------
 // the hugger is in the process of hugging a wall. this steps it along.
 
-inline void wallhug_hugstep(wallhug_info *hugger) {
+inline void wallhug_hugstep(wallhug_info* hugger) {
     // has this hugger failed already?
 
     if (hugger->dirn == WALLHUG_FAILED_DIRN) return;
@@ -273,7 +273,7 @@ static bool line_of_sight(wallhug_waypoint start, wallhug_waypoint end) {
 
 //----------------------------------------------------------------------------
 
-inline static bool huggers_met_again(wallhug_info *huggers) {
+inline static bool huggers_met_again(wallhug_info* huggers) {
     wallhug_waypoint one_ahead;
 
     if (huggers[0].dirn == WALLHUG_FAILED_DIRN || huggers[0].dirn == WALLHUG_DONE) return false;
@@ -292,7 +292,7 @@ inline static bool huggers_met_again(wallhug_info *huggers) {
 
 //----------------------------------------------------------------------------
 
-inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successful_hugger) {
+inline bool wallhug_add_huggers_path(wallhug_path* path, wallhug_info* successful_hugger) {
     std::uint32_t c1;
 
     if (successful_hugger->path.length + path->length + 2 > WALLHUG_MAX_PTS) return 0;
@@ -311,7 +311,7 @@ inline bool wallhug_add_huggers_path(wallhug_path *path, wallhug_info *successfu
 
 //----------------------------------------------------------------------------
 
-static bool line_of_sight_cleanup(wallhug_path *path, std::uint32_t first_waypoint) {
+static bool line_of_sight_cleanup(wallhug_path* path, std::uint32_t first_waypoint) {
     bool deleted_waypoint, done_anything_at_all = false;
     wallhug_waypoint start;
     std::uint32_t finalised, walker;
@@ -358,7 +358,7 @@ static bool line_of_sight_cleanup(wallhug_path *path, std::uint32_t first_waypoi
 //----------------------------------------------------------------------------
 // removes redundant waypoints from an already calculated path
 
-std::uint32_t wallhug_cleanup(wallhug_path *path, std::uint32_t retval) {
+std::uint32_t wallhug_cleanup(wallhug_path* path, std::uint32_t retval) {
     wallhug_waypoint start;
     std::uint32_t finalised, walker, lookahead_done;
     std::uint32_t count = 10;
@@ -411,14 +411,14 @@ line_of_sight_stuff:
 
             // move the remaining waypoints in the path out of the way
 
-            memmove((std::uint8_t *) path->waypoints + c1 + new_path.length,
-                    (std::uint8_t *) path->waypoints + c1 + 2,
+            memmove((std::uint8_t*) path->waypoints + c1 + new_path.length,
+                    (std::uint8_t*) path->waypoints + c1 + 2,
                     (path->length - c1 - 2) * sizeof(wallhug_waypoint));
 
             // and copy in the new waypoints
 
-            memcpy((std::uint8_t *) path->waypoints + c1,
-                   (std::uint8_t *) new_path.waypoints,
+            memcpy((std::uint8_t*) path->waypoints + c1,
+                   (std::uint8_t*) new_path.waypoints,
                    new_path.length * sizeof(wallhug_waypoint));
 
             path->length = new_path.length + path->length - 2;
@@ -440,7 +440,7 @@ line_of_sight_stuff:
 //----------------------------------------------------------------------------
 // returns the number of steps taken
 
-std::uint32_t wallhug_tricky(wallhug_path *path) {
+std::uint32_t wallhug_tricky(wallhug_path* path) {
     std::uint32_t retval;
 
     // first get a simple answer. even if the path fails, we want to optimise
@@ -454,7 +454,7 @@ std::uint32_t wallhug_tricky(wallhug_path *path) {
 //----------------------------------------------------------------------------
 // carries on the path from current
 
-std::uint32_t wallhug_continue_trivial(wallhug_path *path, wallhug_waypoint current, std::uint32_t max_count) {
+std::uint32_t wallhug_continue_trivial(wallhug_path* path, wallhug_waypoint current, std::uint32_t max_count) {
     wallhug_waypoint start = current;
     std::uint32_t dirn;
 
@@ -586,7 +586,7 @@ fail_hugging_and_return:
 //----------------------------------------------------------------------------
 // returns the number of steps taken
 
-std::uint32_t wallhug_trivial(wallhug_path *path) {
+std::uint32_t wallhug_trivial(wallhug_path* path) {
     path->length = 0; // initialise path.
 
     wallhug_current_count = 0;

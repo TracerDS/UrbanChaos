@@ -114,8 +114,8 @@ void SNIPE_process() {
 void SNIPE_shoot() {
     THING_INDEX i_target;
 
-    Thing *darci = NET_PERSON(0);
-    Thing *p_target;
+    Entity* darci = NET_PERSON(0);
+    Entity* p_target;
 
     darci->Draw.Tweened->Angle = SNIPE_yaw >> 16;
     darci->Draw.Tweened->Angle += 1024;

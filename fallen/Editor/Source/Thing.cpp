@@ -1,11 +1,11 @@
-// Thing.cpp
+// Entity.cpp
 // Guy Simmons, 14th October 1997.
 
 #include "Editor.hpp"
 
 #include "DarkCity.h"
 #include "Structs.h"
-#include "Thing.h"
+#include "Entity.h"
 #include "map.h"
 #include "prim.h"
 
@@ -96,7 +96,7 @@ std::int32_t move_thing_on_cells(std::uint16_t thing, std::int32_t x, std::int32
 }
 
 void delete_thing(std::int16_t index) {
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
     p_mthing = TO_MTHING(index);
 
     switch (p_mthing->Type) {

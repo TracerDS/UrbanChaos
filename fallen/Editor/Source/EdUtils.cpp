@@ -10,7 +10,7 @@ extern std::int32_t key_frame_count, current_element;
 extern std::int32_t x_centre,
     y_centre,
     z_centre;
-extern struct KeyFrameChunk *test_chunk;
+extern struct KeyFrameChunk* test_chunk;
 
 //---------------------------------------------------------------
 
@@ -48,17 +48,17 @@ void	invert_mult(struct Matrix33 *mat,struct PrimPoint *pp)
 
 extern void do_quad_clip_list(std::int16_t face, std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3);
 extern void do_tri_clip_list(std::int16_t face, std::int32_t p0, std::int32_t p1, std::int32_t p2);
-extern void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
-extern void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2);
-extern void matrix_transform_small(struct Matrix31 *result, struct Matrix33 *trans, struct SMatrix31 *mat2);
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
+extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2);
 
 #define CLIP256(x) (x > 255 ? 255 : x)
 extern struct SVector global_res[]; // max points per object?
 extern std::int32_t global_flags[];
 
-extern std::uint16_t is_it_clockwise(struct SVector *res, std::int32_t p1, std::int32_t p2, std::int32_t p3);
+extern std::uint16_t is_it_clockwise(struct SVector* res, std::int32_t p1, std::int32_t p2, std::int32_t p3);
 
-void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, struct KeyFrameElement *anim_info) {
+void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, struct KeyFrameElement* anim_info) {
     std::uint16_t bright[1560];
     std::uint32_t flag_and, flag_or;
     std::int32_t az,
@@ -68,10 +68,10 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
     struct Matrix33 local_matrix,
         *mat,
         mat_final;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     struct SVector temp; // max points per object?
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
 
     static std::int32_t scale = 256;
 
@@ -99,7 +99,7 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
     offset.M[0] = (anim_info->OffsetX * scale) >> (TWEEN_OFFSET_SHIFT + 8);
     offset.M[1] = (anim_info->OffsetY * scale) >> (TWEEN_OFFSET_SHIFT + 8);
     offset.M[2] = (anim_info->OffsetZ * scale) >> (TWEEN_OFFSET_SHIFT + 8);
-    matrix_transformZMY((struct Matrix31 *) &temp, &local_matrix, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, &local_matrix, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -115,8 +115,8 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
     matrix_mult33(&mat_final, &local_matrix, mat);
 
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
-        global_flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &global_res[c0 - sp]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
+        global_flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &global_res[c0 - sp]);
         bright[c0 - sp] = 128; // calc_lights(x,y,z,(struct SVector*)&prim_points[c0]);
     }
 
@@ -148,11 +148,11 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
                         p_f4->DrawFlags);
 
                     setCol4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         p_f4->Col2);
 
                     setXY4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         global_res[p0].X, global_res[p0].Y,
                         global_res[p1].X, global_res[p1].Y,
                         global_res[p2].X, global_res[p2].Y,
@@ -163,7 +163,7 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
                             do_quad_clip_list(c0, p0, p1, p2, p3);
 
                     setUV4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         p_f4->UV[0][0], p_f4->UV[0][1],
                         p_f4->UV[1][0], p_f4->UV[1][1],
                         p_f4->UV[2][0], p_f4->UV[2][1],
@@ -171,22 +171,22 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
                         p_f4->TexturePage);
 
                     setZ4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         -global_res[p0].Z,
                         -global_res[p1].Z,
                         -global_res[p2].Z,
                         -global_res[p3].Z);
 
                     setShade4(
-                        (struct BucketQuad *) current_bucket_pool,
+                        (struct BucketQuad*) current_bucket_pool,
                         CLIP256(p_f4->Bright[0] + bright[p0]),
                         CLIP256(p_f4->Bright[1] + bright[p1]),
                         CLIP256(p_f4->Bright[2] + bright[p2]),
                         CLIP256(p_f4->Bright[3] + bright[p3]));
-                    ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                    ((struct BucketQuad *) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
+                    ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketQuad*) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 
                     if (check_mouse_over_prim_quad(global_res, p0, p1, p2, p3, c0)) {
                         selected_prim_xyz.X = x;
@@ -235,11 +235,11 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
                     p_f3->DrawFlags);
 
                 setCol3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->Col2);
 
                 setXY3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     global_res[p0].X, global_res[p0].Y,
                     global_res[p1].X, global_res[p1].Y,
                     global_res[p2].X, global_res[p2].Y);
@@ -249,22 +249,22 @@ void draw_element(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32
                         do_tri_clip_list(-c0, p0, p1, p2);
 
                 setUV3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->UV[0][0], p_f3->UV[0][1],
                     p_f3->UV[1][0], p_f3->UV[1][1],
                     p_f3->UV[2][0], p_f3->UV[2][1],
                     p_f3->TexturePage);
 
                 setShade3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     CLIP256(p_f3->Bright[0] + bright[p0]),
                     CLIP256(p_f3->Bright[1] + bright[p1]),
                     CLIP256(p_f3->Bright[2] + bright[p2]));
 
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 if (check_mouse_over_prim_tri(global_res, p0, p1, p2, c0)) {
                     selected_prim_xyz.X = x;
@@ -284,7 +284,7 @@ exit:;
 // void	draw_multi_prim(EdRect *bounds_rect,struct KeyFrame *the_frame,struct Matrix33 *r_matrix)
 void draw_a_key_frame_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t c0, c1;
-    KeyFrame *the_frame = &test_chunk->KeyFrames[0];
+    KeyFrame* the_frame = &test_chunk->KeyFrames[0];
 
     for (c1 = 0, c0 = prim_multi_objects[prim].StartObject; c0 < prim_multi_objects[prim].EndObject; c0++, c1++) {
         draw_element(
@@ -305,14 +305,14 @@ void clear_anim_stuff() {
 
 //---------------------------------------------------------------
 
-void load_chunk_texture_info_old(KeyFrameChunk *the_chunk) {
+void load_chunk_texture_info_old(KeyFrameChunk* the_chunk) {
     char file_name[64];
     std::int32_t c0 = 0,
                  c1, c2;
     MFFileHandle file_handle;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
-    struct PrimObject *p_obj;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
+    struct PrimObject* p_obj;
 
     strcpy(file_name, the_chunk->VUEName);
     while (file_name[c0] != '.' && file_name[c0] != 0) c0++;
@@ -365,14 +365,14 @@ void load_chunk_texture_info_old(KeyFrameChunk *the_chunk) {
     }
 }
 
-void load_chunk_texture_info(KeyFrameChunk *the_chunk) {
+void load_chunk_texture_info(KeyFrameChunk* the_chunk) {
     char file_name[64];
     std::int32_t c0 = 0,
                  c1, c2;
     MFFileHandle file_handle;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
-    struct PrimObject *p_obj;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
+    struct PrimObject* p_obj;
     std::int32_t save_type;
     std::int32_t multi, count = 0;
     std::int32_t sizeof_face_data;
@@ -498,7 +498,7 @@ void load_chunk_texture_info(KeyFrameChunk *the_chunk) {
 
 //---------------------------------------------------------------
 
-void do_single_shot(std::uint8_t *screen, std::uint8_t *palette) {
+void do_single_shot(std::uint8_t* screen, std::uint8_t* palette) {
     char f_name[128];
     std::int32_t c0 = 0;
 
@@ -514,7 +514,7 @@ void do_single_shot(std::uint8_t *screen, std::uint8_t *palette) {
 
 std::int32_t count = 0;
 
-void do_record_frame(std::uint8_t *screen, std::uint8_t *palette) {
+void do_record_frame(std::uint8_t* screen, std::uint8_t* palette) {
     char f_name[128];
     /*
             std::int32_t			c0	=	0;
@@ -551,7 +551,7 @@ struct PCXHeader {
     std::uint8_t Padding[58];
 };
 
-std::int32_t write_pcx(char *fname, std::uint8_t *src, std::uint8_t *pal) {
+std::int32_t write_pcx(char* fname, std::uint8_t* src, std::uint8_t* pal) {
     std::uint8_t pixel,
         palette[769],
         *ptr, buf[1024];
@@ -564,7 +564,7 @@ std::int32_t write_pcx(char *fname, std::uint8_t *src, std::uint8_t *pal) {
     f_handle = FileCreate(fname, true);
     if (f_handle != FILE_CREATION_ERROR) {
         // Create & write out header.
-        memset((std::uint8_t *) &the_header, 0, sizeof(the_header));
+        memset((std::uint8_t*) &the_header, 0, sizeof(the_header));
         the_header.Manufacturer = 10;
         the_header.Version = 5;
         the_header.Encoding = 1;
@@ -577,7 +577,7 @@ std::int32_t write_pcx(char *fname, std::uint8_t *src, std::uint8_t *pal) {
         the_header.VertRes = WorkScreenHeight;
         the_header.NumColorPlanes = 1;
         the_header.BytesPerLine = WorkScreenPixelWidth;
-        FileWrite(f_handle, (std::uint8_t *) &the_header, sizeof(the_header));
+        FileWrite(f_handle, (std::uint8_t*) &the_header, sizeof(the_header));
 
         // Compress image & write the sucker out.
         for (y = 0; y < WorkScreenHeight; y++, src += WorkScreenPixelWidth) {
@@ -607,7 +607,7 @@ std::int32_t write_pcx(char *fname, std::uint8_t *src, std::uint8_t *pal) {
                     x++;
                 }
             }
-            FileWrite(f_handle, (std::uint8_t *) buf, c0);
+            FileWrite(f_handle, (std::uint8_t*) buf, c0);
         }
 
         // Sort out the palette & write it.

@@ -41,9 +41,9 @@ extern std::int32_t analogue;
 
 FC_Cam FC_cam[FC_MAX_CAMS];
 
-extern std::int32_t person_has_gun_out(Thing *p_person);
+extern std::int32_t person_has_gun_out(Entity* p_person);
 
-std::int32_t FC_alter_for_pos(FC_Cam *fc, std::int32_t *dheight, std::int32_t *ddist) {
+std::int32_t FC_alter_for_pos(FC_Cam* fc, std::int32_t* dheight, std::int32_t* ddist) {
     std::int32_t dx, dz;
     std::uint8_t cap;
     std::int32_t px, pz;
@@ -221,7 +221,7 @@ std::int32_t FC_must_move_up_and_around(std::int32_t cam) {
 void FC_look_at(std::int32_t cam, std::uint16_t thing_index) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     fc->focus = TO_THING(thing_index);
     GAME_cut_scene = 0;
@@ -230,7 +230,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index) {
 void FC_move_to(std::int32_t cam, std::int32_t world_x, std::int32_t world_y, std::int32_t world_z) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     fc->x = world_x << 8;
     fc->y = world_y << 8;
@@ -248,7 +248,7 @@ void FC_move_to(std::int32_t cam, std::int32_t world_x, std::int32_t world_y, st
 // or the focus above the ground.
 //
 
-std::int32_t FC_focus_above(FC_Cam *fc) {
+std::int32_t FC_focus_above(FC_Cam* fc) {
     std::int32_t ground;
     std::int32_t focus;
     std::int32_t above;
@@ -325,7 +325,7 @@ std::int32_t FC_focus_above(FC_Cam *fc) {
 #define CAM_AT_WORLD_POS 2
 #define CAM_AT_FEET 3
 
-std::int32_t FC_get_person_body_part_target(Thing *p_thing) {
+std::int32_t FC_get_person_body_part_target(Entity* p_thing) {
     switch (p_thing->Genus.Person->Action) {
     case ACTION_DANGLING:
     case ACTION_PULL_UP:
@@ -358,7 +358,7 @@ std::int32_t FC_get_person_body_part_target(Thing *p_thing) {
     return (CAM_AT_WORLD_POS);
 }
 
-void FC_calc_focus(FC_Cam *fc) {
+void FC_calc_focus(FC_Cam* fc) {
     std::int32_t body_part = 0;
     //
     // By default...
@@ -374,7 +374,7 @@ void FC_calc_focus(FC_Cam *fc) {
     case CLASS_PERSON:
 
         if (fc->focus->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-            Thing *p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
+            Entity* p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
 
             std::int32_t yaw_car;
 
@@ -513,12 +513,12 @@ void FC_calc_focus(FC_Cam *fc) {
     //
 
     void calc_sub_objects_position(
-        Thing * p_mthing,
+        Entity * p_mthing,
         std::int32_t tween,
         std::uint16_t object,
-        std::int32_t * x,
-        std::int32_t * y,
-        std::int32_t * z);
+        std::int32_t* x,
+        std::int32_t* y,
+        std::int32_t* z);
 
     switch (fc->focus->Class) {
     case CLASS_PERSON:
@@ -631,7 +631,7 @@ void FC_calc_focus(FC_Cam *fc) {
     }
 }
 
-void FC_look_at_focus(FC_Cam *fc) {
+void FC_look_at_focus(FC_Cam* fc) {
     std::int32_t dx = fc->focus_x - fc->want_x >> 8;
     std::int32_t dy = fc->focus_y + fc->lookabove - fc->want_y >> 8;
     std::int32_t dz = fc->focus_z - fc->want_z >> 8;
@@ -682,7 +682,7 @@ void FC_look_at_focus(FC_Cam *fc) {
     fc->want_roll <<= 8;
 
     if (fc->focus->Class == CLASS_PERSON && (fc->focus->Genus.Person->Flags & FLAG_PERSON_DRIVING)) {
-        Thing *p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
+        Entity* p_vehicle = TO_THING(fc->focus->Genus.Person->InCar);
 
         fc->want_roll = 1024 - (p_vehicle->Genus.Vehicle->WheelAngle * p_vehicle->Velocity >> 15);
         fc->want_roll &= 2047;
@@ -693,7 +693,7 @@ void FC_look_at_focus(FC_Cam *fc) {
 void FC_force_camera_behind(std::int32_t cam) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     std::int32_t gox;
     std::int32_t goy;
@@ -807,7 +807,7 @@ found_place:;
 void FC_setup_initial_camera(std::int32_t cam) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     std::int32_t dx;
     std::int32_t dz;
@@ -857,7 +857,7 @@ void FC_setup_initial_camera(std::int32_t cam) {
 #define FC_ROTATE_DIR_LEFT 0
 #define FC_ROTATE_DIR_RIGHT 1
 
-std::int32_t FC_allowed_to_rotate(FC_Cam *fc, std::int32_t rotate_dir) {
+std::int32_t FC_allowed_to_rotate(FC_Cam* fc, std::int32_t rotate_dir) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -930,7 +930,7 @@ std::int32_t FC_allowed_to_rotate(FC_Cam *fc, std::int32_t rotate_dir) {
 void FC_rotate_left(std::int32_t cam) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     if (FC_allowed_to_rotate(fc, FC_ROTATE_DIR_LEFT)) {
         fc->rotate = -0x600;
@@ -940,7 +940,7 @@ void FC_rotate_left(std::int32_t cam) {
 void FC_rotate_right(std::int32_t cam) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     if (FC_allowed_to_rotate(fc, FC_ROTATE_DIR_RIGHT)) {
         fc->rotate = +0x600;
@@ -950,7 +950,7 @@ void FC_rotate_right(std::int32_t cam) {
 void FC_setup_camera_for_warehouse(std::int32_t cam) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     std::int32_t i;
     std::int32_t dx;
@@ -959,7 +959,7 @@ void FC_setup_camera_for_warehouse(std::int32_t cam) {
     std::int32_t best_dist = INFINITY;
     std::int32_t best_door = -1;
 
-    WARE_Ware *ww;
+    WARE_Ware* ww;
 
     ASSERT(fc->focus->Class == CLASS_PERSON);
     ASSERT(WITHIN(fc->focus->Genus.Person->Ware, 1, WARE_ware_upto - 1));
@@ -1032,7 +1032,7 @@ void FC_process() {
     std::uint8_t used_to_be_in_warehouse;
     std::int32_t offset_dist, offset_height;
 
-    FC_Cam *fc;
+    FC_Cam* fc;
 
     for (cam = 0; cam < FC_MAX_CAMS; cam++) {
         fc = &FC_cam[cam];
@@ -1524,7 +1524,7 @@ void FC_process() {
 
                 if (dy > 0) {
                     if (fc->focus->Class == CLASS_PERSON) {
-                        Thing *p_person = fc->focus;
+                        Entity* p_person = fc->focus;
 
                         //
                         // Is this person on a moving platform?
@@ -1533,7 +1533,7 @@ void FC_process() {
                         if (p_person->OnFace > 0) {
                             ASSERT(WITHIN(p_person->OnFace, 1, next_prim_face4 - 1));
 
-                            PrimFace4 *f4 = &prim_faces4[p_person->OnFace];
+                            PrimFace4* f4 = &prim_faces4[p_person->OnFace];
 
                             ASSERT(f4->FaceFlags & FACE_FLAG_WALKABLE);
 
@@ -1753,7 +1753,7 @@ std::int32_t FC_can_see_point(
     std::int32_t z) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     std::int32_t i;
 
@@ -1775,10 +1775,10 @@ std::int32_t FC_can_see_point(
 }
 
 #ifndef PSX
-std::int32_t FC_can_see_person(std::int32_t cam, Thing *p_person) {
+std::int32_t FC_can_see_person(std::int32_t cam, Entity* p_person) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
 
     std::int32_t x;
     std::int32_t y;
@@ -1870,7 +1870,7 @@ std::int32_t FC_can_see_person(std::int32_t cam, Thing *p_person) {
 void FC_position_for_lookaround(std::int32_t cam, std::int32_t pitch) {
     ASSERT(WITHIN(cam, 0, FC_MAX_CAMS - 1));
 
-    FC_Cam *fc = &FC_cam[cam];
+    FC_Cam* fc = &FC_cam[cam];
     std::int32_t vector[3];
 
     FMATRIX_vector(
@@ -1901,7 +1901,7 @@ void FC_explosion(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t f
     std::int32_t dist;
     std::int32_t shake;
 
-    FC_Cam *fc;
+    FC_Cam* fc;
 
     for (i = 0; i < FC_MAX_CAMS; i++) {
         fc = &FC_cam[i];
@@ -1935,14 +1935,14 @@ void FC_explosion(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t f
 
 extern void set_slow_motion(std::uint16_t motion);
 
-void FC_kill_player_cam(Thing *p_thing) {
+void FC_kill_player_cam(Entity* p_thing) {
     FC_cam[0].focus = p_thing;
     FC_force_camera_behind(0);
     GAME_cut_scene = 1;
     //	set_slow_motion(500);
 }
 
-void FC_unkill_player_cam(Thing *p_thing) {
+void FC_unkill_player_cam(Entity* p_thing) {
     FC_cam[0].focus = p_thing;
     FC_force_camera_behind(0);
     GAME_cut_scene = 0;

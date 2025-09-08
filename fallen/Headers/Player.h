@@ -48,7 +48,7 @@ typedef struct
     std::uint8_t ItemCount; // Number of valid inventory items currently held
     std::uint8_t Skill;
 
-    struct Thing *CameraThing,
+    struct Entity *CameraThing,
         *PlayerPerson;
 
 } Player;
@@ -60,9 +60,9 @@ typedef Player *PlayerPtr;
 extern GenusFunctions player_functions[];
 
 void init_players();
-Thing *alloc_player(std::uint8_t type);
-void free_player(Thing *player_thing);
-Thing *create_player(std::uint8_t type, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t id);
+Entity *alloc_player(std::uint8_t type);
+void free_player(Entity *player_thing);
+Entity *create_player(std::uint8_t type, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t id);
 
 //---------------------------------------------------------------
 

@@ -37,7 +37,7 @@ std::uint32_t IC_convert(std::uint8_t r, std::uint8_t g, std::uint8_t b) {
 }
 
 IC_Packet IC_pack(
-    TGA_Pixel *tga,
+    TGA_Pixel* tga,
     std::int32_t tga_width,
     std::int32_t tga_height,
     std::int32_t px,
@@ -67,9 +67,9 @@ IC_Packet IC_pack(
     std::int32_t g[4];
     std::int32_t b[4];
 
-    TGA_Pixel *tp;
-    TGA_Pixel *tp1;
-    TGA_Pixel *tp2;
+    TGA_Pixel* tp;
+    TGA_Pixel* tp1;
+    TGA_Pixel* tp2;
 
     std::int32_t error;
     std::uint32_t bit;
@@ -204,7 +204,7 @@ IC_Packet IC_pack(
 
 void IC_unpack(
     IC_Packet ip,
-    TGA_Pixel *tga,
+    TGA_Pixel* tga,
     std::int32_t tga_width,
     std::int32_t tga_height,
     std::int32_t px,
@@ -216,7 +216,7 @@ void IC_unpack(
     std::int32_t g[4];
     std::int32_t b[4];
 
-    TGA_Pixel *tp;
+    TGA_Pixel* tp;
 
     r[0] = (((ip.colour1 >> 11)) << 3) + 4;
     g[0] = (((ip.colour1 >> 5) & 0x3f) << 2) + 2;

@@ -48,7 +48,7 @@ ControlDef col_tab_def[] =
         {0}
 };
 
-ColTab *the_coltab;
+ColTab* the_coltab;
 
 struct ColInfo col_info[MAX_COL_INFO];
 std::uint16_t next_col_info = 1;
@@ -56,7 +56,7 @@ std::uint16_t next_col_info = 1;
 void redraw_col_tab();
 //---------------------------------------------------------------
 
-ColTab::ColTab(EditorModule *parent) {
+ColTab::ColTab(EditorModule* parent) {
     Parent = parent;
 
     InitControlSet(col_tab_def);
@@ -90,7 +90,7 @@ void delete_col_info(std::int16_t index) {
 
 void ColTab::Recalc() {
     std::int32_t c0;
-    struct ColInfo *p_col;
+    struct ColInfo* p_col;
     // clear_all_col_info();
 
     if (next_col_info == 1) {
@@ -179,14 +179,14 @@ void ColTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w, s
 
 //---------------------------------------------------------------
 
-void ColTab::HandleTab(MFPoint *current_point) {
+void ColTab::HandleTab(MFPoint* current_point) {
     std::int32_t update = 0;
 
     ModeTab::HandleTab(current_point);
     KeyboardInterface();
 
     if (CurrentCol && (engine.ClipFlag & ENGINE_CLIPY_FLAG)) {
-        struct ColInfo *p_col;
+        struct ColInfo* p_col;
         p_col = &col_info[CurrentCol];
         switch (p_col->Type) {
         case COL_TYPE_PLANE:
@@ -251,7 +251,7 @@ std::int32_t ColTab::KeyboardInterface() {
     return (0);
 }
 
-inline std::int32_t normalise_xyz(std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+inline std::int32_t normalise_xyz(std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     std::int32_t dist;
 
     dist = (*x) * (*x) + (*y) * (*y) + (*z) * (*z);
@@ -364,7 +364,7 @@ void	draw_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x
 }
 */
 void draw_a_col_info(std::uint16_t index) {
-    struct ColInfo *p_col;
+    struct ColInfo* p_col;
     std::int32_t col = WHITE_COL;
     EdRect rect;
     p_col = &col_info[index];
@@ -408,7 +408,7 @@ void hilight_col_info() {
     }
 }
 
-static void create_box_from_vect(EdRect *rect, std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
+static void create_box_from_vect(EdRect* rect, std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
     struct SVector point[2];
     struct SVector res[2];
     std::int32_t sx, sy, sz, c0;
@@ -435,7 +435,7 @@ static void create_box_from_vect(EdRect *rect, std::int32_t x1, std::int32_t y1,
     engine.ClipFlag = temp;
 }
 
-static void create_box_from_point(EdRect *rect, std::int32_t x1, std::int32_t y1, std::int32_t z1) {
+static void create_box_from_point(EdRect* rect, std::int32_t x1, std::int32_t y1, std::int32_t z1) {
     struct SVector point[1];
     struct SVector res[1];
     std::int32_t sx, sy, sz, c0;
@@ -455,8 +455,8 @@ static void create_box_from_point(EdRect *rect, std::int32_t x1, std::int32_t y1
     engine.ClipFlag = temp;
 }
 
-std::int32_t select_this_col_info(std::int32_t index, MFPoint *mouse) {
-    struct ColInfo *p_col;
+std::int32_t select_this_col_info(std::int32_t index, MFPoint* mouse) {
+    struct ColInfo* p_col;
     EdRect rect;
 
     p_col = &col_info[index];
@@ -518,7 +518,7 @@ std::int32_t select_this_col_info(std::int32_t index, MFPoint *mouse) {
     return (0);
 }
 
-std::int32_t select_col_info(MFPoint *mouse, std::int32_t *ret) {
+std::int32_t select_col_info(MFPoint* mouse, std::int32_t* ret) {
     static std::uint8_t col = 0;
     std::int32_t c0;
     col++;
@@ -531,7 +531,7 @@ std::int32_t select_col_info(MFPoint *mouse, std::int32_t *ret) {
     return (0);
 }
 
-std::int32_t ColTab::DragACol(std::uint8_t flags, MFPoint *clicked_point, std::uint16_t copy) {
+std::int32_t ColTab::DragACol(std::uint8_t flags, MFPoint* clicked_point, std::uint16_t copy) {
     std::int32_t side;
     std::int32_t drag = 0, drag_type;
     std::int32_t x, y, w, h;
@@ -578,7 +578,7 @@ std::int32_t ColTab::DragACol(std::uint8_t flags, MFPoint *clicked_point, std::u
 
     if (drag) // drag in plan view
     {
-        struct ColInfo *p_col;
+        struct ColInfo* p_col;
         drag_type = col_info[drag].Type;
         p_col = &col_info[drag];
 
@@ -684,7 +684,7 @@ std::int32_t ColTab::DragACol(std::uint8_t flags, MFPoint *clicked_point, std::u
     return (screen_change);
 }
 
-std::int32_t ColTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t ColTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -742,7 +742,7 @@ std::int32_t ColTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
     return (screen_change);
 }
 
-std::int32_t ColTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t ColTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     std::int16_t thing;
     std::int16_t bright;
     switch (flags) {
@@ -783,9 +783,9 @@ std::int32_t ColTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8
     return (0);
 }
 
-std::uint16_t ColTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t ColTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     // This is a fudge to update the front screen buffer.
@@ -919,7 +919,7 @@ void ColTab::HandleControl(std::uint16_t control_id) {
             ClipView = 0;
             engine.ClipFlag = 0;
         } else {
-            struct ColInfo *p_col;
+            struct ColInfo* p_col;
             ClipView = 1;
             p_col = &col_info[CurrentCol];
             switch (p_col->Type) {

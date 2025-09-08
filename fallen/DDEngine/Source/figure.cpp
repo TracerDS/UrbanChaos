@@ -79,9 +79,9 @@ void DeadAndBuried(DWORD dwColour) {
     res = the_display.lp_DD_FrontSurface->Lock(nullptr, &mine, DDLOCK_WAIT, nullptr);
     if (FAILED(res)) return;
 
-    char *pdwDest = (char *) mine.lpSurface;
+    char* pdwDest = (char*) mine.lpSurface;
     for (int i = 0; i < 50; i++) {
-        DWORD *pdwDest1 = (DWORD *) pdwDest;
+        DWORD* pdwDest1 = (DWORD*) pdwDest;
         pdwDest += mine.lPitch;
         for (int j = 0; j < 50; j++) {
             *pdwDest1++ = dwColour;
@@ -95,21 +95,21 @@ void DeadAndBuried(DWORD dwColour) {
 bool FIGURE_draw_prim_tween_person_only_just_set_matrix(
     int iMatrixNum,
     std::int32_t prim,
-    struct Matrix33 *rot_mat,
+    struct Matrix33* rot_mat,
     std::int32_t off_dx,
     std::int32_t off_dy,
     std::int32_t off_dz,
     std::int32_t recurse_level,
-    Thing *p_thing);
+    Entity* p_thing);
 
 void FIGURE_draw_prim_tween_person_only(
     std::int32_t prim,
-    struct Matrix33 *rot_mat,
+    struct Matrix33* rot_mat,
     std::int32_t off_dx,
     std::int32_t off_dy,
     std::int32_t off_dz,
     std::int32_t recurse_level,
-    Thing *p_thing);
+    Entity* p_thing);
 
 // Now enabled only on a cheat!
 // #define HIGH_REZ_PEOPLE_PLEASE_BOB
@@ -125,13 +125,13 @@ bool m_bPleaseInflatePeople = false;
 // Useful.
 #define ALIGNED_STATIC_ARRAY(def, name, number, mytype, align)                        \
     static char c##name##mytype##align##StaticArray[align + number * sizeof(mytype)]; \
-    def##name = (mytype *) (((DWORD) c##name##mytype##align##StaticArray + (align - 1)) & ~(align - 1))
+    def##name = (mytype*) (((DWORD) c##name##mytype##align##StaticArray + (align - 1)) & ~(align - 1))
 
-ALIGNED_STATIC_ARRAY(static D3DCOLOR *, MM_pcFadeTable, 128, D3DCOLOR, 4);
-ALIGNED_STATIC_ARRAY(static D3DCOLOR *, MM_pcFadeTableTint, 128, D3DCOLOR, 4);
-ALIGNED_STATIC_ARRAY(static D3DMATRIX *, MM_pMatrix, 1, D3DMATRIX, 32);
-ALIGNED_STATIC_ARRAY(static D3DVERTEX *, MM_Vertex, 4, D3DVERTEX, 32);
-ALIGNED_STATIC_ARRAY(static float *, MM_pNormal, 4, float, 8);
+ALIGNED_STATIC_ARRAY(static D3DCOLOR*, MM_pcFadeTable, 128, D3DCOLOR, 4);
+ALIGNED_STATIC_ARRAY(static D3DCOLOR*, MM_pcFadeTableTint, 128, D3DCOLOR, 4);
+ALIGNED_STATIC_ARRAY(static D3DMATRIX*, MM_pMatrix, 1, D3DMATRIX, 32);
+ALIGNED_STATIC_ARRAY(static D3DVERTEX*, MM_Vertex, 4, D3DVERTEX, 32);
+ALIGNED_STATIC_ARRAY(static float*, MM_pNormal, 4, float, 8);
 
 #if 0
 // The MM lighting table.
@@ -146,7 +146,7 @@ D3DVECTOR MM_vLightDir;
 bool MM_bLightTableAlreadySetUp = false;
 
 // Something to build lighting tables.
-void BuildMMLightingTable(Pyro *p, DWORD colour_and = 0xffffffff) {
+void BuildMMLightingTable(Pyro* p, DWORD colour_and = 0xffffffff) {
     LOG_ENTER(Figure_Build_Table)
 
     // REMEMBER THAT ALL THE LIGHT DIRECTIONS ARE NEGATIVE,
@@ -165,7 +165,7 @@ void BuildMMLightingTable(Pyro *p, DWORD colour_and = 0xffffffff) {
     vTotal.x = fBright * NIGHT_amb_norm_x;
     vTotal.y = fBright * NIGHT_amb_norm_y;
     vTotal.z = fBright * NIGHT_amb_norm_z;
-    NIGHT_Found *nf;
+    NIGHT_Found* nf;
     for (int j = 0; j < NIGHT_found_upto; j++) {
         nf = &NIGHT_found[j];
 
@@ -380,16 +380,16 @@ typedef struct tagIndexVert {
 
 class MSMesh {
    private:
-    INDEXTRISTRUCT *m_aTri;
+    INDEXTRISTRUCT* m_aTri;
     int m_nNumTri;
     int m_nMaxTri;
-    INDEXVERTSTRUCT *m_aVert;
+    INDEXVERTSTRUCT* m_aVert;
     int m_nNumVert;
     int m_nMaxVert;
 
-    int NextTri(int v1, int v2, int *v3);
+    int NextTri(int v1, int v2, int* v3);
     void ClearTempDone(int nValue);
-    int StripLen(int startTri, int dir, int setit, WORD *pwOut, int nMaxLen);
+    int StripLen(int startTri, int dir, int setit, WORD* pwOut, int nMaxLen);
 
    public:
     MSMesh();
@@ -399,7 +399,7 @@ class MSMesh {
         m_nNumVert = 0;
     }
     int AddTri(WORD wV1, WORD wV2, WORD wV3);
-    int GetStrip(WORD *pwV, int maxlen);
+    int GetStrip(WORD* pwV, int maxlen);
     int NumVertices() { return m_nNumVert; }
     int FindOrAddVertex(WORD wVert);
     int SetSize(int nTriangles);
@@ -414,11 +414,11 @@ int MSMesh::SetSize(int nTriangles) {
         //  printf("SetSize: freeing allocations\n");
         if (m_aTri) {
             MemFree(m_aTri);
-            m_aTri = (INDEXTRISTRUCT *) nullptr;
+            m_aTri = (INDEXTRISTRUCT*) nullptr;
         }
         if (m_aVert) {
             MemFree(m_aVert);
-            m_aVert = (INDEXVERTSTRUCT *) nullptr;
+            m_aVert = (INDEXVERTSTRUCT*) nullptr;
         }
         m_nMaxTri = 0;
         m_nMaxVert = 0;
@@ -433,9 +433,9 @@ int MSMesh::SetSize(int nTriangles) {
             // Allocate new space
             // printf("SetSize allocating space for %d indices and %d vertices\n",
             //      m_nMaxTri, m_nMaxVert );
-            m_aTri = (INDEXTRISTRUCT *) MemAlloc(m_nMaxTri * sizeof(INDEXTRISTRUCT));
+            m_aTri = (INDEXTRISTRUCT*) MemAlloc(m_nMaxTri * sizeof(INDEXTRISTRUCT));
             if (m_aTri == nullptr) { DeadAndBuried(0x07e007e0); }
-            m_aVert = (INDEXVERTSTRUCT *) MemAlloc(m_nMaxVert * sizeof(INDEXVERTSTRUCT));
+            m_aVert = (INDEXVERTSTRUCT*) MemAlloc(m_nMaxVert * sizeof(INDEXVERTSTRUCT));
             if (m_aVert == nullptr) { DeadAndBuried(0x07e007e0); }
             if (!m_aTri || !m_aVert)
                 SetSize(0); // MemFree half-allocations
@@ -491,7 +491,7 @@ void MSMesh::ClearTempDone(int nValue) {
         }
 }
 
-int MSMesh::StripLen(int startTri, int dir, int setit, WORD *pwOut, int nMaxLen) {
+int MSMesh::StripLen(int startTri, int dir, int setit, WORD* pwOut, int nMaxLen) {
     int v1, v2, v3;
     int trino = startTri;
     int len = 0;
@@ -547,7 +547,7 @@ int MSMesh::StripLen(int startTri, int dir, int setit, WORD *pwOut, int nMaxLen)
     return len;
 }
 
-int MSMesh::GetStrip(WORD *pwVT, int maxLen) {
+int MSMesh::GetStrip(WORD* pwVT, int maxLen) {
     int trino;
     int len;
     int dir;
@@ -580,7 +580,7 @@ int MSMesh::GetStrip(WORD *pwVT, int maxLen) {
     return bestLen;
 }
 
-int MSMesh::NextTri(int v1, int v2, int *v3) {
+int MSMesh::NextTri(int v1, int v2, int* v3) {
     int subtri;
     int trino;
 
@@ -613,13 +613,13 @@ int MSMesh::NextTri(int v1, int v2, int *v3) {
 
 static MSMesh mesh;
 
-bool MSOptimizeIndexedList(WORD *pwIndices, int nTriangles) {
+bool MSOptimizeIndexedList(WORD* pwIndices, int nTriangles) {
     if (!mesh.SetSize(nTriangles))
         return false;
 
     mesh.Clear();
 
-    WORD *pwInd = pwIndices;
+    WORD* pwInd = pwIndices;
 
     for (int i = 0; i < nTriangles; i++) {
         mesh.AddTri(pwInd[0], pwInd[1], pwInd[2]);
@@ -851,7 +851,7 @@ void init_flames() {
     handle = FileOpen("data\\flames1.pal");
 
     if (handle != FILE_OPEN_ERROR) {
-        FileRead(handle, (std::uint8_t *) &fire_pal, 768);
+        FileRead(handle, (std::uint8_t*) &fire_pal, 768);
 
         FileClose(handle);
     } else
@@ -866,7 +866,7 @@ void draw_flames(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t lo
     std::int32_t page;
     float scale;
     float u, v, w, h;
-    std::uint8_t *palptr;
+    std::uint8_t* palptr;
     std::int32_t palndx;
     float wx1, wy1, wx2, wy2, wx3, wy3, wx4, wy4;
     std::uint8_t type;
@@ -1029,7 +1029,7 @@ void draw_flame_element(std::int32_t x, std::int32_t y, std::int32_t z, std::int
     std::int32_t page;
     float scale;
     float u, v, w, h;
-    std::uint8_t *palptr;
+    std::uint8_t* palptr;
     std::int32_t palndx;
     float wx1, wy1, wx2, wy2, wx3, wy3, wx4, wy4;
     std::int32_t dx, dy, dz;
@@ -1162,7 +1162,7 @@ void draw_flame_element(std::int32_t x, std::int32_t y, std::int32_t z, std::int
 #endif
 
 // void FIGURE_rotate_obj2(std::int32_t matrix[9], std::int32_t yaw, std::int32_t pitch, std::int32_t roll)
-void FIGURE_rotate_obj2(std::int32_t pitch, std::int32_t yaw, std::int32_t roll, Matrix33 *r3) {
+void FIGURE_rotate_obj2(std::int32_t pitch, std::int32_t yaw, std::int32_t roll, Matrix33* r3) {
     std::int32_t cy, cp, cr;
     std::int32_t sy, sp, sr;
 
@@ -1189,7 +1189,7 @@ void FIGURE_rotate_obj2(std::int32_t pitch, std::int32_t yaw, std::int32_t roll,
     r3->M[2][2] = (MUL64(cy, cp)) >> 1;
 }
 
-void FIGURE_rotate_obj(std::int32_t xangle, std::int32_t yangle, std::int32_t zangle, Matrix33 *r3) {
+void FIGURE_rotate_obj(std::int32_t xangle, std::int32_t yangle, std::int32_t zangle, Matrix33* r3) {
     std::int32_t sinx, cosx, siny, cosy, sinz, cosz;
     std::int32_t cxcz, sysz, sxsycz, sxsysz, sysx, cxczsy, sxsz, cxsysz, czsx, cxsy, sycz, cxsz;
 
@@ -1265,7 +1265,7 @@ std::uint16_t FIGURE_find_face_D3D_texture_page(int iFaceNum, bool bTri) {
     std::uint16_t wTexturePage;
     DWORD dwDrawFlags, dwFaceFlags;
     if (bTri) {
-        PrimFace3 *p_f3 = &prim_faces3[iFaceNum];
+        PrimFace3* p_f3 = &prim_faces3[iFaceNum];
         dwDrawFlags = p_f3->DrawFlags;
         dwFaceFlags = p_f3->FaceFlags;
 
@@ -1273,7 +1273,7 @@ std::uint16_t FIGURE_find_face_D3D_texture_page(int iFaceNum, bool bTri) {
         wTexturePage <<= 2;
         wTexturePage |= p_f3->TexturePage;
     } else {
-        PrimFace4 *p_f4 = &prim_faces4[iFaceNum];
+        PrimFace4* p_f4 = &prim_faces4[iFaceNum];
         dwDrawFlags = p_f4->DrawFlags;
         dwFaceFlags = p_f4->FaceFlags;
 
@@ -1351,7 +1351,7 @@ std::uint16_t FIGURE_find_face_D3D_texture_page(int iFaceNum, bool bTri) {
 #define PRIM_LRU_QUEUE_SIZE 6000
 
 int m_iLRUQueueSize = 0;
-TomsPrimObject *ptpoLRUQueue[PRIM_LRU_QUEUE_LENGTH];
+TomsPrimObject* ptpoLRUQueue[PRIM_LRU_QUEUE_LENGTH];
 DWORD dwGameTurnLastUsed[PRIM_LRU_QUEUE_LENGTH];
 
 // Size of the queue in vertices.
@@ -1359,7 +1359,7 @@ DWORD m_dwSizeOfQueue = 0;
 
 // "Cleans" a slot.
 void FIGURE_clean_LRU_slot(int iSlot) {
-    TomsPrimObject *ptpo = ptpoLRUQueue[iSlot];
+    TomsPrimObject* ptpo = ptpoLRUQueue[iSlot];
 
     ASSERT(ptpo != nullptr);
     if (ptpo == nullptr) {
@@ -1413,7 +1413,7 @@ bool g_bCacheReplacementThrash = false;
 #endif
 
 // Adds the primobj to the LRU queue somewhere, evicting something else if need be.
-void FIGURE_find_and_clean_prim_queue_item(TomsPrimObject *pPrimObj, int iThrashIndex = 0) {
+void FIGURE_find_and_clean_prim_queue_item(TomsPrimObject* pPrimObj, int iThrashIndex = 0) {
     int iQueuePos;
 
     // Make sure nothing even gets close to filling all the space - that would be a disaster.
@@ -1543,7 +1543,7 @@ void FIGURE_find_and_clean_prim_queue_item(TomsPrimObject *pPrimObj, int iThrash
     ASSERT(m_dwSizeOfQueue < PRIM_LRU_QUEUE_SIZE);
 }
 
-void FIGURE_touch_LRU_of_object(TomsPrimObject *pPrimObj) {
+void FIGURE_touch_LRU_of_object(TomsPrimObject* pPrimObj) {
     ASSERT((pPrimObj->bLRUQueueNumber >= 0) && (pPrimObj->bLRUQueueNumber < m_iLRUQueueSize));
     ASSERT(ptpoLRUQueue[pPrimObj->bLRUQueueNumber] == pPrimObj);
     dwGameTurnLastUsed[pPrimObj->bLRUQueueNumber] = GAME_TURN;
@@ -1555,15 +1555,15 @@ int m_iMaxNumIndicesUsed = 0;
 #endif
 
 // Used by the FIGURE_TPO lot.
-static D3DVERTEX *TPO_pVert = nullptr;
-static std::uint16_t *TPO_pStripIndices = nullptr;
-static std::uint16_t *TPO_pListIndices = nullptr;
-static int *TPO_piVertexRemap = nullptr;
-static int *TPO_piVertexLinks = nullptr;
-static D3DVERTEX *TPO_pCurVertex = nullptr;
-static std::uint16_t *TPO_pCurStripIndex = nullptr;
-static std::uint16_t *TPO_pCurListIndex = nullptr;
-static TomsPrimObject *TPO_pPrimObj = nullptr;
+static D3DVERTEX* TPO_pVert = nullptr;
+static std::uint16_t* TPO_pStripIndices = nullptr;
+static std::uint16_t* TPO_pListIndices = nullptr;
+static int* TPO_piVertexRemap = nullptr;
+static int* TPO_piVertexLinks = nullptr;
+static D3DVERTEX* TPO_pCurVertex = nullptr;
+static std::uint16_t* TPO_pCurStripIndex = nullptr;
+static std::uint16_t* TPO_pCurListIndex = nullptr;
+static TomsPrimObject* TPO_pPrimObj = nullptr;
 static int TPO_iNumListIndices = 0;
 static int TPO_iNumStripIndices = 0;
 static int TPO_iNumVertices = 0;
@@ -1577,7 +1577,7 @@ static int TPO_iPrimObjIndexOffset[TPO_MAX_NUMBER_PRIMS + 1];
 
 // Starts off a 3D object.
 // iThrashIndex - can be ignored normally.
-void FIGURE_TPO_init_3d_object(TomsPrimObject *pPrimObj /*, int iThrashIndex = 0 */) {
+void FIGURE_TPO_init_3d_object(TomsPrimObject* pPrimObj /*, int iThrashIndex = 0 */) {
     // PrimObject  *p_obj = &prim_objects[prim];
     // ASSERT ( prim < MAX_NUMBER_D3D_PRIMS );
 
@@ -1611,20 +1611,20 @@ void FIGURE_TPO_init_3d_object(TomsPrimObject *pPrimObj /*, int iThrashIndex = 0
 
 #endif
 
-    TPO_pVert = (D3DVERTEX *) MemAlloc(MAX_VERTS * sizeof(D3DVERTEX));
+    TPO_pVert = (D3DVERTEX*) MemAlloc(MAX_VERTS * sizeof(D3DVERTEX));
     ASSERT(TPO_pVert != nullptr);
     if (TPO_pVert == nullptr) { DeadAndBuried(0xf800f800); }
-    TPO_pStripIndices = (std::uint16_t *) MemAlloc(MAX_INDICES * sizeof(std::uint16_t));
+    TPO_pStripIndices = (std::uint16_t*) MemAlloc(MAX_INDICES * sizeof(std::uint16_t));
     ASSERT(TPO_pStripIndices != nullptr);
     if (TPO_pStripIndices == nullptr) { DeadAndBuried(0xf800f800); }
-    TPO_pListIndices = (std::uint16_t *) MemAlloc(MAX_INDICES * sizeof(std::uint16_t));
+    TPO_pListIndices = (std::uint16_t*) MemAlloc(MAX_INDICES * sizeof(std::uint16_t));
     ASSERT(TPO_pListIndices != nullptr);
     if (TPO_pListIndices == nullptr) { DeadAndBuried(0xf800f800); }
 
-    TPO_piVertexRemap = (int *) MemAlloc(MAX_VERTS * sizeof(int));
+    TPO_piVertexRemap = (int*) MemAlloc(MAX_VERTS * sizeof(int));
     ASSERT(TPO_piVertexRemap != nullptr);
     if (TPO_piVertexRemap == nullptr) { DeadAndBuried(0xf800f800); }
-    TPO_piVertexLinks = (int *) MemAlloc(MAX_VERTS * sizeof(int));
+    TPO_piVertexLinks = (int*) MemAlloc(MAX_VERTS * sizeof(int));
     ASSERT(TPO_piVertexLinks != nullptr);
     if (TPO_piVertexLinks == nullptr) { DeadAndBuried(0xf800f800); }
 
@@ -1680,7 +1680,7 @@ void FIGURE_TPO_add_prim_to_current_object(std::int32_t prim, std::uint8_t ubSub
     ASSERT(TPO_pPrimObj != nullptr);
 
     ASSERT(prim < MAX_NUMBER_D3D_PRIMS);
-    PrimObject *p_obj = &prim_objects[prim];
+    PrimObject* p_obj = &prim_objects[prim];
     ASSERT(p_obj != nullptr);
     TRACE("added prim 0x%x...", p_obj);
 
@@ -1699,7 +1699,7 @@ void FIGURE_TPO_add_prim_to_current_object(std::int32_t prim, std::uint8_t ubSub
 // Compile the object - this actually does all the work.
 // pPrimObj the prim obj that was passed to FIGURE_TPO_init_3d_object
 // iThrashIndex - can be ignored normally.
-void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0) {
+void FIGURE_TPO_finish_3d_object(TomsPrimObject* pPrimObj, int iThrashIndex = 0) {
     // Make sure one has actually been started.
     ASSERT(TPO_pVert != nullptr);
     ASSERT(TPO_pStripIndices != nullptr);
@@ -1723,7 +1723,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
     // This sequence is, of course, complicated by there being both quads and tris. :-(
 
     for (int iOuterPrimNumber = 0; iOuterPrimNumber < TPO_iNumPrims; iOuterPrimNumber++) {
-        PrimObject *pOuterObj = &prim_objects[TPO_PrimObjects[iOuterPrimNumber]];
+        PrimObject* pOuterObj = &prim_objects[TPO_PrimObjects[iOuterPrimNumber]];
 
         ASSERT(pOuterObj != nullptr);
 
@@ -1745,7 +1745,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                 // Find the _rendered_ page, to allow texture paging to do its stuff.
                 std::uint16_t wRealPage = wTexturePage & TEXTURE_PAGE_MASK;
 
-                PolyPage *pRenderedPage = nullptr;
+                PolyPage* pRenderedPage = nullptr;
 
 #ifdef TEX_EMBED
 
@@ -1761,7 +1761,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
 
                 // OK, now we have a material description in wTexturePage.
                 // Look for an existing material with this.
-                PrimObjectMaterial *pMaterial = pPrimObj->pMaterials;
+                PrimObjectMaterial* pMaterial = pPrimObj->pMaterials;
                 int iMatNum;
                 for (iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum--) {
 #if 1
@@ -1792,8 +1792,8 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                     pPrimObj->wNumMaterials++;
                     // Yes, this is a horrible way to do things - memory fragmented all over the place. Tough. Deal with it.
                     // And yes, I could use realloc(), but it doesn't seem to be very happy on the DC, so I won't.
-                    void *pOldMats = (void *) pPrimObj->pMaterials;
-                    pPrimObj->pMaterials = (PrimObjectMaterial *) MemAlloc(pPrimObj->wNumMaterials * sizeof(*pMaterial));
+                    void* pOldMats = (void*) pPrimObj->pMaterials;
+                    pPrimObj->pMaterials = (PrimObjectMaterial*) MemAlloc(pPrimObj->wNumMaterials * sizeof(*pMaterial));
                     ASSERT(pPrimObj->pMaterials != nullptr);
                     if (pPrimObj->pMaterials == nullptr) { DeadAndBuried(0x001f001f); }
 
@@ -1808,10 +1808,10 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                     pMaterial->wNumVertices = 0;
                     pMaterial->wTexturePage = wTexturePage;
 
-                    D3DVERTEX *pFirstVertex = TPO_pCurVertex;
+                    D3DVERTEX* pFirstVertex = TPO_pCurVertex;
 
-                    WORD *pFirstListIndex = TPO_pCurListIndex;
-                    WORD *pFirstStripIndex = TPO_pCurStripIndex;
+                    WORD* pFirstListIndex = TPO_pCurListIndex;
+                    WORD* pFirstStripIndex = TPO_pCurStripIndex;
 
                     // Renit the vertex remapping.
                     for (int i = 0; i < MAX_VERTS; i++) {
@@ -1825,9 +1825,9 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                     // Just scan from this face onwards.
 
                     for (int iInnerPrimNumber = iOuterPrimNumber; iInnerPrimNumber < TPO_iNumPrims; iInnerPrimNumber++) {
-                        PrimObject *pInnerObj = &prim_objects[TPO_PrimObjects[iInnerPrimNumber]];
+                        PrimObject* pInnerObj = &prim_objects[TPO_PrimObjects[iInnerPrimNumber]];
 
-                        float *pfBoundingSphereRadius = &(m_fObjectBoundingSphereRadius[TPO_PrimObjects[iInnerPrimNumber]]);
+                        float* pfBoundingSphereRadius = &(m_fObjectBoundingSphereRadius[TPO_PrimObjects[iInnerPrimNumber]]);
                         *pfBoundingSphereRadius = 0.0f;
 
                         ASSERT(pInnerObj != nullptr);
@@ -1926,12 +1926,12 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                                     }
 #endif
 
-                                    PolyPage *pa = &(POLY_Page[wRealPage]);
+                                    PolyPage* pa = &(POLY_Page[wRealPage]);
 
                                     // Add the vertices.
                                     int iIndices[4];
-                                    PrimFace3 *p_f3;
-                                    PrimFace4 *p_f4;
+                                    PrimFace3* p_f3;
+                                    PrimFace4* p_f4;
                                     int iVerts;
                                     if (bInnerTris) {
                                         p_f3 = &prim_faces3[iInnerFaceNum];
@@ -2172,13 +2172,13 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                         // Make a list of all edges.
 
                         // At most 3 edges per tri.
-                        EdgeList *pEdgeList = (EdgeList *) MemAlloc(sizeof(EdgeList) * pMaterial->wNumListIndices);
+                        EdgeList* pEdgeList = (EdgeList*) MemAlloc(sizeof(EdgeList) * pMaterial->wNumListIndices);
                         ASSERT(pEdgeList != nullptr);
                         if (pEdgeList == nullptr) { DeadAndBuried(0x0000001f); }
 
                         // Add the edges.
                         int iNumEdges = 0;
-                        WORD *pSrcIndex = pFirstListIndex;
+                        WORD* pSrcIndex = pFirstListIndex;
                         WORD wI1, wI2, wI3, wI4;
                         for (int i = pMaterial->wNumListIndices / 3; i > 0; i--) {
                             wI1 = pSrcIndex[0];
@@ -2199,7 +2199,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                                 }
                                 if (!bFound) {
                                     // Make the edge.
-                                    EdgeList *pEdgeCur = &(pEdgeList[iNumEdges]);
+                                    EdgeList* pEdgeCur = &(pEdgeList[iNumEdges]);
                                     pEdgeCur->wPt1 = wI1;
                                     pEdgeCur->wPt2 = wI2;
                                     iNumEdges++;
@@ -2215,7 +2215,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
                         }
 
                         // Now scan the edges, creating the midpoints.
-                        EdgeList *pEdgeCur = pEdgeList;
+                        EdgeList* pEdgeCur = pEdgeList;
                         for (int i = 0; i < iNumEdges; i++) {
                             D3DVERTEX *pvertMid, *pvert1, *pvert2;
 
@@ -2351,7 +2351,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
 #endif
 
                         pSrcIndex = pFirstListIndex + pMaterial->wNumListIndices;
-                        WORD *pDstIndex = pFirstListIndex + iNewMatNumListIndices;
+                        WORD* pDstIndex = pFirstListIndex + iNewMatNumListIndices;
                         WORD wMid[3];
                         for (int i = pMaterial->wNumListIndices / 3; i > 0; i--) {
                             pSrcIndex -= 3;
@@ -2425,7 +2425,7 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
 
 #endif // #ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
 
-                    WORD *pSrcIndex;
+                    WORD* pSrcIndex;
 
                     TRACE("Optimise");
                     // Optimise the lists using MS's optimiser. Ta, MS. Saves me the hassle.
@@ -2558,20 +2558,20 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
 
     // Now that it's a unified block, TPO_pListIndices is the thing that needs to
     // be freed. Obviously, don't free the others - they don't own memory.
-    char *pcBlock = (char *) MemAlloc(dwTotalSize);
+    char* pcBlock = (char*) MemAlloc(dwTotalSize);
     ASSERT(pcBlock != nullptr);
     if (pcBlock == nullptr) { DeadAndBuried(0xffe0ffe0); }
 
-    pPrimObj->pwListIndices = (std::uint16_t *) pcBlock;
+    pPrimObj->pwListIndices = (std::uint16_t*) pcBlock;
     memcpy(pPrimObj->pwListIndices, TPO_pListIndices, TPO_iNumListIndices * sizeof(std::uint16_t));
     pcBlock += TPO_iNumListIndices * sizeof(std::uint16_t);
 
     // Now the verts, aligned to 32 bytes lines.
-    pPrimObj->pD3DVertices = (void *) (((DWORD) pcBlock + 31) & ~31);
+    pPrimObj->pD3DVertices = (void*) (((DWORD) pcBlock + 31) & ~31);
     memcpy(pPrimObj->pD3DVertices, TPO_pVert, TPO_iNumVertices * sizeof(D3DVERTEX));
-    pcBlock = (char *) pPrimObj->pD3DVertices + TPO_iNumVertices * sizeof(D3DVERTEX);
+    pcBlock = (char*) pPrimObj->pD3DVertices + TPO_iNumVertices * sizeof(D3DVERTEX);
 
-    pPrimObj->pwStripIndices = (std::uint16_t *) pcBlock;
+    pPrimObj->pwStripIndices = (std::uint16_t*) pcBlock;
     memcpy(pPrimObj->pwStripIndices, TPO_pStripIndices, TPO_iNumStripIndices * sizeof(std::uint16_t));
     pcBlock += TPO_iNumStripIndices * sizeof(std::uint16_t);
 
@@ -2632,8 +2632,8 @@ void FIGURE_TPO_finish_3d_object(TomsPrimObject *pPrimObj, int iThrashIndex = 0)
 
 // Takes a "prim" description and generates D3D-style data for a single prim.
 void FIGURE_generate_D3D_object(std::int32_t prim) {
-    PrimObject *p_obj = &prim_objects[prim];
-    TomsPrimObject *pPrimObj = &(D3DObj[prim]);
+    PrimObject* p_obj = &prim_objects[prim];
+    TomsPrimObject* pPrimObj = &(D3DObj[prim]);
 
     // Set it up.
     FIGURE_TPO_init_3d_object(pPrimObj);
@@ -2654,21 +2654,21 @@ void FIGURE_draw_prim_tween(
     std::int32_t y,
     std::int32_t z,
     std::int32_t tween,
-    struct GameKeyFrameElement *anim_info,
-    struct GameKeyFrameElement *anim_info_next,
-    struct Matrix33 *rot_mat,
+    struct GameKeyFrameElement* anim_info,
+    struct GameKeyFrameElement* anim_info_next,
+    struct Matrix33* rot_mat,
     std::int32_t off_dx,
     std::int32_t off_dy,
     std::int32_t off_dz,
     std::uint32_t colour,
     std::uint32_t specular,
-    CMatrix33 *parent_base_mat,
-    Matrix31 *parent_base_pos,
-    Matrix33 *parent_curr_mat,
-    Matrix31 *parent_curr_pos,
-    Matrix33 *end_mat,
-    Matrix31 *end_pos,
-    Thing *p_thing,
+    CMatrix33* parent_base_mat,
+    Matrix31* parent_base_pos,
+    Matrix33* parent_curr_mat,
+    Matrix31* parent_curr_pos,
+    Matrix33* end_mat,
+    Matrix31* end_pos,
+    Entity* p_thing,
     std::int32_t part_number = 0xffffffff,
     std::uint32_t colour_and = 0xffffffff) {
     std::int32_t i;
@@ -2713,16 +2713,16 @@ void FIGURE_draw_prim_tween(
 
     SVector temp;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
-    NIGHT_Found *nf;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
+    NIGHT_Found* nf;
 
-    POLY_Point *pp;
-    POLY_Point *ps;
+    POLY_Point* pp;
+    POLY_Point* ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
     std::int32_t tex_page_offset;
 
     LOG_ENTER(Figure_Draw_Prim_Tween)
@@ -3218,7 +3218,7 @@ extern DWORD g_dw3DStuffY;
 
 #else // #if USE_TOMS_ENGINE_PLEASE_BOB
 
-        Pyro *p = nullptr;
+        Pyro* p = nullptr;
 
         if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex) {
             p = TO_PYRO(p_thing->Genus.Person->BurnIndex - 1);
@@ -3949,7 +3949,7 @@ extern DIJOYSTATE the_state;
                 } else
                     page += FACE_PAGE_OFFSET;
 
-                PolyPage *pa = &(POLY_Page[page]);
+                PolyPage* pa = &(POLY_Page[page]);
 
 // #if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
@@ -4243,7 +4243,7 @@ extern DIJOYSTATE the_state;
                     page += FACE_PAGE_OFFSET;
                 // ASSERT(TEXTURE_dontexist[page]==0);
 
-                PolyPage *pa = &(POLY_Page[page]);
+                PolyPage* pa = &(POLY_Page[page]);
 
 // #if USE_TOMS_ENGINE_PLEASE_BOB
 #if 0
@@ -4608,15 +4608,15 @@ void FIGURE_draw_prim_tween_warped(
     std::int32_t y,
     std::int32_t z,
     std::int32_t tween,
-    struct GameKeyFrameElement *anim_info,
-    struct GameKeyFrameElement *anim_info_next,
-    struct Matrix33 *rot_mat,
+    struct GameKeyFrameElement* anim_info,
+    struct GameKeyFrameElement* anim_info_next,
+    struct Matrix33* rot_mat,
     std::int32_t off_dx,
     std::int32_t off_dy,
     std::int32_t off_dz,
     std::uint32_t colour,
     std::uint32_t specular,
-    Thing *p_thing) {
+    Entity* p_thing) {
     std::int32_t i;
     std::int32_t j;
 
@@ -4646,15 +4646,15 @@ void FIGURE_draw_prim_tween_warped(
     SVector temp;
     SVector_F temp2;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
 
-    POLY_Point *pp;
-    POLY_Point *ps;
+    POLY_Point* pp;
+    POLY_Point* ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     red = (colour >> 16) & 0xff;
     green = (colour >> 8) & 0xff;
@@ -4672,7 +4672,7 @@ void FIGURE_draw_prim_tween_warped(
     offset.M[1] = anim_info->OffsetY + ((anim_info_next->OffsetY + off_dy - anim_info->OffsetY) * tween >> 8);
     offset.M[2] = anim_info->OffsetZ + ((anim_info_next->OffsetZ + off_dz - anim_info->OffsetZ) * tween >> 8);
 
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
 
     std::int32_t character_scale = person_get_scale(p_thing);
 
@@ -4973,13 +4973,13 @@ void FIGURE_draw_prim_tween_warped(
 
 struct structFIGURE_dhpr_data {
     std::int32_t start_object;
-    BodyDef *body_def;
-    Matrix31 *world_pos;
+    BodyDef* body_def;
+    Matrix31* world_pos;
     std::int32_t tween;
-    GameKeyFrameElement *ae1;
-    GameKeyFrameElement *ae2;
-    Matrix33 *world_mat;
-    Matrix33 *world_mat2;
+    GameKeyFrameElement* ae1;
+    GameKeyFrameElement* ae2;
+    Matrix33* world_mat;
+    Matrix33* world_mat2;
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -4995,10 +4995,10 @@ struct structFIGURE_dhpr_data {
 struct structFIGURE_dhpr_rdata1 {
     std::int32_t part_number;
     std::int32_t current_child_number;
-    CMatrix33 *parent_base_mat;
-    Matrix31 *parent_base_pos;
-    Matrix33 *parent_current_mat;
-    Matrix31 *parent_current_pos;
+    CMatrix33* parent_base_mat;
+    Matrix31* parent_base_pos;
+    Matrix33* parent_current_mat;
+    Matrix31* parent_current_pos;
     Matrix31 pos;
     // Matrix31				end_pos;
     // Matrix33				end_mat;
@@ -5022,10 +5022,10 @@ struct structFIGURE_dhpr_rdata2 {
 struct
 {
     std::int32_t part_number;
-    CMatrix33 *parent_base_mat;
-    Matrix31 *parent_base_pos;
-    Matrix33 *parent_current_mat;
-    Matrix31 *parent_current_pos;
+    CMatrix33* parent_base_mat;
+    Matrix31* parent_base_pos;
+    Matrix33* parent_current_mat;
+    Matrix31* parent_current_pos;
     Matrix33 end_mat;
     Matrix31 end_pos;
     Matrix31 pos;
@@ -5087,20 +5087,20 @@ std::uint32_t leg_col;
 
 #if DRAW_WHOLE_PERSON_AT_ONCE
 // Static arrays of the things we need for each part of the body.
-ALIGNED_STATIC_ARRAY(static D3DMATRIX *, MMBodyParts_pMatrix, MAX_NUM_BODY_PARTS_AT_ONCE, D3DMATRIX, 32);
-ALIGNED_STATIC_ARRAY(static float *, MMBodyParts_pNormal, MAX_NUM_BODY_PARTS_AT_ONCE * 4, float, 8);
+ALIGNED_STATIC_ARRAY(static D3DMATRIX*, MMBodyParts_pMatrix, MAX_NUM_BODY_PARTS_AT_ONCE, D3DMATRIX, 32);
+ALIGNED_STATIC_ARRAY(static float*, MMBodyParts_pNormal, MAX_NUM_BODY_PARTS_AT_ONCE * 4, float, 8);
 
-void FIGURE_draw_hierarchical_prim_recurse_individual_cull(Thing *p_person);
+void FIGURE_draw_hierarchical_prim_recurse_individual_cull(Entity* p_person);
 #endif
 
 #if DRAW_WHOLE_PERSON_AT_ONCE
-void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
+void FIGURE_draw_hierarchical_prim_recurse(Entity* p_person) {
     std::int32_t recurse_level = 0;
     std::int32_t dx, dy, dz;
     std::uint16_t f1, f2;
     std::int32_t civ_flag = 0, legs, body, shoes, face, hands, pelvis;
     // std::int32_t  limb;
-    struct Matrix33 *rot_mat;
+    struct Matrix33* rot_mat;
 
     LOG_ENTER(Figure_Draw_Hierarchical)
 
@@ -5170,7 +5170,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
     ASSERT(iIndex < MAX_NUMBER_D3D_PEOPLE);
     ASSERT((PERSON_NUM_TYPES + 32 + NUM_ROPERS_THINGIES) <= MAX_NUMBER_D3D_PEOPLE);
-    TomsPrimObject *pPrimObj = &(D3DPeopleObj[iIndex]);
+    TomsPrimObject* pPrimObj = &(D3DPeopleObj[iIndex]);
     if (pPrimObj->wNumMaterials == 0) {
         // Meshes have not been created yet - do so.
 
@@ -5187,7 +5187,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
         recurse_level = 0;
         while (recurse_level >= 0) {
             // m_iRecurseLevelDebugging = recurse_level;
-            structFIGURE_dhpr_rdata1 *pDHPR1 = FIGURE_dhpr_rdata1 + recurse_level;
+            structFIGURE_dhpr_rdata1* pDHPR1 = FIGURE_dhpr_rdata1 + recurse_level;
             int iPartNumber = pDHPR1->part_number;
             if (pDHPR1->current_child_number == 0) {
                 std::int32_t body_part;
@@ -5202,7 +5202,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
                 std::int32_t prim = FIGURE_dhpr_data.start_object + body_part;
 
                 // Add this prim to it.
-                PrimObject *p_obj = &prim_objects[prim];
+                PrimObject* p_obj = &prim_objects[prim];
                 // FIGURE_TPO_add_prim_to_current_object ( p_obj, iTPOPartNumber );
                 FIGURE_TPO_add_prim_to_current_object(prim, iTPOPartNumber);
                 iTPOPartNumber++;
@@ -5216,7 +5216,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
             if (body_part_children[iPartNumber][pDHPR1->current_child_number] != -1) {
                 // Broken up, or the compiler gets very confused.
-                structFIGURE_dhpr_rdata1 *pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
+                structFIGURE_dhpr_rdata1* pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
 
                 pDHPR1Inc->current_child_number = 0;
 
@@ -5257,7 +5257,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
     recurse_level = 0;
     while (recurse_level >= 0) {
         // m_iRecurseLevelDebugging = recurse_level;
-        structFIGURE_dhpr_rdata1 *pDHPR1 = FIGURE_dhpr_rdata1 + recurse_level;
+        structFIGURE_dhpr_rdata1* pDHPR1 = FIGURE_dhpr_rdata1 + recurse_level;
         int iPartNumber = pDHPR1->part_number;
 
         if (pDHPR1->current_child_number == 0) {
@@ -5407,7 +5407,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
         if (body_part_children[iPartNumber][pDHPR1->current_child_number] != -1) {
             // Broken up, or the compiler gets very confused.
             // structFIGURE_dhpr_rdata1 *pDHPR1	= FIGURE_dhpr_rdata1 + recurse_level;
-            structFIGURE_dhpr_rdata1 *pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
+            structFIGURE_dhpr_rdata1* pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
 
             pDHPR1Inc->current_child_number = 0;
 
@@ -5472,16 +5472,16 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
     SVector temp;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
-    NIGHT_Found *nf;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
+    NIGHT_Found* nf;
 
-    POLY_Point *pp;
-    POLY_Point *ps;
+    POLY_Point* pp;
+    POLY_Point* ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
     std::int32_t tex_page_offset;
 
     LOG_ENTER(Figure_Draw_Prim_Tween)
@@ -5512,15 +5512,15 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
     ASSERT(pPrimObj->pwStripIndices != nullptr);
     ASSERT(pPrimObj->wNumMaterials != 0);
 
-    PrimObjectMaterial *pMat = pPrimObj->pMaterials;
+    PrimObjectMaterial* pMat = pPrimObj->pMaterials;
 
     D3DMULTIMATRIX d3dmm;
     d3dmm.lpd3dMatrices = MMBodyParts_pMatrix;
     d3dmm.lpvLightDirs = MMBodyParts_pNormal;
 
-    D3DVERTEX *pVertex = (D3DVERTEX *) pPrimObj->pD3DVertices;
-    std::uint16_t *pwListIndices = pPrimObj->pwListIndices;
-    std::uint16_t *pwStripIndices = pPrimObj->pwStripIndices;
+    D3DVERTEX* pVertex = (D3DVERTEX*) pPrimObj->pD3DVertices;
+    std::uint16_t* pwListIndices = pPrimObj->pwListIndices;
+    std::uint16_t* pwStripIndices = pPrimObj->pwStripIndices;
     for (int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum--) {
         // Set up the right texture for this material.
 
@@ -5552,7 +5552,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
         extern D3DMATRIX g_matWorld;
 
-        PolyPage *pa = &(POLY_Page[wRealPage]);
+        PolyPage* pa = &(POLY_Page[wRealPage]);
 #if 0
 		// Near-plane culling! Must implement!
 
@@ -5649,11 +5649,11 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
             wTempVerts[1] = 1;
             wTempVerts[2] = 2;
             wTempVerts[3] = -1;
-            (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *) &d3dmm, 3, wTempVerts, 4, D3DDP_MULTIMATRIX);
+            (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void*) &d3dmm, 3, wTempVerts, 4, D3DDP_MULTIMATRIX);
             LOG_EXIT(Figure_Set_RenderState)
 
             LOG_ENTER(Figure_DrawIndPrimMM)
-            HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *) &d3dmm, pMat->wNumVertices, pwStripIndices, pMat->wNumStripIndices, D3DDP_MULTIMATRIX);
+            HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void*) &d3dmm, pMat->wNumVertices, pwStripIndices, pMat->wNumStripIndices, D3DDP_MULTIMATRIX);
             // TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
 
 #endif
@@ -5706,10 +5706,10 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
 // The slower version that can cull individual chunks.
 #if DRAW_WHOLE_PERSON_AT_ONCE
-    void FIGURE_draw_hierarchical_prim_recurse_individual_cull(Thing * p_person)
+    void FIGURE_draw_hierarchical_prim_recurse_individual_cull(Entity * p_person)
 #else
 // There can be only one...
-void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
+void FIGURE_draw_hierarchical_prim_recurse(Entity* p_person)
 #endif
     {
         std::int32_t recurse_level = 0;
@@ -5717,7 +5717,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
         std::uint16_t f1, f2;
         std::int32_t civ_flag = 0, legs, body, shoes, face, hands, pelvis;
         // std::int32_t  limb;
-        struct Matrix33 *rot_mat;
+        struct Matrix33* rot_mat;
 
         LOG_ENTER(Figure_Draw_Hierarchical)
 
@@ -5756,7 +5756,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
         recurse_level = 0;
         while (recurse_level >= 0) {
             // m_iRecurseLevelDebugging = recurse_level;
-            structFIGURE_dhpr_rdata1 *pDHPR1 = FIGURE_dhpr_rdata1 + recurse_level;
+            structFIGURE_dhpr_rdata1* pDHPR1 = FIGURE_dhpr_rdata1 + recurse_level;
             int iPartNumber = pDHPR1->part_number;
 
             if (pDHPR1->current_child_number == 0) {
@@ -5992,7 +5992,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
 #else
                 // Broken up, or the compiler gets very confused.
                 // structFIGURE_dhpr_rdata1 *pDHPR1	= FIGURE_dhpr_rdata1 + recurse_level;
-                structFIGURE_dhpr_rdata1 *pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
+                structFIGURE_dhpr_rdata1* pDHPR1Inc = FIGURE_dhpr_rdata1 + recurse_level + 1;
 
                 pDHPR1Inc->current_child_number = 0;
 
@@ -6027,13 +6027,13 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person)
 
 #else
 // Old version
-void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
+void FIGURE_draw_hierarchical_prim_recurse(Entity* p_person) {
     std::int32_t recurse_level = 0;
     std::int32_t dx, dy, dz;
     std::uint16_t f1, f2;
     std::int32_t civ_flag = 0, legs, body, shoes, face, hands, pelvis;
     // std::int32_t limb;
-    struct Matrix33 *rot_mat;
+    struct Matrix33* rot_mat;
 
 #ifdef HIGH_REZ_PEOPLE_PLEASE_BOB
     // Do I need to toggle inflation?
@@ -6353,7 +6353,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
 #ifndef PSX
     // New faster version
-    void FIGURE_draw(Thing * p_thing) {
+    void FIGURE_draw(Entity * p_thing) {
         std::int32_t dx;
         std::int32_t dy;
         std::int32_t dz;
@@ -6364,10 +6364,10 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
         Matrix33 r_matrix;
 
-        GameKeyFrameElement *ae1;
-        GameKeyFrameElement *ae2;
+        GameKeyFrameElement* ae1;
+        GameKeyFrameElement* ae2;
 
-        DrawTween *dt = p_thing->Draw.Tweened;
+        DrawTween* dt = p_thing->Draw.Tweened;
 
         LOG_ENTER(Figure_FIGURE_Draw)
 
@@ -6484,7 +6484,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 
         // #undef ALIGNED_STATIC_ARRAY
 
-        Pyro *p = nullptr;
+        Pyro* p = nullptr;
         if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex) {
             p = TO_PYRO(p_thing->Genus.Person->BurnIndex - 1);
             if (p->PyroType != PYRO_IMMOLATE) {
@@ -6597,7 +6597,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
             // Is this person carrying a grenade?
             //
 
-            Thing *p_person = p_thing;
+            Entity* p_person = p_thing;
 
             if (p_person->Genus.Person->SpecialUse && TO_THING(p_person->Genus.Person->SpecialUse)->Genus.Special->SpecialType == SPECIAL_GRENADE) {
                 std::int32_t px;
@@ -6638,7 +6638,7 @@ void FIGURE_draw_hierarchical_prim_recurse(Thing *p_person) {
 #else
 // Old version
 
-void FIGURE_draw(Thing *p_thing) {
+void FIGURE_draw(Entity* p_thing) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -6649,10 +6649,10 @@ void FIGURE_draw(Thing *p_thing) {
 
     Matrix33 r_matrix;
 
-    GameKeyFrameElement *ae1;
-    GameKeyFrameElement *ae2;
+    GameKeyFrameElement* ae1;
+    GameKeyFrameElement* ae2;
 
-    DrawTween *dt = p_thing->Draw.Tweened;
+    DrawTween* dt = p_thing->Draw.Tweened;
 
     /*
             {
@@ -6766,7 +6766,7 @@ void FIGURE_draw(Thing *p_thing) {
         //
         // stuff added for more compression of anims
         //
-        extern struct PrimPoint *anim_mids; //[256];
+        extern struct PrimPoint* anim_mids; //[256];
 
         index1 = dt->CurrentFrame->XYZIndex;
         index2 = dt->NextFrame->XYZIndex;
@@ -6826,7 +6826,7 @@ void FIGURE_draw(Thing *p_thing) {
             offset.M[0] = wx;
             offset.M[1] = wy;
             offset.M[2] = wz;
-            matrix_transformZMY((struct Matrix31 *) &temp, &r_matrix, &offset);
+            matrix_transformZMY((struct Matrix31*) &temp, &r_matrix, &offset);
             wx = temp.X;
             wy = temp.Y;
             wz = temp.Z;
@@ -7030,7 +7030,7 @@ void FIGURE_draw(Thing *p_thing) {
 
     // #undef ALIGNED_STATIC_ARRAY
 
-    Pyro *p = nullptr;
+    Pyro* p = nullptr;
     if (p_thing->Class == CLASS_PERSON && p_thing->Genus.Person->BurnIndex) {
         p = TO_PYRO(p_thing->Genus.Person->BurnIndex - 1);
         if (p->PyroType != PYRO_IMMOLATE) {
@@ -7142,7 +7142,7 @@ void FIGURE_draw(Thing *p_thing) {
     if (p_thing->Class == CLASS_PERSON) {
         /*
 
-        Thing *p_person = p_thing;
+        Entity *p_person = p_thing;
 
         //
         // If this person is holding a coke-can...
@@ -7195,7 +7195,7 @@ void FIGURE_draw(Thing *p_thing) {
         // Is this person carrying a grenade?
         //
 
-        Thing *p_person = p_thing;
+        Entity* p_person = p_thing;
 
         if (p_person->Genus.Person->SpecialUse && TO_THING(p_person->Genus.Person->SpecialUse)->Genus.Special->SpecialType == SPECIAL_GRENADE) {
             std::int32_t px;
@@ -7235,7 +7235,7 @@ void FIGURE_draw(Thing *p_thing) {
 
 #endif
 
-    void ANIM_obj_draw(Thing * p_thing, DrawTween * dt) {
+    void ANIM_obj_draw(Entity * p_thing, DrawTween * dt) {
         std::int32_t dx;
         std::int32_t dy;
         std::int32_t dz;
@@ -7245,8 +7245,8 @@ void FIGURE_draw(Thing *p_thing) {
 
         Matrix33 r_matrix;
 
-        GameKeyFrameElement *ae1;
-        GameKeyFrameElement *ae2;
+        GameKeyFrameElement* ae1;
+        GameKeyFrameElement* ae2;
 
         //	calc_global_cloud(p_thing->WorldPos.X>>8,p_thing->WorldPos.Y>>8,p_thing->WorldPos.Z>>8);
 
@@ -7265,7 +7265,7 @@ void FIGURE_draw(Thing *p_thing) {
             // Draw the bounding box.
             //
 
-            AnimPrimBbox *apb = &anim_prim_bbox[p_thing->Index];
+            AnimPrimBbox* apb = &anim_prim_bbox[p_thing->Index];
 
             // AENG_world_line(
             //	apb->minx + (p_thing->WorldPos.X >> 8),
@@ -7386,7 +7386,7 @@ void FIGURE_draw(Thing *p_thing) {
         }
     }
 
-    void ANIM_obj_draw_warped(Thing * p_thing, DrawTween * dt) {
+    void ANIM_obj_draw_warped(Entity * p_thing, DrawTween * dt) {
         std::int32_t dx;
         std::int32_t dy;
         std::int32_t dz;
@@ -7396,8 +7396,8 @@ void FIGURE_draw(Thing *p_thing) {
 
         Matrix33 r_matrix;
 
-        GameKeyFrameElement *ae1;
-        GameKeyFrameElement *ae2;
+        GameKeyFrameElement* ae1;
+        GameKeyFrameElement* ae2;
 
         if (dt->CurrentFrame == 0 ||
             dt->NextFrame == 0) {
@@ -7531,15 +7531,15 @@ void FIGURE_draw(Thing *p_thing) {
         std::int32_t y,
         std::int32_t z,
         std::int32_t tween,
-        struct GameKeyFrameElement * anim_info,
-        struct GameKeyFrameElement * anim_info_next,
-        struct Matrix33 * rot_mat,
+        struct GameKeyFrameElement* anim_info,
+        struct GameKeyFrameElement* anim_info_next,
+        struct Matrix33* rot_mat,
         std::int32_t off_dx,
         std::int32_t off_dy,
         std::int32_t off_dz,
         std::uint32_t colour,
         std::uint32_t specular,
-        Thing * p_thing) {
+        Entity* p_thing) {
         std::int32_t i;
         std::int32_t j;
 
@@ -7575,14 +7575,14 @@ void FIGURE_draw(Thing *p_thing) {
 
         SVector temp;
 
-        PrimFace4 *p_f4;
-        PrimFace3 *p_f3;
-        PrimObject *p_obj;
+        PrimFace4* p_f4;
+        PrimFace3* p_f3;
+        PrimObject* p_obj;
 
-        POLY_Point *tri[3];
-        POLY_Point *quad[4];
+        POLY_Point* tri[3];
+        POLY_Point* quad[4];
 
-        FIGURE_Rpoint *frp;
+        FIGURE_Rpoint* frp;
 
         colour >>= 1;
         specular >>= 1;
@@ -7609,7 +7609,7 @@ void FIGURE_draw(Thing *p_thing) {
         offset.M[1] = anim_info->OffsetY + ((anim_info_next->OffsetY + off_dy - anim_info->OffsetY) * tween >> 8);
         offset.M[2] = anim_info->OffsetZ + ((anim_info_next->OffsetZ + off_dz - anim_info->OffsetZ) * tween >> 8);
 
-        matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+        matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
 
         std::int32_t character_scale = person_get_scale(p_thing);
         temp.X = (temp.X * character_scale) / 256;
@@ -7919,7 +7919,7 @@ void FIGURE_draw(Thing *p_thing) {
         }
     }
 
-    void FIGURE_draw_reflection(Thing * p_thing, std::int32_t height) {
+    void FIGURE_draw_reflection(Entity * p_thing, std::int32_t height) {
         std::int32_t dx;
         std::int32_t dy;
         std::int32_t dz;
@@ -7927,14 +7927,14 @@ void FIGURE_draw(Thing *p_thing) {
         D3DCOLOR colour;
         D3DCOLOR specular;
 
-        POLY_Point *pp;
+        POLY_Point* pp;
 
         Matrix33 r_matrix;
 
-        GameKeyFrameElement *ae1;
-        GameKeyFrameElement *ae2;
+        GameKeyFrameElement* ae1;
+        GameKeyFrameElement* ae2;
 
-        DrawTween *dt = p_thing->Draw.Tweened;
+        DrawTween* dt = p_thing->Draw.Tweened;
 
         if (dt->CurrentFrame == 0 ||
             dt->NextFrame == 0) {
@@ -8104,12 +8104,12 @@ void FIGURE_draw(Thing *p_thing) {
     bool FIGURE_draw_prim_tween_person_only_just_set_matrix(
         int iMatrixNum,
         std::int32_t prim,
-        struct Matrix33 *rot_mat,
+        struct Matrix33* rot_mat,
         std::int32_t off_dx,
         std::int32_t off_dy,
         std::int32_t off_dz,
         std::int32_t recurse_level,
-        Thing *p_thing) {
+        Entity* p_thing) {
         return false;
     }
 
@@ -8127,7 +8127,7 @@ void FIGURE_draw(Thing *p_thing) {
     //		std::int32_t off_dy,
     //		std::int32_t off_dz,
     //		std::int32_t recurse_level,
-    //		Thing    *p_thing
+    //		Entity    *p_thing
     //		)
     //{
     //
@@ -8545,7 +8545,7 @@ void FIGURE_draw(Thing *p_thing) {
         // std::int32_t tween,
         // struct GameKeyFrameElement *anim_info,
         // struct GameKeyFrameElement *anim_info_next,
-        struct Matrix33 * rot_mat,
+        struct Matrix33* rot_mat,
         std::int32_t off_dx,
         std::int32_t off_dy,
         std::int32_t off_dz,
@@ -8558,7 +8558,7 @@ void FIGURE_draw(Thing *p_thing) {
         // Matrix31 *parent_curr_pos,
         // Matrix33 *end_mat,
         // Matrix31 *end_pos,
-        Thing * p_thing
+        Entity* p_thing
         // std::int32_t     part_number = 0xffffffff,
         // std::uint32_t     colour_and  = 0xffffffff
     ) {
@@ -8566,16 +8566,16 @@ void FIGURE_draw(Thing *p_thing) {
         std::int32_t y = FIGURE_dhpr_data.world_pos->M[1];
         std::int32_t z = FIGURE_dhpr_data.world_pos->M[2];
         std::int32_t tween = FIGURE_dhpr_data.tween;
-        struct GameKeyFrameElement *anim_info = &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number];
-        struct GameKeyFrameElement *anim_info_next = &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number];
+        struct GameKeyFrameElement* anim_info = &FIGURE_dhpr_data.ae1[FIGURE_dhpr_rdata1[recurse_level].part_number];
+        struct GameKeyFrameElement* anim_info_next = &FIGURE_dhpr_data.ae2[FIGURE_dhpr_rdata1[recurse_level].part_number];
         std::uint32_t colour = FIGURE_dhpr_data.colour;
         std::uint32_t specular = FIGURE_dhpr_data.specular;
-        CMatrix33 *parent_base_mat = FIGURE_dhpr_rdata1[recurse_level].parent_base_mat;
-        Matrix31 *parent_base_pos = FIGURE_dhpr_rdata1[recurse_level].parent_base_pos;
-        Matrix33 *parent_curr_mat = FIGURE_dhpr_rdata1[recurse_level].parent_current_mat;
-        Matrix31 *parent_curr_pos = FIGURE_dhpr_rdata1[recurse_level].parent_current_pos;
-        Matrix33 *end_mat = &FIGURE_dhpr_rdata2[recurse_level].end_mat;
-        Matrix31 *end_pos = &FIGURE_dhpr_rdata2[recurse_level].end_pos;
+        CMatrix33* parent_base_mat = FIGURE_dhpr_rdata1[recurse_level].parent_base_mat;
+        Matrix31* parent_base_pos = FIGURE_dhpr_rdata1[recurse_level].parent_base_pos;
+        Matrix33* parent_curr_mat = FIGURE_dhpr_rdata1[recurse_level].parent_current_mat;
+        Matrix31* parent_curr_pos = FIGURE_dhpr_rdata1[recurse_level].parent_current_pos;
+        Matrix33* end_mat = &FIGURE_dhpr_rdata2[recurse_level].end_mat;
+        Matrix31* end_pos = &FIGURE_dhpr_rdata2[recurse_level].end_pos;
         std::int32_t part_number = FIGURE_dhpr_rdata1[recurse_level].part_number;
         // std::uint32_t     colour_and  = 0xffffffff;
 
@@ -8621,16 +8621,16 @@ void FIGURE_draw(Thing *p_thing) {
 
         SVector temp;
 
-        PrimFace4 *p_f4;
-        PrimFace3 *p_f3;
-        PrimObject *p_obj;
-        NIGHT_Found *nf;
+        PrimFace4* p_f4;
+        PrimFace3* p_f3;
+        PrimObject* p_obj;
+        NIGHT_Found* nf;
 
-        POLY_Point *pp;
-        POLY_Point *ps;
+        POLY_Point* pp;
+        POLY_Point* ps;
 
-        POLY_Point *tri[3];
-        POLY_Point *quad[4];
+        POLY_Point* tri[3];
+        POLY_Point* quad[4];
         std::int32_t tex_page_offset;
 
         LOG_ENTER(Figure_Draw_Prim_Tween)
@@ -8989,7 +8989,7 @@ void FIGURE_draw(Thing *p_thing) {
             MM_pMatrix[0]._34 = matTemp._34;
             // Validation magic number.
             unsigned long EVal = 0xe0001000;
-            MM_pMatrix[0]._41 = *(float *) &EVal;
+            MM_pMatrix[0]._41 = *(float*) &EVal;
             MM_pMatrix[0]._42 = matTemp._41 * (float) dwWidth + matTemp._44 * (float) (dwX + dwWidth);
             MM_pMatrix[0]._43 = matTemp._42 * -(float) dwHeight + matTemp._44 * (float) (dwY + dwHeight);
             MM_pMatrix[0]._44 = matTemp._44;
@@ -9022,7 +9022,7 @@ void FIGURE_draw(Thing *p_thing) {
 #endif
 
         // For now, just calculate as-and-when.
-        TomsPrimObject *pPrimObj = &(D3DObj[prim]);
+        TomsPrimObject* pPrimObj = &(D3DObj[prim]);
         if (pPrimObj->wNumMaterials == 0) {
             // Not initialised. Do so.
             // It's not fair to count this as part of the drawing! :-)
@@ -9041,15 +9041,15 @@ void FIGURE_draw(Thing *p_thing) {
         ASSERT(pPrimObj->pwStripIndices != nullptr);
         // ASSERT ( pPrimObj->wNumMaterials != 0 );
 
-        PrimObjectMaterial *pMat = pPrimObj->pMaterials;
+        PrimObjectMaterial* pMat = pPrimObj->pMaterials;
 
         D3DMULTIMATRIX d3dmm;
         d3dmm.lpd3dMatrices = MM_pMatrix;
         d3dmm.lpvLightDirs = MM_pNormal;
 
-        D3DVERTEX *pVertex = (D3DVERTEX *) pPrimObj->pD3DVertices;
-        std::uint16_t *pwListIndices = pPrimObj->pwListIndices;
-        std::uint16_t *pwStripIndices = pPrimObj->pwStripIndices;
+        D3DVERTEX* pVertex = (D3DVERTEX*) pPrimObj->pD3DVertices;
+        std::uint16_t* pwListIndices = pPrimObj->pwListIndices;
+        std::uint16_t* pwStripIndices = pPrimObj->pwStripIndices;
         for (int iMatNum = pPrimObj->wNumMaterials; iMatNum > 0; iMatNum--) {
             // Set up the right texture for this material.
 
@@ -9081,7 +9081,7 @@ void FIGURE_draw(Thing *p_thing) {
 
             extern D3DMATRIX g_matWorld;
 
-            PolyPage *pa = &(POLY_Page[wRealPage]);
+            PolyPage* pa = &(POLY_Page[wRealPage]);
             // Not sure if I'm using character_scalef correctly...
             ASSERT((character_scalef < 1.2f) && (character_scalef > 0.8f));
             ASSERT(!pa->RS.NeedsSorting() && (FIGURE_alpha == 255));
@@ -9187,11 +9187,11 @@ void FIGURE_draw(Thing *p_thing) {
             wTempVerts[1] = 1;
             wTempVerts[2] = 2;
             wTempVerts[3] = -1;
-            (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *) &d3dmm, 3, wTempVerts, 4, D3DDP_MULTIMATRIX);
+            (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void*) &d3dmm, 3, wTempVerts, 4, D3DDP_MULTIMATRIX);
             LOG_EXIT(Figure_Set_RenderState)
 
             LOG_ENTER(Figure_DrawIndPrimMM)
-            HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void *) &d3dmm, pMat->wNumVertices, pwStripIndices, pMat->wNumStripIndices, D3DDP_MULTIMATRIX);
+            HRESULT hres = (the_display.lp_D3D_Device)->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, D3DFVF_VERTEX, (void*) &d3dmm, pMat->wNumVertices, pwStripIndices, pMat->wNumStripIndices, D3DDP_MULTIMATRIX);
             // TRACE("Drew %i vertices, %i indices\n", (int)( pMat->wNumVertices ), (int)( pMat->wNumStripIndices ) );
 
 #endif

@@ -15,8 +15,8 @@
 #endif
 
 #ifdef EDITOR
-extern void copyfile_to_level(char *str);
-extern TGA_Info TGA_load_psx(const char *file, std::int32_t max_width, std::int32_t max_height, std::uint8_t *data, std::uint8_t *pal);
+extern void copyfile_to_level(char* str);
+extern TGA_Info TGA_load_psx(const char* file, std::int32_t max_width, std::int32_t max_height, std::uint8_t* data, std::uint8_t* pal);
 #endif
 extern std::uint8_t roper_pickup;
 
@@ -65,9 +65,9 @@ The PA has a few other nifty features, it's operated by a foot peddle, so to the
 Another cool trick it has, is it can show you polygon overwrite, it shows you how many times each on screen pixel has been written or read. Everytime a polygon overwrites
   */
 
-std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t *connect_storey, std::int32_t storey);
+std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t* connect_storey, std::int32_t storey);
 std::int32_t add_dfacet(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t y, std::int32_t count, std::int32_t style_index, std::int32_t storey_type, std::int32_t flags, std::int32_t offsety, std::int32_t block_height);
-std::int32_t add_painted_textures(std::uint8_t *t, std::int32_t tcount, std::int32_t style);
+std::int32_t add_painted_textures(std::uint8_t* t, std::int32_t tcount, std::int32_t style);
 
 extern std::int32_t save_psx;
 extern std::int32_t editor_texture_set;
@@ -106,7 +106,7 @@ extern std::int32_t TEXTURE_set;
 //
 // returns inside_index && room id for position in world
 //
-std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *room) {
+std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t* room) {
     std::int32_t c0;
     std::int32_t mx, mz;
     mx = x >> 8;
@@ -140,7 +140,7 @@ std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z
 #ifdef EDITOR
 #ifndef PSX
 
-void add_wall(std::uint8_t *map, std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t door_flag) {
+void add_wall(std::uint8_t* map, std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t door_flag) {
     std::int32_t dx, dz;
 
     //	if(x1==15616&&x2==15616&&z1==14592&&z2==14080)
@@ -210,8 +210,8 @@ void add_wall(std::uint8_t *map, std::int32_t x1, std::int32_t z1, std::int32_t 
     }
 }
 
-std::uint8_t *fill_map;
-std::uint8_t *fill_col;
+std::uint8_t* fill_map;
+std::uint8_t* fill_col;
 std::int32_t fill_minx, fill_maxx, fill_minz, fill_maxz;
 
 void flood_fill_at(std::uint8_t x, std::uint8_t z, std::uint8_t id) {
@@ -573,8 +573,8 @@ std::int32_t create_inside_rect(std::int32_t storey, std::int32_t offset_y) {
     inside_storey = storey_list[storey].InsideStorey;
     inside_room = storey_list[storey].InsideIDIndex;
 
-    rect = (std::uint8_t *) MemAlloc(128 * 128);
-    dir = (std::uint8_t *) MemAlloc(128 * 128);
+    rect = (std::uint8_t*) MemAlloc(128 * 128);
+    dir = (std::uint8_t*) MemAlloc(128 * 128);
 
     fill_map = rect;
     fill_col = dir;
@@ -685,7 +685,7 @@ std::int32_t create_inside_rect(std::int32_t storey, std::int32_t offset_y) {
 
 extern std::uint16_t page_remap[];
 
-std::int32_t add_painted_textures(std::uint8_t *t, std::int32_t tcount, std::int32_t style) {
+std::int32_t add_painted_textures(std::uint8_t* t, std::int32_t tcount, std::int32_t style) {
     std::int32_t c0 = 0, count = 0;
 
     if (next_dstorey > MAX_DSTOREYS - 5)
@@ -717,7 +717,7 @@ std::int32_t add_painted_textures(std::uint8_t *t, std::int32_t tcount, std::int
     }
 }
 
-std::int32_t add_painted_textures_reverse(std::uint8_t *t, std::int32_t tcount, std::int32_t style, std::int32_t len) {
+std::int32_t add_painted_textures_reverse(std::uint8_t* t, std::int32_t tcount, std::int32_t style, std::int32_t len) {
     std::int32_t c0 = 0, count = 0;
 
     if (next_dstorey > MAX_DSTOREYS - 5)
@@ -796,7 +796,7 @@ std::int32_t is_building_worth_saving(std::int32_t building) {
     return (0);
 }
 
-void find_minmax_alt_along_vect(std::int32_t *min_y, std::int32_t *max_y, std::int32_t x1, std::int32_t x2, std::int32_t z1, std::int32_t z2) {
+void find_minmax_alt_along_vect(std::int32_t* min_y, std::int32_t* max_y, std::int32_t x1, std::int32_t x2, std::int32_t z1, std::int32_t z2) {
     std::int32_t dx, dz, len;
 
     dx = x2 - x1;
@@ -833,7 +833,7 @@ void find_minmax_alt_along_vect(std::int32_t *min_y, std::int32_t *max_y, std::i
 }
 
 std::int32_t add_dfacet(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t y, std::int32_t count, std::int32_t style_index, std::int32_t storey_type, std::int32_t facet_flags, std::int32_t offsety, std::int32_t block_height) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t min_y, max_y;
     std::int32_t offsety_unclip;
 
@@ -968,7 +968,7 @@ std::int32_t add_dfacet(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::
 }
 
 void add_dbuilding(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t sf, std::int32_t ef, std::int32_t building) {
-    struct DBuilding *p_build;
+    struct DBuilding* p_build;
 
     if (next_dbuilding > MAX_DBUILDINGS - 5)
         return;
@@ -989,7 +989,7 @@ void add_dbuilding(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t 
     p_build->Counter[1] = 0;
 }
 
-std::int32_t find_slow_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t y, std::int32_t *connect_storey, std::int32_t building, std::int32_t height) //,std::uint8_t **texture,std::int32_t *count)
+std::int32_t find_slow_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t y, std::int32_t* connect_storey, std::int32_t building, std::int32_t height) //,std::uint8_t **texture,std::int32_t *count)
 {
     std::int32_t found = 0;
     std::int32_t wall;
@@ -1036,7 +1036,7 @@ std::int32_t find_slow_connect_wall(std::int32_t x1, std::int32_t z1, std::int32
 }
 
 void create_cable_dfacet(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t wall) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t len, dx, dy, dz, count;
     std::int32_t c0;
     std::int32_t step_angle1, step_angle2;
@@ -1132,7 +1132,7 @@ void create_dfacets_for_building(std::int32_t building) {
     std::int32_t style_index;
     std::int32_t height;
     std::int32_t offset_y;
-    std::uint8_t *texture;
+    std::uint8_t* texture;
     std::int32_t count;
     std::int32_t start_y;
     std::int32_t inside;
@@ -1205,7 +1205,7 @@ void create_dfacets_for_building(std::int32_t building) {
 
                     if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
                         std::int32_t count2;
-                        std::uint8_t *texture2;
+                        std::uint8_t* texture2;
 
                         dstyles[next_dstyle++] = wall_list[wall].TextureStyle2;
 
@@ -1240,7 +1240,7 @@ void create_dfacets_for_building(std::int32_t building) {
 
                             if (building_list[building].BuildingType == BUILDING_TYPE_WAREHOUSE) {
                                 std::int32_t count2;
-                                std::uint8_t *texture2;
+                                std::uint8_t* texture2;
 
                                 dstyles[next_dstyle++] = wall_list[connect_wall].TextureStyle2;
 
@@ -1561,7 +1561,7 @@ void load_walkables(MFFileHandle handle, std::int32_t save_type) {
     //	next_prim_face4+=next_face4;
 
     {
-        struct RoofFace4 *p_roof;
+        struct RoofFace4* p_roof;
         std::int32_t c0;
         p_roof = &roof_faces4[0];
 
@@ -1576,7 +1576,7 @@ void load_walkables(MFFileHandle handle, std::int32_t save_type) {
 }
 #ifdef EDITOR
 
-std::int32_t roof_split_funny(struct RoofFace4 *p_roof) {
+std::int32_t roof_split_funny(struct RoofFace4* p_roof) {
     std::int32_t y0, y1, y2, y3;
 
     y0 = 0;
@@ -1595,7 +1595,7 @@ std::int32_t roof_split_funny(struct RoofFace4 *p_roof) {
 void add_flat_roof_to_pap() {
     std::int32_t c0, f4, p;
     //	struct	RoofFace4	*p_roof;
-    struct PrimFace4 *p_quad;
+    struct PrimFace4* p_quad;
 
     for (c0 = 1; c0 < next_dwalkable; c0++) {
         std::int32_t start;
@@ -1623,8 +1623,8 @@ void add_flat_roof_to_pap() {
 
 void save_walkables(MFFileHandle handle) {
     std::int32_t c0, f4, p;
-    struct RoofFace4 *p_roof;
-    struct PrimFace4 *p_quad;
+    struct RoofFace4* p_roof;
+    struct PrimFace4* p_quad;
 
     next_roof_face4 = 1;
 
@@ -1681,9 +1681,9 @@ void save_walkables(MFFileHandle handle) {
     FileWrite(handle, &roof_faces4[0], sizeof(struct RoofFace4) * next_roof_face4);
 }
 void save_walkables_old(MFFileHandle handle) {
-    struct PrimPoint *points;
-    struct PrimFace4 *faces4;
-    struct PrimFace3 *faces3;
+    struct PrimPoint* points;
+    struct PrimFace4* faces4;
+    struct PrimFace3* faces3;
 
     std::int32_t next_point = 1, next_face4 = 1, next_face3 = 1;
     std::int32_t max_point = 1, max_face3 = 1, max_face4 = 1;
@@ -1701,9 +1701,9 @@ void save_walkables_old(MFFileHandle handle) {
         LogText("LEGO walkable %d  points %d faces4 %d \n", c0, dwalkables[c0].EndPoint - dwalkables[c0].StartPoint, dwalkables[c0].EndFace4 - dwalkables[c0].StartFace4);
     }
 
-    points = (struct PrimPoint *) MemAlloc(sizeof(struct PrimPoint) * max_point);
-    faces4 = (struct PrimFace4 *) MemAlloc(sizeof(struct PrimFace4) * max_face4);
-    faces3 = (struct PrimFace3 *) MemAlloc(sizeof(struct PrimFace3) * max_face3);
+    points = (struct PrimPoint*) MemAlloc(sizeof(struct PrimPoint) * max_point);
+    faces4 = (struct PrimFace4*) MemAlloc(sizeof(struct PrimFace4) * max_face4);
+    faces3 = (struct PrimFace3*) MemAlloc(sizeof(struct PrimFace3) * max_face3);
 
     next_point = 0;
     next_face3 = 0;
@@ -1818,7 +1818,7 @@ std::int32_t save_to_psx(std::int32_t index) {
 void save_ob_ob(MFFileHandle handle) {
     std::uint16_t temp;
     std::int32_t c0;
-    struct MapThing *t_mthing;
+    struct MapThing* t_mthing;
     //
     // save the prims as OB's
     //
@@ -1874,9 +1874,9 @@ void save_ob_ob(MFFileHandle handle) {
             break;
         }
     }
-    FileWrite(handle, (std::uint8_t *) &OB_ob_upto, sizeof(OB_ob_upto));
-    FileWrite(handle, (std::uint8_t *) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
-    FileWrite(handle, (std::uint8_t *) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+    FileWrite(handle, (std::uint8_t*) &OB_ob_upto, sizeof(OB_ob_upto));
+    FileWrite(handle, (std::uint8_t*) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
+    FileWrite(handle, (std::uint8_t*) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
 }
 
 void save_super_map(MFFileHandle handle) {
@@ -1976,14 +1976,14 @@ void load_super_map(MFFileHandle handle, std::int32_t save_type) {
                         FileSeek(handle,SEEK_MODE_CURRENT,sizeof(OB_Ob)*OB_ob_temp);
                         FileSeek(handle,SEEK_MODE_CURRENT,sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
         */
-        FileRead(handle, (std::uint8_t *) &OB_ob_upto, sizeof(OB_ob_upto));
-        FileRead(handle, (std::uint8_t *) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
+        FileRead(handle, (std::uint8_t*) &OB_ob_upto, sizeof(OB_ob_upto));
+        FileRead(handle, (std::uint8_t*) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
 
         //
         // Notice that strangely they have their very own mapwho
         //
 
-        FileRead(handle, (std::uint8_t *) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+        FileRead(handle, (std::uint8_t*) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
     }
 }
 
@@ -1999,7 +1999,7 @@ void add_sewer_ladder(
     std::int32_t bottom,
     std::int32_t height,
     std::int32_t link) {
-    DFacet *df;
+    DFacet* df;
 
     if (!WITHIN(next_dfacet, 0, MAX_DFACETS - 1)) {
         //
@@ -2180,8 +2180,8 @@ void SUPERMAP_counter_increase(std::uint8_t which) {
 #ifndef PSX
 
 struct Levels {
-    char *name;
-    char *map_name;
+    char* name;
+    char* map_name;
     std::uint16_t level;
     std::uint32_t dontload;
 };
@@ -2297,7 +2297,7 @@ struct TimStuff tim_stuff[] =
         {1, 0, 509, 832,          256}
 };
 
-std::int32_t load_alt_pal(char *fname, std::uint8_t *pal) {
+std::int32_t load_alt_pal(char* fname, std::uint8_t* pal) {
     FILE *handle, *phandle;
     std::uint8_t remap_pal[256 * 4];
     std::int32_t c0;
@@ -2346,8 +2346,8 @@ file_error:;
     return (0);
 }
 
-void save_tim(char *fname, unsigned char dat[256][128], std::int32_t index, std::int32_t copy_tom) {
-    FILE *handle;
+void save_tim(char* fname, unsigned char dat[256][128], std::int32_t index, std::int32_t copy_tom) {
+    FILE* handle;
     std::int32_t x, y;
 
     fname[strlen(fname) - 2] = 'o';
@@ -2401,8 +2401,8 @@ void save_tim(char *fname, unsigned char dat[256][128], std::int32_t index, std:
     }
 }
 
-void save_tim_pal16(char *fname, std::uint16_t index, std::int32_t dy, std::int32_t height) {
-    FILE *handle;
+void save_tim_pal16(char* fname, std::uint16_t index, std::int32_t dy, std::int32_t height) {
+    FILE* handle;
     int x, y;
 
     ASSERT(height < 256);
@@ -2455,7 +2455,7 @@ void save_tim_pal16(char *fname, std::uint16_t index, std::int32_t dy, std::int3
 #endif
 }
 
-void copy_to_psx_tim(std::uint8_t *data, std::int32_t w, std::int32_t h, std::uint8_t *pal, std::int32_t tim_x, std::int32_t tim_y) {
+void copy_to_psx_tim(std::uint8_t* data, std::int32_t w, std::int32_t h, std::uint8_t* pal, std::int32_t tim_x, std::int32_t tim_y) {
     std::int32_t px, py;
     std::int32_t a, b;
 
@@ -2482,10 +2482,10 @@ void copy_to_psx_tim(std::uint8_t *data, std::int32_t w, std::int32_t h, std::ui
 #define TEXTURE_DIR "u:\\urbanchaos\\gary16\\"
 #endif
 
-void make_psx_pal(std::uint16_t page_id, std::uint8_t *pal) {
+void make_psx_pal(std::uint16_t page_id, std::uint8_t* pal) {
     std::int32_t c0;
     std::uint16_t col;
-    std::uint16_t *psx_pal;
+    std::uint16_t* psx_pal;
 
     ASSERT(page_id < 256 << 2);
     //	if(page_id>13*64)
@@ -2514,7 +2514,7 @@ void make_psx_pal(std::uint16_t page_id, std::uint8_t *pal) {
 
 #ifdef EDITOR
 
-void copyfile_to_level(char *str) {
+void copyfile_to_level(char* str) {
     std::int32_t fname;
     char str2[100];
     std::int32_t len = 0;
@@ -2667,9 +2667,9 @@ void build_wall_tims() {
 //
 void build_tims(std::uint16_t next_texture) {
     char str[256];
-    FILE *handle;
+    FILE* handle;
 
-    memset((std::uint8_t *) pals16, 0xff, 256 * 128);
+    memset((std::uint8_t*) pals16, 0xff, 256 * 128);
 
     sprintf(str, TEXTURE_DIR "world%d\\tex16.tim", editor_texture_set);
     build_floor_tims();
@@ -2680,7 +2680,7 @@ void build_tims(std::uint16_t next_texture) {
 
     handle = MF_Fopen(str, "wb");
     {
-        fwrite((std::uint8_t *) &next_texture, 1, 2, handle);
+        fwrite((std::uint8_t*) &next_texture, 1, 2, handle);
     }
     MF_Fclose(handle);
     copyfile_to_level(str);
@@ -2689,7 +2689,7 @@ void build_tims(std::uint16_t next_texture) {
 
 std::uint16_t prims_remap[30 * 64];
 
-std::int32_t remap_a_prim_face(std::uint16_t page, std::int32_t *next_page, std::int32_t level_no, std::int32_t start_page) {
+std::int32_t remap_a_prim_face(std::uint16_t page, std::int32_t* next_page, std::int32_t level_no, std::int32_t start_page) {
 #ifdef EDITOR
 
     std::int32_t new_page;
@@ -2780,7 +2780,7 @@ std::int32_t setup_psx_jackets(std::int32_t level_no, std::int32_t next_page, st
     return (next_page);
 }
 
-std::int32_t get_level_no(char *name) {
+std::int32_t get_level_no(char* name) {
     std::int32_t p0, p1, c0 = 0;
 
     roper_pickup = 0;
@@ -2807,18 +2807,18 @@ std::int32_t get_level_no(char *name) {
 }
 
 std::uint16_t psx_start_page;
-std::int32_t build_tims_ingame(char *name) {
+std::int32_t build_tims_ingame(char* name) {
     std::int32_t c0;
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
     std::int32_t next_page = 0, new_page;
     char str[255];
     std::int32_t level_no;
     std::uint16_t next_texture;
 
-    FILE *handle;
+    FILE* handle;
 
-    memset((std::uint8_t *) prims_remap, 0, 30 * 64 * 2);
+    memset((std::uint8_t*) prims_remap, 0, 30 * 64 * 2);
 
     level_no = get_level_no(name);
     DebugText("PSX create tims for level%d\n", level_no);
@@ -2831,7 +2831,7 @@ std::int32_t build_tims_ingame(char *name) {
         //
         // find number f textures used by map
         //
-        fread((std::uint8_t *) &next_texture, 1, 2, handle);
+        fread((std::uint8_t*) &next_texture, 1, 2, handle);
         MF_Fclose(handle);
         psx_start_page = next_texture;
     } else
@@ -2846,7 +2846,7 @@ std::int32_t build_tims_ingame(char *name) {
     if (handle) {
         fread(&pals16[0][0], 2, 256 * 64, handle);
         MF_Fclose(handle);
-        memset((std::uint8_t *) &pals16[128][0], 0xff, 128 * 128);
+        memset((std::uint8_t*) &pals16[128][0], 0xff, 128 * 128);
     } else
         ASSERT(0);
 
@@ -3126,9 +3126,9 @@ void remap_textures_psx() {
 }
 #endif
 
-bool game_create_psx(char *mission_name);
-bool make_texture_clumps(char *mission_name);
-extern void TesterText(char *error, ...);
+bool game_create_psx(char* mission_name);
+bool make_texture_clumps(char* mission_name);
+extern void TesterText(char* error, ...);
 extern char ELEV_fname_level[];
 
 // std::int32_t    MAV_opt_upto;
@@ -3170,7 +3170,7 @@ void save_all_nads() {
         else
             roper_pickup = 0;
 
-        memset((std::uint8_t *) people_types, 0, 100);
+        memset((std::uint8_t*) people_types, 0, 100);
         DONT_load = levels[c0].dontload;
 
         strcpy(ELEV_fname_level, name);
@@ -3218,7 +3218,7 @@ void make_all_clumps() {
     TRACE("Doing front-end\n");
     TEXTURE_load_needed("levels\\frontend.ucm", 0, 256, 40);
 
-    Levels *lptr = levels; //_demo;
+    Levels* lptr = levels; //_demo;
 
     while (lptr[c0].level) {
         TRACE("Doing level %s\n", lptr[c0].name);

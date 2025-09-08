@@ -8,7 +8,7 @@
 
 void init_draw_tweens() {
     std::int32_t c0;
-    memset((std::uint8_t *) DRAW_TWEENS, 0, sizeof(DrawTween) * MAX_DRAW_TWEENS);
+    memset((std::uint8_t*) DRAW_TWEENS, 0, sizeof(DrawTween) * MAX_DRAW_TWEENS);
     DRAW_TWEEN_COUNT = 0;
     for (c0 = 0; c0 < MAX_DRAW_TWEENS; c0++) {
         DRAW_TWEENS[c0].Flags |= DT_FLAG_UNUSED;
@@ -17,9 +17,9 @@ void init_draw_tweens() {
 
 //---------------------------------------------------------------
 
-DrawTween *alloc_draw_tween(std::int32_t type) {
+DrawTween* alloc_draw_tween(std::int32_t type) {
     std::int32_t c0;
-    DrawTween *new_draw = 0;
+    DrawTween* new_draw = 0;
 
     // Run through the camera array & find an unused one.
     for (c0 = 0; c0 < MAX_DRAW_TWEENS; c0++) {
@@ -61,10 +61,10 @@ std::int32_t count_draw_tween() {
 
 //---------------------------------------------------------------
 
-void free_draw_tween(DrawTween *draw_tween) {
+void free_draw_tween(DrawTween* draw_tween) {
     // Set the camera type to none & free the thing.
     //	draw_tween->LDrawType	=	DT_NONE;
-    memset((std::uint8_t *) draw_tween, 0, sizeof(DrawTween));
+    memset((std::uint8_t*) draw_tween, 0, sizeof(DrawTween));
     draw_tween->Flags |= DT_FLAG_UNUSED;
 
     //	ASSERT(0);
@@ -92,10 +92,10 @@ void init_draw_meshes() {
 }
 #endif
 
-DrawMesh *alloc_draw_mesh() {
+DrawMesh* alloc_draw_mesh() {
     std::int32_t i;
 
-    DrawMesh *ans;
+    DrawMesh* ans;
 
     ASSERT(DRAW_MESH_COUNT < MAX_DRAW_MESHES);
 
@@ -124,7 +124,7 @@ DrawMesh *alloc_draw_mesh() {
     return nullptr;
 }
 
-void free_draw_mesh(DrawMesh *drawmesh) {
+void free_draw_mesh(DrawMesh* drawmesh) {
     ASSERT(WITHIN(drawmesh, &DRAW_MESHES[0], &DRAW_MESHES[MAX_DRAW_MESHES - 1]));
 
     //

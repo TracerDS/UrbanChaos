@@ -2920,7 +2920,7 @@ std::int32_t SinTable[] =
         65535,  //	 2559	449.82	7.850914
 };
 
-std::int32_t *CosTable = &SinTable[512];
+std::int32_t* CosTable = &SinTable[512];
 
 //---------------------------------------------------------------
 
@@ -5488,7 +5488,7 @@ float SinTableF[] =
         (float) 0.999995,  // 511
 };
 
-float *CosTableF = &SinTableF[512];
+float* CosTableF = &SinTableF[512];
 
 //---------------------------------------------------------------
 std::int32_t Proportions[] =

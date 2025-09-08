@@ -205,7 +205,7 @@ THING_INDEX PCOM_create_player(
 //
 
 void PCOM_change_person_attributes(
-    Thing *p_person,
+    Entity *p_person,
     std::int32_t colour,
     std::int32_t group,
     std::int32_t ai,
@@ -239,7 +239,7 @@ void PCOM_change_person_attributes(
 
 void PCOM_oscillate_tympanum(
     std::int32_t type,
-    Thing *p_person,      // The person who caused the sound.
+    Entity *p_person,      // The person who caused the sound.
     std::int32_t sound_x, // The position of the sound.
     std::int32_t sound_y,
     std::int32_t sound_z, std::uint8_t store_it = 1);
@@ -249,7 +249,7 @@ void PCOM_oscillate_tympanum(
 // (i.e. by a car or an explosion or something...)
 //
 
-void PCOM_knockdown_happened(Thing *p_person);
+void PCOM_knockdown_happened(Entity *p_person);
 
 //
 // Informs the AI that a person has been attacked by a another.
@@ -257,24 +257,24 @@ void PCOM_knockdown_happened(Thing *p_person);
 //
 
 void PCOM_attack_happened(
-    Thing *p_victim,
-    Thing *p_attacker);
+    Entity *p_victim,
+    Entity *p_attacker);
 
-void PCOM_attack_happened_but_missed(Thing *p_victim, Thing *p_attacker);
+void PCOM_attack_happened_but_missed(Entity *p_victim, Entity *p_attacker);
 
 //
 // Tells the AI that the person has been put into a grapple.
 //
 
 void PCOM_youre_being_grappled(
-    Thing *p_victim,
-    Thing *p_attacker);
+    Entity *p_victim,
+    Entity *p_attacker);
 
 //
 // Processes a person.
 //
 
-void PCOM_process_person(Thing *p_person);
+void PCOM_process_person(Entity *p_person);
 
 //
 // If this person is jumping while navigating, but he needs to
@@ -284,21 +284,21 @@ void PCOM_process_person(Thing *p_person);
 // All other times, it returns true.
 //
 
-std::int32_t PCOM_jumping_navigating_person_continue_moving(Thing *p_person);
+std::int32_t PCOM_jumping_navigating_person_continue_moving(Entity *p_person);
 
 //
 // Returns a string describing the state of the given person.
 //
 
-char *PCOM_person_state_debug(Thing *p_person);
+char *PCOM_person_state_debug(Entity *p_person);
 
 //
 // Makes the people talk to eachother.
 //
 
 void PCOM_make_people_talk_to_eachother(
-    Thing *p_person_a,
-    Thing *p_person_b,
+    Entity *p_person_a,
+    Entity *p_person_b,
     std::uint8_t is_a_asking_a_question,
     std::uint8_t stay_looking_at_eachother,
     std::uint8_t make_the_person_talked_at_listen = true);
@@ -308,49 +308,49 @@ void PCOM_make_people_talk_to_eachother(
 //
 
 void PCOM_stop_people_talking_to_eachother(
-    Thing *p_person_a,
-    Thing *p_person_b);
+    Entity *p_person_a,
+    Entity *p_person_b);
 
 //
 // Returns true if a person is doing nothing interesting.  i.e. he
 // is happy to talk to somebody or lookat around at something.
 //
 
-std::int32_t PCOM_person_doing_nothing_important(Thing *p_person);
+std::int32_t PCOM_person_doing_nothing_important(Entity *p_person);
 
 //
 // Returns true if person_a does not like person_b... i.e. wants
 // to kill him!
 //
 
-std::int32_t PCOM_person_a_hates_b(Thing *p_person_a, Thing *p_person_b);
+std::int32_t PCOM_person_a_hates_b(Entity *p_person_a, Entity *p_person_b);
 
 //
 // If the given person is trying to kill/shoot somebody in particular
 // then it returns that person.
 //
 
-THING_INDEX PCOM_person_wants_to_kill(Thing *p_person);
+THING_INDEX PCOM_person_wants_to_kill(Entity *p_person);
 
 //
 // Inform person a cop is aiming a gun at you
 //
 
-std::int32_t PCOM_cop_aiming_at_you(Thing *p_person, Thing *p_cop);
+std::int32_t PCOM_cop_aiming_at_you(Entity *p_person, Entity *p_cop);
 
 //
 // Informs a car driver that he should get out of his car and runaway from someone.
 //
 
-void PCOM_make_driver_run_away(Thing *p_driver, Thing *p_scary);
+void PCOM_make_driver_run_away(Entity *p_driver, Entity *p_scary);
 
 //
 // Make the person face someone and do their talk to anim.
 //
 
 void PCOM_set_person_ai_talk_to(
-    Thing *p_person,
-    Thing *p_person_talked_at,
+    Entity *p_person,
+    Entity *p_person_talked_at,
     std::uint8_t talk_substate,
     std::uint8_t stay_looking_at_eachother);
 
@@ -359,10 +359,10 @@ void PCOM_set_person_ai_talk_to(
 // he want to jump!!!
 //
 
-std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Thing *p_person);
+std::int32_t PCOM_if_i_wanted_to_jump_how_fast_should_i_do_it(Entity *p_person);
 
 //
 // tell near by cops that I'm naughty and that they should arrest me
 //
 
-std::int32_t PCOM_call_cop_to_arrest_me(Thing *p_person, std::int32_t store_it);
+std::int32_t PCOM_call_cop_to_arrest_me(Entity *p_person, std::int32_t store_it);

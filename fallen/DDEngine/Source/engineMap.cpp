@@ -20,7 +20,7 @@
 #include "target.h"
 #endif
 
-extern char *EWAY_get_mess(std::int32_t index);
+extern char* EWAY_get_mess(std::int32_t index);
 
 #ifndef TARGET_DC
 
@@ -117,14 +117,14 @@ void MAP_draw_prim(
 
     float matrix[9];
 
-    PrimObject *po;
-    POLY_Point *pp;
+    PrimObject* po;
+    POLY_Point* pp;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     MATRIX_calc(
         matrix,
@@ -311,7 +311,7 @@ void MAP_sprite(
     float y2 = y + size_y;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     std::uint32_t colour0 = MAP_fadeout_colour(x1, y1);
     std::uint32_t colour1 = MAP_fadeout_colour(x2, y1);
@@ -372,7 +372,7 @@ void MAP_sprite(
         std::int32_t i;
 
         POLY_Point ps[4];
-        POLY_Point *tri[3];
+        POLY_Point* tri[3];
 
         //
         // Create four darkened points.
@@ -531,7 +531,7 @@ void MAP_draw_line(
     float y2,
     std::uint32_t colour) {
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     float dx = fabs(x2 - x1);
     float dy = fabs(y2 - y1);
@@ -634,7 +634,7 @@ void MAP_draw_dot(
     float dy = size * -(float) cos(angle) * 1.33F;
 
     POLY_Point pp[3];
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     mul = MAP_fadeout_colour(x, y) & 0xff;
 
@@ -747,7 +747,7 @@ void MAP_pulse_create(float wx, float wz, std::uint32_t colour) {
         }
     }
 
-    MAP_Pulse *mp;
+    MAP_Pulse* mp;
 
     ASSERT(WITHIN(best_pulse, 0, MAP_MAX_PULSES - 1));
 
@@ -776,7 +776,7 @@ void MAP_pulse_draw(float wx, float wz, float radius, std::uint32_t colour, std:
     float y2;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     float dx = MAP_scale_x * radius;
     float dy = MAP_scale_y * radius;
@@ -866,7 +866,7 @@ void MAP_pulse_draw(float wx, float wz, float radius, std::uint32_t colour, std:
 void MAP_pulse_draw_all() {
     std::int32_t i;
 
-    MAP_Pulse *mp;
+    MAP_Pulse* mp;
 
     for (i = 0; i < MAP_MAX_PULSES; i++) {
         mp = &MAP_pulse[i];
@@ -893,7 +893,7 @@ void MAP_pulse_draw_all() {
 void MAP_process_pulses() {
     std::int32_t i;
 
-    MAP_Pulse *mp;
+    MAP_Pulse* mp;
 
     static std::int32_t now = 0;
     static std::int32_t last = 0;
@@ -952,7 +952,7 @@ void MAP_draw_arrow(float angle, std::uint32_t colour) {
     dy *= MAP_screen_size_y * 0.03F;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     pp[0].X = x + dx - dy;
     pp[0].Y = y + dy + dx;
@@ -1011,7 +1011,7 @@ void MAP_draw_3d_arrow(
     float pdist;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     colour &= 0x00ffffff;
     colour |= 0x88000000;
@@ -1113,7 +1113,7 @@ void MAP_beacon_init() {
 std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t index, std::uint16_t track_thing) {
     std::int32_t i;
 
-    MAP_Beacon *mb;
+    MAP_Beacon* mb;
 
     extern std::int32_t EWAY_mess_upto;
     ASSERT(index >= 0 && index < EWAY_mess_upto);
@@ -1144,7 +1144,7 @@ std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t inde
 void MAP_process_beacons() {
     std::int32_t i;
 
-    MAP_Beacon *mb;
+    MAP_Beacon* mb;
 
     static std::int32_t now = 0;
     static std::int32_t last = 0;
@@ -1170,7 +1170,7 @@ void MAP_process_beacons() {
             }
 
             if (mb->track_thing) {
-                Thing *p_track = TO_THING(mb->track_thing);
+                Entity* p_track = TO_THING(mb->track_thing);
 
                 mb->wx = p_track->WorldPos.X >> 8;
                 mb->wz = p_track->WorldPos.Z >> 8;
@@ -1207,7 +1207,7 @@ void MAP_beacon_draw_all() {
 
     std::int32_t colour;
 
-    MAP_Beacon *mb;
+    MAP_Beacon* mb;
 
     for (i = 1; i < MAP_MAX_BEACONS; i++) {
         mb = &MAP_beacon[i];
@@ -1248,7 +1248,7 @@ void MAP_beacon_draw_all() {
             std::int32_t colour;
 
             POLY_Point pp[4];
-            POLY_Point *quad[4];
+            POLY_Point* quad[4];
 
             x1 = 0.27F * MAP_screen_size_x;
             y1 = list * MAP_screen_size_y;
@@ -1335,7 +1335,7 @@ void MAP_beacon_remove(std::uint8_t beacon) {
 
 #ifndef TARGET_DC
 
-void MAP_draw_weapons(Thing *p_person) {
+void MAP_draw_weapons(Entity* p_person) {
     float x;
     float y;
 
@@ -1343,7 +1343,7 @@ void MAP_draw_weapons(Thing *p_person) {
 
     std::int32_t index;
 
-    Thing *p_special;
+    Entity* p_special;
 
     x = 0.1F;
     y = 0.25F;
@@ -1419,8 +1419,8 @@ void MAP_draw() {
 
     std::int32_t index;
 
-    Thing *darci = NET_PERSON(0);
-    Thing *p_thing;
+    Entity* darci = NET_PERSON(0);
+    Entity* p_thing;
 
     //
     // Clear the screen.
@@ -1732,7 +1732,7 @@ void MAP_draw_onscreen_beacons() {
 
     std::int32_t colour;
 
-    MAP_Beacon *mb;
+    MAP_Beacon* mb;
 
     for (i = 1; i < MAP_MAX_BEACONS; i++) {
         mb = &MAP_beacon[i];

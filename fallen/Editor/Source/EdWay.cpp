@@ -77,13 +77,13 @@ void link_prev_waypoint(std::uint16_t link_wp, std::uint16_t prev_wp) {
 
 //---------------------------------------------------------------
 
-void pack_waypoints(std::uint16_t *map_table) {
+void pack_waypoints(std::uint16_t* map_table) {
     std::uint16_t c0,
         temp_index;
     std::uint32_t count = 0;
-    EditWaypoint *temp_waypoints;
+    EditWaypoint* temp_waypoints;
 
-    temp_waypoints = (EditWaypoint *) MemAlloc(sizeof(EditWaypoint) * MAX_EDIT_WAYPOINTS);
+    temp_waypoints = (EditWaypoint*) MemAlloc(sizeof(EditWaypoint) * MAX_EDIT_WAYPOINTS);
     if (temp_waypoints) {
         map_table[0] = 0;
         temp_index = 1;

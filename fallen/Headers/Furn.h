@@ -13,7 +13,7 @@
 
 //
 // The furniture structure. A static piece of furniture does not have
-// a structure associated with it. (The pointer in the Thing structure
+// a structure associated with it. (The pointer in the Entity structure
 // is nullptr). If the furniture starts moving, however, it allocates one
 // of these structures and decallocates it once it stops.
 //
@@ -71,7 +71,7 @@ extern StateFunction FURN_statefunctions[];
 //
 
 void init_furniture();
-void free_furniture(Thing *furniture_thing);
+void free_furniture(Entity *furniture_thing);
 Furniture *FURN_alloc_furniture();
 
 //

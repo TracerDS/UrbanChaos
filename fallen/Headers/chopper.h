@@ -22,8 +22,8 @@
 
 typedef struct
 {
-    Thing *thing;                // points at its thing. ooer.
-    Thing *target;               // tracks this thing.
+    Entity *thing;                // points at its thing. ooer.
+    Entity *target;               // tracks this thing.
     GameCoord home;              // copter's home -- keeps close to here if asked
     std::uint32_t dist;          // generically useful when pathfinding, chasing, etc
     std::int32_t radius;         // keeps inside this area, then returns to home
@@ -51,8 +51,8 @@ typedef struct
 typedef Chopper *ChopperPtr;
 
 void init_choppers();
-struct Thing *alloc_chopper(std::uint8_t type);
-void free_chopper(struct Thing *chopper_thing);
+struct Entity *alloc_chopper(std::uint8_t type);
+void free_chopper(struct Entity *chopper_thing);
 
 //
 // The chopper state functions.
@@ -62,21 +62,21 @@ extern GenusFunctions CHOPPER_functions[CHOPPER_NUMB];
 
 extern StateFunction CIVILIAN_state_function[];
 
-void CHOPPER_init_state(Thing *chopper_thing, std::uint8_t new_state);
+void CHOPPER_init_state(Entity *chopper_thing, std::uint8_t new_state);
 
 //
 // Creates a chopper thing of the given type.  It puts it at the
 // given position on the mapwho and puts it into state STATE_INIT.
 //
 
-Thing *CHOPPER_create(GameCoord pos, std::uint8_t type);
+Entity *CHOPPER_create(GameCoord pos, std::uint8_t type);
 
 //
 // Returns the Chopper structure associated with the given chopper thing.
 // Returns the DrawMesh structure associted with the given chopper thing.
 //
 
-Chopper *CHOPPER_get_chopper(Thing *chopper_thing);
-DrawMesh *CHOPPER_get_drawmesh(Thing *chopper_thing);
+Chopper *CHOPPER_get_chopper(Entity *chopper_thing);
+DrawMesh *CHOPPER_get_drawmesh(Entity *chopper_thing);
 
 #endif

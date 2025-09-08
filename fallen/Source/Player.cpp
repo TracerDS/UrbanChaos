@@ -21,16 +21,16 @@ GameCoord player_pos;
 //---------------------------------------------------------------
 #ifndef PSX
 void init_players() {
-    memset((std::uint8_t *) PLAYERS, 0, sizeof(Player) * MAX_PLAYERS);
+    memset((std::uint8_t*) PLAYERS, 0, sizeof(Player) * MAX_PLAYERS);
     PLAYER_COUNT = 0;
 }
 #endif
 //---------------------------------------------------------------
 
-Thing *alloc_player(std::uint8_t type) {
+Entity* alloc_player(std::uint8_t type) {
     std::int32_t c0;
-    Player *new_player;
-    Thing *player_thing = NULL;
+    Player* new_player;
+    Entity* player_thing = NULL;
 
     // Run through the player array & find an unused one.
     for (c0 = 0; c0 < MAX_PLAYERS; c0++) {
@@ -44,7 +44,7 @@ Thing *alloc_player(std::uint8_t type) {
                     // set_state_function(player_thing,STATE_INIT);
 
                     new_player->PlayerType = type;
-                    new_player->Thing = THING_NUMBER(player_thing);
+                    new_player->Entity = THING_NUMBER(player_thing);
                 } else {
                     free_thing(player_thing);
                     player_thing = NULL;
@@ -89,7 +89,7 @@ Thing *alloc_player(std::uint8_t type) {
 
 //---------------------------------------------------------------
 
-void free_player(Thing *player_thing) {
+void free_player(Entity* player_thing) {
     // Set the player type to none & free the thing.
     player_thing->Genus.Player->PlayerType = PLAYER_NONE;
     remove_thing_from_map(player_thing);
@@ -97,12 +97,12 @@ void free_player(Thing *player_thing) {
 }
 
 //---------------------------------------------------------------
-extern void set_up_camera(Thing *t_camera, GameCoord *start_pos, Thing *track_thing);
+extern void set_up_camera(Entity* t_camera, GameCoord* start_pos, Entity* track_thing);
 // Temporary create player.
-Thing *create_player(std::uint8_t type, MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t player_id) {
+Entity* create_player(std::uint8_t type, MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t player_id) {
     std::uint8_t person_type;
     std::int32_t person_index;
-    Thing *person_thing = NULL,
+    Entity *person_thing = NULL,
           *player_thing = NULL;
 
     // Try to allocate a player.
@@ -151,10 +151,10 @@ Thing *create_player(std::uint8_t type, MAPCO16 x, MAPCO16 y, MAPCO16 z, std::in
 }
 
 /*
-Thing *create_player_car(std::uint8_t type,std::int32_t x,std::int32_t y,std::int32_t z)
+Entity *create_player_car(std::uint8_t type,std::int32_t x,std::int32_t y,std::int32_t z)
 {
         std::uint8_t		person_type;
-        Thing		*camera_thing,
+        Entity		*camera_thing,
                                 *car_thing	=	NULL,
                                 *player_thing	=	NULL;
 
@@ -217,11 +217,11 @@ void store_player_pos() {
 extern THING_INDEX col_with_things[];
 #define MAX_COL_WITH 16
 
-std::int32_t should_i_sneak(Thing *p_person) {
+std::int32_t should_i_sneak(Entity* p_person) {
     std::int32_t col_with_upto;
     std::int32_t i;
     std::int32_t found_people = 0;
-    Thing *col_thing;
+    Entity* col_thing;
 
     col_with_upto = THING_find_sphere(
         p_person->WorldPos.X >> 8,
@@ -279,7 +279,7 @@ std::int32_t should_i_sneak(Thing *p_person) {
 void PLAYER_redmark(std::int32_t playerid, std::int32_t dredmarks) {
 #ifndef PSX
     std::int32_t redmarks;
-    Thing *p_player;
+    Entity* p_player;
 
     if (NO_PLAYERS != 1) {
         //

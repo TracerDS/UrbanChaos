@@ -6,7 +6,7 @@
 #include "statedef.h"
 
 extern Camera test_view;
-void set_camera_angle(Thing *c_thing, std::int32_t lag);
+void set_camera_angle(Entity* c_thing, std::int32_t lag);
 
 //---------------------------------------------------------------
 
@@ -17,10 +17,10 @@ void init_cameras() {
 
 //---------------------------------------------------------------
 
-Thing *alloc_camera(std::uint8_t type) {
+Entity* alloc_camera(std::uint8_t type) {
     std::int32_t c0;
-    CameraMan *new_camera;
-    Thing *camera_thing = nullptr;
+    CameraMan* new_camera;
+    Entity* camera_thing = nullptr;
 
     // Run through the camera array & find an unused one.
     for (c0 = 0; c0 < MAX_CAMERAS; c0++) {
@@ -29,7 +29,7 @@ Thing *alloc_camera(std::uint8_t type) {
             if (camera_thing) {
                 new_camera = TO_CAMERA(c0);
                 new_camera->CameraType = type;
-                new_camera->Thing = THING_NUMBER(camera_thing);
+                new_camera->Entity = THING_NUMBER(camera_thing);
 
                 camera_thing->Genus.Camera = new_camera;
             }
@@ -41,7 +41,7 @@ Thing *alloc_camera(std::uint8_t type) {
 
 //---------------------------------------------------------------
 
-void free_camera(Thing *camera_thing) {
+void free_camera(Entity* camera_thing) {
     // Set the camera type to none & free the thing.
     camera_thing->Genus.Camera->CameraType = CAMERA_NONE;
     free_thing(camera_thing);
@@ -49,10 +49,10 @@ void free_camera(Thing *camera_thing) {
 
 //---------------------------------------------------------------
 
-Thing *create_camera(std::uint8_t type, GameCoord *start_pos, Thing *track_thing) {
-    CameraMan *t_camera;
+Entity* create_camera(std::uint8_t type, GameCoord* start_pos, Entity* track_thing) {
+    CameraMan* t_camera;
     GameCoord default_pos;
-    Thing *camera_thing = nullptr;
+    Entity* camera_thing = nullptr;
 
     camera_thing = alloc_camera(type);
     if (camera_thing) {
@@ -74,9 +74,9 @@ Thing *create_camera(std::uint8_t type, GameCoord *start_pos, Thing *track_thing
     return camera_thing;
 }
 
-void set_up_camera(Thing *camera_thing, GameCoord *start_pos, Thing *track_thing) {
+void set_up_camera(Entity* camera_thing, GameCoord* start_pos, Entity* track_thing) {
     GameCoord default_pos;
-    CameraMan *t_camera;
+    CameraMan* t_camera;
 
     {
         // Initialise the cameras relative position to the tracking thing.
@@ -91,32 +91,32 @@ void set_up_camera(Thing *camera_thing, GameCoord *start_pos, Thing *track_thing
 
         // Set the type & add it to the map.
         //		set_camera_type(camera_thing,type);
-        camera_thing->StateFn = (void (*)(Thing *)) process_t_camera;
+        camera_thing->StateFn = (void (*)(Entity*)) process_t_camera;
         add_thing_to_map(camera_thing);
     }
 }
 
 //---------------------------------------------------------------
 
-void set_camera_type(Thing *c_thing, std::uint8_t type) {
+void set_camera_type(Entity* c_thing, std::uint8_t type) {
     // Set the camera state function.
     switch (type) {
     case CAMERA_NONE:
         c_thing->StateFn = nullptr;
         break;
     case CAMERA_TRACKER:
-        c_thing->StateFn = (void (*)(Thing *)) process_t_camera;
+        c_thing->StateFn = (void (*)(Entity*)) process_t_camera;
         break;
     case CAMERA_FIXED:
-        c_thing->StateFn = (void (*)(Thing *)) process_f_camera;
+        c_thing->StateFn = (void (*)(Entity*)) process_f_camera;
         break;
     }
 }
 
 //---------------------------------------------------------------
 
-void lock_camera_position(Thing *c_thing, GameCoord *lock_pos, bool snap) {
-    CameraMan *t_camera;
+void lock_camera_position(Entity* c_thing, GameCoord* lock_pos, bool snap) {
+    CameraMan* t_camera;
 
     backup_camera(c_thing);
     t_camera = c_thing->Genus.Camera;
@@ -132,8 +132,8 @@ void lock_camera_position(Thing *c_thing, GameCoord *lock_pos, bool snap) {
 
 //---------------------------------------------------------------
 
-void backup_camera(Thing *c_thing) {
-    CameraMan *t_camera;
+void backup_camera(Entity* c_thing) {
+    CameraMan* t_camera;
 
     t_camera = c_thing->Genus.Camera;
 
@@ -143,8 +143,8 @@ void backup_camera(Thing *c_thing) {
     t_camera->StateFn = c_thing->StateFn;
 }
 
-void restore_old_camera(Thing *c_thing) {
-    CameraMan *t_camera;
+void restore_old_camera(Entity* c_thing) {
+    CameraMan* t_camera;
 
     t_camera = c_thing->Genus.Camera;
 
@@ -154,8 +154,8 @@ void restore_old_camera(Thing *c_thing) {
     c_thing->StateFn = t_camera->StateFn;
 }
 
-void free_camera_position(Thing *c_thing, GameCoord *rel_pos, bool snap) {
-    CameraMan *t_camera;
+void free_camera_position(Entity* c_thing, GameCoord* rel_pos, bool snap) {
+    CameraMan* t_camera;
 
     t_camera = c_thing->Genus.Camera;
     backup_camera(c_thing);
@@ -169,10 +169,10 @@ void free_camera_position(Thing *c_thing, GameCoord *rel_pos, bool snap) {
 }
 
 void set_game_camera(std::int32_t dx, std::int32_t dy, std::int32_t dz) {
-    CameraMan *t_camera;
-    Thing *c_thing;
+    CameraMan* t_camera;
+    Entity* c_thing;
 
-    c_thing = TO_THING(TO_CAMERA(0)->Thing);
+    c_thing = TO_THING(TO_CAMERA(0)->Entity);
     t_camera = c_thing->Genus.Camera;
     backup_camera(c_thing);
 
@@ -186,13 +186,13 @@ void set_game_camera(std::int32_t dx, std::int32_t dy, std::int32_t dz) {
 // A thing may required a special camera angle if its inside a building,
 // or if it's on a firescape
 //
-std::int32_t special_camera_angle_required_for_thing(Thing *p_thing, GameCoord *new_pos) {
+std::int32_t special_camera_angle_required_for_thing(Entity* p_thing, GameCoord* new_pos) {
     std::int32_t wall;
     std::int32_t storey;
     std::int32_t building;
     std::int32_t thing;
 
-    Thing *p_fthing;
+    Entity* p_fthing;
 
     if (p_thing->OnFace) {
         if (p_thing->OnFace > 0) {
@@ -248,13 +248,13 @@ std::int32_t special_camera_angle_required_for_thing(Thing *p_thing, GameCoord *
 //
 // tries to point the camera at the player
 //
-void set_camera_angle_for_pos(Thing *c_thing, std::int32_t lag) {
+void set_camera_angle_for_pos(Entity* c_thing, std::int32_t lag) {
     std::int16_t angle_diff, angle_to;
     std::int32_t t_dx, t_dy, t_dz;
-    CameraMan *t_camera;
+    CameraMan* t_camera;
     GameCoord camera_position,
         dest_position;
-    Thing *track_thing;
+    Entity* track_thing;
 
     t_camera = c_thing->Genus.Camera;
     track_thing = TO_THING(t_camera->FocusThing);
@@ -293,13 +293,13 @@ void set_camera_angle_for_pos(Thing *c_thing, std::int32_t lag) {
 //
 // Tries to point the camera in the direction the player is going
 //
-void set_camera_rangle_for_player_angle(Thing *c_thing, std::int32_t lag) {
+void set_camera_rangle_for_player_angle(Entity* c_thing, std::int32_t lag) {
     std::int16_t angle_diff, angle_to;
     std::int32_t t_dx, t_dy, t_dz;
-    CameraMan *t_camera;
+    CameraMan* t_camera;
     GameCoord camera_position,
         dest_position;
-    Thing *track_thing;
+    Entity* track_thing;
 
     t_camera = c_thing->Genus.Camera;
     track_thing = TO_THING(t_camera->FocusThing);
@@ -314,16 +314,16 @@ void set_camera_rangle_for_player_angle(Thing *c_thing, std::int32_t lag) {
     test_view.CameraRAngle = (test_view.CameraRAngle + ((angle_diff * lag) >> 8)) & 2047; // wal >>2 not 0
 }
 
-void process_t_camera(Thing *c_thing) {
+void process_t_camera(Entity* c_thing) {
     std::int32_t distance,
         sin, cos,
         tx = 0,
         ty = 0,
         tz = 0;
-    CameraMan *t_camera;
+    CameraMan* t_camera;
     GameCoord camera_position,
         dest_position;
-    Thing *track_thing;
+    Entity* track_thing;
     std::int32_t t_dx, t_dy, t_dz;
     std::int32_t dx, dy, dz;
     std::int32_t car = 0;
@@ -587,17 +587,17 @@ void process_t_camera(Thing *c_thing) {
 
 //---------------------------------------------------------------
 
-void process_f_camera(Thing *c_thing) {
+void process_f_camera(Entity* c_thing) {
     std::int16_t angle_diff, angle_to;
     std::int32_t distance,
         sin, cos,
         tx = 0,
         ty = 0,
         tz = 0;
-    CameraMan *t_camera;
+    CameraMan* t_camera;
     GameCoord camera_position,
         dest_position;
-    Thing *track_thing;
+    Entity* track_thing;
     std::int32_t t_dx, t_dy, t_dz;
 
     t_camera = c_thing->Genus.Camera;
@@ -671,9 +671,9 @@ void process_f_camera(Thing *c_thing) {
 
 std::int16_t spin_step = 0;
 
-void spin_camera_around_subject(Thing *c_thing) {
+void spin_camera_around_subject(Entity* c_thing) {
     std::int32_t distance;
-    CameraMan *t_camera;
+    CameraMan* t_camera;
 
     t_camera = c_thing->Genus.Camera;
 

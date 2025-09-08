@@ -40,18 +40,18 @@
 // The functions called when a canid is in each State.
 //
 
-void CANID_fn_init(Thing *);
-void CANID_fn_normal(Thing *);
+void CANID_fn_init(Entity*);
+void CANID_fn_normal(Entity*);
 
 //
 // Substate initialisation
 //
 
-void CANID_init_sleep(Thing *canid);
-void CANID_init_prowl(Thing *canid);
-void CANID_init_bark(Thing *canid, Thing *victim);
-void CANID_init_chase(Thing *canid, Thing *victim);
-// void CANID_init_flee (Thing *canid, Thing *from);
+void CANID_init_sleep(Entity* canid);
+void CANID_init_prowl(Entity* canid);
+void CANID_init_bark(Entity* canid, Entity* victim);
+void CANID_init_chase(Entity* canid, Entity* victim);
+// void CANID_init_flee (Entity *canid, Entity *from);
 
 //--------------------------------------------------------------------------
 // Globals
@@ -86,11 +86,11 @@ void CANID_register() {
 //  straight-home towards a target
 //
 
-void CANID_Homing(Thing *canid, std::int32_t dest_x, std::int32_t dest_z, int wibble) {
+void CANID_Homing(Entity* canid, std::int32_t dest_x, std::int32_t dest_z, int wibble) {
     std::int32_t dx, dz;
-    Animal *animal = ANIMAL_get_animal(canid);
+    Animal* animal = ANIMAL_get_animal(canid);
     //	DrawTween *dt = ANIMAL_get_drawtween(animal);
-    DrawTween *dt = canid->Draw.Tweened;
+    DrawTween* dt = canid->Draw.Tweened;
     GameCoord new_pos;
     std::int32_t angle, dangle, i;
     std::uint8_t spd;
@@ -172,13 +172,13 @@ void CANID_Homing(Thing *canid, std::int32_t dest_x, std::int32_t dest_z, int wi
     move_thing_on_map(canid, &new_pos);
 }
 
-int CANID_6sense(Thing *canid) {
+int CANID_6sense(Entity* canid) {
 #define CANID_SENSE_RADIUS (0xd0)
 
     THING_INDEX sense[CANID_MAX_SENSE];
     std::int32_t sense_upto;
-    Thing *p_sense;
-    Animal *sense_animal;
+    Entity* p_sense;
+    Animal* sense_animal;
     int i;
 
     sense_upto = THING_find_sphere(
@@ -213,10 +213,10 @@ int CANID_6sense(Thing *canid) {
     return 0;
 }
 
-int CANID_can_see(Thing *canid, Thing *target) {
+int CANID_can_see(Entity* canid, Entity* target) {
     std::int32_t angle, dx, dz;
     //	DrawTween *dt = ANIMAL_get_drawtween(ANIMAL_get_animal(canid)); // returns head -- perfect
-    DrawTween *dt = canid->Draw.Tweened;
+    DrawTween* dt = canid->Draw.Tweened;
 
     TRACE("ping... \n");
     dx = target->WorldPos.X - canid->WorldPos.X;
@@ -248,11 +248,11 @@ int CANID_can_see(Thing *canid, Thing *target) {
     return (0);
 }
 
-int CANID_LOS(Thing *canid) {
+int CANID_LOS(Entity* canid) {
     THING_INDEX sense[CANID_MAX_SENSE];
     std::int32_t sense_upto;
-    Thing *p_sense;
-    Animal *sense_animal;
+    Entity* p_sense;
+    Animal* sense_animal;
     int i;
 
     sense_upto = THING_find_sphere(
@@ -293,8 +293,8 @@ int CANID_LOS(Thing *canid) {
 //
 // ========================================================
 
-void CANID_init_sleep(Thing *canid) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_init_sleep(Entity* canid) {
+    Animal* animal = ANIMAL_get_animal(canid);
 
     TRACE("canid: sleep mode\n");
 
@@ -307,8 +307,8 @@ void CANID_init_sleep(Thing *canid) {
     animal->substate = CANID_SUBSTATE_SLEEP;
 }
 
-void CANID_init_bark(Thing *canid, Thing *victim) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_init_bark(Entity* canid, Entity* victim) {
+    Animal* animal = ANIMAL_get_animal(canid);
 
     TRACE("canid: bark mode\n");
 
@@ -316,10 +316,10 @@ void CANID_init_bark(Thing *canid, Thing *victim) {
     animal->substate = CANID_SUBSTATE_BARK;
 }
 
-void CANID_init_prowl(Thing *canid) {
+void CANID_init_prowl(Entity* canid) {
     int i, j;
     MAV_Action orders;
-    Animal *animal = ANIMAL_get_animal(canid);
+    Animal* animal = ANIMAL_get_animal(canid);
 
     TRACE("canid: prowl mode\n");
 
@@ -356,13 +356,13 @@ void CANID_init_prowl(Thing *canid) {
     animal->counter = 0;
 }
 
-void CANID_init_chase(Thing *canid, Thing *victim) {
+void CANID_init_chase(Entity* canid, Entity* victim) {
     int i, j;
     MAV_Action orders;
 
     TRACE("canid: chase mode\n");
 
-    Animal *animal = ANIMAL_get_animal(canid);
+    Animal* animal = ANIMAL_get_animal(canid);
 
     animal->substate = CANID_SUBSTATE_CHASE;
     animal->dest_x = victim->WorldPos.X >> 16;
@@ -381,7 +381,7 @@ void CANID_init_chase(Thing *canid, Thing *victim) {
 // Decides what the canid should do next.
 //
 
-void CANID_start_doing_something(Thing *canid) {
+void CANID_start_doing_something(Entity* canid) {
     switch (Random() & 0x3) {
     case 0:
     case 1:
@@ -403,8 +403,8 @@ void CANID_start_doing_something(Thing *canid) {
 //
 // ========================================================
 
-void CANID_process_sleep(Thing *canid) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_process_sleep(Entity* canid) {
+    Animal* animal = ANIMAL_get_animal(canid);
 
     if (CANID_6sense(canid)) return;
     if (animal->counter == 0) {
@@ -418,8 +418,8 @@ void CANID_process_sleep(Thing *canid) {
     }
 }
 
-void CANID_process_bark(Thing *canid) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_process_bark(Entity* canid) {
+    Animal* animal = ANIMAL_get_animal(canid);
     std::int32_t dx, dz;
 
     dx = animal->target->WorldPos.X - canid->WorldPos.X;
@@ -433,8 +433,8 @@ void CANID_process_bark(Thing *canid) {
     }
 }
 
-void CANID_process_prowl(Thing *canid) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_process_prowl(Entity* canid) {
+    Animal* animal = ANIMAL_get_animal(canid);
     std::int32_t dx, dz;
 
     if (!CANID_6sense(canid)) CANID_LOS(canid);
@@ -458,8 +458,8 @@ void CANID_process_prowl(Thing *canid) {
     CANID_Homing(canid, (animal->dest_x << 16) + (128 << 8), (animal->dest_z << 16) + (128 << 8), 1);
 }
 
-void CANID_process_chase(Thing *canid) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_process_chase(Entity* canid) {
+    Animal* animal = ANIMAL_get_animal(canid);
     std::int32_t dx, dz;
 
     if (!CANID_6sense(canid)) CANID_LOS(canid);
@@ -484,7 +484,7 @@ void CANID_process_chase(Thing *canid) {
 }
 
 /*
-void CANID_process_peck(Thing *canid)
+void CANID_process_peck(Entity *canid)
 {
         Animal *animal = ANIMAL_get_animal(canid);
 
@@ -518,7 +518,7 @@ void CANID_process_peck(Thing *canid)
         }
 }
 
-void CANID_process_walk(Thing *canid)
+void CANID_process_walk(Entity *canid)
 {
         std::int32_t dx;
         std::int32_t dz;
@@ -564,7 +564,7 @@ void CANID_process_walk(Thing *canid)
         }
 }
 
-void CANID_process_flee(Thing *canid)
+void CANID_process_flee(Entity *canid)
 {
         std::int32_t dx;
         std::int32_t dz;
@@ -614,7 +614,7 @@ void CANID_process_flee(Thing *canid)
         }
 }
 
-void CANID_process_fly(Thing *canid)
+void CANID_process_fly(Entity *canid)
 {
         std::int32_t dx;
         std::int32_t dy;
@@ -759,7 +759,7 @@ void CANID_process_fly(Thing *canid)
         }
 }
 
-void CANID_process_perch(Thing *canid)
+void CANID_process_perch(Entity *canid)
 {
         std::uint8_t doing;
         std::uint8_t howlong;
@@ -868,7 +868,7 @@ void CANID_process_perch(Thing *canid)
         move_thing_on_map(canid, &new_pos);
 }
 
-void CANID_process_land(Thing *canid)
+void CANID_process_land(Entity *canid)
 {
         Animal *animal = ANIMAL_get_animal(canid);
 
@@ -882,8 +882,8 @@ void CANID_process_land(Thing *canid)
 //
 // ========================================================
 
-void CANID_fn_init(Thing *canid) {
-    Animal *animal = ANIMAL_get_animal(canid);
+void CANID_fn_init(Entity* canid) {
+    Animal* animal = ANIMAL_get_animal(canid);
 
     animal->home_x = canid->WorldPos.X >> 16;
     animal->home_z = canid->WorldPos.Z >> 16;
@@ -901,10 +901,10 @@ void CANID_fn_init(Thing *canid) {
     CANID_start_doing_something(canid);
 }
 
-void CANID_fn_normal(Thing *canid) {
+void CANID_fn_normal(Entity* canid) {
     std::int32_t i;
 
-    Animal *animal = ANIMAL_get_animal(canid);
+    Animal* animal = ANIMAL_get_animal(canid);
     /*
             std::int32_t px = canid->WorldPos.X >> 8;
             std::int32_t py = canid->WorldPos.Y >> 8;
@@ -934,7 +934,7 @@ void CANID_fn_normal(Thing *canid) {
  *
  */
 
-//	Thing  *p_scary;
+//	Entity  *p_scary;
 //	Animal *scary_animal;
 /*   'scary' code marked out but kept -- useful when doing alert/flee stuff later
 
@@ -1034,7 +1034,7 @@ void CANID_find_pos_along_vect(std::int32_t vect, std::int32_t along, std::int32
 // if there is no suitable colvect nearby.
 //
 
-std::uint16_t CANID_find_perch(Thing *canid, std::uint16_t ignore_this_vect)
+std::uint16_t CANID_find_perch(Entity *canid, std::uint16_t ignore_this_vect)
 {
         std::int32_t x;
         std::int32_t z;
@@ -1177,7 +1177,7 @@ std::uint16_t CANID_find_perch(Thing *canid, std::uint16_t ignore_this_vect)
 }
 */
 /*
-void CANID_init_walk(Thing *canid)
+void CANID_init_walk(Entity *canid)
 {
         std::int32_t dx;
         std::int32_t dz;
@@ -1213,7 +1213,7 @@ void CANID_init_walk(Thing *canid)
         animal->substate = CANID_SUBSTATE_WALK;
 }
 
-void CANID_init_peck(Thing *canid)
+void CANID_init_peck(Entity *canid)
 {
         Animal *animal = ANIMAL_get_animal(canid);
 
@@ -1233,7 +1233,7 @@ void CANID_init_peck(Thing *canid)
         animal->substate = CANID_SUBSTATE_PECK;
 }
 
-void CANID_init_fly(Thing *canid, Thing *from)
+void CANID_init_fly(Entity *canid, Entity *from)
 {
         std::int32_t dx;
         std::int32_t dz;
@@ -1314,7 +1314,7 @@ void CANID_init_fly(Thing *canid, Thing *from)
 */
 
 /*
-void CANID_init_flee(Thing *canid, Thing *from)
+void CANID_init_flee(Entity *canid, Entity *from)
 {
         std::int32_t dx;
         std::int32_t dz;
@@ -1360,7 +1360,7 @@ void CANID_init_flee(Thing *canid, Thing *from)
 // Only call this function when you've finished flying.
 //
 
-void CANID_init_perch(Thing *canid)
+void CANID_init_perch(Entity *canid)
 {
         std::int32_t dx;
         std::int32_t dz;
@@ -1401,7 +1401,7 @@ void CANID_init_perch(Thing *canid)
 }
 
 
-void CANID_init_land(Thing *canid)
+void CANID_init_land(Entity *canid)
 {
 }
 */

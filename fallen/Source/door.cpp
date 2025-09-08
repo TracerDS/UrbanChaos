@@ -12,7 +12,7 @@
 // Doors in the process of opening or closing.
 //
 
-DOOR_Door *DOOR_door;
+DOOR_Door* DOOR_door;
 
 //
 // Finds a door facet.
@@ -39,7 +39,7 @@ std::uint16_t DOOR_find(
     std::int32_t exit;
     std::int32_t i_facet;
 
-    DFacet *df;
+    DFacet* df;
 
     SATURATE(mx1, 0, PAP_SIZE_LO - 1);
     SATURATE(mz1, 0, PAP_SIZE_LO - 1);
@@ -113,7 +113,7 @@ void DOOR_open(std::int32_t world_x, std::int32_t world_z) {
         std::int32_t left;
         std::int32_t right;
 
-        DFacet *df = &dfacets[facet];
+        DFacet* df = &dfacets[facet];
 
         //
         // Start it opening.
@@ -219,7 +219,7 @@ void DOOR_shut(std::int32_t world_x, std::int32_t world_z) {
         std::int32_t left;
         std::int32_t right;
 
-        DFacet *df = &dfacets[facet];
+        DFacet* df = &dfacets[facet];
 
         //
         // Start it shutting.
@@ -313,7 +313,7 @@ void DOOR_shut(std::int32_t world_x, std::int32_t world_z) {
 // Make the door knock people over as it opens...
 //
 
-void DOOR_knock_over_people(DFacet *df, std::int32_t side) {
+void DOOR_knock_over_people(DFacet* df, std::int32_t side) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -336,7 +336,7 @@ void DOOR_process() {
     std::int32_t open;
     std::int32_t max;
 
-    DFacet *df;
+    DFacet* df;
 
     for (i = 0; i < DOOR_MAX_DOORS; i++) {
         if (DOOR_door[i].facet) {

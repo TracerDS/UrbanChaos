@@ -90,7 +90,7 @@ std::int32_t FACET_facetinfo_current;
 
 float FACET_direction_matrix[9];
 
-void FACET_output(char *fmt, ...) {
+void FACET_output(char* fmt, ...) {
     //
     // Work out the real message.
     //
@@ -124,7 +124,7 @@ void FACET_facetinfo_trace() {
     float ave_pages_per_facet;
     float ave_quads_per_page;
 
-    FACET_Facetinfo *ff;
+    FACET_Facetinfo* ff;
 
     for (i = 0; i < FACET_MAX_FACETINFO; i++) {
         ff = &FACET_facetinfo[i];
@@ -173,16 +173,16 @@ static int iNumFacetTextures = 0;
 // #define	FACET_REMOVAL_TEST		// show removed facets and use 'F' key to swap (must be defined in build2.cpp too)
 
 std::int32_t dfacets_drawn_this_gameturn;
-extern std::int32_t get_fence_hole(struct DFacet *p_facet);
-extern std::int32_t get_fence_hole_next(struct DFacet *p_facet, std::int32_t along);
+extern std::int32_t get_fence_hole(struct DFacet* p_facet);
+extern std::int32_t get_fence_hole_next(struct DFacet* p_facet, std::int32_t along);
 
 static std::uint32_t facet_seed = 0x12345678;
 
-inline void apply_cloud(std::int32_t x, std::int32_t y, std::int32_t z, std::uint32_t *col) {
+inline void apply_cloud(std::int32_t x, std::int32_t y, std::int32_t z, std::uint32_t* col) {
     return;
 }
 
-void DRAW_ladder(struct DFacet *p_facet);
+void DRAW_ladder(struct DFacet* p_facet);
 
 void FACET_draw(std::int32_t facet, std::uint8_t alpha);
 void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha);
@@ -193,7 +193,7 @@ extern bool allow_debug_keys;
 
 inline float grid_height_at(std::int32_t mx, std::int32_t mz) {
     float dy;
-    PAP_Hi *pap;
+    PAP_Hi* pap;
     pap = &PAP_hi[mx][mz];
     dy = (float) (pap->Alt << 3);
     //	if (pap->Flags & PAP_FLAG_SINK_SQUARE)
@@ -224,13 +224,13 @@ void set_facet_seed(std::int32_t seed) {
 #define GAP_HEIGHT 96.0
 #define GAP_WIDTH_PERC 0.2
 #ifdef UNUSED_WIRE_CUTTERS
-void draw_fence_gap(POLY_Point *quad[4], std::int32_t page, std::int32_t along, float sx, float sy, float sz, float dx, float dy, float dz) {
-    POLY_Point *pp;
+void draw_fence_gap(POLY_Point* quad[4], std::int32_t page, std::int32_t along, float sx, float sy, float sz, float dx, float dy, float dz) {
+    POLY_Point* pp;
     POLY_Point ppb[3];
     float a_f;
     float mx, my, mz, du;
-    POLY_Point *g_quad[4];
-    POLY_Point *g_tri[3];
+    POLY_Point* g_quad[4];
+    POLY_Point* g_tri[3];
 
     a_f = (float) (along & 0xff);
 
@@ -317,7 +317,7 @@ void draw_fence_gap(POLY_Point *quad[4], std::int32_t page, std::int32_t along, 
 
 std::int32_t flip; // Nasty!
 
-std::int32_t texture_quad(POLY_Point *quad[4], std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::int32_t flipx = 0) {
+std::int32_t texture_quad(POLY_Point* quad[4], std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::int32_t flipx = 0) {
     std::int32_t page;
     std::int32_t texture_piece;
     std::int32_t rand;
@@ -344,7 +344,7 @@ std::int32_t texture_quad(POLY_Point *quad[4], std::int32_t texture_style, std::
 
     if (texture_style < 0) {
         std::int32_t index;
-        struct DStorey *p_storey;
+        struct DStorey* p_storey;
 
         flip = 0;
         p_storey = &dstoreys[-texture_style];
@@ -491,7 +491,7 @@ std::int32_t texture_quad(POLY_Point *quad[4], std::int32_t texture_style, std::
 //
 // find page and flip
 //
-std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::uint8_t *rflip) {
+std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::uint8_t* rflip) {
     std::int32_t page;
     std::int32_t texture_piece;
     std::int32_t rand;
@@ -516,7 +516,7 @@ std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std:
 
     if (texture_style < 0) {
         std::int32_t index;
-        struct DStorey *p_storey;
+        struct DStorey* p_storey;
 
         flip = 0;
         p_storey = &dstoreys[-texture_style];
@@ -552,7 +552,7 @@ std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std:
     return (page);
 }
 
-std::int32_t texture_quad2(POLY_Point *quad[4], std::int32_t texture_style, std::int32_t texture_piece) {
+std::int32_t texture_quad2(POLY_Point* quad[4], std::int32_t texture_style, std::int32_t texture_piece) {
     std::int32_t page;
 
     if (texture_style == 0)
@@ -609,7 +609,7 @@ std::int32_t texture_quad2(POLY_Point *quad[4], std::int32_t texture_style, std:
 
     return (page);
 }
-std::int32_t texture_tri2(POLY_Point *quad[3], std::int32_t texture_style, std::int32_t texture_piece) {
+std::int32_t texture_tri2(POLY_Point* quad[3], std::int32_t texture_style, std::int32_t texture_piece) {
     std::int32_t page;
 
     if (texture_style == 0)
@@ -662,13 +662,13 @@ std::int32_t texture_tri2(POLY_Point *quad[3], std::int32_t texture_style, std::
 //
 // should work for any angle
 //
-void build_fence_poles(float sx, float sy, float sz, float fdx, float fdz, std::int32_t count, float *rdx, float *rdz, std::int32_t style) {
+void build_fence_poles(float sx, float sy, float sz, float fdx, float fdz, std::int32_t count, float* rdx, float* rdz, std::int32_t style) {
     float x[13], y[13], z[13];
     float dx, dz, nx, nz, dist;
     float gx, gy, gz;
-    POLY_Point *quad[4];
-    POLY_Point *tri[3];
-    POLY_Point *pp;
+    POLY_Point* quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* pp;
 
     float dy;
 
@@ -828,7 +828,7 @@ void build_fence_poles(float sx, float sy, float sz, float fdx, float fdz, std::
     }
 }
 
-void cable_draw(struct DFacet *p_facet) {
+void cable_draw(struct DFacet* p_facet) {
     static const float width = 4.0F * 65536.0F / 3.0F; // width of cable
 
     float x1, y1, z1;   // start of cable
@@ -875,9 +875,9 @@ void cable_draw(struct DFacet *p_facet) {
     // generate points & transform them
     //
 
-    POLY_Point *pp;     // point ptr
+    POLY_Point* pp;     // point ptr
     POLY_Point qp[4];   // quad points
-    POLY_Point *pqp[4]; // ptrs to quad points
+    POLY_Point* pqp[4]; // ptrs to quad points
 
     std::int32_t ii;
 
@@ -1031,7 +1031,7 @@ void DRAW_stairs(std::int32_t stair, std::int32_t storey, std::uint8_t fade) {
 }
 
 void draw_insides(std::int32_t indoor_index, std::int32_t room, std::uint8_t fade) {
-    struct InsideStorey *p_inside;
+    struct InsideStorey* p_inside;
     std::int32_t c0;
     static int recursive = 0;
     std::int32_t stair;
@@ -1074,7 +1074,7 @@ void DRAW_door(float sx, float sy, float sz, float fx, float fy, float fz, float
     std::uint8_t flip;
 
     POLY_Point *pp, *ps;
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::int32_t c0, face;
 
     start_index = POLY_buffer_upto;
@@ -1101,7 +1101,7 @@ void DRAW_door(float sx, float sy, float sz, float fx, float fy, float fz, float
         ps[c0].specular = 0xff000000;
     }
 
-    std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::uint8_t * rflip);
+    std::int32_t get_texture_page(std::int32_t texture_style, std::int32_t pos, std::int32_t count, std::uint8_t* rflip);
     page = get_texture_page(style, 0, 1, &flip);
 
     ps[0].u = 0.0f;
@@ -1148,9 +1148,9 @@ void DRAW_door(float sx, float sy, float sz, float fx, float fy, float fz, float
 // draw the top of an inside wall
 //
 
-void draw_wall_thickness(struct DFacet *p_facet, std::uint32_t fade_alpha) {
-    POLY_Point *pp;
-    POLY_Point *quad[4];
+void draw_wall_thickness(struct DFacet* p_facet, std::uint32_t fade_alpha) {
+    POLY_Point* pp;
+    POLY_Point* quad[4];
     float x1, z1;
     float x2, z2;
     float y;
@@ -1223,7 +1223,7 @@ void draw_wall_thickness(struct DFacet *p_facet, std::uint32_t fade_alpha) {
     }
 }
 
-void FACET_barbedwire_top(struct DFacet *p_facet) {
+void FACET_barbedwire_top(struct DFacet* p_facet) {
     float dx = (p_facet->x[1] - p_facet->x[0] << 8);
     float dy = (p_facet->Y[1] - p_facet->Y[0]);
     float dz = (p_facet->z[1] - p_facet->z[0] << 8);
@@ -1293,7 +1293,7 @@ std::int16_t FacetRows[100];
 float FacetDiffY[128];
 
 static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, float block_height,
-                            std::int32_t height, std::int32_t max_height, NIGHT_Colour *col, std::int32_t foundation, std::int32_t count, std::int32_t invisible, std::int32_t hug) {
+                            std::int32_t height, std::int32_t max_height, NIGHT_Colour* col, std::int32_t foundation, std::int32_t count, std::int32_t invisible, std::int32_t hug) {
     std::int32_t hf = 0;
 
     ASSERT(POLY_buffer_upto == 0); // or else FacetDiffY is accessed wrongly
@@ -1310,7 +1310,7 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 
             ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-            POLY_Point *pp = &POLY_buffer[POLY_buffer_upto++];
+            POLY_Point* pp = &POLY_buffer[POLY_buffer_upto++];
 
             if (hug) {
                 ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
@@ -1370,9 +1370,9 @@ static void MakeFacetPoints(float sx, float sy, float sz, float dx, float dz, fl
 }
 
 static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float dz, float block_height,
-                                 std::int32_t height, std::int32_t max_height, NIGHT_Colour *col, std::int32_t foundation, std::int32_t count, std::int32_t invisible, float *diff_y) {
+                                 std::int32_t height, std::int32_t max_height, NIGHT_Colour* col, std::int32_t foundation, std::int32_t count, std::int32_t invisible, float* diff_y) {
     std::int32_t hf = 0;
-    float *p_diffy;
+    float* p_diffy;
 
     ASSERT(POLY_buffer_upto == 0); // or else FacetDiffY is accessed wrongly
 
@@ -1388,7 +1388,7 @@ static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float d
 
             ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-            POLY_Point *pp = &POLY_buffer[POLY_buffer_upto++];
+            POLY_Point* pp = &POLY_buffer[POLY_buffer_upto++];
 
             {
                 ty = y + *p_diffy;
@@ -1431,7 +1431,7 @@ static void MakeFacetPointsFence(float sx, float sy, float sz, float dx, float d
 }
 
 static void FillFacetPoints(std::int32_t count, std::uint32_t base_row, std::int32_t foundation, std::int32_t facet_backwards, std::int32_t style_index, float block_height, std::int32_t reverse_texture) {
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     std::int32_t row1 = FacetRows[base_row];
     std::int32_t row2 = FacetRows[base_row + 1];
@@ -1569,7 +1569,7 @@ static void FillFacetPoints(std::int32_t count, std::uint32_t base_row, std::int
 
 // Like MakeFacetPoints, but used in the most common cases.
 inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float dz, float block_height,
-                                  std::int32_t height, NIGHT_Colour *col, std::int32_t foundation, std::int32_t count, std::int32_t hug) {
+                                  std::int32_t height, NIGHT_Colour* col, std::int32_t foundation, std::int32_t count, std::int32_t hug) {
     std::int32_t hf = 0;
 
     LOG_ENTER(Facet_MakeFacetPoints)
@@ -1588,7 +1588,7 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 
             ASSERT(WITHIN(POLY_buffer_upto, 0, POLY_BUFFER_SIZE - 1));
 
-            POLY_Point *pp = &POLY_buffer[POLY_buffer_upto++];
+            POLY_Point* pp = &POLY_buffer[POLY_buffer_upto++];
 
             if (hug) {
                 ty = float(PAP_2HI(std::int32_t(x) >> 8, std::int32_t(z) >> 8).Alt << 3);
@@ -1632,7 +1632,7 @@ inline void MakeFacetPointsCommon(float sx, float sy, float sz, float dx, float 
 
 // Like FillFacetPoints, but used in the most common cases.
 inline void FillFacetPointsCommon(std::int32_t count, std::uint32_t base_row, std::int32_t foundation, std::int32_t style_index, float block_height) {
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     LOG_ENTER(Facet_FillFacetPoints)
 
@@ -1640,7 +1640,7 @@ inline void FillFacetPointsCommon(std::int32_t count, std::uint32_t base_row, st
     std::int32_t row2 = FacetRows[base_row + 1];
 
 #ifdef FACETINFO
-    FACET_Facetinfo *ff;
+    FACET_Facetinfo* ff;
 #endif
 
     std::int32_t c0;
@@ -1929,11 +1929,11 @@ inline void FillFacetPointsCommon(std::int32_t count, std::uint32_t base_row, st
 extern std::uint16_t fade_black;
 
 void FACET_draw_quick(std::int32_t facet, std::uint8_t alpha) {
-    POLY_Point *pp;
-    POLY_Point *quad[4];
+    POLY_Point* pp;
+    POLY_Point* quad[4];
     float fx1, fx2, fz1, fz2, fy1, fy2, height;
     std::uint32_t col = 0xff000000;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     p_facet = &dfacets[facet];
     if (allow_debug_keys)
@@ -2022,17 +2022,17 @@ void FACET_draw_quick(std::int32_t facet, std::uint8_t alpha) {
 
 // Handles all sorts of facets - called by FACET_draw in those cases.
 void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     static std::int16_t rows[100];
     std::int32_t c0, count;
     std::int32_t dx, dz;
     float x, y, z, sx, sy, sz, fdx, fdz;
     std::int32_t height;
-    POLY_Point *pp;
+    POLY_Point* pp;
     std::int32_t hf;
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::int32_t style_index;
-    NIGHT_Colour *col;
+    NIGHT_Colour* col;
     std::int32_t max_height;
     std::int32_t foundation = 0;
     static float diff_y[128];
@@ -2517,7 +2517,7 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
     case STOREY_TYPE_OUTSIDE_DOOR:
 
     {
-        float *p_diffy;
+        float* p_diffy;
         float dy;
 
         p_diffy = diff_y;
@@ -2860,7 +2860,7 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
 
             hf = 0;
             while (hf <= 1) {
-                float *p_diffy = diff_y;
+                float* p_diffy = diff_y;
                 x = sx;
                 y = sy;
                 z = sz;
@@ -3028,7 +3028,7 @@ void FACET_draw_rare(std::int32_t facet, std::uint8_t alpha) {
         y = sy;
 
         while (hf <= 1) {
-            float *p_diffy = diff_y;
+            float* p_diffy = diff_y;
             x = sx;
             //					y=sy;
             z = sz;
@@ -3213,17 +3213,17 @@ static bool bPleaseDoSuperFacets = true;
 
 // Like FACET_draw_rare, but for the most common class.
 void FACET_draw(std::int32_t facet, std::uint8_t alpha) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     static std::int16_t rows[100];
     std::int32_t c0, count;
     std::int32_t dx, dz;
     float x, y, z, sx, sy, sz, fdx, fdz;
     std::int32_t height;
-    POLY_Point *pp;
+    POLY_Point* pp;
     std::int32_t hf;
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::int32_t style_index;
-    NIGHT_Colour *col;
+    NIGHT_Colour* col;
     std::int32_t max_height;
     std::int32_t foundation = 0;
     static float diff_y[128];
@@ -3643,21 +3643,21 @@ void FACET_draw_walkable(std::int32_t build) {
 
     std::int32_t walkable;
 
-    struct RoofFace4 *p_f4;
-    struct DWalkable *p_walk;
-    struct DBuilding *p_dbuilding;
+    struct RoofFace4* p_f4;
+    struct DWalkable* p_walk;
+    struct DBuilding* p_dbuilding;
 
-    POLY_Point *pp;
-    POLY_Point *ps;
+    POLY_Point* pp;
+    POLY_Point* ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     ASSERT(WITHIN(build, 1, next_dbuilding - 1));
 
     p_dbuilding = &dbuildings[build];
 
-    std::uint16_t *rooftex = nullptr;
+    std::uint16_t* rooftex = nullptr;
 
 #ifdef TARGET_DC
     // Internal stuff fixup
@@ -3853,7 +3853,7 @@ void FACET_draw_walkable(std::int32_t build) {
                                 &quad[3]->v);
                         }
                     } else {
-                        PAP_Hi *ph;
+                        PAP_Hi* ph;
                         ph = &PAP_2HI(p_f4->RX & 127, p_f4->RZ & 127);
 
                         TEXTURE_get_minitexturebits_uvs(
@@ -4091,16 +4091,16 @@ void FACET_draw_walkable_old(std::int32_t build) {
 
     std::int32_t walkable;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    struct DWalkable *p_walk;
-    struct DBuilding *p_dbuilding;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    struct DWalkable* p_walk;
+    struct DBuilding* p_dbuilding;
 
-    POLY_Point *pp;
-    POLY_Point *ps;
+    POLY_Point* pp;
+    POLY_Point* ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     ASSERT(WITHIN(build, 1, next_dbuilding - 1));
 
@@ -4407,11 +4407,11 @@ void FACET_draw_walkable_old(std::int32_t build) {
     }
 }
 
-void DRAW_ladder_rungs(float x1, float z1, float x2, float z2, struct DFacet *p_facet, float dx, float dz, std::uint32_t colour, std::uint32_t specular) {
+void DRAW_ladder_rungs(float x1, float z1, float x2, float z2, struct DFacet* p_facet, float dx, float dz, std::uint32_t colour, std::uint32_t specular) {
     std::int32_t count;
     float y;
-    POLY_Point *quad[4];
-    POLY_Point *pp;
+    POLY_Point* quad[4];
+    POLY_Point* pp;
 
     // Do this signed so that the alpha values stay at ff or 00 as appropriate.
     std::uint32_t dcolour = ((signed) colour >> 2) & 0xff3f3f3f;
@@ -4488,11 +4488,11 @@ void DRAW_ladder_rungs(float x1, float z1, float x2, float z2, struct DFacet *p_
 }
 
 #define LADDER_SPINE_WIDTH 12
-void DRAW_ladder_sides(float x1, float z1, float x2, float z2, struct DFacet *p_facet, float dx, float dz, std::uint32_t colour, std::uint32_t specular) {
+void DRAW_ladder_sides(float x1, float z1, float x2, float z2, struct DFacet* p_facet, float dx, float dz, std::uint32_t colour, std::uint32_t specular) {
     std::int32_t count;
     float y;
-    POLY_Point *quad[4];
-    POLY_Point *pp;
+    POLY_Point* quad[4];
+    POLY_Point* pp;
     float height;
     std::uint16_t sp[64];
 
@@ -4655,7 +4655,7 @@ void DRAW_ladder_sides(float x1, float z1, float x2, float z2, struct DFacet *p_
     }
 }
 
-void DRAW_ladder(struct DFacet *p_facet) {
+void DRAW_ladder(struct DFacet* p_facet) {
     std::int32_t dx, dz;
     std::int32_t dx3, dz3;
     std::int32_t x1, z1, x2, z2;
@@ -4756,7 +4756,7 @@ void DRAW_ladder(struct DFacet *p_facet) {
         float height = p_facet->Height * BLOCK_SIZE;
 
         POLY_Point pp[4];
-        POLY_Point *quad[4];
+        POLY_Point* quad[4];
 
         quad[0] = &pp[0];
         quad[1] = &pp[1];
@@ -4871,7 +4871,7 @@ void FACET_project_crinkled_shadow(std::int32_t facet) {
     // Our facet.
     //
 
-    DFacet *p_facet;
+    DFacet* p_facet;
 
     ASSERT(WITHIN(facet, 1, next_dfacet - 1));
 
@@ -4903,7 +4903,7 @@ void FACET_project_crinkled_shadow(std::int32_t facet) {
     std::int32_t height = p_facet->Height;
     std::int32_t max_height = INFINITY;
 
-    NIGHT_Colour *col = nullptr; // No cached lighting needed!
+    NIGHT_Colour* col = nullptr; // No cached lighting needed!
 
     std::int32_t foundation = (p_facet->FHeight) ? 2 : 0;
 
@@ -4927,10 +4927,10 @@ void FACET_project_crinkled_shadow(std::int32_t facet) {
     SVector_F facet_point[MAX_FACET_POINTS];
     std::int32_t facet_point_upto;
 
-    SVector_F *facet_row[MAX_FACET_ROWS];
+    SVector_F* facet_row[MAX_FACET_ROWS];
     std::int32_t facet_row_upto;
 
-    SVector_F *sv;
+    SVector_F* sv;
 
     //
     // This is code taken from MakeFacetPoints and changed slightly...
@@ -5010,8 +5010,8 @@ void FACET_project_crinkled_shadow(std::int32_t facet) {
             ASSERT(WITHIN(base_row, 0, facet_row_upto - 1));
             ASSERT(WITHIN(base_row + 1, 0, facet_row_upto - 1));
 
-            SVector_F *row1 = facet_row[base_row];
-            SVector_F *row2 = facet_row[base_row + 1];
+            SVector_F* row1 = facet_row[base_row];
+            SVector_F* row2 = facet_row[base_row + 1];
 
             for (i = 0; i < count; i++) {
                 poly[0] = row2[1];
@@ -5028,7 +5028,7 @@ void FACET_project_crinkled_shadow(std::int32_t facet) {
                 // Add crinkle?
                 //
 
-                SMAP_Link *sl = SMAP_project_onto_poly(poly, 4);
+                SMAP_Link* sl = SMAP_project_onto_poly(poly, 4);
 
                 if (sl) {
                     extern int AENG_detail_crinkles;

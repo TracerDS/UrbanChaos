@@ -43,7 +43,7 @@ GenusFunctions CHOPPER_functions[CHOPPER_NUMB] =
 
 #ifndef PSX
 void init_choppers() {
-    memset((std::uint8_t *) CHOPPERS, 0, sizeof(Chopper) * MAX_CHOPPERS);
+    memset((std::uint8_t*) CHOPPERS, 0, sizeof(Chopper) * MAX_CHOPPERS);
 
     CHOPPER_COUNT = 0;
 }
@@ -53,12 +53,12 @@ void init_choppers() {
 //
 #endif
 
-Thing *alloc_chopper(std::uint8_t type) {
+Entity* alloc_chopper(std::uint8_t type) {
     std::int32_t i;
 
-    Thing *p_thing;
-    Chopper *p_chopper;
-    DrawMesh *dm;
+    Entity* p_thing;
+    Chopper* p_chopper;
+    DrawMesh* dm;
 
     THING_INDEX t_index;
     std::int32_t a_index;
@@ -156,8 +156,8 @@ found_chopper:
     }
 }
 #ifndef PSX
-void free_chopper(Thing *p_thing) {
-    Chopper *chopper = CHOPPER_get_chopper(p_thing);
+void free_chopper(Entity* p_thing) {
+    Chopper* chopper = CHOPPER_get_chopper(p_thing);
 
     //
     // Free the chopper structure and the thing structure.
@@ -170,8 +170,8 @@ void free_chopper(Thing *p_thing) {
 }
 #endif
 
-Thing *CHOPPER_create(GameCoord pos, std::uint8_t type) {
-    Thing *p_thing = alloc_chopper(type);
+Entity* CHOPPER_create(GameCoord pos, std::uint8_t type) {
+    Entity* p_thing = alloc_chopper(type);
 
     if (p_thing) {
         p_thing->WorldPos = pos;
@@ -188,8 +188,8 @@ Thing *CHOPPER_create(GameCoord pos, std::uint8_t type) {
     return p_thing;
 }
 
-Chopper *CHOPPER_get_chopper(struct Thing *chopper_thing) {
-    Chopper *chopper;
+Chopper* CHOPPER_get_chopper(struct Entity* chopper_thing) {
+    Chopper* chopper;
 
     ASSERT(WITHIN(chopper_thing, TO_THING(1), TO_THING(MAX_THINGS)));
     ASSERT(chopper_thing->Class == CLASS_CHOPPER);
@@ -201,8 +201,8 @@ Chopper *CHOPPER_get_chopper(struct Thing *chopper_thing) {
     return chopper;
 }
 
-DrawMesh *CHOPPER_get_drawmesh(struct Thing *chopper_thing) {
-    DrawMesh *dm;
+DrawMesh* CHOPPER_get_drawmesh(struct Entity* chopper_thing) {
+    DrawMesh* dm;
 
     ASSERT(WITHIN(chopper_thing, TO_THING(1), TO_THING(MAX_THINGS)));
     ASSERT(chopper_thing->Class == CLASS_CHOPPER);
@@ -220,16 +220,16 @@ DrawMesh *CHOPPER_get_drawmesh(struct Thing *chopper_thing) {
  *
  */
 
-std::int32_t CHOPPER_altitude(Thing *thing) {
+std::int32_t CHOPPER_altitude(Entity* thing) {
     //	return thing->WorldPos.Y-(250<<8);
     //	return (thing->WorldPos.Y-(250<<8))-(PAP_calc_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
     //	return (thing->WorldPos.Y-(250<<8))-(PAP_calc_map_height_at(thing->WorldPos.X>>8,thing->WorldPos.Z>>8)<<8);
     return (thing->WorldPos.Y - (250 << 8)) - (PAP_calc_map_height_at(thing->WorldPos.X >> 8, thing->WorldPos.Z >> 8));
 }
 
-void CHOPPER_home(Thing *thing, GameCoord new_pos) {
-    Chopper *chopper = CHOPPER_get_chopper(thing);
-    DrawMesh *dm = CHOPPER_get_drawmesh(thing);
+void CHOPPER_home(Entity* thing, GameCoord new_pos) {
+    Chopper* chopper = CHOPPER_get_chopper(thing);
+    DrawMesh* dm = CHOPPER_get_drawmesh(thing);
     std::int32_t dx, dz, angle, dangle;
     //	char msg[300];
     std::uint8_t accel;
@@ -335,7 +335,7 @@ void CHOPPER_home(Thing *thing, GameCoord new_pos) {
     }
 }
 
-void CHOPPER_limit(Chopper *chopper) {
+void CHOPPER_limit(Chopper* chopper) {
     if (chopper->dx > chopper->speed) chopper->dx = (chopper->dx + chopper->dx + chopper->dx + chopper->speed) >> 2;
     if (chopper->dz > chopper->speed) chopper->dz = (chopper->dz + chopper->dz + chopper->dz + chopper->speed) >> 2;
     if (chopper->dx < -chopper->speed) chopper->dx = (chopper->dx + chopper->dx + chopper->dx - chopper->speed) >> 2; //*0.25;
@@ -347,7 +347,7 @@ void CHOPPER_limit(Chopper *chopper) {
       if (chopper->dz<-chopper->speed) chopper->dz=-chopper->speed;*/
 }
 
-void CHOPPER_damp(Chopper *chopper, std::uint8_t factor) {
+void CHOPPER_damp(Chopper* chopper, std::uint8_t factor) {
     std::uint8_t i;
     /*
       for (i=0;i<factor;i++) {
@@ -375,7 +375,7 @@ std::uint8_t CHOPPER_radius_broken(GameCoord pnt, GameCoord ctr, std::int32_t ra
     return (((dx * dx) + (dz * dz)) > (radius * radius));
 }
 
-void CHOPPER_predict_altitude(Thing *thing, Chopper *chopper) {
+void CHOPPER_predict_altitude(Entity* thing, Chopper* chopper) {
     std::int32_t tx, tz, dx, dz, altitude, gnd;
     std::int32_t dist;
 
@@ -441,8 +441,8 @@ void CHOPPER_predict_altitude(Thing *thing, Chopper *chopper) {
 // The functions called when a chopper is in each State.
 //
 
-void CHOPPER_fn_init(Thing *);
-void CHOPPER_fn_normal(Thing *);
+void CHOPPER_fn_init(Entity*);
+void CHOPPER_fn_normal(Entity*);
 
 StateFunction CIVILIAN_state_function[] =
     {
@@ -456,9 +456,9 @@ StateFunction CIVILIAN_state_function[] =
 //
 // ========================================================
 
-void CHOPPER_fn_init(Thing *thing) {
-    Chopper *chopper = CHOPPER_get_chopper(thing);
-    DrawMesh *dm = CHOPPER_get_drawmesh(thing);
+void CHOPPER_fn_init(Entity* thing) {
+    Chopper* chopper = CHOPPER_get_chopper(thing);
+    DrawMesh* dm = CHOPPER_get_drawmesh(thing);
 
     chopper->home.X = thing->WorldPos.X;
     chopper->home.Y = thing->WorldPos.Y;
@@ -471,15 +471,15 @@ void CHOPPER_fn_init(Thing *thing) {
     set_state_function(thing, STATE_NORMAL);
 }
 
-void CHOPPER_fn_normal(Thing *thing) {
+void CHOPPER_fn_normal(Entity* thing) {
     GameCoord new_pos;
     std::int32_t mag, rpos, altitude;
     char msg[300];
 
     // blatant ects hack
-    Thing *darci = NET_PERSON(0);
+    Entity* darci = NET_PERSON(0);
 
-    Chopper *chopper = CHOPPER_get_chopper(thing);
+    Chopper* chopper = CHOPPER_get_chopper(thing);
 
     if (chopper->substate != CHOPPER_substate_landed) {
         //		play_quick_wave(thing,S_TUNE_SEWER+1,WAVE_PLAY_NO_INTERUPT);
@@ -711,8 +711,8 @@ void CHOPPER_fn_normal(Thing *thing) {
  *
  */
 
-void CHOPPER_init_state(Thing *chopper_thing, std::uint8_t new_state) {
-    Chopper *chopper = CHOPPER_get_chopper(chopper_thing);
+void CHOPPER_init_state(Entity* chopper_thing, std::uint8_t new_state) {
+    Chopper* chopper = CHOPPER_get_chopper(chopper_thing);
 
     TRACE("Chopper: ");
     switch (new_state) {

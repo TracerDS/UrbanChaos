@@ -96,7 +96,7 @@ void PUDDLE_init() {
         std::int32_t x;
         std::int32_t z;
 
-        MapElement *me;
+        MapElement* me;
 
         for (x = 0; x < MAP_WIDTH; x++)
             for (z = 0; z < MAP_HEIGHT; z++) {
@@ -116,9 +116,9 @@ void PUDDLE_create_do(
     std::int32_t x;
     std::int32_t z;
 
-    PUDDLE_Puddle *pp;
+    PUDDLE_Puddle* pp;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
     std::uint8_t map_x = x1 + x2 >> 9;
     std::uint8_t map_z = z1 + z2 >> 9;
@@ -599,7 +599,7 @@ std::int32_t PUDDLE_in(
 
     std::uint8_t next;
 
-    PUDDLE_Puddle *pp;
+    PUDDLE_Puddle* pp;
 
     //
     // Only bother looking if this is in a reflective place.
@@ -676,7 +676,7 @@ void PUDDLE_splash(
 
     std::uint8_t next;
 
-    PUDDLE_Puddle *pp;
+    PUDDLE_Puddle* pp;
 
     //
     // Only bother looking if this is in a reflective place.
@@ -755,7 +755,7 @@ void PUDDLE_process() {
     std::int32_t s1;
     std::int32_t s2;
 
-    PUDDLE_Puddle *pp;
+    PUDDLE_Puddle* pp;
 
     for (i = 1; i < PUDDLE_puddle_upto; i++) {
         pp = &PUDDLE_puddle[i];
@@ -814,8 +814,8 @@ void PUDDLE_get_start(std::uint8_t z_map, std::uint8_t x_map_min, std::uint8_t x
     }
 }
 
-PUDDLE_Info *PUDDLE_get_next() {
-    PUDDLE_Puddle *pp;
+PUDDLE_Info* PUDDLE_get_next() {
+    PUDDLE_Puddle* pp;
 
     if (PUDDLE_get_upto == NULL) {
         return NULL;

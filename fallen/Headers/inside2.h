@@ -67,8 +67,8 @@ extern std::int32_t get_inside_alt(std::int32_t inside);
 extern std::int32_t find_inside_room(std::int32_t inside, std::int32_t x, std::int32_t z);
 extern std::int32_t find_inside_flags(std::int32_t inside, std::int32_t x, std::int32_t z);
 extern std::int32_t person_slide_inside(std::int32_t inside, std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t *x2, std::int32_t *y2, std::int32_t *z2);
-extern void stair_teleport_bodge(Thing *p_person);
-extern std::int32_t find_stair_y(Thing *p_person, std::int32_t *y1, std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *new_floor);
+extern void stair_teleport_bodge(Entity *p_person);
+extern std::int32_t find_stair_y(Entity *p_person, std::int32_t *y1, std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *new_floor);
 
 // ========================================================
 //
@@ -78,10 +78,10 @@ extern std::int32_t find_stair_y(Thing *p_person, std::int32_t *y1, std::int32_t
 
 #if 0
 // Never used!
-MAV_Action INSIDE2_mav_enter (Thing *p_person, std::int32_t inside, std::uint8_t caps);		// To enter the building with the given inside
-MAV_Action INSIDE2_mav_inside(Thing *p_person, std::int32_t inside, std::uint8_t x, std::uint8_t z);	// Navigating within a floor
-MAV_Action INSIDE2_mav_stair (Thing *p_person, std::int32_t inside, std::int32_t new_inside); // Going up the stairs to another floor
-MAV_Action INSIDE2_mav_exit  (Thing *p_person, std::int32_t inside);					// Exit the building
+MAV_Action INSIDE2_mav_enter (Entity *p_person, std::int32_t inside, std::uint8_t caps);		// To enter the building with the given inside
+MAV_Action INSIDE2_mav_inside(Entity *p_person, std::int32_t inside, std::uint8_t x, std::uint8_t z);	// Navigating within a floor
+MAV_Action INSIDE2_mav_stair (Entity *p_person, std::int32_t inside, std::int32_t new_inside); // Going up the stairs to another floor
+MAV_Action INSIDE2_mav_exit  (Entity *p_person, std::int32_t inside);					// Exit the building
 #endif
 
 #endif

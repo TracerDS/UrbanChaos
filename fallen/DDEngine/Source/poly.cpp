@@ -106,7 +106,7 @@ PolyPage POLY_Page[POLY_NUM_PAGES];
 
 #define POLY_SWAP(pp1, pp2)   \
     {                         \
-        POLY_Point *pp_spare; \
+        POLY_Point* pp_spare; \
         pp_spare = (pp1);     \
         (pp1) = (pp2);        \
         (pp2) = pp_spare;     \
@@ -141,10 +141,10 @@ std::int32_t POLY_splitscreen;
 std::uint32_t POLY_colour_restrict;
 std::uint32_t POLY_force_additive_alpha;
 
-std::int32_t fade_point_more(POLY_Point *pp) {
+std::int32_t fade_point_more(POLY_Point* pp) {
     std::int32_t fade;
 
-    fade = (((std::int32_t)(pp->y)) >> 0);
+    fade = (((std::int32_t) (pp->y)) >> 0);
 
     // fade=2000;
     //	fade=-fade;
@@ -565,7 +565,7 @@ void POLY_camera_set(
 // --- DON'T just set pt->clip to TRANSFORMED! ---
 //
 
-extern inline void POLY_setclip(POLY_Point *pt) {
+extern inline void POLY_setclip(POLY_Point* pt) {
     pt->clip = POLY_CLIP_TRANSFORMED;
 
     if (pt->X < POLY_screen_clip_left)
@@ -583,7 +583,7 @@ extern inline void POLY_setclip(POLY_Point *pt) {
 // project camera coords onto screen
 //
 
-inline void POLY_perspective(POLY_Point *pt, std::uint8_t wibble_key) {
+inline void POLY_perspective(POLY_Point* pt, std::uint8_t wibble_key) {
     if (pt->z < POLY_Z_NEARPLANE) {
         pt->clip = POLY_CLIP_NEAR;
     } else if (pt->z > 1.0F) {
@@ -633,7 +633,7 @@ void POLY_transform_c_saturate_z(
     float world_x,
     float world_y,
     float world_z,
-    POLY_Point *pt) {
+    POLY_Point* pt) {
     LOG_ENTER(Poly_Transform_c_sat_z)
 
     pt->x = world_x - POLY_cam_x;
@@ -690,22 +690,22 @@ void POLY_transform_c_saturate_z(
         xml = pt->X - POLY_screen_clip_left;
         rmx = POLY_screen_clip_right - pt->X;
 
-        pt->clip |= *((std::uint32_t *) &xml) >> 31;
-        pt->clip |= (*((std::uint32_t *) &rmx) >> 31) << 1;
+        pt->clip |= *((std::uint32_t*) &xml) >> 31;
+        pt->clip |= (*((std::uint32_t*) &rmx) >> 31) << 1;
 
         pt->Y = POLY_screen_mid_y - POLY_screen_mul_y * pt->y * pt->Z;
         ymt = pt->Y - POLY_screen_clip_top;
         bmy = POLY_screen_clip_bottom - pt->Y;
 
-        pt->clip |= (*((std::uint32_t *) &ymt) >> 31) << 2;
-        pt->clip |= (*((std::uint32_t *) &bmy) >> 31) << 3;
+        pt->clip |= (*((std::uint32_t*) &ymt) >> 31) << 2;
+        pt->clip |= (*((std::uint32_t*) &bmy) >> 31) << 3;
 #endif
     }
 #endif
     LOG_EXIT(Poly_Transform_c_sat_z)
 }
 
-void POLY_transform_from_view_space(POLY_Point *pt) {
+void POLY_transform_from_view_space(POLY_Point* pt) {
     LOG_ENTER(Poly_Transform_from_view_space)
     if (pt->z < POLY_Z_NEARPLANE) {
         pt->clip = POLY_CLIP_NEAR;
@@ -744,7 +744,7 @@ void POLY_transform_abs(
     float world_x,
     float world_y,
     float world_z,
-    POLY_Point *pt) {
+    POLY_Point* pt) {
     pt->x = world_x; //- POLY_cam_x;
     pt->y = world_y; //- POLY_cam_y;
     pt->z = world_z; //- POLY_cam_z;
@@ -762,8 +762,8 @@ std::int32_t POLY_get_screen_pos(
     float world_x,
     float world_y,
     float world_z,
-    float *screen_x,
-    float *screen_y) {
+    float* screen_x,
+    float* screen_y) {
     float vx = world_x - POLY_cam_x;
     float vy = world_y - POLY_cam_y;
     float vz = world_z - POLY_cam_z;
@@ -893,7 +893,7 @@ void POLY_transform_using_local_rotation_and_wibble(
     float local_x,
     float local_y,
     float local_z,
-    POLY_Point *pt,
+    POLY_Point* pt,
     std::uint8_t wibble_key) {
     pt->x = local_x;
     pt->y = local_y;
@@ -1040,7 +1040,7 @@ void POLY_frame_init(std::int32_t keep_shadow_page, std::int32_t keep_text_page)
 #endif
 }
 
-std::int32_t POLY_valid_triangle(POLY_Point *pp[3]) {
+std::int32_t POLY_valid_triangle(POLY_Point* pp[3]) {
     // all points must be either near-clipped or fully transformed
     if (!pp[0]->MaybeValid()) return false;
     if (!pp[1]->MaybeValid()) return false;
@@ -1054,7 +1054,7 @@ std::int32_t POLY_valid_triangle(POLY_Point *pp[3]) {
     return true;
 }
 
-std::int32_t POLY_valid_quad(POLY_Point *pp[4]) {
+std::int32_t POLY_valid_quad(POLY_Point* pp[4]) {
     // all points must be either near-clipped or fully transformed
     if (!pp[0]->MaybeValid()) return false;
     if (!pp[1]->MaybeValid()) return false;
@@ -1069,7 +1069,7 @@ std::int32_t POLY_valid_quad(POLY_Point *pp[4]) {
     return true;
 }
 
-std::int32_t POLY_valid_line(POLY_Point *p1, POLY_Point *p2) {
+std::int32_t POLY_valid_line(POLY_Point* p1, POLY_Point* p2) {
     // all points must be either near-clipped or fully transformed
     if (!p1->IsValid()) return false;
     if (!p2->IsValid()) return false;
@@ -1087,7 +1087,7 @@ std::int32_t POLY_valid_line(POLY_Point *p1, POLY_Point *p2) {
 //
 // returns true if triangle is backfacing
 
-inline bool POLY_tri_backfacing(POLY_Point *pp1, POLY_Point *pp2, POLY_Point *pp3) {
+inline bool POLY_tri_backfacing(POLY_Point* pp1, POLY_Point* pp2, POLY_Point* pp3) {
     float x12, y12, z12; // 1->2 vector
     float x13, y13, z13; // 1->3 vector
     float cx, cy, cz;    // normal vector (not normalized)
@@ -1171,16 +1171,16 @@ static std::uint32_t s_PointBufferOffset;
 //
 // create and project a new vertex between two others
 
-POLY_Point *NewTweenVertex3D(POLY_Point *p1, POLY_Point *p2, float lambda) {
+POLY_Point* NewTweenVertex3D(POLY_Point* p1, POLY_Point* p2, float lambda) {
     std::uint32_t lambda8;
 
     // extract 8-bit modulation index using fast float cast
     // note: lambda *must* be between 0.0F and 1.0F inclusive
     // mapping to 0 and 256 inclusive
-    *(float *) &lambda8 = lambda + 32768.0F;
+    *(float*) &lambda8 = lambda + 32768.0F;
     lambda8 &= 0x1FF;
 
-    POLY_Point *np = &s_PointBuffer[s_PointBufferOffset++];
+    POLY_Point* np = &s_PointBuffer[s_PointBufferOffset++];
 
     np->x = p1->x + lambda * (p2->x - p1->x);
     np->y = p1->y + lambda * (p2->y - p1->y);
@@ -1204,16 +1204,16 @@ POLY_Point *NewTweenVertex3D(POLY_Point *p1, POLY_Point *p2, float lambda) {
 //
 // create a new vertex between two others
 
-POLY_Point *NewTweenVertex2D_X(POLY_Point *p1, POLY_Point *p2, float lambda, float xcoord) {
+POLY_Point* NewTweenVertex2D_X(POLY_Point* p1, POLY_Point* p2, float lambda, float xcoord) {
     std::uint32_t lambda8;
 
     // extract 8-bit modulation index using fast float cast
     // note: lambda *must* be between 0.0F and 1.0F inclusive
     // mapping to 0 and 256 inclusive
-    *(float *) &lambda8 = lambda + 32768.0F;
+    *(float*) &lambda8 = lambda + 32768.0F;
     lambda8 &= 0x1FF;
 
-    POLY_Point *np = &s_PointBuffer[s_PointBufferOffset++];
+    POLY_Point* np = &s_PointBuffer[s_PointBufferOffset++];
 
     np->X = xcoord;
     np->Y = p1->Y + lambda * (p2->Y - p1->Y);
@@ -1242,16 +1242,16 @@ POLY_Point *NewTweenVertex2D_X(POLY_Point *p1, POLY_Point *p2, float lambda, flo
 //
 // create a new vertex between two others
 
-POLY_Point *NewTweenVertex2D_Y(POLY_Point *p1, POLY_Point *p2, float lambda, float ycoord) {
+POLY_Point* NewTweenVertex2D_Y(POLY_Point* p1, POLY_Point* p2, float lambda, float ycoord) {
     std::uint32_t lambda8;
 
     // extract 8-bit modulation index using fast float cast
     // note: lambda *must* be between 0.0F and 1.0F inclusive
     // mapping to 0 and 256 inclusive
-    *(float *) &lambda8 = lambda + 32768.0F;
+    *(float*) &lambda8 = lambda + 32768.0F;
     lambda8 &= 0x1FF;
 
-    POLY_Point *np = &s_PointBuffer[s_PointBufferOffset++];
+    POLY_Point* np = &s_PointBuffer[s_PointBufferOffset++];
 
     np->X = p1->X + lambda * (p2->X - p1->X);
     np->Y = ycoord;
@@ -1280,11 +1280,11 @@ POLY_Point *NewTweenVertex2D_Y(POLY_Point *p1, POLY_Point *p2, float lambda, flo
 //
 // clip poly against near clipping plane
 
-std::int32_t POLY_clip_against_nearplane(POLY_Point **rptr, float *dptr, std::int32_t count, POLY_Point **wbuf) {
-    POLY_Point **wptr = wbuf;
+std::int32_t POLY_clip_against_nearplane(POLY_Point** rptr, float* dptr, std::int32_t count, POLY_Point** wbuf) {
+    POLY_Point** wptr = wbuf;
 
-    POLY_Point *p1;
-    POLY_Point *p2;
+    POLY_Point* p1;
+    POLY_Point* p2;
 
     std::int32_t ii;
     for (ii = 0; ii < count - 1; ii++) {
@@ -1331,11 +1331,11 @@ std::int32_t POLY_clip_against_nearplane(POLY_Point **rptr, float *dptr, std::in
 //
 // clip poly against a side (left or right)
 
-std::int32_t POLY_clip_against_side_X(POLY_Point **rptr, float *dptr, std::int32_t count, POLY_Point **wbuf, float xcoord) {
-    POLY_Point **wptr = wbuf;
+std::int32_t POLY_clip_against_side_X(POLY_Point** rptr, float* dptr, std::int32_t count, POLY_Point** wbuf, float xcoord) {
+    POLY_Point** wptr = wbuf;
 
-    POLY_Point *p1;
-    POLY_Point *p2;
+    POLY_Point* p1;
+    POLY_Point* p2;
 
     std::int32_t ii;
     for (ii = 0; ii < count - 1; ii++) {
@@ -1380,11 +1380,11 @@ std::int32_t POLY_clip_against_side_X(POLY_Point **rptr, float *dptr, std::int32
 //
 // clip poly against a side (top or bottom)
 
-std::int32_t POLY_clip_against_side_Y(POLY_Point **rptr, float *dptr, std::int32_t count, POLY_Point **wbuf, float ycoord) {
-    POLY_Point **wptr = wbuf;
+std::int32_t POLY_clip_against_side_Y(POLY_Point** rptr, float* dptr, std::int32_t count, POLY_Point** wbuf, float ycoord) {
+    POLY_Point** wptr = wbuf;
 
-    POLY_Point *p1;
-    POLY_Point *p2;
+    POLY_Point* p1;
+    POLY_Point* p2;
 
     std::int32_t ii;
     for (ii = 0; ii < count - 1; ii++) {
@@ -1428,7 +1428,7 @@ std::int32_t POLY_clip_against_side_Y(POLY_Point **rptr, float *dptr, std::int32
 #endif // #ifndef TARGET_DC
 
 static float s_DistBuffer[128];
-static POLY_Point *s_PtrBuffer[128];
+static POLY_Point* s_PtrBuffer[128];
 
 // POLY_add_poly no longer works - system's been changed.
 #if 1
@@ -1437,7 +1437,7 @@ static POLY_Point *s_PtrBuffer[128];
 //
 // clip poly and write to the vertex buffer
 
-void POLY_add_poly(POLY_Point **poly, std::int32_t poly_points, std::int32_t page) {
+void POLY_add_poly(POLY_Point** poly, std::int32_t poly_points, std::int32_t page) {
     std::uint8_t clip_or;
     std::uint8_t clip_and;
     std::int32_t ii;
@@ -1456,8 +1456,8 @@ void POLY_add_poly(POLY_Point **poly, std::int32_t poly_points, std::int32_t pag
     }
 
     // initialize state for clipping
-    POLY_Point **rptr = poly;
-    POLY_Point **wptr = s_PtrBuffer;
+    POLY_Point** rptr = poly;
+    POLY_Point** wptr = s_PtrBuffer;
 
     s_PointBufferOffset = 0;
 
@@ -1576,13 +1576,13 @@ void POLY_add_poly(POLY_Point **poly, std::int32_t poly_points, std::int32_t pag
 
 #endif // #if 1 ????!
 
-void POLY_add_nearclipped_triangle(POLY_Point *pt[3], std::int32_t page, std::int32_t backface_cull) {
+void POLY_add_nearclipped_triangle(POLY_Point* pt[3], std::int32_t page, std::int32_t backface_cull) {
     //
     // initialize state for clipping
     //
 
-    POLY_Point **rptr = pt;
-    POLY_Point **wptr = s_PtrBuffer;
+    POLY_Point** rptr = pt;
+    POLY_Point** wptr = s_PtrBuffer;
 
     s_PointBufferOffset = 0;
 
@@ -1633,18 +1633,18 @@ void POLY_add_nearclipped_triangle(POLY_Point *pt[3], std::int32_t page, std::in
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 
-        PolyPage *pp = &POLY_Page[page];
+        PolyPage* pp = &POLY_Page[page];
 #ifdef TEX_EMBED
         // Do the indirection to the real poly page.
-        PolyPage *ppDrawn = pp->pTheRealPolyPage;
+        PolyPage* ppDrawn = pp->pTheRealPolyPage;
 #else
-        PolyPage *ppDrawn = pp;
+        PolyPage* ppDrawn = pp;
 #endif
 
-        PolyPoint2D *pv = ppDrawn->PointAlloc(3 + (poly_points - 3) * 3);
+        PolyPoint2D* pv = ppDrawn->PointAlloc(3 + (poly_points - 3) * 3);
 
-        POLY_Point *ppt;
-        PolyPoint2D *pv_first = pv;
+        POLY_Point* ppt;
+        PolyPoint2D* pv_first = pv;
 
         ppt = rptr[0];
 
@@ -1702,18 +1702,18 @@ void POLY_add_nearclipped_triangle(POLY_Point *pt[3], std::int32_t page, std::in
 #else // #if WE_NEED_POLYBUFFERS_PLEASE_BOB
       // The version with index buffers
 
-        PolyPage *pp = &POLY_Page[page];
+        PolyPage* pp = &POLY_Page[page];
 #ifdef TEX_EMBED
         // Do the indirection to the real poly page.
-        PolyPage *ppDrawn = pp->pTheRealPolyPage;
+        PolyPage* ppDrawn = pp->pTheRealPolyPage;
 #else
-        PolyPage *ppDrawn = pp;
+        PolyPage* ppDrawn = pp;
 #endif
 
-        PolyPoint2D *pv = ppDrawn->FanAlloc(poly_points);
+        PolyPoint2D* pv = ppDrawn->FanAlloc(poly_points);
 
-        POLY_Point *ppt;
-        PolyPoint2D *pv_first = pv;
+        POLY_Point* ppt;
+        PolyPoint2D* pv_first = pv;
 
         for (i = 0; i < poly_points; i++) {
             ppt = rptr[i];
@@ -1743,9 +1743,9 @@ void POLY_add_nearclipped_triangle(POLY_Point *pt[3], std::int32_t page, std::in
 }
 
 #ifdef TARGET_DC
-void POLY_add_triangle(POLY_Point *pt[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
+void POLY_add_triangle(POLY_Point* pt[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
 #else
-void POLY_add_triangle_fast(POLY_Point *pt[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
+void POLY_add_triangle_fast(POLY_Point* pt[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
 #endif
 {
 
@@ -1788,23 +1788,23 @@ void POLY_add_triangle_fast(POLY_Point *pt[3], std::int32_t page, std::int32_t b
 
 second_page:;
 
-    PolyPage *pp = &POLY_Page[page];
+    PolyPage* pp = &POLY_Page[page];
 #ifdef TEX_EMBED
     // Do the indirection to the real poly page.
-    PolyPage *ppDrawn = pp->pTheRealPolyPage;
+    PolyPage* ppDrawn = pp->pTheRealPolyPage;
 #else
-    PolyPage *ppDrawn = pp;
+    PolyPage* ppDrawn = pp;
 #endif
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-    PolyPoint2D *pv = ppDrawn->PointAlloc(3);
+    PolyPoint2D* pv = ppDrawn->PointAlloc(3);
 #else
-    PolyPoint2D *pv = ppDrawn->FanAlloc(3);
+    PolyPoint2D* pv = ppDrawn->FanAlloc(3);
 #endif
 
-    POLY_Point *ppt;
+    POLY_Point* ppt;
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-    PolyPoly *ppoly = ppDrawn->PolyBufAlloc();
+    PolyPoly* ppoly = ppDrawn->PolyBufAlloc();
     if (!ppoly) return;
     ppoly->first_vertex = pv - ppDrawn->m_VertexPtr;
     ppoly->num_vertices = 3;
@@ -1858,9 +1858,9 @@ second_page:;
 }
 
 #ifdef TARGET_DC
-void POLY_add_quad(POLY_Point *pt[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
+void POLY_add_quad(POLY_Point* pt[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
 #else
-void POLY_add_quad_fast(POLY_Point *pt[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
+void POLY_add_quad_fast(POLY_Point* pt[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags)
 #endif
 {
 
@@ -1883,7 +1883,7 @@ void POLY_add_quad_fast(POLY_Point *pt[4], std::int32_t page, std::int32_t backf
     }
 
     if ((pt[0]->clip | pt[1]->clip | pt[2]->clip | pt[3]->clip) & POLY_CLIP_NEAR) {
-        POLY_Point *pt2[3] = {pt[1], pt[3], pt[2]};
+        POLY_Point* pt2[3] = {pt[1], pt[3], pt[2]};
 
         //
         // Needs near-clipping...
@@ -1938,20 +1938,20 @@ void POLY_add_quad_fast(POLY_Point *pt[4], std::int32_t page, std::int32_t backf
 
 second_page:;
 
-    PolyPage *pp = &POLY_Page[page];
+    PolyPage* pp = &POLY_Page[page];
 #ifdef TEX_EMBED
     // Do the indirection to the real poly page.
-    PolyPage *ppDrawn = pp->pTheRealPolyPage;
+    PolyPage* ppDrawn = pp->pTheRealPolyPage;
 #else
-    PolyPage *ppDrawn = pp;
+    PolyPage* ppDrawn = pp;
 #endif
 
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
 
-    PolyPoint2D *pv = ppDrawn->PointAlloc(6);
-    POLY_Point *ppt;
+    PolyPoint2D* pv = ppDrawn->PointAlloc(6);
+    POLY_Point* ppt;
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-    PolyPoly *ppoly = ppDrawn->PolyBufAlloc();
+    PolyPoly* ppoly = ppDrawn->PolyBufAlloc();
     if (!ppoly) return;
     ppoly->first_vertex = pv - ppDrawn->m_VertexPtr;
     ppoly->num_vertices = 3;
@@ -2019,10 +2019,10 @@ second_page:;
 #else // #if WE_NEED_POLYBUFFERS_PLEASE_BOB
     // The version with index buffers.
 
-    PolyPoint2D *pv = ppDrawn->FanAlloc(4);
-    POLY_Point *ppt;
+    PolyPoint2D* pv = ppDrawn->FanAlloc(4);
+    POLY_Point* ppt;
 #if WE_NEED_POLYBUFFERS_PLEASE_BOB
-    PolyPoly *ppoly = ppDrawn->PolyBufAlloc();
+    PolyPoly* ppoly = ppDrawn->PolyBufAlloc();
     if (!ppoly) return;
     ppoly->first_vertex = pv - ppDrawn->m_VertexPtr;
     ppoly->num_vertices = 3;
@@ -2099,7 +2099,7 @@ second_page:;
 // add a triangle to the poly list
 //
 
-void POLY_add_triangle_slow(POLY_Point *pp[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
+void POLY_add_triangle_slow(POLY_Point* pp[3], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
     {
         if (generate_clip_flags) {
             POLY_setclip(pp[0]);
@@ -2128,7 +2128,7 @@ void POLY_add_triangle_slow(POLY_Point *pp[3], std::int32_t page, std::int32_t b
 extern std::int32_t TEXTURE_set;
 extern std::uint8_t TEXTURE_dontexist[];
 
-void POLY_add_quad_slow(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
+void POLY_add_quad_slow(POLY_Point* pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
     LOG_ENTER(POLY_add_quad)
 #if 0 // or #ifdef _DEBUG or something, you lazy gits
 	if(ShiftFlag && Keys[KB_Q])
@@ -2189,7 +2189,7 @@ void POLY_add_quad_slow(POLY_Point *pp[4], std::int32_t page, std::int32_t backf
             POLY_add_poly(pp, 3, page);
             POLY_add_poly(pp + 1, 3, page);
 #else
-            POLY_Point *tmp;
+            POLY_Point* tmp;
 
             tmp = pp[2];
             pp[2] = pp[3];
@@ -2207,7 +2207,7 @@ void POLY_add_quad_slow(POLY_Point *pp[4], std::int32_t page, std::int32_t backf
 
 #ifndef TARGET_DC
 
-void POLY_add_quad(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
+void POLY_add_quad(POLY_Point* pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
 #if 1
     if (!Keys[KB_F8]) {
         POLY_add_quad_slow(pp, page, backface_cull, generate_clip_flags);
@@ -2218,7 +2218,7 @@ void POLY_add_quad(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_c
     }
 }
 
-void POLY_add_triangle(POLY_Point *pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
+void POLY_add_triangle(POLY_Point* pp[4], std::int32_t page, std::int32_t backface_cull, std::int32_t generate_clip_flags) {
 #if 1
     if (!Keys[KB_F8]) {
         POLY_add_triangle_slow(pp, page, backface_cull, generate_clip_flags);
@@ -2250,7 +2250,7 @@ float POLY_approx_len(float dx, float dy) {
 // create 4 points for a cylinder; only X,Y,Z, colour & specular are set up
 //
 
-void POLY_create_cylinder_points(POLY_Point *p1, POLY_Point *p2, float width, POLY_Point *pout) {
+void POLY_create_cylinder_points(POLY_Point* p1, POLY_Point* p2, float width, POLY_Point* pout) {
     float dx, dy;       // screen normal vector for line
     float len, overlen; // line length/reciprocal
     float dx1, dy1;     // perturbation vector for p1
@@ -2305,7 +2305,7 @@ void POLY_create_cylinder_points(POLY_Point *p1, POLY_Point *p2, float width, PO
     pout[3].Y -= dy2;
 }
 
-void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front) {
+void POLY_add_line_tex_uv(POLY_Point* p1, POLY_Point* p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front) {
     float dx;
     float dy;
 
@@ -2334,7 +2334,7 @@ void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float wi
     ASSERT(p2->IsValid());
 
     POLY_Point pt[4];
-    POLY_Point *ppt[4];
+    POLY_Point* ppt[4];
 
     dx = p2->X - p1->X;
     dy = p2->Y - p1->Y;
@@ -2418,14 +2418,14 @@ void POLY_add_line_tex_uv(POLY_Point *p1, POLY_Point *p2, float width1, float wi
     POLY_add_quad(ppt, page, false, true);
 }
 
-void POLY_add_line_tex(POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front) {
+void POLY_add_line_tex(POLY_Point* p1, POLY_Point* p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front) {
     p1->u = p1->v = 0;
     p2->u = p2->v = 1;
 
     POLY_add_line_tex_uv(p1, p2, width1, width2, page, sort_to_front);
 }
 
-void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front) {
+void POLY_add_line(POLY_Point* p1, POLY_Point* p2, float width1, float width2, std::int32_t page, std::uint8_t sort_to_front) {
     float dx;
     float dy;
 
@@ -2453,7 +2453,7 @@ void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, s
     ASSERT(p1->IsValid() & p2->IsValid());
 
     POLY_Point pt[4];
-    POLY_Point *ppt[4];
+    POLY_Point* ppt[4];
 
     dx = p2->X - p1->X;
     dy = p2->Y - p1->Y;
@@ -2546,7 +2546,7 @@ void POLY_add_line(POLY_Point *p1, POLY_Point *p2, float width1, float width2, s
 //
 // p1 is top left
 //
-void POLY_add_rect(POLY_Point *p1, std::int32_t width, std::int32_t height, std::int32_t page, std::uint8_t sort_to_front) {
+void POLY_add_rect(POLY_Point* p1, std::int32_t width, std::int32_t height, std::int32_t page, std::uint8_t sort_to_front) {
     //
     // Both points must be transformed
     //
@@ -2556,7 +2556,7 @@ void POLY_add_rect(POLY_Point *p1, std::int32_t width, std::int32_t height, std:
     ASSERT(p1->IsValid());
 
     POLY_Point pt[4];
-    POLY_Point *ppt[4];
+    POLY_Point* ppt[4];
 
     if (sort_to_front) {
         p1->Z = 1.0F;
@@ -2604,7 +2604,7 @@ void POLY_add_line_2d(float sx1, float sy1, float sx2, float sy2, std::uint32_t 
     float overlen;
 
     POLY_Point pt[4];
-    POLY_Point *ppt[4];
+    POLY_Point* ppt[4];
 
     dx = sx2 - sx1;
     dy = sy2 - sy1;
@@ -2934,7 +2934,7 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
     std::int32_t j;
     std::int32_t k;
 
-    PolyPage *pa;
+    PolyPage* pa;
 
     static int iPageNumberToClear = 0;
 
@@ -3112,7 +3112,7 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
         //
 
         //		BreakTime("FRAMEDRAW start buckets");
-        PolyPoly *buckets[2048];
+        PolyPoly* buckets[2048];
 
         for (i = 0; i < 2048; i++) buckets[i] = NULL;
 
@@ -3133,7 +3133,7 @@ void POLY_frame_draw(std::int32_t draw_shadow_page, std::int32_t draw_text_page)
         //
 
         for (i = 0; i < 2048; i++) {
-            PolyPoly *p = buckets[i];
+            PolyPoly* p = buckets[i];
 
             while (p) {
                 p->page->RS.SetChanged();
@@ -3296,7 +3296,7 @@ void POLY_frame_draw_odd() {
     std::int32_t i;
     std::int32_t j;
 
-    PolyPage *pa;
+    PolyPage* pa;
 
 #ifdef TARGET_DC
     // I'd like to know.
@@ -3368,12 +3368,12 @@ void POLY_frame_draw_odd() {
 }
 
 void POLY_frame_draw_puddles() {
-    PolyPage *pp = &POLY_Page[POLY_PAGE_PUDDLE];
+    PolyPage* pp = &POLY_Page[POLY_PAGE_PUDDLE];
 #ifdef TEX_EMBED
     // Do the indirection to the real poly page.
-    PolyPage *ppDrawn = pp->pTheRealPolyPage;
+    PolyPage* ppDrawn = pp->pTheRealPolyPage;
 #else
-    PolyPage *ppDrawn = pp;
+    PolyPage* ppDrawn = pp;
 #endif
 
 #ifdef TARGET_DC
@@ -3411,7 +3411,7 @@ void POLY_sort_sewater_page() {
 }
 
 void POLY_frame_draw_sewater() {
-    PolyPage *pa = &POLY_Page[POLY_PAGE_SEWATER];
+    PolyPage* pa = &POLY_Page[POLY_PAGE_SEWATER];
 
     if (pa->NeedsRendering()) {
 #if 1
@@ -3449,9 +3449,9 @@ std::int32_t POLY_get_sphere_circle(
     float world_y,
     float world_z,
     float world_radius,
-    std::int32_t *screen_x,
-    std::int32_t *screen_y,
-    std::int32_t *screen_radius) {
+    std::int32_t* screen_x,
+    std::int32_t* screen_y,
+    std::int32_t* screen_radius) {
     float vw;
     float width;
 
@@ -3648,9 +3648,9 @@ void POLY_frame_draw_focused(float focus)
 std::int32_t POLY_inside_quad(
     float screen_x,
     float screen_y,
-    POLY_Point *quad[3],
-    float *along_01,
-    float *along_02) {
+    POLY_Point* quad[3],
+    float* along_01,
+    float* along_02) {
     float ax = quad[1]->X - quad[0]->X;
     float ay = quad[1]->Y - quad[0]->Y;
 
@@ -3689,7 +3689,7 @@ void POLY_transform(
     float world_x,
     float world_y,
     float world_z,
-    POLY_Point *pt,
+    POLY_Point* pt,
     bool bUnused) {
     pt->x = world_x - POLY_cam_x;
     pt->y = world_y - POLY_cam_y;
@@ -3708,7 +3708,7 @@ void POLY_transform_using_local_rotation(
     float local_x,
     float local_y,
     float local_z,
-    POLY_Point *pt) {
+    POLY_Point* pt) {
     pt->x = local_x;
     pt->y = local_y;
     pt->z = local_z;

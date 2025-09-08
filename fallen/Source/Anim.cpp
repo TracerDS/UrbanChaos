@@ -235,7 +235,7 @@ void ANIM_fini() {
 #endif
 //************************************************************************************************
 #ifndef ULTRA_COMPRESSED_ANIMATIONS
-void SetCMatrixComp(GameKeyFrameElementComp *e, CMatrix33 *cm) {
+void SetCMatrixComp(GameKeyFrameElementComp* e, CMatrix33* cm) {
     e->Pad = 0;
 
     // need to store the two smallest elements of the top row for accuracy
@@ -311,7 +311,7 @@ void SetCMatrixComp(GameKeyFrameElementComp *e, CMatrix33 *cm) {
     }
 }
 
-void convert_to_psx_gke(GameKeyFrameElementComp *to, GameKeyFrameElement *from) {
+void convert_to_psx_gke(GameKeyFrameElementComp* to, GameKeyFrameElement* from) {
     to->OffsetX = (from->OffsetX); //&0xff;
     to->OffsetY = (from->OffsetY); //&0xff;
     to->OffsetZ = (from->OffsetZ); //&0xff;
@@ -335,7 +335,7 @@ void UCA_LookupSetup() {
             UCA_Lookup[(std::uint8_t) c0][(std::uint8_t) c1] = Root(16383 - ((c0 * c0) + (c1 * c1)));
 }
 #ifndef PSX
-void SetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm) {
+void SetCMatrix(GameKeyFrameElement* e, CMatrix33* cm) {
     e->Pad = 0;
 
     // need to store the two smallest elements of the top row for accuracy
@@ -412,13 +412,13 @@ void SetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm) {
 }
 #endif
 
-void GetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm) {
+void GetCMatrix(GameKeyFrameElement* e, CMatrix33* cm) {
     std::int32_t a, b, c;
     std::int32_t m00, m01, m02;
     std::int32_t m10, m11, m12;
     std::int32_t data;
 
-    data = *((std::int32_t *) e);
+    data = *((std::int32_t*) e);
     a = (data << 24) >> 24;
     b = (data << 16) >> 24;
     //	ASSERT(a==e->m00);
@@ -508,7 +508,7 @@ void GetCMatrix(GameKeyFrameElement *e, CMatrix33 *cm) {
 #endif
 //************************************************************************************************
 
-void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the_chunk);
+void convert_anim(Anim* key_list, GameKeyFrameChunk* p_chunk, KeyFrameChunk* the_chunk);
 
 #ifndef PSX
 void init_anim_prims() {
@@ -540,14 +540,14 @@ void reset_anim_stuff() {
 
 #ifdef EDITOR
 
-void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chunk) {
+void load_anim(MFFileHandle file_handle, Anim* the_anim, KeyFrameChunk* the_chunk) {
     char anim_name[ANIM_NAME_SIZE];
     std::int32_t anim_flags,
         c0,
         frame_count,
         frame_id,
         tween_step;
-    KeyFrame *the_frame;
+    KeyFrame* the_frame;
     std::int16_t chunk_id;
     std::int16_t fixed = 0;
     char version = 0;
@@ -590,7 +590,7 @@ void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chun
             //			LogText(" fight count load = %d \n",count);
 
             for (c0 = 0; c0 < count; c0++) {
-                fcol = (struct FightCol *) MemAlloc(sizeof(struct FightCol));
+                fcol = (struct FightCol*) MemAlloc(sizeof(struct FightCol));
                 if (fcol) {
                     FileRead(file_handle, fcol, sizeof(struct FightCol));
                     if (c0 == 0) {
@@ -610,9 +610,9 @@ void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chun
         the_anim->StartLooping();
 }
 
-Anim *current_anim;
+Anim* current_anim;
 
-void create_anim(Anim **the_list) {
+void create_anim(Anim** the_list) {
     char text[32];
     Anim *next_anim,
         *the_anim;
@@ -639,7 +639,7 @@ void create_anim(Anim **the_list) {
     }
 }
 
-void load_body_part_info(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk *the_chunk) {
+void load_body_part_info(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk* the_chunk) {
     std::int32_t c0, c1;
     std::int32_t no_people, no_body_bits, string_len;
 
@@ -656,7 +656,7 @@ void load_body_part_info(MFFileHandle file_handle, std::int32_t version, KeyFram
     }
 }
 
-void load_all_anims(KeyFrameChunk *the_chunk, Anim **anim_list) {
+void load_all_anims(KeyFrameChunk* the_chunk, Anim** anim_list) {
     // #ifdef	EDITOR
     std::int32_t anim_count, version,
         c0;
@@ -702,8 +702,8 @@ void setup_anim_stuff() {
     //		MemFree(the_elements);
     //	the_elements	=	(KeyFrameElement*)MemAlloc(MAX_NUMBER_OF_ELEMENTS*sizeof(KeyFrameElement));
 
-    elements_bank1 = (KeyFrameElement *) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(KeyFrameElement));
-    elements_bank2 = (KeyFrameElement *) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(KeyFrameElement));
+    elements_bank1 = (KeyFrameElement*) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(KeyFrameElement));
+    elements_bank2 = (KeyFrameElement*) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(KeyFrameElement));
 
     the_elements = elements_bank1;
     test_chunk = &edit_chunk1; //(KeyFrameChunk*)MemAlloc(sizeof(KeyFrameChunk));
@@ -758,10 +758,10 @@ void setup_extra_anims()
 #ifndef TARGET_DC
 
 // extern std::int32_t	load_anim_system(struct GameKeyFrameChunk *game_chunk,char	*name);
-extern std::int32_t load_anim_system(struct GameKeyFrameChunk *game_chunk, char *name, std::int32_t peep = 0);
+extern std::int32_t load_anim_system(struct GameKeyFrameChunk* game_chunk, char* name, std::int32_t peep = 0);
 
 void setup_extra_anims() {
-    Anim *key_list;
+    Anim* key_list;
     key_list = nullptr;
     /*
             load_key_frame_chunks(test_chunk,"van.vue");
@@ -810,7 +810,7 @@ void setup_extra_anims() {
     next_game_chunk = 4;
 }
 extern std::uint16_t darci_normal_count;
-extern std::int32_t append_anim_system(struct GameKeyFrameChunk *p_chunk, char *name, std::int32_t start_anim, std::int32_t load_mesh);
+extern std::int32_t append_anim_system(struct GameKeyFrameChunk* p_chunk, char* name, std::int32_t start_anim, std::int32_t load_mesh);
 void setup_people_anims() {
 #ifdef ULTRA_COMPRESSED_ANIMATIONS
     UCA_LookupSetup();
@@ -844,7 +844,7 @@ void setup_people_anims() {
     append_anim_system(&game_chunk[ANIM_TYPE_CIV], "newcivf.all", CIV_F_START, 1);
 
     extern std::int32_t playing_combat_tutorial();
-    extern std::int32_t playing_level(const char *name);
+    extern std::int32_t playing_level(const char* name);
     if (!save_psx)
         if (playing_combat_tutorial()) {
             game_chunk[ANIM_TYPE_CIV].MultiObject[0] = next_prim_multi_object;
@@ -1269,9 +1269,9 @@ void setup_global_anim_array() {
     }
 }
 
-void calc_sub_objects_position_no_tween(GameKeyFrame *cur_frame, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
+void calc_sub_objects_position_no_tween(GameKeyFrame* cur_frame, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
     struct Matrix31 offset;
-    struct GameKeyFrameElement *anim_info;
+    struct GameKeyFrameElement* anim_info;
 
     anim_info = &cur_frame->FirstElement[object];
 
@@ -1313,11 +1313,11 @@ void fix_anim_pos(struct KeyFrame *keyframe,struct KeyFrameChunk *chunk)
 */
 
 #ifndef PSX
-void fix_multi_object_for_anim(std::uint16_t obj, struct PrimMultiAnim *p_anim) {
+void fix_multi_object_for_anim(std::uint16_t obj, struct PrimMultiAnim* p_anim) {
     std::int32_t sp, ep;
     std::uint16_t c0, c1;
-    struct PrimObject *p_obj;
-    struct Matrix33 *mat;
+    struct PrimObject* p_obj;
+    struct Matrix33* mat;
     struct Matrix31 temp;
 #ifdef EDITOR
     for (c0 = prim_multi_objects[obj].StartObject; c0 <= prim_multi_objects[obj].EndObject; c0++) {
@@ -1376,7 +1376,7 @@ void Anim::StopLooping() {
 }
 
 void Anim::SetAllTweens(std::int32_t tween) {
-    KeyFrame *frame_ptr;
+    KeyFrame* frame_ptr;
 
     frame_ptr = FrameListStart;
 
@@ -1390,12 +1390,12 @@ void Anim::SetAllTweens(std::int32_t tween) {
 
 //---------------------------------------------------------------
 
-void Anim::AddKeyFrame(KeyFrame *the_frame) {
-    KeyFrame *frame_ptr;
+void Anim::AddKeyFrame(KeyFrame* the_frame) {
+    KeyFrame* frame_ptr;
 
     if (the_frame) {
         StopLooping();
-        frame_ptr = (KeyFrame *) MemAlloc(sizeof(KeyFrame));
+        frame_ptr = (KeyFrame*) MemAlloc(sizeof(KeyFrame));
         ERROR_MSG(frame_ptr, "Unable to allocate memory for key frame.");
         *frame_ptr = *the_frame;
         frame_ptr->NextFrame = nullptr;
@@ -1485,7 +1485,7 @@ void Anim::AppendKeyFrame(KeyFrame *the_frame)
 */
 //---------------------------------------------------------------
 
-void Anim::RemoveKeyFrame(KeyFrame *the_frame) {
+void Anim::RemoveKeyFrame(KeyFrame* the_frame) {
     if (the_frame) {
         StopLooping();
         if (the_frame->NextFrame) {
@@ -1510,12 +1510,12 @@ void Anim::RemoveKeyFrame(KeyFrame *the_frame) {
 // class Character
 //---------------------------------------------------------------
 
-void Character::AddAnim(Anim *the_anim) {
+void Character::AddAnim(Anim* the_anim) {
 }
 
 //---------------------------------------------------------------
 
-void Character::RemoveAnim(Anim *the_anim) {
+void Character::RemoveAnim(Anim* the_anim) {
 }
 
 //---------------------------------------------------------------
@@ -1524,9 +1524,9 @@ void Character::RemoveAnim(Anim *the_anim) {
 // go through all the elements converting them to the compressed matrix format
 //
 
-void convert_elements(KeyFrameChunk *the_chunk, GameKeyFrameChunk *game_chunk, std::uint16_t *p_reloc, std::int32_t max_ele) {
-    struct KeyFrameElement *first_element;
-    struct KeyFrameElement *last_element;
+void convert_elements(KeyFrameChunk* the_chunk, GameKeyFrameChunk* game_chunk, std::uint16_t* p_reloc, std::int32_t max_ele) {
+    struct KeyFrameElement* first_element;
+    struct KeyFrameElement* last_element;
     struct KeyFrameElement *element, *e2;
     std::int32_t count = 0;
     std::int32_t unique = 0;
@@ -1568,14 +1568,14 @@ void convert_elements(KeyFrameChunk *the_chunk, GameKeyFrameChunk *game_chunk, s
 #ifdef EDITOR
 extern std::uint8_t unused_flags[];
 
-void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the_chunk) {
-    struct KeyFrame *keyframe;
+void convert_anim(Anim* key_list, GameKeyFrameChunk* p_chunk, KeyFrameChunk* the_chunk) {
+    struct KeyFrame* keyframe;
     struct GameKeyFrame *firstframe, *lastframe;
     std::int32_t count_frame = 1;
     std::int32_t anim_count = 1;
     std::int32_t fight_count = 1;
-    struct FightCol *fight;
-    std::uint16_t *p_reloc;
+    struct FightCol* fight;
+    std::uint16_t* p_reloc;
     std::int32_t element_count = 0;
 
     std::int32_t elements_per_frame = 15; // for humans;
@@ -1584,15 +1584,15 @@ void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the
 
     elements_per_frame = the_chunk->ElementCount;
 
-    p_reloc = (std::uint16_t *) MemAlloc(MAX_NUMBER_OF_ELEMENTS * 2);
-    memset((std::uint8_t *) p_reloc, -1, MAX_NUMBER_OF_ELEMENTS * 2);
+    p_reloc = (std::uint16_t*) MemAlloc(MAX_NUMBER_OF_ELEMENTS * 2);
+    memset((std::uint8_t*) p_reloc, -1, MAX_NUMBER_OF_ELEMENTS * 2);
 
     if (p_chunk->PeopleTypes == 0) {
-        p_chunk->PeopleTypes = (struct BodyDef *) MemAlloc(MAX_PEOPLE_TYPES * sizeof(struct BodyDef));
-        p_chunk->AnimKeyFrames = (struct GameKeyFrame *) MemAlloc(MAX_NUMBER_OF_FRAMES * sizeof(struct GameKeyFrame));
-        p_chunk->AnimList = (struct GameKeyFrame **) MemAlloc(400 * sizeof(struct GameKeyFrame *));
-        p_chunk->TheElements = (struct GameKeyFrameElement *) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(struct GameKeyFrameElement));
-        p_chunk->FightCols = (struct GameFightCol *) MemAlloc(200 * sizeof(struct GameFightCol));
+        p_chunk->PeopleTypes = (struct BodyDef*) MemAlloc(MAX_PEOPLE_TYPES * sizeof(struct BodyDef));
+        p_chunk->AnimKeyFrames = (struct GameKeyFrame*) MemAlloc(MAX_NUMBER_OF_FRAMES * sizeof(struct GameKeyFrame));
+        p_chunk->AnimList = (struct GameKeyFrame**) MemAlloc(400 * sizeof(struct GameKeyFrame*));
+        p_chunk->TheElements = (struct GameKeyFrameElement*) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(struct GameKeyFrameElement));
+        p_chunk->FightCols = (struct GameFightCol*) MemAlloc(200 * sizeof(struct GameFightCol));
         //		p_chunk->TweakSpeeds=(struct GameFightCol*)MemAlloc(200);
 
     } else {
@@ -1618,7 +1618,7 @@ void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the
                 reqd_step = ((tweak_speed + 128) / (keyframe->TweenStep + 1)) >> 1;
 
                 p_chunk->AnimKeyFrames[count_frame].TweenStep = reqd_step; // keyframe->TweenStep;
-                ele_pos = (std::uint16_t)(keyframe->FirstElement - the_chunk->FirstElement);
+                ele_pos = (std::uint16_t) (keyframe->FirstElement - the_chunk->FirstElement);
                 if (p_reloc[ele_pos] != 0xffff) {
                     ele_pos = p_reloc[ele_pos];
                 } else {
@@ -1723,7 +1723,7 @@ void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the
     p_chunk->ElementCount = the_chunk->ElementCount;
     memcpy(p_chunk->PeopleTypes, the_chunk->PeopleTypes, sizeof(struct BodyDef) * MAX_PEOPLE_TYPES);
 
-    MemFree((std::uint8_t *) p_reloc);
+    MemFree((std::uint8_t*) p_reloc);
 
     void convert_keyframe_to_index(GameKeyFrame * p, GameKeyFrameElement * p_ele, GameFightCol * p_fight, std::int32_t count);
     void convert_animlist_to_index(GameKeyFrame * *p, GameKeyFrame * p_anim, std::int32_t count);
@@ -1736,21 +1736,21 @@ void convert_anim(Anim *key_list, GameKeyFrameChunk *p_chunk, KeyFrameChunk *the
 
 #endif
 
-void free_game_chunk(GameKeyFrameChunk *the_chunk) {
+void free_game_chunk(GameKeyFrameChunk* the_chunk) {
     if (the_chunk->PeopleTypes)
-        MemFree((std::uint8_t *) the_chunk->PeopleTypes);
+        MemFree((std::uint8_t*) the_chunk->PeopleTypes);
 
     //	if(the_chunk->TweakSpeeds)
     //		MemFree((std::uint8_t*)the_chunk->TweakSpeeds);
 
     if (the_chunk->AnimKeyFrames)
-        MemFree((std::uint8_t *) the_chunk->AnimKeyFrames);
+        MemFree((std::uint8_t*) the_chunk->AnimKeyFrames);
     if (the_chunk->AnimList)
-        MemFree((std::uint8_t *) the_chunk->AnimList);
+        MemFree((std::uint8_t*) the_chunk->AnimList);
     if (the_chunk->TheElements)
-        MemFree((std::uint8_t *) the_chunk->TheElements);
+        MemFree((std::uint8_t*) the_chunk->TheElements);
     if (the_chunk->FightCols)
-        MemFree((std::uint8_t *) the_chunk->FightCols);
+        MemFree((std::uint8_t*) the_chunk->FightCols);
 
     the_chunk->PeopleTypes = 0;
     the_chunk->AnimKeyFrames = 0;
@@ -1760,7 +1760,7 @@ void free_game_chunk(GameKeyFrameChunk *the_chunk) {
     //		the_chunk->TweakSpeeds=0;
 }
 #else
-void free_game_chunk(GameKeyFrameChunk *the_chunk) {
+void free_game_chunk(GameKeyFrameChunk* the_chunk) {
 }
 
 #endif

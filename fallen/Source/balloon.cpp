@@ -11,7 +11,7 @@
 // The balloons...
 //
 
-BALLOON_Balloon *BALLOON_balloon; //[BALLOON_MAX_BALLOONS];
+BALLOON_Balloon* BALLOON_balloon; //[BALLOON_MAX_BALLOONS];
 std::int32_t BALLOON_balloon_upto;
 
 //
@@ -41,14 +41,14 @@ void BALLOON_init() {
 
 void BALLOON_get_attached_point(
     std::uint16_t thing,
-    std::int32_t *ax,
-    std::int32_t *ay,
-    std::int32_t *az) {
+    std::int32_t* ax,
+    std::int32_t* ay,
+    std::int32_t* az) {
     std::int32_t px;
     std::int32_t py;
     std::int32_t pz;
 
-    Thing *p_thing = TO_THING(thing);
+    Entity* p_thing = TO_THING(thing);
 
     switch (p_thing->Class) {
     case CLASS_PERSON:
@@ -90,9 +90,9 @@ std::uint8_t BALLOON_create(std::uint16_t thing, std::uint8_t type) {
     std::int32_t ay;
     std::int32_t az;
 
-    Thing *p_thing = TO_THING(thing);
+    Entity* p_thing = TO_THING(thing);
 
-    BALLOON_Balloon *bb;
+    BALLOON_Balloon* bb;
 
     if (!WITHIN(BALLOON_balloon_upto, 1, BALLOON_MAX_BALLOONS - 1)) {
         //
@@ -175,11 +175,11 @@ void BALLOON_process() {
     std::int32_t yaw;
     std::int32_t pitch;
 
-    BALLOON_Balloon *bb;
-    BALLOON_Balloon *bbo;
-    BALLOON_Point *bp;
-    BALLOON_Point *bp1;
-    BALLOON_Point *bp2;
+    BALLOON_Balloon* bb;
+    BALLOON_Balloon* bbo;
+    BALLOON_Point* bp;
+    BALLOON_Point* bp1;
+    BALLOON_Point* bp2;
 
     for (i = 1; i < BALLOON_balloon_upto; i++) {
         bb = &BALLOON_balloon[i];
@@ -442,7 +442,7 @@ void BALLOON_process() {
 void BALLOON_release(std::uint8_t balloon) {
     ASSERT(WITHIN(balloon, 1, BALLOON_MAX_BALLOONS - 1));
 
-    BALLOON_Balloon *bb;
+    BALLOON_Balloon* bb;
 
     bb = &BALLOON_balloon[balloon];
 
@@ -452,7 +452,7 @@ void BALLOON_release(std::uint8_t balloon) {
     // detach from the thing.
     //
 
-    Thing *p_thing = TO_THING(bb->thing);
+    Entity* p_thing = TO_THING(bb->thing);
 
     switch (p_thing->Class) {
     case CLASS_PERSON:
@@ -487,9 +487,9 @@ void BALLOON_find_grab(std::uint16_t thing) {
 
     std::int32_t dist;
 
-    Thing *p_thing = TO_THING(thing);
+    Entity* p_thing = TO_THING(thing);
 
-    BALLOON_Balloon *bb;
+    BALLOON_Balloon* bb;
 
     if (BALLOON_balloon_upto == 1) {
         //

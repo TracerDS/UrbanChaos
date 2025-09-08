@@ -13,8 +13,8 @@
 // The functions called when a pigeon is in each state.
 //
 
-void PIGEON_fn_init(Thing *);
-void PIGEON_fn_normal(Thing *);
+void PIGEON_fn_init(Entity*);
+void PIGEON_fn_normal(Entity*);
 
 StateFunction PIGEON_state_function[] =
     {
@@ -44,21 +44,21 @@ StateFunction PIGEON_state_function[] =
 #define PIGEON_PERCH_SHUFFLE_LEFT 1
 #define PIGEON_PERCH_SHUFFLE_RIGHT 2
 
-void PIGEON_init_wait(Thing *pigeon);
-void PIGEON_init_peck(Thing *pigeon);
-void PIGEON_init_walk(Thing *pigeon);
-void PIGEON_init_flee(Thing *pigeon, Thing *from);
-void PIGEON_init_fly(Thing *pigeon, Thing *from);
-void PIGEON_init_perch(Thing *pigeon); // Only call from FLY mode.
-void PIGEON_init_land(Thing *pigeon);
+void PIGEON_init_wait(Entity* pigeon);
+void PIGEON_init_peck(Entity* pigeon);
+void PIGEON_init_walk(Entity* pigeon);
+void PIGEON_init_flee(Entity* pigeon, Entity* from);
+void PIGEON_init_fly(Entity* pigeon, Entity* from);
+void PIGEON_init_perch(Entity* pigeon); // Only call from FLY mode.
+void PIGEON_init_land(Entity* pigeon);
 
 //
 // Returns the point 'along' along the given colvect,
 // where along goes from 0 - 256.
 //
 
-void PIGEON_find_pos_along_vect(std::int32_t vect, std::int32_t along, std::int32_t *x, std::int32_t *y, std::int32_t *z) {
-    CollisionVect *cv;
+void PIGEON_find_pos_along_vect(std::int32_t vect, std::int32_t along, std::int32_t* x, std::int32_t* y, std::int32_t* z) {
+    CollisionVect* cv;
 
     ASSERT(WITHIN(vect, 1, next_col_vect - 1));
 
@@ -76,7 +76,7 @@ void PIGEON_find_pos_along_vect(std::int32_t vect, std::int32_t along, std::int3
 // if there is no suitable colvect nearby.
 //
 
-std::uint16_t PIGEON_find_perch(Thing *pigeon, std::uint16_t ignore_this_vect) {
+std::uint16_t PIGEON_find_perch(Entity* pigeon, std::uint16_t ignore_this_vect) {
 #ifdef TARGET_DC
     // Shouldn't be using this, apparently.
     ASSERT(false);
@@ -108,9 +108,9 @@ std::uint16_t PIGEON_find_perch(Thing *pigeon, std::uint16_t ignore_this_vect) {
     std::int32_t best_vect;
     std::int32_t best_score;
 
-    CollisionVectLink *cvl;
-    CollisionVect *cv;
-    MapElement *me;
+    CollisionVectLink* cvl;
+    CollisionVect* cv;
+    MapElement* me;
 
     //
     // Find the box in which to look for colvects.
@@ -217,8 +217,8 @@ std::uint16_t PIGEON_find_perch(Thing *pigeon, std::uint16_t ignore_this_vect) {
 //
 // ========================================================
 
-void PIGEON_init_wait(Thing *pigeon) {
-    Animal *animal = ANIMAL_get_animal(pigeon);
+void PIGEON_init_wait(Entity* pigeon) {
+    Animal* animal = ANIMAL_get_animal(pigeon);
 
     //
     // Use the counter for how long we should wait.
@@ -229,14 +229,14 @@ void PIGEON_init_wait(Thing *pigeon) {
     animal->substate = PIGEON_SUBSTATE_WAIT;
 }
 
-void PIGEON_init_walk(Thing *pigeon) {
+void PIGEON_init_walk(Entity* pigeon) {
     std::int32_t dx;
     std::int32_t dz;
 
     std::int32_t angle;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     //
     // Pick a direction to walk in.
@@ -264,8 +264,8 @@ void PIGEON_init_walk(Thing *pigeon) {
     animal->substate = PIGEON_SUBSTATE_WALK;
 }
 
-void PIGEON_init_peck(Thing *pigeon) {
-    Animal *animal = ANIMAL_get_animal(pigeon);
+void PIGEON_init_peck(Entity* pigeon) {
+    Animal* animal = ANIMAL_get_animal(pigeon);
 
     //
     // Just make the pigeon jump up and down for now!
@@ -283,7 +283,7 @@ void PIGEON_init_peck(Thing *pigeon) {
     animal->substate = PIGEON_SUBSTATE_PECK;
 }
 
-void PIGEON_init_fly(Thing *pigeon, Thing *from) {
+void PIGEON_init_fly(Entity* pigeon, Entity* from) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -301,8 +301,8 @@ void PIGEON_init_fly(Thing *pigeon, Thing *from) {
 
     std::uint16_t vect;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     //
     // Dont fly to the same colvect you are already on.
@@ -355,13 +355,13 @@ void PIGEON_init_fly(Thing *pigeon, Thing *from) {
     }
 }
 
-void PIGEON_init_flee(Thing *pigeon, Thing *from) {
+void PIGEON_init_flee(Entity* pigeon, Entity* from) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t angle;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     //
     // Where do we run from?
@@ -397,18 +397,18 @@ void PIGEON_init_flee(Thing *pigeon, Thing *from) {
 // Only call this function when you've finished flying.
 //
 
-void PIGEON_init_perch(Thing *pigeon) {
+void PIGEON_init_perch(Entity* pigeon) {
     std::int32_t dx;
     std::int32_t dz;
 
     std::int32_t angle;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     ASSERT(animal->substate == PIGEON_SUBSTATE_FLY);
 
-    CollisionVect *cv;
+    CollisionVect* cv;
 
     ASSERT(WITHIN(animal->other_index, 1, next_col_vect - 1));
 
@@ -436,14 +436,14 @@ void PIGEON_init_perch(Thing *pigeon) {
     animal->substate = PIGEON_SUBSTATE_PERCH;
 }
 
-void PIGEON_init_land(Thing *pigeon) {
+void PIGEON_init_land(Entity* pigeon) {
 }
 
 //
 // Decides what the pigeon should do next.
 //
 
-void PIGEON_start_doing_something(Thing *pigeon) {
+void PIGEON_start_doing_something(Entity* pigeon) {
     switch (Random() & 0x3) {
     case 0:
     case 1:
@@ -470,8 +470,8 @@ void PIGEON_start_doing_something(Thing *pigeon) {
 //
 // ========================================================
 
-void PIGEON_process_wait(Thing *pigeon) {
-    Animal *animal = ANIMAL_get_animal(pigeon);
+void PIGEON_process_wait(Entity* pigeon) {
+    Animal* animal = ANIMAL_get_animal(pigeon);
 
     if (animal->counter == 0) {
         //
@@ -484,8 +484,8 @@ void PIGEON_process_wait(Thing *pigeon) {
     }
 }
 
-void PIGEON_process_peck(Thing *pigeon) {
-    Animal *animal = ANIMAL_get_animal(pigeon);
+void PIGEON_process_peck(Entity* pigeon) {
+    Animal* animal = ANIMAL_get_animal(pigeon);
 
     animal->counter -= 1;
 
@@ -512,12 +512,12 @@ void PIGEON_process_peck(Thing *pigeon) {
     }
 }
 
-void PIGEON_process_walk(Thing *pigeon) {
+void PIGEON_process_walk(Entity* pigeon) {
     std::int32_t dx;
     std::int32_t dz;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     //
     // Have we arrived yet?
@@ -554,12 +554,12 @@ void PIGEON_process_walk(Thing *pigeon) {
     }
 }
 
-void PIGEON_process_flee(Thing *pigeon) {
+void PIGEON_process_flee(Entity* pigeon) {
     std::int32_t dx;
     std::int32_t dz;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     //
     // Time to stop fleeing?
@@ -597,7 +597,7 @@ void PIGEON_process_flee(Thing *pigeon) {
     }
 }
 
-void PIGEON_process_fly(Thing *pigeon) {
+void PIGEON_process_fly(Entity* pigeon) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -617,8 +617,8 @@ void PIGEON_process_fly(Thing *pigeon) {
 
     GameCoord new_pos;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     //
     // Where are we flying to?
@@ -748,12 +748,12 @@ void PIGEON_process_fly(Thing *pigeon) {
     }
 }
 
-void PIGEON_process_perch(Thing *pigeon) {
+void PIGEON_process_perch(Entity* pigeon) {
     std::uint8_t doing;
     std::uint8_t howlong;
     std::uint8_t oldalong;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
 
     doing = animal->counter >> 6;
     howlong = animal->counter & 0x3f;
@@ -845,8 +845,8 @@ void PIGEON_process_perch(Thing *pigeon) {
     move_thing_on_map(pigeon, &new_pos);
 }
 
-void PIGEON_process_land(Thing *pigeon) {
-    Animal *animal = ANIMAL_get_animal(pigeon);
+void PIGEON_process_land(Entity* pigeon) {
+    Animal* animal = ANIMAL_get_animal(pigeon);
 }
 
 // ========================================================
@@ -855,9 +855,9 @@ void PIGEON_process_land(Thing *pigeon) {
 //
 // ========================================================
 
-void PIGEON_fn_init(Thing *pigeon) {
-    Animal *animal = ANIMAL_get_animal(pigeon);
-    DrawMesh *dm = ANIMAL_get_drawmesh(pigeon);
+void PIGEON_fn_init(Entity* pigeon) {
+    Animal* animal = ANIMAL_get_animal(pigeon);
+    DrawMesh* dm = ANIMAL_get_drawmesh(pigeon);
 
     dm->Angle = 0;
     dm->Tilt = 0;
@@ -876,13 +876,13 @@ void PIGEON_fn_init(Thing *pigeon) {
     PIGEON_start_doing_something(pigeon);
 }
 
-void PIGEON_fn_normal(Thing *pigeon) {
+void PIGEON_fn_normal(Entity* pigeon) {
     std::int32_t i;
 
-    Thing *p_scary;
-    Animal *scary_animal;
+    Entity* p_scary;
+    Animal* scary_animal;
 
-    Animal *animal = ANIMAL_get_animal(pigeon);
+    Animal* animal = ANIMAL_get_animal(pigeon);
 
     switch (animal->substate) {
     case PIGEON_SUBSTATE_NONE:

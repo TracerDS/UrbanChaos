@@ -29,8 +29,8 @@ float OVAL_dvdz;
 void OVAL_get_uv(
     float world_x,
     float world_z,
-    float *u,
-    float *v) {
+    float* u,
+    float* v) {
     float dx;
     float dz;
 
@@ -61,7 +61,7 @@ void OVAL_get_uv(
 void OVAL_project_onto_mapsquare(std::uint8_t map_x, std::uint8_t map_z, std::int32_t page) {
     std::int32_t i;
 
-    PAP_Hi *ph = &PAP_2HI(map_x, map_z);
+    PAP_Hi* ph = &PAP_2HI(map_x, map_z);
 
     if (!WITHIN(map_x, 1, 126) ||
         !WITHIN(map_z, 1, 126)) {
@@ -161,7 +161,7 @@ void OVAL_project_onto_mapsquare(std::uint8_t map_x, std::uint8_t map_z, std::in
     //
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     // The old order, that doesn't match the landscape.
     quad[0] = &pp[0];

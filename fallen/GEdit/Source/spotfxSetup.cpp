@@ -64,7 +64,7 @@ bool CALLBACK spotfx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void do_spotfx_setup(EventPoint *the_ep) {
+void do_spotfx_setup(EventPoint* the_ep) {
     //	Set the dialog.
     spotfx_type = the_ep->Data[0];
     spotfx_scale = the_ep->Data[1];
@@ -83,7 +83,7 @@ void do_spotfx_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_spotfx_message(EventPoint *ep, char *msg) {
+char* get_spotfx_message(EventPoint* ep, char* msg) {
     strcpy(msg, wspotfx_strings[ep->Data[0]]);
     return msg;
 }

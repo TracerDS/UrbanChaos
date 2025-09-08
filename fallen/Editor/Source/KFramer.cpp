@@ -15,17 +15,17 @@
 extern std::int32_t key_frame_count;
 extern struct KeyFrameChunk test_chunk2;
 
-extern void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
-extern void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2);
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
 
 // Used by fudgy centering bit.
 extern std::int32_t x_centre,
     y_centre,
     z_centre;
 
-static KeyFrameEditor2 *the_editor;
+static KeyFrameEditor2* the_editor;
 
-void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame *the_frame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33 *rot_mat, std::int32_t *width, std::int32_t *height, std::int32_t *mid_x, std::int32_t *mid_y);
+void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame* the_frame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33* rot_mat, std::int32_t* width, std::int32_t* height, std::int32_t* mid_x, std::int32_t* mid_y);
 void update_key_frames(void);
 
 //---------------------------------------------------------------
@@ -64,7 +64,7 @@ void KeyFrameEditor2::SetupModule(void) {
     AnimTween = 0;
 
     KeyFramesControls.InitControlSet(kframe_ctrls_def);
-    ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->SetUpdateFunction(update_key_frames);
+    ((CHSlider*) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->SetUpdateFunction(update_key_frames);
     KeyFramesRect.SetRect(2, KEY_FRAME_IMAGE_SIZE - 20, (KEY_FRAME_COUNT * KEY_FRAME_IMAGE_SIZE) + 2, KEY_FRAME_IMAGE_SIZE + 2);
 }
 
@@ -92,7 +92,7 @@ void KeyFrameEditor2::DrawContent(void) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor2::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
+void KeyFrameEditor2::HandleContentClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint32_t cleanup,
         update;
     std::int32_t c0,
@@ -115,7 +115,7 @@ void KeyFrameEditor2::HandleContentClick(std::uint8_t flags, MFPoint *clicked_po
         if (KeyFramesRect.PointInRect(&local_point)) {
             // Find out which frame hass been selected.
             selected_frame = -1;
-            first_frame = ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
+            first_frame = ((CHSlider*) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
 
             for (c0 = 0; c0 < KEY_FRAME_COUNT && key_frame_count; c0++) {
                 KeyFramesControls.SetControlDrawArea();
@@ -181,7 +181,7 @@ void KeyFrameEditor2::HandleContentClick(std::uint8_t flags, MFPoint *clicked_po
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor2::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) {
+void KeyFrameEditor2::HandleControlClick(std::uint8_t flags, MFPoint* clicked_point) {
 }
 
 //---------------------------------------------------------------
@@ -235,7 +235,7 @@ void KeyFrameEditor2::HandleModule(void) {
 
 void KeyFrameEditor2::HandleKeyFramesControl(std::uint32_t control_id) {
     std::int32_t c0;
-    FileRequester *fr;
+    FileRequester* fr;
 
     switch (control_id) {
     case 0:
@@ -271,7 +271,7 @@ void KeyFrameEditor2::HandleKeyFramesControl(std::uint32_t control_id) {
             {
                 std::int32_t c1,
                     sp, ep;
-                struct PrimObject *p_obj;
+                struct PrimObject* p_obj;
 
                 for (c0 = prim_multi_objects[test_chunk2.MultiObject].StartObject; c0 <= prim_multi_objects[test_chunk2.MultiObject].EndObject; c0++) {
                     p_obj = &prim_objects[c0];
@@ -286,7 +286,7 @@ void KeyFrameEditor2::HandleKeyFramesControl(std::uint32_t control_id) {
                 }
             }
             load_multi_vue(&test_chunk2);
-            ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->SetValueRange(0, key_frame_count - (KEY_FRAME_COUNT - 1));
+            ((CHSlider*) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->SetValueRange(0, key_frame_count - (KEY_FRAME_COUNT - 1));
             /*
                                             LoadAllAnims(&test_chunk2);
                                             LoadChunkTextureInfo(&test_chunk2);
@@ -316,7 +316,7 @@ void KeyFrameEditor2::DrawKeyFrames(void) {
     if (test_chunk2.MultiObject) {
         KeyFramesRect.FillRect(ACTIVE_COL);
         rotate_obj((std::int16_t) AnimAngleX, (std::int16_t) AnimAngleY, 0, &r_matrix);
-        first_frame = ((CHSlider *) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
+        first_frame = ((CHSlider*) KeyFramesControls.GetControlPtr(CTRL_KF_FRAME_SLIDER))->GetCurrentValue();
 
         for (c0 = 0; c0 < KEY_FRAME_COUNT; c0++) {
             KeyFramesControls.SetControlDrawArea();
@@ -342,7 +342,7 @@ void KeyFrameEditor2::DrawKeyFrames(void) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor2::DrawKeyFrame(std::uint16_t multi_object, EdRect *bounds_rect, struct KeyFrame *the_frame, struct Matrix33 *r_matrix) {
+void KeyFrameEditor2::DrawKeyFrame(std::uint16_t multi_object, EdRect* bounds_rect, struct KeyFrame* the_frame, struct Matrix33* r_matrix) {
     std::int32_t c0, c1, c2,
         scale,
         scale_y,
@@ -355,8 +355,8 @@ void KeyFrameEditor2::DrawKeyFrame(std::uint16_t multi_object, EdRect *bounds_re
         width, height,
         *flags;
     EdRect outline_rect;
-    struct KeyFrameElement *the_element;
-    struct SVector *rotate_vectors;
+    struct KeyFrameElement* the_element;
+    struct SVector* rotate_vectors;
     std::int32_t mid_x = 0, mid_y = 0;
 
     // Stop the compiler moaning.
@@ -366,9 +366,9 @@ void KeyFrameEditor2::DrawKeyFrame(std::uint16_t multi_object, EdRect *bounds_re
         return;
 
     c1 = 0;
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 3000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
-    rotate_vectors = (struct SVector *) MemAlloc(sizeof(struct SVector) * 3000);
+    rotate_vectors = (struct SVector*) MemAlloc(sizeof(struct SVector) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
 
     temp_scale = engine.Scale;

@@ -10,7 +10,7 @@
 // The bitmap we are rendering to.
 //
 
-std::uint8_t *SLAP_bitmap;
+std::uint8_t* SLAP_bitmap;
 std::int32_t SLAP_bitmap_size;
 
 //
@@ -61,7 +61,7 @@ inline void SLAP_add_pixel(std::int32_t px, std::int32_t py, std::int32_t value)
 }
 
 void SLAP_init(
-    std::uint8_t *bitmap,
+    std::uint8_t* bitmap,
     std::int32_t bitmap_size) {
     //
     // Proper size...
@@ -112,7 +112,7 @@ void SLAP_add_edge(
     std::int32_t type;
 
     std::uint16_t next;
-    std::uint16_t *prev;
+    std::uint16_t* prev;
 
     //
     // Clip to the top and bottom of the bitmap.
@@ -228,8 +228,8 @@ void SLAP_render() {
 
     std::int32_t add;
 
-    SLAP_Link *sk1;
-    SLAP_Link *sk2;
+    SLAP_Link* sk1;
+    SLAP_Link* sk2;
 
     for (y = 0; y < SLAP_line_number; y++) {
         if (!SLAP_line[y]) {

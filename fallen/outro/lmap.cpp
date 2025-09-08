@@ -15,7 +15,7 @@
 typedef struct
 {
     std::int32_t res;
-    std::uint8_t *bitmap;
+    std::uint8_t* bitmap;
 
 } LMAP_Tex;
 
@@ -36,11 +36,11 @@ LMAP_Tex LMAP_tex[LMAP_MAX_TEXES] =
 
 typedef struct lmap_lmap {
     std::int32_t res;
-    std::uint8_t *bitmap;
+    std::uint8_t* bitmap;
 
 } LMAP_Lmap;
 
-LMAP_Lmap *LMAP_create(std::int32_t resolution) {
+LMAP_Lmap* LMAP_create(std::int32_t resolution) {
     std::int32_t i;
     std::int32_t x;
     std::int32_t y;
@@ -52,7 +52,7 @@ LMAP_Lmap *LMAP_create(std::int32_t resolution) {
 
     std::int32_t value;
 
-    std::uint8_t *pixel;
+    std::uint8_t* pixel;
 
     //
     // Have we created the texture for this resolution?
@@ -71,7 +71,7 @@ LMAP_Lmap *LMAP_create(std::int32_t resolution) {
                 // We must generate this texture.
                 //
 
-                LMAP_tex[i].bitmap = (std::uint8_t *) malloc(sizeof(std::uint8_t) * resolution * resolution); // It'll always work!
+                LMAP_tex[i].bitmap = (std::uint8_t*) malloc(sizeof(std::uint8_t) * resolution * resolution); // It'll always work!
 
                 pixel = LMAP_tex[i].bitmap;
 
@@ -118,15 +118,15 @@ found_texture:;
     // Create a new lightmap.
     //
 
-    LMAP_Lmap *ans = (LMAP_Lmap *) malloc(sizeof(LMAP_Lmap));
+    LMAP_Lmap* ans = (LMAP_Lmap*) malloc(sizeof(LMAP_Lmap));
 
     ans->res = resolution;
-    ans->bitmap = (std::uint8_t *) malloc(sizeof(std::uint8_t) * resolution * resolution);
+    ans->bitmap = (std::uint8_t*) malloc(sizeof(std::uint8_t) * resolution * resolution);
 
     return ans;
 }
 
-void LMAP_init(LMAP_Lmap *lmap) {
+void LMAP_init(LMAP_Lmap* lmap) {
     if (!lmap) {
         return;
     }
@@ -147,8 +147,8 @@ void LMAP_init(LMAP_Lmap *lmap) {
 }
 
 void LMAP_add_shadow(
-    LMAP_Lmap *lmap,
-    IMP_Mesh *im,
+    LMAP_Lmap* lmap,
+    IMP_Mesh* im,
     float light_x,
     float light_y,
     float light_z,
@@ -172,13 +172,13 @@ void LMAP_add_shadow(
     std::uint8_t f1;
     std::uint8_t f2;
 
-    IMP_Vert *iv;
-    IMP_Face *ic;
-    IMP_Edge *ie;
+    IMP_Vert* iv;
+    IMP_Face* ic;
+    IMP_Edge* ie;
 
-    IMP_Vert *iv1;
-    IMP_Vert *iv2;
-    IMP_Vert *iv3;
+    IMP_Vert* iv1;
+    IMP_Vert* iv2;
+    IMP_Vert* iv3;
 
     //
     // Rotate all the points of the mesh into light-source space.
@@ -303,9 +303,9 @@ void LMAP_add_shadow(
     }
 }
 
-void LMAP_render(LMAP_Lmap *lmap, OS_Texture *ot) {
-    std::uint8_t *shadow;
-    std::uint8_t *lmaptex;
+void LMAP_render(LMAP_Lmap* lmap, OS_Texture* ot) {
+    std::uint8_t* shadow;
+    std::uint8_t* lmaptex;
 
     //
     // Render the shadow map.

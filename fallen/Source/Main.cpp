@@ -104,8 +104,8 @@ std::int32_t main(std::uint16_t argc, char* argv[]) {
     demo_timeout = 60;
     game_timeout = demo_timeout * 20;
 #else
-    demo_mode = ((int *) argv)[0];
-    demo_timeout = ((int *) argv)[1];
+    demo_mode = ((int*) argv)[0];
+    demo_timeout = ((int*) argv)[1];
     game_timeout = demo_timeout * 20;
 #endif
 
@@ -143,7 +143,7 @@ std::int32_t main(std::uint16_t argc, char* argv[]) {
 
 static int numdevices = 0;
 
-static HRESULT CALLBACK D3DEnumDevicesCallback(GUID FAR *lpGuid,
+static HRESULT CALLBACK D3DEnumDevicesCallback(GUID FAR* lpGuid,
                                                LPTSTR lpDeviceDescription,
                                                LPTSTR lpDeviceName,
                                                LPD3DDEVICEDESC lpD3DHWDeviceDesc,
@@ -161,7 +161,7 @@ static HRESULT CALLBACK D3DEnumDevicesCallback(GUID FAR *lpGuid,
 
 extern HINSTANCE hGlobalThisInst;
 
-std::int32_t main(std::uint16_t argc, TCHAR *argv[]) {
+std::int32_t main(std::uint16_t argc, TCHAR* argv[]) {
 #ifdef TARGET_DC
     // DC doesn't use relative names, only full path names.
 #ifdef FILE_PC

@@ -54,26 +54,28 @@ void AZ_create_lines() {
                     z1 = z;
                 }
             } else {
-                if (found_curb) {
-                    found_curb = false;
-                    x2 = x;
-                    z2 = z - 1;
+                if (!found_curb)
+                    continue;
+                    
+                found_curb = false;
+                x2 = x;
+                z2 = z - 1;
 
-                    if (x1 != x2 || z1 != z2) {
-                        //
-                        // Add a road line.
-                        //
+                if (x1 == x2 && z1 == z2)
+                    continue;
+                    
+                //
+                // Add a road line.
+                //
 
-                        if (WITHIN(AZ_line_upto, 0, AZ_MAX_LINES - 1)) {
-                            AZ_line[AZ_line_upto].type = AZ_LINE_TYPE_ROAD;
-                            AZ_line[AZ_line_upto].x1 = x1;
-                            AZ_line[AZ_line_upto].z1 = z1;
-                            AZ_line[AZ_line_upto].x2 = x2;
-                            AZ_line[AZ_line_upto].z2 = z2;
+                if (WITHIN(AZ_line_upto, 0, AZ_MAX_LINES - 1)) {
+                    AZ_line[AZ_line_upto].type = AZ_LINE_TYPE_ROAD;
+                    AZ_line[AZ_line_upto].x1 = x1;
+                    AZ_line[AZ_line_upto].z1 = z1;
+                    AZ_line[AZ_line_upto].x2 = x2;
+                    AZ_line[AZ_line_upto].z2 = z2;
 
-                            AZ_line_upto += 1;
-                        }
-                    }
+                    AZ_line_upto += 1;
                 }
             }
         }
@@ -127,7 +129,7 @@ void AZ_create_lines() {
     std::int32_t i;
     std::int32_t fence;
 
-    DFacet *df;
+    DFacet* df;
 
     for (i = 1; i < next_dfacet; i++) {
         df = &dfacets[i];

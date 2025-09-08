@@ -149,9 +149,9 @@ void WARE_exit();
 // Does a mavigation for a person to exit the warehouse.
 //
 
-MAV_Action WARE_mav_enter(Thing *p_person, std::uint8_t ware, std::uint8_t caps);
-MAV_Action WARE_mav_inside(Thing *p_person, std::uint8_t dest_x, std::uint8_t dest_z, std::uint8_t caps);
-MAV_Action WARE_mav_exit(Thing *p_person, std::uint8_t caps);
+MAV_Action WARE_mav_enter(Entity *p_person, std::uint8_t ware, std::uint8_t caps);
+MAV_Action WARE_mav_inside(Entity *p_person, std::uint8_t dest_x, std::uint8_t dest_z, std::uint8_t caps);
+MAV_Action WARE_mav_exit(Entity *p_person, std::uint8_t caps);
 
 //
 // Draws debug info for the warehouses.

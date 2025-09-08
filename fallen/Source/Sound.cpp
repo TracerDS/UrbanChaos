@@ -37,9 +37,9 @@ enum HeightType {
 //---------------------------------------------------------------
 // Maps textures to soundfx
 #ifndef PSX
-std::uint8_t *SOUND_FXMapping; //[1024];
+std::uint8_t* SOUND_FXMapping; //[1024];
 // std::uint16_t *SOUND_FXGroups;//[128][2]; // "128 groups should be enough for anybody"(TM)
-SOUNDFXG *SOUND_FXGroups; //[128][2]; // because its a 2d array we need to fudge the system into thingink its 2d still using typedef
+SOUNDFXG* SOUND_FXGroups; //[128][2]; // because its a 2d array we need to fudge the system into thingink its 2d still using typedef
 #else
 /*
 std::uint8_t SOUND_FXMapping[512];
@@ -88,7 +88,7 @@ void init_ambient() {
 // play an ambient sound at a random 3D position
 
 void PlayAmbient3D(std::int32_t channel, std::int32_t wave_id, std::int32_t flags, HeightType height = PlayerHeight) {
-    Thing *p_player = NET_PERSON(PLAYER_ID);
+    Entity* p_player = NET_PERSON(PLAYER_ID);
 
     std::int32_t angle = Random() & 2047;
 
@@ -138,7 +138,7 @@ void SND_BeginAmbient() {
     }
 
 #ifdef _DEBUG
-    static char *desc[] = {"Jungle", "Snow", "Estate", "Busy City", "Quiet City"};
+    static char* desc[] = {"Jungle", "Snow", "Estate", "Busy City", "Quiet City"};
     TRACE("WORLD TYPE IS \"%s\"\n", desc[wtype]);
 #endif
 }
@@ -284,7 +284,7 @@ void process_weather() {
     }
 
     // do rain and wind
-    Thing *p_player = NET_PERSON(PLAYER_ID);
+    Entity* p_player = NET_PERSON(PLAYER_ID);
     static std::uint8_t was_in_or_out = 0; // 0 is unknown, 1 is in, 2 is out
 
     if (!p_player->Genus.Person->Ware) {
@@ -409,7 +409,7 @@ inline std::int32_t SOUND_Range(std::int32_t start, std::int32_t end) {
 }
 */
 
-std::uint8_t SOUND_Gender(Thing *p_thing) {
+std::uint8_t SOUND_Gender(Entity* p_thing) {
     switch (p_thing->Genus.Person->PersonType) {
     case PERSON_DARCI:
     case PERSON_SLAG_TART:
@@ -436,7 +436,7 @@ std::uint8_t SOUND_Gender(Thing *p_thing) {
     }
 }
 
-void SOUND_Curious(Thing *p_thing) {
+void SOUND_Curious(Entity* p_thing) {
     std::int16_t snd_a, snd_b;
 
     if (!IsEnglish) return;
@@ -461,7 +461,7 @@ void SOUND_Curious(Thing *p_thing) {
     MFX_play_thing(THING_NUMBER(p_thing), snd_a, 0, p_thing);
 }
 
-void DieSound(Thing *p_thing) {
+void DieSound(Entity* p_thing) {
     std::int16_t hit_a, hit_b;
     switch (p_thing->Genus.Person->PersonType) {
     case PERSON_DARCI:
@@ -483,7 +483,7 @@ void DieSound(Thing *p_thing) {
     MFX_play_thing(THING_NUMBER(p_thing), hit_a, MFX_QUEUED | MFX_SHORT_QUEUE, p_thing);
 }
 
-void PainSound(Thing *p_thing) {
+void PainSound(Entity* p_thing) {
     std::int16_t hit_a, hit_b;
 
     switch (p_thing->Genus.Person->PersonType) {
@@ -542,7 +542,7 @@ void PainSound(Thing *p_thing) {
     MFX_play_thing(THING_NUMBER(p_thing), hit_a, MFX_QUEUED | MFX_SHORT_QUEUE, p_thing);
 }
 
-void EffortSound(Thing *p_thing) {
+void EffortSound(Entity* p_thing) {
     std::int16_t snd_a, snd_b;
     switch (p_thing->Genus.Person->PersonType) {
     case PERSON_DARCI:
@@ -560,7 +560,7 @@ void EffortSound(Thing *p_thing) {
     MFX_play_thing(THING_NUMBER(p_thing), snd_a, 0, p_thing);
 }
 
-void MinorEffortSound(Thing *p_thing) {
+void MinorEffortSound(Entity* p_thing) {
     switch (p_thing->Genus.Person->PersonType) {
     case PERSON_DARCI:
         MFX_play_thing(THING_NUMBER(p_thing), S_DARCI_SHORT_EFFORT, 0, p_thing);
@@ -571,7 +571,7 @@ void MinorEffortSound(Thing *p_thing) {
     }
 }
 
-void ScreamFallSound(Thing *p_thing) {
+void ScreamFallSound(Entity* p_thing) {
     std::int16_t snd_a, snd_b;
     switch (p_thing->Genus.Person->PersonType) {
     case PERSON_DARCI:
@@ -590,7 +590,7 @@ void ScreamFallSound(Thing *p_thing) {
     MFX_play_thing(THING_NUMBER(p_thing), snd_a, 0, p_thing);
 }
 
-void StopScreamFallSound(Thing *p_thing) {
+void StopScreamFallSound(Entity* p_thing) {
     std::int16_t snd_a, snd_b, snd;
     switch (p_thing->Genus.Person->PersonType) {
     case PERSON_DARCI:
@@ -610,10 +610,10 @@ void StopScreamFallSound(Thing *p_thing) {
     }
 }
 
-void SOUND_InitFXGroups(char *fn) {
+void SOUND_InitFXGroups(char* fn) {
 #ifndef PSX
 #ifndef TARGET_DC
-    char *buff = new char[32768];
+    char* buff = new char[32768];
     char *pt, *split;
     char name[128], value[128];
     char index = 0;

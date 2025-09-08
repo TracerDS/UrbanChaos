@@ -46,34 +46,34 @@ char texture_style_names[200][21] =
 
 MenuDef2 texture_menu[] =
     {
-        {(char *) "World Page 1"},
-        {(char *) "World Page 2"},
-        {(char *) "World Page 3"},
-        {(char *) "World Page 4"},
-        {(char *) "Shared Page 1"},
-        {(char *) "Shared Page 2"},
-        {(char *) "Shared Page 3"},
-        {(char *) "Shared Page 4"},
-        {(char *) "Inside Page 1"},
-        {(char *) "People Page 1"},
-        {(char *) "People Page 2"},
-        {(char *) "Prims Page 1"},
-        {(char *) "Prims Page 2"},
-        {(char *) "Prims Page 3"},
-        {(char *) "other14"},
-        {(char *) "other15"},
-        {(char *) "other16"},
-        {(char *) "other17"},
-        {(char *) "other18"},
-        {(char *) "other19"},
-        {(char *) "other20"},
-        {(char *) "other21"},
-        {(char *) "other9"},
-        {(char *) "other1"},
-        {(char *) "other1"},
-        {(char *) "other1"},
-        {(char *) "other1"},
-        {(char *) "other1"},
+        {(char*) "World Page 1"},
+        {(char*) "World Page 2"},
+        {(char*) "World Page 3"},
+        {(char*) "World Page 4"},
+        {(char*) "Shared Page 1"},
+        {(char*) "Shared Page 2"},
+        {(char*) "Shared Page 3"},
+        {(char*) "Shared Page 4"},
+        {(char*) "Inside Page 1"},
+        {(char*) "People Page 1"},
+        {(char*) "People Page 2"},
+        {(char*) "Prims Page 1"},
+        {(char*) "Prims Page 2"},
+        {(char*) "Prims Page 3"},
+        {(char*) "other14"},
+        {(char*) "other15"},
+        {(char*) "other16"},
+        {(char*) "other17"},
+        {(char*) "other18"},
+        {(char*) "other19"},
+        {(char*) "other20"},
+        {(char*) "other21"},
+        {(char*) "other9"},
+        {(char*) "other1"},
+        {(char*) "other1"},
+        {(char*) "other1"},
+        {(char*) "other1"},
+        {(char*) "other1"},
         {"!"}};
 
 MenuDef2 texture_size[] =
@@ -183,12 +183,12 @@ ControlDef texture_def[] =
 extern void sync_animtmaps(void);
 
 void new_tile_size(void);
-PaintTab *the_painttab;
+PaintTab* the_painttab;
 //---------------------------------------------------------------
 
 std::int32_t max_textures = NUM_GAME_TEXTURES - 1;
 
-PaintTab::PaintTab(EditorModule *parent) {
+PaintTab::PaintTab(EditorModule* parent) {
     std::int32_t c0;
 
     CurrentColour = 0;
@@ -249,14 +249,14 @@ PaintTab::PaintTab(EditorModule *parent) {
 
     SetControlState(CTRL_TEX_QUAD_BOX, CTRL_SELECTED); // ts
     SetControlState(CTRL_TEX_FIXED_BOX, CTRL_SELECTED);
-    ((CHSlider *) GetControlPtr(CTRL_TEX_TILE_SIZE))->SetValueRange(1, 256);
-    ((CHSlider *) GetControlPtr(CTRL_TEX_TILE_SIZE))->SetCurrentValue(edit_info.TileScale);
-    ((CHSlider *) GetControlPtr(CTRL_TEX_TILE_SIZE))->SetUpdateFunction(new_tile_size);
+    ((CHSlider*) GetControlPtr(CTRL_TEX_TILE_SIZE))->SetValueRange(1, 256);
+    ((CHSlider*) GetControlPtr(CTRL_TEX_TILE_SIZE))->SetCurrentValue(edit_info.TileScale);
+    ((CHSlider*) GetControlPtr(CTRL_TEX_TILE_SIZE))->SetUpdateFunction(new_tile_size);
 
     void new_scroll_pos(void);
-    ((CVSlider *) StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->SetUpdateFunction(new_scroll_pos);
-    ((CVSlider *) StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->SetValueRange(0, 60);
-    ((CVSlider *) StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->SetCurrentValue(1);
+    ((CVSlider*) StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->SetUpdateFunction(new_scroll_pos);
+    ((CVSlider*) StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->SetValueRange(0, 60);
+    ((CVSlider*) StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->SetCurrentValue(1);
 
     CurrentStyleEdit = 0;
     CurrentStylePos = 1;
@@ -276,7 +276,7 @@ PaintTab::~PaintTab() {
 }
 
 void fix_all_selected_faces_for_tile_mode(void);
-extern void find_highest_selected_tmap(std::int32_t *tx, std::int32_t *ty);
+extern void find_highest_selected_tmap(std::int32_t* tx, std::int32_t* ty);
 /*
 void	scale_selected_tmaps(std::int32_t scale)
 {
@@ -322,7 +322,7 @@ void	scale_selected_tmaps(std::int32_t scale)
 }
 */
 void new_tile_size(void) {
-    edit_info.TileScale = ((CHSlider *) the_painttab->GetControlPtr(CTRL_TEX_TILE_SIZE))->GetCurrentValue();
+    edit_info.TileScale = ((CHSlider*) the_painttab->GetControlPtr(CTRL_TEX_TILE_SIZE))->GetCurrentValue();
     if (edit_info.TileFlag) {
         //		fix_all_selected_faces_for_tile_mode();
     } else {
@@ -340,13 +340,13 @@ void new_tile_size(void) {
 }
 
 void new_scroll_pos(void) {
-    the_painttab->CurrentStylePos = ((CVSlider *) the_painttab->StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->GetCurrentValue();
+    the_painttab->CurrentStylePos = ((CVSlider*) the_painttab->StyleSet.GetControlPtr(CTRL_STYLE_PAINT_SLIDER))->GetCurrentValue();
     the_painttab->RequestUpdate();
 }
 //---------------------------------------------------------------
 
 void PaintTab::UpdateTabInfo(void) {
-    ((CStaticText *) GetControlPtr(CTRL_PAINT_TEXT))->SetString1(mode_menu[PaintMode].ItemText);
+    ((CStaticText*) GetControlPtr(CTRL_PAINT_TEXT))->SetString1(mode_menu[PaintMode].ItemText);
 }
 
 //---------------------------------------------------------------
@@ -411,8 +411,8 @@ void PaintTab::DrawTabContent(void) {
 
 void draw_selected_face_textures(std::int32_t tx, std::int32_t ty, std::int32_t zoom) {
     std::int32_t c0;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
 
     //	zoom=1;
 
@@ -484,7 +484,7 @@ void PaintTab::DrawAnimTmapSelector(void) {
     render_view(0);
 }
 
-void PaintTab::SelectStyle(MFPoint *clicked_point) {
+void PaintTab::SelectStyle(MFPoint* clicked_point) {
     MFPoint local_point;
     std::int32_t scroll_pos = CurrentStylePos;
     std::int32_t c0, pos;
@@ -698,8 +698,8 @@ void PaintTab::DrawTexture(void) {
 
                 SET_TEXTURE_COORDS
 
-                std::uint16_t *rect_ptr = ((std::uint16_t *) WorkWindow) + PaintRect.GetLeft() + 1 + ((PaintRect.GetTop() + 1) * WorkScreenPixelWidth);
-                std::uint16_t *text_ptr = game_textures[CurrentTexturePage].TexturePtr;
+                std::uint16_t* rect_ptr = ((std::uint16_t*) WorkWindow) + PaintRect.GetLeft() + 1 + ((PaintRect.GetTop() + 1) * WorkScreenPixelWidth);
+                std::uint16_t* text_ptr = game_textures[CurrentTexturePage].TexturePtr;
 
                 std::int32_t i;
                 std::int32_t j;
@@ -875,11 +875,11 @@ std::uint8_t bit_tab[10] = {0, 1, 2, 3, 4, 4, 4, 4, 4, 4};
 void PaintTab::UpdateTextureInfo(void) {
     char str[20];
     if (CurrentTexturePage >= 0)
-        ((CStaticText *) GetControlPtr(CTRL_TEX_PAGE_TEXT))->SetString1(texture_menu[CurrentTexturePage].ItemText);
+        ((CStaticText*) GetControlPtr(CTRL_TEX_PAGE_TEXT))->SetString1(texture_menu[CurrentTexturePage].ItemText);
     //		((CStaticText*)TextureSet.GetControlPtr(CTRL_TEX_PAGE_TEXT))->SetString1(texture_menu[CurrentTexturePage].ItemText);
     sprintf(str, "%d x %d", TextureWidth, TextureHeight);
 
-    ((CStaticText *) GetControlPtr(CTRL_TEX_SIZE_TEXT))->SetString1(str);
+    ((CStaticText*) GetControlPtr(CTRL_TEX_SIZE_TEXT))->SetString1(str);
     // md	((CStaticText*)TextureSet.GetControlPtr(CTRL_TEX_SIZE_TEXT))->SetString1(str);
     //	((CStaticText*)GetControlPtr(CTRL_TEX_SIZE_TEXT))->SetString1(texture_size[bit_tab[TextureSize>>4]].ItemText);
 
@@ -914,7 +914,7 @@ void PaintTab::DrawPalette(void) {
     LogText(" draw pal currentcol %d \n", CurrentColour);
 
     SetWorkWindowBounds(ContentLeft() + 1, ContentTop() + 1, ContentWidth() - 1, ContentHeight() - 1);
-    rect_ptr = (std::uint32_t *) (WorkWindow + PaintRect.GetLeft() * 2 + 2 + ((PaintRect.GetTop() + 1) * WorkScreenWidth));
+    rect_ptr = (std::uint32_t*) (WorkWindow + PaintRect.GetLeft() * 2 + 2 + ((PaintRect.GetTop() + 1) * WorkScreenWidth));
     for (c0 = 0; c0 < 256; c0++) {
         colour = pal_to_16[c0] * 0x00010001;
         temp_ptr = rect_ptr + ((c0 & 0x0f) << 3) + (((c0 & 0xff0) >> 2) * WorkScreenWidth);
@@ -956,7 +956,7 @@ void PaintTab::UpdatePaletteInfo(void) {
 //---------------------------------------------------------------
 
 void PaintTab::do_undo_me_bloody_self_then(std::int32_t index) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
     std::int32_t c0;
     if (index < 0)
         p_u = &MyUndo.undo_undo_info[-index];
@@ -980,8 +980,8 @@ void PaintTab::do_undo_me_bloody_self_then(std::int32_t index) {
         CurrentTexture.V[3] = p_u->Texture.V[3];
         //				if(selected_face.Face)
         if (selected_face.PEle) {
-            if (selected_face.PEle == (struct EditMapElement *) -2) {
-            } else if (selected_face.PEle == (struct EditMapElement *) -1) {
+            if (selected_face.PEle == (struct EditMapElement*) -2) {
+            } else if (selected_face.PEle == (struct EditMapElement*) -1) {
                 if (selected_face.Face < 0) {
                     prim_faces3[-selected_face.Face].TexturePage = (std::uint16_t) CurrentTexturePage;
                     for (c0 = 0; c0 < 3; c0++) {
@@ -1006,7 +1006,7 @@ void PaintTab::do_undo_me_bloody_self_then(std::int32_t index) {
     }
 }
 
-void PaintTab::CutFloorBrush(BuildTab *BuildMode, MFPoint *current_point) {
+void PaintTab::CutFloorBrush(BuildTab* BuildMode, MFPoint* current_point) {
     MFPoint point1, point2;
     std::int32_t con_top, con_left;
     std::int32_t x, y, w, h;
@@ -1062,7 +1062,7 @@ void PaintTab::CutFloorBrush(BuildTab *BuildMode, MFPoint *current_point) {
     RequestUpdate();
 }
 
-void PaintTab::HandleTab(MFPoint *current_point) {
+void PaintTab::HandleTab(MFPoint* current_point) {
     std::uint32_t control_id;
     std::int32_t update = 0;
 
@@ -1319,7 +1319,7 @@ std::uint32_t hooks[4][2] =
         {1, 2}
 };
 
-void PaintTab::SelectAnimTexture(MFPoint *clicked_point) {
+void PaintTab::SelectAnimTexture(MFPoint* clicked_point) {
     std::int32_t x, y;
 
     x = clicked_point->X - AnimRect.GetLeft();
@@ -1333,7 +1333,7 @@ void PaintTab::SelectAnimTexture(MFPoint *clicked_point) {
     }
 }
 
-void PaintTab::SetEditAnimTexture(MFPoint *clicked_point) {
+void PaintTab::SetEditAnimTexture(MFPoint* clicked_point) {
     std::int32_t x, y;
 
     x = clicked_point->X - AnimRect.GetLeft();
@@ -1350,10 +1350,10 @@ void PaintTab::SetEditAnimTexture(MFPoint *clicked_point) {
     }
 }
 
-std::uint16_t PaintTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t PaintTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint32_t control_id;
     std::int32_t zoom;
-    Control *current_control;
+    Control* current_control;
     MFPoint current_point,
         local_point;
 
@@ -1481,7 +1481,7 @@ std::uint16_t PaintTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
 void PaintTab::HandleControl(std::uint16_t control_id) {
     switch (control_id & 0xff) {
     case CTRL_TEX_TILE_SIZE:
-        edit_info.TileScale = ((CHSlider *) GetControlPtr(CTRL_TEX_TILE_SIZE))->GetCurrentValue(); // ts
+        edit_info.TileScale = ((CHSlider*) GetControlPtr(CTRL_TEX_TILE_SIZE))->GetCurrentValue(); // ts
 
         RequestUpdate();
         break;
@@ -1569,7 +1569,7 @@ void PaintTab::HandleControl(std::uint16_t control_id) {
     case CTRL_TEX_SIZE_TEXT:
         break;
     case CTRL_TEX_IMPORT_TEX: {
-        FileRequester *fr;
+        FileRequester* fr;
         char fname[100];
         fr = new FileRequester("data\\", "*.tex", "Save A Prim", "temp.tex");
         if (fr->Draw()) {
@@ -1620,7 +1620,7 @@ void PaintTab::HandleControl(std::uint16_t control_id) {
         edit_info.Clipped ^= 2;
         break;
     case CTRL_TEX_SET_CLIPPED:
-        extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
+        extern void find_map_clip(std::int32_t* minx, std::int32_t* maxx, std::int32_t* minz, std::int32_t* maxz);
         {
             std::int32_t minx, maxx, minz, maxz;
 
@@ -1754,7 +1754,7 @@ void PaintTab::HandleTextureControl(std::uint16_t control_id) {
     case CTRL_TEX_SIZE_TEXT:
         break;
     case CTRL_TEX_IMPORT_TEX: {
-        FileRequester *fr;
+        FileRequester* fr;
         char fname[100];
         fr = new FileRequester("data\\", "*.tex", "Save A Prim", "temp.tex");
         if (fr->Draw()) {
@@ -1805,7 +1805,7 @@ void PaintTab::HandleTextureControl(std::uint16_t control_id) {
         edit_info.Clipped ^= 2;
         break;
     case CTRL_TEX_SET_CLIPPED:
-        extern void find_map_clip(std::int32_t * minx, std::int32_t * maxx, std::int32_t * minz, std::int32_t * maxz);
+        extern void find_map_clip(std::int32_t* minx, std::int32_t* maxx, std::int32_t* minz, std::int32_t* maxz);
         {
             std::int32_t minx, maxx, minz, maxz;
 
@@ -1832,7 +1832,7 @@ void PaintTab::HandleTextureControl(std::uint16_t control_id) {
 
 //---------------------------------------------------------------
 
-void PaintTab::SelectColour(MFPoint *clicked_point) {
+void PaintTab::SelectColour(MFPoint* clicked_point) {
     MFPoint local_point;
 
     local_point = *clicked_point;
@@ -1846,10 +1846,10 @@ void PaintTab::SelectColour(MFPoint *clicked_point) {
 }
 
 //---------------------------------------------------------------
-void find_highest_selected_tmap(std::int32_t *tx, std::int32_t *ty) {
+void find_highest_selected_tmap(std::int32_t* tx, std::int32_t* ty) {
     std::int32_t c0, c1;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     *tx = 1000000;
     *ty = 1000000;
 
@@ -1876,8 +1876,8 @@ void find_highest_selected_tmap(std::int32_t *tx, std::int32_t *ty) {
 
 void offset_selected_tmaps(std::int32_t tx, std::int32_t ty, std::uint8_t page, std::int32_t sx, std::int32_t sy, std::int32_t flag) {
     std::int32_t c0, c1;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
 
     for (c0 = 1; c0 < next_face_selected; c0++) {
         if (face_selected_list[c0] > 0) {
@@ -1904,8 +1904,8 @@ void offset_selected_tmaps(std::int32_t tx, std::int32_t ty, std::uint8_t page, 
 
 void scale_selected_tmaps(std::int16_t scale) {
     std::int32_t c0, c1;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t mid_x = 0, mid_y = 0, count = 0;
 
     for (c0 = 1; c0 < next_face_selected; c0++) {
@@ -1971,8 +1971,8 @@ void scale_selected_tmaps(std::int16_t scale) {
 
 void offset_selected_tex_page(std::int16_t offset) {
     std::int32_t c0, c1;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t mid_x = 0, mid_y = 0, count = 0;
     std::int32_t u, v, page;
 
@@ -2073,7 +2073,7 @@ void offset_selected_tex_page(std::int16_t offset) {
     }
 }
 
-void PaintTab::PlanarMapping(MFPoint *clicked_point) {
+void PaintTab::PlanarMapping(MFPoint* clicked_point) {
     std::int32_t c0, c1,
         scale,
         texture_x,
@@ -2140,7 +2140,7 @@ void PaintTab::PlanarMapping(MFPoint *clicked_point) {
     UpdateTexture();
 }
 
-void PaintTab::SelectTexture(MFPoint *clicked_point) {
+void PaintTab::SelectTexture(MFPoint* clicked_point) {
     std::uint32_t drag_flags,
         update,
         x_quad,
@@ -2391,7 +2391,7 @@ void PaintTab::SelectTexture(MFPoint *clicked_point) {
                     if (current_point.X != local_point.X || current_point.Y != local_point.Y) {
                         x_offset = local_point.X - current_point.X;
                         y_offset = local_point.Y - current_point.Y;
-                        if (selected_face.PEle == (struct EditMapElement *) -1 && face_is_in_list(selected_face.Face)) {
+                        if (selected_face.PEle == (struct EditMapElement*) -1 && face_is_in_list(selected_face.Face)) {
                             std::int32_t p;
                             std::int32_t sx, sy;
                             std::int32_t flag = 0;
@@ -2593,7 +2593,7 @@ void PaintTab::SelectTexture(MFPoint *clicked_point) {
 
 //---------------------------------------------------------------
 
-std::uint16_t PaintTab::ConvertFreeToFixedEle(struct TextureBits *t, std::int32_t *x, std::int32_t *y, std::int32_t *width, std::int32_t *height, std::int32_t *page) {
+std::uint16_t PaintTab::ConvertFreeToFixedEle(struct TextureBits* t, std::int32_t* x, std::int32_t* y, std::int32_t* width, std::int32_t* height, std::int32_t* page) {
     std::int32_t size;
     t->X = CurrentTexture.U[0] >> 3;
     t->Y = CurrentTexture.V[0] >> 3;
@@ -2665,7 +2665,7 @@ std::uint16_t PaintTab::ConvertFreeToFixedEle(struct TextureBits *t, std::int32_
     return (1);
 }
 
-void PaintTab::ConvertFixedToFree(struct TextureBits *t) {
+void PaintTab::ConvertFixedToFree(struct TextureBits* t) {
     std::uint8_t sx, sy, w, h;
 
     sx = t->X << 3;
@@ -2685,7 +2685,7 @@ void PaintTab::ConvertFixedToFree(struct TextureBits *t) {
     TextureHeight = 32; // w;
 }
 
-void PaintTab::ConvertMiniTex(struct MiniTextureBits *tex) {
+void PaintTab::ConvertMiniTex(struct MiniTextureBits* tex) {
     std::int32_t sx, sy, w;
     std::int32_t rot;
 
@@ -2731,18 +2731,18 @@ std::uint16_t PaintTab::ConvertTexToMiniTex(void) {
     tex.Page = CurrentTexturePage;
     tex.Size = 0;
     tex.Rot = CurrentTextureRot;
-    return (*((std::uint16_t *) &tex));
+    return (*((std::uint16_t*) &tex));
 }
 
-bool PaintTab::ApplyTexture(struct EditFace *edit_face) {
+bool PaintTab::ApplyTexture(struct EditFace* edit_face) {
     std::int32_t c0;
 
-    if (edit_face->PEle == (struct EditMapElement *) -2) {
+    if (edit_face->PEle == (struct EditMapElement*) -2) {
         if (PaintMode == PALETTE_PAINT) {
         } else {
             edit_map[edit_face->MapX][edit_face->MapZ].Texture = ConvertTexToMiniTex();
         }
-    } else if (edit_face->PEle == (struct EditMapElement *) -1) {
+    } else if (edit_face->PEle == (struct EditMapElement*) -1) {
         if (edit_face->Face < 0) {
             MyUndo.ApplyPrim3(0, -edit_face->Face, &prim_faces3[-edit_face->Face]);
         } else {
@@ -2772,7 +2772,7 @@ bool PaintTab::ApplyTexture(struct EditFace *edit_face) {
                     prim_faces4[edit_face->Face].UV[c0][1] = CurrentTexture.V[c0];
                 }
                 if (prim_faces4[edit_face->Face].ThingIndex < 0) {
-                    extern void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture * current_texture, std::uint8_t type, std::uint8_t side);
+                    extern void set_wall_texture_info(std::int32_t wall, std::uint8_t page, EdTexture* current_texture, std::uint8_t type, std::uint8_t side);
                     std::uint8_t type = 0;
                     if (PaintMode == STYLE_PAINT) {
                         type = CurrentStyleEdit;
@@ -2813,14 +2813,14 @@ void paint_texture_to_wall(std::int32_t wall, std::int32_t pos, std::int32_t tex
 
     if (wall_list[wall].Tcount <= pos) {
         std::int32_t size;
-        std::uint8_t *old = 0;
+        std::uint8_t* old = 0;
         if (wall_list[wall].Textures && wall_list[wall].Tcount)
             old = wall_list[wall].Textures;
 
         size = pos + 1;
         if (size < 8)
             size = 8;
-        wall_list[wall].Textures = (std::uint8_t *) MemAlloc(size + 1);
+        wall_list[wall].Textures = (std::uint8_t*) MemAlloc(size + 1);
         if (wall_list[wall].Textures == 0) {
             wall_list[wall].Tcount = 0;
             return;
@@ -2838,14 +2838,14 @@ void paint_texture_to_wall2(std::int32_t wall, std::int32_t pos, std::int32_t te
 
     if (wall_list[wall].Tcount2 <= pos) {
         std::int32_t size;
-        std::uint8_t *old = 0;
+        std::uint8_t* old = 0;
         if (wall_list[wall].Textures2 && wall_list[wall].Tcount2)
             old = wall_list[wall].Textures2;
 
         size = pos + 1;
         if (size < 8)
             size = 8;
-        wall_list[wall].Textures2 = (std::uint8_t *) MemAlloc(size + 1);
+        wall_list[wall].Textures2 = (std::uint8_t*) MemAlloc(size + 1);
         if (wall_list[wall].Textures2 == 0) {
             wall_list[wall].Tcount2 = 0;
             return;
@@ -2940,7 +2940,7 @@ void apply_texture_to_wall_face(std::int32_t face, std::int32_t texture) {
     mz >>= 2;
 
     if (wall > 0) {
-        struct MapThing *p_mthing;
+        struct MapThing* p_mthing;
         std::int32_t thing;
 
         storey = wall_list[wall].StoreyHead;

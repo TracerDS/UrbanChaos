@@ -12,7 +12,7 @@
 LIGHT_Colour LIGHT_building_point[RMAX_PRIM_POINTS];
 LIGHT_Colour LIGHT_amb_colour;
 
-void BUILD_draw(Thing *p_thing) {
+void BUILD_draw(Entity* p_thing) {
     std::int32_t i;
     std::int32_t j;
 
@@ -26,15 +26,15 @@ void BUILD_draw(Thing *p_thing) {
 
     LIGHT_Colour pcol;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
 
-    POLY_Point *pp;
-    POLY_Point *ps;
+    POLY_Point* pp;
+    POLY_Point* ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     std::int32_t page;
     std::int32_t backface_cull;
@@ -49,8 +49,8 @@ void BUILD_draw(Thing *p_thing) {
     std::int32_t bo_index;
     std::int32_t bf_index;
 
-    BuildingFacet *bf;
-    BuildingObject *bo;
+    BuildingFacet* bf;
+    BuildingObject* bo;
 
     bo_index = p_thing->Index;
     bo = &building_objects[bo_index];
@@ -295,7 +295,7 @@ void BUILD_draw(Thing *p_thing) {
 void BUILD_draw_inside() {
     /*
 
-    Thing *p_thing = TO_THING(INDOORS_THING);
+    Entity *p_thing = TO_THING(INDOORS_THING);
 
     std::int32_t i;
 

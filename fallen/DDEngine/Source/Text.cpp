@@ -21,11 +21,11 @@ extern std::int32_t TEXTURE_page_font;
 
 //---------------------------------------------------------------
 
-std::int32_t text_width(char *message, std::int32_t font_id, std::int32_t *char_count) {
+std::int32_t text_width(char* message, std::int32_t font_id, std::int32_t* char_count) {
     std::int32_t count = 0,
                  width = 0;
-    Char *the_char;
-    Font *the_font;
+    Char* the_char;
+    Font* the_font;
 
     the_font = font_page.GetFont(font_id);
     if (!the_font)
@@ -52,11 +52,11 @@ std::int32_t text_width(char *message, std::int32_t font_id, std::int32_t *char_
 
 //---------------------------------------------------------------
 
-std::int32_t text_height(char *message, std::int32_t font_id, std::int32_t *char_count) {
+std::int32_t text_height(char* message, std::int32_t font_id, std::int32_t* char_count) {
     std::int32_t count = 0,
                  height = 0;
-    Char *the_char;
-    Font *the_font;
+    Char* the_char;
+    Font* the_font;
 
     the_font = font_page.GetFont(font_id);
     if (!the_font)
@@ -87,13 +87,13 @@ std::int32_t text_height(char *message, std::int32_t font_id, std::int32_t *char
 bool text_fudge = false;
 std::uint32_t text_colour;
 
-void draw_text_at(float x, float y, char *message, std::int32_t font_id) {
+void draw_text_at(float x, float y, char* message, std::int32_t font_id) {
     float offset_x,
         offset_y;
     std::int32_t b_colour,
         t_colour;
-    Char *the_char;
-    Font *the_font;
+    Char* the_char;
+    Font* the_font;
     POLY_Point pp[4],
         *quad[4];
 
@@ -203,7 +203,7 @@ void draw_text_at(float x, float y, char *message, std::int32_t font_id) {
 
 //---------------------------------------------------------------
 
-void draw_centre_text_at(float x, float y, char *message, std::int32_t font_id, std::int32_t flag) {
+void draw_centre_text_at(float x, float y, char* message, std::int32_t font_id, std::int32_t flag) {
     char temp;
     std::int32_t char_count = 0;
     float height;
@@ -236,7 +236,7 @@ void draw_centre_text_at(float x, float y, char *message, std::int32_t font_id, 
 void show_text() {
     return;
 
-    PolyPage *pa = &POLY_Page[POLY_PAGE_TEXT];
+    PolyPage* pa = &POLY_Page[POLY_PAGE_TEXT];
 
 #ifndef TARGET_DC
     DDCOLORKEY ck;

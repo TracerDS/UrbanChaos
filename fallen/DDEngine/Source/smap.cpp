@@ -29,7 +29,7 @@ void SMAP_init(
     float light_dx, // The light vector doesn't have to be normalised
     float light_dy,
     float light_dz,
-    std::uint8_t *bitmap,
+    std::uint8_t* bitmap,
     std::uint8_t res_u,
     std::uint8_t res_v);
 
@@ -67,21 +67,21 @@ void SMAP_get_world_pos(
     // Position of (0,0) of the shadow map.
     //
 
-    float *world_x,
-    float *world_y,
-    float *world_z,
+    float* world_x,
+    float* world_y,
+    float* world_z,
 
     //
     // The vector along on pixel in the u and v direction.
     //
 
-    float *world_dxdu,
-    float *world_dydu,
-    float *world_dzdu,
+    float* world_dxdu,
+    float* world_dydu,
+    float* world_dzdu,
 
-    float *world_dxdv,
-    float *world_dydv,
-    float *world_dzdv);
+    float* world_dxdv,
+    float* world_dydv,
+    float* world_dzdv);
 
 // ========================================================
 //
@@ -137,7 +137,7 @@ float SMAP_v_map_mul_slong;
 // The bitmap.
 //
 
-std::uint8_t *SMAP_bitmap;
+std::uint8_t* SMAP_bitmap;
 std::int32_t SMAP_res_u;
 std::int32_t SMAP_res_v;
 
@@ -170,9 +170,9 @@ std::int32_t SMAP_point_upto;
 //
 
 void inline SMAP_vector_normalise(
-    float *x,
-    float *y,
-    float *z) // First time I have ever used references.
+    float* x,
+    float* y,
+    float* z) // First time I have ever used references.
               // You haven't used references, you've used pointers.
 {
     float len2 = *x * *x + *y * *y + *z * *z;
@@ -188,7 +188,7 @@ void SMAP_init(
     float light_dx,
     float light_dy,
     float light_dz,
-    std::uint8_t *bitmap,
+    std::uint8_t* bitmap,
     std::uint8_t res_u,
     std::uint8_t res_v) {
     float len;
@@ -270,7 +270,7 @@ std::int32_t SMAP_point_add(
     float world_x,
     float world_y,
     float world_z) {
-    SMAP_Point *sp;
+    SMAP_Point* sp;
 
     ASSERT(WITHIN(SMAP_point_upto, 0, SMAP_MAX_POINTS - 1));
 
@@ -315,7 +315,7 @@ std::int32_t SMAP_point_add(
 void SMAP_point_finished() {
     std::int32_t i;
 
-    SMAP_Point *sp;
+    SMAP_Point* sp;
 
     float along_bu;
     float along_bv;
@@ -414,9 +414,9 @@ void SMAP_tri_add(
 void SMAP_add_prim_triangles(
     std::int32_t prim,
     std::int32_t index) {
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
 
     p_obj = &prim_objects[prim];
 
@@ -471,7 +471,7 @@ std::int32_t SMAP_prim_points(
     std::int32_t index;
     float matrix[9];
 
-    PrimObject *p_obj = &prim_objects[prim];
+    PrimObject* p_obj = &prim_objects[prim];
 
     //
     // Calculate the objects rotation matrix.
@@ -518,8 +518,8 @@ std::int32_t SMAP_prim_points(
 #ifdef BIKE
 
 void SMAP_bike(
-    Thing *p_bike,
-    std::uint8_t *bitmap, // 0 => transparent 255 => opaque
+    Entity* p_bike,
+    std::uint8_t* bitmap, // 0 => transparent 255 => opaque
     std::uint8_t u_res,
     std::uint8_t v_res,
     std::int32_t light_dx, // This vector need not be normalised
@@ -635,13 +635,13 @@ std::uint16_t SMAP_add_tweened_points(
     std::int32_t y,
     std::int32_t z,
     std::int32_t tween,
-    struct GameKeyFrameElement *anim_info,
-    struct GameKeyFrameElement *anim_info_next,
-    struct Matrix33 *rot_mat,
+    struct GameKeyFrameElement* anim_info,
+    struct GameKeyFrameElement* anim_info_next,
+    struct Matrix33* rot_mat,
     std::int32_t off_dx,
     std::int32_t off_dy,
     std::int32_t off_dz,
-    Thing *p_thing) {
+    Entity* p_thing) {
     std::int32_t i;
     std::int32_t j;
 
@@ -651,14 +651,14 @@ std::uint16_t SMAP_add_tweened_points(
     Matrix31 offset;
     Matrix33 mat2;
     Matrix33 mat_final;
-    Matrix33 *mat;
-    Matrix33 *mat_next;
+    Matrix33* mat;
+    Matrix33* mat_next;
 
     std::uint16_t ans;
 
     SVector temp;
 
-    PrimObject *p_obj;
+    PrimObject* p_obj;
 
     //
     // Matrix functions we use.
@@ -675,7 +675,7 @@ std::uint16_t SMAP_add_tweened_points(
     offset.M[1] = anim_info->OffsetY + ((anim_info_next->OffsetY + off_dy - anim_info->OffsetY) * tween >> 8);
     offset.M[2] = anim_info->OffsetZ + ((anim_info_next->OffsetZ + off_dz - anim_info->OffsetZ) * tween >> 8);
 
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
 
     std::int32_t character_scale = person_get_scale(p_thing);
 
@@ -746,7 +746,7 @@ std::uint16_t SMAP_add_tweened_points(
         // Find the world-space position of this point.
         //
 
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[i]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[i]);
 
         temp.X += x;
         temp.Y += y;
@@ -762,8 +762,8 @@ std::uint16_t SMAP_add_tweened_points(
 }
 
 void SMAP_person(
-    Thing *p_thing,
-    std::uint8_t *bitmap, // 0 => transparent 255 => opaque
+    Entity* p_thing,
+    std::uint8_t* bitmap, // 0 => transparent 255 => opaque
     std::uint8_t u_res,
     std::uint8_t v_res,
     std::int32_t light_dx,
@@ -780,10 +780,10 @@ void SMAP_person(
 
     Matrix33 r_matrix;
 
-    GameKeyFrameElement *ae1;
-    GameKeyFrameElement *ae2;
+    GameKeyFrameElement* ae1;
+    GameKeyFrameElement* ae2;
 
-    DrawTween *dt = p_thing->Draw.Tweened;
+    DrawTween* dt = p_thing->Draw.Tweened;
 
     if (dt->CurrentFrame == 0 ||
         dt->NextFrame == 0) {
@@ -840,7 +840,7 @@ void SMAP_person(
         std::int32_t xangle,
         std::int32_t yangle,
         std::int32_t zangle,
-        Matrix33 * r3);
+        Matrix33* r3);
 
     FIGURE_rotate_obj(
         dt->Tilt,
@@ -900,7 +900,7 @@ void SMAP_person(
 #ifdef BIKE
 
     if (p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING) {
-        Thing *p_bike = TO_THING(p_thing->Genus.Person->InCar);
+        Entity* p_bike = TO_THING(p_thing->Genus.Person->InCar);
         BIKE_Drawinfo bdi = BIKE_get_drawinfo(p_bike);
 
         //
@@ -1017,7 +1017,7 @@ std::int32_t SMAP_link_upto;
 // shadow map... i.e. nearer to the light.
 //
 
-std::int32_t SMAP_wrong_side(SMAP_Link *sl) {
+std::int32_t SMAP_wrong_side(SMAP_Link* sl) {
     float order = 0.0F;
     float overorder;
 
@@ -1056,7 +1056,7 @@ std::int32_t SMAP_wrong_side(SMAP_Link *sl) {
 // Converts the u,v in the polys to the texture uvs.
 //
 
-void SMAP_convert_uvs(SMAP_Link *sl) {
+void SMAP_convert_uvs(SMAP_Link* sl) {
     while (sl) {
         sl->u -= SMAP_u_min;
         sl->v -= SMAP_v_min;
@@ -1071,21 +1071,21 @@ void SMAP_convert_uvs(SMAP_Link *sl) {
     }
 }
 
-SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], std::int32_t num_points) {
+SMAP_Link* SMAP_project_onto_poly(SVector_F quad[], std::int32_t num_points) {
     std::int32_t i;
     std::uint32_t clip_and;
     std::uint32_t clip_or;
 
     float along;
 
-    SMAP_Link *poly;
-    SMAP_Link *sl;
-    SMAP_Link *sl1;
-    SMAP_Link *sl2;
-    SMAP_Link *sc;
+    SMAP_Link* poly;
+    SMAP_Link* sl;
+    SMAP_Link* sl1;
+    SMAP_Link* sl2;
+    SMAP_Link* sc;
 
-    SMAP_Link **prev;
-    SMAP_Link *next;
+    SMAP_Link** prev;
+    SMAP_Link* next;
 
     //
     // Clear the old points.
@@ -1155,9 +1155,9 @@ SMAP_Link *SMAP_project_onto_poly(SVector_F quad[], std::int32_t num_points) {
 
         float cross;
 
-        SMAP_Link *p1 = &SMAP_link[0];
-        SMAP_Link *p2 = &SMAP_link[1];
-        SMAP_Link *p3 = &SMAP_link[2];
+        SMAP_Link* p1 = &SMAP_link[0];
+        SMAP_Link* p2 = &SMAP_link[1];
+        SMAP_Link* p3 = &SMAP_link[2];
 
         vec1u = p2->u - p1->u;
         vec1v = p2->v - p1->v;

@@ -28,7 +28,7 @@ void ShowWorkScreen(std::uint32_t flags) {
 
 //---------------------------------------------------------------
 
-void *LockWorkScreen() {
+void* LockWorkScreen() {
     DDSURFACEDESC2 dd_sd;
     HRESULT result;
 
@@ -44,7 +44,7 @@ void *LockWorkScreen() {
             WorkScreenPixelWidth = dd_sd.dwWidth;
             WorkScreenWidth = dd_sd.lPitch;
             WorkScreenHeight = dd_sd.dwHeight;
-            WorkScreen = (std::uint8_t *) dd_sd.lpSurface;
+            WorkScreen = (std::uint8_t*) dd_sd.lpSurface;
             SetWorkWindow();
             return dd_sd.lpSurface;
         case DDERR_SURFACELOST:
@@ -168,7 +168,7 @@ void SetWorkWindowBounds(std::int32_t left, std::int32_t top, std::int32_t width
 
 //---------------------------------------------------------------
 
-MFPoint *GlobalToLocal(MFPoint *the_point) {
+MFPoint* GlobalToLocal(MFPoint* the_point) {
     the_point->X -= WorkWindowRect.Left;
     the_point->Y -= WorkWindowRect.Top;
 
@@ -177,14 +177,14 @@ MFPoint *GlobalToLocal(MFPoint *the_point) {
 
 //---------------------------------------------------------------
 
-void GlobalXYToLocal(std::int32_t *x, std::int32_t *y) {
+void GlobalXYToLocal(std::int32_t* x, std::int32_t* y) {
     *x -= WorkWindowRect.Left;
     *y -= WorkWindowRect.Top;
 }
 
 //---------------------------------------------------------------
 
-void SetPalette(std::uint8_t *the_palette) {
+void SetPalette(std::uint8_t* the_palette) {
     std::uint32_t c0;
 
     for (c0 = 0; c0 < 256; c0++) {
@@ -196,7 +196,7 @@ void SetPalette(std::uint8_t *the_palette) {
 
 //---------------------------------------------------------------
 
-std::int32_t FindColour(std::uint8_t *the_palette, std::int32_t r, std::int32_t g, std::int32_t b) {
+std::int32_t FindColour(std::uint8_t* the_palette, std::int32_t r, std::int32_t g, std::int32_t b) {
     std::int32_t found = -1;
 
     if (r > 255)

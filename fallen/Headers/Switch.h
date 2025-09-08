@@ -43,14 +43,14 @@ typedef Switch *SwitchPtr;
 //---------------------------------------------------------------
 
 void init_switches();
-Thing *alloc_switch(std::uint8_t type);
-void free_switch(Thing *person_thing);
+Entity *alloc_switch(std::uint8_t type);
+void free_switch(Entity *person_thing);
 THING_INDEX create_switch();
 
-void fn_switch_player(Thing *s_thing);
-void fn_switch_thing(Thing *s_thing);
-void fn_switch_group(Thing *s_thing);
-void fn_switch_class(Thing *s_thing);
+void fn_switch_player(Entity *s_thing);
+void fn_switch_thing(Entity *s_thing);
+void fn_switch_group(Entity *s_thing);
+void fn_switch_class(Entity *s_thing);
 
 //---------------------------------------------------------------
 

@@ -56,11 +56,11 @@ ControlDef maped_tab_def[] =
         {0}
 };
 
-MapEdTab *the_maped;
+MapEdTab* the_maped;
 
 //---------------------------------------------------------------
 
-MapEdTab::MapEdTab(EditorModule *parent) {
+MapEdTab::MapEdTab(EditorModule* parent) {
     Parent = parent;
 
     InitControlSet(maped_tab_def);
@@ -71,8 +71,8 @@ MapEdTab::MapEdTab(EditorModule *parent) {
     SetControlState(CTRL_MAPED_Z_AXIS_FREE, CTRL_SELECTED);
     SetControlState(CTRL_MAPED_ROOF_TOP, CTRL_DESELECTED);
     SetControlState(CTRL_MAPED_TEXTURE, CTRL_DESELECTED);
-    ((CVSlider *) GetControlPtr(CTRL_MAPED_V_SLIDE_LEVEL))->SetValueRange(0, 128);
-    ((CVSlider *) GetControlPtr(CTRL_MAPED_V_SLIDE_LEVEL))->SetCurrentValue(125);
+    ((CVSlider*) GetControlPtr(CTRL_MAPED_V_SLIDE_LEVEL))->SetValueRange(0, 128);
+    ((CVSlider*) GetControlPtr(CTRL_MAPED_V_SLIDE_LEVEL))->SetCurrentValue(125);
     //	((CVSlider*)GetControlPtr(CTRL_PRIM_V_SLIDE_PRIM))->SetUpdateFunction(redraw_all_prims);
 
     Axis = X_AXIS | Y_AXIS | Z_AXIS;
@@ -113,7 +113,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
     std::int32_t c0, c1;
     std::int32_t mx, my, mz;
     std::int32_t index;
-    struct EditMapElement *p_ele;
+    struct EditMapElement* p_ele;
 
 #ifdef POO
     //	my=((CVSlider*)GetControlPtr(CTRL_MAPED_V_SLIDE_LEVEL))->GetCurrentValue();
@@ -340,7 +340,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
     // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
-    std::int32_t MapEdTab::DragEngine(std::uint8_t flags, MFPoint * clicked_point) {
+    std::int32_t MapEdTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
         std::int32_t wwx, wwy, www, wwh;
         std::int32_t screen_change = 0;
         std::int32_t last_world_mouse;
@@ -398,7 +398,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         return (screen_change);
     }
 
-    std::int32_t MapEdTab::CalcMapCoord(std::int32_t * mapx, std::int32_t * mapy, std::int32_t * mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint * clicked_point) {
+    std::int32_t MapEdTab::CalcMapCoord(std::int32_t* mapx, std::int32_t* mapy, std::int32_t* mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* clicked_point) {
         std::int32_t width, count_across, count_high;
         std::int32_t mx, my, mz;
         std::int32_t dx, dy;
@@ -965,9 +965,9 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
         return (0);
     }
 
-    std::uint16_t MapEdTab::HandleTabClick(std::uint8_t flags, MFPoint * clicked_point) {
+    std::uint16_t MapEdTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
         std::uint16_t control_id;
-        Control *current_control;
+        Control* current_control;
         MFPoint local_point;
 
         // This is a fudge to update the front screen buffer.
@@ -1109,7 +1109,7 @@ void MapEdTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
     }
 
     std::int32_t calc_edit_height_at(std::int32_t x, std::int32_t z) {
-        DepthStrip *me;
+        DepthStrip* me;
         std::int32_t new_y, h0, h1, h2, h3;
 
         if (x < 0 || z < 0 || x > EDIT_MAP_WIDTH << 8 || z > EDIT_MAP_WIDTH << 8)

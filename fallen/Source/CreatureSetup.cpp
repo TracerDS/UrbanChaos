@@ -84,7 +84,7 @@ bool CALLBACK cs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_creature_setup(EventPoint *the_ep) {
+void do_creature_setup(EventPoint* the_ep) {
     //	Set the dialog.
     creature_type = the_ep->Data[0];
     creature_count = the_ep->Data[1];

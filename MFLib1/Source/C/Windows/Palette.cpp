@@ -23,7 +23,7 @@ void InitPalettes() {
 
         // The last 10 static entries:
         ThePalette[c0 + 246].peFlags = PC_EXPLICIT;
-        ThePalette[c0 + 246].peRed = (std::uint8_t)(c0 + 246);
+        ThePalette[c0 + 246].peRed = (std::uint8_t) (c0 + 246);
         ThePalette[c0 + 246].peGreen = 0;
         ThePalette[c0 + 246].peBlue = 0;
     }
@@ -109,7 +109,7 @@ void RestorePalettes() {
 
 //---------------------------------------------------------------
 
-void SetPalette(std::uint8_t *the_palette) {
+void SetPalette(std::uint8_t* the_palette) {
 #ifndef TARGET_DC
     std::uint32_t c0;
     HRESULT dd_result;
@@ -125,7 +125,7 @@ void SetPalette(std::uint8_t *the_palette) {
 
         // The last 10 static entries:
         ThePalette[c0 + 246].peFlags = PC_EXPLICIT;
-        ThePalette[c0 + 246].peRed = (std::uint8_t)(c0 + 246);
+        ThePalette[c0 + 246].peRed = (std::uint8_t) (c0 + 246);
         ThePalette[c0 + 246].peGreen = 0;
         ThePalette[c0 + 246].peBlue = 0;
     }
@@ -133,16 +133,16 @@ void SetPalette(std::uint8_t *the_palette) {
     // Set up private entries.
     for (c0 = 10; c0 < 246; c0++) {
         ThePalette[c0].peFlags = PC_NOCOLLAPSE | PC_RESERVED;
-        ThePalette[c0].peRed = (std::uint8_t)(the_palette[(c0 * 3) + 0]);
-        ThePalette[c0].peGreen = (std::uint8_t)(the_palette[(c0 * 3) + 1]);
-        ThePalette[c0].peBlue = (std::uint8_t)(the_palette[(c0 * 3) + 2]);
+        ThePalette[c0].peRed = (std::uint8_t) (the_palette[(c0 * 3) + 0]);
+        ThePalette[c0].peGreen = (std::uint8_t) (the_palette[(c0 * 3) + 1]);
+        ThePalette[c0].peBlue = (std::uint8_t) (the_palette[(c0 * 3) + 2]);
     }
 #else
     // Set up all entries.
     for (c0 = 0; c0 < 256; c0++) {
-        ThePalette[c0].peRed = (std::uint8_t)(the_palette[(c0 * 3) + 0]);
-        ThePalette[c0].peGreen = (std::uint8_t)(the_palette[(c0 * 3) + 1]);
-        ThePalette[c0].peBlue = (std::uint8_t)(the_palette[(c0 * 3) + 2]);
+        ThePalette[c0].peRed = (std::uint8_t) (the_palette[(c0 * 3) + 0]);
+        ThePalette[c0].peGreen = (std::uint8_t) (the_palette[(c0 * 3) + 1]);
+        ThePalette[c0].peBlue = (std::uint8_t) (the_palette[(c0 * 3) + 2]);
     }
 #endif
     for (c0 = 0; c0 < 256; c0++) {
@@ -157,7 +157,7 @@ void SetPalette(std::uint8_t *the_palette) {
 
 //---------------------------------------------------------------
 
-std::int32_t FindColour(std::uint8_t *the_palette, std::int32_t r, std::int32_t g, std::int32_t b) {
+std::int32_t FindColour(std::uint8_t* the_palette, std::int32_t r, std::int32_t g, std::int32_t b) {
     std::int32_t found = -1;
 
     if (r > 255)

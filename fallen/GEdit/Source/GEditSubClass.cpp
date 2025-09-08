@@ -19,7 +19,7 @@
 #include "io.h"
 #include "ob.h"
 #include "..\Editor\headers\map.h"
-#include "..\Editor\Headers\Thing.h"
+#include "..\Editor\Headers\Entity.h"
 
 #include "supermap.h"
 #include "inside2.h"
@@ -159,28 +159,28 @@ LRESULT	CALLBACK	sc_radio_proc	(
 //------------------------------------------------------------------------
 // Guess
 
-void SetCrimeRate(Mission *mission) {
+void SetCrimeRate(Mission* mission) {
     char txt[255];
     itoa(mission->CrimeRate, txt, 10);
     InputBox("Set crime rate", "Enter new crime rate:", txt);
     mission->CrimeRate = atoi(txt);
 }
 
-void SetWanderingCivsRate(Mission *mission) {
+void SetWanderingCivsRate(Mission* mission) {
     char txt[255];
     itoa(mission->CivsRate, txt, 10);
     InputBox("Set fake wandering people rate", "Enter number of civs:", txt);
     mission->CivsRate = atoi(txt);
 }
 
-void SetWanderingCarsRate(Mission *mission) {
+void SetWanderingCarsRate(Mission* mission) {
     char txt[255];
     itoa(mission->CarsRate, txt, 10);
     InputBox("Set wandering cars rate", "Enter number of cars:", txt);
     mission->CarsRate = atoi(txt);
 }
 
-void SetMusicWorld(Mission *mission) {
+void SetMusicWorld(Mission* mission) {
     char txt[255];
     itoa(mission->MusicWorld, txt, 10);
     InputBox("Set music world", "Enter Music World:", txt);
@@ -189,7 +189,7 @@ void SetMusicWorld(Mission *mission) {
     if (mission->MusicWorld > 20) mission->MusicWorld = 20;
 }
 
-void SetBoredomRate(Mission *mission) {
+void SetBoredomRate(Mission* mission) {
     char txt[255];
     std::int16_t a;
     a = mission->BoredomRate;
@@ -207,7 +207,7 @@ void SetBoredomRate(Mission *mission) {
     mission->BoredomRate = a;
 }
 
-void DeleteCivs(Mission *mission) {
+void DeleteCivs(Mission* mission) {
     EventPoint *ep, *ep_tst, *ep_base, *TrashList[MAX_EVENTPOINTS];
     std::int32_t current_ep, walk_ep, i = 0, civctr = 0, msgctr = 0, noskip;
     char str[_MAX_PATH];
@@ -276,7 +276,7 @@ void DeleteCivs(Mission *mission) {
         std::int32_t k;
         std::int32_t messcount;
         char fname[256];
-        FILE *handle;
+        FILE* handle;
 
         extern char old_path[_MAX_PATH];
 
@@ -354,7 +354,7 @@ void DeleteCivs(Mission *mission) {
     MessageBox(0, str, "Delete Civvies", MB_OK | MB_ICONINFORMATION);
 }
 
-void DeleteCars(Mission *mission) {
+void DeleteCars(Mission* mission) {
     EventPoint *ep, *ep_tst, *ep_base, *TrashList[MAX_EVENTPOINTS];
     std::int32_t current_ep, walk_ep, i = 0, civctr = 0, carctr = 0, /*noskip,*/ j;
     char str[_MAX_PATH];
@@ -470,7 +470,7 @@ void DeleteCars(Mission *mission) {
 
 void count_prims_map() {
     bool prim_seen[256]; // ...
-    char *msg = (char *) prim_seen;
+    char* msg = (char*) prim_seen;
     std::uint16_t count = 0;
     //	OB_Ob *walk=OB_ob;
     std::int16_t x, z;
@@ -485,7 +485,7 @@ void count_prims_map() {
 
     for (x = 0; x < OB_SIZE; x++)
         for (z = 0; z < OB_SIZE; z++) {
-            OB_Info *oi = OB_find(x, z);
+            OB_Info* oi = OB_find(x, z);
             std::uint8_t oict = 0;
             while ((oict < 31) && oi->prim) {
                 if (!prim_seen[oi->prim]) {
@@ -503,7 +503,7 @@ void count_prims_map() {
 //------------------------------------------------------------------------
 // This writes out updated .IAM files
 
-void save_prim_map(char *name) {
+void save_prim_map(char* name) {
     // block-copies all except the prim section which is replaced
 
     //	std::uint16_t	temp;
@@ -512,7 +512,7 @@ void save_prim_map(char *name) {
     MFFileHandle handle = FILE_OPEN_ERROR;
     MFFileHandle handout = FILE_OPEN_ERROR;
     char name2[_MAX_PATH], name3[_MAX_PATH];
-    char *ptr;
+    char* ptr;
     std::int32_t copied;
     std::uint8_t buff[100];
     OB_Mapwho dummy_OB_mapwho[OB_SIZE][OB_SIZE];
@@ -535,8 +535,8 @@ void save_prim_map(char *name) {
         return;
     }
 
-    FileRead(handle, (std::uint8_t *) &save_type, 4);
-    FileWrite(handout, (std::uint8_t *) &save_type, 4);
+    FileRead(handle, (std::uint8_t*) &save_type, 4);
+    FileWrite(handout, (std::uint8_t*) &save_type, 4);
 
     ob_size2 = sizeof(OB_ob_upto) + (sizeof(OB_Ob) * OB_ob_upto) + (sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
 
@@ -547,8 +547,8 @@ void save_prim_map(char *name) {
         return;
     }
 
-    FileRead(handle, (std::uint8_t *) &ob_size1, 4);
-    FileWrite(handout, (std::uint8_t *) &ob_size2, 4);
+    FileRead(handle, (std::uint8_t*) &ob_size1, 4);
+    FileWrite(handout, (std::uint8_t*) &ob_size2, 4);
 
     size = FileSize(handle) - 12; // 4 bytes save_type plus 4 bytes ob_size1 4 bytes bloody texture thingy
     if (save_type >= 25) {
@@ -558,8 +558,8 @@ void save_prim_map(char *name) {
 
     ptr = new char[size];
 
-    FileRead(handle, (std::uint8_t *) ptr, size);
-    FileWrite(handout, (std::uint8_t *) ptr, size);
+    FileRead(handle, (std::uint8_t*) ptr, size);
+    FileWrite(handout, (std::uint8_t*) ptr, size);
 
     delete[] ptr;
 
@@ -681,24 +681,24 @@ void save_prim_map(char *name) {
     //
     // load the old ones
 
-    FileRead(handle, (std::uint8_t *) &dummy_obctr, sizeof(OB_ob_upto));
-    FileRead(handle, (std::uint8_t *) &dummy_OB_ob[0], sizeof(OB_Ob) * dummy_obctr);
-    FileRead(handle, (std::uint8_t *) &dummy_OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+    FileRead(handle, (std::uint8_t*) &dummy_obctr, sizeof(OB_ob_upto));
+    FileRead(handle, (std::uint8_t*) &dummy_OB_ob[0], sizeof(OB_Ob) * dummy_obctr);
+    FileRead(handle, (std::uint8_t*) &dummy_OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
     /*
             FileRead(handle,(std::uint8_t*)&OB_ob_upto,sizeof(OB_ob_upto));
             FileRead(handle,(std::uint8_t*)&OB_ob[0],sizeof(OB_Ob)*OB_ob_upto);
             FileRead(handle,(std::uint8_t*)&OB_mapwho[0][0],sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
     */
     // then throw em away, we got new ones
-    FileWrite(handout, (std::uint8_t *) &OB_ob_upto, sizeof(OB_ob_upto));
-    FileWrite(handout, (std::uint8_t *) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
-    FileWrite(handout, (std::uint8_t *) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+    FileWrite(handout, (std::uint8_t*) &OB_ob_upto, sizeof(OB_ob_upto));
+    FileWrite(handout, (std::uint8_t*) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
+    FileWrite(handout, (std::uint8_t*) &OB_mapwho[0][0], sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
 
     // blockdump the rest
 
     do {
-        copied = FileRead(handle, (std::uint8_t *) &buff[0], 100);
-        FileWrite(handout, (std::uint8_t *) &buff[0], copied);
+        copied = FileRead(handle, (std::uint8_t*) &buff[0], 100);
+        FileWrite(handout, (std::uint8_t*) &buff[0], copied);
     } while (copied == 100);
 
     /*
@@ -738,7 +738,7 @@ void save_prim_map(char *name) {
     rename(name2, name);
 }
 
-std::int32_t add_prim_to(MapThing *map, std::int32_t pos, OB_Info *oi) {
+std::int32_t add_prim_to(MapThing* map, std::int32_t pos, OB_Info* oi) {
     if (pos >= MAX_MAP_THINGS) return pos;
     while (map[pos].Type) {
         pos++;
@@ -757,15 +757,15 @@ std::int32_t add_prim_to(MapThing *map, std::int32_t pos, OB_Info *oi) {
 
 // This writes out updated .MAP files
 
-void update_prims_on_map(char *orig_name) {
+void update_prims_on_map(char* orig_name) {
     char name[_MAX_PATH], name2[_MAX_PATH], name3[_MAX_PATH], msg[_MAX_PATH], *ptr;
     MFFileHandle handle = FILE_OPEN_ERROR;
     MFFileHandle handout = FILE_OPEN_ERROR;
     std::int32_t temp, size, c0, x, z;
     //	std::uint16_t point,face4,face3,obj;
-    std::uint8_t *buffer;
+    std::uint8_t* buffer;
     MapThing some_map_things[MAX_MAP_THINGS];
-    OB_Info *oi;
+    OB_Info* oi;
 
     strcpy(name, orig_name);
     ptr = strchr(name, '.');
@@ -791,8 +791,8 @@ void update_prims_on_map(char *orig_name) {
 
     // block copy everything up-to the mapthings
 
-    FileRead(handle, (std::uint8_t *) &temp, 4);
-    FileWrite(handout, (std::uint8_t *) &temp, 4);
+    FileRead(handle, (std::uint8_t*) &temp, 4);
+    FileWrite(handout, (std::uint8_t*) &temp, 4);
 
     if (temp < 26) {
         FileClose(handle);
@@ -805,7 +805,7 @@ void update_prims_on_map(char *orig_name) {
     c0 = sizeof(struct MapThing) * MAX_MAP_THINGS;
     size = FileSize(handle) - 4;
     size -= c0;
-    buffer = (std::uint8_t *) malloc(size);
+    buffer = (std::uint8_t*) malloc(size);
     FileRead(handle, buffer, size);
     FileWrite(handout, buffer, size);
     delete[] buffer;
@@ -867,7 +867,7 @@ void update_prims_on_map(char *orig_name) {
             FileWrite(handout,(std::uint8_t*)&temp,sizeof(std::uint16_t));
     */
     // read old prims and stuff
-    FileRead(handle, (std::uint8_t *) &some_map_things[0], c0);
+    FileRead(handle, (std::uint8_t*) &some_map_things[0], c0);
 
     // clear prims, leave stuff
 
@@ -898,11 +898,11 @@ void update_prims_on_map(char *orig_name) {
         }
 
     // write new prims and stuff
-    FileWrite(handout, (std::uint8_t *) &some_map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
+    FileWrite(handout, (std::uint8_t*) &some_map_things[0], sizeof(struct MapThing) * MAX_MAP_THINGS);
 
     // blockdump the rest
 
-    buffer = (std::uint8_t *) malloc(2048);
+    buffer = (std::uint8_t*) malloc(2048);
     do {
         size = FileRead(handle, buffer, 2048);
         FileWrite(handout, buffer, size);
@@ -942,7 +942,7 @@ void show_mission_info() {
     std::int32_t num_shotgun = 0;
     std::int32_t num_ak47 = 0;
 
-    EventPoint *ep;
+    EventPoint* ep;
 
     for (i = 0; i < MAX_EVENTPOINTS; i++) {
         ep = &current_mission->EventPoints[i];
@@ -1006,7 +1006,7 @@ void set_car_collision_with_road_prims() {
 
 void ws_refresh_all() {
     std::int32_t i;
-    Mission *previous_mission = current_mission;
+    Mission* previous_mission = current_mission;
 
     if (!previous_mission) {
         MessageBox(0, "You must load at least one map & mission first.", "Refresh Missions", MB_OK | MB_ICONEXCLAMATION);
@@ -1035,7 +1035,7 @@ void ws_refresh_all() {
 
 //---------------------------------------------------------------
 
-void remove_map_from_wspace(GameMap *current_map) {
+void remove_map_from_wspace(GameMap* current_map) {
     HTREEITEM current = TreeView_GetSelection(ws_tree);
     std::int32_t c0, c1;
 

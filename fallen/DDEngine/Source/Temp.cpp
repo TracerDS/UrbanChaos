@@ -12,7 +12,7 @@
 // #include	"..\editor\headers\Engine.h"
 #include "..\editor\headers\Map.h"
 #include "..\editor\headers\prim_draw.h"
-#include "..\editor\headers\Thing.h"
+#include "..\editor\headers\Entity.h"
 #include "..\headers\interact.h"
 #include "..\headers\FMatrix.h"
 // #include	"..\editor\headers\collide.hpp"
@@ -35,7 +35,7 @@ extern SVECTOR_F dx_prim_points[RMAX_PRIM_POINTS];
 
 #define SHOE_SIZE 8
 //---------------------------------------------------------------
-void matrix_mult33(struct Matrix33 *result, struct Matrix33 *mat1, struct Matrix33 *mat2) {
+void matrix_mult33(struct Matrix33* result, struct Matrix33* mat1, struct Matrix33* mat2) {
     result->M[0][0] = ((mat1->M[0][0] * mat2->M[0][0]) + (mat1->M[0][1] * mat2->M[1][0]) + (mat1->M[0][2] * mat2->M[2][0])) >> 15;
     result->M[0][1] = ((mat1->M[0][0] * mat2->M[0][1]) + (mat1->M[0][1] * mat2->M[1][1]) + (mat1->M[0][2] * mat2->M[2][1])) >> 15;
     result->M[0][2] = ((mat1->M[0][0] * mat2->M[0][2]) + (mat1->M[0][1] * mat2->M[1][2]) + (mat1->M[0][2] * mat2->M[2][2])) >> 15;
@@ -47,7 +47,7 @@ void matrix_mult33(struct Matrix33 *result, struct Matrix33 *mat1, struct Matrix
     result->M[2][2] = ((mat1->M[2][0] * mat2->M[0][2]) + (mat1->M[2][1] * mat2->M[1][2]) + (mat1->M[2][2] * mat2->M[2][2])) >> 15;
 }
 
-void rotate_obj(std::int16_t xangle, std::int16_t yangle, std::int16_t zangle, Matrix33 *r3) {
+void rotate_obj(std::int16_t xangle, std::int16_t yangle, std::int16_t zangle, Matrix33* r3) {
     std::int32_t sinx, cosx, siny, cosy, sinz, cosz;
     std::int32_t cxcz, sysz, sxsycz, sxsysz, sysx, cxczsy, sxsz, cxsysz, czsx, cxsy, sycz, cxsz;
 
@@ -88,16 +88,16 @@ struct QuickMap {
     std::int16_t Prim;
     std::int16_t Texture;
     std::int16_t Bright;
-    std::int16_t Thing;
+    std::int16_t Entity;
 };
 
 struct TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
-struct TinyXZ *radius_ptr[MAX_RADIUS + 2];
+struct TinyXZ* radius_ptr[MAX_RADIUS + 2];
 
 void build_radius_info() {
-    std::int8_t *grid;
+    std::int8_t* grid;
     std::int32_t dx, dz;
-    struct TinyXZ *ptr_rad;
+    struct TinyXZ* ptr_rad;
     std::int32_t actual_radius, radius, radius_offset, old_radius = 0;
     std::int32_t angle;
     std::int32_t sum_count = 0;
@@ -105,7 +105,7 @@ void build_radius_info() {
 
     ptr_rad = radius_pool;
 
-    grid = (std::int8_t *) MemAlloc((MAX_RADIUS + 1) * (MAX_RADIUS + 1) * 4);
+    grid = (std::int8_t*) MemAlloc((MAX_RADIUS + 1) * (MAX_RADIUS + 1) * 4);
     if (grid) {
         for (radius = (MAX_RADIUS << 2); radius > 3; radius--) {
             if ((radius >> 2) != old_radius) {
@@ -162,7 +162,7 @@ void setup_anim_stuff() {
 #endif
     if (the_elements)
         MemFree(the_elements);
-    the_elements = (KeyFrameElement *) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(KeyFrameElement));
+    the_elements = (KeyFrameElement*) MemAlloc(MAX_NUMBER_OF_ELEMENTS * sizeof(KeyFrameElement));
 }
 
 //---------------------------------------------------------------
@@ -177,14 +177,14 @@ void reset_anim_stuff() {
         MemFree(the_elements);
 }
 
-void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chunk) {
+void load_anim(MFFileHandle file_handle, Anim* the_anim, KeyFrameChunk* the_chunk) {
     char anim_name[ANIM_NAME_SIZE];
     std::int32_t anim_flags,
         c0,
         frame_count,
         frame_id,
         tween_step;
-    KeyFrame *the_frame;
+    KeyFrame* the_frame;
     std::int16_t chunk_id;
     std::int16_t fixed = 0;
     char version = 0;
@@ -220,7 +220,7 @@ void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chun
             //			LogText(" fight count load = %d \n",count);
 
             for (c0 = 0; c0 < count; c0++) {
-                fcol = (struct FightCol *) MemAlloc(sizeof(struct FightCol));
+                fcol = (struct FightCol*) MemAlloc(sizeof(struct FightCol));
                 if (fcol) {
                     FileRead(file_handle, fcol, sizeof(struct FightCol));
                     if (c0 == 0) {
@@ -243,9 +243,9 @@ void load_anim(MFFileHandle file_handle, Anim *the_anim, KeyFrameChunk *the_chun
 //---------------------------------------------------------------
 
 //---------------------------------------------------------------
-Anim *current_anim;
+Anim* current_anim;
 
-void create_anim(Anim **the_list) {
+void create_anim(Anim** the_list) {
     char text[32];
     Anim *next_anim,
         *the_anim;
@@ -273,7 +273,7 @@ void create_anim(Anim **the_list) {
 }
 
 //---------------------------------------------------------------
-void load_body_part_info(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk *the_chunk) {
+void load_body_part_info(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk* the_chunk) {
     std::int32_t c0, c1;
     std::int32_t no_people, no_body_bits, string_len;
 
@@ -290,7 +290,7 @@ void load_body_part_info(MFFileHandle file_handle, std::int32_t version, KeyFram
     }
 }
 
-void load_all_anims(KeyFrameChunk *the_chunk, Anim **anim_list) {
+void load_all_anims(KeyFrameChunk* the_chunk, Anim** anim_list) {
     // #ifdef	EDITOR
     std::int32_t anim_count, version,
         c0;
@@ -317,7 +317,7 @@ void load_all_anims(KeyFrameChunk *the_chunk, Anim **anim_list) {
 }
 
 //---------------------------------------------------------------
-std::int32_t calc_shadow_co_ord(struct SVECTOR *input, struct SVECTOR *output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z) {
+std::int32_t calc_shadow_co_ord(struct SVECTOR* input, struct SVECTOR* output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z) {
     std::int32_t dx, dy, dz;
     std::int32_t alt = 0;
     std::int32_t m, c;
@@ -393,12 +393,12 @@ std::int32_t points_clockwise(std::int32_t p0, std::int32_t p1, std::int32_t p2)
 }
 
 std::int32_t e_draw_a_facet_at(std::uint16_t building_object, std::uint16_t f_building, std::uint16_t facet, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::uint32_t flag_and, flag_or;
     std::int32_t c0;
-    struct BuildingFacet *p_facet;
-    struct FBuilding *p_building;
+    struct BuildingFacet* p_facet;
+    struct FBuilding* p_building;
     std::int32_t sp, ep;
     std::int32_t az;
     std::int32_t col = 0, cor = 0, cob = 0, cot = 0, total = 0;
@@ -415,9 +415,9 @@ std::int32_t e_draw_a_facet_at(std::uint16_t building_object, std::uint16_t f_bu
         r, g, b,
         shade,
         *rgb;
-    BucketQuad *the_quad;
-    BucketTri *the_tri;
-    D3DTLVERTEX *the_vertex;
+    BucketQuad* the_quad;
+    BucketTri* the_tri;
+    D3DTLVERTEX* the_vertex;
     SVECTOR_F temp;
 
     float max_height;
@@ -860,11 +860,11 @@ void e_draw_a_building_at(std::uint16_t building_o, std::uint16_t building_f, st
 //---------------------------------------------------------------
 
 void e_draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t shade) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::uint32_t flag_and, flag_or;
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     std::int32_t col = 0, cor = 0, cob = 0, cot = 0, total = 0;
@@ -872,9 +872,9 @@ void e_draw_a_prim_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::i
     float average_z,
         f_x, f_y, f_z,
         *rgb;
-    BucketQuad *the_quad;
-    BucketTri *the_tri;
-    D3DTLVERTEX *the_vertex;
+    BucketQuad* the_quad;
+    BucketTri* the_tri;
+    D3DTLVERTEX* the_vertex;
     SVECTOR_F temp;
 
     p_obj = &prim_objects[prim];
@@ -1105,7 +1105,7 @@ exit:;
 //---------------------------------------------------------------
 
 // void	e_draw_prim_tween(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat,std::uint32_t shadow);
-void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat, std::uint32_t shadow, std::int16_t dx, std::int16_t dy, std::int16_t dz);
+void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement* anim_info, struct GameKeyFrameElement* anim_info_next, struct Matrix33* rot_mat, std::uint32_t shadow, std::int16_t dx, std::int16_t dy, std::int16_t dz);
 /*
 void	e_draw_test_bloke(std::int32_t x,std::int32_t y,std::int32_t z,std::uint8_t anim,std::int32_t angle)
 {
@@ -1156,7 +1156,7 @@ extern std::uint8_t	store_pos;
 */
 //---------------------------------------------------------------
 
-void e_draw_figure(Thing *p_thing, DrawTween *draw_info, std::int32_t x, std::int32_t y, std::int32_t z) {
+void e_draw_figure(Entity* p_thing, DrawTween* draw_info, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t c0, c1;
     Matrix33 r_matrix;
     GameKeyFrameElement *anim_elements,
@@ -1248,7 +1248,7 @@ struct	SVECTOR
 std::uint32_t d3d_colour[MAX_COLOURS];
 std::uint32_t d3d_specular[MAX_COLOURS];
 
-void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat, std::uint32_t shadow, std::int16_t off_dx, std::int16_t off_dy, std::int16_t off_dz) {
+void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement* anim_info, struct GameKeyFrameElement* anim_info_next, struct Matrix33* rot_mat, std::uint32_t shadow, std::int16_t off_dx, std::int16_t off_dy, std::int16_t off_dz) {
     float average_z,
         bright[MAX_POINTS * 3],
         r, g, b,
@@ -1264,18 +1264,18 @@ void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::
         i, j,
         list,
         sp, ep;
-    BucketQuad *the_quad;
-    BucketTri *the_tri;
-    D3DTLVERTEX *the_vertex;
+    BucketQuad* the_quad;
+    BucketTri* the_tri;
+    D3DTLVERTEX* the_vertex;
     KeyFrame *the_keyframe1,
         *the_keyframe2;
     M31 normal;
     Matrix31 offset;
     Matrix33 mat2;
     Matrix33 mat_final;
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
     SVECTOR temp,
         temp_shadow;
     SVECTOR_F res_shadow[MAX_POINTS],
@@ -1304,7 +1304,7 @@ void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::
     offset.M[2] = (anim_info->OffsetZ + (((anim_info_next->OffsetZ + off_dz - (anim_info->OffsetZ)) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
 
     void matrix_transformZMY(Matrix31 * result, Matrix33 * trans, Matrix31 * mat2);
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -1336,7 +1336,7 @@ void e_draw_prim_tween(std::uint16_t prim, std::int32_t x, std::int32_t y, std::
     void matrix_transform(struct Matrix31 * result, struct Matrix33 * trans, struct Matrix31 * mat2);
     std::int32_t calc_shadow_co_ord(struct SVECTOR * input, struct SVECTOR * output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z);
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform((struct Matrix31 *) &temp, &mat_final, (struct Matrix31 *) &prim_points[c0]);
+        matrix_transform((struct Matrix31*) &temp, &mat_final, (struct Matrix31*) &prim_points[c0]);
 
         temp.X += x;
         temp.Y += y;
@@ -1885,8 +1885,8 @@ exit:;
 
 void e_draw_3d_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2) {
     SVECTOR_F temp;
-    D3DTLVERTEX *the_vertex;
-    BucketLine *the_line;
+    D3DTLVERTEX* the_vertex;
+    BucketLine* the_line;
     std::uint32_t f1, f2;
 
     std::int32_t flag_and;
@@ -1982,8 +1982,8 @@ void e_draw_3d_line_dir(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::
 
 void e_draw_3d_line_col_sorted(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r, std::int32_t g, std::int32_t b) {
     SVECTOR_F temp;
-    D3DTLVERTEX *the_vertex;
-    BucketLine *the_line;
+    D3DTLVERTEX* the_vertex;
+    BucketLine* the_line;
     std::int32_t flag_and, flag_or;
 
     std::uint32_t colour;
@@ -2037,8 +2037,8 @@ void e_draw_3d_line_col_sorted(std::int32_t x1, std::int32_t y1, std::int32_t z1
 
 void e_draw_3d_line_col(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t r, std::int32_t g, std::int32_t b) {
     SVECTOR_F temp;
-    D3DTLVERTEX *the_vertex;
-    BucketLine *the_line;
+    D3DTLVERTEX* the_vertex;
+    BucketLine* the_line;
     std::int32_t flag_and, flag_or;
 
 #ifndef _DEBUG

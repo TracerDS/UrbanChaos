@@ -21,7 +21,7 @@
 // grenade structure
 
 struct Grenade {
-    Thing* owner; // person who threw the grenade
+    Entity* owner; // person who threw the grenade
 
     std::int32_t x; // position
     std::int32_t y;
@@ -61,7 +61,7 @@ void InitGrenades() {
 
 Grenade* global_g;
 
-bool CreateGrenade(Thing* owner, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t timer) {
+bool CreateGrenade(Entity* owner, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t timer) {
     int ix;
     for (ix = 0; ix < MAX_GRENADES; ix++) {
         if (!GrenadeArray[ix].owner) break;
@@ -97,7 +97,7 @@ bool CreateGrenade(Thing* owner, std::int32_t x, std::int32_t y, std::int32_t z,
 //
 // create a grenade throw by a person
 
-bool CreateGrenadeFromPerson(Thing* p_person, std::int32_t timer) {
+bool CreateGrenadeFromPerson(Entity* p_person, std::int32_t timer) {
     std::int32_t vector[3];
 
     FMATRIX_vector(vector, p_person->Draw.Tweened->Angle, 0);
@@ -115,7 +115,7 @@ bool CreateGrenadeFromPerson(Thing* p_person, std::int32_t timer) {
         std::int32_t i_target = PCOM_person_wants_to_kill(p_person);
 
         if (i_target) {
-            Thing* p_target = TO_THING(i_target);
+            Entity* p_target = TO_THING(i_target);
 
             std::int32_t dpx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
             std::int32_t dpz = abs(p_target->WorldPos.Z - p_person->WorldPos.Z >> 8);
@@ -288,7 +288,7 @@ void ProcessGrenades() {
 //
 // cause a grenade to explode
 
-void CreateGrenadeExplosion(std::int32_t x, std::int32_t y, std::int32_t z, Thing* owner) {
+void CreateGrenadeExplosion(std::int32_t x, std::int32_t y, std::int32_t z, Entity* owner) {
     std::int32_t ytest = PAP_calc_map_height_at(x >> 8, z >> 8) << 8;
 
     if (y <= ytest) y = ytest + 1;
@@ -392,7 +392,7 @@ void PANEL_draw_gun_sight(std::int32_t mx, std::int32_t my, std::int32_t mz, std
 std::int32_t GAMEMENU_is_paused();
 std::int32_t GAMEMENU_slowdown_mul();
 
-void show_grenade_path(Thing* p_person) {
+void show_grenade_path(Entity* p_person) {
     Grenade* gp;
     std::int32_t x, y, z, x1, y1, z1;
     std::int32_t count = (-GAME_TURN);

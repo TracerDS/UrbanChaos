@@ -71,7 +71,7 @@ bool CALLBACK animpick_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 //---------------------------------------------------------------
 
-void do_anim_pick(EventPoint *the_ep) {
+void do_anim_pick(EventPoint* the_ep) {
     //	Set the dialog.
     anim_picked = the_ep->Data[0];
 

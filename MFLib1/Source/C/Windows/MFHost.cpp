@@ -30,7 +30,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR szCmdLin
 #ifdef TARGET_DC
 
     // DC doesn't have command-lines.
-    TCHAR *argv[2];
+    TCHAR* argv[2];
     argv[0] = TEXT("BogusName");
     argv[1] = TEXT("");
     return MF_main(1, argv);
@@ -345,7 +345,7 @@ std::int32_t CreateShellWindow() {
 
 //---------------------------------------------------------------
 
-void LogText(char *error, ...) {
+void LogText(char* error, ...) {
     char buf[512];
     va_list argptr;
 
@@ -361,7 +361,7 @@ void LogText(char *error, ...) {
 //---------------------------------------------------------------
 extern HWND hShellWindow;
 
-int MFMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine) {
+int MFMessage(const char* pMessage, const char* pFile, std::uint32_t dwLine) {
 #ifndef TARGET_DC
     char buff1[512];
     char buff2[512];
@@ -391,7 +391,7 @@ int MFMessage(const char *pMessage, const char *pFile, std::uint32_t dwLine) {
 
 //---------------------------------------------------------------
 
-void Time(struct MFTime *the_time) {
+void Time(struct MFTime* the_time) {
     SYSTEMTIME new_time;
 
     GetLocalTime(&new_time);

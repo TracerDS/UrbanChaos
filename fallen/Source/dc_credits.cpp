@@ -338,7 +338,7 @@ struct TomPart {
     }
 
     // Returns true if it used the vertices.
-    bool Draw(D3DTLVERTEX *d3dtlvFirst, float fGlobalFade) {
+    bool Draw(D3DTLVERTEX* d3dtlvFirst, float fGlobalFade) {
         if (fLifetime < 0.0f) {
             // Particle is dead.
             return false;
@@ -509,9 +509,9 @@ struct TomPart {
     // Returns success.
     // Copies the given WCs to the particle.
     bool CreateWibbling(float fU1In, float fV1In, float fU2In, float fV2In,
-                        WibbleComponent &rwcX, WibbleComponent &rwcY, WibbleComponent &rwcZ,
-                        WibbleComponent &rwcXSize, WibbleComponent &rwcYSize,
-                        WibbleComponent &rwcRotation, WibbleComponent &rwcShade, WibbleComponent &rwcBrightness) {
+                        WibbleComponent& rwcX, WibbleComponent& rwcY, WibbleComponent& rwcZ,
+                        WibbleComponent& rwcXSize, WibbleComponent& rwcYSize,
+                        WibbleComponent& rwcRotation, WibbleComponent& rwcShade, WibbleComponent& rwcBrightness) {
         fU1 = fU1In;
         fV1 = fV1In;
         fU2 = fU2In;
@@ -534,10 +534,10 @@ struct TomPart {
 };
 
 #define MAX_PARTICLES 1024
-TomPart *tpParticles;
+TomPart* tpParticles;
 
-D3DTLVERTEX *tlvertParticles;
-WORD *wParticleIndices;
+D3DTLVERTEX* tlvertParticles;
+WORD* wParticleIndices;
 
 extern std::int32_t FONT2D_GetIndex(char chr);
 extern std::int32_t FONT2D_GetLetterWidth(char chr);
@@ -557,10 +557,10 @@ int GetLetterWidth(char pc) {
 }
 #endif
 
-void OhNoThisIsActually(char *pcString, int iX, int iY, float fZ) {
+void OhNoThisIsActually(char* pcString, int iX, int iY, float fZ) {
     while (*pcString != '\0') {
         if (*pcString != ' ') {
-            TomPart *tpCur = tpParticles;
+            TomPart* tpCur = tpParticles;
             int iCurTPNum = 0;
             while (true) {
                 if (!tpCur->IsAlive()) {
@@ -579,7 +579,7 @@ void OhNoThisIsActually(char *pcString, int iX, int iY, float fZ) {
 
             if (tpCur != nullptr) {
                 int iLetter = FONT2D_GetIndex(*pcString);
-                FONT2D_Letter *fl = &FONT2D_letter[iLetter];
+                FONT2D_Letter* fl = &FONT2D_letter[iLetter];
 
 #define MY_SCALE 0.9f
 
@@ -648,7 +648,7 @@ void ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisT
     if (AreAnyDevicesConnected()) {
         // Display "No controller" message.
 
-        char *pcString = XLAT_str(X_CONTROLLER_REMOVED);
+        char* pcString = XLAT_str(X_CONTROLLER_REMOVED);
 
         // Put at bottom left.
         std::int32_t iXSize, iYSize;
@@ -661,7 +661,7 @@ void ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisT
     } else {
         // The big essay.
         // Centre it on all sides.
-        char *pcString[3];
+        char* pcString[3];
         if (!IsEnglish) {
             pcString[0] = "Une manette vient d'etre"; // NOTE! The E in etre should be �, but the font doesn't have it, and it's all in caps anyway.
             if (bWriteVMInsteadOfVMU) {
@@ -706,7 +706,7 @@ void DreamCastCredits(void) {
     ASSERT(dwCreditsSize > 0);
     dwCreditsSize += 32;
     dwCreditsSize *= sizeof(char);
-    char *pcCreditsText = (char *) MemAlloc(dwCreditsSize);
+    char* pcCreditsText = (char*) MemAlloc(dwCreditsSize);
     FileRead(handle, pcCreditsText, dwCreditsSize);
     FileClose(handle);
 
@@ -714,9 +714,9 @@ void DreamCastCredits(void) {
     ASSERT(tpParticles == nullptr);
     ASSERT(tlvertParticles == nullptr);
     ASSERT(wParticleIndices == nullptr);
-    tpParticles = (TomPart *) MemAlloc(MAX_PARTICLES * sizeof(*tpParticles));
-    tlvertParticles = (D3DTLVERTEX *) MemAlloc(4 * MAX_PARTICLES * sizeof(*tlvertParticles));
-    wParticleIndices = (WORD *) MemAlloc(6 * MAX_PARTICLES * sizeof(*wParticleIndices));
+    tpParticles = (TomPart*) MemAlloc(MAX_PARTICLES * sizeof(*tpParticles));
+    tlvertParticles = (D3DTLVERTEX*) MemAlloc(4 * MAX_PARTICLES * sizeof(*tlvertParticles));
+    wParticleIndices = (WORD*) MemAlloc(6 * MAX_PARTICLES * sizeof(*wParticleIndices));
     ASSERT(tpParticles != nullptr);
     ASSERT(tlvertParticles != nullptr);
     ASSERT(wParticleIndices != nullptr);
@@ -725,7 +725,7 @@ void DreamCastCredits(void) {
         tpParticles[i].Kill();
     }
 
-    char *pcCredits = pcCreditsText;
+    char* pcCredits = pcCreditsText;
 
     // Special characters:
     // ('\r' is ignored)
@@ -885,8 +885,8 @@ void DreamCastCredits(void) {
         the_display.lp_D3D_Viewport->Clear2(0, nullptr, D3DCLEAR_TARGET, 0x000000ff, 0.0f, 0);
 
         // Run and draw the particles.
-        D3DTLVERTEX *ptlvertCur = tlvertParticles;
-        WORD *pwCurInd = wParticleIndices;
+        D3DTLVERTEX* ptlvertCur = tlvertParticles;
+        WORD* pwCurInd = wParticleIndices;
         int iVertNum = 0;
         int iNumIndices = 0;
 
@@ -1015,7 +1015,7 @@ void DreamCastCredits(void) {
             D3DDP_DONOTCLIP | D3DDP_DONOTUPDATEEXTENTS);
 
         // Display any crappy "no controller" message.
-        extern DIDeviceInfo *primary_device;
+        extern DIDeviceInfo* primary_device;
         if (primary_device == nullptr) {
             ThisMayWellBeTheLastFunctionEverInsertedIntoUrbanChaosAndIReallyMeanItThisTime();
         }
@@ -1116,7 +1116,7 @@ void DreamCastCredits(void) {
             // First scan the line for spacing info.
             int iTabCount = 0;
             int iTotalWidth = 0;
-            char *pcStart = pcCredits;
+            char* pcStart = pcCredits;
             bool bFoundTheEndOfTheLine = false;
             while (!bFoundTheEndOfTheLine) {
                 switch (*pcCredits) {
@@ -1179,7 +1179,7 @@ void DreamCastCredits(void) {
 
             // Now "draw" it.
             int iCurTPNum = 0;
-            TomPart *tpCur = tpParticles;
+            TomPart* tpCur = tpParticles;
             int iXPos = iLeftHandEdge;
 
             while (pcStart != pcCredits) {
@@ -1248,7 +1248,7 @@ void DreamCastCredits(void) {
 												);
 #else
                         int iLetter = FONT2D_GetIndex(*pcStart);
-                        FONT2D_Letter *fl = &FONT2D_letter[iLetter];
+                        FONT2D_Letter* fl = &FONT2D_letter[iLetter];
 
                         // Check out the magic number 18. Not my fault - copied from font2d.cpp
                         tpCur->CreateStandard(iXPos + ((fl->width * GLOBAL_TEXT_SCALE) * 0.5f),
@@ -1264,7 +1264,7 @@ void DreamCastCredits(void) {
 #else
                         // Dodgy new style.
                         int iLetter = FONT2D_GetIndex(*pcStart);
-                        FONT2D_Letter *fl = &FONT2D_letter[iLetter];
+                        FONT2D_Letter* fl = &FONT2D_letter[iLetter];
 
                         for (int iWC = 0; iWC < NUM_WCS; iWC++) {
                             float fValue = wcDelta[iWC].EvalAt((float) (iXPos - 320));

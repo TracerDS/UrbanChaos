@@ -23,10 +23,10 @@ z>>1 for bucket size
 std::uint8_t bucket_pool[MAX_BUCKET_POOL];
 std::uint16_t select_colour = 0xffff;
 struct BucketHead bucket_heads[MAX_BUCKETS];
-std::uint8_t *current_bucket_pool = bucket_pool;
-std::uint8_t *end_bucket_pool = &bucket_pool[MAX_BUCKET_POOL - 100];
+std::uint8_t* current_bucket_pool = bucket_pool;
+std::uint8_t* end_bucket_pool = &bucket_pool[MAX_BUCKET_POOL - 100];
 
-std::uint32_t (*rotate_point_gte)(struct SVector *v, struct SVector *r);
+std::uint32_t (*rotate_point_gte)(struct SVector* v, struct SVector* r);
 
 struct EngineStuff engine;
 
@@ -55,7 +55,7 @@ void draw_explode_faces();
 #define DEBUG_FPS (1 << 1)
 #define DEBUG_VECTS (1 << 2)
 
-inline void rotate_point_old(struct EnginePoint *eptr) {
+inline void rotate_point_old(struct EnginePoint* eptr) {
     std::int32_t x, y, z;
 
     eptr->X3d -= engine.X >> 8;
@@ -101,7 +101,7 @@ inline void rotate_point_old(struct EnginePoint *eptr) {
 
 #define EYE_DIST 0
 
-std::uint32_t rotate_point_gte_perspective(struct SVector *v, struct SVector *r) {
+std::uint32_t rotate_point_gte_perspective(struct SVector* v, struct SVector* r) {
     std::int32_t x, y, z, vx, vy, vz;
     std::uint32_t flags = 0;
     /*
@@ -183,7 +183,7 @@ std::uint32_t rotate_point_gte_perspective(struct SVector *v, struct SVector *r)
     return (flags);
 }
 
-std::uint32_t rotate_point_gte_normal(struct SVector *v, struct SVector *r) {
+std::uint32_t rotate_point_gte_normal(struct SVector* v, struct SVector* r) {
     std::int32_t x, y, z, vx, vy, vz;
     std::uint32_t flags = 0;
     /*
@@ -271,9 +271,9 @@ void init_engine() {
     engine.ClipZ = 5000;
 }
 
-void add_bucket(void *p_bucket, std::int32_t z) {
-    struct BucketQuad *the_quad;
-    struct BucketTri *the_tri;
+void add_bucket(void* p_bucket, std::int32_t z) {
+    struct BucketQuad* the_quad;
+    struct BucketTri* the_tri;
 
     if (p_bucket < bucket_pool) {
         //		LogText(" p_bucket oor LOW");
@@ -313,7 +313,7 @@ void add_bucket(void *p_bucket, std::int32_t z) {
     if (z < 0)
         z = 0;
     //	LogText(" == %d \n",z);
-    ((struct BucketGeneric *) p_bucket)->BucketPtr = bucket_heads[z].BucketPtr;
+    ((struct BucketGeneric*) p_bucket)->BucketPtr = bucket_heads[z].BucketPtr;
     bucket_heads[z].BucketPtr = p_bucket;
 }
 
@@ -358,14 +358,14 @@ void	draw_block(std::uint16_t	prev_block,std::uint16_t	c_block)
 }
 */
 
-void draw_quad(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4) {
+void draw_quad(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4) {
     //	vec_mode=VM_GT;
 
     my_trig(p1, p2, p3);
     my_trig(p3, p4, p1);
 }
 
-void draw_quad_anti(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4) {
+void draw_quad_anti(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4) {
     //	poly_count+=2;
 
     {
@@ -378,7 +378,7 @@ void draw_quad_anti(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct M
 }
 
 // change poly draw to understand buckets directly
-void draw_quad_bucket(struct BucketQuad *p_b, std::int32_t z) {
+void draw_quad_bucket(struct BucketQuad* p_b, std::int32_t z) {
     struct EnginePoint p1, p2, p3, p4;
 
     if (p_b->DrawFlags & POLY_FLAG_TEXTURED) {
@@ -527,7 +527,7 @@ void draw_quad_bucket(struct BucketQuad *p_b, std::int32_t z) {
 #endif
 }
 
-void draw_tri_bucket(struct BucketTri *p_b) {
+void draw_tri_bucket(struct BucketTri* p_b) {
     struct EnginePoint p1, p2, p3;
     if (p_b->DrawFlags & POLY_FLAG_TEXTURED) {
         //		if(p_b->TextPage>5)
@@ -619,12 +619,12 @@ wire:;
     }
 }
 
-void draw_vect_bucket(struct BucketVect *p_b) {
+void draw_vect_bucket(struct BucketVect* p_b) {
     //	DrawLineC(p_b->SX[0],p_b->SY[0],p_b->SX[1],p_b->SY[1],p_b->Shade[0]);
     vect_count++;
     DrawLineC(p_b->P[0].X, p_b->P[0].Y, p_b->P[1].X, p_b->P[1].Y, p_b->Col);
 }
-void draw_rect_bucket(struct BucketRect *p_b) {
+void draw_rect_bucket(struct BucketRect* p_b) {
     DrawBoxC(p_b->P[0].X, p_b->P[0].Y, p_b->Width, p_b->Height, p_b->Col);
 }
 
@@ -663,7 +663,7 @@ void hilite_a_floor_face(std::int16_t face, std::uint8_t info_flag) {
 }
 
 void hilite_a_face(std::int16_t face, std::uint8_t info_flag) {
-    std::uint16_t *points;
+    std::uint16_t* points;
     std::int32_t flags[4];
     struct SVector res[4];
     std::int32_t ox, oy, oz, c0;
@@ -676,7 +676,7 @@ void hilite_a_face(std::int16_t face, std::uint8_t info_flag) {
     std::int32_t building;
     std::int32_t thing;
 
-    Thing *p_thing;
+    Entity* p_thing;
     if (face < 0) {
         points = prim_faces3[-face].Points;
 
@@ -694,7 +694,7 @@ void hilite_a_face(std::int16_t face, std::uint8_t info_flag) {
             oz = p_thing->WorldPos.Z >> 8;
 
         } else {
-            Thing *p_thing;
+            Entity* p_thing;
 
             p_thing = TO_THING(wall);
             ox = p_thing->WorldPos.X >> 8;
@@ -759,7 +759,7 @@ void hilite_a_face(std::int16_t face, std::uint8_t info_flag) {
             thing = storey_list[thing].BuildingHead;
             thing = building_list[thing].ThingIndex;
 
-            Thing *p_thing = TO_THING(thing);
+            Entity* p_thing = TO_THING(thing);
 
             ox = p_thing->WorldPos.X >> 8;
             oy = p_thing->WorldPos.Y >> 8;
@@ -830,10 +830,10 @@ void hilite_a_face(std::int16_t face, std::uint8_t info_flag) {
 
 void render_buckets(std::uint8_t highlight) {
     std::int32_t c0;
-    struct BucketHead *p;
-    struct BucketQuad *the_quad;
-    struct BucketTri *the_tri;
-    void *bucket;
+    struct BucketHead* p;
+    struct BucketQuad* the_quad;
+    struct BucketTri* the_tri;
+    void* bucket;
     char str[100];
 
     if (view_mode & 8)
@@ -849,21 +849,21 @@ void render_buckets(std::uint8_t highlight) {
             while (bucket) {
                 std::uint16_t temp;
                 count++;
-                switch (((struct BucketGeneric *) bucket)->BucketType) {
+                switch (((struct BucketGeneric*) bucket)->BucketType) {
                 case BT_QUAD:
-                    draw_quad_bucket((struct BucketQuad *) bucket, engine.BucketSize - c0);
+                    draw_quad_bucket((struct BucketQuad*) bucket, engine.BucketSize - c0);
                     break;
                 case BT_TRI:
-                    draw_tri_bucket((struct BucketTri *) bucket);
+                    draw_tri_bucket((struct BucketTri*) bucket);
                     break;
                 case BT_VECT:
-                    draw_vect_bucket((struct BucketVect *) bucket);
+                    draw_vect_bucket((struct BucketVect*) bucket);
                     break;
                 case BT_RECT:
-                    draw_rect_bucket((struct BucketRect *) bucket);
+                    draw_rect_bucket((struct BucketRect*) bucket);
                     break;
                 }
-                bucket = ((struct BucketGeneric *) bucket)->BucketPtr;
+                bucket = ((struct BucketGeneric*) bucket)->BucketPtr;
             }
         }
         if (view_mode & 8)
@@ -884,7 +884,7 @@ void render_buckets(std::uint8_t highlight) {
                         }
                         else
         */
-        if (hilited_face.PEle == (struct EditMapElement *) -2) {
+        if (hilited_face.PEle == (struct EditMapElement*) -2) {
             hilite_a_floor_face(0, 0);
         } else {
             if (hilited_face.Face)
@@ -1172,13 +1172,13 @@ void calc_world_pos_front(std::int32_t x, std::int32_t y) {
 }
 
 void dump_face_info(std::int16_t face) {
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::int32_t x, y, z;
     std::int32_t c0;
     std::int16_t index[] = {0, 1, 3, 2, 0};
 
     if (face > 0) {
-        struct PrimFace4 *p_face;
+        struct PrimFace4* p_face;
         p_face = &prim_faces4[face];
         p_thing = TO_MTHING(p_face->ThingIndex);
         x = p_thing->X;
@@ -1191,7 +1191,7 @@ void dump_face_info(std::int16_t face) {
             LogText(" (%d,%d,%d)", prim_points[p_face->Points[index[c0]]].X, prim_points[p_face->Points[index[c0]]].Y, prim_points[p_face->Points[index[c0]]].Z);
         }
     } else {
-        struct PrimFace3 *p_face;
+        struct PrimFace3* p_face;
         face = -face;
         p_face = &prim_faces3[face];
         p_thing = TO_MTHING(p_face->ThingIndex);
@@ -1210,14 +1210,14 @@ void dump_face_info(std::int16_t face) {
     LogText("\n");
 }
 
-void calc_txty(std::int16_t face, std::int32_t *tx, std::int32_t *ty, std::int16_t mid_x, std::int16_t mid_y, std::int16_t mid_z) {
+void calc_txty(std::int16_t face, std::int32_t* tx, std::int32_t* ty, std::int16_t mid_x, std::int16_t mid_y, std::int16_t mid_z) {
     if (face > 0) {
         *tx = (prim_faces4[face].UV[0][0] + prim_faces4[face].UV[1][0] + prim_faces4[face].UV[2][0] + prim_faces4[face].UV[3][0]) >> 2;
         *ty = (prim_faces4[face].UV[0][1] + prim_faces4[face].UV[1][1] + prim_faces4[face].UV[2][1] + prim_faces4[face].UV[3][1]) >> 2;
     }
 }
 
-void rotate_point_by_xyz(struct SVector *p, std::int32_t ax, std::int32_t ay, std::int32_t az) {
+void rotate_point_by_xyz(struct SVector* p, std::int32_t ax, std::int32_t ay, std::int32_t az) {
     std::int32_t cosy, siny, cosx, sinx, cosz, sinz;
     std::int32_t rx, ry, rz;
 
@@ -1243,9 +1243,9 @@ void rotate_point_by_xyz(struct SVector *p, std::int32_t ax, std::int32_t ay, st
 }
 
 void rotate_ex_face(std::int16_t index) {
-    rotate_point_by_xyz((SVector *) &ex_faces[index].P[0], ex_faces[index].AX, ex_faces[index].AY, 0);
-    rotate_point_by_xyz((SVector *) &ex_faces[index].P[1], ex_faces[index].AX, ex_faces[index].AY, 0);
-    rotate_point_by_xyz((SVector *) &ex_faces[index].P[2], ex_faces[index].AX, ex_faces[index].AY, 0);
+    rotate_point_by_xyz((SVector*) &ex_faces[index].P[0], ex_faces[index].AX, ex_faces[index].AY, 0);
+    rotate_point_by_xyz((SVector*) &ex_faces[index].P[1], ex_faces[index].AX, ex_faces[index].AY, 0);
+    rotate_point_by_xyz((SVector*) &ex_faces[index].P[2], ex_faces[index].AX, ex_faces[index].AY, 0);
 }
 
 void remove_ex_face(std::int16_t index) {
@@ -1273,7 +1273,7 @@ void split_explode_face(std::int16_t index) {
     std::int32_t mid_x, mid_y, mid_z, mid_shade, mid_tx, mid_ty;
     std::int32_t face1, face2;
     std::int32_t tri1[3], tri2[3];
-    std::int32_t *tri;
+    std::int32_t* tri;
     std::int32_t c0, c1;
     for (c0 = 0; c0 < 3; c0++) {
         dx = ex_faces[index].P[aindex[c0 + 1]].X - ex_faces[index].P[aindex[c0]].X;
@@ -1397,8 +1397,8 @@ void move_explode_faces() {
 }
 
 void draw_explode_faces() {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::uint32_t flag_and, flag_or;
     std::int32_t c0;
     std::int32_t az;
@@ -1414,9 +1414,9 @@ void draw_explode_faces() {
             engine.Y -= ex_faces[c0].Y;
             engine.Z -= ex_faces[c0].Z;
 
-            flags[0] = rotate_point_gte((struct SVector *) &ex_faces[c0].P[0], &res[0]);
-            flags[1] = rotate_point_gte((struct SVector *) &ex_faces[c0].P[1], &res[1]);
-            flags[2] = rotate_point_gte((struct SVector *) &ex_faces[c0].P[2], &res[2]);
+            flags[0] = rotate_point_gte((struct SVector*) &ex_faces[c0].P[0], &res[0]);
+            flags[1] = rotate_point_gte((struct SVector*) &ex_faces[c0].P[1], &res[1]);
+            flags[2] = rotate_point_gte((struct SVector*) &ex_faces[c0].P[2], &res[2]);
 
             engine.X += ex_faces[c0].X;
             engine.Y += ex_faces[c0].Y;
@@ -1434,30 +1434,30 @@ void draw_explode_faces() {
                         ex_faces[c0].Face3.DrawFlags);
 
                     setCol3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         ex_faces[c0].Face3.Col2);
 
                     setXY3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         res[0].X, res[0].Y,
                         res[1].X, res[1].Y,
                         res[2].X, res[2].Y);
 
                     setUV3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         ex_faces[c0].Face3.UV[0][0], ex_faces[c0].Face3.UV[0][1],
                         ex_faces[c0].Face3.UV[1][0], ex_faces[c0].Face3.UV[1][1],
                         ex_faces[c0].Face3.UV[2][0], ex_faces[c0].Face3.UV[2][1],
                         ex_faces[c0].Face3.TexturePage);
 
-                    setShade3((struct BucketTri *) current_bucket_pool,
+                    setShade3((struct BucketTri*) current_bucket_pool,
                               ex_faces[c0].Face3.Bright[0],
                               ex_faces[c0].Face3.Bright[1],
                               ex_faces[c0].Face3.Bright[2]);
 
-                    ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 
                     current_bucket_pool += sizeof(struct BucketQuad);
                 }
@@ -1465,7 +1465,7 @@ void draw_explode_faces() {
     }
 }
 
-void add_explode_face(struct PrimPoint *p0, struct PrimPoint *p1, struct PrimPoint *p2, struct PrimFace3 *p_face, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t vx, std::int32_t vy, std::int32_t vz) {
+void add_explode_face(struct PrimPoint* p0, struct PrimPoint* p1, struct PrimPoint* p2, struct PrimFace3* p_face, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t vx, std::int32_t vy, std::int32_t vz) {
     std::int32_t index;
     std::int32_t ax, ay, az;
     index = find_an_empty_explode_face();
@@ -1532,7 +1532,7 @@ std::uint16_t make_poly_into_glass_shatter_prim(std::int16_t face, std::int16_t 
     std::int16_t text_x[1000];
     std::int16_t text_y[1000];
     struct PrimPoint points[1000];
-    struct MapThing *p_thing;
+    struct MapThing* p_thing;
     std::uint16_t tindex = 0;
     std::int16_t tf;
 
@@ -1630,7 +1630,7 @@ std::uint16_t make_poly_into_glass_shatter_prim(std::int16_t face, std::int16_t 
             face3.Bright[1] = 128;
             face3.Bright[2] = 128;
 
-            add_explode_face(&pp0, &pp1, &pp2, (struct PrimFace3 *) &face3, p_thing->X, p_thing->Y, p_thing->Z, 0, 0, 0);
+            add_explode_face(&pp0, &pp1, &pp2, (struct PrimFace3*) &face3, p_thing->X, p_thing->Y, p_thing->Z, 0, 0, 0);
 
             //			LogText("FRAG %d \n",tf);
             //			dump_face_info(-(next_game_face3+tf-1));

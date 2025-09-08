@@ -360,7 +360,7 @@ void FIGURE_draw_prim_tween(
 
 
 
-void FIGURE_draw(Thing *p_thing)
+void FIGURE_draw(Entity *p_thing)
 {
 	std::int32_t dx;
 	std::int32_t dy;
@@ -477,7 +477,7 @@ void FIGURE_draw(Thing *p_thing)
 
 
 
-void FIGURE_draw_reflection(Thing *p_thing, std::int32_t height)
+void FIGURE_draw_reflection(Entity *p_thing, std::int32_t height)
 {
 	std::int32_t dx;
 	std::int32_t dy;

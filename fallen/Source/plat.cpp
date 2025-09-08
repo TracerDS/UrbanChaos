@@ -17,7 +17,7 @@
 #include "drawxtra.h"
 #endif
 
-Plat *PLAT_plat; //[PLAT_MAX_PLATS];
+Plat* PLAT_plat; //[PLAT_MAX_PLATS];
 std::int32_t PLAT_plat_upto;
 
 //
@@ -45,7 +45,7 @@ void PLAT_init() {
 }
 #endif
 
-void PLAT_process(Thing *p_thing) {
+void PLAT_process(Entity* p_thing) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -75,8 +75,8 @@ void PLAT_process(Thing *p_thing) {
 
     ASSERT(p_thing->Class = CLASS_PLAT);
 
-    Plat *plat = p_thing->Genus.Plat;
-    DrawMesh *dm = p_thing->Draw.Mesh;
+    Plat* plat = p_thing->Genus.Plat;
+    DrawMesh* dm = p_thing->Draw.Mesh;
 
     switch (plat->state) {
     case PLAT_STATE_NONE:
@@ -253,9 +253,9 @@ void PLAT_process(Thing *p_thing) {
                 std::int32_t i;
                 std::int32_t num;
                 THING_INDEX found[PLAT_MAX_FIND];
-                Thing *p_person;
+                Entity* p_person;
 
-                PrimInfo *pi = get_prim_info(dm->ObjectId);
+                PrimInfo* pi = get_prim_info(dm->ObjectId);
 
                 num = THING_find_sphere(
                     p_thing->WorldPos.X >> 8,
@@ -307,7 +307,7 @@ void PLAT_process(Thing *p_thing) {
                                 false,
                                 false)) {
 #ifndef PSX
-                            extern std::int32_t playing_level(const char *name); // eway.cpp
+                            extern std::int32_t playing_level(const char* name); // eway.cpp
                             if (playing_level("botanicc.ucm") &&
 #else
                             if ((wad_level == 19) &&
@@ -487,10 +487,10 @@ std::uint16_t PLAT_create(
     std::int32_t best_score;
     OB_Info best_oi;
 
-    OB_Info *oi;
-    Thing *p_thing;
-    Plat *plat;
-    DrawMesh *dm;
+    OB_Info* oi;
+    Entity* p_thing;
+    Plat* plat;
+    DrawMesh* dm;
 
     if (!WITHIN(PLAT_plat_upto, 1, PLAT_MAX_PLATS - 1)) {
         //

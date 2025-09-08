@@ -22,8 +22,8 @@ IMP_Mesh WIRE_mesh[WIRE_NUM_MESHES];
 // The textures.
 //
 
-OS_Texture *WIRE_ot_line;
-OS_Texture *WIRE_ot_dot;
+OS_Texture* WIRE_ot_line;
+OS_Texture* WIRE_ot_dot;
 
 std::int32_t WIRE_last;
 std::int32_t WIRE_now;
@@ -64,7 +64,7 @@ std::int32_t WIRE_current_countdown;
 // matter how it is rotated.
 //
 
-void WIRE_plane_init(IMP_Mesh *im) {
+void WIRE_plane_init(IMP_Mesh* im) {
     std::int32_t i;
 
     for (i = 0; i < WIRE_NUM_POINTS; i++) {
@@ -74,7 +74,7 @@ void WIRE_plane_init(IMP_Mesh *im) {
     }
 }
 
-void WIRE_plane_rotate(IMP_Mesh *im, float angle) {
+void WIRE_plane_rotate(IMP_Mesh* im, float angle) {
     std::int32_t i;
 
     float matrix[9];
@@ -141,9 +141,9 @@ void WIRE_plane_draw() {
     std::int32_t pz;
     std::int32_t index;
 
-    OS_Buffer *ob = OS_buffer_new();
-    OS_Vert *ov;
-    WIRE_Point *wp;
+    OS_Buffer* ob = OS_buffer_new();
+    OS_Vert* ov;
+    WIRE_Point* wp;
 
     //
     // Rotate all the points.
@@ -266,7 +266,7 @@ void WIRE_init() {
 }
 
 void WIRE_draw() {
-    IMP_Mesh *im = &WIRE_mesh[WIRE_current_mesh];
+    IMP_Mesh* im = &WIRE_mesh[WIRE_current_mesh];
 
     std::int32_t mode_over;
 

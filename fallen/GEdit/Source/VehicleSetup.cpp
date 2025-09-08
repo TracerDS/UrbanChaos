@@ -32,8 +32,8 @@ std::int32_t veh_type, veh_move, veh_targ, veh_key;
 
 //---------------------------------------------------------------
 
-extern char *WaypointTitle(EventPoint *ep, char *msg);
-char *WaypointExtra(EventPoint *ep, char *msg);
+extern char* WaypointTitle(EventPoint* ep, char* msg);
+char* WaypointExtra(EventPoint* ep, char* msg);
 
 bool CALLBACK vs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
@@ -118,7 +118,7 @@ bool CALLBACK vs_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_vehicle_setup(EventPoint *the_ep) {
+void do_vehicle_setup(EventPoint* the_ep) {
     //	Set the dialog.
     veh_type = the_ep->Data[0];
     veh_move = the_ep->Data[1];
@@ -143,7 +143,7 @@ void do_vehicle_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_vehicle_message(EventPoint *ep, char *msg) {
+char* get_vehicle_message(EventPoint* ep, char* msg) {
     if ((!ep) || (!ep->Data[0]))
         strcpy(msg, "Unknown");
     else

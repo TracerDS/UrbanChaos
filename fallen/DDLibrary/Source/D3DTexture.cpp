@@ -20,7 +20,7 @@
 #endif
 
 #ifdef TEX_EMBED
-static D3DTexture *EmbedSource = nullptr;
+static D3DTexture* EmbedSource = nullptr;
 static LPDIRECTDRAWSURFACE4 EmbedSurface = nullptr;
 static LPDIRECT3DTEXTURE2 EmbedTexture = nullptr;
 static std::uint8_t EmbedOffset = 0;
@@ -29,9 +29,9 @@ static std::uint8_t EmbedOffset = 0;
 extern void POLY_reset_render_states();
 
 static DWORD dwSizeOfFastLoadBuffer = 0;
-void *pvFastLoadBuffer = nullptr;
+void* pvFastLoadBuffer = nullptr;
 
-inline void *GetMeAFastLoadBufferAtLeastThisBigPlease(DWORD dwSize) {
+inline void* GetMeAFastLoadBufferAtLeastThisBigPlease(DWORD dwSize) {
     if (dwSizeOfFastLoadBuffer < dwSize) {
         if (pvFastLoadBuffer) {
             VirtualFree(pvFastLoadBuffer, 0, MEM_RELEASE);
@@ -59,8 +59,8 @@ void NotGoingToLoadTexturesForAWhileNowSoYouCanCleanUpABit() {
     dwSizeOfFastLoadBuffer = 0;
 }
 
-inline void *FastLoadFileSomewhere(MFFileHandle handle, DWORD dwSize) {
-    void *pvData = GetMeAFastLoadBufferAtLeastThisBigPlease(dwSize);
+inline void* FastLoadFileSomewhere(MFFileHandle handle, DWORD dwSize) {
+    void* pvData = GetMeAFastLoadBufferAtLeastThisBigPlease(dwSize);
     ASSERT(pvData != nullptr);
 
     DWORD dwAlignedFileSize = dwSize & (~4095);
@@ -71,7 +71,7 @@ inline void *FastLoadFileSomewhere(MFFileHandle handle, DWORD dwSize) {
     }
     // Finish off with PIO or whatever.
     if (dwSize - dwAlignedFileSize > 0) {
-        dwRead += FileRead(handle, (void *) ((char *) pvData + dwAlignedFileSize), dwSize - dwAlignedFileSize);
+        dwRead += FileRead(handle, (void*) ((char*) pvData + dwAlignedFileSize), dwSize - dwAlignedFileSize);
     }
 
     ASSERT(dwRead == dwSize);
@@ -126,7 +126,7 @@ void D3DPage::Unload() {
 }
 
 #ifdef TEX_EMBED
-void D3DTexture::GetTexOffsetAndScale(float *pfUScale, float *pfUOffset, float *pfVScale, float *pfVOffset) {
+void D3DTexture::GetTexOffsetAndScale(float* pfUScale, float* pfUOffset, float* pfVScale, float* pfVOffset) {
     switch (bPageType) {
     case D3DPAGE_NONE:
         *pfUScale = 1.0f;
@@ -160,7 +160,7 @@ void D3DTexture::GetTexOffsetAndScale(float *pfUScale, float *pfUOffset, float *
 }
 #endif // #ifdef TEX_EMBED
 
-HRESULT D3DTexture::ChangeTextureTGA(char *tga_file) {
+HRESULT D3DTexture::ChangeTextureTGA(char* tga_file) {
     if (Type != D3DTEXTURE_TYPE_UNUSED) {
         //
         // There must be one already loaded.
@@ -174,7 +174,7 @@ HRESULT D3DTexture::ChangeTextureTGA(char *tga_file) {
     return DDERR_GENERIC;
 }
 
-HRESULT D3DTexture::LoadTextureTGA(char *tga_file, std::uint32_t id, bool bCanShrink) {
+HRESULT D3DTexture::LoadTextureTGA(char* tga_file, std::uint32_t id, bool bCanShrink) {
     HRESULT result;
 
     if (Type != D3DTEXTURE_TYPE_UNUSED) {
@@ -265,8 +265,8 @@ HRESULT D3DTexture::CreateUserPage(std::int32_t texture_size, bool i_want_an_alp
 
 void OS_calculate_mask_and_shift(
     std::uint32_t bitmask,
-    std::int32_t *mask,
-    std::int32_t *shift) {
+    std::int32_t* mask,
+    std::int32_t* shift) {
     std::int32_t i;
     std::int32_t b;
     std::int32_t num_bits = 0;
@@ -303,9 +303,9 @@ void OS_calculate_mask_and_shift(
 }
 
 HRESULT D3DTexture::Reload_TGA() {
-    D3DDeviceInfo *current_device;
+    D3DDeviceInfo* current_device;
 
-    DDModeInfo *mi;
+    DDModeInfo* mi;
 
     // std::int32_t bpp;
 
@@ -314,7 +314,7 @@ HRESULT D3DTexture::Reload_TGA() {
     TRACE("Tex<%s>\n", texture_name);
 
     TGA_Info ti;
-    TGA_Pixel *tga;
+    TGA_Pixel* tga;
 
     // HRESULT result;
 
@@ -322,7 +322,7 @@ HRESULT D3DTexture::Reload_TGA() {
     // Allocate memory for the texture.
     //
 
-    tga = (TGA_Pixel *) MemAlloc(256 * 256 * sizeof(TGA_Pixel));
+    tga = (TGA_Pixel*) MemAlloc(256 * 256 * sizeof(TGA_Pixel));
 
     if (!tga) {
         TRACE("Not enough MAIN memory to load tga %s\n", texture_name);
@@ -481,7 +481,7 @@ HRESULT D3DTexture::Reload_TGA() {
         dd_sd.dwTextureStage = 0;
 
         VERIFY(SUCCEEDED(the_display.lp_DD4->CreateSurface(&dd_sd, &lp_Surface, nullptr)));
-        VERIFY(SUCCEEDED(lp_Surface->QueryInterface(IID_IDirect3DTexture2, (LPVOID *) &lp_Texture)));
+        VERIFY(SUCCEEDED(lp_Surface->QueryInterface(IID_IDirect3DTexture2, (LPVOID*) &lp_Texture)));
 
         interlace = ti.width;
         xoff = yoff = 0;
@@ -502,8 +502,8 @@ HRESULT D3DTexture::Reload_TGA() {
     //
 
     {
-        std::uint16_t *wscreenw = (std::uint16_t *) dd_sd.lpSurface;
-        std::uint32_t *wscreenl = (std::uint32_t *) dd_sd.lpSurface;
+        std::uint16_t* wscreenw = (std::uint16_t*) dd_sd.lpSurface;
+        std::uint32_t* wscreenl = (std::uint32_t*) dd_sd.lpSurface;
 
         std::int32_t i;
         std::int32_t j;
@@ -618,12 +618,12 @@ HRESULT D3DTexture::Reload_TGA() {
 }
 
 HRESULT D3DTexture::Reload_user() {
-    D3DDeviceInfo *current_device;
+    D3DDeviceInfo* current_device;
 
     std::int32_t score;
-    DDModeInfo *mi;
+    DDModeInfo* mi;
     std::int32_t best_score;
-    DDModeInfo *best_mi;
+    DDModeInfo* best_mi;
 
     // std::int32_t bpp;
 
@@ -782,7 +782,7 @@ HRESULT D3DTexture::Reload_user() {
     // Get d3d texture interface.
     //
 
-    result = lp_Surface->QueryInterface(IID_IDirect3DTexture2, (LPVOID *) &lp_Texture);
+    result = lp_Surface->QueryInterface(IID_IDirect3DTexture2, (LPVOID*) &lp_Texture);
 
     if (FAILED(result)) {
         TRACE("ReloadTextureUser: Could not get the texture interface.\n");
@@ -797,7 +797,7 @@ HRESULT D3DTexture::Reload_user() {
     return DD_OK;
 }
 
-HRESULT D3DTexture::LockUser(std::uint16_t **bitmap, std::int32_t *pitch) {
+HRESULT D3DTexture::LockUser(std::uint16_t** bitmap, std::int32_t* pitch) {
     DDSURFACEDESC2 dd_sd;
 
     //	ASSERT(Type == D3DTEXTURE_TYPE_USER);
@@ -807,7 +807,7 @@ HRESULT D3DTexture::LockUser(std::uint16_t **bitmap, std::int32_t *pitch) {
     if (lp_Surface == nullptr || FAILED(lp_Surface->Lock(nullptr, &dd_sd, DDLOCK_WAIT, nullptr))) {
         return DDERR_GENERIC;
     } else {
-        *bitmap = (std::uint16_t *) dd_sd.lpSurface;
+        *bitmap = (std::uint16_t*) dd_sd.lpSurface;
         *pitch = dd_sd.lPitch;
 
         return DD_OK;
@@ -901,7 +901,7 @@ HRESULT D3DTexture::Destroy() {
 
 #define MATCH_TGA_PIXELS(p1, p2) ((p1)->red == (p2)->red && (p1)->green == (p2)->green && (p1)->blue == (p2)->blue)
 
-bool scan_for_baseline(TGA_Pixel **line_ptr, TGA_Pixel *underline, TGA_Info *info, std::int32_t *y_ptr) {
+bool scan_for_baseline(TGA_Pixel** line_ptr, TGA_Pixel* underline, TGA_Info* info, std::int32_t* y_ptr) {
     while (*y_ptr < info->height) {
         if (MATCH_TGA_PIXELS(*line_ptr, underline)) {
             //	Got the baseline so drop to the next line.
@@ -916,12 +916,12 @@ bool scan_for_baseline(TGA_Pixel **line_ptr, TGA_Pixel *underline, TGA_Info *inf
     return false;
 }
 
-HRESULT D3DTexture::CreateFonts(TGA_Info *tga_info, TGA_Pixel *tga_data) {
+HRESULT D3DTexture::CreateFonts(TGA_Info* tga_info, TGA_Pixel* tga_data) {
     std::int32_t current_char,
         char_x, char_y,
         char_height, char_width,
         tallest_char;
-    Font *the_font;
+    Font* the_font;
     TGA_Pixel underline,
         *current_line,
         *current_pixel;
@@ -1011,8 +1011,8 @@ HRESULT D3DTexture::CreateFonts(TGA_Info *tga_info, TGA_Pixel *tga_data) {
     return DD_OK;
 }
 
-Font *D3DTexture::GetFont(std::int32_t id) {
-    Font *current_font;
+Font* D3DTexture::GetFont(std::int32_t id) {
+    Font* current_font;
 
     current_font = FontList;
     while (id && current_font) {

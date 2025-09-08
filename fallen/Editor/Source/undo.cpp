@@ -36,7 +36,7 @@ void Undo::retreat_current_undo(std::uint8_t undo_mode) {
 }
 
 void Undo::MoveTexture(std::uint8_t undo_mode, std::uint16_t page, std::uint16_t face, std::uint8_t u1, std::uint8_t v1, std::uint8_t u2, std::uint8_t v2, std::uint8_t u3, std::uint8_t v3, std::uint8_t u4, std::uint8_t v4) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -56,9 +56,9 @@ void Undo::MoveTexture(std::uint8_t undo_mode, std::uint16_t page, std::uint16_t
     advance_current_undo(undo_mode);
 }
 
-void Undo::ApplyPrim4(std::uint8_t undo_mode, std::uint16_t face, PrimFace4 *the_prim4) {
+void Undo::ApplyPrim4(std::uint8_t undo_mode, std::uint16_t face, PrimFace4* the_prim4) {
     std::int32_t c0;
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -77,9 +77,9 @@ void Undo::ApplyPrim4(std::uint8_t undo_mode, std::uint16_t face, PrimFace4 *the
     advance_current_undo(undo_mode);
 }
 
-void Undo::ApplyPrim3(std::uint8_t undo_mode, std::uint16_t face, PrimFace3 *the_prim3) {
+void Undo::ApplyPrim3(std::uint8_t undo_mode, std::uint16_t face, PrimFace3* the_prim3) {
     std::int32_t c0;
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -99,7 +99,7 @@ void Undo::ApplyPrim3(std::uint8_t undo_mode, std::uint16_t face, PrimFace3 *the
 }
 
 void Undo::ApplyTexturePrim4(std::uint8_t undo_mode, std::uint16_t page, std::uint16_t face, std::uint8_t u1, std::uint8_t v1, std::uint8_t u2, std::uint8_t v2, std::uint8_t u3, std::uint8_t v3, std::uint8_t u4, std::uint8_t v4) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -121,7 +121,7 @@ void Undo::ApplyTexturePrim4(std::uint8_t undo_mode, std::uint16_t page, std::ui
 }
 
 void Undo::ApplyTexturePrim3(std::uint8_t undo_mode, std::uint16_t page, std::uint16_t face, std::uint8_t u1, std::uint8_t v1, std::uint8_t u2, std::uint8_t v2, std::uint8_t u3, std::uint8_t v3) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -141,7 +141,7 @@ void Undo::ApplyTexturePrim3(std::uint8_t undo_mode, std::uint16_t page, std::ui
 }
 
 void Undo::ApplyTextureCube(std::uint8_t undo_mode, std::uint16_t ele, std::uint16_t face, std::uint16_t text1, std::uint16_t text2) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -157,7 +157,7 @@ void Undo::ApplyTextureCube(std::uint8_t undo_mode, std::uint16_t ele, std::uint
 }
 
 void Undo::PlaceObject(std::uint8_t undo_mode, std::uint16_t prim, std::uint16_t thing, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -166,7 +166,7 @@ void Undo::PlaceObject(std::uint8_t undo_mode, std::uint16_t prim, std::uint16_t
 
     p_u->Type = UNDO_PLACE_OBJECT;
     p_u->Object.Prim = prim;
-    p_u->Object.Thing = thing;
+    p_u->Object.Entity = thing;
     p_u->Object.X = x;
     p_u->Object.Y = y;
     p_u->Object.Z = z;
@@ -174,7 +174,7 @@ void Undo::PlaceObject(std::uint8_t undo_mode, std::uint16_t prim, std::uint16_t
 }
 
 void Undo::PlaceCube(std::uint8_t undo_mode, std::uint16_t prev_cube, std::uint16_t cur_cube, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -191,7 +191,7 @@ void Undo::PlaceCube(std::uint8_t undo_mode, std::uint16_t prev_cube, std::uint1
 }
 
 void Undo::DelObject(std::uint8_t undo_mode, std::uint16_t prim, std::uint16_t thing, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -200,7 +200,7 @@ void Undo::DelObject(std::uint8_t undo_mode, std::uint16_t prim, std::uint16_t t
 
     p_u->Type = UNDO_DEL_OBJECT;
     p_u->Object.Prim = prim;
-    p_u->Object.Thing = thing;
+    p_u->Object.Entity = thing;
     p_u->Object.X = x;
     p_u->Object.Y = y;
     p_u->Object.Z = z;
@@ -208,7 +208,7 @@ void Undo::DelObject(std::uint8_t undo_mode, std::uint16_t prim, std::uint16_t t
 }
 
 void Undo::MoveObject(std::uint8_t undo_mode, std::uint16_t thing, std::int32_t dx, std::int32_t dy, std::int32_t dz) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
 
     if (undo_mode)
         p_u = &undo_undo_info[index_undo];
@@ -216,7 +216,7 @@ void Undo::MoveObject(std::uint8_t undo_mode, std::uint16_t thing, std::int32_t 
         p_u = &undo_info[index];
 
     p_u->Type = UNDO_MOVE_OBJECT;
-    p_u->Object.Thing = thing;
+    p_u->Object.Entity = thing;
     p_u->Object.X = dx;
     p_u->Object.Y = dy;
     p_u->Object.Z = dz;
@@ -224,7 +224,7 @@ void Undo::MoveObject(std::uint8_t undo_mode, std::uint16_t thing, std::int32_t 
 }
 
 std::int32_t Undo::DoUndo(std::uint8_t undo_mode) {
-    struct GenericUndo *p_u;
+    struct GenericUndo* p_u;
     std::int32_t c0,
         i;
 
@@ -263,17 +263,17 @@ std::int32_t Undo::DoUndo(std::uint8_t undo_mode) {
     case UNDO_APPLY_TEXTURE_CUBE:
         break;
     case UNDO_PLACE_OBJECT:
-        map_things[p_u->Object.Thing].Type = 0;
-        delete_thing_from_edit_map(p_u->Object.X, p_u->Object.Y, p_u->Object.Thing);
+        map_things[p_u->Object.Entity].Type = 0;
+        delete_thing_from_edit_map(p_u->Object.X, p_u->Object.Y, p_u->Object.Entity);
         break;
     case UNDO_DEL_OBJECT:
         break;
     case UNDO_MOVE_OBJECT:
 
-        MoveObject(undo_mode ? 0 : 1, p_u->Object.Thing, map_things[p_u->Object.Thing].X, map_things[p_u->Object.Thing].Y, map_things[p_u->Object.Thing].Z);
-        map_things[p_u->Object.Thing].X = p_u->Object.X;
-        map_things[p_u->Object.Thing].Y = p_u->Object.Y;
-        map_things[p_u->Object.Thing].Z = p_u->Object.Z;
+        MoveObject(undo_mode ? 0 : 1, p_u->Object.Entity, map_things[p_u->Object.Entity].X, map_things[p_u->Object.Entity].Y, map_things[p_u->Object.Entity].Z);
+        map_things[p_u->Object.Entity].X = p_u->Object.X;
+        map_things[p_u->Object.Entity].Y = p_u->Object.Y;
+        map_things[p_u->Object.Entity].Z = p_u->Object.Z;
 
         break;
     case UNDO_PLACE_CUBE:

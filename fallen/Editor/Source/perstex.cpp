@@ -15,23 +15,23 @@
 #define TEXTURE_DIR "u:\\urbanchaos\\"
 #endif
 
-std::int32_t PERSTEX_get_number(char *fname) {
+std::int32_t PERSTEX_get_number(char* fname) {
     std::int32_t page_number;
     std::int32_t line_number;
     std::int32_t match;
     std::int32_t i;
     std::int32_t a;
 
-    FILE *handle_tga;
-    FILE *handle_txt;
-    FILE *handle_pge;
+    FILE* handle_tga;
+    FILE* handle_txt;
+    FILE* handle_pge;
 
     char fullname_tga[MAX_PATH];
     char fullname_txt[MAX_PATH];
     char fullname_pge[MAX_PATH];
     char line[MAX_PATH];
 
-    char *ch;
+    char* ch;
 
     //
     // Work out the full path of this file on n:\

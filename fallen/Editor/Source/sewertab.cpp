@@ -159,9 +159,9 @@ ControlDef inside_tab_def[] =
         {0}
 };
 
-SewerTab *the_build;
+SewerTab* the_build;
 
-extern char *storey_name[];
+extern char* storey_name[];
 
 extern std::int32_t inside_building;
 extern std::int32_t inside_storey;
@@ -188,7 +188,7 @@ extern char inside_names[64][20];
 
 char end_str[] = "!";
 
-SewerTab::SewerTab(EditorModule *parent) {
+SewerTab::SewerTab(EditorModule* parent) {
     std::int32_t c0;
     Parent = parent;
 
@@ -315,7 +315,7 @@ void SewerTab::DrawTabContent(void) {
 //---------------------------------------------------------------
 extern void hilight_col_info(void);
 
-void SewerTab::AddHeightOffset(std::int32_t *x, std::int32_t *y) {
+void SewerTab::AddHeightOffset(std::int32_t* x, std::int32_t* y) {
     if (Texture & (6))
         return;
     //	*x-=((EditY-CurrentY)*ViewSize)/(BLOCK_SIZE<<4);
@@ -394,7 +394,7 @@ void SewerTab::HighlightVertexes(std::int32_t x, std::int32_t y, std::int32_t w,
     }
 }
 
-std::int32_t SewerTab::ClickInVertexStoreyList(std::int32_t building, std::int32_t storey_index, std::int32_t w, std::int32_t h, MFPoint *mouse_point) {
+std::int32_t SewerTab::ClickInVertexStoreyList(std::int32_t building, std::int32_t storey_index, std::int32_t w, std::int32_t h, MFPoint* mouse_point) {
     std::int32_t roof_flag = 0;
     EdRect rect;
     std::int32_t mx, mz, rect_size;
@@ -479,7 +479,7 @@ std::int32_t SewerTab::ClickInVertexStoreyList(std::int32_t building, std::int32
     return (0);
 }
 
-std::int32_t SewerTab::ClickInVertex(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *mouse_point) {
+std::int32_t SewerTab::ClickInVertex(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* mouse_point) {
     std::int32_t storey_index, found;
     std::int32_t found_one = 0;
 
@@ -703,7 +703,7 @@ void SewerTab::DrawContentRect(std::int32_t x1, std::int32_t z1, std::int32_t x2
     DrawContentLine(x1, z2, x1, z1, col);
 }
 
-extern std::int32_t find_nearest_point(std::int32_t x, std::int32_t z, std::int32_t index, std::int32_t *rx, std::int32_t *rz);
+extern std::int32_t find_nearest_point(std::int32_t x, std::int32_t z, std::int32_t index, std::int32_t* rx, std::int32_t* rz);
 
 void SewerTab::DrawRoofFaces(std::int32_t roof, std::int32_t storey) {
     std::int32_t wall, index;
@@ -866,7 +866,7 @@ void SewerTab::DrawFloorLabels(std::int32_t x, std::int32_t y, std::int32_t w, s
     render_view(0);
 }
 
-extern void draw_status_line(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, char *str);
+extern void draw_status_line(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, char* str);
 extern std::int32_t is_storey_habitable(std::int32_t storey);
 extern std::int32_t identical_storey(std::int32_t px, std::int32_t pz, std::int32_t x1, std::int32_t z1, std::int32_t storey);
 
@@ -878,7 +878,7 @@ void SewerTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
     std::int32_t c0, c1;
     std::int32_t mx, my, mz;
     std::int32_t index;
-    struct EditMapElement *p_ele;
+    struct EditMapElement* p_ele;
     std::int32_t roof_flag = 0;
     std::int32_t building;
     char str[100];
@@ -1177,7 +1177,7 @@ void SewerTab::DrawModuleContent(std::int32_t x, std::int32_t y, std::int32_t w,
 
 //---------------------------------------------------------------
 
-void SewerTab::HandleTab(MFPoint *current_point) {
+void SewerTab::HandleTab(MFPoint* current_point) {
     std::int32_t update = 0;
 
     ModeTab::HandleTab(current_point);
@@ -1294,7 +1294,7 @@ std::int32_t SewerTab::KeyboardInterface(void) {
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 // #define	QDIST3(x,y,z)	(x>y ? (x>z ? x+(y>>2)+(z>>2) : z+(x>>2)+(y>>2)) : (y>z ? (y+(x>>2)+(z>>2) : z+(x>>2)+(y>>2) ))
 
-std::int32_t SewerTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
+std::int32_t SewerTab::DragEngine(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t wwx, wwy, www, wwh;
     std::int32_t screen_change = 0;
     std::int32_t last_world_mouse;
@@ -1352,7 +1352,7 @@ std::int32_t SewerTab::DragEngine(std::uint8_t flags, MFPoint *clicked_point) {
     return (screen_change);
 }
 
-std::int32_t SewerTab::CalcMapCoord(std::int32_t *mapx, std::int32_t *mapy, std::int32_t *mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *clicked_point) {
+std::int32_t SewerTab::CalcMapCoord(std::int32_t* mapx, std::int32_t* mapy, std::int32_t* mapz, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* clicked_point) {
     std::int32_t width, count_across, count_high;
     std::int32_t mx, my, mz;
     std::int32_t dx, dy, dz;
@@ -1766,7 +1766,7 @@ void SewerTab::DeleteVertex(void) {
     }
 }
 
-std::int32_t SewerTab::ClickNearWall(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *mouse_point) {
+std::int32_t SewerTab::ClickNearWall(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* mouse_point) {
     std::int32_t mx, mz, rect_size;
     EdRect rect;
     std::int32_t best_building, best_storey = 0, best_wall = 0, best_dist = 0x7fffffff, dist;
@@ -1877,7 +1877,7 @@ std::int32_t SewerTab::WallOptions(void) {
     std::uint8_t flags;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
     std::uint8_t old_flags;
 
@@ -1994,7 +1994,7 @@ std::int32_t SewerTab::RoofOptions(void) {
     std::uint32_t flags = 0;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
 
     local_point.X = MouseX;
@@ -2055,7 +2055,7 @@ std::int32_t SewerTab::FenceOptions(void) {
     std::uint32_t flags = 0;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
     char str[100];
 
@@ -2198,7 +2198,7 @@ std::int32_t get_new_inside_id(void) {
     return (next_inside - 1);
 }
 
-std::int32_t SewerTab::HandleModuleContentClick(MFPoint *clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
+std::int32_t SewerTab::HandleModuleContentClick(MFPoint* clicked_point, std::uint8_t flags, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h) {
     std::int16_t thing;
     std::int32_t index;
     std::int16_t bright;
@@ -2516,9 +2516,9 @@ std::int32_t SewerTab::HandleModuleContentClick(MFPoint *clicked_point, std::uin
     return (0);
 }
 
-std::uint16_t SewerTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t SewerTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     // This is a fudge to update the front screen buffer.
@@ -2833,7 +2833,7 @@ void SewerTab::HandleControl(std::uint16_t control_id) {
         //				if(EditBuilding)
         {
             if (EditStorey && storey_list[EditStorey].StoreyType != STOREY_TYPE_PARTITION) {
-                Alert *quit_alert;
+                Alert* quit_alert;
 
                 quit_alert = new Alert;
                 quit_alert->HandleAlert("Can't add next partition to current partition ", nullptr);
@@ -2876,7 +2876,7 @@ void SewerTab::HandleControl(std::uint16_t control_id) {
         //				if(EditBuilding)
         {
             if (EditStorey && storey_list[EditStorey].StoreyType != STOREY_TYPE_PARTITION) {
-                Alert *quit_alert;
+                Alert* quit_alert;
 
                 quit_alert = new Alert;
                 quit_alert->HandleAlert("Can't add next partition to current partition ", nullptr);
@@ -3019,11 +3019,11 @@ MenuDef2 stair_popup[] =
 
 // static ControlDef		popup_def	=	{	POPUP_MENU,	0,	""};
 
-void SewerTab::DoStairPopUp(std::int32_t stair, MFPoint *clicked_point) {
+void SewerTab::DoStairPopUp(std::int32_t stair, MFPoint* clicked_point) {
     std::uint8_t flags;
     std::uint32_t c0,
         control_id;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
     MFPoint local_point;
 
     SetWorkWindowBounds(Parent->ContentLeft() + 1, Parent->ContentTop() + 1, Parent->ContentWidth() - 1, Parent->ContentHeight() - 1);

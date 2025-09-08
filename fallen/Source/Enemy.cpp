@@ -4,19 +4,19 @@
 #include "Game.h"
 #include "person.h"
 #include "animate.h"
-#include "..\Editor\Headers\Thing.h"
+#include "..\Editor\Headers\Entity.h"
 
 // extern KeyFrame			*darci_array[100],*roper_array[100];
 
-void process_enemy(Thing *e_thing);
-void process_enemy2(Thing *e_thing);
+void process_enemy(Entity* e_thing);
+void process_enemy2(Entity* e_thing);
 std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
-extern Thing *darci_thing;
+extern Entity* darci_thing;
 
 //---------------------------------------------------------------
 
-void init_enemy(Thing *e_thing) {
+void init_enemy(Entity* e_thing) {
     e_thing->DrawType = DT_ROT_MULTI;
 
     e_thing->Draw.Tweened->Angle = 0;
@@ -26,7 +26,7 @@ void init_enemy(Thing *e_thing) {
     e_thing->Draw.Tweened->TweenStage = 0;
     e_thing->Draw.Tweened->TheChunk = &game_chunk[0];
 
-    //	e_thing->StateFn				=	(void(*)(Thing*))process_enemy;
+    //	e_thing->StateFn				=	(void(*)(Entity*))process_enemy;
 
     set_anim(e_thing, ANIM_STAND_READY);
     add_thing_to_map(e_thing);

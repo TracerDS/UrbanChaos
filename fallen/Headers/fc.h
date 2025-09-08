@@ -15,7 +15,7 @@ typedef struct
     // What the camera is looking at.
     //
 
-    Thing *focus; // nullptr => Camera is not used.
+    Entity *focus; // nullptr => Camera is not used.
     std::int32_t focus_x;
     std::int32_t focus_y;
     std::int32_t focus_z;
@@ -81,7 +81,7 @@ void FC_change_camera_type(std::int32_t cam, std::int32_t cam_type);
 
 void FC_rotate_left(std::int32_t cam);
 void FC_rotate_right(std::int32_t cam);
-void FC_kill_player_cam(Thing *p_thing);
+void FC_kill_player_cam(Entity *p_thing);
 
 //
 // Processes the cameras.
@@ -93,7 +93,7 @@ void FC_process();
 // A fast LOS reject. Can the camera see this person?
 //
 
-std::int32_t FC_can_see_person(std::int32_t cam, Thing *p_person);
+std::int32_t FC_can_see_person(std::int32_t cam, Entity *p_person);
 
 //
 // Positions the camera over the shoulder of the focus thing and

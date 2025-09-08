@@ -24,15 +24,15 @@
 
 #define BLOOM_FLENSFLARE (BLOOM_LENSFLARE | BLOOM_FAINT)
 
-void CHOPPER_draw_chopper(Thing *p_chopper);
-void TRACKS_DrawTrack(Thing *p_thing);
+void CHOPPER_draw_chopper(Entity *p_chopper);
+void TRACKS_DrawTrack(Entity *p_thing);
 void PARTICLE_Draw();
-void PYRO_draw_pyro(Thing *p_pyro);
+void PYRO_draw_pyro(Entity *p_pyro);
 void RIBBON_draw_ribbon(Ribbon *ribbon);
 void BLOOM_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t col, std::uint8_t opts = BLOOM_LENSFLARE | BLOOM_BEAM);
 void BLOOM_flare_draw(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t str);
-void DRAWXTRA_Special(Thing *p_thing);
-void ANIMAL_draw(Thing *p_thing);
+void DRAWXTRA_Special(Entity *p_thing);
+void ANIMAL_draw(Entity *p_thing);
 
 void DRAW2D_Box(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t oy, std::int32_t rgb, std::uint8_t flag, std::uint8_t depth = 128);
 #ifndef PSX
@@ -47,7 +47,7 @@ void DRAW2D_Sprite(std::int32_t x, std::int32_t y, std::int32_t ox, std::int32_t
 //
 
 void DRAWXTRA_final_glow(std::int32_t x, std::int32_t y, std::int32_t z, std::uint8_t fade);
-void DRAWXTRA_MIB_destruct(Thing *p_thing);
+void DRAWXTRA_MIB_destruct(Entity *p_thing);
 
 // Do this to throttle effects down to sensible levels.
 

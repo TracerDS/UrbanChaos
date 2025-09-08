@@ -12,51 +12,51 @@
 // The data we accumulate as we link.
 //
 
-std::int32_t *LINK_instruction;
+std::int32_t* LINK_instruction;
 std::int32_t LINK_instruction_max;
 std::int32_t LINK_instruction_upto;
 
-char *LINK_table_data;
+char* LINK_table_data;
 std::int32_t LINK_table_data_max;
 std::int32_t LINK_table_data_upto;
 
-LINK_Global *LINK_global;
+LINK_Global* LINK_global;
 std::int32_t LINK_global_max;
 std::int32_t LINK_global_upto;
 
-LINK_Function *LINK_function;
+LINK_Function* LINK_function;
 std::int32_t LINK_function_max;
 std::int32_t LINK_function_upto;
 
-LINK_Line *LINK_line;
+LINK_Line* LINK_line;
 std::int32_t LINK_line_max;
 std::int32_t LINK_line_upto;
 
-LINK_Jump *LINK_jump;
+LINK_Jump* LINK_jump;
 std::int32_t LINK_jump_max;
 std::int32_t LINK_jump_upto;
 
-LINK_Field *LINK_field;
+LINK_Field* LINK_field;
 std::int32_t LINK_field_max;
 std::int32_t LINK_field_upto;
 
-LINK_Globalref *LINK_global_ref;
+LINK_Globalref* LINK_global_ref;
 std::int32_t LINK_global_ref_max;
 std::int32_t LINK_global_ref_upto;
 
-LINK_Undefref *LINK_undef_ref;
+LINK_Undefref* LINK_undef_ref;
 std::int32_t LINK_undef_ref_max;
 std::int32_t LINK_undef_ref_upto;
 
-LINK_Fieldref *LINK_field_ref;
+LINK_Fieldref* LINK_field_ref;
 std::int32_t LINK_field_ref_max;
 std::int32_t LINK_field_ref_upto;
 
-LINK_Datatableref *LINK_data_table_ref;
+LINK_Datatableref* LINK_data_table_ref;
 std::int32_t LINK_data_table_ref_max;
 std::int32_t LINK_data_table_ref_upto;
 
-char *LINK_debug_data;
+char* LINK_debug_data;
 std::int32_t LINK_debug_data_max;
 std::int32_t LINK_debug_data_upto;
 
@@ -104,7 +104,7 @@ typedef struct
 
 } LINK_File;
 
-LINK_File *LINK_file;
+LINK_File* LINK_file;
 std::int32_t LINK_file_max;
 std::int32_t LINK_file_upto;
 
@@ -122,55 +122,55 @@ std::int32_t LINK_field_id_upto;
 void LINK_allocate_memory() {
     LINK_instruction_max = 1;
     LINK_instruction_upto = 0;
-    LINK_instruction = (std::int32_t *) malloc(sizeof(std::int32_t) * LINK_instruction_max);
+    LINK_instruction = (std::int32_t*) malloc(sizeof(std::int32_t) * LINK_instruction_max);
 
     LINK_table_data_max = 1;
     LINK_table_data_upto = 0;
-    LINK_table_data = (char *) malloc(sizeof(char) * LINK_table_data_max);
+    LINK_table_data = (char*) malloc(sizeof(char) * LINK_table_data_max);
 
     LINK_global_max = 1;
     LINK_global_upto = 0;
-    LINK_global = (LINK_Global *) malloc(sizeof(LINK_Global) * LINK_global_max);
+    LINK_global = (LINK_Global*) malloc(sizeof(LINK_Global) * LINK_global_max);
 
     LINK_function_max = 1;
     LINK_function_upto = 0;
-    LINK_function = (LINK_Function *) malloc(sizeof(LINK_Function) * LINK_function_max);
+    LINK_function = (LINK_Function*) malloc(sizeof(LINK_Function) * LINK_function_max);
 
     LINK_line_max = 1;
     LINK_line_upto = 0;
-    LINK_line = (LINK_Line *) malloc(sizeof(LINK_Line) * LINK_line_max);
+    LINK_line = (LINK_Line*) malloc(sizeof(LINK_Line) * LINK_line_max);
 
     LINK_jump_max = 1;
     LINK_jump_upto = 0;
-    LINK_jump = (LINK_Jump *) malloc(sizeof(LINK_Jump) * LINK_jump_max);
+    LINK_jump = (LINK_Jump*) malloc(sizeof(LINK_Jump) * LINK_jump_max);
 
     LINK_field_max = 1;
     LINK_field_upto = 0;
-    LINK_field = (LINK_Field *) malloc(sizeof(LINK_Field) * LINK_field_max);
+    LINK_field = (LINK_Field*) malloc(sizeof(LINK_Field) * LINK_field_max);
 
     LINK_global_ref_max = 1;
     LINK_global_ref_upto = 0;
-    LINK_global_ref = (LINK_Globalref *) malloc(sizeof(LINK_Globalref) * LINK_global_ref_max);
+    LINK_global_ref = (LINK_Globalref*) malloc(sizeof(LINK_Globalref) * LINK_global_ref_max);
 
     LINK_undef_ref_max = 1;
     LINK_undef_ref_upto = 0;
-    LINK_undef_ref = (LINK_Undefref *) malloc(sizeof(LINK_Undefref) * LINK_undef_ref_max);
+    LINK_undef_ref = (LINK_Undefref*) malloc(sizeof(LINK_Undefref) * LINK_undef_ref_max);
 
     LINK_field_ref_max = 1;
     LINK_field_ref_upto = 0;
-    LINK_field_ref = (LINK_Fieldref *) malloc(sizeof(LINK_Fieldref) * LINK_field_ref_max);
+    LINK_field_ref = (LINK_Fieldref*) malloc(sizeof(LINK_Fieldref) * LINK_field_ref_max);
 
     LINK_data_table_ref_max = 1;
     LINK_data_table_ref_upto = 0;
-    LINK_data_table_ref = (LINK_Datatableref *) malloc(sizeof(LINK_Datatableref) * LINK_data_table_ref_max);
+    LINK_data_table_ref = (LINK_Datatableref*) malloc(sizeof(LINK_Datatableref) * LINK_data_table_ref_max);
 
     LINK_debug_data_max = 1;
     LINK_debug_data_upto = 0;
-    LINK_debug_data = (char *) malloc(sizeof(char) * LINK_debug_data_max);
+    LINK_debug_data = (char*) malloc(sizeof(char) * LINK_debug_data_max);
 
     LINK_file_max = 1;
     LINK_file_upto = 0;
-    LINK_file = (LINK_File *) malloc(sizeof(LINK_File) * LINK_file_max);
+    LINK_file = (LINK_File*) malloc(sizeof(LINK_File) * LINK_file_max);
 }
 
 //
@@ -207,21 +207,21 @@ void LINK_free_memory() {
     LINK_file = nullptr;
 }
 
-std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *exec_fname) {
+std::int32_t LINK_do(char* object_fname[], std::int32_t num_object_files, char* exec_fname) {
     std::int32_t i;
     std::int32_t j;
     std::int32_t instruction;
     std::int32_t magic;
 
     LINK_Header lh;
-    LINK_File *lf;
-    LINK_Function *lc;
-    LINK_Jump *lj;
-    LINK_Global *lg;
-    LINK_Field *ld;
-    LINK_Undefref *lu;
-    LINK_Datatableref *lt;
-    FILE *handle;
+    LINK_File* lf;
+    LINK_Function* lc;
+    LINK_Jump* lj;
+    LINK_Global* lg;
+    LINK_Field* ld;
+    LINK_Undefref* lu;
+    LINK_Datatableref* lt;
+    FILE* handle;
 
 #define LINK_MAGIC_CHECK()                                       \
     {                                                            \
@@ -278,7 +278,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         if (LINK_file_upto >= LINK_file_max) {
             LINK_file_max *= 2;
-            LINK_file = (LINK_File *) realloc(LINK_file, sizeof(LINK_File) * LINK_file_max);
+            LINK_file = (LINK_File*) realloc(LINK_file, sizeof(LINK_File) * LINK_file_max);
         }
 
         lf = &LINK_file[LINK_file_upto++];
@@ -298,7 +298,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_instruction_upto + lh.num_instructions > LINK_instruction_max) {
             LINK_instruction_max *= 2;
-            LINK_instruction = (std::int32_t *) realloc(LINK_instruction, sizeof(std::int32_t) * LINK_instruction_max);
+            LINK_instruction = (std::int32_t*) realloc(LINK_instruction, sizeof(std::int32_t) * LINK_instruction_max);
         }
 
         if (fread(LINK_instruction + LINK_instruction_upto, sizeof(std::int32_t), lh.num_instructions, handle) != lh.num_instructions)
@@ -317,7 +317,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_table_data_upto + lh.data_table_length_in_bytes > LINK_table_data_max) {
             LINK_table_data_max *= 2;
-            LINK_table_data = (char *) realloc(LINK_table_data, sizeof(char) * LINK_table_data_max);
+            LINK_table_data = (char*) realloc(LINK_table_data, sizeof(char) * LINK_table_data_max);
         }
 
         if (fread(LINK_table_data + LINK_table_data_upto, sizeof(char), lh.data_table_length_in_bytes, handle) != lh.data_table_length_in_bytes)
@@ -336,7 +336,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_global_upto + lh.num_globals > LINK_global_max) {
             LINK_global_max *= 2;
-            LINK_global = (LINK_Global *) realloc(LINK_global, sizeof(LINK_Global) * LINK_global_max);
+            LINK_global = (LINK_Global*) realloc(LINK_global, sizeof(LINK_Global) * LINK_global_max);
         }
 
         if (fread(LINK_global + LINK_global_upto, sizeof(LINK_Global), lh.num_globals, handle) != lh.num_globals)
@@ -355,7 +355,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_function_upto + lh.num_functions > LINK_function_max) {
             LINK_function_max *= 2;
-            LINK_function = (LINK_Function *) realloc(LINK_function, sizeof(LINK_Function) * LINK_function_max);
+            LINK_function = (LINK_Function*) realloc(LINK_function, sizeof(LINK_Function) * LINK_function_max);
         }
 
         if (fread(LINK_function + LINK_function_upto, sizeof(LINK_Function), lh.num_functions, handle) != lh.num_functions)
@@ -374,7 +374,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_line_upto + lh.num_lines > LINK_line_max) {
             LINK_line_max *= 2;
-            LINK_line = (LINK_Line *) realloc(LINK_line, sizeof(LINK_Line) * LINK_line_max);
+            LINK_line = (LINK_Line*) realloc(LINK_line, sizeof(LINK_Line) * LINK_line_max);
         }
 
         if (fread(LINK_line + LINK_line_upto, sizeof(LINK_Line), lh.num_lines, handle) != lh.num_lines)
@@ -393,7 +393,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_jump_upto + lh.num_jumps > LINK_jump_max) {
             LINK_jump_max *= 2;
-            LINK_jump = (LINK_Jump *) realloc(LINK_jump, sizeof(LINK_Jump) * LINK_jump_max);
+            LINK_jump = (LINK_Jump*) realloc(LINK_jump, sizeof(LINK_Jump) * LINK_jump_max);
         }
 
         if (fread(LINK_jump + LINK_jump_upto, sizeof(LINK_Jump), lh.num_jumps, handle) != lh.num_jumps)
@@ -412,7 +412,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_field_upto + lh.num_fields > LINK_field_max) {
             LINK_field_max *= 2;
-            LINK_field = (LINK_Field *) realloc(LINK_field, sizeof(LINK_Field) * LINK_field_max);
+            LINK_field = (LINK_Field*) realloc(LINK_field, sizeof(LINK_Field) * LINK_field_max);
         }
 
         if (fread(LINK_field + LINK_field_upto, sizeof(LINK_Field), lh.num_fields, handle) != lh.num_fields)
@@ -431,7 +431,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_global_ref_upto + lh.num_global_refs > LINK_global_ref_max) {
             LINK_global_ref_max *= 2;
-            LINK_global_ref = (LINK_Globalref *) realloc(LINK_global_ref, sizeof(LINK_Globalref) * LINK_global_ref_max);
+            LINK_global_ref = (LINK_Globalref*) realloc(LINK_global_ref, sizeof(LINK_Globalref) * LINK_global_ref_max);
         }
 
         if (fread(LINK_global_ref + LINK_global_ref_upto, sizeof(LINK_Globalref), lh.num_global_refs, handle) != lh.num_global_refs)
@@ -450,7 +450,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_undef_ref_upto + lh.num_undef_refs > LINK_undef_ref_max) {
             LINK_undef_ref_max *= 2;
-            LINK_undef_ref = (LINK_Undefref *) realloc(LINK_undef_ref, sizeof(LINK_Undefref) * LINK_undef_ref_max);
+            LINK_undef_ref = (LINK_Undefref*) realloc(LINK_undef_ref, sizeof(LINK_Undefref) * LINK_undef_ref_max);
         }
 
         if (fread(LINK_undef_ref + LINK_undef_ref_upto, sizeof(LINK_Undefref), lh.num_undef_refs, handle) != lh.num_undef_refs)
@@ -469,7 +469,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_field_ref_upto + lh.num_field_refs > LINK_field_ref_max) {
             LINK_field_ref_max *= 2;
-            LINK_field_ref = (LINK_Fieldref *) realloc(LINK_field_ref, sizeof(LINK_Fieldref) * LINK_field_ref_max);
+            LINK_field_ref = (LINK_Fieldref*) realloc(LINK_field_ref, sizeof(LINK_Fieldref) * LINK_field_ref_max);
         }
 
         if (fread(LINK_field_ref + LINK_field_ref_upto, sizeof(LINK_Fieldref), lh.num_field_refs, handle) != lh.num_field_refs)
@@ -488,7 +488,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_data_table_ref_upto + lh.num_data_table_refs > LINK_data_table_ref_max) {
             LINK_data_table_ref_max *= 2;
-            LINK_data_table_ref = (LINK_Datatableref *) realloc(LINK_data_table_ref, sizeof(LINK_Datatableref) * LINK_data_table_ref_max);
+            LINK_data_table_ref = (LINK_Datatableref*) realloc(LINK_data_table_ref, sizeof(LINK_Datatableref) * LINK_data_table_ref_max);
         }
 
         if (fread(LINK_data_table_ref + LINK_data_table_ref_upto, sizeof(LINK_Datatableref), lh.num_data_table_refs, handle) != lh.num_data_table_refs)
@@ -509,7 +509,7 @@ std::int32_t LINK_do(char *object_fname[], std::int32_t num_object_files, char *
 
         while (LINK_debug_data_upto + lf->num_debug_data > LINK_debug_data_max) {
             LINK_debug_data_max *= 2;
-            LINK_debug_data = (char *) realloc(LINK_debug_data, sizeof(char) * LINK_debug_data_max);
+            LINK_debug_data = (char*) realloc(LINK_debug_data, sizeof(char) * LINK_debug_data_max);
         }
 
         if (fread(LINK_debug_data + LINK_debug_data_upto, sizeof(char), lf->num_debug_data, handle) != lf->num_debug_data)

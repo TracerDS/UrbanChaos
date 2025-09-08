@@ -222,8 +222,8 @@ std::uint16_t BANG_new_phwoar(
     std::uint8_t ph;
     std::int32_t dist;
 
-    BANG_Phwoar *bp;
-    BANG_Phwoar *pp;
+    BANG_Phwoar* bp;
+    BANG_Phwoar* pp;
 
     if (!BANG_phwoar_free) {
         //
@@ -358,11 +358,11 @@ void BANG_process() {
     std::uint16_t ph;
     std::uint16_t kid;
     std::uint16_t next;
-    std::uint16_t *prev;
+    std::uint16_t* prev;
 
-    BANG_Bang *bb;
-    BANG_Phwoar *bp;
-    BANG_Type *bt;
+    BANG_Bang* bb;
+    BANG_Phwoar* bp;
+    BANG_Type* bt;
 
     //
     // Go through all the bangs to find the active phwoars.
@@ -594,10 +594,10 @@ void BANG_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z) {
     }
 }
 
-BANG_Info *BANG_get_next() {
-    BANG_Bang *bb;
-    BANG_Phwoar *bp;
-    BANG_Type *bt;
+BANG_Info* BANG_get_next() {
+    BANG_Bang* bb;
+    BANG_Phwoar* bp;
+    BANG_Type* bt;
 
     if (!BANG_get_phwoar) {
         //

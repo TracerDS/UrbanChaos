@@ -22,12 +22,12 @@ DDDriverManager the_manager;
 //---------------------------------------------------------------
 
 BOOL WINAPI DriverEnumCallback(
-    GUID FAR *lpGuid,
+    GUID FAR* lpGuid,
     LPTSTR lpDesc,
     LPTSTR lpName,
     LPVOID lpExtra) {
-    CallbackInfo *the_info;
-    DDDriverInfo *new_driver;
+    CallbackInfo* the_info;
+    DDDriverInfo* new_driver;
     HRESULT result;
 
     if (!lpExtra) {
@@ -35,7 +35,7 @@ BOOL WINAPI DriverEnumCallback(
         return DDENUMRET_OK;
     }
 
-    the_info = (CallbackInfo *) lpExtra;
+    the_info = (CallbackInfo*) lpExtra;
 
     // Get Pointer to driver info
     new_driver = MFnew<DDDriverInfo>();
@@ -70,17 +70,17 @@ BOOL WINAPI DriverEnumCallback(
 HRESULT WINAPI ModeEnumCallback(
     LPDDSURFACEDESC2 lpDDSurfDesc,
     LPVOID lpExtra) {
-    CallbackInfo *the_info;
-    DDDriverInfo *the_driver;
-    DDModeInfo *new_mode;
+    CallbackInfo* the_info;
+    DDDriverInfo* the_driver;
+    DDModeInfo* new_mode;
     HRESULT result;
 
     if (!lpExtra) {
         return DDENUMRET_OK;
     }
 
-    the_info = (CallbackInfo *) lpExtra;
-    the_driver = (DDDriverInfo *) the_info->Extra;
+    the_info = (CallbackInfo*) lpExtra;
+    the_driver = (DDDriverInfo*) the_info->Extra;
 
     if (!the_driver) {
         return DDENUMRET_OK;
@@ -124,9 +124,9 @@ HRESULT WINAPI DeviceEnumCallback(
     LPD3DDEVICEDESC lpHalDevice,
     LPD3DDEVICEDESC lpHelDevice,
     LPVOID lpExtra) {
-    CallbackInfo *the_info;
-    D3DDeviceInfo *new_device;
-    DDDriverInfo *the_driver;
+    CallbackInfo* the_info;
+    D3DDeviceInfo* new_device;
+    DDDriverInfo* the_driver;
     HRESULT result;
 
     if (!lpExtra) {
@@ -134,8 +134,8 @@ HRESULT WINAPI DeviceEnumCallback(
         return DDENUMRET_OK;
     }
 
-    the_info = (CallbackInfo *) lpExtra;
-    the_driver = (DDDriverInfo *) the_info->Extra;
+    the_info = (CallbackInfo*) lpExtra;
+    the_driver = (DDDriverInfo*) the_info->Extra;
 
     if (!the_driver) {
         // Programming Error, invalid pointer
@@ -186,9 +186,9 @@ HRESULT WINAPI DeviceEnumCallback(
 HRESULT WINAPI TextureFormatEnumCallback(
     LPDDPIXELFORMAT lpTextureFormat,
     LPVOID lpExtra) {
-    CallbackInfo *the_info;
-    D3DDeviceInfo *the_device;
-    DDModeInfo *new_format;
+    CallbackInfo* the_info;
+    D3DDeviceInfo* the_device;
+    DDModeInfo* new_format;
     HRESULT result;
 
     if (!lpExtra) {
@@ -196,8 +196,8 @@ HRESULT WINAPI TextureFormatEnumCallback(
         return DDENUMRET_OK;
     }
 
-    the_info = (CallbackInfo *) lpExtra;
-    the_device = (D3DDeviceInfo *) the_info->Extra;
+    the_info = (CallbackInfo*) lpExtra;
+    the_device = (D3DDeviceInfo*) the_info->Extra;
 
     if (!the_device) {
         // Programming error, invalid pointer
@@ -243,9 +243,9 @@ HRESULT WINAPI TextureFormatEnumCallback(
 
 #ifndef TARGET_DC
 HRESULT WINAPI ZFormatEnumCallback(LPDDPIXELFORMAT lpZFormat, LPVOID lpExtra) {
-    CallbackInfo *the_info;
-    D3DDeviceInfo *the_device;
-    DDModeInfo *new_format;
+    CallbackInfo* the_info;
+    D3DDeviceInfo* the_device;
+    DDModeInfo* new_format;
     HRESULT result;
 
     if (!lpExtra) {
@@ -253,8 +253,8 @@ HRESULT WINAPI ZFormatEnumCallback(LPDDPIXELFORMAT lpZFormat, LPVOID lpExtra) {
         return DDENUMRET_OK;
     }
 
-    the_info = (CallbackInfo *) lpExtra;
-    the_device = (D3DDeviceInfo *) the_info->Extra;
+    the_info = (CallbackInfo*) lpExtra;
+    the_device = (D3DDeviceInfo*) the_info->Extra;
 
     if (!the_device) {
         // Programming error, invalid pointer
@@ -383,14 +383,14 @@ bool IsPalettized(LPDDPIXELFORMAT lp_dd_pf) {
 //---------------------------------------------------------------
 
 bool GetDesktopMode(
-    DDDriverInfo *the_driver,
+    DDDriverInfo* the_driver,
     LPGUID D3D_guid,
-    DDModeInfo **the_mode,
-    D3DDeviceInfo **the_device) {
+    DDModeInfo** the_mode,
+    D3DDeviceInfo** the_device) {
     std::int32_t w, h, bpp;
     HDC hdc;
     HWND hDesktop;
-    DDModeInfo *new_mode;
+    DDModeInfo* new_mode;
     D3DDeviceInfo *new_device,
         *next_best_device;
 
@@ -432,14 +432,14 @@ bool GetDesktopMode(
 //---------------------------------------------------------------
 
 bool GetFullscreenMode(
-    DDDriverInfo *the_driver,
-    GUID *D3D_guid,
+    DDDriverInfo* the_driver,
+    GUID* D3D_guid,
     std::int32_t w,
     std::int32_t h,
     std::int32_t bpp,
     std::int32_t refresh,
-    DDModeInfo **the_mode,
-    D3DDeviceInfo **the_device) {
+    DDModeInfo** the_mode,
+    D3DDeviceInfo** the_device) {
     D3DDeviceInfo *new_device,
         *next_best_device;
     DDModeInfo *new_mode,
@@ -489,7 +489,7 @@ bool GetFullscreenMode(
 //
 //---------------------------------------------------------------
 
-DDDriverInfo *ValidateDriver(GUID *DD_guid) {
+DDDriverInfo* ValidateDriver(GUID* DD_guid) {
     DDDriverInfo *new_driver,
         *next_best_driver;
 
@@ -506,10 +506,10 @@ DDDriverInfo *ValidateDriver(GUID *DD_guid) {
 
 //---------------------------------------------------------------
 
-D3DDeviceInfo *ValidateDevice(
-    DDDriverInfo *the_driver,
-    GUID *D3D_guid,
-    DDModeInfo *the_filter) {
+D3DDeviceInfo* ValidateDevice(
+    DDDriverInfo* the_driver,
+    GUID* D3D_guid,
+    DDModeInfo* the_filter) {
     D3DDeviceInfo *new_device,
         *next_best_device;
 
@@ -535,13 +535,13 @@ D3DDeviceInfo *ValidateDevice(
 
 //---------------------------------------------------------------
 
-DDModeInfo *ValidateMode(
-    DDDriverInfo *the_driver,
+DDModeInfo* ValidateMode(
+    DDDriverInfo* the_driver,
     DWORD w,
     DWORD h,
     DWORD bpp,
     DWORD refresh,
-    D3DDeviceInfo *the_filter) {
+    D3DDeviceInfo* the_filter) {
     DDModeInfo *new_mode,
         *next_best_mode;
 
@@ -577,8 +577,8 @@ DDModeInfo::DDModeInfo() {
     Next = nullptr;
 }
 
-DDModeInfo::DDModeInfo(const DDSURFACEDESC &ddDesc) {
-    CopyMemory(&ddSurfDesc, (const void *) &ddDesc, sizeof(ddSurfDesc));
+DDModeInfo::DDModeInfo(const DDSURFACEDESC& ddDesc) {
+    CopyMemory(&ddSurfDesc, (const void*) &ddDesc, sizeof(ddSurfDesc));
     ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
     Prev = nullptr;
     Next = nullptr;
@@ -633,7 +633,7 @@ std::int32_t DDModeInfo::GetBPP() {
 
 //---------------------------------------------------------------
 
-HRESULT DDModeInfo::GetMode(std::int32_t *w, std::int32_t *h, std::int32_t *bpp, std::int32_t *refresh) {
+HRESULT DDModeInfo::GetMode(std::int32_t* w, std::int32_t* h, std::int32_t* bpp, std::int32_t* refresh) {
     ASSERT(ddSurfDesc.dwSize == sizeof(ddSurfDesc));
     ASSERT(ddSurfDesc.ddpfPixelFormat.dwSize == sizeof(ddSurfDesc.ddpfPixelFormat));
 
@@ -661,7 +661,7 @@ HRESULT DDModeInfo::GetMode(std::int32_t *w, std::int32_t *h, std::int32_t *bpp,
 
 //---------------------------------------------------------------
 
-bool DDModeInfo::ModeSupported(D3DDeviceInfo *the_device) {
+bool DDModeInfo::ModeSupported(D3DDeviceInfo* the_device) {
     std::int32_t bpp,
         depths,
         depth_flags;
@@ -921,9 +921,9 @@ HRESULT D3DDeviceInfo::LoadFormats(LPDIRECT3DDEVICE3 the_d3d_device) {
         // Enumerate all Texture Formats for this device
         callback_info.Result = true;
         callback_info.Count = 0L;
-        callback_info.Extra = (void *) this;
+        callback_info.Extra = (void*) this;
 
-        result = the_d3d_device->EnumTextureFormats(TextureFormatEnumCallback, (void *) &callback_info);
+        result = the_d3d_device->EnumTextureFormats(TextureFormatEnumCallback, (void*) &callback_info);
         if (FAILED(result)) {
             // Error
             // Output error.
@@ -956,7 +956,7 @@ void D3DDeviceInfo::FindOpaqueTexFmt() {
 
     std::int32_t best_score = 0;
 
-    for (DDModeInfo *mi = FormatList; mi; mi = mi->Next) {
+    for (DDModeInfo* mi = FormatList; mi; mi = mi->Next) {
         if (mi->ddSurfDesc.ddpfPixelFormat.dwFlags & DDPF_RGB) {
             //
             // True colour...
@@ -987,7 +987,7 @@ void D3DDeviceInfo::FindOpaqueTexFmt() {
 
 //---------------------------------------------------------------
 
-extern void OS_calculate_mask_and_shift(std::uint32_t bitmask, std::int32_t *mask, std::int32_t *shift);
+extern void OS_calculate_mask_and_shift(std::uint32_t bitmask, std::int32_t* mask, std::int32_t* shift);
 
 void D3DDeviceInfo::FindAlphaTexFmt() {
     std::int32_t try_shift_alpha;
@@ -1004,7 +1004,7 @@ void D3DDeviceInfo::FindAlphaTexFmt() {
 
     std::int32_t best_score = 0;
 
-    for (DDModeInfo *mi = FormatList; mi; mi = mi->Next) {
+    for (DDModeInfo* mi = FormatList; mi; mi = mi->Next) {
         if (mi->ddSurfDesc.ddpfPixelFormat.dwFlags & DDPF_RGB) {
             if (mi->ddSurfDesc.ddpfPixelFormat.dwFlags & DDPF_ALPHAPIXELS) {
                 if (mi->ddSurfDesc.ddpfPixelFormat.dwRGBBitCount >= 16) {
@@ -1073,9 +1073,9 @@ HRESULT D3DDeviceInfo::LoadZFormats(LPDIRECT3D3 d3d) {
     // Enumerate all Z formats for this device
     callback_info.Result = true;
     callback_info.Count = 0;
-    callback_info.Extra = (void *) this;
+    callback_info.Extra = (void*) this;
 
-    result = d3d->EnumZBufferFormats(guid, ZFormatEnumCallback, (void *) &callback_info);
+    result = d3d->EnumZBufferFormats(guid, ZFormatEnumCallback, (void*) &callback_info);
     if (FAILED(result)) {
         return result;
     }
@@ -1121,7 +1121,7 @@ HRESULT D3DDeviceInfo::DestroyFormats() {
 
 //---------------------------------------------------------------
 
-HRESULT D3DDeviceInfo::AddFormat(DDModeInfo *the_format) {
+HRESULT D3DDeviceInfo::AddFormat(DDModeInfo* the_format) {
     // Check Parameters
     if (!the_format) {
         // Error, Invalid parameters
@@ -1148,7 +1148,7 @@ HRESULT D3DDeviceInfo::AddFormat(DDModeInfo *the_format) {
 
 //---------------------------------------------------------------
 
-HRESULT D3DDeviceInfo::DelFormat(DDModeInfo *the_format) {
+HRESULT D3DDeviceInfo::DelFormat(DDModeInfo* the_format) {
     return DD_OK;
 }
 
@@ -1165,7 +1165,7 @@ bool D3DDeviceInfo::IsHardware() {
 
 //---------------------------------------------------------------
 
-bool D3DDeviceInfo::Match(GUID *the_guid) {
+bool D3DDeviceInfo::Match(GUID* the_guid) {
     if (the_guid == nullptr)
         return false;
 
@@ -1181,11 +1181,11 @@ bool D3DDeviceInfo::Match(GUID *the_guid) {
 
 //---------------------------------------------------------------
 
-DDModeInfo *D3DDeviceInfo::FindFormat(
+DDModeInfo* D3DDeviceInfo::FindFormat(
     std::int32_t bpp,
-    DDModeInfo **next_best_format,
-    DDModeInfo *start) {
-    DDModeInfo *current_format;
+    DDModeInfo** next_best_format,
+    DDModeInfo* start) {
+    DDModeInfo* current_format;
 
     // Get Starting node
     if (!start)
@@ -1241,7 +1241,7 @@ DDDriverInfo::~DDDriverInfo() {
 //---------------------------------------------------------------
 
 HRESULT DDDriverInfo::Create(
-    GUID *lpGuid,
+    GUID* lpGuid,
     LPTSTR lpDriverName,
     LPTSTR lpDriverDesc) {
     std::uint32_t str_len,
@@ -1295,14 +1295,14 @@ HRESULT DDDriverInfo::Create(
     }
 
     // Get The DirectDraw4 Interface
-    result = lpDD->QueryInterface(IID_IDirectDraw4, (void **) &lpDD4);
+    result = lpDD->QueryInterface(IID_IDirectDraw4, (void**) &lpDD4);
     if (FAILED(result)) {
         // Error
         goto cleanup;
     }
 
     // Get The Direct3D Interface
-    result = lpDD->QueryInterface(IID_IDirect3D3, (void **) &lpD3D);
+    result = lpDD->QueryInterface(IID_IDirect3D3, (void**) &lpD3D);
     if (FAILED(result)) {
         // Error
         goto cleanup;
@@ -1399,7 +1399,7 @@ void DDDriverInfo::Destroy() {
 
 //---------------------------------------------------------------
 
-bool DDDriverInfo::Match(GUID *the_guid) {
+bool DDDriverInfo::Match(GUID* the_guid) {
     if (!IsValid())
         return false;
 
@@ -1441,7 +1441,7 @@ HRESULT DDDriverInfo::LoadModes(LPDIRECTDRAW4 lpDD4) {
         // Enumerate all modes for this driver.
         callback_info.Result = true;
         callback_info.Count = 0L;
-        callback_info.Extra = (void *) this;
+        callback_info.Extra = (void*) this;
 
         result = lpDD4->EnumDisplayModes(0L, nullptr, &callback_info, ModeEnumCallback);
         if (FAILED(result)) {
@@ -1486,7 +1486,7 @@ HRESULT DDDriverInfo::DestroyModes() {
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverInfo::AddMode(DDModeInfo *the_mode) {
+HRESULT DDDriverInfo::AddMode(DDModeInfo* the_mode) {
     if (!the_mode) {
         // Error, Invalid parameters
         return DDERR_INVALIDPARAMS;
@@ -1548,20 +1548,20 @@ HRESULT DDDriverInfo::AddMode(DDModeInfo *the_mode) {
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverInfo::DeleteMode(DDModeInfo *the_mode) {
+HRESULT DDDriverInfo::DeleteMode(DDModeInfo* the_mode) {
     return DD_OK;
 }
 
 //---------------------------------------------------------------
 
-DDModeInfo *DDDriverInfo::FindMode(
+DDModeInfo* DDDriverInfo::FindMode(
     std::int32_t w,
     std::int32_t h,
     std::int32_t bpp,
     std::int32_t refresh,
-    DDModeInfo **next_best,
-    DDModeInfo *start_mode) {
-    DDModeInfo *current_mode;
+    DDModeInfo** next_best,
+    DDModeInfo* start_mode) {
+    DDModeInfo* current_mode;
 
     // Get Starting node
     if (!start_mode)
@@ -1608,7 +1608,7 @@ HRESULT DDDriverInfo::LoadDevices(LPDIRECT3D3 lpD3D3) {
         // Enumerate all D3D Devices for this driver.
         callback_info.Result = true;
         callback_info.Count = 0L;
-        callback_info.Extra = (void *) this;
+        callback_info.Extra = (void*) this;
 
         result = lpD3D3->EnumDevices(DeviceEnumCallback, &callback_info);
         if (FAILED(result)) {
@@ -1653,7 +1653,7 @@ HRESULT DDDriverInfo::DestroyDevices() {
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverInfo::AddDevice(D3DDeviceInfo *the_device) {
+HRESULT DDDriverInfo::AddDevice(D3DDeviceInfo* the_device) {
     if (!the_device) {
         // Error, Invalid parameters
         return DDERR_INVALIDPARAMS;
@@ -1679,16 +1679,16 @@ HRESULT DDDriverInfo::AddDevice(D3DDeviceInfo *the_device) {
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverInfo::DeleteDevice(D3DDeviceInfo *the_device) {
+HRESULT DDDriverInfo::DeleteDevice(D3DDeviceInfo* the_device) {
     return DD_OK;
 }
 
 //---------------------------------------------------------------
 
-D3DDeviceInfo *DDDriverInfo::FindDevice(
-    GUID *the_guid,
-    D3DDeviceInfo **next_best,
-    D3DDeviceInfo *start_device) {
+D3DDeviceInfo* DDDriverInfo::FindDevice(
+    GUID* the_guid,
+    D3DDeviceInfo** next_best,
+    D3DDeviceInfo* start_device) {
     D3DDeviceInfo *current_device,
         *first_device = nullptr,
         *hardware_device = nullptr,
@@ -1745,12 +1745,12 @@ D3DDeviceInfo *DDDriverInfo::FindDevice(
 
 //---------------------------------------------------------------
 
-D3DDeviceInfo *DDDriverInfo::FindDeviceSupportsMode(
-    GUID *the_guid,
-    DDModeInfo *the_mode,
-    D3DDeviceInfo **next_best_device,
-    D3DDeviceInfo *start_device) {
-    D3DDeviceInfo *current_device;
+D3DDeviceInfo* DDDriverInfo::FindDeviceSupportsMode(
+    GUID* the_guid,
+    DDModeInfo* the_mode,
+    D3DDeviceInfo** next_best_device,
+    D3DDeviceInfo* start_device) {
+    D3DDeviceInfo* current_device;
 
     // Check parameters
     if (!the_mode) {
@@ -1797,15 +1797,15 @@ D3DDeviceInfo *DDDriverInfo::FindDeviceSupportsMode(
 
 //---------------------------------------------------------------
 
-DDModeInfo *DDDriverInfo::FindModeSupportsDevice(
+DDModeInfo* DDDriverInfo::FindModeSupportsDevice(
     std::int32_t w,
     std::int32_t h,
     std::int32_t bpp,
     std::int32_t refresh,
-    D3DDeviceInfo *the_device,
-    DDModeInfo **next_best,
-    DDModeInfo *start_mode) {
-    DDModeInfo *current_mode;
+    D3DDeviceInfo* the_device,
+    DDModeInfo** next_best,
+    DDModeInfo* start_mode) {
+    DDModeInfo* current_mode;
 
     // Check parameters
     if (!the_device) {
@@ -1853,7 +1853,7 @@ DDModeInfo *DDDriverInfo::FindModeSupportsDevice(
 
 //---------------------------------------------------------------
 
-GUID *DDDriverInfo::GetGuid() {
+GUID* DDDriverInfo::GetGuid() {
     if (IsPrimary())
         return nullptr;
     else
@@ -1919,7 +1919,7 @@ HRESULT DDDriverManager::LoadDrivers() {
     // Initialize all valid drivers in system
     callback_info.Result = true;
     callback_info.Count = 0L;
-    callback_info.Extra = (void *) nullptr;
+    callback_info.Extra = (void*) nullptr;
 
     result = DirectDrawEnumerate(DriverEnumCallback, &callback_info);
     if (FAILED(result)) {
@@ -1954,7 +1954,7 @@ HRESULT DDDriverManager::DestroyDrivers() {
 
 //---------------------------------------------------------------
 
-HRESULT DDDriverManager::AddDriver(DDDriverInfo *the_driver) {
+HRESULT DDDriverManager::AddDriver(DDDriverInfo* the_driver) {
     if (!the_driver) {
         // Error, Invalid parameters
         return DDERR_INVALIDPARAMS;
@@ -1980,8 +1980,8 @@ HRESULT DDDriverManager::AddDriver(DDDriverInfo *the_driver) {
 
 //---------------------------------------------------------------
 
-DDDriverInfo *DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_best, DDDriverInfo *start_driver) {
-    DDDriverInfo *current_driver;
+DDDriverInfo* DDDriverManager::FindDriver(GUID* the_guid, DDDriverInfo** next_best, DDDriverInfo* start_driver) {
+    DDDriverInfo* current_driver;
 
     /*
     #ifdef DEBUG
@@ -2007,7 +2007,7 @@ DDDriverInfo *DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_be
 
     std::int32_t i;
 
-    DDDriverInfo *driver[10];
+    DDDriverInfo* driver[10];
     std::int32_t driver_upto = 0;
 
     while (current_driver) {
@@ -2018,8 +2018,8 @@ DDDriverInfo *DDDriverManager::FindDriver(GUID *the_guid, DDDriverInfo **next_be
         current_driver = current_driver->Next;
     }
 
-    DDDriverInfo *choice1 = nullptr;
-    DDDriverInfo *choice2 = nullptr;
+    DDDriverInfo* choice1 = nullptr;
+    DDDriverInfo* choice2 = nullptr;
 
     for (i = 0; i < driver_upto; i++) {
         if (the_guid) {

@@ -2,7 +2,7 @@
 // Guy Simmons, 24th March 1997.
 
 #include "Editor.hpp"
-#include "Thing.h"
+#include "Entity.h"
 #include "Structs.h"
 
 #define GAME_OKAY (1 << 0)
@@ -41,7 +41,7 @@ void game() {
         test_x;
     struct KeyFrameElement *the_element,
         *the_next_element;
-    struct MapThing *t_thing;
+    struct MapThing* t_thing;
     struct Matrix33 r_matrix;
 
     setup_game();
@@ -207,7 +207,7 @@ void game() {
             UnlockWorkScreen();
             ShowWorkScreen(DS_WAIT_VBI);
             if (game_flags & GAME_RECORD) {
-                extern void do_record_frame(std::uint8_t * screen, std::uint8_t * palette);
+                extern void do_record_frame(std::uint8_t* screen, std::uint8_t* palette);
                 if (LockWorkScreen()) {
                     do_record_frame(WorkScreen, CurrentPalette);
                     UnlockWorkScreen();

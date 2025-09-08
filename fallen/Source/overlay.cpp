@@ -29,7 +29,7 @@
 #define VERSION_NTSC 1
 #endif
 
-extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text);
+extern void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char* text);
 
 //
 // local prototypes
@@ -50,7 +50,7 @@ void OVERLAY_draw_damage_values();
 #ifdef DAMAGE_TEXT
 struct DamageValue {
     std::uint8_t Type;
-    char *text_ptr;
+    char* text_ptr;
     std::int16_t Age;
     std::int16_t Value;
     std::int16_t X;
@@ -65,7 +65,7 @@ std::int32_t damage_value_upto = 1;
 #endif
 
 struct TrackEnemy {
-    Thing *PThing;
+    Entity* PThing;
     std::int16_t State;
     std::int16_t Timer;
     std::int16_t Face;
@@ -107,7 +107,7 @@ struct TrackEnemy panel_enemy[MAX_TRACK];
 #define HELP_USE_BIKE 3
 
 #ifndef TARGET_DC
-char *help_text[] =
+char* help_text[] =
     {
         "Jump up to grab cables",
         "Press action to pickup items",
@@ -135,7 +135,7 @@ std::int32_t should_i_add_message(std::int32_t type) {
     }
 }
 
-void arrow_object(Thing *p_special, std::int32_t dir, std::int32_t type) {
+void arrow_object(Entity* p_special, std::int32_t dir, std::int32_t type) {
     std::int32_t x, y, z;
 
     if (!should_i_add_message(type)) {
@@ -194,7 +194,7 @@ void arrow_pos(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dir,
 #endif
 #endif
 
-void Time(struct MFTime *the_time);
+void Time(struct MFTime* the_time);
 
 void show_help_text(std::int32_t index) {
     /*
@@ -219,7 +219,7 @@ void show_help_text(std::int32_t index) {
 void highlight_cable_grab() {
     std::int32_t index;
     std::int32_t x, z;
-    Thing *p_person;
+    Entity* p_person;
     std::int32_t exit = 0;
     std::int16_t f_list;
     std::int16_t i_facet;
@@ -242,7 +242,7 @@ void highlight_cable_grab() {
 
     while (!exit) {
         std::int32_t fdx, fdy, fdz, sdx, sdz, len, step;
-        DFacet *df;
+        DFacet* df;
 
         i_facet = facet_links[f_list++];
         ASSERT(i_facet < next_dfacet);
@@ -310,7 +310,7 @@ void highlight_cable_grab() {
 // #endif
 
 std::int32_t help_system() {
-    Thing *p_person;
+    Entity* p_person;
     std::uint32_t collide_types;
     std::uint16_t found[HELP_MAX_COL];
 
@@ -321,10 +321,10 @@ std::int32_t help_system() {
     std::int32_t dz;
     std::int32_t dist;
 
-    Thing *p_found;
-    VEH_Col *vc;
-    PrimInfo *pi;
-    AnimPrimBbox *apb;
+    Entity* p_found;
+    VEH_Col* vc;
+    PrimInfo* pi;
+    AnimPrimBbox* apb;
 
     std::int32_t x, y, z;
 
@@ -385,7 +385,7 @@ std::int32_t help_system() {
 
                     show_help_text(HELP_USE_CAR);
 
-                    extern void get_car_enter_xz(Thing * p_vehicle, std::int32_t * cx, std::int32_t * cz);
+                    extern void get_car_enter_xz(Entity * p_vehicle, std::int32_t* cx, std::int32_t* cz);
 
                     get_car_enter_xz(p_found, &cx, &cz);
 
@@ -474,7 +474,7 @@ std::int32_t help_system() {
 }
 #endif
 
-void track_enemy(Thing *p_thing) {
+void track_enemy(Entity* p_thing) {
 #ifdef OLD_POO
 
     std::int32_t c0;
@@ -531,7 +531,7 @@ void track_enemy(Thing *p_thing) {
 struct TrackEnemy panel_gun_sight[MAX_TRACK];
 std::uint16_t track_count = 0;
 
-void track_gun_sight(Thing *p_thing, std::int32_t accuracy) {
+void track_gun_sight(Entity* p_thing, std::int32_t accuracy) {
     std::int32_t c0;
     std::int32_t unused = -1;
     for (c0 = 0; c0 < track_count; c0++) {
@@ -612,7 +612,7 @@ void OVERLAY_draw_tracked_enemies() {
 void OVERLAY_draw_gun_sights() {
     std::int32_t c0;
     std::int32_t hx, hy, hz;
-    Thing *p_thing;
+    Entity* p_thing;
 
     // Dodgy internals issue :-)
     POLY_flush_local_rot();
@@ -662,9 +662,9 @@ void OVERLAY_draw_gun_sights() {
     track_count = 0;
 
     // draw a grenade aim target
-    extern std::int32_t person_holding_special(Thing * p_person, std::uint8_t special); // I am so naughty.  I blame Mark.
+    extern std::int32_t person_holding_special(Entity * p_person, std::uint8_t special); // I am so naughty.  I blame Mark.
 
-    Thing *p_player = NET_PERSON(0);
+    Entity* p_player = NET_PERSON(0);
 
     if (person_holding_special(p_player, SPECIAL_GRENADE)) {
         /*
@@ -685,7 +685,7 @@ void OVERLAY_draw_gun_sights() {
 
         if (!p_player->Genus.Person->Ware) {
 #ifndef PSX
-            void show_grenade_path(Thing * p_person);
+            void show_grenade_path(Entity * p_person);
             show_grenade_path(p_player);
 #endif
         }
@@ -713,13 +713,13 @@ void OVERLAY_draw_stamina() {
 extern void PANEL_draw_local_health(std::int32_t mx, std::int32_t my, std::int32_t mz, std::int32_t percentage, std::int32_t radius = 60);
 
 void OVERLAY_draw_enemy_health() {
-    Thing *p_person;
+    Entity* p_person;
 
     p_person = NET_PERSON(0);
 
     if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT || p_person->SubState == SUB_STATE_AIM_GUN) {
         if (p_person->Genus.Person->Target) {
-            Thing *p_target;
+            Entity* p_target;
             p_target = TO_THING(p_person->Genus.Person->Target);
 
             switch (p_target->Class) {
@@ -737,7 +737,7 @@ void OVERLAY_draw_enemy_health() {
             {
                 std::int32_t percent;
 
-                extern bool PersonIsMIB(Thing * p_person);
+                extern bool PersonIsMIB(Entity * p_person);
 
                 if (PersonIsMIB(p_target)) {
                     percent = p_target->Genus.Person->Health * 100 / 700;
@@ -830,8 +830,8 @@ static std::int16_t timer_prev = 0;
 
 #undef MIKE
 void OVERLAY_handle() {
-    Thing *darci = NET_PERSON(0);
-    Thing *player = NET_PLAYER(0);
+    Entity* darci = NET_PERSON(0);
+    Entity* player = NET_PLAYER(0);
     std::int32_t panel = 1;
 
     // TRACE ( "OHi" );
@@ -929,7 +929,7 @@ void OVERLAY_handle() {
         std::int32_t count, cbl = 0, c0;
 
         for (c0 = 0; c0 < MAX_THINGS; c0++) {
-            Thing *p_thing;
+            Entity* p_thing;
 
             p_thing = TO_THING(c0);
 
@@ -1243,7 +1243,7 @@ void overlay_beacons() {
 #ifndef PSX
 /*
         std::int32_t	c0;
-        Thing			*t_thing;
+        Entity			*t_thing;
         THING_INDEX		current_thing;
 
         current_thing	=	PRIMARY_USED;
@@ -1320,7 +1320,7 @@ void add_damage_value(std::int16_t x, std::int16_t y, std::int16_t z, std::int32
 #endif
 }
 
-void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text) {
+void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char* text) {
 #ifdef DAMAGE_TEXT
     std::int32_t index;
 
@@ -1339,7 +1339,7 @@ void add_damage_text(std::int16_t x, std::int16_t y, std::int16_t z, char *text)
 #endif
 }
 
-void add_damage_value_thing(Thing *p_thing, std::int32_t value) {
+void add_damage_value_thing(Entity* p_thing, std::int32_t value) {
 #ifdef DAMAGE_TEXT
     std::int32_t dx, dy, dz;
 
@@ -1361,7 +1361,7 @@ void OVERLAY_draw_damage_values() {
         if (damage_values[c0].Age >= 0) {
             damage_values[c0].Age++;
 
-            extern void FONT2D_DrawString_3d(char *str, std::uint32_t world_x, std::uint32_t world_y, std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
+            extern void FONT2D_DrawString_3d(char* str, std::uint32_t world_x, std::uint32_t world_y, std::uint32_t world_z, std::uint32_t rgb, std::int32_t text_size, std::int16_t fade);
 
             {
                 std::uint16_t fade;
@@ -1404,8 +1404,8 @@ void init_overlay() {
 //	beacon_upto=1;
 #ifdef DAMAGE_TEXT
     damage_value_upto = 1;
-    memset((std::uint8_t *) damage_values, 0, sizeof(struct DamageValue) * MAX_DAMAGE_VALUES);
+    memset((std::uint8_t*) damage_values, 0, sizeof(struct DamageValue) * MAX_DAMAGE_VALUES);
 #endif
     //	memset((std::uint8_t*)beacons,0,sizeof(struct	Beacon)*MAX_BEACON);
-    memset((std::uint8_t *) panel_enemy, 0, sizeof(struct TrackEnemy) * MAX_TRACK);
+    memset((std::uint8_t*) panel_enemy, 0, sizeof(struct TrackEnemy) * MAX_TRACK);
 }

@@ -7,7 +7,7 @@
 // Standard Bresenham algorithm.
 
 void DrawLine8(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::uint32_t colour) {
-    std::uint8_t *line_dest;
+    std::uint8_t* line_dest;
     std::int32_t ax, ay,
         d,
         dx, dy,
@@ -62,7 +62,7 @@ void DrawLine8(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y
 }
 
 void DrawLine16(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::uint32_t colour) {
-    std::uint16_t *line_dest;
+    std::uint16_t* line_dest;
     std::int32_t ax, ay,
         d,
         dx, dy,
@@ -84,7 +84,7 @@ void DrawLine16(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t 
 
     x = x1;
     y = y1;
-    line_dest = (std::uint16_t *) WorkWindow + x + (y * WorkScreenWidth >> 1);
+    line_dest = (std::uint16_t*) WorkWindow + x + (y * WorkScreenWidth >> 1);
     if (ax > ay) {
         d = ay - (ax >> 1);
         while (1) {
@@ -117,7 +117,7 @@ void DrawLine16(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t 
 }
 
 void DrawLine32(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::uint32_t colour) {
-    std::uint32_t *line_dest;
+    std::uint32_t* line_dest;
     std::int32_t ax, ay,
         d,
         dx, dy,
@@ -139,7 +139,7 @@ void DrawLine32(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t 
 
     x = x1;
     y = y1;
-    line_dest = (std::uint32_t *) WorkWindow + x + (y * WorkScreenWidth >> 2);
+    line_dest = (std::uint32_t*) WorkWindow + x + (y * WorkScreenWidth >> 2);
     if (ax > ay) {
         d = ay - (ax >> 1);
         while (1) {
@@ -227,7 +227,7 @@ void DrawLineC8(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t 
 //---------------------------------------------------------------
 
 void DrawHLine8(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t colour) {
-    std::uint8_t *line_dest;
+    std::uint8_t* line_dest;
     std::uint32_t count;
 
     if (x1 > x2) {
@@ -241,13 +241,13 @@ void DrawHLine8(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t 
 }
 
 void DrawHLine16(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t colour) {
-    std::uint16_t *line_dest;
+    std::uint16_t* line_dest;
     std::uint32_t count;
 
     if (x1 > x2) {
         swap(x1, x2);
     }
-    line_dest = (std::uint16_t *) WorkWindow + x1 + (y * WorkScreenWidth >> 1);
+    line_dest = (std::uint16_t*) WorkWindow + x1 + (y * WorkScreenWidth >> 1);
     count = (x2 - x1) + 1;
     while (count--) {
         *(line_dest++) = (std::uint16_t) colour;
@@ -255,13 +255,13 @@ void DrawHLine16(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t
 }
 
 void DrawHLine32(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t colour) {
-    std::uint32_t *line_dest;
+    std::uint32_t* line_dest;
     std::uint32_t count;
 
     if (x1 > x2) {
         swap(x1, x2);
     }
-    line_dest = (std::uint32_t *) WorkWindow + x1 + (y * WorkScreenWidth >> 2);
+    line_dest = (std::uint32_t*) WorkWindow + x1 + (y * WorkScreenWidth >> 2);
     count = (x2 - x1) + 1;
     while (count--) {
         *(line_dest++) = (std::uint32_t) colour;
@@ -271,7 +271,7 @@ void DrawHLine32(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t
 //---------------------------------------------------------------
 
 void DrawHLineC8(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t colour) {
-    std::uint8_t *line_dest;
+    std::uint8_t* line_dest;
     std::uint32_t count;
 
     if (y >= 0 && y < WorkWindowHeight) {
@@ -293,7 +293,7 @@ void DrawHLineC8(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t
 }
 
 void DrawHLineC16(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t colour) {
-    std::uint16_t *line_dest;
+    std::uint16_t* line_dest;
     std::uint32_t count;
 
     if (y >= 0 && y < WorkWindowHeight) {
@@ -305,7 +305,7 @@ void DrawHLineC16(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_
                 x1 = 0;
             if (x2 >= WorkWindowWidth)
                 x2 = WorkWindowWidth - 1;
-            line_dest = (std::uint16_t *) WorkWindow + x1 + (y * WorkScreenWidth >> 1);
+            line_dest = (std::uint16_t*) WorkWindow + x1 + (y * WorkScreenWidth >> 1);
             count = (x2 - x1) + 1;
             while (count--) {
                 *(line_dest++) = (std::uint16_t) colour;
@@ -315,7 +315,7 @@ void DrawHLineC16(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_
 }
 
 void DrawHLineC32(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_t colour) {
-    std::uint32_t *line_dest;
+    std::uint32_t* line_dest;
     std::uint32_t count;
 
     if (y >= 0 && y < WorkWindowHeight) {
@@ -327,7 +327,7 @@ void DrawHLineC32(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_
                 x1 = 0;
             if (x2 >= WorkWindowWidth)
                 x2 = WorkWindowWidth - 1;
-            line_dest = (std::uint32_t *) WorkWindow + x1 + (y * WorkScreenWidth >> 2);
+            line_dest = (std::uint32_t*) WorkWindow + x1 + (y * WorkScreenWidth >> 2);
             count = (x2 - x1) + 1;
             while (count--) {
                 *(line_dest++) = (std::uint32_t) colour;
@@ -339,7 +339,7 @@ void DrawHLineC32(std::int32_t x1, std::int32_t x2, std::int32_t y, std::uint32_
 //---------------------------------------------------------------
 
 void DrawVLine8(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour) {
-    std::uint8_t *line_dest;
+    std::uint8_t* line_dest;
     std::uint32_t count,
         modulo;
 
@@ -356,14 +356,14 @@ void DrawVLine8(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t 
 }
 
 void DrawVLine16(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour) {
-    std::uint16_t *line_dest;
+    std::uint16_t* line_dest;
     std::uint32_t count,
         modulo;
 
     if (y1 > y2) {
         swap(y1, y2);
     }
-    line_dest = (std::uint16_t *) WorkWindow + x + (y1 * WorkScreenWidth >> 1);
+    line_dest = (std::uint16_t*) WorkWindow + x + (y1 * WorkScreenWidth >> 1);
     count = (y2 - y1) + 1;
     modulo = WorkScreenWidth >> 1;
     while (count--) {
@@ -373,14 +373,14 @@ void DrawVLine16(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t
 }
 
 void DrawVLine32(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour) {
-    std::uint32_t *line_dest;
+    std::uint32_t* line_dest;
     std::uint32_t count,
         modulo;
 
     if (y1 > y2) {
         swap(y1, y2);
     }
-    line_dest = (std::uint32_t *) WorkWindow + x + (y1 * WorkScreenWidth >> 2);
+    line_dest = (std::uint32_t*) WorkWindow + x + (y1 * WorkScreenWidth >> 2);
     count = (y2 - y1) + 1;
     modulo = WorkScreenWidth >> 2;
     while (count--) {
@@ -392,7 +392,7 @@ void DrawVLine32(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t
 //---------------------------------------------------------------
 
 void DrawVLineC8(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour) {
-    std::uint8_t *line_dest;
+    std::uint8_t* line_dest;
     std::uint32_t count;
 
     if (x >= 0 && x < WorkWindowWidth) {
@@ -415,7 +415,7 @@ void DrawVLineC8(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t
 }
 
 void DrawVLineC16(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour) {
-    std::uint16_t *line_dest;
+    std::uint16_t* line_dest;
     std::uint32_t count;
 
     if (x >= 0 && x < WorkWindowWidth) {
@@ -427,7 +427,7 @@ void DrawVLineC16(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_
                 y1 = 0;
             if (y2 >= WorkWindowHeight)
                 y2 = WorkWindowHeight - 1;
-            line_dest = (std::uint16_t *) WorkWindow + x + (y1 * WorkScreenWidth >> 1);
+            line_dest = (std::uint16_t*) WorkWindow + x + (y1 * WorkScreenWidth >> 1);
             count = (y2 - y1) + 1;
             while (count--) {
                 *line_dest = (std::uint16_t) colour;
@@ -438,7 +438,7 @@ void DrawVLineC16(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_
 }
 
 void DrawVLineC32(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_t colour) {
-    std::uint32_t *line_dest;
+    std::uint32_t* line_dest;
     std::uint32_t count;
 
     if (x >= 0 && x < WorkWindowWidth) {
@@ -450,7 +450,7 @@ void DrawVLineC32(std::int32_t x, std::int32_t y1, std::int32_t y2, std::uint32_
                 y1 = 0;
             if (y2 >= WorkWindowHeight)
                 y2 = WorkWindowHeight - 1;
-            line_dest = (std::uint32_t *) WorkWindow + x + (y1 * WorkScreenWidth >> 2);
+            line_dest = (std::uint32_t*) WorkWindow + x + (y1 * WorkScreenWidth >> 2);
             count = (y2 - y1) + 1;
             while (count--) {
                 *line_dest = (std::uint32_t) colour;
