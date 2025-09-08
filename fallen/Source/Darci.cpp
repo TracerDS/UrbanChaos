@@ -26,7 +26,7 @@
 //---------------------------------------------------------------
 // This is all temporary editor reliant stuff.
 
-// #include	"..\Editor\Headers\Entity.h"
+// #include	"..\Editor\Headers\Thing.h"
 // #include	"..\Editor\Headers\engine.h"
 
 // #include	"c:\fallen\editor\headers\prim_draw.h"

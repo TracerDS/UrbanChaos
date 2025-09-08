@@ -5,7 +5,7 @@
 
 #include "DarkCity.h"
 #include "Structs.h"
-#include "Entity.h"
+#include "Thing.h"
 #include "map.h"
 #include "prim.h"
 

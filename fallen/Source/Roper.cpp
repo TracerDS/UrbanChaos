@@ -9,7 +9,7 @@
 //---------------------------------------------------------------
 // All temp stuff, botched in for demo.
 
-#include "..\Editor\Headers\Entity.h"
+#include "..\Editor\Headers\Thing.h"
 
 std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing* p_thing);
 

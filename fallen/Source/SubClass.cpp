@@ -15,11 +15,11 @@
 #include "pap.h"
 #include "gi.h"
 
-#include "C:\fallen\Editor\Headers\Anim.h"
+#include "Editor/Headers/Anim.h"
 #include "io.h"
 #include "ob.h"
-#include "c:\fallen\Editor\headers\map.h"
-#include "c:\fallen\Editor\Headers\Entity.h"
+#include "../Editor/headers/map.h"
+#include "../Editor/Headers/Thing.h"
 
 #include "supermap.h"
 #include "inside2.h"

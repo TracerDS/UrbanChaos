@@ -19,7 +19,7 @@
 #include "io.h"
 #include "ob.h"
 #include "..\Editor\headers\map.h"
-#include "..\Editor\Headers\Entity.h"
+#include "..\Editor\Headers\Thing.h"
 
 #include "supermap.h"
 #include "inside2.h"

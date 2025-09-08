@@ -1,4 +1,4 @@
-// Entity.h
+// Thing.h
 // Guy Simmons, 15th October 1997.
 
 #ifndef ETHING_H

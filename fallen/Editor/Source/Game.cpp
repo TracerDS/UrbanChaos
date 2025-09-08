@@ -2,7 +2,7 @@
 // Guy Simmons, 24th March 1997.
 
 #include "Editor.hpp"
-#include "Entity.h"
+#include "Thing.h"
 #include "Structs.h"
 
 #define GAME_OKAY (1 << 0)

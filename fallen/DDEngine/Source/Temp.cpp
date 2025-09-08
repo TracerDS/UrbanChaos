@@ -6,16 +6,16 @@
 #include "..\Headers\memory.h"
 #include "crinkle.h"
 
-#include "..\editor\headers\primativ.hpp"
-// #include	"..\editor\headers\building.hpp"
-#include "..\editor\headers\Edit.h"
-// #include	"..\editor\headers\Engine.h"
-#include "..\editor\headers\Map.h"
-#include "..\editor\headers\prim_draw.h"
-#include "..\editor\headers\Entity.h"
-#include "..\headers\interact.h"
-#include "..\headers\FMatrix.h"
-// #include	"..\editor\headers\collide.hpp"
+#include "../editor/headers/primativ.hpp"
+// #include	"../editor/headers/building.hpp"
+#include "../editor/headers/Edit.h"
+// #include	"../editor/headers/Engine.h"
+#include "../editor/headers/Map.h"
+#include "../editor/headers/prim_draw.h"
+#include "../editor/headers/Thing.h"
+#include "../headers/interact.h"
+#include "../headers/FMatrix.h"
+// #include	"../editor/headers/collide.hpp"
 
 #define POLY_FLAG_TEXTURED (1 << 1)
 #define POLY_FLAG_MASKED (1 << 2)
@@ -88,7 +88,7 @@ struct QuickMap {
     std::int16_t Prim;
     std::int16_t Texture;
     std::int16_t Bright;
-    std::int16_t Entity;
+    std::int16_t Thing;
 };
 
 struct TinyXZ radius_pool[MAX_RADIUS * 4 * MAX_RADIUS * 2];
@@ -1156,7 +1156,7 @@ extern std::uint8_t	store_pos;
 */
 //---------------------------------------------------------------
 
-void e_draw_figure(Entity* p_thing, DrawTween* draw_info, std::int32_t x, std::int32_t y, std::int32_t z) {
+void e_draw_figure(Thing* p_thing, DrawTween* draw_info, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t c0, c1;
     Matrix33 r_matrix;
     GameKeyFrameElement *anim_elements,

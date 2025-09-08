@@ -2,7 +2,7 @@
 #include "Editor.hpp"
 
 #include "game.h"
-#include "Entity.h"
+#include "Thing.h"
 #include "Structs.h"
 #include "map.h"
 // #include	"collide.hpp"

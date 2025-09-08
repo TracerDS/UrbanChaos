@@ -99,7 +99,7 @@ extern struct MemTable save_table[];
 #include "bat.h"
 #include "Switch.h"
 #include "tracks.h"
-#include "Entity.h"
+#include "Thing.h"
 #include "Controls.h"
 #include "Map.h"
 #include "collide.h"
