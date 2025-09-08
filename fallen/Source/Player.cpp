@@ -103,7 +103,7 @@ Entity* create_player(std::uint8_t type, MAPCO16 x, MAPCO16 y, MAPCO16 z, std::i
     std::uint8_t person_type;
     std::int32_t person_index;
     Entity *person_thing = NULL,
-          *player_thing = NULL;
+           *player_thing = NULL;
 
     // Try to allocate a player.
     player_thing = alloc_player(type);

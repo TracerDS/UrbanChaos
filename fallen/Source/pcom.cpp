@@ -11593,7 +11593,7 @@ void process_noises() {
 
 void PCOM_oscillate_tympanum(
     std::int32_t type,
-    Entity* p_person,      // The person who caused the sound.
+    Entity* p_person,     // The person who caused the sound.
     std::int32_t sound_x, // The position of the sound.
     std::int32_t sound_y,
     std::int32_t sound_z,

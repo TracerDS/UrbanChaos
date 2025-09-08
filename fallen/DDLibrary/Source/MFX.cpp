@@ -73,7 +73,7 @@ struct MFX_Voice {
     std::uint32_t flags;
     bool is3D;
     std::int32_t x, y, z; // coordinates of this voice
-    Entity* thing;         // thing this voice belongs to
+    Entity* thing;        // thing this voice belongs to
     MFX_QWave* queue;     // queue of samples to play
     std::int32_t queuesz; // number of queued samples
     MFX_Sample* smp;      // sample being played

@@ -56,14 +56,14 @@ void AZ_create_lines() {
             } else {
                 if (!found_curb)
                     continue;
-                    
+
                 found_curb = false;
                 x2 = x;
                 z2 = z - 1;
 
                 if (x1 == x2 && z1 == z2)
                     continue;
-                    
+
                 //
                 // Add a road line.
                 //
