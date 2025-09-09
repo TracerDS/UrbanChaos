@@ -33,7 +33,7 @@ bool CALLBACK ps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     HWND the_ctrl;
     std::int32_t c0 = 0;
     LPTSTR lbitem_str;
-    NM_UPDOWN *lp_ntfy;
+    NM_UPDOWN* lp_ntfy;
 
     switch (message) {
     case WM_INITDIALOG:
@@ -67,7 +67,7 @@ bool CALLBACK ps_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_player_setup(EventPoint *the_ep) {
+void do_player_setup(EventPoint* the_ep) {
     player_type = the_ep->Data[0];
     player_equip = the_ep->Data[1];
     if (player_type == PT_NONE)
@@ -85,7 +85,7 @@ void do_player_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_player_message(EventPoint *ep, char *msg) {
+char* get_player_message(EventPoint* ep, char* msg) {
     strcpy(msg, "Unknown");
     if (ep) {
         strcpy(msg, wplayer_strings[ep->Data[0] - PT_DARCI]);

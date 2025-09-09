@@ -874,7 +874,7 @@ void FRONTEND_scr_add(LPDIRECTDRAWSURFACE4* screen, std::uint8_t* image_data) {
 
     // Copy the image into the surface...
 
-    extern void CopyBackground(std::uint8_t * image_data, IDirectDrawSurface4 * surface);
+    extern void CopyBackground(std::uint8_t* image_data, IDirectDrawSurface4* surface);
 
     CopyBackground(image_data, *screen);
 
@@ -1102,7 +1102,7 @@ std::uint32_t FRONTEND_fix_rgb(std::uint32_t rgb, bool sel) {
 
 //--- drawy stuff ---
 
-#define RandStream(s) ((std::uint16_t)((s = ((s * 69069) + 1)) >> 7))
+#define RandStream(s) ((std::uint16_t) ((s = ((s * 69069) + 1)) >> 7))
 
 void FRONTEND_draw_title(std::int32_t x, std::int32_t y, std::int32_t cutx, char* str, bool wibble, bool r_to_l) {
 #ifdef TARGET_DC
@@ -2893,7 +2893,7 @@ void FRONTEND_do_drivers() {
     str += strlen(str) + 1;
     strcpy(str, "32 bit");
     str += strlen(str) + 1;
-    menu_data[3].Data = ((std::uint8_t)(CurrentBitDepth == 32)) | (2 << 8);
+    menu_data[3].Data = ((std::uint8_t) (CurrentBitDepth == 32)) | (2 << 8);
     menu_data[3].Choices = str_tmp;
     str_tmp = str;
 
@@ -3269,7 +3269,7 @@ void FRONTEND_draw_districts() {
     for (i = 0; i < district_count; i++) {
         switch (district_valid[i]) {
         case 1:
-            FRONTEND_draw_button(districts[i][0], districts[i][1], (std::uint8_t)(i == district_selected) | 4, i == district_flash);
+            FRONTEND_draw_button(districts[i][0], districts[i][1], (std::uint8_t) (i == district_selected) | 4, i == district_flash);
             break;
         case 2:
         case 3:

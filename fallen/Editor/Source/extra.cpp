@@ -15,7 +15,7 @@ void EXTRA_create_or_delete(std::int32_t type, std::int32_t x, std::int32_t z) {
     std::int32_t dz;
     std::int32_t dist;
 
-    EXTRA_Thing *et;
+    EXTRA_Thing* et;
 
     //
     // look for a thing to delete.

@@ -11,7 +11,7 @@
 // Messages drawn straight to the screen.
 //
 
-void MSG_add(char *message, ...);
+void MSG_add(char* message, ...);
 
 //
 // This function returns the height of the floor at (x,z).
@@ -85,7 +85,7 @@ void FOG_create(std::int32_t f_index) {
 
     ASSERT(WITHIN(f_index, 0, FOG_MAX_FOG - 1));
 
-    FOG_Fog *ff = &FOG_fog[f_index];
+    FOG_Fog* ff = &FOG_fog[f_index];
 
     yaw = rand() & 2047;
     radius = 192;
@@ -118,7 +118,7 @@ void FOG_set_focus(
     std::int32_t dz;
     std::int32_t dist;
 
-    FOG_Fog *ff;
+    FOG_Fog* ff;
 
     //
     // Remember the new focus.
@@ -178,7 +178,7 @@ void FOG_gust(
     std::int32_t dyaw;
     std::int32_t ddyaw;
 
-    FOG_Fog *ff;
+    FOG_Fog* ff;
 
     //
     // How strong (long) is the gust?
@@ -271,7 +271,7 @@ void FOG_process() {
     std::int32_t wantdyaw;
     std::int32_t ddyaw;
 
-    FOG_Fog *ff;
+    FOG_Fog* ff;
 
     //
     // Go through all the fog.
@@ -310,7 +310,7 @@ void FOG_get_start() {
 FOG_Info FOG_get_info() {
     std::int32_t trans;
 
-    FOG_Fog *ff;
+    FOG_Fog* ff;
     FOG_Info ans;
 
     if (FOG_get_upto >= FOG_MAX_FOG) {

@@ -1722,14 +1722,14 @@ void PANEL_do_tosses() {
 extern std::uint8_t estate;
 
 //
-// Draws a face at (x,y). The face is given by the Thing. nullptr => Radio message.
+// Draws a face at (x,y). The face is given by the Entity. nullptr => Radio message.
 //
 
 #define PANEL_FACE_LARGE 1
 #define PANEL_FACE_SMALL 2
 
 void PANEL_new_face(
-    Thing *who,
+    Entity *who,
     float x,
     float y,
     std::int32_t size) {
@@ -2013,7 +2013,7 @@ void PANEL_new_face(
 #define PANEL_TEXT_MAX_LENGTH 300
 typedef struct
 {
-    Thing *who; // Who is saying the message. nullptr => computer message
+    Entity *who; // Who is saying the message. nullptr => computer message
     char text[PANEL_TEXT_MAX_LENGTH + 2];
     std::int32_t delay; // 0 => unused.
     std::int32_t turns; // The number of turns this message has been alive for.
@@ -2035,7 +2035,7 @@ void PANEL_new_text_init() {
     PANEL_text_tick = 0;
 }
 
-void PANEL_new_text(Thing *who, std::int32_t delay, char *fmt, ...) {
+void PANEL_new_text(Entity *who, std::int32_t delay, char *fmt, ...) {
     char *ch;
 
     PANEL_Text *pt;
@@ -2552,7 +2552,7 @@ void PANEL_draw_beacons() {
 
     std::uint32_t colour;
 
-    Thing *darci = NET_PERSON(0);
+    Entity *darci = NET_PERSON(0);
 
     std::int32_t best_beacon = nullptr;
     float best_score = float(INFINITY);
@@ -2565,12 +2565,12 @@ void PANEL_draw_beacons() {
         }
 
         if (mb->track_thing) {
-            Thing *p_track = TO_THING(mb->track_thing);
+            Entity *p_track = TO_THING(mb->track_thing);
 
             mb->wx = p_track->WorldPos.X >> 8;
             mb->wz = p_track->WorldPos.Z >> 8;
 
-            extern std::int32_t is_person_dead(Thing * p_person);
+            extern std::int32_t is_person_dead(Entity * p_person);
 
             if (p_track->Class == CLASS_PERSON && p_track->State == STATE_DEAD) {
                 //
@@ -2745,9 +2745,9 @@ void PANEL_new_funky_do(std::int32_t which, std::int32_t where) {
 
     ASSERT(WITHIN(which, 0, 1));
 
-    Thing *darci = NET_PERSON(which);
-    Thing *player = NET_PLAYER(which);
-    Thing *p_special;
+    Entity *darci = NET_PERSON(which);
+    Entity *player = NET_PLAYER(which);
+    Entity *p_special;
 
     if (darci->Genus.Person->SpecialUse) {
         p_special = TO_THING(darci->Genus.Person->SpecialUse);
@@ -2841,7 +2841,7 @@ void PANEL_new_funky_do(std::int32_t which, std::int32_t where) {
     //
 
     {
-        Thing *p_special;
+        Entity *p_special;
 
         if (darci->Genus.Person->SpecialUse) {
             p_special = TO_THING(darci->Genus.Person->SpecialUse);
@@ -3140,7 +3140,7 @@ no_danger_meter:;
         // Draw the gear you are in.
         //
 
-        Thing *p_vehicle = TO_THING(darci->Genus.Person->InCar);
+        Entity *p_vehicle = TO_THING(darci->Genus.Person->InCar);
 
         PANEL_funky_quad(
             PANEL_IC_GEAR_BOX,
@@ -3870,11 +3870,11 @@ void PANEL_inv_weapon(std::int32_t x, std::int32_t y, std::int32_t item, std::ui
     }
 #define ITEM_SEPERATION (150)
 
-void PANEL_inventory(Thing *darci, Thing *player) {
+void PANEL_inventory(Entity *darci, Entity *player) {
     std::int32_t rgb, rgb2;
     char draw_list[10];
     std::uint8_t draw_count = 0;
-    Thing *p_special = nullptr;
+    Entity *p_special = nullptr;
     std::int32_t x, c0;
     std::uint8_t current_item = 0;
     std::int32_t sel;
@@ -4062,7 +4062,7 @@ void PANEL_last() {
         return;
     }
 
-    Thing *darci = NET_PERSON(0);
+    Entity *darci = NET_PERSON(0);
 
     if (!darci) {
         return;
@@ -4160,7 +4160,7 @@ void PANEL_last() {
     int iGrenadeCountdown = -1;
 
     if (darci->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-        Thing *p_vehicle = TO_THING(darci->Genus.Person->InCar);
+        Entity *p_vehicle = TO_THING(darci->Genus.Person->InCar);
 
         sprite = PANEL_LSPRITE_LOW_GEAR;
 
@@ -4186,7 +4186,7 @@ void PANEL_last() {
                 sprintf(text, "%d", darci->Genus.Person->Ammo);
             }
         } else if (darci->Genus.Person->SpecialUse) {
-            Thing *p_special = TO_THING(darci->Genus.Person->SpecialUse);
+            Entity *p_special = TO_THING(darci->Genus.Person->SpecialUse);
 
             switch (p_special->Genus.Special->SpecialType) {
             case SPECIAL_SHOTGUN:
@@ -4508,7 +4508,7 @@ void PANEL_last() {
         std::uint8_t is_in_car = darci->Genus.Person->InCar ? 1 : 0;
         float car_offset = is_in_car ? 130.0F : 0.0F;
 
-        Thing *the_car = is_in_car ? TO_THING(darci->Genus.Person->InCar) : 0;
+        Entity *the_car = is_in_car ? TO_THING(darci->Genus.Person->InCar) : 0;
 
 #define PLH_MID_U (71.0F + car_offset)
 #define PLH_MID_V (71.0F)
@@ -4679,12 +4679,12 @@ void PANEL_last() {
             thugly = false;
 
             if (mb->track_thing) {
-                Thing *p_track = TO_THING(mb->track_thing);
+                Entity *p_track = TO_THING(mb->track_thing);
 
                 mb->wx = p_track->WorldPos.X >> 8;
                 mb->wz = p_track->WorldPos.Z >> 8;
 
-                extern std::int32_t is_person_dead(Thing * p_person);
+                extern std::int32_t is_person_dead(Entity * p_person);
 
                 if (p_track->Class == CLASS_PERSON) {
                     switch (p_track->Genus.Person->PersonType) {
@@ -4923,7 +4923,7 @@ void PANEL_last() {
             THING_ARRAY_SIZE,
             1 << CLASS_PERSON);
 
-        Thing *p_found;
+        Entity *p_found;
 
         for (i = 0; i < num_found; i++) {
             p_found = TO_THING(THING_array[i]);
@@ -5185,7 +5185,7 @@ void PANEL_last() {
     //
 
     {
-        Thing *darci = NET_PERSON(0);
+        Entity *darci = NET_PERSON(0);
 
         if (darci) {
             if (darci->State == STATE_SEARCH) {
@@ -5748,8 +5748,8 @@ void PANEL_draw_VMU_ammo_counts() {
     }
 
     // Run through the weapons.
-    Thing *darci = NET_PERSON(0);
-    Thing *p_special = nullptr;
+    Entity *darci = NET_PERSON(0);
+    Entity *p_special = nullptr;
 
     // The pistol is special.
     if (darci->Flags & FLAGS_HAS_GUN) {

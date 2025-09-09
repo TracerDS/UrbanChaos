@@ -97,7 +97,7 @@ void DRIP_process() {
     std::int32_t fade;
     std::int32_t size;
 
-    DRIP_Drip *dd;
+    DRIP_Drip* dd;
 
     for (i = 0; i < DRIP_MAX_DRIPS; i++) {
         dd = &DRIP_drip[i];
@@ -125,15 +125,15 @@ void DRIP_get_start() {
     DRIP_get_upto = 0;
 }
 
-DRIP_Info *DRIP_get_next() {
-    DRIP_Info *di;
-    DRIP_Drip *dd;
+DRIP_Info* DRIP_get_next() {
+    DRIP_Info* di;
+    DRIP_Drip* dd;
 
     while (DRIP_get_upto < DRIP_MAX_DRIPS) {
         dd = &DRIP_drip[DRIP_get_upto++];
 
         if (dd->fade) {
-            di = (DRIP_Info *) dd;
+            di = (DRIP_Info*) dd;
 
             return di;
         }

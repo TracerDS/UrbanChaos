@@ -106,7 +106,7 @@ bool CALLBACK is_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_item_setup(EventPoint *the_ep) {
+void do_item_setup(EventPoint* the_ep) {
     item_type = the_ep->Data[0];
     item_count = the_ep->Data[1];
     item_flags = the_ep->Data[2];
@@ -126,7 +126,7 @@ void do_item_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_item_message(EventPoint *ep, char *msg) {
+char* get_item_message(EventPoint* ep, char* msg) {
     if ((!ep) || !ep->Data[0])
         strcpy(msg, "Unknown");
     else {

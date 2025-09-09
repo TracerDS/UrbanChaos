@@ -3,7 +3,7 @@
 
 #include "Editor.hpp"
 
-extern std::uint8_t *CharTable[];
+extern std::uint8_t* CharTable[];
 
 #define DRAW_CHAR                                                      \
     for (c0 = char_height; c0; c0--, string_dest += WorkScreenWidth) { \
@@ -34,7 +34,7 @@ extern std::uint8_t *CharTable[];
 
 //---------------------------------------------------------------
 
-void QuickText8(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour) {
+void QuickText8(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour) {
     std::uint8_t *the_char_def,
         *string_dest;
     std::uint32_t char_height,
@@ -53,9 +53,9 @@ void QuickText8(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t 
         }
 }
 
-void QuickText16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour) {
-    std::uint8_t *the_char_def;
-    std::uint16_t *string_dest;
+void QuickText16(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour) {
+    std::uint8_t* the_char_def;
+    std::uint16_t* string_dest;
     std::uint32_t char_height,
         char_width;
     std::uint32_t c0, c1;
@@ -65,16 +65,16 @@ void QuickText16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t
             the_char_def = CharTable[*(the_string++)];
             char_width = *(the_char_def++);
             char_height = *(the_char_def++);
-            string_dest = (std::uint16_t *) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 1);
+            string_dest = (std::uint16_t*) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 1);
 
             DRAW_CHAR16
             x += char_width + 1;
         }
 }
 
-void QuickText32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour) {
-    std::uint8_t *the_char_def;
-    std::uint32_t *string_dest;
+void QuickText32(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour) {
+    std::uint8_t* the_char_def;
+    std::uint32_t* string_dest;
     std::uint32_t char_height,
         char_width;
     std::uint32_t c0, c1;
@@ -84,7 +84,7 @@ void QuickText32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t
             the_char_def = CharTable[*(the_string++)];
             char_width = *(the_char_def++);
             char_height = *(the_char_def++);
-            string_dest = (std::uint32_t *) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 2);
+            string_dest = (std::uint32_t*) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 2);
 
             DRAW_CHAR32
             x += char_width + 1;
@@ -93,7 +93,7 @@ void QuickText32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t
 
 //---------------------------------------------------------------
 
-void QuickTextC8(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour) {
+void QuickTextC8(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour) {
     std::uint8_t *string_dest,
         *the_char_def,
         *the_pixel;
@@ -177,8 +177,8 @@ void QuickTextC8(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t
         }
 }
 
-void QuickTextC16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour) {
-    std::uint16_t *string_dest;
+void QuickTextC16(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour) {
+    std::uint16_t* string_dest;
     std::uint8_t *the_char_def,
         *the_pixel;
     std::int32_t c0, c1,
@@ -240,7 +240,7 @@ void QuickTextC16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_
                 clip = 1;
             }
 
-            string_dest = (std::uint16_t *) WorkWindow + x + ((char_y + char_v_offset) * WorkScreenWidth >> 1);
+            string_dest = (std::uint16_t*) WorkWindow + x + ((char_y + char_v_offset) * WorkScreenWidth >> 1);
 
             if (clip) {
                 for (c0 = 0; c0 < char_draw_height; c0++, string_dest += WorkScreenWidth, the_char_def += char_width) {
@@ -261,8 +261,8 @@ void QuickTextC16(std::int32_t x, std::int32_t y, char *the_string, std::uint32_
         }
 }
 
-void QuickTextC32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_t colour) {
-    std::uint32_t *string_dest;
+void QuickTextC32(std::int32_t x, std::int32_t y, char* the_string, std::uint32_t colour) {
+    std::uint32_t* string_dest;
     std::uint8_t *the_char_def,
         *the_pixel;
     std::int32_t c0, c1,
@@ -324,7 +324,7 @@ void QuickTextC32(std::int32_t x, std::int32_t y, char *the_string, std::uint32_
                 clip = 1;
             }
 
-            string_dest = (std::uint32_t *) WorkWindow + x + ((char_y + char_v_offset) * WorkScreenWidth >> 2);
+            string_dest = (std::uint32_t*) WorkWindow + x + ((char_y + char_v_offset) * WorkScreenWidth >> 2);
 
             if (clip) {
                 for (c0 = 0; c0 < char_draw_height; c0++, string_dest += WorkScreenWidth, the_char_def += char_width) {
@@ -362,8 +362,8 @@ void QuickChar8(std::int32_t x, std::int32_t y, char the_char, std::uint32_t col
 }
 
 void QuickChar16(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour) {
-    std::uint8_t *the_char_def;
-    std::uint16_t *string_dest;
+    std::uint8_t* the_char_def;
+    std::uint16_t* string_dest;
     std::uint32_t char_height,
         char_width;
     std::uint32_t c0, c1;
@@ -371,13 +371,13 @@ void QuickChar16(std::int32_t x, std::int32_t y, char the_char, std::uint32_t co
     the_char_def = CharTable[the_char];
     char_width = *(the_char_def++);
     char_height = *(the_char_def++);
-    string_dest = (std::uint16_t *) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 1);
+    string_dest = (std::uint16_t*) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 1);
     DRAW_CHAR16
 }
 
 void QuickChar32(std::int32_t x, std::int32_t y, char the_char, std::uint32_t colour) {
-    std::uint8_t *the_char_def;
-    std::uint32_t *string_dest;
+    std::uint8_t* the_char_def;
+    std::uint32_t* string_dest;
     std::uint32_t char_height,
         char_width;
     std::uint32_t c0, c1;
@@ -385,7 +385,7 @@ void QuickChar32(std::int32_t x, std::int32_t y, char the_char, std::uint32_t co
     the_char_def = CharTable[the_char];
     char_width = *(the_char_def++);
     char_height = *(the_char_def++);
-    string_dest = (std::uint32_t *) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 2);
+    string_dest = (std::uint32_t*) WorkWindow + x + ((y + *(the_char_def++)) * WorkScreenWidth >> 2);
     DRAW_CHAR32
 }
 //---------------------------------------------------------------
@@ -402,7 +402,7 @@ void QuickCharC8_16_32(std::int32_t x, std::int32_t y, char the_char, std::uint3
 
 //---------------------------------------------------------------
 
-std::int32_t QTStringWidth(char *the_string) {
+std::int32_t QTStringWidth(char* the_string) {
     std::int32_t width = 0;
 
     if (the_string)

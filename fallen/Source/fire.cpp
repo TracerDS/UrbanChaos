@@ -91,7 +91,7 @@ std::uint8_t FIRE_num_flames_for_size(std::uint8_t size) {
 // Adds a flame to the given fire structure.
 //
 
-void FIRE_add_flame(FIRE_Fire *ff) {
+void FIRE_add_flame(FIRE_Fire* ff) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -101,7 +101,7 @@ void FIRE_add_flame(FIRE_Fire *ff) {
 
     ASSERT(WITHIN(ff, &FIRE_fire[0], &FIRE_fire[FIRE_MAX_FIRE - 1]));
 
-    FIRE_Flame *fl;
+    FIRE_Flame* fl;
 
     if (!FIRE_flame_free) {
         //
@@ -152,7 +152,7 @@ void FIRE_create(
     std::uint8_t life) {
     std::int32_t i;
 
-    FIRE_Fire *ff;
+    FIRE_Fire* ff;
 
     //
     // Look for a spare fire structure.
@@ -199,10 +199,10 @@ void FIRE_process() {
     std::int32_t j;
     std::uint8_t flame;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    FIRE_Fire *ff;
-    FIRE_Flame *fl;
+    FIRE_Fire* ff;
+    FIRE_Flame* fl;
 
     for (i = 0; i < FIRE_MAX_FIRE; i++) {
         ff = &FIRE_fire[i];
@@ -312,8 +312,8 @@ void FIRE_get_start(std::uint8_t z, std::uint8_t xmin, std::uint8_t xmax) {
     FIRE_get_xmax = xmax;
 }
 
-FIRE_Info *FIRE_get_next() {
-    FIRE_Flame *fl;
+FIRE_Info* FIRE_get_next() {
+    FIRE_Flame* fl;
 
     if (!FIRE_get_flame) {
         while (1) {

@@ -42,7 +42,7 @@ extern void add_debug_line(std::int32_t x1, std::int32_t y1, std::int32_t z1, st
 #define BIKE_FLAG_ONGROUND_FRONT (1 << 1)
 #define BIKE_FLAG_ONGROUND_BACK (1 << 2)
 
-BIKE_Bike *BIKE_bike; //[BIKE_MAX_BIKES];
+BIKE_Bike* BIKE_bike; //[BIKE_MAX_BIKES];
 std::int32_t BIKE_bike_upto;
 
 #ifndef PSX
@@ -228,10 +228,10 @@ std::int32_t BIKE_steering_push(
 std::int32_t BIKE_process_suspension(
     std::int32_t sus_x,
     std::int32_t sus_z,
-    std::int32_t *frame_y,
-    std::int32_t *frame_dy,
-    std::int32_t *wheel_y,
-    std::int32_t *wheel_dy) {
+    std::int32_t* frame_y,
+    std::int32_t* frame_dy,
+    std::int32_t* wheel_y,
+    std::int32_t* wheel_dy) {
     std::int32_t onground = false;
 
     std::int32_t ground = PAP_calc_map_height_at(sus_x >> 8, sus_z >> 8) << 8;
@@ -324,7 +324,7 @@ std::int32_t BIKE_process_suspension(
 // BIKE_collide_sphere()
 //
 
-void BIKE_collide_init(Thing *p_bike) {
+void BIKE_collide_init(Entity* p_bike) {
     VEH_collide_find_things(
         p_bike->WorldPos.X >> 8,
         p_bike->WorldPos.Y >> 8,
@@ -339,9 +339,9 @@ void BIKE_collide_init(Thing *p_bike) {
 //
 
 std::int32_t BIKE_collide_sphere(
-    std::int32_t *sphere_x,
-    std::int32_t *sphere_y,
-    std::int32_t *sphere_z) {
+    std::int32_t* sphere_x,
+    std::int32_t* sphere_y,
+    std::int32_t* sphere_z) {
     std::int32_t i;
     std::int32_t dx;
     std::int32_t dy;
@@ -365,7 +365,7 @@ std::int32_t BIKE_collide_sphere(
 
     std::int32_t maxup = (sy >> 8) + 0x50 >> 6;
 
-    VEH_Col *vc;
+    VEH_Col* vc;
 
     //
     // Collision with the sides of fences and buildings.
@@ -572,7 +572,7 @@ std::int32_t BIKE_collide_sphere(
 // of the wheels are completely independent.
 //
 
-void BIKE_process_normal(Thing *p_bike) {
+void BIKE_process_normal(Entity* p_bike) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -599,7 +599,7 @@ void BIKE_process_normal(Thing *p_bike) {
     std::uint8_t go_again = 1;
     std::uint8_t surface;
 
-    BIKE_Bike *bb = p_bike->Genus.Bike;
+    BIKE_Bike* bb = p_bike->Genus.Bike;
 
     if (bb->mode == BIKE_MODE_PARKED ||
         bb->mode == BIKE_MODE_MOUNTING ||
@@ -1232,7 +1232,7 @@ again:;
     case BIKE_MODE_PARKED:
 
     {
-        DrawTween *dt = p_bike->Draw.Tweened;
+        DrawTween* dt = p_bike->Draw.Tweened;
 
         //
         // Should already be setup... we hope!
@@ -1250,7 +1250,7 @@ again:;
     {
         std::int32_t tween_step;
 
-        DrawTween *dt = p_bike->Draw.Tweened;
+        DrawTween* dt = p_bike->Draw.Tweened;
 
         //
         // Animate the bike.
@@ -1299,7 +1299,7 @@ again:;
     case BIKE_MODE_DRIVING:
 
     {
-        DrawTween *dt = p_bike->Draw.Tweened;
+        DrawTween* dt = p_bike->Draw.Tweened;
 
         dt->Angle = bb->yaw;
         dt->Tilt = -bb->pitch & 2047;
@@ -1393,11 +1393,11 @@ std::uint16_t BIKE_create(
     std::int32_t x,
     std::int32_t z,
     std::int32_t yaw) {
-    Thing *p_thing;
-    DrawMesh *dm;
-    BIKE_Bike *bb;
+    Entity* p_thing;
+    DrawMesh* dm;
+    BIKE_Bike* bb;
     std::int32_t vector[3];
-    DrawTween *dt;
+    DrawTween* dt;
 
     //
     // We need to get a thing, bike and a drawmesh.
@@ -1504,7 +1504,7 @@ std::uint16_t BIKE_create(
 
 #endif
 
-BIKE_Control BIKE_control_get(Thing *p_bike) {
+BIKE_Control BIKE_control_get(Entity* p_bike) {
     ASSERT(p_bike->Class == CLASS_BIKE);
 
     BIKE_Control ans;
@@ -1515,7 +1515,7 @@ BIKE_Control BIKE_control_get(Thing *p_bike) {
     return ans;
 }
 
-void BIKE_control_set(Thing *p_bike, BIKE_Control bc) {
+void BIKE_control_set(Entity* p_bike, BIKE_Control bc) {
     std::int32_t speed = BIKE_get_speed(p_bike);
     std::int32_t tspeed = 32 - abs(speed);
 
@@ -1552,7 +1552,7 @@ void BIKE_control_set(Thing *p_bike, BIKE_Control bc) {
     }
 }
 
-std::int32_t BIKE_person_can_mount(Thing *p_person) {
+std::int32_t BIKE_person_can_mount(Entity* p_person) {
     std::int32_t ans = THING_find_nearest(
         p_person->WorldPos.X >> 8,
         p_person->WorldPos.Y >> 8,
@@ -1563,14 +1563,14 @@ std::int32_t BIKE_person_can_mount(Thing *p_person) {
     return ans;
 }
 
-BIKE_Drawinfo BIKE_get_drawinfo(Thing *p_bike) {
+BIKE_Drawinfo BIKE_get_drawinfo(Entity* p_bike) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
 
     ASSERT(p_bike->Class == CLASS_BIKE);
 
-    BIKE_Bike *bb = p_bike->Genus.Bike;
+    BIKE_Bike* bb = p_bike->Genus.Bike;
 
     dx = (bb->front_x - bb->back_x) * 7 >> 11;
     dy = (bb->front_y - bb->back_y) * 7 >> 11;
@@ -1613,7 +1613,7 @@ BIKE_Drawinfo BIKE_get_drawinfo(Thing *p_bike) {
     return ans;
 }
 
-std::int32_t BIKE_get_roll(Thing *p_bike) {
+std::int32_t BIKE_get_roll(Entity* p_bike) {
     ASSERT(p_bike->Class == CLASS_BIKE);
 
     std::int32_t roll;
@@ -1632,7 +1632,7 @@ std::int32_t BIKE_get_roll(Thing *p_bike) {
     return roll;
 }
 
-std::int32_t BIKE_get_speed(Thing *p_bike) {
+std::int32_t BIKE_get_speed(Entity* p_bike) {
     ASSERT(p_bike->Class == CLASS_BIKE);
 
     std::int32_t dx;
@@ -1647,7 +1647,7 @@ std::int32_t BIKE_get_speed(Thing *p_bike) {
     return speed;
 }
 
-void BIKE_set_mounting(Thing *p_bike, Thing *p_person) {
+void BIKE_set_mounting(Entity* p_bike, Entity* p_person) {
     p_bike->Genus.Bike->mode = BIKE_MODE_MOUNTING;
     p_bike->Genus.Bike->driver = THING_NUMBER(p_person);
 
@@ -1655,7 +1655,7 @@ void BIKE_set_mounting(Thing *p_bike, Thing *p_person) {
     // Setup the drawtween ready for tweening.
     //
 
-    DrawTween *dt = p_bike->Draw.Tweened;
+    DrawTween* dt = p_bike->Draw.Tweened;
 
     dt->AnimTween = 0;
     dt->TweenStage = 0;
@@ -1667,8 +1667,8 @@ void BIKE_set_mounting(Thing *p_bike, Thing *p_person) {
     dt->FrameIndex = 0;
 }
 
-void BIKE_set_parked(Thing *p_bike) {
-    DrawTween *dt = p_bike->Draw.Tweened;
+void BIKE_set_parked(Entity* p_bike) {
+    DrawTween* dt = p_bike->Draw.Tweened;
 
     //
     // Put the bike in its parked state.
@@ -1688,14 +1688,14 @@ void BIKE_set_parked(Thing *p_bike) {
     MFX_stop_attached(p_bike);
 }
 
-void BIKE_set_dismounting(Thing *p_bike) {
+void BIKE_set_dismounting(Entity* p_bike) {
     p_bike->Genus.Bike->mode = BIKE_MODE_DISMOUNTING;
 
     //
     // Setup the drawtween ready for tweening.
     //
 
-    DrawTween *dt = p_bike->Draw.Tweened;
+    DrawTween* dt = p_bike->Draw.Tweened;
 
     dt->AnimTween = 0;
     dt->TweenStage = 0;

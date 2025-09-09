@@ -21,7 +21,7 @@ void EditorModule::SetupModule() {
 
 //---------------------------------------------------------------
 
-void EditorModule::MoveModule(MFPoint *clicked_point) {
+void EditorModule::MoveModule(MFPoint* clicked_point) {
     std::int32_t x_diff,
         y_diff;
     EdRect last_rect,
@@ -66,7 +66,7 @@ void EditorModule::MoveModule(MFPoint *clicked_point) {
 
 //---------------------------------------------------------------
 
-void EditorModule::SizeModule(MFPoint *clicked_point) {
+void EditorModule::SizeModule(MFPoint* clicked_point) {
     std::int32_t height,
         x_diff,
         y_diff;
@@ -111,7 +111,7 @@ void EditorModule::SizeModule(MFPoint *clicked_point) {
 
 //---------------------------------------------------------------
 
-void EditorModule::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
+void EditorModule::HandleContentClick(std::uint8_t flags, MFPoint* clicked_point) {
     switch (flags) {
     case NO_CLICK:
         break;
@@ -130,7 +130,7 @@ void EditorModule::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point
 
 //---------------------------------------------------------------
 
-void EditorModule::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) {
+void EditorModule::HandleControlClick(std::uint8_t flags, MFPoint* clicked_point) {
     switch (flags) {
     case NO_CLICK:
         break;

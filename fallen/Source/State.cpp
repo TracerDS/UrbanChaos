@@ -5,8 +5,8 @@
 
 //---------------------------------------------------------------
 
-void set_state_function(Thing *t_thing, std::uint8_t state) {
-    StateFunction *functions = NULL;
+void set_state_function(Entity* t_thing, std::uint8_t state) {
+    StateFunction* functions = NULL;
 
     switch (t_thing->Class) {
     case CLASS_NONE:
@@ -55,8 +55,8 @@ void set_state_function(Thing *t_thing, std::uint8_t state) {
     }
 }
 
-void set_generic_person_state_function(Thing *t_thing, std::uint8_t state) {
-    StateFunction *functions = NULL;
+void set_generic_person_state_function(Entity* t_thing, std::uint8_t state) {
+    StateFunction* functions = NULL;
 
     /*
             switch(t_thing->Class)
@@ -76,8 +76,8 @@ void set_generic_person_state_function(Thing *t_thing, std::uint8_t state) {
     }
 }
 
-void set_generic_person_just_function(Thing *t_thing, std::uint8_t state) {
-    StateFunction *functions = NULL;
+void set_generic_person_just_function(Entity* t_thing, std::uint8_t state) {
+    StateFunction* functions = NULL;
 
     t_thing->StateFn = generic_people_functions[state].StateFn;
 }

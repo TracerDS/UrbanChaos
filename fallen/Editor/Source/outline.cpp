@@ -16,26 +16,26 @@
 struct OUTLINE_Link {
     std::int32_t x;
     std::int32_t type;
-    OUTLINE_Link *next;
+    OUTLINE_Link* next;
 };
 
 struct OUTLINE_Outline {
     std::int32_t max_z;
-    OUTLINE_Link *link[];
+    OUTLINE_Link* link[];
 };
 
-OUTLINE_Outline *OUTLINE_create(std::int32_t num_z_squares) {
+OUTLINE_Outline* OUTLINE_create(std::int32_t num_z_squares) {
     std::int32_t num_bytes;
 
-    OUTLINE_Outline *oo;
+    OUTLINE_Outline* oo;
 
     //
     // How much memory does this outline take?
     //
 
-    num_bytes = sizeof(OUTLINE_Outline) + sizeof(OUTLINE_Link *) * num_z_squares;
+    num_bytes = sizeof(OUTLINE_Outline) + sizeof(OUTLINE_Link*) * num_z_squares;
 
-    oo = (OUTLINE_Outline *) calloc(num_bytes, 1);
+    oo = (OUTLINE_Outline*) calloc(num_bytes, 1);
     if (!oo)
         return nullptr;
 
@@ -51,11 +51,11 @@ OUTLINE_Outline *OUTLINE_create(std::int32_t num_z_squares) {
 // Inserts the link into the correct place in the outline.
 //
 
-void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, std::int32_t link_z) {
+void OUTLINE_insert_link(OUTLINE_Outline* oo, OUTLINE_Link* ol, std::int32_t link_z) {
     std::int32_t here;
 
-    OUTLINE_Link *next;
-    OUTLINE_Link **prev;
+    OUTLINE_Link* next;
+    OUTLINE_Link** prev;
 
     ASSERT(WITHIN(link_z, 0, oo->max_z - 1));
 
@@ -100,7 +100,7 @@ void OUTLINE_insert_link(OUTLINE_Outline *oo, OUTLINE_Link *ol, std::int32_t lin
 }
 
 void OUTLINE_add_line(
-    OUTLINE_Outline *oo,
+    OUTLINE_Outline* oo,
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2) {
     std::int32_t z;
@@ -137,7 +137,7 @@ void OUTLINE_add_line(
         // Allocate a new link.
         //
 
-        OUTLINE_Link *ol = (OUTLINE_Link *) malloc(sizeof(OUTLINE_Link));
+        OUTLINE_Link* ol = (OUTLINE_Link*) malloc(sizeof(OUTLINE_Link));
 
         ol->type = type;
         ol->x = x1;
@@ -151,11 +151,11 @@ void OUTLINE_add_line(
     }
 }
 
-void OUTLINE_free(OUTLINE_Outline *oo) {
+void OUTLINE_free(OUTLINE_Outline* oo) {
     std::int32_t z;
 
-    OUTLINE_Link *ol;
-    OUTLINE_Link *next;
+    OUTLINE_Link* ol;
+    OUTLINE_Link* next;
 
     //
     // Free all the links first.
@@ -181,8 +181,8 @@ void OUTLINE_free(OUTLINE_Outline *oo) {
 //
 
 std::int32_t OUTLINE_overlap(
-    OUTLINE_Link *ol1,
-    OUTLINE_Link *ol2) {
+    OUTLINE_Link* ol1,
+    OUTLINE_Link* ol2) {
     std::int32_t on1 = false;
     std::int32_t on2 = false;
 
@@ -247,8 +247,8 @@ std::int32_t OUTLINE_overlap(
 }
 
 std::int32_t OUTLINE_overlap(
-    OUTLINE_Outline *oo1,
-    OUTLINE_Outline *oo2) {
+    OUTLINE_Outline* oo1,
+    OUTLINE_Outline* oo2) {
     std::int32_t z;
     std::int32_t minz = std::min(oo1->max_z, oo2->max_z);
 
@@ -268,10 +268,10 @@ std::int32_t OUTLINE_overlap(
 //
 
 std::int32_t OUTLINE_inside(
-    OUTLINE_Outline *oo,
+    OUTLINE_Outline* oo,
     std::int32_t x,
     std::int32_t z) {
-    OUTLINE_Link *ol;
+    OUTLINE_Link* ol;
 
     if (!WITHIN(z, 0, oo->max_z - 1)) {
         //
@@ -300,7 +300,7 @@ std::int32_t OUTLINE_inside(
 }
 
 std::int32_t OUTLINE_intersects(
-    OUTLINE_Outline *oo,
+    OUTLINE_Outline* oo,
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2) {
     std::int32_t i;

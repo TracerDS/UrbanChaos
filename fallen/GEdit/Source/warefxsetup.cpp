@@ -57,7 +57,7 @@ bool CALLBACK warefx_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 //---------------------------------------------------------------
 
-void do_warefx_setup(EventPoint *the_ep) {
+void do_warefx_setup(EventPoint* the_ep) {
     //	Set the dialog.
     warefx_type = the_ep->Data[0];
 
@@ -74,7 +74,7 @@ void do_warefx_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_warefx_message(EventPoint *ep, char *msg) {
+char* get_warefx_message(EventPoint* ep, char* msg) {
     strcpy(msg, wwarefx_strings[ep->Data[0]]);
     return msg;
 }

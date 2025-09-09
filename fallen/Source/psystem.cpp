@@ -36,7 +36,7 @@ static bool first_pass;
 void PARTICLE_Reset() {
     std::int32_t c0;
 
-    memset((std::uint8_t *) particles, 0, sizeof(particles));
+    memset((std::uint8_t*) particles, 0, sizeof(particles));
     particle_count = 0;
 
     for (c0 = 0; c0 < PSYSTEM_MAX_PARTICLES; c0++) {
@@ -53,9 +53,9 @@ void PARTICLE_Reset() {
 
 void PARTICLE_Run() {
     std::int32_t ctr, tx, ty, tz;
-    Particle *p;
+    Particle* p;
     std::int32_t trans;
-    std::uint8_t *palptr;
+    std::uint8_t* palptr;
     std::int32_t palndx;
     std::uint8_t isWare;
 
@@ -212,7 +212,7 @@ void PARTICLE_Run() {
                         GameCoord pos = {tx, 0, tz};
                         pos.Y = PAP_calc_map_height_at(tx >> 8, tz >> 8) << 8;
                         pos.Y += 1024;
-                        Thing *pyro = PYRO_create(pos, PYRO_WHOOMPH);
+                        Entity* pyro = PYRO_create(pos, PYRO_WHOOMPH);
                         if (pyro)
                             pyro->Genus.Pyro->counter = 0; // heh
 
@@ -303,9 +303,9 @@ void PARTICLE_Run() {
                         1 << CLASS_PERSON);
 
                     for (i = 0; i < num; i++) {
-                        Thing *p_hurt = TO_THING(hurt[i]);
+                        Entity* p_hurt = TO_THING(hurt[i]);
 
-                        extern std::int32_t is_person_dead(Thing * p_person);
+                        extern std::int32_t is_person_dead(Entity * p_person);
 
                         if (is_person_dead(p_hurt)) {
                             //
@@ -419,7 +419,7 @@ void PARTICLE_Run() {
     }
 }
 
-std::uint16_t PARTICLE_AddParticle(Particle &p) {
+std::uint16_t PARTICLE_AddParticle(Particle& p) {
     //	std::uint8_t priority=0;
     //	std::uint16_t ctr=0;
     std::uint16_t new_particle;
@@ -530,7 +530,7 @@ std::uint16_t PARTICLE_Exhaust(std::int32_t x, std::int32_t y, std::int32_t z, s
     return res;
 }
 
-std::uint16_t PARTICLE_Exhaust2(Thing *object, std::uint8_t density, std::uint8_t disperse) {
+std::uint16_t PARTICLE_Exhaust2(Entity* object, std::uint8_t density, std::uint8_t disperse) {
     std::uint8_t i;
     std::uint16_t res;
     Particle p;
@@ -696,7 +696,7 @@ std::uint16_t PARTICLE_Steam(std::int32_t x, std::int32_t y, std::int32_t z, std
     return res;
 }
 
-std::uint16_t PARTICLE_SGrenade(Thing *object, std::uint8_t time) {
+std::uint16_t PARTICLE_SGrenade(Entity* object, std::uint8_t time) {
     Particle p;
     std::uint8_t i;
     std::int32_t res = 1;

@@ -24,14 +24,14 @@ char FontName[_MAX_PATH];
 std::int32_t FontPage;
 std::int32_t FONT_TICK = 0;
 
-inline bool Red(std::int32_t ofs, TGA_Pixel *data) {
+inline bool Red(std::int32_t ofs, TGA_Pixel* data) {
     return ((data[ofs].red > 200) && (!data[ofs].blue) && (!data[ofs].green));
 }
-inline bool Bloo(std::int32_t ofs, TGA_Pixel *data) {
+inline bool Bloo(std::int32_t ofs, TGA_Pixel* data) {
     return ((data[ofs].blue > 200) && (!data[ofs].red) && (!data[ofs].green));
 }
 
-inline bool Mata(std::int32_t ofs, TGA_Pixel *data) {
+inline bool Mata(std::int32_t ofs, TGA_Pixel* data) {
     return (Red(ofs, data) && Red(ofs + 1, data) && (Red(ofs + 256, data)));
 }
 
@@ -116,9 +116,9 @@ void MENUFONT_Page(std::int32_t page) {
 
 }
 */
-void MENUFONT_Load(char *fn, std::int32_t page, char *fontlist) {
-    TGA_Pixel *temp;
-    std::uint8_t *pt;
+void MENUFONT_Load(char* fn, std::int32_t page, char* fontlist) {
+    TGA_Pixel* temp;
+    std::uint8_t* pt;
     std::uint16_t x, y, ox, oy, ofs, yofs;
     char tmp[_MAX_PATH];
 
@@ -133,7 +133,7 @@ void MENUFONT_Load(char *fn, std::int32_t page, char *fontlist) {
     strcat(tmp, fn);
     TGA_load(tmp, 256, 256, temp, -1, false);
 
-    pt = (std::uint8_t *) fontlist;
+    pt = (std::uint8_t*) fontlist;
 
     ZeroMemory(FontInfo, sizeof(FontInfo));
 
@@ -177,11 +177,11 @@ void MENUFONT_Load(char *fn, std::int32_t page, char *fontlist) {
 #define SC(a) (SIN(a & 2047) >> 15)
 #define CC(a) (COS(a & 2047) >> 15)
 
-void MENUFONT_DrawFlanged(std::int16_t x, std::int16_t y, std::uint16_t scale, char *msg, std::int32_t alpha, std::int32_t rgb, std::uint8_t flags) {
+void MENUFONT_DrawFlanged(std::int16_t x, std::int16_t y, std::uint16_t scale, char* msg, std::int32_t alpha, std::int32_t rgb, std::uint8_t flags) {
     std::int32_t width = 0, height, c0, len = strlen(msg), i;
-    std::uint8_t *pt;
+    std::uint8_t* pt;
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
     pp[0].specular = pp[1].specular = pp[2].specular = pp[3].specular = 0xff000000;
     pp[0].colour = pp[1].colour = pp[2].colour = pp[3].colour = rgb | (alpha << 24);
@@ -189,7 +189,7 @@ void MENUFONT_DrawFlanged(std::int16_t x, std::int16_t y, std::uint16_t scale, c
 
     alpha >>= 2;
 
-    pt = (std::uint8_t *) msg;
+    pt = (std::uint8_t*) msg;
     for (c0 = 0; c0 < len; c0++) {
         width = (FontInfo[*pt].width * scale) >> 8;
         height = (FontInfo[*pt].height * scale) >> 8;
@@ -235,11 +235,11 @@ void MENUFONT_DrawFlanged(std::int16_t x, std::int16_t y, std::uint16_t scale, c
     }
 }
 
-void MENUFONT_DrawFutzed(std::int16_t x, std::int16_t y, std::uint16_t scale, char *msg, std::int32_t alpha, std::int32_t rgb, std::uint8_t flags) {
+void MENUFONT_DrawFutzed(std::int16_t x, std::int16_t y, std::uint16_t scale, char* msg, std::int32_t alpha, std::int32_t rgb, std::uint8_t flags) {
     std::int32_t width = 0, height, c0, len = strlen(msg), i, j, k;
-    std::uint8_t *pt;
+    std::uint8_t* pt;
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
     float uys, ys, uyc, yc;
 
     pp[0].specular = pp[1].specular = pp[2].specular = pp[3].specular = 0xff000000;
@@ -248,7 +248,7 @@ void MENUFONT_DrawFutzed(std::int16_t x, std::int16_t y, std::uint16_t scale, ch
 
     j = (!(rand() & 0x1f));
 
-    pt = (std::uint8_t *) msg;
+    pt = (std::uint8_t*) msg;
     for (c0 = 0; c0 < len; c0++) {
         width = (FontInfo[*pt].width * scale) >> 8;
         height = (FontInfo[*pt].height * scale) >> 8;
@@ -310,7 +310,7 @@ void MENUFONT_DrawFutzed(std::int16_t x, std::int16_t y, std::uint16_t scale, ch
 void MENUFONT_Draw_Selection_Box_Sized(std::int16_t x, std::int16_t y, std::int16_t x2, std::int16_t y2, std::int32_t uwLineWidth, std::int32_t rgb) {
     std::int32_t width = 0, height;
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
     width = x2 - x;
     height = y2 - y;
@@ -392,21 +392,21 @@ void MENUFONT_Draw_Selection_Box_Sized(std::int16_t x, std::int16_t y, std::int1
     POLY_add_quad(quad, POLY_PAGE_COLOUR, false, true);
 }
 
-void MENUFONT_Draw_Selection_Box(std::int16_t x, std::int16_t y, std::uint16_t scale, char *msg, std::int32_t rgb, std::uint16_t flags, std::int16_t max) {
+void MENUFONT_Draw_Selection_Box(std::int16_t x, std::int16_t y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint16_t flags, std::int16_t max) {
     std::int32_t width = 0, height, c0, len = strlen(msg);
     std::uint8_t hchar = (flags & MENUFONT_SUPER_YCTR) ? (std::uint8_t) *msg : 'M';
-    std::uint8_t *pt;
+    std::uint8_t* pt;
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
 
     if (max == -1) max = len;
 
 #ifdef TARGET_DC
     // Scan for the word "VMU".
     // Mark the "U" as not to be drawn.
-    std::uint8_t *pDontDrawThisLetter = nullptr;
+    std::uint8_t* pDontDrawThisLetter = nullptr;
     if (bWriteVMInsteadOfVMU) {
-        pDontDrawThisLetter = (std::uint8_t *) strstr(msg, "VMU");
+        pDontDrawThisLetter = (std::uint8_t*) strstr(msg, "VMU");
         if (pDontDrawThisLetter != nullptr) {
             // Point to the U
             pDontDrawThisLetter += 2;
@@ -417,7 +417,7 @@ void MENUFONT_Draw_Selection_Box(std::int16_t x, std::int16_t y, std::uint16_t s
     height = (FontInfo[hchar].height * scale) >> 8;
     y -= height >> 1;
 
-    pt = (std::uint8_t *) msg;
+    pt = (std::uint8_t*) msg;
     for (c0 = 0; c0 < len; c0++) {
 #ifdef TARGET_DC
         if (pt == pDontDrawThisLetter) {
@@ -447,14 +447,14 @@ void MENUFONT_Draw_Selection_Box(std::int16_t x, std::int16_t y, std::uint16_t s
 
 #endif
 
-void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char *msg, std::int32_t rgb, std::uint16_t flags, std::int16_t max) {
+void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint16_t flags, std::int16_t max) {
     const std::uint8_t haloscale = 3;
     std::int32_t width = 0, height, c0, len = strlen(msg);
     // std::int32_t col;
-    std::uint8_t *pt;
+    std::uint8_t* pt;
     //	float fscale=(float)scale/256.0;
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
     std::uint8_t hchar = (flags & MENUFONT_SUPER_YCTR) ? (std::uint8_t) *msg : 'M';
     std::int32_t yofs;
 
@@ -463,9 +463,9 @@ void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char *ms
 #ifdef TARGET_DC
     // Scan for the word "VMU".
     // Mark the "U" as not to be drawn.
-    std::uint8_t *pDontDrawThisLetter = nullptr;
+    std::uint8_t* pDontDrawThisLetter = nullptr;
     if (bWriteVMInsteadOfVMU) {
-        pDontDrawThisLetter = (std::uint8_t *) strstr(msg, "VMU");
+        pDontDrawThisLetter = (std::uint8_t*) strstr(msg, "VMU");
         if (pDontDrawThisLetter != nullptr) {
             // Point to the U
             pDontDrawThisLetter += 2;
@@ -481,7 +481,7 @@ void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char *ms
     y -= (FontInfo[hchar].height * scale) >> 9;
 
     if (flags & (MENUFONT_CENTRED | MENUFONT_RIGHTALIGN)) {
-        pt = (std::uint8_t *) msg;
+        pt = (std::uint8_t*) msg;
         for (c0 = 0; c0 < len; c0++) {
 #ifdef TARGET_DC
             if (pt == pDontDrawThisLetter) {
@@ -527,7 +527,7 @@ void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char *ms
     pp[0].Z = pp[1].Z = pp[2].Z = pp[3].Z = 0.5f;
 #endif
 
-    pt = (std::uint8_t *) msg;
+    pt = (std::uint8_t*) msg;
     for (c0 = 0; c0 < max; c0++) {
 #ifdef TARGET_DC
         if (pt == pDontDrawThisLetter) {
@@ -583,15 +583,15 @@ void MENUFONT_Draw(std::int16_t x, std::int16_t y, std::uint16_t scale, char *ms
 #define CHECKTHEREARENOVMUSINHERE(string) sizeof(string)
 #endif
 
-void MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char *msg, std::int32_t rgb, std::uint16_t flags) {
+void MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char* msg, std::int32_t rgb, std::uint16_t flags) {
     const std::uint8_t haloscale = 3;
     std::int32_t c0, len = strlen(msg);
     // std::int32_t col;
     float width = 0, height;
-    std::uint8_t *pt;
+    std::uint8_t* pt;
     float fscale = (float) scale / 256.0f;
     POLY_Point pp[4];
-    POLY_Point *quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
+    POLY_Point* quad[4] = {&pp[0], &pp[1], &pp[2], &pp[3]};
     std::uint8_t hchar = (flags & MENUFONT_SUPER_YCTR) ? (std::uint8_t) *msg : 'M';
 
     CHECKTHEREARENOVMUSINHERE(msg);
@@ -603,7 +603,7 @@ void MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char *msg, std:
     }
 
     if (flags & (MENUFONT_CENTRED | MENUFONT_RIGHTALIGN)) {
-        pt = (std::uint8_t *) msg;
+        pt = (std::uint8_t*) msg;
         for (c0 = 0; c0 < len; c0++)
             width += ((float) FontInfo[*(pt++)].width - 1) * fscale;
         x -= (flags & MENUFONT_CENTRED) ? width * 0.5f : width;
@@ -626,7 +626,7 @@ void MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char *msg, std:
     pp[0].colour = pp[1].colour = pp[2].colour = pp[3].colour = rgb;
     pp[0].Z = pp[1].Z = pp[2].Z = pp[3].Z = 0.5f;
 
-    pt = (std::uint8_t *) msg;
+    pt = (std::uint8_t*) msg;
     for (c0 = 0; c0 < len; c0++) {
         width = ((float) FontInfo[*pt].width) * fscale;
         if (flags & MENUFONT_HSCALEONLY) {
@@ -668,15 +668,15 @@ void MENUFONT_Draw_floats(float x, float y, std::uint16_t scale, char *msg, std:
     }
 }
 
-void MENUFONT_Dimensions(char *fn, std::int32_t &x, std::int32_t &y, std::int16_t max, std::int16_t scale) {
-    std::uint8_t *fn2 = (std::uint8_t *) fn;
+void MENUFONT_Dimensions(char* fn, std::int32_t& x, std::int32_t& y, std::int16_t max, std::int16_t scale) {
+    std::uint8_t* fn2 = (std::uint8_t*) fn;
 
 #ifdef TARGET_DC
     // Scan for the word "VMU".
     // Mark the "U" as not to be drawn.
-    std::uint8_t *pDontDrawThisLetter = nullptr;
+    std::uint8_t* pDontDrawThisLetter = nullptr;
     if (bWriteVMInsteadOfVMU) {
-        pDontDrawThisLetter = (std::uint8_t *) strstr(fn, "VMU");
+        pDontDrawThisLetter = (std::uint8_t*) strstr(fn, "VMU");
         if (pDontDrawThisLetter != nullptr) {
             // Point to the U
             pDontDrawThisLetter += 2;
@@ -720,9 +720,9 @@ std::int32_t MENUFONT_CharWidth(char fn, std::uint16_t scale) {
     return (FontInfo[(std::uint8_t) fn].width * scale) >> 8;
 }
 
-std::int32_t MENUFONT_CharFit(char *fn, std::int32_t x, std::uint16_t scale) {
+std::int32_t MENUFONT_CharFit(char* fn, std::int32_t x, std::uint16_t scale) {
     std::int32_t ctr = 0, width = 0;
-    std::uint8_t *fn2 = (std::uint8_t *) fn;
+    std::uint8_t* fn2 = (std::uint8_t*) fn;
 
     if (!*fn) return 0;
 
@@ -785,7 +785,7 @@ void MENUFONT_fadein_line(std::int32_t x) {
 //
 
 float MENUFONT_fadein_char(float x, float y, std::uint8_t ch, std::uint8_t fade) {
-    CharData *cd = &FontInfo[ch];
+    CharData* cd = &FontInfo[ch];
 
     if (x < 0 || x + cd->width >= 640.0F ||
         y < 0 || y + cd->height >= 480.0F) {
@@ -925,8 +925,8 @@ float MENUFONT_fadein_char(float x, float y, std::uint8_t ch, std::uint8_t fade)
 // Draws centred text.
 //
 
-void MENUFONT_fadein_draw(std::int32_t x, std::int32_t y, std::uint8_t fade, char *msg) {
-    char *ch;
+void MENUFONT_fadein_draw(std::int32_t x, std::int32_t y, std::uint8_t fade, char* msg) {
+    char* ch;
 
     float tx;
 

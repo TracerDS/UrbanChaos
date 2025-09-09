@@ -49,7 +49,7 @@ std::int32_t TEXTURE_set;
 
 std::int32_t TEXTURE_fiddled;
 
-std::uint16_t *TEXTURE_shadow_bitmap;
+std::uint16_t* TEXTURE_shadow_bitmap;
 std::int32_t TEXTURE_shadow_pitch; // In bytes!
 std::int32_t TEXTURE_shadow_mask_red;
 std::int32_t TEXTURE_shadow_mask_green;
@@ -291,7 +291,7 @@ void TEXTURE_DC_pack_load_page(std::int32_t page) {
         TEXTURE_DC_pack[page].page = actual_page;
         TEXTURE_DC_pack[page].pos = TEXTURE_DC_PACK_POS_WHOLE_PAGE;
     } else {
-        D3DTexture *tt;
+        D3DTexture* tt;
 
         ASSERT(WITHIN(TEXTURE_DC_pack_page_upto, 0, TEXTURE_DC_NORMAL_START - 1));
 
@@ -313,11 +313,11 @@ void TEXTURE_DC_pack_load_page(std::int32_t page) {
         // Load the TGA.
         //
 
-        TGA_Pixel *tga = (TGA_Pixel *) malloc(sizeof(TGA_Pixel) * 64 * 64);
+        TGA_Pixel* tga = (TGA_Pixel*) malloc(sizeof(TGA_Pixel) * 64 * 64);
         TGA_Info ti = TGA_load(name_res64, 64, 64, tga, 0, false);
 
         if (ti.valid) {
-            std::uint16_t *bitmap;
+            std::uint16_t* bitmap;
             std::int32_t pitch;
 
             //
@@ -668,9 +668,9 @@ static void TEXTURE_load_page(std::int32_t page) {
     char shortname_res128[14];
     std::int32_t fxref;
 
-    FILE *exists32;
-    FILE *exists64;
-    FILE *exists128;
+    FILE* exists32;
+    FILE* exists64;
+    FILE* exists128;
 
     ASSERT(TEXTURE_set);
     ASSERT(WITHIN(page, 0, TEXTURE_MAX_TEXTURES - 1));
@@ -895,7 +895,7 @@ static void TEXTURE_load_page(std::int32_t page) {
     }
 }
 
-void TEXTURE_initialise_clumping(char *fname_level) {
+void TEXTURE_initialise_clumping(char* fname_level) {
 #ifdef TARGET_DC
     const int clumping = 0;
 #else // #ifdef TARGET_DC
@@ -904,7 +904,7 @@ void TEXTURE_initialise_clumping(char *fname_level) {
 
 #endif // #else //#ifdef TARGET_DC
 
-    extern void SetLastClumpfile(char *file, size_t size); // in GDisplay.cpp, horrible bodge
+    extern void SetLastClumpfile(char* file, size_t size); // in GDisplay.cpp, horrible bodge
 
     if (!clumping) {
         // load textures directly
@@ -918,7 +918,7 @@ void TEXTURE_initialise_clumping(char *fname_level) {
 
         // load textures from the clump
         char filename[256];
-        char *leafname;
+        char* leafname;
 
         do {
             leafname = fname_level;
@@ -927,7 +927,7 @@ void TEXTURE_initialise_clumping(char *fname_level) {
 
         // write out
         sprintf(filename, "%sclumps\\", GetTexturePath());
-        char *fptr = filename + strlen(filename);
+        char* fptr = filename + strlen(filename);
         while (*leafname != '.') *fptr++ = *leafname++;
         strcpy(fptr, ".txc");
 
@@ -938,7 +938,7 @@ void TEXTURE_initialise_clumping(char *fname_level) {
     }
 }
 
-void TEXTURE_load_needed(char *fname_level,
+void TEXTURE_load_needed(char* fname_level,
                          int iStartCompletionBar,
                          int iEndCompletionBar,
                          int iNumberTexturesProbablyLoaded) {
@@ -946,8 +946,8 @@ void TEXTURE_load_needed(char *fname_level,
     std::int32_t x;
     std::int32_t z;
 
-    PrimFace3 *f3;
-    PrimFace4 *f4;
+    PrimFace3* f3;
+    PrimFace4* f4;
 
     std::int32_t page;
     float u[4];
@@ -955,7 +955,7 @@ void TEXTURE_load_needed(char *fname_level,
 
     std::int32_t c0, c1;
 
-    MapElement *me;
+    MapElement* me;
 
     extern std::uint8_t loading_screen_active; // !
 
@@ -1484,7 +1484,7 @@ void TEXTURE_load_needed(char *fname_level,
 #endif
 
         for (i = 1; i < MAX_ANIM_TMAPS; i++) {
-            struct AnimTmap *p_a;
+            struct AnimTmap* p_a;
 
             p_a = &anim_tmaps[i];
 
@@ -1607,7 +1607,7 @@ void TEXTURE_load_needed(char *fname_level,
                             }
                         }
                     } else {
-                        struct DStorey *p_storey;
+                        struct DStorey* p_storey;
                         std::int32_t pos;
 
                         p_storey = &dstoreys[-dstyle];
@@ -1789,9 +1789,9 @@ void TEXTURE_load_needed_object(std::int32_t prim) {
     std::int32_t i;
     std::int32_t page;
 
-    PrimObject *po;
-    PrimFace3 *f3;
-    PrimFace4 *f4;
+    PrimObject* po;
+    PrimFace3* f3;
+    PrimFace4* f4;
 
     po = &prim_objects[prim];
 
@@ -1939,22 +1939,22 @@ LPDIRECT3DTEXTURE2 TEXTURE_get_handle(std::int32_t page) {
 }
 
 #ifdef TEX_EMBED
-D3DTexture *TEXTURE_get_D3DTexture(std::int32_t page) {
+D3DTexture* TEXTURE_get_D3DTexture(std::int32_t page) {
     return &(TEXTURE_texture[page]);
 }
 #endif
 
 void TEXTURE_get_minitexturebits_uvs(
     std::uint16_t texture,
-    std::int32_t *page,
-    float *u0,
-    float *v0,
-    float *u1,
-    float *v1,
-    float *u2,
-    float *v2,
-    float *u3,
-    float *v3) {
+    std::int32_t* page,
+    float* u0,
+    float* v0,
+    float* u1,
+    float* v1,
+    float* u2,
+    float* v2,
+    float* u3,
+    float* v3) {
     std::int32_t tx;
     std::int32_t ty;
     std::int32_t tpage;
@@ -2125,9 +2125,9 @@ void TEXTURE_fix_prim_textures() {
     std::int32_t j;
     std::int32_t k;
 
-    PrimFace3 *f3;
-    PrimFace4 *f4;
-    struct AnimTmap *p_a;
+    PrimFace3* f3;
+    PrimFace4* f4;
+    struct AnimTmap* p_a;
 
     std::int32_t page;
 
@@ -2475,7 +2475,7 @@ void TEXTURE_86_unlock() {
 void TEXTURE_86_update() {
 }
 
-void TEXTURE_set_tga(std::int32_t page, char *fn) {
+void TEXTURE_set_tga(std::int32_t page, char* fn) {
     char fn2[_MAX_PATH];
     MFFileHandle file;
 
@@ -2510,7 +2510,7 @@ std::int32_t TEXTURE_looks_like(std::int32_t page) {
     std::int32_t px2;
     std::int32_t py2;
 
-    std::uint16_t *bitmap;
+    std::uint16_t* bitmap;
     std::int32_t pitch;
 
     std::uint16_t pixel;
@@ -2554,7 +2554,7 @@ std::int32_t TEXTURE_looks_like(std::int32_t page) {
 
     ASSERT(WITHIN(page, 0, 511));
 
-    D3DTexture *dt = &TEXTURE_texture[page];
+    D3DTexture* dt = &TEXTURE_texture[page];
 
     TEXTURE_liney = 0;
     TEXTURE_av_r = 0;

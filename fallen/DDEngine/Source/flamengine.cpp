@@ -68,7 +68,7 @@ int FlameRand(int max) {
 // Part The Second : The actual flame engine stuff
 //
 
-Flamengine::Flamengine(char *fname) {
+Flamengine::Flamengine(char* fname) {
     MFFileHandle handle = FILE_OPEN_ERROR;
     // int c,d,p,q,v;
     // std::uint8_t *pt;
@@ -78,7 +78,7 @@ Flamengine::Flamengine(char *fname) {
     handle = FileOpen(fname);
 
     if (handle != FILE_OPEN_ERROR) {
-        FileRead(handle, (std::uint8_t *) &ver, sizeof(ver));
+        FileRead(handle, (std::uint8_t*) &ver, sizeof(ver));
         //		FileRead(handle,(std::uint8_t*)&params,sizeof(params));
         // crappy version
         ReadHeader(handle);
@@ -104,42 +104,42 @@ Flamengine::~Flamengine() {
 void Flamengine::ReadHeader(MFFileHandle handle) {
     std::uint8_t skip;
 
-    FileRead(handle, (std::uint8_t *) &params.blur, 1);
-    FileRead(handle, (std::uint8_t *) &params.dark, 1);
-    FileRead(handle, (std::uint8_t *) &params.convec, 1);
-    FileRead(handle, (std::uint8_t *) &params.palette, 768);
+    FileRead(handle, (std::uint8_t*) &params.blur, 1);
+    FileRead(handle, (std::uint8_t*) &params.dark, 1);
+    FileRead(handle, (std::uint8_t*) &params.convec, 1);
+    FileRead(handle, (std::uint8_t*) &params.palette, 768);
 
-    FileRead(handle, (std::uint8_t *) &skip, 1);
+    FileRead(handle, (std::uint8_t*) &skip, 1);
 
-    FileRead(handle, (std::uint8_t *) &params.free, 2);
-    FileRead(handle, (std::uint8_t *) &params.posn, 2);
+    FileRead(handle, (std::uint8_t*) &params.free, 2);
+    FileRead(handle, (std::uint8_t*) &params.posn, 2);
 }
 
 void Flamengine::ReadParts(MFFileHandle handle) {
     int i;
-    FlameParticle *pp;
+    FlameParticle* pp;
     std::int32_t skip;
 
     for (i = 2000, pp = params.particles; i; i--, pp++) {
-        FileRead(handle, (std::uint8_t *) &pp->pos.loc.x, 1);
-        FileRead(handle, (std::uint8_t *) &pp->pos.loc.y, 1);
-        FileRead(handle, (std::uint8_t *) &pp->jx, 1);
-        FileRead(handle, (std::uint8_t *) &pp->jy, 1);
-        FileRead(handle, (std::uint8_t *) &pp->ex, 1);
-        FileRead(handle, (std::uint8_t *) &pp->ey, 1);
-        FileRead(handle, (std::uint8_t *) &pp->life, 1);
+        FileRead(handle, (std::uint8_t*) &pp->pos.loc.x, 1);
+        FileRead(handle, (std::uint8_t*) &pp->pos.loc.y, 1);
+        FileRead(handle, (std::uint8_t*) &pp->jx, 1);
+        FileRead(handle, (std::uint8_t*) &pp->jy, 1);
+        FileRead(handle, (std::uint8_t*) &pp->ex, 1);
+        FileRead(handle, (std::uint8_t*) &pp->ey, 1);
+        FileRead(handle, (std::uint8_t*) &pp->life, 1);
 
-        FileRead(handle, (std::uint8_t *) &skip, 1);
+        FileRead(handle, (std::uint8_t*) &skip, 1);
 
-        FileRead(handle, (std::uint8_t *) &pp->pulse, 2);
-        FileRead(handle, (std::uint8_t *) &pp->prate, 1);
-        FileRead(handle, (std::uint8_t *) &pp->pmode, 1);
-        FileRead(handle, (std::uint8_t *) &pp->wmode, 1);
+        FileRead(handle, (std::uint8_t*) &pp->pulse, 2);
+        FileRead(handle, (std::uint8_t*) &pp->prate, 1);
+        FileRead(handle, (std::uint8_t*) &pp->pmode, 1);
+        FileRead(handle, (std::uint8_t*) &pp->wmode, 1);
 
-        FileRead(handle, (std::uint8_t *) &skip, 3);
+        FileRead(handle, (std::uint8_t*) &skip, 3);
 
-        FileRead(handle, (std::uint8_t *) &pp->pstart, 4);
-        FileRead(handle, (std::uint8_t *) &pp->pend, 4);
+        FileRead(handle, (std::uint8_t*) &pp->pstart, 4);
+        FileRead(handle, (std::uint8_t*) &pp->pend, 4);
     }
 }
 
@@ -172,9 +172,9 @@ void Flamengine::AddParticles() {
     int i;
     // std::uint16_t x,y;
     std::int16_t si;
-    std::uint8_t *pt;
+    std::uint8_t* pt;
     FlameXY pos;
-    FlameParticle *pp;
+    FlameParticle* pp;
 
     /* generic bonfire
             for (i=100;i;i--) {
@@ -469,7 +469,7 @@ void Flamengine::ConvectionBlur2() {
             //		dif=abs(x-zones[j].offset)-abs(zones[j].offtime-zones[j].midpnt);
             dif = abs(x - zones[j].offset) - abs(zones[j].midpnt - zones[j].offtime);
             if (dif < 0) dif = 0;
-            difs[x] += (std::int32_t)(dif * 0.2f);
+            difs[x] += (std::int32_t) (dif * 0.2f);
         }
     }
     for (y = 1; y < 254; y++) {
@@ -503,7 +503,7 @@ void Flamengine::UpdateTexture() {
     if (TEXTURE_flame_lock()) {
         std::int32_t x;
         std::int32_t y;
-        std::uint16_t *image;
+        std::uint16_t* image;
         std::uint16_t pixel;
         std::uint8_t *pt, *pt2;
         std::uint8_t red, green, blue;

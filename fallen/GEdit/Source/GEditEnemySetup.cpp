@@ -59,7 +59,7 @@ bool CALLBACK es_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
     HWND the_ctrl;
     LPTSTR lbitem_str;
-    NM_UPDOWN *lp_ntfy;
+    NM_UPDOWN* lp_ntfy;
 
     char msg[800];
 
@@ -265,7 +265,7 @@ bool CALLBACK es_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
                         }
         */
     case WM_NOTIFY:
-        lp_ntfy = (NM_UPDOWN *) lParam;
+        lp_ntfy = (NM_UPDOWN*) lParam;
 
         //	Make the 'constitution' spin go up/down in steps of 5.
         if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
@@ -393,7 +393,7 @@ bool CALLBACK es_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_enemy_setup(EventPoint *the_ep, bool do_adjust) {
+void do_enemy_setup(EventPoint* the_ep, bool do_adjust) {
     //	Set the dialog.
     adjust = do_adjust;
     enemy_type = LOWORD(the_ep->Data[0]);
@@ -444,7 +444,7 @@ void do_enemy_setup(EventPoint *the_ep, bool do_adjust) {
 
 //---------------------------------------------------------------
 
-char *get_enemy_message(EventPoint *ep, char *msg) {
+char* get_enemy_message(EventPoint* ep, char* msg) {
     if ((!ep) || (!ep->Data[0]))
         strcpy(msg, "Unknown");
     else

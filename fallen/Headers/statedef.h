@@ -1,7 +1,7 @@
 #ifndef STATE_DEF
 #define STATE_DEF 1
 // #define	STATE_LOCAL					5
-// Thing states.
+// Entity states.
 #define STATE_INIT 0
 #define STATE_NORMAL 1
 #define STATE_COLLISION 2

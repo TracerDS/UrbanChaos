@@ -25,7 +25,7 @@
 
     i = line;
 
-    std::uint32_t *last_dest;
+    std::uint32_t* last_dest;
     _int64 mmt1, mmt2, mmt3, mmt4, umask, vmask, wrapmask, uinc, vinc, notumask, notvmask, alpha_test_value, alpha_mask;
     std::uint32_t utemp, vtemp;
 
@@ -82,7 +82,7 @@
                 v = ss->v;
                 ud = ss->du;
                 vd = ss->dv;
-                tex = (std::uint32_t *) (ss->tga);
+                tex = (std::uint32_t*) (ss->tga);
 
                 // Remember this is for DWORDS - assembler doesn't automagically scale.
 #if SWIZZLE
@@ -902,7 +902,7 @@ hor_loop:
 
 main_loop_done:
 
-                        // Do we need to do the last pixel?
+                    // Do we need to do the last pixel?
 				;Is the last pixel odd?
 				mov		ecx,[tempx2]
 				test	ecx,0x1

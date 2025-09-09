@@ -12,13 +12,13 @@
 //
 //---------------------------------------------------------------
 
-void LoadWaveList(char *wave_path, char *wave_list) {
+void LoadWaveList(char* wave_path, char* wave_list) {
     the_qs_sound_manager.LoadWaves(wave_path, wave_list);
 }
 
 //---------------------------------------------------------------
 
-void LoadWave(char *wave_name) {
+void LoadWave(char* wave_name) {
     the_qs_sound_manager.LoadWave(wave_name);
 }
 
@@ -30,7 +30,7 @@ void FreeWaveList(void) {
 
 //---------------------------------------------------------------
 
-void PlayWave(std::int32_t ref, std::int32_t wave_id, std::int32_t play_type, WaveParams *the_params) {
+void PlayWave(std::int32_t ref, std::int32_t wave_id, std::int32_t play_type, WaveParams* the_params) {
     the_qs_sound_manager.PlayWave(ref, wave_id - 1, play_type, the_params);
 }
 
@@ -184,13 +184,13 @@ void QSManager::DeactivateSound(void) {
 
 //---------------------------------------------------------------
 
-HRESULT QSManager::LoadWaves(char *wave_path, char *script_name) {
+HRESULT QSManager::LoadWaves(char* wave_path, char* script_name) {
     char wave_name[MAX_PATH],
         wave_file[MAX_PATH];
     std::uint32_t streamed;
-    FILE *script_handle;
+    FILE* script_handle;
     HRESULT result = DSERR_GENERIC;
-    Wave *new_wave;
+    Wave* new_wave;
 
     // Get rid of any existing samples.
     FreeWaves();
@@ -228,10 +228,10 @@ HRESULT QSManager::LoadWaves(char *wave_path, char *script_name) {
 
 //---------------------------------------------------------------
 
-HRESULT QSManager::LoadWave(char *wave_name) {
+HRESULT QSManager::LoadWave(char* wave_name) {
     std::uint32_t streamed = 0; // temp?
     HRESULT result = DSERR_GENERIC;
-    Wave *new_wave;
+    Wave* new_wave;
 
     new_wave = new Wave;
     if (new_wave) {
@@ -275,7 +275,7 @@ HRESULT QSManager::FreeWaves(void) {
 
 //---------------------------------------------------------------
 
-HRESULT QSManager::AddWave(Wave *the_wave) {
+HRESULT QSManager::AddWave(Wave* the_wave) {
     if (!the_wave) {
         // Error, Invalid parameters
         return DSERR_GENERIC;
@@ -301,13 +301,13 @@ HRESULT QSManager::AddWave(Wave *the_wave) {
 
 //---------------------------------------------------------------
 
-HRESULT QSManager::DeleteWave(Wave *the_wave) {
+HRESULT QSManager::DeleteWave(Wave* the_wave) {
     return DS_OK;
 }
 
 //---------------------------------------------------------------
 
-HRESULT QSManager::PlayWave(std::int32_t wave_ref, std::int32_t wave_id, std::int32_t play_type, WaveParams *the_params) {
+HRESULT QSManager::PlayWave(std::int32_t wave_ref, std::int32_t wave_id, std::int32_t play_type, WaveParams* the_params) {
     float f_scale;
     int channel;
     bool channel_done = false,
@@ -316,7 +316,7 @@ HRESULT QSManager::PlayWave(std::int32_t wave_ref, std::int32_t wave_id, std::in
         play_flags = QMIX_QUEUEWAVE,
         play_loop = 0;
     LPMIXWAVE the_wave;
-    Wave *current_wave;
+    Wave* current_wave;
     QMIX_DISTANCES distances;
     QMIXPLAYPARAMS play_params;
     QMIX_RESULT r;
@@ -511,7 +511,7 @@ Wave::~Wave() {
 
 //---------------------------------------------------------------
 
-HRESULT Wave::Init(char *file_name, HQMIXER the_mixer) {
+HRESULT Wave::Init(char* file_name, HQMIXER the_mixer) {
     QMIXWAVEPARAMS wave_params;
 
     wave_params.FileName = file_name;

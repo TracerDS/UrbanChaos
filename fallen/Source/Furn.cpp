@@ -20,10 +20,10 @@
 // The state functions and the state function table.
 //
 
-void FURN_process_normal(Thing *);
-void FURN_process_moveing(Thing *);
-void FURN_driving(Thing *);
-void FURN_door(Thing *);
+void FURN_process_normal(Entity*);
+void FURN_process_moveing(Entity*);
+void FURN_driving(Entity*);
+void FURN_door(Entity*);
 
 StateFunction FURN_statefunctions[] =
     {
@@ -60,12 +60,12 @@ void init_furniture() {
 // Allocates a stationary furn structure.
 //
 
-Furniture *FURN_alloc_furniture() {
+Furniture* FURN_alloc_furniture() {
     std::int32_t i;
 
     for (i = 0; i < MAX_FURNITURE; i++) {
         if (TO_FURNITURE(i)->dx == FURN_NULL_DX) {
-            Furniture *ans = TO_FURNITURE(i);
+            Furniture* ans = TO_FURNITURE(i);
 
             ans->dx = 0;
             ans->dy = 0;
@@ -83,7 +83,7 @@ Furniture *FURN_alloc_furniture() {
     return nullptr;
 }
 
-void FURN_dealloc(Furniture *furn) {
+void FURN_dealloc(Furniture* furn) {
     ASSERT(WITHIN(furn, TO_FURNITURE(0), TO_FURNITURE(MAX_FURNITURE - 1)));
 
     furn->dx = FURN_NULL_DX;
@@ -93,7 +93,7 @@ void FURN_dealloc(Furniture *furn) {
 // Removes the furniture thing
 //
 
-void free_furniture(Thing *p_thing) {
+void free_furniture(Entity* p_thing) {
     //
     // Free the furniture structure, the drawmesh structure and
     // finally the thing structure itself.
@@ -116,9 +116,9 @@ THING_INDEX FURN_create(
     std::int32_t pitch,
     std::int32_t roll,
     std::int32_t prim) {
-    DrawMesh *dm;
+    DrawMesh* dm;
     THING_INDEX ans = nullptr;
-    Thing *p_thing;
+    Entity* p_thing;
 
     //
     // Get a DrawMesh for this thing.
@@ -180,9 +180,9 @@ THING_INDEX VEHICLE_create(
     std::int32_t z,
     std::int32_t angle,
     std::int32_t prim) {
-    DrawMesh *dm;
+    DrawMesh* dm;
     THING_INDEX ans = nullptr;
-    Thing *p_thing;
+    Entity* p_thing;
 
     //
     // Get a DrawMesh for this thing.
@@ -284,8 +284,8 @@ void place_walkable_faces_for_prim(THING_INDEX index, std::int32_t prim) {
     std::int32_t x, y, z;
     std::int32_t c0;
     std::int32_t sf, ef;
-    struct PrimObject *p_obj;
-    Thing *p_thing;
+    struct PrimObject* p_obj;
+    Entity* p_thing;
 
     p_thing = TO_THING(index);
 
@@ -318,7 +318,7 @@ void place_walkable_faces_for_prim(THING_INDEX index, std::int32_t prim) {
 
 void FURN_add_walkable() {
     THING_INDEX current_thing;
-    Thing *p_thing;
+    Entity* p_thing;
 
     current_thing = PRIMARY_USED;
     while (current_thing) {
@@ -358,11 +358,11 @@ void FURN_push(
 
     std::int32_t matrix[9];
 
-    PrimInfo *inf;
+    PrimInfo* inf;
 
-    Thing *p_thing = TO_THING(thing);
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Furniture *furn = p_thing->Genus.Furniture;
+    Entity* p_thing = TO_THING(thing);
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Furniture* furn = p_thing->Genus.Furniture;
 
     //
     // Make sure that this is a furniture thing.
@@ -492,7 +492,7 @@ void FURN_push(
     furn->droll += droll << FURN_SHIFT_ROLL;
 }
 
-void FURN_process_normal(Thing *p_thing) {
+void FURN_process_normal(Entity* p_thing) {
     std::int32_t x1;
     std::int32_t x2;
     std::int32_t z1;
@@ -500,7 +500,7 @@ void FURN_process_normal(Thing *p_thing) {
 
     ASSERT(WITHIN(p_thing, TO_THING(1), TO_THING(MAX_THINGS - 1)));
 
-    DrawMesh *dm = p_thing->Draw.Mesh;
+    DrawMesh* dm = p_thing->Draw.Mesh;
 
     //
     // Make sure that this is a furniture thing and everything is valid.
@@ -528,7 +528,7 @@ void FURN_process_normal(Thing *p_thing) {
         std::int32_t num_slides;
         std::int32_t last_slide;
 
-        CollisionVect *p_vect;
+        CollisionVect* p_vect;
 
         //
         // Move the object to the positon of the hypermatter object.
@@ -638,11 +638,11 @@ void FURN_process_normal(Thing *p_thing) {
     }
 }
 
-void FURN_process_moveing(Thing *p_thing) {
+void FURN_process_moveing(Entity* p_thing) {
     ASSERT(WITHIN(p_thing, TO_THING(1), TO_THING(MAX_THINGS - 1)));
 
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Furniture *furn = p_thing->Genus.Furniture;
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Furniture* furn = p_thing->Genus.Furniture;
 
     //
     // Make sure that this is a furniture thing and everything is valid.
@@ -676,10 +676,10 @@ void FURN_process_moveing(Thing *p_thing) {
 std::int32_t FURN_slide_along(
     THING_INDEX thing,
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2,
     std::int32_t radius,
     std::int32_t dont_slide) {
-    Thing *p_thing = TO_THING(thing);
+    Entity* p_thing = TO_THING(thing);
 
     ASSERT(WITHIN(p_thing, TO_THING(1), TO_THING(MAX_THINGS - 1)));
     ASSERT(p_thing->Class == CLASS_FURNITURE || p_thing->Class == CLASS_VEHICLE);
@@ -703,9 +703,9 @@ std::int32_t FURN_slide_along(
 
     std::int32_t matrix[4];
 
-    PrimInfo *pi;
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Furniture *furn = p_thing->Genus.Furniture;
+    PrimInfo* pi;
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Furniture* furn = p_thing->Genus.Furniture;
 
     x1 >>= 8;
     y1 >>= 8;
@@ -892,11 +892,11 @@ void FURN_hypermatterise(THING_INDEX thing) {
     std::int32_t dy;
     std::int32_t dz;
 
-    Thing *p_thing = TO_THING(thing);
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Furniture *furn = p_thing->Genus.Furniture;
+    Entity* p_thing = TO_THING(thing);
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Furniture* furn = p_thing->Genus.Furniture;
 
-    HM_Primgrid *hpg = HM_get_primgrid(dm->ObjectId);
+    HM_Primgrid* hpg = HM_get_primgrid(dm->ObjectId);
 
     if (furn) {
         dx = -(SIN(furn->RAngle) * p_thing->Velocity) >> 8;
@@ -981,9 +981,9 @@ void FURN_turn_into_door(
     std::uint16_t closed_angle,
     std::uint16_t ajar,
     std::uint8_t am_i_locked) {
-    Thing *p_thing = TO_THING(furniture_thing);
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Furniture *furn;
+    Entity* p_thing = TO_THING(furniture_thing);
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Furniture* furn;
 
     //
     // Allocate the furniture structure.
@@ -1004,9 +1004,9 @@ void FURN_turn_into_door(
     set_state_function(p_thing, STATE_FDOOR);
 }
 
-void FURN_door(Thing *p_thing) {
-    DrawMesh *dm = p_thing->Draw.Mesh;
-    Furniture *furn = p_thing->Genus.Furniture;
+void FURN_door(Entity* p_thing) {
+    DrawMesh* dm = p_thing->Draw.Mesh;
+    Furniture* furn = p_thing->Genus.Furniture;
 
     std::int32_t min_angle;
     std::int32_t max_angle;
@@ -1021,7 +1021,7 @@ std::int32_t FURN_avoid(
     THING_INDEX thing,
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2) {
-    Thing *p_thing = TO_THING(thing);
+    Entity* p_thing = TO_THING(thing);
 
     std::int32_t x;
     std::int32_t y;
@@ -1048,7 +1048,7 @@ std::int32_t FURN_avoid(
 
     std::int32_t furn_radius;
 
-    PrimInfo *pi = get_prim_info(p_thing->Draw.Mesh->ObjectId);
+    PrimInfo* pi = get_prim_info(p_thing->Draw.Mesh->ObjectId);
 
     x1 >>= 8;
     y1 >>= 8;

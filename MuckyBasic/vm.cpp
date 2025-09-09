@@ -13,32 +13,32 @@
 // Instruction memory.
 //
 
-std::int32_t *VM_code;
+std::int32_t* VM_code;
 std::int32_t VM_code_max;
 std::int32_t VM_code_upto;
-std::int32_t *VM_code_pointer; // The instruction we are executing...
+std::int32_t* VM_code_pointer; // The instruction we are executing...
 
 //
 // The stack.
 //
 
-ML_Data *VM_stack;
+ML_Data* VM_stack;
 std::int32_t VM_stack_max;
-ML_Data *VM_stack_top;  // The top of the stack
-ML_Data *VM_stack_base; // The current stack frame
+ML_Data* VM_stack_top;  // The top of the stack
+ML_Data* VM_stack_base; // The current stack frame
 
 //
 // The globals.
 //
 
-ML_Data *VM_global;
+ML_Data* VM_global;
 std::int32_t VM_global_max;
 
 //
 // The static data table.
 //
 
-std::uint8_t *VM_data;
+std::uint8_t* VM_data;
 std::int32_t VM_data_max;
 
 //
@@ -186,7 +186,7 @@ ML_Data VM_data_copy(ML_Data original) {
         std::int32_t length = MEM_block_size(original.strvar);
 
         ans.type = ML_TYPE_STRVAR;
-        ans.strvar = (char *) MEM_alloc(length);
+        ans.strvar = (char*) MEM_alloc(length);
 
         memcpy(ans.strvar, original.strvar, length);
     }
@@ -203,7 +203,7 @@ ML_Data VM_data_copy(ML_Data original) {
         std::int32_t length = sizeof(ML_Structure) + original.structure->num_fields * sizeof(ML_Field);
 
         ans.type = ML_TYPE_STRUCTURE;
-        ans.structure = (ML_Structure *) MEM_alloc(length);
+        ans.structure = (ML_Structure*) MEM_alloc(length);
 
         std::int32_t i;
 
@@ -227,9 +227,9 @@ ML_Data VM_data_copy(ML_Data original) {
         std::int32_t length = sizeof(ML_Array) + original.array->num_dimensions * sizeof(ML_Dimension);
 
         ans.type = ML_TYPE_ARRAY;
-        ans.array = (ML_Array *) MEM_alloc(length);
+        ans.array = (ML_Array*) MEM_alloc(length);
 
-        ans.array->data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * original.array->length);
+        ans.array->data = (ML_Data*) MEM_alloc(sizeof(ML_Data) * original.array->length);
         ans.array->length = original.array->length;
         ans.array->num_dimensions = original.array->num_dimensions;
 
@@ -277,7 +277,7 @@ ML_Data VM_data_copy(ML_Data original) {
     case ML_TYPE_MATRIX:
 
         ans.type = ML_TYPE_MATRIX;
-        ans.matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+        ans.matrix = (ML_Matrix*) MEM_alloc(sizeof(ML_Matrix));
         *(ans.matrix) = *original.matrix;
 
         return ans;
@@ -285,7 +285,7 @@ ML_Data VM_data_copy(ML_Data original) {
     case ML_TYPE_VECTOR:
 
         ans.type = ML_TYPE_VECTOR;
-        ans.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+        ans.vector = (ML_Vector*) MEM_alloc(sizeof(ML_Vector));
         *(ans.vector) = *original.vector;
 
         return ans;
@@ -305,24 +305,24 @@ ML_Data VM_data_copy(ML_Data original) {
 // not a copy.
 //
 
-void VM_convert_to_string(ML_Data *original) {
+void VM_convert_to_string(ML_Data* original) {
     ML_Data ans;
 
     ans.type = ML_TYPE_STRVAR;
 
     switch (original->type) {
     case ML_TYPE_UNDEFINED:
-        ans.strvar = (char *) MEM_alloc(16); // Enough to hold the string "<UNDEFINED>"
+        ans.strvar = (char*) MEM_alloc(16); // Enough to hold the string "<UNDEFINED>"
         memcpy(ans.strvar, "<UNDEFINED>", 12);
         break;
 
     case ML_TYPE_SLUMBER:
-        ans.strvar = (char *) MEM_alloc(16); // Enough to hold the number -2 ^ 32 and a nullptr.
+        ans.strvar = (char*) MEM_alloc(16); // Enough to hold the number -2 ^ 32 and a nullptr.
         sprintf(ans.strvar, "%d", original->slumber);
         break;
 
     case ML_TYPE_FLUMBER:
-        ans.strvar = (char *) MEM_alloc(32); // Enough to hold the number -2 ^ 32 and a nullptr.
+        ans.strvar = (char*) MEM_alloc(32); // Enough to hold the number -2 ^ 32 and a nullptr.
         sprintf(ans.strvar, "%f", original->flumber);
         break;
 
@@ -337,7 +337,7 @@ void VM_convert_to_string(ML_Data *original) {
 
     case ML_TYPE_BOOLEAN:
 
-        ans.strvar = (char *) MEM_alloc(6); // Enough to hold the string "true" or "false"
+        ans.strvar = (char*) MEM_alloc(6); // Enough to hold the string "true" or "false"
 
         if (original->boolean) {
             memcpy(ans.strvar, "true", 5);
@@ -361,11 +361,11 @@ void VM_convert_to_string(ML_Data *original) {
 // Returns the string held by the given string variable.
 //
 
-char *VM_get_string(ML_Data string) {
+char* VM_get_string(ML_Data string) {
     switch (string.type) {
     case ML_TYPE_STRCONST:
         ASSERT(WITHIN(string.strconst, 0, VM_data_max - 2));
-        return (char *) (VM_data + string.strconst);
+        return (char*) (VM_data + string.strconst);
 
     case ML_TYPE_STRVAR:
         return string.strvar;
@@ -420,7 +420,7 @@ void VM_convert_stack_top_to_same_numerical_type() {
 // given in the md[] array (an array of SLUMBERs)
 //
 
-void VM_grow_array(ML_Array *ma, ML_Data *md) {
+void VM_grow_array(ML_Array* ma, ML_Data* md) {
     std::int32_t i;
     std::int32_t j;
     std::int32_t bigger_index;
@@ -484,7 +484,7 @@ void VM_grow_array(ML_Array *ma, ML_Data *md) {
     // Allocate a new area of memory.
     //
 
-    ML_Data *bigger_data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * bigger_length);
+    ML_Data* bigger_data = (ML_Data*) MEM_alloc(sizeof(ML_Data) * bigger_length);
 
     if (ma->num_dimensions == 1) {
         //
@@ -624,12 +624,12 @@ void VM_do_buffer() {
     std::int32_t slumber;
     float flumber;
 
-    ML_Data *vert_array;
-    ML_Structure *vert_struct;
-    ML_Field *field;
-    ML_Data *index_array;
-    LL_Tlvert *tl;
-    std::uint16_t *index;
+    ML_Data* vert_array;
+    ML_Structure* vert_struct;
+    ML_Field* field;
+    ML_Data* index_array;
+    LL_Tlvert* tl;
+    std::uint16_t* index;
 
     VM_POP_STACK(4);
 
@@ -760,7 +760,7 @@ void VM_do_buffer() {
     // Create the vert buffer.
     //
 
-    tl = (LL_Tlvert *) MEM_alloc(num_verts * sizeof(LL_Tlvert));
+    tl = (LL_Tlvert*) MEM_alloc(num_verts * sizeof(LL_Tlvert));
 
     vert_array = VM_stack_top[0].array->data;
 
@@ -975,7 +975,7 @@ void VM_do_buffer() {
             ASSERT(0);
         }
 
-        index = (std::uint16_t *) MEM_alloc(num_indices * sizeof(std::uint16_t));
+        index = (std::uint16_t*) MEM_alloc(num_indices * sizeof(std::uint16_t));
         index_array = VM_stack_top[2].array->data;
 
         for (i = 0; i < num_indices; i++) {
@@ -1043,8 +1043,8 @@ void VM_do_buffer() {
 void VM_do_draw() {
     VM_POP_STACK(3);
 
-    LL_Buffer *lb;
-    LL_Texture *lt;
+    LL_Buffer* lb;
+    LL_Texture* lt;
     std::uint32_t rs;
 
     //
@@ -1294,8 +1294,8 @@ void VM_execute() {
             {
                 ML_Data result;
                 std::int32_t length;
-                char *str1;
-                char *str2;
+                char* str1;
+                char* str2;
 
                 //
                 // How long is the resulting string?
@@ -1311,7 +1311,7 @@ void VM_execute() {
                 //
 
                 result.type = ML_TYPE_STRVAR;
-                result.strvar = (char *) MEM_alloc(length);
+                result.strvar = (char*) MEM_alloc(length);
 
                 strcpy(result.strvar, str1);
                 strcat(result.strvar, str2);
@@ -1370,7 +1370,7 @@ void VM_execute() {
 
                 ASSERT(WITHIN(VM_stack_top[0].strconst, 0, VM_data_max - 2));
 
-                CONSOLE_print((char *) (VM_data + VM_stack_top[0].strconst));
+                CONSOLE_print((char*) (VM_data + VM_stack_top[0].strconst));
 
                 break;
 
@@ -1663,8 +1663,8 @@ void VM_execute() {
 
                     {
                         ML_Matrix ans;
-                        ML_Matrix *a = VM_stack_top[0].matrix;
-                        ML_Matrix *b = VM_stack_top[1].matrix;
+                        ML_Matrix* a = VM_stack_top[0].matrix;
+                        ML_Matrix* b = VM_stack_top[1].matrix;
 
                         ans.vector[0].x = a->vector[0].x * b->vector[0].x + a->vector[0].y * b->vector[1].x + a->vector[0].z * b->vector[2].x;
                         ans.vector[0].y = a->vector[0].x * b->vector[0].y + a->vector[0].y * b->vector[1].y + a->vector[0].z * b->vector[2].y;
@@ -2296,7 +2296,7 @@ void VM_execute() {
 
             if (VM_stack_top[0].type == ML_TYPE_POINTER) {
                 std::int32_t field_id;
-                ML_Data *data;
+                ML_Data* data;
 
                 field_id = *VM_code_pointer++;
                 data = VM_stack_top[0].data;
@@ -2329,9 +2329,9 @@ void VM_execute() {
                     // Must add another field.
                     //
 
-                    ML_Structure *ms;
+                    ML_Structure* ms;
 
-                    ms = (ML_Structure *) MEM_alloc(sizeof(ML_Structure) + (data->structure->num_fields + 1) * sizeof(ML_Field));
+                    ms = (ML_Structure*) MEM_alloc(sizeof(ML_Structure) + (data->structure->num_fields + 1) * sizeof(ML_Field));
 
                     memcpy(ms, data->structure, sizeof(ML_Structure) + data->structure->num_fields * sizeof(ML_Field));
 
@@ -2418,7 +2418,7 @@ void VM_execute() {
                     VM_data_free(*data);
 
                     data->type = ML_TYPE_STRUCTURE;
-                    data->structure = (ML_Structure *) MEM_alloc(sizeof(ML_Structure) + sizeof(ML_Field) * 1);
+                    data->structure = (ML_Structure*) MEM_alloc(sizeof(ML_Structure) + sizeof(ML_Field) * 1);
                     data->structure->num_fields = 1;
                     data->structure->field[0].field_id = field_id;
                     data->structure->field[0].data.type = ML_TYPE_UNDEFINED;
@@ -2436,7 +2436,7 @@ void VM_execute() {
                 }
             } else if (VM_stack_top[0].type == ML_TYPE_VOINTER) {
                 std::int32_t field_id;
-                ML_Data *data;
+                ML_Data* data;
 
                 field_id = *VM_code_pointer++;
 
@@ -2510,7 +2510,7 @@ void VM_execute() {
                                 //
 
                                 ans.type = ML_TYPE_VECTOR;
-                                ans.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+                                ans.vector = (ML_Vector*) MEM_alloc(sizeof(ML_Vector));
                                 *(ans.vector) = VM_stack_top[0].matrix->vector[field_id];
 
                                 VM_stack_top[0] = ans;
@@ -2655,7 +2655,7 @@ void VM_execute() {
                 ASSERT(0);
             }
 
-            ML_Data *data = VM_stack_top[0].data;
+            ML_Data* data = VM_stack_top[0].data;
 
             //
             // Do we already have an array on the stack of the correct
@@ -2684,10 +2684,10 @@ void VM_execute() {
                 //
 
                 data->type = ML_TYPE_ARRAY;
-                data->array = (ML_Array *) MEM_alloc(sizeof(ML_Array) + sizeof(ML_Dimension) * num_dimensions);
+                data->array = (ML_Array*) MEM_alloc(sizeof(ML_Array) + sizeof(ML_Dimension) * num_dimensions);
                 data->array->length = array_length;
                 data->array->num_dimensions = num_dimensions;
-                data->array->data = (ML_Data *) MEM_alloc(sizeof(ML_Data) * array_length);
+                data->array->data = (ML_Data*) MEM_alloc(sizeof(ML_Data) * array_length);
 
                 for (i = 0; i < num_dimensions; i++) {
                     data->array->dimension[i].size = VM_stack_top[i + 1].slumber;
@@ -2862,7 +2862,7 @@ void VM_execute() {
         case ML_DO_PUSH_INPUT:
 
         {
-            char *string;
+            char* string;
 
             //
             // Get user input!
@@ -2873,7 +2873,7 @@ void VM_execute() {
             VM_CHECK_STACK_PUSH();
 
             VM_stack_top[0].type = ML_TYPE_STRVAR;
-            VM_stack_top[0].strvar = (char *) MEM_alloc(strlen(string) + 1);
+            VM_stack_top[0].strvar = (char*) MEM_alloc(strlen(string) + 1);
 
             strcpy(VM_stack_top[0].strvar, string);
 
@@ -3035,7 +3035,7 @@ void VM_execute() {
                     // Remember the code pointer so we wont overwrite it.
                     //
 
-                    std::int32_t *code_pointer = VM_stack_top[-1].code_pointer;
+                    std::int32_t* code_pointer = VM_stack_top[-1].code_pointer;
 
                     //
                     // Must insert extra undefined arguments.
@@ -3105,7 +3105,7 @@ void VM_execute() {
             ASSERT(VM_stack_top[0].type == ML_TYPE_CODE_POINTER);
             ASSERT(VM_stack_top[1].type == ML_TYPE_STACK_BASE);
 
-            std::int32_t *return_instruction = VM_stack_top[0].code_pointer;
+            std::int32_t* return_instruction = VM_stack_top[0].code_pointer;
 
             //
             // Pop the locals off the stack.
@@ -3599,7 +3599,7 @@ void VM_execute() {
             {
                 ML_Data ans;
 
-                char *input = VM_get_string(VM_stack_top[0]);
+                char* input = VM_get_string(VM_stack_top[0]);
                 std::int32_t left = VM_stack_top[1].slumber;
 
                 if (left < 0) {
@@ -3611,10 +3611,10 @@ void VM_execute() {
                 }
 
                 ans.type = ML_TYPE_STRVAR;
-                ans.strvar = (char *) MEM_alloc(left + 1);
+                ans.strvar = (char*) MEM_alloc(left + 1);
 
-                char *src = input;
-                char *dst = ans.strvar;
+                char* src = input;
+                char* dst = ans.strvar;
 
                 while (left > 0) {
                     if (*src == '\000') {
@@ -3676,7 +3676,7 @@ void VM_execute() {
             {
                 ML_Data ans;
 
-                char *input = VM_get_string(VM_stack_top[0]);
+                char* input = VM_get_string(VM_stack_top[0]);
                 std::int32_t in = VM_stack_top[1].slumber - 1; // - 1 because BASIC is 1-based not zero based.
                 std::int32_t num = VM_stack_top[2].slumber;
                 std::int32_t len = strlen(input);
@@ -3690,13 +3690,13 @@ void VM_execute() {
                 }
 
                 ans.type = ML_TYPE_STRVAR;
-                ans.strvar = (char *) MEM_alloc(num + 1);
+                ans.strvar = (char*) MEM_alloc(num + 1);
 
                 if (!WITHIN(in, 0, len - 1)) {
                     ans.strvar[0] = '\000';
                 } else {
-                    char *src = input + in;
-                    char *dst = ans.strvar;
+                    char* src = input + in;
+                    char* dst = ans.strvar;
 
                     while (num > 0) {
                         if (*src == '\000') {
@@ -3759,14 +3759,14 @@ void VM_execute() {
             {
                 ML_Data ans;
 
-                char *input = VM_get_string(VM_stack_top[0]);
+                char* input = VM_get_string(VM_stack_top[0]);
                 std::int32_t len = VM_stack_top[1].slumber;
 
                 ans.type = ML_TYPE_STRVAR;
-                ans.strvar = (char *) MEM_alloc(len + 1);
+                ans.strvar = (char*) MEM_alloc(len + 1);
 
-                char *src = input;
-                char *dst = ans.strvar;
+                char* src = input;
+                char* dst = ans.strvar;
 
                 while (*src) {
                     src++;
@@ -3849,7 +3849,7 @@ void VM_execute() {
             VM_CHECK_STACK_PUSH();
 
             VM_stack_top[0].type = ML_TYPE_MATRIX;
-            VM_stack_top[0].matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+            VM_stack_top[0].matrix = (ML_Matrix*) MEM_alloc(sizeof(ML_Matrix));
 
             VM_stack_top[0].matrix->vector[0] = right;
             VM_stack_top[0].matrix->vector[1] = up;
@@ -3865,7 +3865,7 @@ void VM_execute() {
             VM_CHECK_STACK_PUSH();
 
             VM_stack_top[0].type = ML_TYPE_VECTOR;
-            VM_stack_top[0].vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+            VM_stack_top[0].vector = (ML_Vector*) MEM_alloc(sizeof(ML_Vector));
 
             VM_stack_top[0].vector->x = 0.0F;
             VM_stack_top[0].vector->y = 0.0F;
@@ -3895,7 +3895,7 @@ void VM_execute() {
                 ML_Data res;
 
                 res.type = ML_TYPE_MATRIX;
-                res.matrix = (ML_Matrix *) MEM_alloc(sizeof(ML_Matrix));
+                res.matrix = (ML_Matrix*) MEM_alloc(sizeof(ML_Matrix));
 
                 res.matrix->vector[0] = *VM_stack_top[0].vector;
                 res.matrix->vector[1] = *VM_stack_top[1].vector;
@@ -3920,7 +3920,7 @@ void VM_execute() {
                 ML_Data res;
 
                 res.type = ML_TYPE_VECTOR;
-                res.vector = (ML_Vector *) MEM_alloc(sizeof(ML_Vector));
+                res.vector = (ML_Vector*) MEM_alloc(sizeof(ML_Vector));
 
                 if (VM_stack_top[0].type == ML_TYPE_FLUMBER) {
                     res.vector->x = VM_stack_top[0].flumber;
@@ -3976,10 +3976,10 @@ void VM_execute() {
     }
 }
 
-void VM_run(char *fname) {
+void VM_run(char* fname) {
     std::int32_t i;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(fname, "rb");
 
@@ -4023,7 +4023,7 @@ void VM_run(char *fname) {
     ASSERT(mh.instructions_memory_in_bytes % sizeof(std::int32_t) == 0);
 
     VM_code_max = (mh.instructions_memory_in_bytes + 32) / sizeof(std::int32_t);
-    VM_code = (std::int32_t *) malloc(sizeof(std::int32_t) * VM_code_max);
+    VM_code = (std::int32_t*) malloc(sizeof(std::int32_t) * VM_code_max);
     VM_code_upto = mh.instructions_memory_in_bytes / sizeof(std::int32_t);
     VM_code_pointer = VM_code;
 
@@ -4035,7 +4035,7 @@ void VM_run(char *fname) {
     //
 
     VM_data_max = mh.data_table_length_in_bytes;
-    VM_data = (std::uint8_t *) malloc(sizeof(std::uint8_t) * mh.data_table_length_in_bytes);
+    VM_data = (std::uint8_t*) malloc(sizeof(std::uint8_t) * mh.data_table_length_in_bytes);
 
     if (fread(VM_data, sizeof(std::uint8_t), mh.data_table_length_in_bytes, handle) != mh.data_table_length_in_bytes)
         goto file_error;
@@ -4045,7 +4045,7 @@ void VM_run(char *fname) {
     //
 
     VM_stack_max = 2048;
-    VM_stack = (ML_Data *) malloc(sizeof(ML_Data) * VM_stack_max);
+    VM_stack = (ML_Data*) malloc(sizeof(ML_Data) * VM_stack_max);
     VM_stack_top = VM_stack;
     VM_stack_base = nullptr;
 
@@ -4055,7 +4055,7 @@ void VM_run(char *fname) {
 
     VM_global_max = mh.num_globals + VM_EXTRA_GLOBAL_NUMBER;
     VM_global_extra = mh.num_globals;
-    VM_global = (ML_Data *) malloc(sizeof(ML_Data) * VM_global_max);
+    VM_global = (ML_Data*) malloc(sizeof(ML_Data) * VM_global_max);
 
     memset(VM_global, 0, sizeof(ML_Data) * VM_global_max);
 

@@ -38,7 +38,7 @@ void GI_init() {
     GI_view = 0;
 }
 
-std::int32_t GI_load_map(char *name) {
+std::int32_t GI_load_map(char* name) {
     //
     // This is important stuff... I guess.
     //
@@ -143,9 +143,9 @@ void GI_render_view_into_backbuffer(
 std::int32_t GI_get_pixel_world_pos(
     std::int32_t sx,
     std::int32_t sy,
-    std::int32_t *world_x,
-    std::int32_t *world_y,
-    std::int32_t *world_z,
+    std::int32_t* world_x,
+    std::int32_t* world_y,
+    std::int32_t* world_z,
     std::int32_t inside) {
     return AENG_raytraced_position(
         sx,

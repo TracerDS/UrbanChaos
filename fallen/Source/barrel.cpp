@@ -24,7 +24,7 @@
 
 #include <algorithm>
 
-BARREL_Sphere *BARREL_sphere;    //[BARREL_MAX_SPHERES];
+BARREL_Sphere* BARREL_sphere;    //[BARREL_MAX_SPHERES];
 std::int32_t BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah_upto
 
 //
@@ -43,7 +43,7 @@ std::int32_t BARREL_sphere_last; // MARK!!! WTF, you usuall call thing BLAH_blah
 extern bool allow_debug_keys;
 #endif
 
-Barrel *BARREL_barrel; //[BARREL_MAX_BARRELS];
+Barrel* BARREL_barrel; //[BARREL_MAX_BARRELS];
 std::int32_t BARREL_barrel_upto;
 
 //
@@ -61,7 +61,7 @@ std::int32_t BARREL_barrel_upto;
 
 std::int32_t BARREL_fx_rate;
 
-inline void BARREL_hit_noise(Thing *p_barrel) {
+inline void BARREL_hit_noise(Entity* p_barrel) {
     BARREL_fx_rate++;
 
     // TRACE("barrel: %d\n",BARREL_fx_rate);
@@ -131,7 +131,7 @@ void BARREL_spheres_give(std::int32_t bs) {
 // Returns the position where the given sphere of a stacked/still barrel would be.
 //
 
-void BARREL_stacked_sphere(Thing *p_barrel, std::int32_t which_sphere, std::int32_t *sx, std::int32_t *sy, std::int32_t *sz, std::int32_t *sradius) {
+void BARREL_stacked_sphere(Entity* p_barrel, std::int32_t which_sphere, std::int32_t* sx, std::int32_t* sy, std::int32_t* sz, std::int32_t* sradius) {
     ASSERT(p_barrel->Class == CLASS_BARREL);
 
     std::int32_t ans_x = p_barrel->WorldPos.X;
@@ -178,7 +178,7 @@ void BARREL_stacked_sphere(Thing *p_barrel, std::int32_t which_sphere, std::int3
 // Converts a stationary barrel to a moving one.
 //
 
-void BARREL_convert_stationary_to_moving(Thing *p_barrel) {
+void BARREL_convert_stationary_to_moving(Entity* p_barrel) {
     std::int32_t i;
 
     std::int32_t sx;
@@ -188,8 +188,8 @@ void BARREL_convert_stationary_to_moving(Thing *p_barrel) {
 
     ASSERT(p_barrel->Class == CLASS_BARREL);
 
-    Barrel *bb = p_barrel->Genus.Barrel;
-    BARREL_Sphere *bs;
+    Barrel* bb = p_barrel->Genus.Barrel;
+    BARREL_Sphere* bs;
 
     ASSERT(bb->flag & (BARREL_FLAG_STACKED | BARREL_FLAG_STILL));
 
@@ -267,11 +267,11 @@ void BARREL_convert_stationary_to_moving(Thing *p_barrel) {
     }
 }
 
-void BARREL_convert_moving_to_stationary(Thing *p_barrel) {
+void BARREL_convert_moving_to_stationary(Entity* p_barrel) {
     ASSERT(p_barrel->Class == CLASS_BARREL);
 
-    Barrel *bb = p_barrel->Genus.Barrel;
-    BARREL_Sphere *bs;
+    Barrel* bb = p_barrel->Genus.Barrel;
+    BARREL_Sphere* bs;
 
     BARREL_spheres_give(bb->bs);
 
@@ -311,9 +311,9 @@ void BARREL_hit_with_sphere(
     std::int32_t dist;
     std::int32_t ddist;
 
-    Thing *p_found;
-    Barrel *bb;
-    BARREL_Sphere *bs;
+    Entity* p_found;
+    Barrel* bb;
+    BARREL_Sphere* bs;
 
     std::int32_t num;
 
@@ -421,9 +421,9 @@ void BARREL_hit_with_prim(
     std::int32_t i;
     std::int32_t j;
 
-    Thing *p_found;
-    Barrel *bb_found;
-    BARREL_Sphere *bs;
+    Entity* p_found;
+    Barrel* bb_found;
+    BARREL_Sphere* bs;
 
     std::int32_t num;
 
@@ -467,7 +467,7 @@ void BARREL_hit_with_prim(
     std::int32_t best_y;
     std::int32_t best_z;
 
-    PrimInfo *pi = get_prim_info(prim);
+    PrimInfo* pi = get_prim_info(prim);
 
     //
     // Find all barrels withing the bounding sphere of the prim.
@@ -669,7 +669,7 @@ void BARREL_hit_with_prim(
 // Processes a barrel sphere.
 //
 
-void BARREL_process_sphere(Thing *p_barrel, Barrel *bb, BARREL_Sphere *bs) {
+void BARREL_process_sphere(Entity* p_barrel, Barrel* bb, BARREL_Sphere* bs) {
     std::int32_t i;
     std::int32_t j;
 
@@ -684,10 +684,10 @@ void BARREL_process_sphere(Thing *p_barrel, Barrel *bb, BARREL_Sphere *bs) {
     std::int32_t dist;
     std::int32_t ddist;
 
-    Thing *p_found;
-    Barrel *bb_found;
+    Entity* p_found;
+    Barrel* bb_found;
 
-    BARREL_Sphere *bso;
+    BARREL_Sphere* bso;
 
     std::int32_t num;
     std::int32_t ground;
@@ -919,8 +919,8 @@ void BARREL_process_sphere(Thing *p_barrel, Barrel *bb, BARREL_Sphere *bs) {
 //
 
 void BARREL_push_apart(
-    BARREL_Sphere *bs1,
-    BARREL_Sphere *bs2,
+    BARREL_Sphere* bs1,
+    BARREL_Sphere* bs2,
     std::int32_t accelerate_the_spheres_apart_if_they_are_too_close_together) {
     std::int32_t dx = bs2->x - bs1->x;
     std::int32_t dy = bs2->y - bs1->y;
@@ -974,12 +974,12 @@ void BARREL_push_apart(
     }
 }
 
-void BARREL_process_normal(Thing *p_barrel) {
+void BARREL_process_normal(Entity* p_barrel) {
     ASSERT(p_barrel->Class == CLASS_BARREL);
 
     GameCoord newpos;
 
-    Barrel *bb = p_barrel->Genus.Barrel;
+    Barrel* bb = p_barrel->Genus.Barrel;
 
     if (bb->flag & BARREL_FLAG_STACKED) {
         if (bb->on) {
@@ -987,7 +987,7 @@ void BARREL_process_normal(Thing *p_barrel) {
             // Do nothing unless the barrel we are stacked on has started.
             //
 
-            Thing *p_stackedon = TO_THING(bb->on);
+            Entity* p_stackedon = TO_THING(bb->on);
 
             ASSERT(p_stackedon->Class == CLASS_BARREL);
 
@@ -1022,8 +1022,8 @@ void BARREL_process_normal(Thing *p_barrel) {
     ASSERT(WITHIN(bb->bs + 0, 2, BARREL_MAX_SPHERES - 1));
     ASSERT(WITHIN(bb->bs + 1, 2, BARREL_MAX_SPHERES - 1));
 
-    BARREL_Sphere *bs1 = &BARREL_sphere[bb->bs + 0];
-    BARREL_Sphere *bs2 = &BARREL_sphere[bb->bs + 1];
+    BARREL_Sphere* bs1 = &BARREL_sphere[bb->bs + 0];
+    BARREL_Sphere* bs2 = &BARREL_sphere[bb->bs + 1];
 
     bb->flag &= ~BARREL_FLAG_GROUNDED;
 
@@ -1206,10 +1206,10 @@ std::uint16_t BARREL_alloc(
     std::int32_t dz;
     std::int32_t dist;
 
-    DrawMesh *dm;
-    Thing *p_thing;
-    Thing *p_found;
-    Barrel *bb;
+    DrawMesh* dm;
+    Entity* p_thing;
+    Entity* p_found;
+    Barrel* bb;
 
     std::int32_t num;
 
@@ -1233,7 +1233,7 @@ std::uint16_t BARREL_alloc(
 
     p_thing = alloc_thing(CLASS_BARREL);
     if (!p_thing) {
-        Thing *p_del;
+        Entity* p_del;
         std::int32_t c0;
         std::int32_t best_dist = 0x7fffffff;
         for (c0 = 1; c0 < MAX_THINGS; c0++) {
@@ -1308,7 +1308,7 @@ std::uint16_t BARREL_alloc(
             on = 0;
 
             if (type == BARREL_TYPE_BURNING) {
-                Pyro *pyro;
+                Pyro* pyro;
 
                 pyro = PYRO_create(p_thing->WorldPos, PYRO_IMMOLATE)->Genus.Pyro;
                 if (pyro) {
@@ -1378,7 +1378,7 @@ std::uint16_t BARREL_alloc(
 
 /*
 
-void BARREL_position_on_hands(Thing *p_barrel, Thing *p_person)
+void BARREL_position_on_hands(Entity *p_barrel, Entity *p_person)
 {
         ASSERT(p_barrel->Class == CLASS_BARREL);
         ASSERT(p_person->Class == CLASS_PERSON);
@@ -1538,7 +1538,7 @@ void BARREL_position_on_hands(Thing *p_barrel, Thing *p_person)
         p_barrel->Genus.Barrel->flag |= BARREL_FLAG_HELD;
 }
 
-void BARREL_throw(Thing *p_barrel)
+void BARREL_throw(Entity *p_barrel)
 {
         //
         // Just mark the barrel as not being held and that will start
@@ -1564,13 +1564,13 @@ void BARREL_throw(Thing *p_barrel)
 */
 
 #ifndef PSX
-GameCoord BARREL_fire_pos(Thing *p_barrel) {
+GameCoord BARREL_fire_pos(Entity* p_barrel) {
     std::int32_t sx;
     std::int32_t sy;
     std::int32_t sz;
     std::int32_t sradius;
 
-    BARREL_Sphere *bs;
+    BARREL_Sphere* bs;
 
     GameCoord ans;
 
@@ -1602,7 +1602,7 @@ GameCoord BARREL_fire_pos(Thing *p_barrel) {
 }
 #endif
 
-void BARREL_dissapear(Thing *p_barrel) {
+void BARREL_dissapear(Entity* p_barrel) {
     //
     // If any barrel is stacked on this one...
     //
@@ -1621,7 +1621,7 @@ void BARREL_dissapear(Thing *p_barrel) {
 
     std::int32_t i;
 
-    Thing *p_found;
+    Entity* p_found;
 
     for (i = 0; i < num_found; i++) {
         p_found = TO_THING(found[i]);
@@ -1680,8 +1680,8 @@ void BARREL_dissapear(Thing *p_barrel) {
 }
 
 void BARREL_shoot(
-    Thing *p_barrel,
-    Thing *p_shooter) {
+    Entity* p_barrel,
+    Entity* p_shooter) {
     std::uint32_t in_the_air;
     std::int16_t wave;
 
@@ -1779,6 +1779,6 @@ void BARREL_shoot(
     }
 }
 
-std::int32_t BARREL_is_stacked(Thing *p_barrel) {
+std::int32_t BARREL_is_stacked(Entity* p_barrel) {
     return p_barrel->Genus.Barrel->flag & BARREL_FLAG_STACKED;
 }

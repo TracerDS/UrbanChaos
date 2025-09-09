@@ -60,7 +60,7 @@ void QMAP_init() {
     std::int32_t x;
     std::int32_t z;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
     //
     // Initialise all data structures.
@@ -106,12 +106,12 @@ void QMAP_compress_all() {
 
     std::int32_t total_all;
 
-    std::uint16_t *comp;
+    std::uint16_t* comp;
     std::int32_t comp_upto;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
-    comp = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * QMAP_MAX_ALL);
+    comp = (std::uint16_t*) MemAlloc(sizeof(std::uint16_t) * QMAP_MAX_ALL);
     comp_upto = 0;
 
     if (comp) {
@@ -190,7 +190,7 @@ void QMAP_add_road(
     std::int32_t before;
     std::int32_t after;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
     if (QMAP_road_upto >= QMAP_MAX_ROADS) {
         //
@@ -300,7 +300,7 @@ void QMAP_add_cube(
     std::int32_t before;
     std::int32_t after;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
     if (QMAP_cube_upto >= QMAP_MAX_CUBES) {
         //
@@ -406,12 +406,12 @@ void QMAP_compress_prim_array() {
     std::int32_t x;
     std::int32_t z;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
-    QMAP_Prim *comp;
+    QMAP_Prim* comp;
     std::int32_t comp_upto;
 
-    comp = (QMAP_Prim *) MemAlloc(sizeof(QMAP_Prim) * QMAP_MAX_PRIMS);
+    comp = (QMAP_Prim*) MemAlloc(sizeof(QMAP_Prim) * QMAP_MAX_PRIMS);
     comp_upto = 0;
 
     if (comp) {
@@ -450,7 +450,7 @@ void QMAP_add_prim(
     std::int32_t mx = x >> 21;
     std::int32_t mz = z >> 21;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
     if (!WITHIN(mx, 0, QMAP_MAPSIZE - 1) ||
         !WITHIN(mz, 0, QMAP_MAPSIZE - 1)) {
@@ -535,12 +535,12 @@ std::int32_t QMAP_calc_height_at(std::int32_t x, std::int32_t z) {
 
 void QMAP_get_cube_coords(
     std::uint16_t cube,
-    std::int32_t *x1, std::int32_t *y1, std::int32_t *z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2) {
+    std::int32_t* x1, std::int32_t* y1, std::int32_t* z1,
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2) {
     std::int32_t mid_x;
     std::int32_t mid_z;
 
-    QMAP_Cube *qc;
+    QMAP_Cube* qc;
 
     ASSERT(WITHIN(cube, 0, QMAP_cube_upto - 1));
 
@@ -613,7 +613,7 @@ std::uint16_t QMAP_get_style_texture(
     std::int32_t index;
     std::uint16_t texture;
 
-    QMAP_Style *qs;
+    QMAP_Style* qs;
 
     ASSERT(WITHIN(style, 0, QMAP_style_upto - 1));
 
@@ -693,7 +693,7 @@ std::uint16_t QMAP_get_style_texture(
 // Create the faces for given cube.
 //
 
-void QMAP_create_cube(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z, std::int32_t cube) {
+void QMAP_create_cube(QMAP_Draw* qd, std::int32_t map_x, std::int32_t map_z, std::int32_t cube) {
     std::int32_t i;
     std::int32_t j;
 
@@ -746,11 +746,11 @@ void QMAP_create_cube(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z, std
 
     std::uint32_t face_on[32]; // 128 bytes of stack!
 
-    QMAP_Cube *qc;
-    QMAP_Cube *qc_look;
-    QMAP_Map *qm_look;
-    QMAP_Point *qp;
-    QMAP_Face *qf;
+    QMAP_Cube* qc;
+    QMAP_Cube* qc_look;
+    QMAP_Map* qm_look;
+    QMAP_Point* qp;
+    QMAP_Face* qf;
 
     ASSERT(WITHIN(cube, 0, QMAP_cube_upto - 1));
 
@@ -1063,7 +1063,7 @@ void QMAP_create_cube(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z, std
     }
 }
 
-void QMAP_create(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z) {
+void QMAP_create(QMAP_Draw* qd, std::int32_t map_x, std::int32_t map_z) {
     std::int32_t i;
     std::int32_t j;
 
@@ -1082,7 +1082,7 @@ void QMAP_create(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z) {
     std::int32_t index;
     std::int32_t cube;
 
-    QMAP_Map *qm;
+    QMAP_Map* qm;
 
     ASSERT(WITHIN(map_x, 0, QMAP_MAPSIZE - 1));
     ASSERT(WITHIN(map_z, 0, QMAP_MAPSIZE - 1));
@@ -1119,13 +1119,13 @@ void QMAP_create(QMAP_Draw *qd, std::int32_t map_x, std::int32_t map_z) {
     }
 }
 
-void QMAP_free(QMAP_Draw *qd) {
+void QMAP_free(QMAP_Draw* qd) {
     std::uint16_t point;
     std::uint16_t face;
     std::uint16_t next;
 
-    QMAP_Point *qp;
-    QMAP_Face *qf;
+    QMAP_Point* qp;
+    QMAP_Face* qf;
 
     //
     // Clear all the points and faces.

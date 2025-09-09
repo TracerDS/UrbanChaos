@@ -45,9 +45,9 @@
 
 #include "CondTab.def"
 
-extern char *class_text[];
-extern char *genus_text[][10];
-extern char *condition_text[];
+extern char* class_text[];
+extern char* genus_text[][10];
+extern char* condition_text[];
 
 //---------------------------------------------------------------
 
@@ -70,7 +70,7 @@ std::uint16_t field_widths[][MAX_FIELDS] =
         {FIELD_1_WIDTH,      FIELD_2_WIDTH, 0,             0            }, //	CON_CLIST_FULFILLED
         {0,                  0,             0,             0            }
 };
-ConditionTab *the_con_tab;
+ConditionTab* the_con_tab;
 
 //---------------------------------------------------------------
 //	Callback functions.
@@ -95,8 +95,8 @@ ConditionTab::ConditionTab() {
 
     InitControlSet(cond_tab_def);
 
-    ((CHSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetUpdateFunction(draw_lists_box);
-    ((CHSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetUpdateFunction(draw_clist_box);
+    ((CHSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->SetUpdateFunction(draw_lists_box);
+    ((CHSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->SetUpdateFunction(draw_clist_box);
 }
 
 //---------------------------------------------------------------
@@ -124,7 +124,7 @@ void ConditionTab::DrawTabContent() {
         break;
     case COND_MODE_SELECT_THING:
         message_height = QTStringHeight() + 12;
-        message_width = QTStringWidth("Select A Thing") + 12;
+        message_width = QTStringWidth("Select A Entity") + 12;
         message_rect.SetRect(
             150 - (message_width >> 1),
             220 - (message_height >> 1),
@@ -135,7 +135,7 @@ void ConditionTab::DrawTabContent() {
         QuickTextC(
             message_rect.GetLeft() + 6,
             message_rect.GetTop() + 6,
-            "Select A Thing",
+            "Select A Entity",
             0);
         break;
     case COND_MODE_SELECT_SWITCH:
@@ -181,11 +181,11 @@ void ConditionTab::UpdateTab(std::uint8_t update_level) {
 
 //---------------------------------------------------------------
 
-std::uint16_t ConditionTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t ConditionTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint8_t update = UPDATE_NONE;
     std::uint16_t select_pos;
     std::uint32_t control_id = 0;
-    EditCondList *the_clist;
+    EditCondList* the_clist;
     MFPoint local_point;
 
     if (TabMode) {
@@ -218,11 +218,11 @@ std::uint16_t ConditionTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_
         if (select_pos) {
             CurrentCList = HilitetedList(select_pos);
             if (CurrentCList) {
-                ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
+                ((CEditText*) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
                 if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
-                    ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
+                    ((CVSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
                 } else {
-                    ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, 0);
+                    ((CVSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, 0);
                 }
             }
         } else {
@@ -257,7 +257,7 @@ std::uint16_t ConditionTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_
 
 //---------------------------------------------------------------
 
-void ConditionTab::HandleTab(MFPoint *current_point) {
+void ConditionTab::HandleTab(MFPoint* current_point) {
     std::uint8_t update = UPDATE_NONE;
     EdRect condition_rect,
         lists_rect;
@@ -317,9 +317,9 @@ void ConditionTab::HandleControl(std::uint16_t control_id) {
         if (CurrentCList) {
             // set up the new condition list.
             if (ed_clist_count > MAX_VIEW_LISTS) {
-                ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
+                ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
             }
-            ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
+            ((CEditText*) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString(CurrentCList->CListName);
 
             // Allocate the first condition.
             add_condition(CurrentCList, alloc_ed_condition());
@@ -328,7 +328,7 @@ void ConditionTab::HandleControl(std::uint16_t control_id) {
     case CTRL_LISTS_SLIDER:
         break;
     case CTRL_CLIST_EDIT:
-        strcpy(CurrentCList->CListName, ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->GetEditString());
+        strcpy(CurrentCList->CListName, ((CEditText*) GetControlPtr(CTRL_CLIST_EDIT))->GetEditString());
         break;
     case CTRL_CLIST_SLIDER:
         break;
@@ -337,7 +337,7 @@ void ConditionTab::HandleControl(std::uint16_t control_id) {
             // Create a new condition.
             add_condition(CurrentCList, alloc_ed_condition());
             if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
-                ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
+                ((CVSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, CurrentCList->ConditionCount - MAX_VIEW_CONDS);
             }
         }
         break;
@@ -346,9 +346,9 @@ void ConditionTab::HandleControl(std::uint16_t control_id) {
 
 //---------------------------------------------------------------
 
-void ConditionTab::DoCListPopup(MFPoint *clicked_point, EditCondList *the_clist) {
+void ConditionTab::DoCListPopup(MFPoint* clicked_point, EditCondList* the_clist) {
     std::uint32_t control_id = 0;
-    CPopUp *the_control = 0;
+    CPopUp* the_control = 0;
 
     clist_popup_def.ControlLeft = clicked_point->X + 4;
     clist_popup_def.ControlTop = clicked_point->Y - 4;
@@ -369,10 +369,10 @@ void ConditionTab::DoCListPopup(MFPoint *clicked_point, EditCondList *the_clist)
     case 1:
         if (CurrentCList == the_clist) {
             CurrentCList = nullptr;
-            ((CEditText *) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString("");
+            ((CEditText*) GetControlPtr(CTRL_CLIST_EDIT))->SetEditString("");
         }
         if (ed_clist_count > MAX_VIEW_LISTS) {
-            ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_clist_count - MAX_VIEW_LISTS) - 1);
+            ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->SetValueRange(0, (ed_clist_count - MAX_VIEW_LISTS) - 1);
         }
         free_ed_clist(the_clist);
         break;
@@ -381,12 +381,12 @@ void ConditionTab::DoCListPopup(MFPoint *clicked_point, EditCondList *the_clist)
 
 //---------------------------------------------------------------
 
-void ConditionTab::DoConditionPopup(MFPoint *clicked_point, std::uint16_t select_pos) {
+void ConditionTab::DoConditionPopup(MFPoint* clicked_point, std::uint16_t select_pos) {
     std::uint8_t field;
     std::uint32_t control_id = 0;
-    CPopUp *the_control = 0;
-    EditCondition *the_condition;
-    EditCondList *the_cond_list;
+    CPopUp* the_control = 0;
+    EditCondition* the_condition;
+    EditCondList* the_cond_list;
 
     the_condition = HilitetedCondition(select_pos);
     if (the_condition) {
@@ -483,14 +483,14 @@ void ConditionTab::DoConditionPopup(MFPoint *clicked_point, std::uint16_t select
 
 //---------------------------------------------------------------
 
-void ConditionTab::CommonConditionOptions(std::uint32_t id, EditCondition *the_condition) {
+void ConditionTab::CommonConditionOptions(std::uint32_t id, EditCondition* the_condition) {
     switch (id) {
     case 0: // nullptr.
         break;
     case 1: // Delete Condition.
         if (the_condition) {
             if (CurrentCList->ConditionCount > MAX_VIEW_CONDS) {
-                ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, (CurrentCList->ConditionCount > MAX_VIEW_CONDS) - 1);
+                ((CVSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->SetValueRange(0, (CurrentCList->ConditionCount > MAX_VIEW_CONDS) - 1);
             }
         }
         remove_condition(CurrentCList, the_condition);
@@ -509,7 +509,7 @@ void ConditionTab::CommonConditionOptions(std::uint32_t id, EditCondition *the_c
 
 //---------------------------------------------------------------
 
-EditCondList *ConditionTab::SelectConditionList() {
+EditCondList* ConditionTab::SelectConditionList() {
     bool exit = false;
     std::uint8_t update = 2;
     std::uint16_t select_pos;
@@ -532,9 +532,9 @@ EditCondList *ConditionTab::SelectConditionList() {
     select_set.ControlSetBounds(&bounds_rect);
     select_set.InitControlSet(select_clist_def);
     if (ed_clist_count > MAX_VIEW_LISTS) {
-        ((CVSlider *) select_set.GetControlPtr(1))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
+        ((CVSlider*) select_set.GetControlPtr(1))->SetValueRange(0, ed_clist_count - MAX_VIEW_LISTS);
     }
-    ((CVSlider *) select_set.GetControlPtr(1))->SetCurrentValue(0);
+    ((CVSlider*) select_set.GetControlPtr(1))->SetCurrentValue(0);
 
     while (SHELL_ACTIVE && !exit) {
         SetWorkWindowBounds(0, 0, WorkScreenPixelWidth, WorkScreenHeight);
@@ -597,7 +597,7 @@ EditCondList *ConditionTab::SelectConditionList() {
 
                     // Skip the beginning of the list to match the slider bar position.
                     current_list = clists;
-                    c0 = ((CVSlider *) select_set.GetControlPtr(1))->GetCurrentValue();
+                    c0 = ((CVSlider*) select_set.GetControlPtr(1))->GetCurrentValue();
                     while (current_list && c0) {
                         c0--;
                         current_list = current_list->Next;
@@ -648,7 +648,7 @@ EditCondList *ConditionTab::SelectConditionList() {
 void ConditionTab::DrawListsBox() {
     std::uint16_t select_pos;
     std::int32_t c0;
-    EditCondList *current_list;
+    EditCondList* current_list;
     EdRect item_rect,
         lists_rect;
     MFPoint local_point;
@@ -666,7 +666,7 @@ void ConditionTab::DrawListsBox() {
 
     // Skip the beginning of the list to match the slider bar position.
     current_list = clists;
-    c0 = ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
+    c0 = ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
     while (current_list && c0) {
         c0--;
         current_list = current_list->Next;
@@ -702,7 +702,7 @@ void ConditionTab::DrawCurrentList() {
     std::uint16_t select_pos;
     std::int32_t c0, c1,
         x_pos;
-    EditCondition *current_condition;
+    EditCondition* current_condition;
     EdRect field_rects[MAX_FIELDS],
         list_rect;
     MFPoint local_point;
@@ -722,7 +722,7 @@ void ConditionTab::DrawCurrentList() {
         // Skip the beginning of the list to match the slider bar position.
         current_condition = CurrentCList->ConditionList;
         if (current_condition) {
-            c0 = ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->GetCurrentValue();
+            c0 = ((CVSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->GetCurrentValue();
             while (current_condition && c0) {
                 c0--;
                 current_condition = current_condition->Next;
@@ -757,7 +757,7 @@ void ConditionTab::DrawCurrentList() {
                 case CON_NONE:
                     break;
                 case CON_THING_DEAD:
-                    sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
+                    sprintf(&field_text[1][0], "Entity %d", current_condition->Data1);
                     break;
                 case CON_ALL_GROUP_DEAD:
                     sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
@@ -767,7 +767,7 @@ void ConditionTab::DrawCurrentList() {
                     sprintf(&field_text[2][0], "%d%%", current_condition->Data2);
                     break;
                 case CON_THING_NEAR_PLAYER:
-                    sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
+                    sprintf(&field_text[1][0], "Entity %d", current_condition->Data1);
                     sprintf(&field_text[2][0], "%d", current_condition->Data3);
                     break;
                 case CON_GROUP_NEAR_PLAYER:
@@ -779,18 +779,18 @@ void ConditionTab::DrawCurrentList() {
                     sprintf(&field_text[2][0], "%d", current_condition->Data3);
                     break;
                 case CON_THING_NEAR_THING:
-                    sprintf(&field_text[1][0], "Thing %d", current_condition->Data1);
-                    sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
+                    sprintf(&field_text[1][0], "Entity %d", current_condition->Data1);
+                    sprintf(&field_text[2][0], "Entity %d", current_condition->Data2);
                     sprintf(&field_text[3][0], "%d", current_condition->Data3);
                     break;
                 case CON_GROUP_NEAR_THING:
                     sprintf(&field_text[1][0], "Group %d", current_condition->Data1);
-                    sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
+                    sprintf(&field_text[2][0], "Entity %d", current_condition->Data2);
                     sprintf(&field_text[3][0], "%d", current_condition->Data3);
                     break;
                 case CON_CLASS_NEAR_THING:
                     sprintf(&field_text[1][0], "%s", class_text[current_condition->Data1]);
-                    sprintf(&field_text[2][0], "Thing %d", current_condition->Data2);
+                    sprintf(&field_text[2][0], "Entity %d", current_condition->Data2);
                     sprintf(&field_text[3][0], "%d", current_condition->Data3);
                     break;
                 case CON_CLASS_COUNT:
@@ -835,7 +835,7 @@ void ConditionTab::DrawCurrentList() {
 
 //---------------------------------------------------------------
 
-std::uint16_t ConditionTab::ListsHilitePos(MFPoint *current_point) {
+std::uint16_t ConditionTab::ListsHilitePos(MFPoint* current_point) {
     std::uint16_t c0;
     EdRect item_rect,
         lists_rect;
@@ -860,14 +860,14 @@ std::uint16_t ConditionTab::ListsHilitePos(MFPoint *current_point) {
 
 //---------------------------------------------------------------
 
-EditCondList *ConditionTab::HilitetedList(std::uint16_t select_pos) {
+EditCondList* ConditionTab::HilitetedList(std::uint16_t select_pos) {
     std::uint32_t c0;
-    EditCondList *current_list;
+    EditCondList* current_list;
 
     current_list = clists;
 
     //	Skip the beginning of the list to match the slider bar position.
-    c0 = ((CVSlider *) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
+    c0 = ((CVSlider*) GetControlPtr(CTRL_LISTS_SLIDER))->GetCurrentValue();
     while (current_list && c0) {
         c0--;
         current_list = current_list->Next;
@@ -885,10 +885,10 @@ EditCondList *ConditionTab::HilitetedList(std::uint16_t select_pos) {
 
 //---------------------------------------------------------------
 
-std::uint16_t ConditionTab::CurrentListHilitePos(MFPoint *current_point) {
+std::uint16_t ConditionTab::CurrentListHilitePos(MFPoint* current_point) {
     std::uint16_t c0, c1;
     std::int32_t x_pos;
-    EditCondition *current_condition;
+    EditCondition* current_condition;
     EdRect condition_rect,
         field_rects[MAX_FIELDS],
         list_rect;
@@ -933,15 +933,15 @@ std::uint16_t ConditionTab::CurrentListHilitePos(MFPoint *current_point) {
 
 //---------------------------------------------------------------
 
-EditCondition *ConditionTab::HilitetedCondition(std::uint16_t select_pos) {
+EditCondition* ConditionTab::HilitetedCondition(std::uint16_t select_pos) {
     std::uint32_t c0;
-    EditCondition *current_condition = nullptr;
+    EditCondition* current_condition = nullptr;
 
     if (CurrentCList) {
         current_condition = CurrentCList->ConditionList;
 
         //	Skip the beginning of the list to match the slider bar position.
-        c0 = ((CVSlider *) GetControlPtr(CTRL_CLIST_SLIDER))->GetCurrentValue();
+        c0 = ((CVSlider*) GetControlPtr(CTRL_CLIST_SLIDER))->GetCurrentValue();
         while (current_condition && c0) {
             c0--;
             current_condition = current_condition->Next;

@@ -90,7 +90,7 @@ void SPARK_init() {
 // Initialises the movement vector of the given point.
 //
 
-void SPARK_point_set_velocity(SPARK_Point *sp) {
+void SPARK_point_set_velocity(SPARK_Point* sp) {
     if (sp->type == SPARK_TYPE_LIMB) {
         //
         // The values are ignored... so we dont  even have to
@@ -142,14 +142,14 @@ void SPARK_point_set_velocity(SPARK_Point *sp) {
 //
 
 void SPARK_point_pos(
-    SPARK_Point *sp,
-    std::int32_t *px,
-    std::int32_t *py,
-    std::int32_t *pz) {
-    CollisionVect *p_vect;
+    SPARK_Point* sp,
+    std::int32_t* px,
+    std::int32_t* py,
+    std::int32_t* pz) {
+    CollisionVect* p_vect;
 
     if (sp->type == SPARK_TYPE_LIMB) {
-        Thing *p_person = TO_THING(sp->Peep.person);
+        Entity* p_person = TO_THING(sp->Peep.person);
 
         calc_sub_objects_position(
             p_person,
@@ -183,7 +183,7 @@ void SPARK_new_point(
     std::int32_t mid_y,
     std::int32_t mid_z,
     std::int32_t radius,
-    SPARK_Point *sp) {
+    SPARK_Point* sp) {
     std::int32_t i;
 
     //
@@ -258,7 +258,7 @@ void SPARK_new_point(
         std::int32_t v_list;
         std::int32_t i_vect;
 
-        CollisionVect *p_vect;
+        CollisionVect* p_vect;
 
         v_list = MAP2(mx, mz).ColVectHead;
         while (v_list) {
@@ -348,7 +348,7 @@ void SPARK_new_point(
 //
 
 void SPARK_create_auxillary(
-    SPARK_Spark *ss,
+    SPARK_Spark* ss,
     std::uint8_t point_2,
     std::uint8_t point_3) {
     std::int32_t px1;
@@ -407,12 +407,12 @@ void SPARK_create_auxillary(
 }
 
 void SPARK_create(
-    SPARK_Pinfo *p1,
-    SPARK_Pinfo *p2,
+    SPARK_Pinfo* p1,
+    SPARK_Pinfo* p2,
     std::uint8_t max_life) {
     std::int32_t i;
 
-    SPARK_Spark *ss;
+    SPARK_Spark* ss;
 
     if (max_life == 0) {
         max_life = 1;
@@ -529,8 +529,8 @@ void SPARK_process() {
     std::uint8_t point_2;
     std::uint8_t point_3;
 
-    SPARK_Spark *ss;
-    SPARK_Point *sp;
+    SPARK_Spark* ss;
+    SPARK_Point* sp;
 
     for (i = 0; i < SPARK_MAX_SPARKS; i++) {
         ss = &SPARK_spark[i];
@@ -554,7 +554,7 @@ void SPARK_process() {
             //
 
             std::uint8_t next;
-            std::uint8_t *prev;
+            std::uint8_t* prev;
 
             prev = &SPARK_mapwho[ss->map_z];
             next = SPARK_mapwho[ss->map_z];
@@ -653,7 +653,7 @@ void SPARK_process() {
 void SPARK_find_midpoint(
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2,
-    std::int32_t *mx, std::int32_t *my, std::int32_t *mz) {
+    std::int32_t* mx, std::int32_t* my, std::int32_t* mz) {
     std::int32_t dx = x2 - x1 >> 1;
     std::int32_t dy = y2 - y1 >> 1;
     std::int32_t dz = z2 - z1 >> 1;
@@ -679,7 +679,7 @@ void SPARK_find_midpoint(
 //
 
 void SPARK_build_spark(
-    SPARK_Info *si,
+    SPARK_Info* si,
     std::int32_t x1, std::int32_t y1, std::int32_t z1,
     std::int32_t x2, std::int32_t y2, std::int32_t z2) {
     si->x[0] = x1;
@@ -736,8 +736,8 @@ void SPARK_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z) {
     }
 }
 
-SPARK_Info *SPARK_get_next() {
-    SPARK_Spark *ss;
+SPARK_Info* SPARK_get_next() {
+    SPARK_Spark* ss;
 
 tail_recurse:;
 
@@ -772,9 +772,9 @@ tail_recurse:;
     // The two points we build the spark between.
     //
 
-    SPARK_Point *sp1;
-    SPARK_Point *sp2;
-    SPARK_Point *sp;
+    SPARK_Point* sp1;
+    SPARK_Point* sp2;
+    SPARK_Point* sp;
 
     std::int32_t x1, y1, z1;
     std::int32_t x2, y2, z2;
@@ -890,9 +890,9 @@ void SPARK_in_sphere(
 
     THING_INDEX t_index;
 
-    Thing *p_thing;
+    Entity* p_thing;
 #ifndef TARGET_DC
-    MapElement *me;
+    MapElement* me;
 #endif
 
     //
@@ -909,8 +909,8 @@ void SPARK_in_sphere(
     } choice[SPARK_MAX_CHOICES];
     std::int32_t choice_upto = 0;
 
-    SPARK_Pinfo *sp1;
-    SPARK_Pinfo *sp2;
+    SPARK_Pinfo* sp1;
+    SPARK_Pinfo* sp2;
 
     //
     // The colvects we have done already.
@@ -1041,7 +1041,7 @@ void SPARK_in_sphere(
             std::int32_t v_list;
             std::int32_t i_vect;
 
-            CollisionVect *p_vect;
+            CollisionVect* p_vect;
 
             v_list = MAP2(mx, mz).ColVectHead;
 #ifdef DOG_POO
@@ -1188,7 +1188,7 @@ void SPARK_show_electric_fences() {
 
     std::int32_t along;
 
-    DFacet *df;
+    DFacet* df;
 
     if (GAME_TURN & 0x1f) {
         return;

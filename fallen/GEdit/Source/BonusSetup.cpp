@@ -16,14 +16,14 @@
 
 //---------------------------------------------------------------
 
-char *bonus_text;
+char* bonus_text;
 std::int32_t bonus_pts;
 std::int32_t bonus_type;
 std::int32_t bonus_gender; // for translators
 
 //---------------------------------------------------------------
 
-TCHAR *bstrings[] =
+TCHAR* bstrings[] =
     {
         "Primary Objective",
         "Secondary Objective",
@@ -94,7 +94,7 @@ bool CALLBACK bonus_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
                   0, 0) +
               1;
         if (bonus_text) free(bonus_text);
-        bonus_text = (char *) malloc(len);
+        bonus_text = (char*) malloc(len);
         ZeroMemory(bonus_text, len);
 
         SendMessage(
@@ -115,14 +115,14 @@ bool CALLBACK bonus_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 //---------------------------------------------------------------
 
-void do_bonus_setup(EventPoint *the_ep) {
+void do_bonus_setup(EventPoint* the_ep) {
     //	Set the dialog.
-    bonus_text = (char *) the_ep->Data[0];
+    bonus_text = (char*) the_ep->Data[0];
     bonus_pts = the_ep->Data[1];
     bonus_type = the_ep->Data[2];
     bonus_gender = the_ep->Data[3];
     if (!bonus_text) {
-        bonus_text = (char *) malloc(_MAX_PATH);
+        bonus_text = (char*) malloc(_MAX_PATH);
         ZeroMemory(bonus_text, _MAX_PATH);
         strcpy(bonus_text, "Secondary objective complete. 200 points.");
         bonus_pts = 200;
@@ -146,9 +146,9 @@ void do_bonus_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_bonus_message(EventPoint *ep, char *msg) {
+char* get_bonus_message(EventPoint* ep, char* msg) {
     msg[0] = 0;
     if (ep && ep->Data[0])
-        strcpy(msg, (char *) ep->Data[0]);
+        strcpy(msg, (char*) ep->Data[0]);
     return msg;
 }

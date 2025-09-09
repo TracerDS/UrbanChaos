@@ -30,9 +30,9 @@ void WIBBLE_simple(
     y2 = y2 * RealDisplayHeight / DisplayHeight;
 
     if (the_display.CurrMode->GetBPP() == 16) {
-        std::uint16_t *dest;
-        std::uint16_t *src;
-        std::uint8_t *base = &the_display.screen[x1 + x1 + y1 * the_display.screen_pitch];
+        std::uint16_t* dest;
+        std::uint16_t* src;
+        std::uint8_t* base = &the_display.screen[x1 + x1 + y1 * the_display.screen_pitch];
 
         for (y = y1; y < y2; y++) {
             angle1 = y * wibble_y1;
@@ -51,8 +51,8 @@ void WIBBLE_simple(
                 // Easy!
                 //
             } else if (offset > 0) {
-                dest = (std::uint16_t *) base;
-                src = (std::uint16_t *) base;
+                dest = (std::uint16_t*) base;
+                src = (std::uint16_t*) base;
                 src += offset;
 
                 count = x2 - x1;
@@ -63,8 +63,8 @@ void WIBBLE_simple(
             } else {
                 count = x2 - x1;
 
-                dest = (std::uint16_t *) base;
-                src = (std::uint16_t *) base;
+                dest = (std::uint16_t*) base;
+                src = (std::uint16_t*) base;
 
                 dest += count - 1;
                 src += count - 1;
@@ -80,9 +80,9 @@ void WIBBLE_simple(
         }
     } else {
         // cut-and-paste, but I don't care anymore
-        std::uint32_t *dest;
-        std::uint32_t *src;
-        std::uint8_t *base = &the_display.screen[x1 * 4 + y1 * the_display.screen_pitch];
+        std::uint32_t* dest;
+        std::uint32_t* src;
+        std::uint8_t* base = &the_display.screen[x1 * 4 + y1 * the_display.screen_pitch];
 
         for (y = y1; y < y2; y++) {
             angle1 = y * wibble_y1;
@@ -101,8 +101,8 @@ void WIBBLE_simple(
                 // Easy!
                 //
             } else if (offset > 0) {
-                dest = (std::uint32_t *) base;
-                src = (std::uint32_t *) base;
+                dest = (std::uint32_t*) base;
+                src = (std::uint32_t*) base;
                 src += offset;
 
                 count = x2 - x1;
@@ -113,8 +113,8 @@ void WIBBLE_simple(
             } else {
                 count = x2 - x1;
 
-                dest = (std::uint32_t *) base;
-                src = (std::uint32_t *) base;
+                dest = (std::uint32_t*) base;
+                src = (std::uint32_t*) base;
 
                 dest += count - 1;
                 src += count - 1;

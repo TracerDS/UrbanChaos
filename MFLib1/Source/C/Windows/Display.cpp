@@ -37,7 +37,7 @@ extern HWND hShellWindow;
 extern RECT ShellRect;
 extern void SetDrawFunctions(std::uint32_t depth);
 
-bool WINAPI EnumDeviceCallback(GUID FAR *lpGUID, LPSTR lpDriverDescription, LPSTR lpDriverName, LPVOID lpContext);
+bool WINAPI EnumDeviceCallback(GUID FAR* lpGUID, LPSTR lpDriverDescription, LPSTR lpDriverName, LPVOID lpContext);
 
 //---------------------------------------------------------------
 
@@ -55,7 +55,7 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
         // Create Direct Draw Object.
 #ifdef _DEBUG
         flags = flags;
-        dd_result = DirectDrawCreate((GUID *) DDCREATE_EMULATIONONLY, &lp_DD, nullptr);
+        dd_result = DirectDrawCreate((GUID*) DDCREATE_EMULATIONONLY, &lp_DD, nullptr);
 #else
         dd_result = DirectDrawEnumerate(EnumDeviceCallback, nullptr);
 
@@ -66,7 +66,7 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
 #endif
         if (dd_result == DD_OK) {
 #ifdef MF_DD2
-            dd_result = lp_DD->QueryInterface(IID_IDirectDraw2, (LPVOID *) &lp_DD_2);
+            dd_result = lp_DD->QueryInterface(IID_IDirectDraw2, (LPVOID*) &lp_DD_2);
 #endif
 
             if (dd_result == DD_OK) {
@@ -406,7 +406,7 @@ void FadeDisplay(std::uint8_t mode) {
 
 //---------------------------------------------------------------
 
-void *LockWorkScreen() {
+void* LockWorkScreen() {
     DDSURFACEDESC dd_sd;
     HRESULT dd_result;
 
@@ -416,7 +416,7 @@ void *LockWorkScreen() {
         switch (dd_result) {
         case DD_OK:
             WorkScreenWidth = dd_sd.lPitch;
-            WorkScreen = (std::uint8_t *) dd_sd.lpSurface;
+            WorkScreen = (std::uint8_t*) dd_sd.lpSurface;
             SetWorkWindow();
             DisplayState |= DS_SCREEN_LOCKED;
             return dd_sd.lpSurface;
@@ -788,11 +788,11 @@ HRESULT CALLBACK DisplayModesCallback(LPDDSURFACEDESC p_dd_sd, LPVOID ignore) {
 //---------------------------------------------------------------
 
 bool WINAPI EnumDeviceCallback(
-    GUID FAR *lpGUID,
+    GUID FAR* lpGUID,
     LPSTR lpDriverDescription,
     LPSTR lpDriverName,
     LPVOID lpContext) {
-    char *str_ptr = lpDriverDescription;
+    char* str_ptr = lpDriverDescription;
 
     lpDriverName = lpDriverName;
     lpContext = lpContext;

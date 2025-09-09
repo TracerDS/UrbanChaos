@@ -47,7 +47,7 @@ void AA_pixel_rhs(
 
     frac >>= AA_FIX - 8;
 
-    AA_Span *as = &AA_span[y];
+    AA_Span* as = &AA_span[y];
 
     if (WITHIN(x, as->rhs_min, as->rhs_max)) {
         as->pixel[x] += frac;
@@ -84,7 +84,7 @@ void AA_pixel_lhs(
     // ASSERT(WITHIN(frac_left,  0, 256));
     // ASSERT(WITHIN(frac_right, 0, 256));
 
-    AA_Span *as = &AA_span[y];
+    AA_Span* as = &AA_span[y];
 
     if (WITHIN(x, as->rhs_min, as->rhs_max)) {
         //
@@ -460,7 +460,7 @@ void AA_line_lhs(std::int32_t px1, std::int32_t py1, std::int32_t px2, std::int3
 }
 
 void AA_draw_do(
-    std::uint8_t *bitmap,
+    std::uint8_t* bitmap,
     std::uint8_t x_res,
     std::uint8_t y_res,
     std::int32_t pitch,
@@ -494,7 +494,7 @@ void AA_draw_do(
     std::int32_t fill_bot;
 
     std::int32_t fill;
-    std::uint8_t *line;
+    std::uint8_t* line;
 
     //
     // The bounds of the triangle.
@@ -583,7 +583,7 @@ void AA_draw_do(
 
         ASSERT(WITHIN(y, 0, AA_MAX_SPAN_Y - 1));
 
-        AA_Span *as = &AA_span[y];
+        AA_Span* as = &AA_span[y];
 
         line = &bitmap[y * pitch];
 
@@ -637,7 +637,7 @@ void AA_draw_do(
 //
 
 void AA_draw(
-    std::uint8_t *bitmap,
+    std::uint8_t* bitmap,
     std::uint8_t x_res,
     std::uint8_t y_res,
     std::int32_t pitch,

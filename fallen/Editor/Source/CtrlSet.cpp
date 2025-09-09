@@ -7,7 +7,7 @@
 // Private member functions
 //---------------------------------------------------------------
 
-void ControlSet::AddControl(Control *the_control) {
+void ControlSet::AddControl(Control* the_control) {
     if (the_control) {
         if (!CurrentControl) // Start of list?
         {
@@ -27,7 +27,7 @@ void ControlSet::AddControl(Control *the_control) {
 // Public member functions
 //---------------------------------------------------------------
 
-ControlSet::ControlSet(ControlDef *defs) {
+ControlSet::ControlSet(ControlDef* defs) {
     ControlList = nullptr;
     CurrentControl = nullptr;
     ControlCount = 0;
@@ -51,7 +51,7 @@ ControlSet::~ControlSet() {
 
 //---------------------------------------------------------------
 
-void ControlSet::InitControlSet(ControlDef *defs) {
+void ControlSet::InitControlSet(ControlDef* defs) {
     FiniControlSet();
     while (defs->ControlType) {
         switch (defs->ControlType) {
@@ -97,30 +97,30 @@ void ControlSet::FiniControlSet() {
         next_control = current_control->GetNextControl();
         switch (current_control->GetType()) {
         case BUTTON:
-            delete (CButton *) current_control;
+            delete (CButton*) current_control;
             break;
         case RADIO_BUTTON:
-            delete (CRadioButton *) current_control;
+            delete (CRadioButton*) current_control;
             break;
         case CHECK_BOX:
-            delete (CCheckBox *) current_control;
+            delete (CCheckBox*) current_control;
             break;
         case STATIC_TEXT:
-            delete (CStaticText *) current_control;
+            delete (CStaticText*) current_control;
             break;
         case EDIT_TEXT:
-            delete (CEditText *) current_control;
+            delete (CEditText*) current_control;
             break;
         case PULLDOWN_MENU:
-            delete (CPullDown *) current_control;
+            delete (CPullDown*) current_control;
             break;
         case POPUP_MENU:
             break;
         case H_SLIDER:
-            delete (CHSlider *) current_control;
+            delete (CHSlider*) current_control;
             break;
         case V_SLIDER:
-            delete (CVSlider *) current_control;
+            delete (CVSlider*) current_control;
             break;
         }
         current_control = next_control;
@@ -158,7 +158,7 @@ void ControlSet::HiliteControlDrawArea(std::uint32_t hilite, std::uint32_t lolit
 //---------------------------------------------------------------
 
 void ControlSet::DrawControlSet() {
-    Control *current_control;
+    Control* current_control;
     MFRect ww_rect;
 
     // Backup current work window rect.
@@ -184,11 +184,11 @@ void ControlSet::DrawControlSet() {
 
 //---------------------------------------------------------------
 
-std::uint8_t ControlSet::HandleControlSet(MFPoint *current_point) {
+std::uint8_t ControlSet::HandleControlSet(MFPoint* current_point) {
     std::uint8_t in_text = 0,
                  result = 0,
                  update = 0;
-    Control *current_control;
+    Control* current_control;
     MFPoint local_point;
 
     if (PointInControlSet(current_point)) {
@@ -199,7 +199,7 @@ std::uint8_t ControlSet::HandleControlSet(MFPoint *current_point) {
             if (!(current_control->GetFlags() & CONTROL_INACTIVE) && current_control->PointInControl(&local_point)) {
                 if (!(current_control->GetFlags() & CONTROL_HILITED)) {
                     current_control->HiliteControl(&local_point);
-                    SetStateFlags((std::uint8_t)(GetStateFlags() | CS_CLEANUP));
+                    SetStateFlags((std::uint8_t) (GetStateFlags() | CS_CLEANUP));
                     update = 1;
                     result = 1;
                     break;
@@ -209,7 +209,7 @@ std::uint8_t ControlSet::HandleControlSet(MFPoint *current_point) {
             } else {
                 if (current_control->GetFlags() & CONTROL_HILITED) {
                     current_control->UnHiliteControl();
-                    SetStateFlags((std::uint8_t)(GetStateFlags() | CS_CLEANUP));
+                    SetStateFlags((std::uint8_t) (GetStateFlags() | CS_CLEANUP));
                     update = 1;
                 }
             }
@@ -235,7 +235,7 @@ std::uint8_t ControlSet::HandleControlSet(MFPoint *current_point) {
         //		ChangeMouseSprite(INTERFACE_POINTER(1));
         //		LbMouseSetPointerHotspot(0,0);
 
-        SetStateFlags((std::uint8_t)(GetStateFlags() & ~(CS_CLEANUP)));
+        SetStateFlags((std::uint8_t) (GetStateFlags() & ~(CS_CLEANUP)));
     }
 
     if (update) {
@@ -251,9 +251,9 @@ std::uint8_t ControlSet::HandleControlSet(MFPoint *current_point) {
 
 //---------------------------------------------------------------
 
-std::uint16_t ControlSet::HandleControlSetClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t ControlSet::HandleControlSetClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint16_t control_id;
-    Control *current_control;
+    Control* current_control;
 
     if (PointInControlSet(clicked_point)) {
         switch (flags) {
@@ -281,7 +281,7 @@ std::uint16_t ControlSet::HandleControlSetClick(std::uint8_t flags, MFPoint *cli
 //---------------------------------------------------------------
 
 std::uint16_t ControlSet::HandleControlSetKey(std::uint8_t the_key) {
-    Control *current_control;
+    Control* current_control;
 
     current_control = ControlList;
     while (current_control) {
@@ -304,9 +304,9 @@ std::uint16_t ControlSet::HandleControlSetKey(std::uint8_t the_key) {
 
 //---------------------------------------------------------------
 
-Control *ControlSet::GetControlPtr(std::uint16_t id) {
+Control* ControlSet::GetControlPtr(std::uint16_t id) {
     std::uint16_t c0;
-    Control *current_control;
+    Control* current_control;
 
     current_control = ControlList;
     for (c0 = 1; c0 < id; c0++, current_control = current_control->GetNextControl());
@@ -317,23 +317,23 @@ Control *ControlSet::GetControlPtr(std::uint16_t id) {
 
 void ControlSet::SetControlState(std::uint16_t id, std::uint8_t state) {
     std::uint16_t c0;
-    Control *current_control;
+    Control* current_control;
 
     current_control = GetControlList();
     for (c0 = 1; c0 < id; c0++, current_control = current_control->GetNextControl());
 
     switch (state) {
     case CTRL_SELECTED:
-        current_control->SetFlags((std::uint8_t)(current_control->GetFlags() | CONTROL_SELECTED));
+        current_control->SetFlags((std::uint8_t) (current_control->GetFlags() | CONTROL_SELECTED));
         break;
     case CTRL_DESELECTED:
-        current_control->SetFlags((std::uint8_t)(current_control->GetFlags() & ~(CONTROL_SELECTED)));
+        current_control->SetFlags((std::uint8_t) (current_control->GetFlags() & ~(CONTROL_SELECTED)));
         break;
     case CTRL_ACTIVE:
-        current_control->SetFlags((std::uint8_t)(current_control->GetFlags() & ~(CONTROL_INACTIVE)));
+        current_control->SetFlags((std::uint8_t) (current_control->GetFlags() & ~(CONTROL_INACTIVE)));
         break;
     case CTRL_INACTIVE:
-        current_control->SetFlags((std::uint8_t)(current_control->GetFlags() | CONTROL_INACTIVE));
+        current_control->SetFlags((std::uint8_t) (current_control->GetFlags() | CONTROL_INACTIVE));
         break;
     }
 }
@@ -342,7 +342,7 @@ void ControlSet::SetControlState(std::uint16_t id, std::uint8_t state) {
 
 std::uint8_t ControlSet::GetControlState(std::uint16_t id) {
     std::uint16_t c0;
-    Control *current_control;
+    Control* current_control;
 
     current_control = GetControlList();
     for (c0 = 1; c0 < id; c0++, current_control = current_control->GetNextControl());
@@ -357,57 +357,57 @@ std::uint8_t ControlSet::GetControlState(std::uint16_t id) {
 
 void ControlSet::ToggleControlSelectedState(std::uint16_t id) {
     std::uint16_t c0;
-    Control *current_control;
+    Control* current_control;
 
     current_control = GetControlList();
     for (c0 = 1; c0 < id; c0++, current_control = current_control->GetNextControl());
 
-    current_control->SetFlags((std::uint8_t)(current_control->GetFlags() ^ CONTROL_SELECTED));
+    current_control->SetFlags((std::uint8_t) (current_control->GetFlags() ^ CONTROL_SELECTED));
 }
 
 //---------------------------------------------------------------
 
 void ControlSet::ToggleControlActiveState(std::uint16_t id) {
     std::uint16_t c0;
-    Control *current_control;
+    Control* current_control;
 
     current_control = GetControlList();
     for (c0 = 1; c0 < id; c0++, current_control = current_control->GetNextControl());
 
-    current_control->SetFlags((std::uint8_t)(current_control->GetFlags() ^ CONTROL_INACTIVE));
+    current_control->SetFlags((std::uint8_t) (current_control->GetFlags() ^ CONTROL_INACTIVE));
 }
 
 //---------------------------------------------------------------
 
 void ControlSet::SetMenuItemState(std::uint16_t id, std::uint16_t item, std::uint8_t state) {
     std::uint16_t c0;
-    Control *current_control;
-    CPullDown *the_menu;
+    Control* current_control;
+    CPullDown* the_menu;
 
     current_control = GetControlList();
     for (c0 = 1; c0 < id; c0++, current_control = current_control->GetNextControl());
 
-    the_menu = (CPullDown *) current_control;
+    the_menu = (CPullDown*) current_control;
 
     switch (state) {
     case CTRL_ACTIVE:
-        the_menu->SetItemFlags(item, (std::uint8_t)(the_menu->GetItemFlags(item) & ~(MENU_INACTIVE)));
+        the_menu->SetItemFlags(item, (std::uint8_t) (the_menu->GetItemFlags(item) & ~(MENU_INACTIVE)));
         break;
     case CTRL_INACTIVE:
-        the_menu->SetItemFlags(item, (std::uint8_t)(the_menu->GetItemFlags(item) | MENU_INACTIVE));
+        the_menu->SetItemFlags(item, (std::uint8_t) (the_menu->GetItemFlags(item) | MENU_INACTIVE));
         break;
     }
 }
 
 //---------------------------------------------------------------
 
-void ControlSet::SetPopUpItemState(CPopUp *the_popup, std::uint16_t item, std::uint8_t state) {
+void ControlSet::SetPopUpItemState(CPopUp* the_popup, std::uint16_t item, std::uint8_t state) {
     switch (state) {
     case CTRL_ACTIVE:
-        the_popup->SetItemFlags(item, (std::uint8_t)(the_popup->GetItemFlags(item) & ~(MENU_INACTIVE)));
+        the_popup->SetItemFlags(item, (std::uint8_t) (the_popup->GetItemFlags(item) & ~(MENU_INACTIVE)));
         break;
     case CTRL_INACTIVE:
-        the_popup->SetItemFlags(item, (std::uint8_t)(the_popup->GetItemFlags(item) | MENU_INACTIVE));
+        the_popup->SetItemFlags(item, (std::uint8_t) (the_popup->GetItemFlags(item) | MENU_INACTIVE));
         break;
     }
 }

@@ -102,7 +102,7 @@ typedef Vehicle *VehiclePtr;
 
 // state
 
-void VEH_driving(Thing *);
+void VEH_driving(Entity *);
 extern StateFunction VEH_statefunctions[];
 
 void init_vehicles();
@@ -152,11 +152,11 @@ std::int32_t get_vehicle_body_offset(std::int32_t type);
 // THIS FUNCTION WORKS FOR ALL BIKES AS WELL AS CARS!
 //
 
-std::int32_t VEH_find_runover_things(Thing *p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle);
+std::int32_t VEH_find_runover_things(Entity *p_vehicle, std::uint16_t thing_index[], std::int32_t max_number, std::int32_t dangle);
 
 // hit a person with a car
 
-extern std::int32_t GetRunoverHP(Thing *p_car, Thing *p_person, std::int32_t min_hp);
+extern std::int32_t GetRunoverHP(Entity *p_car, Entity *p_person, std::int32_t min_hp);
 
 //
 // This collide function will be useful elsewhere.
@@ -169,7 +169,7 @@ typedef struct
 {
     std::uint16_t type;
     std::uint16_t ob_index; // If this collision came from an OB this is its OB_index and position.
-    Thing *veh;             // if this collision came from a vehicle or a Balrog, this is a pointer to it
+    Entity *veh;             // if this collision came from a vehicle or a Balrog, this is a pointer to it
     std::uint16_t mid_x;
     std::uint16_t mid_y;
     std::uint16_t mid_z;
@@ -204,7 +204,7 @@ void VEH_collide_find_things(
 //
 
 void VEH_find_door(
-    Thing *p_vehicle,
+    Entity *p_vehicle,
     std::int32_t i_am_a_passenger,
     std::int32_t *x,
     std::int32_t *z);
@@ -213,7 +213,7 @@ void VEH_find_door(
 // Returns nullptr if there isn't a driver...
 //
 
-Thing *get_vehicle_driver(Thing *p_vehicle);
+Entity *get_vehicle_driver(Entity *p_vehicle);
 
 //
 // initialize crumple zones - calc_prim_info() must have been called
@@ -231,13 +231,13 @@ std::uint8_t *VEH_get_assignments(std::uint32_t prim);
 // reinit after teleport
 //
 
-void reinit_vehicle(Thing *p_thing);
+void reinit_vehicle(Entity *p_thing);
 
 //
 // Getting the position of each of the vehicle wheels.
 //
 
-void vehicle_wheel_pos_init(Thing *p_vehicle);
+void vehicle_wheel_pos_init(Entity *p_vehicle);
 void vehicle_wheel_pos_get(
     std::int32_t which,
     std::int32_t *wx,

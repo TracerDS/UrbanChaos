@@ -19,7 +19,7 @@ void QLS_init() {
 }
 
 void QLS_available() {
-    FILE *handle = MF_Fopen(QLS_FNAME, "rb");
+    FILE* handle = MF_Fopen(QLS_FNAME, "rb");
 
     if (handle) {
         MF_Fclose(handle);
@@ -31,7 +31,7 @@ void QLS_available() {
 }
 
 void QLS_save() {
-    FILE *handle = MF_Fopen(QLS_FNAME);
+    FILE* handle = MF_Fopen(QLS_FNAME);
 
     if (!handle) {
         return;

@@ -27,7 +27,7 @@
 std::uint8_t re_center_flags[400];
 std::uint8_t unused_flags[400];
 
-void load_recenter_flags(char *filename) {
+void load_recenter_flags(char* filename) {
     std::int32_t c0 = 0;
     std::int32_t size;
     char name[100];
@@ -54,7 +54,7 @@ void load_recenter_flags(char *filename) {
     }
 }
 
-void save_recenter_flags(char *filename) {
+void save_recenter_flags(char* filename) {
     std::int32_t c0 = 0;
     std::int32_t size;
     char name[100];
@@ -80,33 +80,33 @@ void save_recenter_flags(char *filename) {
 
 #include "KFDef.c"
 
-KeyFrameEditor *the_editor;
+KeyFrameEditor* the_editor;
 void draw_key_frames(void);
 void draw_anim_frames(void);
 void draw_all_anims_box(void);
 // void	test_draw(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat);
 void set_key_framer_camera();
 void set_key_framer_camera_plan();
-void build_tween_matrix(struct Matrix33 *mat, struct CMatrix33 *cmat1, struct CMatrix33 *cmat2, std::int32_t tween);
+void build_tween_matrix(struct Matrix33* mat, struct CMatrix33* cmat1, struct CMatrix33* cmat2, std::int32_t tween);
 
 struct KeyFrameChunk edit_chunk1, edit_chunk2;
 
 struct KeyFrameElement *elements_bank1 = 0, *elements_bank2 = 0;
 
 // extern std::int32_t					test_chunk->KeyFrameCount;
-extern struct KeyFrameChunk *test_chunk;
-extern struct KeyFrameElement *the_elements;
+extern struct KeyFrameChunk* test_chunk;
+extern struct KeyFrameElement* the_elements;
 // extern void	load_multi_vue(struct	KeyFrameChunk *the_chunk,float scale);
-extern void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
-extern void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2);
-extern void matrix_transform_small(struct Matrix31 *result, struct Matrix33 *trans, struct SMatrix31 *mat2);
+extern void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
+extern void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2);
+extern void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2);
 
 // Used by fudgy centering bit.
 extern std::int32_t x_centre,
     y_centre,
     z_centre;
 
-void drawkeyframebox(std::uint16_t multi_object, EdRect *bounds_rect, struct KeyFrame *the_frame, struct Matrix33 *r_matrix, std::int32_t person_id);
+void drawkeyframebox(std::uint16_t multi_object, EdRect* bounds_rect, struct KeyFrame* the_frame, struct Matrix33* r_matrix, std::int32_t person_id);
 
 static std::uint16_t local_object_flags = 0;
 
@@ -264,26 +264,26 @@ KeyFrameEditor::~KeyFrameEditor() {
 
 class KeyFrameList : public EditorModule {
    private:
-    KeyFrameEditor *ParentEdit;
+    KeyFrameEditor* ParentEdit;
     EdRect KeyFrameRect;
     std::int32_t KeyFrameSize;
 
    protected:
    public:
-    KeyFrameList(KeyFrameEditor *parent, std::int32_t x, std::int32_t y, Anim *anim, std::int32_t max);
+    KeyFrameList(KeyFrameEditor* parent, std::int32_t x, std::int32_t y, Anim* anim, std::int32_t max);
     void DrawContent(void);
     void DrawKeyFrames(void);
-    void HandleContentClick(std::uint8_t flags, MFPoint *clicked_point);
+    void HandleContentClick(std::uint8_t flags, MFPoint* clicked_point);
     void HandleModule(void);
     void HandleKeyControl(std::uint32_t control_id);
-    Anim *TheAnim;
+    Anim* TheAnim;
     std::uint32_t StartPos;
     ControlSet KeyControls;
 };
 
-KeyFrameList *the_key_list[5];
+KeyFrameList* the_key_list[5];
 
-KeyFrameList::KeyFrameList(KeyFrameEditor *parent, std::int32_t x, std::int32_t y, Anim *anim, std::int32_t max) {
+KeyFrameList::KeyFrameList(KeyFrameEditor* parent, std::int32_t x, std::int32_t y, Anim* anim, std::int32_t max) {
     extern void add_module(EditorModule * the_module);
     ParentEdit = parent;
     add_module(this);
@@ -298,8 +298,8 @@ KeyFrameList::KeyFrameList(KeyFrameEditor *parent, std::int32_t x, std::int32_t 
 
     KeyControls.InitControlSet(key_def);
 
-    ((CHSlider *) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, max);
-    ((CHSlider *) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetCurrentValue(0);
+    ((CHSlider*) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, max);
+    ((CHSlider*) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetCurrentValue(0);
     //	((CHSlider*)KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetUpdateFunction();
 
     KeyFrameRect.SetRect(0, 20, ContentWidth(), ContentHeight() - 20);
@@ -351,7 +351,7 @@ void KeyFrameList::DrawKeyFrames(void) {
         hilite_rect;
     MFPoint mouse_point;
     struct Matrix33 r_matrix;
-    struct KeyFrame *current_frame;
+    struct KeyFrame* current_frame;
     if (TheAnim)
         current_frame = TheAnim->GetFrameList();
 
@@ -364,7 +364,7 @@ void KeyFrameList::DrawKeyFrames(void) {
         if ((ContentHeight() - 20) >= KeyFrameSize * 2)
             max_frames *= (ContentHeight() - 20) / KeyFrameSize;
 
-        first_frame = ((CHSlider *) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->GetCurrentValue();
+        first_frame = ((CHSlider*) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->GetCurrentValue();
         if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
             max_frames = (test_chunk->KeyFrameCount - first_frame) + 1;
 
@@ -438,7 +438,7 @@ void KeyFrameList::DrawKeyFrames(void) {
     }
 }
 
-void KeyFrameList::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
+void KeyFrameList::HandleContentClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint32_t cleanup,
         update;
     std::int32_t c0,
@@ -446,13 +446,13 @@ void KeyFrameList::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point
         max_frames,
         x_diff,
         y_diff;
-    Control *current_control;
+    Control* current_control;
     EdRect frame_rect,
         last_rect,
         temp_rect;
     MFPoint local_point;
-    struct KeyFrame *current_frame;
-    struct KeyFrame *selected_frame;
+    struct KeyFrame* current_frame;
+    struct KeyFrame* selected_frame;
 
     KeyFrameRect.SetRect(ContentLeft(), ContentTop() + 20, ContentWidth(), ContentHeight() - 20);
 
@@ -474,7 +474,7 @@ void KeyFrameList::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point
             max_frames = ContentWidth() / KeyFrameSize;
             if (ContentHeight() >= KeyFrameSize * 2)
                 max_frames *= ContentHeight() / KeyFrameSize;
-            first_frame = ((CHSlider *) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->GetCurrentValue();
+            first_frame = ((CHSlider*) KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->GetCurrentValue();
 
             if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
                 max_frames = (test_chunk->KeyFrameCount - first_frame) + 1;
@@ -633,31 +633,31 @@ void KeyFrameEditor::SetupModule(void) {
     SelectedFrame = nullptr;
 
     KeyFrameRect.SetRect(2, CONTROLS_HEIGHT - (20 + KEY_FRAME_IMAGE_SIZE + 4), (6 * KEY_FRAME_IMAGE_SIZE) + 2, KEY_FRAME_IMAGE_SIZE + 2);
-    ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount);
-    ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetUpdateFunction(draw_key_frames);
+    ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount);
+    ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetUpdateFunction(draw_key_frames);
 
     AnimControls.InitControlSet(content_def);
     AnimFrameRect.SetRect(0, CONTROLS_HEIGHT - (16 + KEY_FRAME_IMAGE_SIZE + 4), (9 * KEY_FRAME_IMAGE_SIZE) + 2, KEY_FRAME_IMAGE_SIZE + 2);
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetUpdateFunction(draw_anim_frames);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetUpdateFunction(draw_anim_frames);
     //	((CHSlider*)AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetCurrentValue(0);
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->SetValueRange(0, 60);
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->SetCurrentValue(20);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->SetValueRange(0, 60);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->SetCurrentValue(20);
 
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetValueRange(0, 255);
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(128);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetValueRange(0, 255);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(128);
 
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_DISTANCE_SLIDER))->SetValueRange(0, 255);
-    ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_DISTANCE_SLIDER))->SetCurrentValue(100);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_DISTANCE_SLIDER))->SetValueRange(0, 255);
+    ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_DISTANCE_SLIDER))->SetCurrentValue(100);
 
-    ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetUpdateFunction(draw_all_anims_box);
-    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
-    ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString("No Anim");
+    ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetUpdateFunction(draw_all_anims_box);
+    ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+    ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString("No Anim");
     AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
     AnimControls.SetControlState(CTRL_DRAW_BOTH, CTRL_DESELECTED);
     AnimControls.SetControlState(CTRL_MOVE_SEPARATELY, CTRL_DESELECTED);
 
-    ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
-    ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString("No Name");
+    ((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+    ((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString("No Name");
 
     AllAnimsRect.SetRect(2, 20, 100, 200);
     CharactersRect.SetRect(2, 20, 100, 200);
@@ -730,7 +730,7 @@ void KeyFrameEditor::DrawContent(void) {
 }
 
 //---------------------------------------------------------------
-extern char *body_part_names[];
+extern char* body_part_names[];
 
 void KeyFrameEditor::DrawPeopleTypes(void) {
     std::int32_t x, y, c0;
@@ -804,7 +804,7 @@ static ControlDef popup_def = {POPUP_MENU, 0, ""};
 //
 // Handle clicks in the RHS of the keyframe editor (known as the content area)
 //
-void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_point) {
+void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint32_t cleanup,
         control_id,
         update;
@@ -813,9 +813,9 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
         max_frames,
         x_diff,
         y_diff;
-    Anim *temp_anim;
-    Control *current_control;
-    CPopUp *the_control = 0;
+    Anim* temp_anim;
+    Control* current_control;
+    CPopUp* the_control = 0;
     EdRect frame_rect,
         last_rect,
         temp_rect;
@@ -837,7 +837,7 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
             //
             selected_frame = nullptr;
             max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-            first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
+            first_frame = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
             if ((first_frame + max_frames) > CurrentAnim[Bank]->GetFrameCount())
                 max_frames = (CurrentAnim[Bank]->GetFrameCount() - first_frame);
             current_frame = CurrentAnim[Bank]->GetFrameList();
@@ -871,7 +871,7 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
                         // drop =2 is into scratch pad
                         // drop =0 is bin
                         CurrentAnim[Bank]->RemoveKeyFrame(selected_frame);
-                        ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
+                        ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
                         AnimTween[Bank] = 0;
                         CurrentFrame[Bank] = 0;
                     }
@@ -890,21 +890,21 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
                         ShowWorkScreen(0);
                 }
                 */
-                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->GetFlags() & ~CONTROL_INACTIVE));
+                ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags((std::uint8_t) (((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->GetFlags() & ~CONTROL_INACTIVE));
                 if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP)
                     AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
                 else
                     AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
 
-                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
-                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
+                ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+                ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
 
-                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1); // added by MD to try and fix slider bug
-                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
+                ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1); // added by MD to try and fix slider bug
+                ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
             } else {
-                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags(CONTROL_INACTIVE);
-                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
-                ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString("No Anim");
+                ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_LOOP_SELECT))->SetFlags(CONTROL_INACTIVE);
+                ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+                ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString("No Anim");
             }
             RequestUpdate();
         } else {
@@ -932,7 +932,7 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
             //
             selected_frame = nullptr;
             max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-            first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
+            first_frame = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
             if ((first_frame + max_frames) > CurrentAnim[Bank]->GetFrameCount())
                 max_frames = (CurrentAnim[Bank]->GetFrameCount() - first_frame);
             current_frame = CurrentAnim[Bank]->GetFrameList();
@@ -988,7 +988,7 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
             //
             control_id = the_control->TrackControl(&local_point);
             switch (control_id >> 8) {
-                KeyFrame *frame;
+                KeyFrame* frame;
             case 1: // cut
                 buffer_file = FileCreate("Editor\\EdSave\\scrap.dat", true);
                 if (buffer_file) {
@@ -1038,7 +1038,7 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
                 break;
             case 4: // toggle_unused
             {
-                Anim *current_anim;
+                Anim* current_anim;
                 std::int32_t index = 0;
 
                 if (AnimList[Bank]) {
@@ -1061,7 +1061,7 @@ void KeyFrameEditor::HandleContentClick(std::uint8_t flags, MFPoint *clicked_poi
 }
 
 //---------------------------------------------------------------
-std::int32_t KeyFrameEditor::DragAndDropFrame(KeyFrame *selected_frame, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint *clicked_point, std::uint32_t delete_flag) {
+std::int32_t KeyFrameEditor::DragAndDropFrame(KeyFrame* selected_frame, std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, MFPoint* clicked_point, std::uint32_t delete_flag) {
     MFPoint local_point;
     std::uint32_t cleanup;
     std::int32_t update;
@@ -1153,8 +1153,8 @@ std::int32_t KeyFrameEditor::DragAndDropFrame(KeyFrame *selected_frame, std::int
             //							CurrentAnim[Bank]->AddKeyFrame(&TestChunk->KeyFrames[selected_frame]);
             CurrentAnim[Bank]->AddKeyFrame(selected_frame);
             //			CurrentAnim[Bank]->RemoveKeyFrame(selected_frame);
-            ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
-            ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
+            ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
+            ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
             AnimTween[Bank] = 0;
             CurrentFrame[Bank] = 0;
             RequestUpdate();
@@ -1246,12 +1246,12 @@ void KeyFrameEditor::SetPersonBits(void) {
         PersonBits[c0] = index;
     }
 }
-void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_point) {
+void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::int32_t c0,
         first_frame,
         max_frames,
         selected_frame;
-    Control *current_control;
+    Control* current_control;
     EdRect frame_rect;
     MFPoint local_point;
     std::int32_t edit_name = 0;
@@ -1274,8 +1274,8 @@ void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_poi
                 if (frame_rect.PointInRect(&local_point)) {
                     PersonID = c0;
                     SetPersonBits();
-                    ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
-                    ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
+                    ((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText*) AnimControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+                    ((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
                     edit_name = 1;
 
                     break;
@@ -1308,7 +1308,7 @@ void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_poi
             // Find out which frame has been selected.
             selected_frame = -1;
             max_frames = KeyFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-            first_frame = ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->GetCurrentValue();
+            first_frame = ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->GetCurrentValue();
             //				if((first_frame+max_frames)>KeyFrameCount)
             //					max_frames	=	(KeyFrameCount-first_frame)+1;
             if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
@@ -1379,8 +1379,8 @@ void KeyFrameEditor::HandleControlClick(std::uint8_t flags, MFPoint *clicked_poi
         break;
     }
     if (!edit_name) {
-        ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
-        ((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString("No Name");
+        ((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_INACTIVE);
+        ((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString("No Name");
     }
 }
 
@@ -1504,7 +1504,7 @@ std::int32_t KeyFrameEditor::HandleModuleKeys(void) {
     }
 
     if (FightingColPtr) {
-        struct FightCol *edit_fcol;
+        struct FightCol* edit_fcol;
 
         edit_fcol = FightingColPtr;
         if (ShiftFlag) {
@@ -1686,14 +1686,14 @@ void KeyFrameEditor::HandleModule(void) {
             }
             if (LastKey == KB_C) {
                 if (SelectedFrame) {
-                    struct FightCol *fcol;
+                    struct FightCol* fcol;
                     if (ShiftFlag) {
                         fcol = SelectedFrame->Fight;
                         SelectedFrame->Fight = fcol->Next;
-                        MemFree((void *) fcol);
+                        MemFree((void*) fcol);
                     } else {
                         // SelectedFrame->Fixed=GetPartID(SelectedFrame->Fixed);
-                        fcol = (struct FightCol *) MemAlloc(sizeof(struct FightCol));
+                        fcol = (struct FightCol*) MemAlloc(sizeof(struct FightCol));
                         fcol->Next = SelectedFrame->Fight;
                         fcol->Dist1 = 100;
                         fcol->Dist2 = 200;
@@ -1710,11 +1710,11 @@ void KeyFrameEditor::HandleModule(void) {
             }
 
             if (LastKey == KB_A) {
-                KeyFrame *selected_frame;
+                KeyFrame* selected_frame;
                 selected_frame = &test_chunk->KeyFrames[SelectedFrame->FrameID - 1];
                 CurrentAnim[Bank]->SetCurrentFrame(SelectedFrame);
                 CurrentAnim[Bank]->AddKeyFrame(selected_frame);
-                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
+                ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
                 AnimTween[Bank] = 0;
                 CurrentFrame[Bank] = 0;
                 update = 1;
@@ -1750,16 +1750,16 @@ void KeyFrameEditor::HandleModule(void) {
 
     update += HandleModuleKeys();
 
-    tweak_speed = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->GetCurrentValue() + 128;
+    tweak_speed = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->GetCurrentValue() + 128;
 
-    std::int32_t t = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_DISTANCE_SLIDER))->GetCurrentValue();
+    std::int32_t t = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_DISTANCE_SLIDER))->GetCurrentValue();
     if (t != AnimOffsetX[1]) {
         AnimOffsetX[1] = t;
         RequestUpdate();
     }
     if (CurrentAnim[Bank])
         CurrentAnim[Bank]->SetTweakSpeed(tweak_speed - 128);
-    fps = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->GetCurrentValue();
+    fps = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->GetCurrentValue();
     if (VideoMode != VIDEO_MODE_PAUSE && VideoMode != VIDEO_MODE_PAUSE_BACK)
         if (fps) {
             current_time = GetTickCount();
@@ -1819,7 +1819,7 @@ void KeyFrameEditor::AddKeyFrameChunk(void) {
 }
 
 //---------------------------------------------------------------
-extern void set_default_people_types(struct KeyFrameChunk *the_chunk);
+extern void set_default_people_types(struct KeyFrameChunk* the_chunk);
 
 void KeyFrameEditor::SetAnimBank(std::int32_t bank) {
     switch (bank) {
@@ -1860,8 +1860,8 @@ void clear_done(void) {
     next_done = 0;
 }
 
-void re_center_anim(struct KeyFrame *current_frame, std::int32_t do_y, std::int32_t do_all) {
-    struct KeyFrameElement *anim_info;
+void re_center_anim(struct KeyFrame* current_frame, std::int32_t do_y, std::int32_t do_all) {
+    struct KeyFrameElement* anim_info;
     std::int32_t c0, dx, dy, dz;
 
     //	ASSERT(0);
@@ -1905,7 +1905,7 @@ void re_center_anim(struct KeyFrame *current_frame, std::int32_t do_y, std::int3
 
 void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
     std::int32_t c0;
-    FileRequester *fr;
+    FileRequester* fr;
     std::int32_t ele_count;
     std::int32_t max_range;
 
@@ -1937,7 +1937,7 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
             SetAnimBank(1);
         }
 
-        ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
+        ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
         /*	if(AnimList[Bank])
                         ((CHSlider*)the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0,the_key_list[0]->TheAnim->GetFrameCount()+20);
         */
@@ -1945,7 +1945,7 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
         max_range = AnimCount[Bank] - 22;
         if (max_range < 0)
             max_range = 0;
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
         //				((CVSlider*)AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
 
         break;
@@ -1963,8 +1963,8 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
         break;
     case CTRL_RE_CENTER_ALL: {
         std::int32_t dx, dy, dz, c0;
-        struct KeyFrame *current_frame;
-        Anim *current_anim;
+        struct KeyFrame* current_frame;
+        Anim* current_anim;
         std::int32_t index = 0;
 
         if (AnimList[Bank]) {
@@ -1984,8 +1984,8 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
     break;
     case CTRL_RE_CENTER_NONE: {
         std::int32_t dx, dy, dz, c0;
-        struct KeyFrame *current_frame;
-        Anim *current_anim;
+        struct KeyFrame* current_frame;
+        Anim* current_anim;
         std::int32_t index = 0;
 
         if (AnimList[Bank]) {
@@ -1999,8 +1999,8 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
     } break;
     case CTRL_RE_CENTER_START: {
         std::int32_t dx, dy, dz, c0;
-        struct KeyFrame *current_frame;
-        Anim *current_anim;
+        struct KeyFrame* current_frame;
+        Anim* current_anim;
         std::int32_t index = 0;
 
         if (AnimList[Bank]) {
@@ -2020,8 +2020,8 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
         //			break;
     case CTRL_RE_CENTER_XZ_START: {
         std::int32_t dx, dy, dz, c0;
-        struct KeyFrame *current_frame;
-        Anim *current_anim;
+        struct KeyFrame* current_frame;
+        Anim* current_anim;
         std::int32_t index = 0;
 
         if (AnimList[Bank]) {
@@ -2039,8 +2039,8 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
     } break;
     case CTRL_RE_CENTER_XZ: {
         std::int32_t dx, dy, dz, c0;
-        struct KeyFrame *current_frame;
-        Anim *current_anim;
+        struct KeyFrame* current_frame;
+        Anim* current_anim;
         std::int32_t index = 0;
 
         if (AnimList[Bank]) {
@@ -2115,20 +2115,20 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
             delete fr;
             RequestUpdate();
 
-            ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
+            ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
             LoadAllAnims(test_chunk);
             LogText(" keyframe edit load \n");
             LoadChunkTextureInfo(test_chunk);
             if (the_key_list[0]) {
                 the_key_list[0]->TheAnim = AnimList[Bank];
                 if (AnimList[Bank])
-                    ((CHSlider *) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
+                    ((CHSlider*) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
             }
             SetPersonBits();
             AnimTween[Bank] = 0;
             CurrentFrame[Bank] = 0;
             if (CurrentAnim[Bank])
-                ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
+                ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->SetCurrentValue(CurrentAnim[Bank]->GetTweakSpeed());
         }
 
         //
@@ -2136,8 +2136,8 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
         //
         {
             std::int32_t dx, dy, dz, c0;
-            struct KeyFrame *current_frame;
-            Anim *current_anim;
+            struct KeyFrame* current_frame;
+            Anim* current_anim;
             std::int32_t index = 0;
 
             if (AnimList[Bank]) {
@@ -2206,7 +2206,7 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
             {
                 std::int32_t c1,
                     sp, ep;
-                struct PrimObject *p_obj;
+                struct PrimObject* p_obj;
 
                 for (c0 = prim_multi_objects[test_chunk->MultiObject].StartObject; c0 < prim_multi_objects[test_chunk->MultiObject].EndObject; c0++) {
                     p_obj = &prim_objects[c0];
@@ -2223,14 +2223,14 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
 
             //				LoadMultiVUE(test_chunk);
             load_multi_vue(test_chunk);
-            ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
+            ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->SetValueRange(0, test_chunk->KeyFrameCount - 2);
             LoadAllAnims(test_chunk);
             LogText(" keyframe edit load \n");
             LoadChunkTextureInfo(test_chunk);
             if (the_key_list[0]) {
                 the_key_list[0]->TheAnim = AnimList[Bank];
                 if (AnimList[Bank])
-                    ((CHSlider *) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
+                    ((CHSlider*) the_key_list[0]->KeyControls.GetControlPtr(CTRL_KEY_SLIDER))->SetValueRange(0, the_key_list[0]->TheAnim->GetFrameCount() + 20);
             }
         }
         SetPersonBits();
@@ -2248,7 +2248,7 @@ void KeyFrameEditor::HandleControl(std::uint32_t control_id) {
         }
         break;
     case CTRL_CHAR_NAME_EDIT:
-        strcpy(test_chunk->PeopleNames[PersonID], (((CEditText *) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetEditString()));
+        strcpy(test_chunk->PeopleNames[PersonID], (((CEditText*) WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->GetEditString()));
         //			((CEditText*)WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetFlags(CONTROL_ACTIVE);
         //			((CEditText*)WindowControls.GetControlPtr(CTRL_CHAR_NAME_EDIT))->SetEditString(test_chunk->PeopleNames[PersonID]);
         break;
@@ -2272,14 +2272,14 @@ void KeyFrameEditor::HandleAnimControl(std::uint32_t control_id) {
         break;
     case CTRL_ANIM_NEW_ANIM_BUTTON:
         AppendAnim();
-        ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t)(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
-        ((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
+        ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetFlags((std::uint8_t) (((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetFlags() & ~CONTROL_INACTIVE));
+        ((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->SetEditString(CurrentAnim[Bank]->GetAnimName());
         break;
     case CTRL_ANIM_ALL_ANIMS_SLIDER:
         break;
     case CTRL_ANIM_NAME_EDIT:
         if (CurrentAnim[Bank])
-            CurrentAnim[Bank]->SetAnimName(((CEditText *) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
+            CurrentAnim[Bank]->SetAnimName(((CEditText*) AnimControls.GetControlPtr(CTRL_ANIM_NAME_EDIT))->GetEditString());
         break;
     case CTRL_FIGHT_TWEEN0:
         CurrentAnim[Bank]->SetAllTweens(0);
@@ -2296,7 +2296,7 @@ void KeyFrameEditor::HandleAnimControl(std::uint32_t control_id) {
 
     case CTRL_ANIM_LOOP_SELECT:
         if (CurrentAnim[Bank]) {
-            CurrentAnim[Bank]->SetAnimFlags((std::uint8_t)(CurrentAnim[Bank]->GetAnimFlags() ^ ANIM_LOOP));
+            CurrentAnim[Bank]->SetAnimFlags((std::uint8_t) (CurrentAnim[Bank]->GetAnimFlags() ^ ANIM_LOOP));
             if (CurrentAnim[Bank]->GetAnimFlags() & ANIM_LOOP) {
                 AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
                 CurrentAnim[Bank]->StartLooping();
@@ -2481,8 +2481,8 @@ void KeyFrameEditor::HandleAnimControl(std::uint32_t control_id) {
                 ShowWorkScreen(0);
             }
 
-            fps = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->GetCurrentValue();
-            tweak_speed = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->GetCurrentValue() + 128;
+            fps = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FPS_SLIDER))->GetCurrentValue();
+            tweak_speed = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_TWEAK_SLIDER))->GetCurrentValue() + 128;
             if (fps) {
                 // Time(&the_time);
                 current_time = GetTickCount();
@@ -2551,7 +2551,7 @@ struct LinkSort link_sorts[100];
 std::int32_t link_head;
 std::int16_t next_link_head;
 
-std::int32_t calc_z_for_piece(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next, struct Matrix33 *rot_mat) {
+std::int32_t calc_z_for_piece(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement* anim_info, struct KeyFrameElement* anim_info_next, struct Matrix33* rot_mat) {
     std::int32_t flags;
     struct SVector res, temp; // max points per object?
     struct Matrix31 offset;
@@ -2563,7 +2563,7 @@ std::int32_t calc_z_for_piece(std::uint16_t prim, std::int32_t x, std::int32_t y
     offset.M[1] = (anim_info->OffsetY + (((anim_info_next->OffsetY - anim_info->OffsetY) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
     offset.M[2] = (anim_info->OffsetZ + (((anim_info_next->OffsetZ - anim_info->OffsetZ) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
     //	LogText(" CALCZ  %d %d %d\n",offset.M[0],offset.M[1],offset.M[2]);
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset); // temp=offset*rot matrix
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset); // temp=offset*rot matrix
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -2578,7 +2578,7 @@ std::int32_t calc_z_for_piece(std::uint16_t prim, std::int32_t x, std::int32_t y
 
     // apply local rotation matrix
 
-    flags = rotate_point_gte((struct SVector *) &temp, &res);
+    flags = rotate_point_gte((struct SVector*) &temp, &res);
 
     engine.X = tx;
     engine.Y = ty;
@@ -2631,7 +2631,7 @@ void insert_z_in_sort_list(std::int32_t z, std::int32_t item) {
     //			DumpList();
 }
 
-std::int32_t build_sort_order_tweened(std::uint16_t multi_prim, KeyFrame *CurrentFrame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33 *r_matrix) {
+std::int32_t build_sort_order_tweened(std::uint16_t multi_prim, KeyFrame* CurrentFrame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33* r_matrix) {
     struct KeyFrameElement *the_element,
         *the_next_element;
     std::int32_t pz;
@@ -2657,14 +2657,14 @@ std::int32_t build_sort_order_tweened(std::uint16_t multi_prim, KeyFrame *Curren
     return (az);
 }
 
-void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next, struct Matrix33 *rot_mat) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct KeyFrameElement* anim_info, struct KeyFrameElement* anim_info_next, struct Matrix33* rot_mat) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint32_t flag_and, flag_or;
     struct SVector res[1560], temp; // max points per object?
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
     std::int32_t i, j;
@@ -2686,7 +2686,7 @@ void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32
     offset.M[0] = (anim_info->OffsetX + (((anim_info_next->OffsetX - anim_info->OffsetX) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
     offset.M[1] = (anim_info->OffsetY + (((anim_info_next->OffsetY - anim_info->OffsetY) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
     offset.M[2] = (anim_info->OffsetZ + (((anim_info_next->OffsetZ - anim_info->OffsetZ) * tween) >> 8)) >> TWEEN_OFFSET_SHIFT;
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -2727,13 +2727,13 @@ void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32
     matrix_mult33(&mat_final, rot_mat, &mat2);
 
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
         //		matrix_transform((struct Matrix31*)&temp,&mat2, (struct Matrix31*)&prim_points[c0]);
         //      matrix now does the yz flip
         //		swap(temp.Y,temp.Z)  //MDOPT do this inside the matrix multiply
         //		temp.Y=-temp.Y;
 
-        flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &res[c0 - sp]);
+        flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &res[c0 - sp]);
         //		LogText(" after rot (%d,%d,%d)  \n",res[c0-sp].X,res[c0-sp].Y,res[c0-sp].Z);
     }
 
@@ -2762,35 +2762,35 @@ void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32
                 p_f4->DrawFlags);
 
             setCol4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->Col2);
 
             setXY4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 res[p0].X, res[p0].Y,
                 res[p1].X, res[p1].Y,
                 res[p2].X, res[p2].Y,
                 res[p3].X, res[p3].Y);
 
             setUV4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->UV[0][0], p_f4->UV[0][1],
                 p_f4->UV[1][0], p_f4->UV[1][1],
                 p_f4->UV[2][0], p_f4->UV[2][1],
                 p_f4->UV[3][0], p_f4->UV[3][1],
                 p_f4->TexturePage);
 
-            setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+            setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
             setShade4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 (p_f4->Bright[0]),
                 (p_f4->Bright[1]),
                 (p_f4->Bright[2]),
                 (p_f4->Bright[3]));
-            ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
+            ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
 
-            add_bucket((void *) current_bucket_pool, az);
+            add_bucket((void*) current_bucket_pool, az);
 
             current_bucket_pool += sizeof(struct BucketQuad);
         }
@@ -2816,30 +2816,30 @@ void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32
                     p_f3->DrawFlags);
 
                 setCol3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->Col2);
 
                 setXY3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y);
 
                 setUV3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->UV[0][0], p_f3->UV[0][1],
                     p_f3->UV[1][0], p_f3->UV[1][1],
                     p_f3->UV[2][0], p_f3->UV[2][1],
                     p_f3->TexturePage);
 
                 setShade3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     (p_f3->Bright[0]),
                     (p_f3->Bright[1]),
                     (p_f3->Bright[2]));
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }
@@ -2850,7 +2850,7 @@ void test_draw_z(std::int32_t az, std::uint16_t prim, std::int32_t x, std::int32
 // extern void	create_bucket_3d_line(std::int32_t x1,std::int32_t y1,std::int32_t z1,std::int32_t x2,std::int32_t y2,std::int32_t z2,std::int32_t col);
 extern void create_bucket_3d_line_whole(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t col);
 
-void draw_3d_mat_circle(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, struct Matrix33 *r_matrix, std::uint16_t col) {
+void draw_3d_mat_circle(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t radius, struct Matrix33* r_matrix, std::uint16_t col) {
     std::int32_t angle = 0;
     struct SVector offset, res, prev;
     std::int32_t tx, ty, tz;
@@ -2861,7 +2861,7 @@ void draw_3d_mat_circle(std::int32_t x, std::int32_t y, std::int32_t z, std::int
     offset.X = x + tx;
     offset.Y = y;
     offset.Z = z + tz;
-    matrix_transformZMY((struct Matrix31 *) &prev, r_matrix, (struct Matrix31 *) &offset);
+    matrix_transformZMY((struct Matrix31*) &prev, r_matrix, (struct Matrix31*) &offset);
 
     for (angle = 16; angle <= 2048; angle += 16) {
         tx = (COS(angle & 2047) * radius) >> 16;
@@ -2871,7 +2871,7 @@ void draw_3d_mat_circle(std::int32_t x, std::int32_t y, std::int32_t z, std::int
         offset.Y = y;
         offset.Z = z + tz;
 
-        matrix_transformZMY((struct Matrix31 *) &res, r_matrix, (struct Matrix31 *) &offset);
+        matrix_transformZMY((struct Matrix31*) &res, r_matrix, (struct Matrix31*) &offset);
         create_bucket_3d_line_whole(prev.X, prev.Y, prev.Z, res.X, res.Y, res.Z, col);
 
         prev = res;
@@ -2898,7 +2898,7 @@ void KeyFrameEditor::DrawCombatEditor(void) {
 
     rotate_obj(AnimAngleX[Bank] + AnimGlobalAngleX, AnimAngleY[Bank] + AnimGlobalAngleY, 0, &r_matrix);
 
-    matrix_transformZMY((struct Matrix31 *) &pelvis_after, &r_matrix, (struct Matrix31 *) &pelvis);
+    matrix_transformZMY((struct Matrix31*) &pelvis_after, &r_matrix, (struct Matrix31*) &pelvis);
 
     fcol = CurrentFrame[Bank]->Fight;
     while (fcol) {
@@ -3006,12 +3006,12 @@ void KeyFrameEditor::DrawCombatEditor(void) {
             offset.Y = dy;
             offset.Z = dz;
 
-            matrix_transformZMY((struct Matrix31 *) &res, &r_matrix, (struct Matrix31 *) &offset);
+            matrix_transformZMY((struct Matrix31*) &res, &r_matrix, (struct Matrix31*) &offset);
             offset.X = 0;
             offset.Y = dy;
             offset.Z = 0;
 
-            matrix_transformZMY((struct Matrix31 *) &res2, &r_matrix, (struct Matrix31 *) &offset);
+            matrix_transformZMY((struct Matrix31*) &res2, &r_matrix, (struct Matrix31*) &offset);
             create_bucket_3d_line_whole(res2.X, res2.Y, res2.Z, res.X, res.Y, res.Z, col);
         }
         angle = fcol->Angle << 3;
@@ -3026,12 +3026,12 @@ void KeyFrameEditor::DrawCombatEditor(void) {
             offset.Y = dy;
             offset.Z = dz;
 
-            matrix_transformZMY((struct Matrix31 *) &res, &r_matrix, (struct Matrix31 *) &offset);
+            matrix_transformZMY((struct Matrix31*) &res, &r_matrix, (struct Matrix31*) &offset);
             offset.X = 0;
             offset.Y = dy;
             offset.Z = 0;
 
-            matrix_transformZMY((struct Matrix31 *) &res2, &r_matrix, (struct Matrix31 *) &offset);
+            matrix_transformZMY((struct Matrix31*) &res2, &r_matrix, (struct Matrix31*) &offset);
             create_bucket_3d_line_whole(res2.X, res2.Y, res2.Z, res.X, res.Y, res.Z, col);
         }
 
@@ -3050,9 +3050,9 @@ void KeyFrameEditor::DrawCombatEditor(void) {
     }
 }
 
-void KeyFrameEditor::DoAnimRecurse(std::int32_t part_number, struct Matrix33 *mat, std::int32_t start_object,
-                                   struct Matrix31 *parent_pos, struct Matrix33 *parent_mat,
-                                   KeyFrameElement *parent_element) {
+void KeyFrameEditor::DoAnimRecurse(std::int32_t part_number, struct Matrix33* mat, std::int32_t start_object,
+                                   struct Matrix31* parent_pos, struct Matrix33* parent_mat,
+                                   KeyFrameElement* parent_element) {
     struct KeyFrameElement *the_element,
         *the_next_element;
 
@@ -3253,34 +3253,34 @@ void KeyFrameEditor::DoCurrentAnim(void) {
             p.X = -30;
             p.Y = 0;
             p.Z = 0;
-            matrix_transformZMY((struct Matrix31 *) &p1, &r_matrix, (struct Matrix31 *) &p);
+            matrix_transformZMY((struct Matrix31*) &p1, &r_matrix, (struct Matrix31*) &p);
 
             p.X = 30;
             p.Y = 0;
             p.Z = 0;
-            matrix_transformZMY((struct Matrix31 *) &p2, &r_matrix, (struct Matrix31 *) &p);
+            matrix_transformZMY((struct Matrix31*) &p2, &r_matrix, (struct Matrix31*) &p);
             create_bucket_3d_line_whole(p1.X, p1.Y, p1.Z, p2.X, p2.Y, p2.Z, 0);
 
             p.Y = -30;
             p.X = 0;
             p.Z = 0;
-            matrix_transformZMY((struct Matrix31 *) &p1, &r_matrix, (struct Matrix31 *) &p);
+            matrix_transformZMY((struct Matrix31*) &p1, &r_matrix, (struct Matrix31*) &p);
 
             p.Y = 30;
             p.X = 0;
             p.Z = 0;
-            matrix_transformZMY((struct Matrix31 *) &p2, &r_matrix, (struct Matrix31 *) &p);
+            matrix_transformZMY((struct Matrix31*) &p2, &r_matrix, (struct Matrix31*) &p);
             create_bucket_3d_line_whole(p1.X, p1.Y, p1.Z, p2.X, p2.Y, p2.Z, 0);
 
             p.Z = -30;
             p.Y = 0;
             p.X = 0;
-            matrix_transformZMY((struct Matrix31 *) &p1, &r_matrix, (struct Matrix31 *) &p);
+            matrix_transformZMY((struct Matrix31*) &p1, &r_matrix, (struct Matrix31*) &p);
 
             p.Z = 30;
             p.Y = 0;
             p.X = 0;
-            matrix_transformZMY((struct Matrix31 *) &p2, &r_matrix, (struct Matrix31 *) &p);
+            matrix_transformZMY((struct Matrix31*) &p2, &r_matrix, (struct Matrix31*) &p);
             create_bucket_3d_line_whole(p1.X, p1.Y, p1.Z, p2.X, p2.Y, p2.Z, 0);
 
             engine.X = tx;
@@ -3414,7 +3414,7 @@ void KeyFrameEditor::DoCurrentAnim(void) {
 error:;
 }
 
-extern std::uint16_t is_it_clockwise(struct SVector *global_res, std::int32_t p0, std::int32_t p1, std::int32_t p2);
+extern std::uint16_t is_it_clockwise(struct SVector* global_res, std::int32_t p0, std::int32_t p1, std::int32_t p2);
 /*
 std::uint16_t	is_it_clockwise(struct SVector *global_res,std::int32_t p0,std::int32_t p1,std::int32_t p2)
 {
@@ -3445,7 +3445,7 @@ std::uint16_t	is_it_clockwise(struct SVector *global_res,std::int32_t p0,std::in
 
 // JCL - not needed here #define	PI	(3.14159625)
 
-void MATRIX_calc(float *matrix, float yaw, float pitch, float roll) {
+void MATRIX_calc(float* matrix, float yaw, float pitch, float roll) {
     float cy, cp, cr;
     float sy, sp, sr;
 
@@ -3476,7 +3476,7 @@ void MATRIX_calc(float *matrix, float yaw, float pitch, float roll) {
 #define MATRIX_FA_ANGLE_TOO_SMALL (PI / 36000.0F)
 #include <math.h>
 
-void MATRIX_find_angles(float *matrix, float *yaw, float *pitch, float *roll) {
+void MATRIX_find_angles(float* matrix, float* yaw, float* pitch, float* roll) {
     float x;
     float y;
     float z;
@@ -3535,7 +3535,7 @@ void MATRIX_find_angles(float *matrix, float *yaw, float *pitch, float *roll) {
     }
 }
 
-void convert_mat_to_float(float *mat_f, Matrix33 *mat_m) {
+void convert_mat_to_float(float* mat_f, Matrix33* mat_m) {
     // LogText(" mat (%d,%d,%d)(%d,%d,%d)(%d,%d,%d)== ",mat_m->M[0][0],mat_m->M[0][1],mat_m->M[0][2],mat_m->M[1][0],mat_m->M[1][1],mat_m->M[1][2],mat_m->M[2][0],mat_m->M[2][1],mat_m->M[2][2]);
 
     mat_f[0] = ((float) mat_m->M[0][0]) / 32768.0;
@@ -3550,19 +3550,19 @@ void convert_mat_to_float(float *mat_f, Matrix33 *mat_m) {
     // LogText(" mat (%f,%f,%f)(%f,%f,%f)(%f,%f,%f) \n",mat_f[0],mat_f[1],mat_f[2],mat_f[3],mat_f[4],mat_f[5],mat_f[6],mat_f[7],mat_f[8]);
 }
 
-void convert_float_to_mat(Matrix33 *mat_m, float *mat_f) {
+void convert_float_to_mat(Matrix33* mat_m, float* mat_f) {
     // LogText(" mat (%f,%f,%f)(%f,%f,%f)(%f,%f,%f)== ",mat_f[0],mat_f[1],mat_f[2],mat_f[3],mat_f[4],mat_f[5],mat_f[6],mat_f[7],mat_f[8]);
-    mat_m->M[0][0] = (std::int32_t)(mat_f[0] * 32768.0);
-    mat_m->M[0][1] = (std::int32_t)(mat_f[1] * 32768.0);
-    mat_m->M[0][2] = (std::int32_t)(mat_f[2] * 32768.0);
+    mat_m->M[0][0] = (std::int32_t) (mat_f[0] * 32768.0);
+    mat_m->M[0][1] = (std::int32_t) (mat_f[1] * 32768.0);
+    mat_m->M[0][2] = (std::int32_t) (mat_f[2] * 32768.0);
 
-    mat_m->M[1][0] = (std::int32_t)(mat_f[3] * 32768.0);
-    mat_m->M[1][1] = (std::int32_t)(mat_f[4] * 32768.0);
-    mat_m->M[1][2] = (std::int32_t)(mat_f[5] * 32768.0);
+    mat_m->M[1][0] = (std::int32_t) (mat_f[3] * 32768.0);
+    mat_m->M[1][1] = (std::int32_t) (mat_f[4] * 32768.0);
+    mat_m->M[1][2] = (std::int32_t) (mat_f[5] * 32768.0);
 
-    mat_m->M[2][0] = (std::int32_t)(mat_f[6] * 32768.0);
-    mat_m->M[2][1] = (std::int32_t)(mat_f[7] * 32768.0);
-    mat_m->M[2][2] = (std::int32_t)(mat_f[8] * 32768.0);
+    mat_m->M[2][0] = (std::int32_t) (mat_f[6] * 32768.0);
+    mat_m->M[2][1] = (std::int32_t) (mat_f[7] * 32768.0);
+    mat_m->M[2][2] = (std::int32_t) (mat_f[8] * 32768.0);
     // LogText(" mat (%d,%d,%d)(%d,%d,%d)(%d,%d,%d)\n ",mat_m->M[0][0],mat_m->M[0][1],mat_m->M[0][2],mat_m->M[1][0],mat_m->M[1][1],mat_m->M[1][2],mat_m->M[2][0],mat_m->M[2][1],mat_m->M[2][2]);
 }
 
@@ -3652,18 +3652,18 @@ void	build_tween_matrix(Matrix33 *mat_res,Matrix33 *mat1,Matrix33 *mat2,std::int
 // void	draw_a_rot_prim_at(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct	PrimMultiAnim *anim_info,struct Matrix33 *rot_mat)
 // void	KeyFrameEditor::test_draw(std::uint16_t	prim,std::int32_t x,std::int32_t y,std::int32_t z,std::int32_t tween,struct KeyFrameElement *anim_info,struct KeyFrameElement *anim_info_next,struct Matrix33 *rot_mat)
 void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween,
-               struct KeyFrameElement *anim_info, struct KeyFrameElement *anim_info_next,
-               struct Matrix33 *rot_mat,
-               struct Matrix31 *parent_pos, struct Matrix33 *parent_mat,
-               KeyFrameElement *parent_element,
-               struct Matrix31 *end_pos, struct Matrix33 *end_mat) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+               struct KeyFrameElement* anim_info, struct KeyFrameElement* anim_info_next,
+               struct Matrix33* rot_mat,
+               struct Matrix31* parent_pos, struct Matrix33* parent_mat,
+               KeyFrameElement* parent_element,
+               struct Matrix31* end_pos, struct Matrix33* end_mat) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint32_t flag_and, flag_or;
     struct SVector res[1560], temp; // max points per object?
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
@@ -3705,8 +3705,8 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
         offset.M[1] *= 256;
         offset.M[2] *= 256;
     } else {
-        HIERARCHY_Get_Body_Part_Offset(&offset, (Matrix31 *) (&anim_info->OffsetX),
-                                       &parent_element->CMatrix, (Matrix31 *) (&parent_element->OffsetX),
+        HIERARCHY_Get_Body_Part_Offset(&offset, (Matrix31*) (&anim_info->OffsetX),
+                                       &parent_element->CMatrix, (Matrix31*) (&parent_element->OffsetX),
                                        parent_mat, parent_pos);
 
         if (end_pos)
@@ -3717,7 +3717,7 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
     offset.M[1] >>= 2;
     offset.M[2] >>= 2;
 
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x = (x * 256) + (temp.X << 2);
     y = (y * 256) + (temp.Y << 2);
     z = (z * 256) + (temp.Z << 2);
@@ -3752,13 +3752,13 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
     matrix_mult33(&mat_final, rot_mat, &mat2);
 
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
         //		matrix_transform((struct Matrix31*)&temp,&mat2, (struct Matrix31*)&prim_points[c0]);
         //      matrix now does the yz flip
         //		swap(temp.Y,temp.Z)  //MDOPT do this inside the matrix multiply
         //		temp.Y=-temp.Y;
 
-        flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &res[c0 - sp]);
+        flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &res[c0 - sp]);
         //		LogText(" after rot (%d,%d,%d)  \n",res[c0-sp].X,res[c0-sp].Y,res[c0-sp].Z);
     }
 
@@ -3789,20 +3789,20 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
                 p_f4->DrawFlags);
 
             setCol4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->Col2);
             if (p_f4->Col2 > 256)
                 LogText(" material test draw poly col %d co %d\n", (std::int32_t) p_f4->Col2, c0);
 
             setXY4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 res[p0].X, res[p0].Y,
                 res[p1].X, res[p1].Y,
                 res[p2].X, res[p2].Y,
                 res[p3].X, res[p3].Y);
 
             setUV4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->UV[0][0], p_f4->UV[0][1],
                 p_f4->UV[1][0], p_f4->UV[1][1],
                 p_f4->UV[2][0], p_f4->UV[2][1],
@@ -3810,18 +3810,18 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
                 p_f4->TexturePage);
             ASSERT(p_f4->TexturePage >= 0);
 
-            setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+            setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
             setShade4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 (p_f4->Bright[0]),
                 (p_f4->Bright[1]),
                 (p_f4->Bright[2]),
                 (p_f4->Bright[3]));
-            ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-            ((struct BucketQuad *) current_bucket_pool)->DebugFlags = local_object_flags;
+            ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+            ((struct BucketQuad*) current_bucket_pool)->DebugFlags = local_object_flags;
 
-            add_bucket((void *) current_bucket_pool, az);
+            add_bucket((void*) current_bucket_pool, az);
 
             current_bucket_pool += sizeof(struct BucketQuad);
         }
@@ -3856,17 +3856,17 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
                     p_f3->DrawFlags);
 
                 setCol3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->Col2);
 
                 setXY3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y);
 
                 setUV3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->UV[0][0], p_f3->UV[0][1],
                     p_f3->UV[1][0], p_f3->UV[1][1],
                     p_f3->UV[2][0], p_f3->UV[2][1],
@@ -3874,15 +3874,15 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
                 ASSERT(p_f3->TexturePage >= 0);
 
                 setShade3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     (p_f3->Bright[0]),
                     (p_f3->Bright[1]),
                     (p_f3->Bright[2]));
 
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }
@@ -3891,17 +3891,17 @@ void test_draw(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t 
     }
 }
 
-void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame *the_frame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33 *rot_mat, std::int32_t *width, std::int32_t *height, std::int32_t *mid_x, std::int32_t *mid_y) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame* the_frame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33* rot_mat, std::int32_t* width, std::int32_t* height, std::int32_t* mid_x, std::int32_t* mid_y) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint32_t flag_and, flag_or;
     struct SVector res[1560], temp; // max points per object?
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
-    struct KeyFrameElement *the_element;
+    struct KeyFrameElement* the_element;
     std::int32_t i, j;
     //	struct	KeyFrameElement *anim_info_next;
     struct Matrix31 offset;
@@ -3939,7 +3939,7 @@ void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame *the_frame
         offset.M[0] = (the_element->OffsetX) >> TWEEN_OFFSET_SHIFT;
         offset.M[1] = (the_element->OffsetY) >> TWEEN_OFFSET_SHIFT;
         offset.M[2] = (the_element->OffsetZ) >> TWEEN_OFFSET_SHIFT;
-        matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+        matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
         x = temp.X;
         y = temp.Y;
         z = temp.Z;
@@ -3961,8 +3961,8 @@ void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame *the_frame
         matrix_mult33(&mat_final, rot_mat, &mat2);
 
         for (c0 = sp; c0 < ep; c0++) {
-            matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
-            flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &res[c0 - sp]);
+            matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
+            flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &res[c0 - sp]);
             mx += res[c0 - sp].X;
             my += res[c0 - sp].Y;
             count++;
@@ -3993,14 +3993,14 @@ void test_draw_all_get_sizes(std::int16_t multi_prim, struct KeyFrame *the_frame
     }
 }
 
-void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement* anim_info, struct GameKeyFrameElement* anim_info_next, struct Matrix33* rot_mat) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint32_t flag_and, flag_or;
     struct SVector res[1560], temp; // max points per object?
     std::int32_t c0;
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
@@ -4037,7 +4037,7 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
             offset.M[2]	=	(offset.M[2]	*len)/len2;
     */
 
-    matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+    matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
     x += temp.X;
     y += temp.Y;
     z += temp.Z;
@@ -4093,13 +4093,13 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
     matrix_mult33(&mat_final, rot_mat, &mat2);
 
     for (c0 = sp; c0 < ep; c0++) {
-        matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
+        matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
         //		matrix_transform((struct Matrix31*)&temp,&mat2, (struct Matrix31*)&prim_points[c0]);
         //      matrix now does the yz flip
         //		swap(temp.Y,temp.Z)  //MDOPT do this inside the matrix multiply
         //		temp.Y=-temp.Y;
 
-        flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &res[c0 - sp]);
+        flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &res[c0 - sp]);
         //		LogText(" after rot (%d,%d,%d)  \n",res[c0-sp].X,res[c0-sp].Y,res[c0-sp].Z);
     }
 
@@ -4130,20 +4130,20 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                 p_f4->DrawFlags);
 
             setCol4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->Col2);
             if (p_f4->Col2 > 256)
                 LogText(" material test draw poly col %d co %d\n", (std::int32_t) p_f4->Col2, c0);
 
             setXY4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 res[p0].X, res[p0].Y,
                 res[p1].X, res[p1].Y,
                 res[p2].X, res[p2].Y,
                 res[p3].X, res[p3].Y);
 
             setUV4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 p_f4->UV[0][0], p_f4->UV[0][1],
                 p_f4->UV[1][0], p_f4->UV[1][1],
                 p_f4->UV[2][0], p_f4->UV[2][1],
@@ -4151,18 +4151,18 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                 p_f4->TexturePage);
             ASSERT(p_f4->TexturePage >= 0);
 
-            setZ4((struct BucketQuad *) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
+            setZ4((struct BucketQuad*) current_bucket_pool, -res[p0].Z, -res[p1].Z, -res[p2].Z, -res[p3].Z);
 
             setShade4(
-                (struct BucketQuad *) current_bucket_pool,
+                (struct BucketQuad*) current_bucket_pool,
                 (p_f4->Bright[0]),
                 (p_f4->Bright[1]),
                 (p_f4->Bright[2]),
                 (p_f4->Bright[3]));
-            ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-            ((struct BucketQuad *) current_bucket_pool)->DebugFlags = local_object_flags;
+            ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+            ((struct BucketQuad*) current_bucket_pool)->DebugFlags = local_object_flags;
 
-            add_bucket((void *) current_bucket_pool, az);
+            add_bucket((void*) current_bucket_pool, az);
 
             current_bucket_pool += sizeof(struct BucketQuad);
         }
@@ -4197,17 +4197,17 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                     p_f3->DrawFlags);
 
                 setCol3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->Col2);
 
                 setXY3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     res[p0].X, res[p0].Y,
                     res[p1].X, res[p1].Y,
                     res[p2].X, res[p2].Y);
 
                 setUV3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     p_f3->UV[0][0], p_f3->UV[0][1],
                     p_f3->UV[1][0], p_f3->UV[1][1],
                     p_f3->UV[2][0], p_f3->UV[2][1],
@@ -4215,15 +4215,15 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
                 ASSERT(p_f3->TexturePage >= 0);
 
                 setShade3(
-                    (struct BucketTri *) current_bucket_pool,
+                    (struct BucketTri*) current_bucket_pool,
                     (p_f3->Bright[0]),
                     (p_f3->Bright[1]),
                     (p_f3->Bright[2]));
 
-                ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                ((struct BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                ((struct BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
-                add_bucket((void *) current_bucket_pool, az);
+                add_bucket((void*) current_bucket_pool, az);
 
                 current_bucket_pool += sizeof(struct BucketQuad);
             }
@@ -4232,17 +4232,17 @@ void test_draw_game(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int
     }
 }
 
-void test_draw_all_get_sizes_game(std::int16_t multi_prim, struct GameKeyFrame *the_frame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33 *rot_mat, std::int32_t *width, std::int32_t *height, std::int32_t *mid_x, std::int32_t *mid_y) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+void test_draw_all_get_sizes_game(std::int16_t multi_prim, struct GameKeyFrame* the_frame, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct Matrix33* rot_mat, std::int32_t* width, std::int32_t* height, std::int32_t* mid_x, std::int32_t* mid_y) {
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t flags[1560];
     std::uint32_t flag_and, flag_or;
     struct SVector res[1560], temp; // max points per object?
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     std::int32_t sp, ep;
     std::int32_t az;
     struct Matrix33 *mat, *mat_next, mat2, mat_final;
-    struct GameKeyFrameElement *the_element;
+    struct GameKeyFrameElement* the_element;
     std::int32_t i, j;
     //	struct	KeyFrameElement *anim_info_next;
     struct Matrix31 offset;
@@ -4280,7 +4280,7 @@ void test_draw_all_get_sizes_game(std::int16_t multi_prim, struct GameKeyFrame *
         offset.M[0] = (the_element->OffsetX) >> TWEEN_OFFSET_SHIFT;
         offset.M[1] = (the_element->OffsetY) >> TWEEN_OFFSET_SHIFT;
         offset.M[2] = (the_element->OffsetZ) >> TWEEN_OFFSET_SHIFT;
-        matrix_transformZMY((struct Matrix31 *) &temp, rot_mat, &offset);
+        matrix_transformZMY((struct Matrix31*) &temp, rot_mat, &offset);
         x = temp.X;
         y = temp.Y;
         z = temp.Z;
@@ -4311,8 +4311,8 @@ void test_draw_all_get_sizes_game(std::int16_t multi_prim, struct GameKeyFrame *
         matrix_mult33(&mat_final, rot_mat, &mat2);
 
         for (c0 = sp; c0 < ep; c0++) {
-            matrix_transform_small((struct Matrix31 *) &temp, &mat_final, (struct SMatrix31 *) &prim_points[c0]);
-            flags[c0 - sp] = rotate_point_gte((struct SVector *) &temp, &res[c0 - sp]);
+            matrix_transform_small((struct Matrix31*) &temp, &mat_final, (struct SMatrix31*) &prim_points[c0]);
+            flags[c0 - sp] = rotate_point_gte((struct SVector*) &temp, &res[c0 - sp]);
             mx += res[c0 - sp].X;
             my += res[c0 - sp].Y;
             count++;
@@ -4345,7 +4345,7 @@ void test_draw_all_get_sizes_game(std::int16_t multi_prim, struct GameKeyFrame *
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::DrawKeyFrame(std::uint16_t multi_object, EdRect *bounds_rect, struct KeyFrame *the_frame, struct Matrix33 *r_matrix) {
+void KeyFrameEditor::DrawKeyFrame(std::uint16_t multi_object, EdRect* bounds_rect, struct KeyFrame* the_frame, struct Matrix33* r_matrix) {
     std::int32_t c0, c1, c2,
         num_points,
         end_point,
@@ -4361,9 +4361,9 @@ void KeyFrameEditor::DrawKeyFrame(std::uint16_t multi_object, EdRect *bounds_rec
         width, height,
         *flags;
     EdRect outline_rect;
-    struct KeyFrameElement *the_element;
+    struct KeyFrameElement* the_element;
     struct Matrix31 offset;
-    struct PrimObject *the_obj;
+    struct PrimObject* the_obj;
     struct SVector *rotate_vectors,
         t_vector,
         t_vector2;
@@ -4378,9 +4378,9 @@ void KeyFrameEditor::DrawKeyFrame(std::uint16_t multi_object, EdRect *bounds_rec
         return;
 
     c1 = 0;
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 3000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
-    rotate_vectors = (struct SVector *) MemAlloc(sizeof(struct SVector) * 3000);
+    rotate_vectors = (struct SVector*) MemAlloc(sizeof(struct SVector) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
 
     temp_scale = engine.Scale;
@@ -4476,7 +4476,7 @@ error:;
     MemFree(flags);
 }
 
-void drawkeyframebox(std::uint16_t multi_object, EdRect *bounds_rect, struct KeyFrame *the_frame, struct Matrix33 *r_matrix, std::int32_t person_id) {
+void drawkeyframebox(std::uint16_t multi_object, EdRect* bounds_rect, struct KeyFrame* the_frame, struct Matrix33* r_matrix, std::int32_t person_id) {
     std::int32_t c0, c1, c2,
         num_points,
         end_point,
@@ -4492,9 +4492,9 @@ void drawkeyframebox(std::uint16_t multi_object, EdRect *bounds_rect, struct Key
         width, height,
         *flags;
     EdRect outline_rect;
-    struct KeyFrameElement *the_element;
+    struct KeyFrameElement* the_element;
     struct Matrix31 offset;
-    struct PrimObject *the_obj;
+    struct PrimObject* the_obj;
     struct SVector *rotate_vectors,
         t_vector,
         t_vector2;
@@ -4509,9 +4509,9 @@ void drawkeyframebox(std::uint16_t multi_object, EdRect *bounds_rect, struct Key
         return;
 
     c1 = 0;
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 3000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
-    rotate_vectors = (struct SVector *) MemAlloc(sizeof(struct SVector) * 3000);
+    rotate_vectors = (struct SVector*) MemAlloc(sizeof(struct SVector) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
 
     temp_scale = engine.Scale;
@@ -4607,7 +4607,7 @@ error:;
     MemFree(flags);
 }
 
-void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect *bounds_rect, struct GameKeyFrame *the_frame, struct Matrix33 *r_matrix, std::int32_t person_id, struct GameKeyFrameChunk *the_chunk) {
+void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect* bounds_rect, struct GameKeyFrame* the_frame, struct Matrix33* r_matrix, std::int32_t person_id, struct GameKeyFrameChunk* the_chunk) {
     std::int32_t c0, c1, c2,
         num_points,
         end_point,
@@ -4623,9 +4623,9 @@ void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect *bounds_rect, s
         width, height,
         *flags;
     EdRect outline_rect;
-    struct GameKeyFrameElement *the_element;
+    struct GameKeyFrameElement* the_element;
     struct Matrix31 offset;
-    struct PrimObject *the_obj;
+    struct PrimObject* the_obj;
     struct SVector *rotate_vectors,
         t_vector,
         t_vector2;
@@ -4640,9 +4640,9 @@ void drawkeyframeboxgamechunk(std::uint16_t multi_object, EdRect *bounds_rect, s
         return;
 
     c1 = 0;
-    flags = (std::int32_t *) MemAlloc(sizeof(std::int32_t) * 3000);
+    flags = (std::int32_t*) MemAlloc(sizeof(std::int32_t) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
-    rotate_vectors = (struct SVector *) MemAlloc(sizeof(struct SVector) * 3000);
+    rotate_vectors = (struct SVector*) MemAlloc(sizeof(struct SVector) * 3000);
     ERROR_MSG(flags, "Unable to allocate memory for DrawKeyFrame");
 
     temp_scale = engine.Scale;
@@ -4732,7 +4732,7 @@ error:;
 //---------------------------------------------------------------
 //---------------------------------------------------------------
 
-extern void invert_mult(struct Matrix33 *mat, struct PrimPoint *pp);
+extern void invert_mult(struct Matrix33* mat, struct PrimPoint* pp);
 /*
 void	KeyFrameEditor::SortMultiObject(struct KeyFrameChunk *the_chunk)
 {
@@ -4776,7 +4776,7 @@ void KeyFrameEditor::DrawKeyFrames(void) {
         KeyFrameRect.FillRect(ACTIVE_COL);
         rotate_obj(AnimAngleX[Bank] + AnimGlobalAngleX, AnimAngleY[Bank] + AnimGlobalAngleY, 0, &r_matrix);
         max_frames = KeyFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-        first_frame = ((CHSlider *) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->GetCurrentValue();
+        first_frame = ((CHSlider*) WindowControls.GetControlPtr(CTRL_FRAME_SLIDER))->GetCurrentValue();
         //		if((first_frame+max_frames)>KeyFrameCount)
         //			max_frames	=	(KeyFrameCount-first_frame)+1;
         if ((first_frame + max_frames) > test_chunk->KeyFrameCount)
@@ -4814,7 +4814,7 @@ void KeyFrameEditor::DrawKeyFrames(void) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::DrawAnimFrames(Anim *the_anim, bool hilite) {
+void KeyFrameEditor::DrawAnimFrames(Anim* the_anim, bool hilite) {
     char text[16];
     std::int32_t c0,
         first_frame,
@@ -4823,7 +4823,7 @@ void KeyFrameEditor::DrawAnimFrames(Anim *the_anim, bool hilite) {
         hilite_rect,
         tween_rect;
     MFPoint mouse_point;
-    struct KeyFrame *current_frame;
+    struct KeyFrame* current_frame;
     struct Matrix33 r_matrix;
 
     AnimControls.SetControlDrawArea();
@@ -4832,7 +4832,7 @@ void KeyFrameEditor::DrawAnimFrames(Anim *the_anim, bool hilite) {
         // md		rotate_obj(AnimAngleX[Bank],AnimAngleY[Bank],0,&r_matrix);
         rotate_obj(0, AnimAngleY[Bank], 0, &r_matrix);
         max_frames = AnimFrameRect.GetWidth() / KEY_FRAME_IMAGE_SIZE;
-        first_frame = ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
+        first_frame = ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->GetCurrentValue();
         if ((first_frame + max_frames) > the_anim->GetFrameCount())
             max_frames = (the_anim->GetFrameCount() - first_frame);
         current_frame = the_anim->GetFrameList();
@@ -4891,7 +4891,7 @@ void KeyFrameEditor::DrawAnimFrames(Anim *the_anim, bool hilite) {
 
 //---------------------------------------------------------------
 
-Anim *KeyFrameEditor::DrawAllAnimsBox(void) {
+Anim* KeyFrameEditor::DrawAllAnimsBox(void) {
     std::int32_t c0,
         first_frame,
         text_x,
@@ -4906,7 +4906,7 @@ Anim *KeyFrameEditor::DrawAllAnimsBox(void) {
     selected_anim = 0;
     AllAnimsRect.FillRect(ACTIVE_COL);
     if (AnimList[Bank]) {
-        first_frame = ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->GetCurrentValue() + 1;
+        first_frame = ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->GetCurrentValue() + 1;
         skip_frames = first_frame;
         current_anim = AnimList[Bank];
         while (first_frame--) {
@@ -4982,11 +4982,11 @@ void KeyFrameEditor::AppendAnim(void) {
         max_range = AnimCount[Bank] - 22;
         if (max_range < 0)
             max_range = 0;
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
     }
 }
-void KeyFrameEditor::InsertAnim(Anim *insert_here) {
+void KeyFrameEditor::InsertAnim(Anim* insert_here) {
     char text[32];
     std::int32_t max_range;
     Anim *next_anim,
@@ -5016,14 +5016,14 @@ void KeyFrameEditor::InsertAnim(Anim *insert_here) {
         max_range = AnimCount[Bank] - 22;
         if (max_range < 0)
             max_range = 0;
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
     }
 }
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::DestroyAnim(Anim *the_anim) {
+void KeyFrameEditor::DestroyAnim(Anim* the_anim) {
     std::int32_t max_range;
 
     if (the_anim) {
@@ -5041,8 +5041,8 @@ void KeyFrameEditor::DestroyAnim(Anim *the_anim) {
         max_range = AnimCount[Bank] - 22;
         if (max_range < 0)
             max_range = 0;
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
-        ((CVSlider *) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetValueRange(0, max_range);
+        ((CVSlider*) AnimControls.GetControlPtr(CTRL_ANIM_ALL_ANIMS_SLIDER))->SetCurrentValue(max_range);
 
         CurrentAnim[Bank] = 0;
         AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
@@ -5051,7 +5051,7 @@ void KeyFrameEditor::DestroyAnim(Anim *the_anim) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::LoadAllAnims(KeyFrameChunk *the_chunk) {
+void KeyFrameEditor::LoadAllAnims(KeyFrameChunk* the_chunk) {
     std::int32_t anim_count, version,
         c0;
     MFFileHandle file_handle;
@@ -5075,7 +5075,7 @@ void KeyFrameEditor::LoadAllAnims(KeyFrameChunk *the_chunk) {
             AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_SELECTED);
         else
             AnimControls.SetControlState(CTRL_ANIM_LOOP_SELECT, CTRL_DESELECTED);
-        ((CHSlider *) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
+        ((CHSlider*) AnimControls.GetControlPtr(CTRL_ANIM_FRAME_SLIDER))->SetValueRange(0, CurrentAnim[Bank]->GetFrameCount() - 1);
         AnimTween[Bank] = 0;
         CurrentFrame[Bank] = 0;
         FileClose(file_handle);
@@ -5085,7 +5085,7 @@ void KeyFrameEditor::LoadAllAnims(KeyFrameChunk *the_chunk) {
 }
 
 //---------------------------------------------------------------
-void KeyFrameEditor::SaveBodyPartInfo(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk *the_chunk) {
+void KeyFrameEditor::SaveBodyPartInfo(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk* the_chunk) {
     std::int32_t c0, c1;
     std::int32_t data;
 
@@ -5105,7 +5105,7 @@ void KeyFrameEditor::SaveBodyPartInfo(MFFileHandle file_handle, std::int32_t ver
     }
 }
 
-void KeyFrameEditor::LoadBodyPartInfo(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk *the_chunk) {
+void KeyFrameEditor::LoadBodyPartInfo(MFFileHandle file_handle, std::int32_t version, KeyFrameChunk* the_chunk) {
     std::int32_t c0, c1;
     std::int32_t no_people, no_body_bits, string_len;
 
@@ -5122,9 +5122,9 @@ void KeyFrameEditor::LoadBodyPartInfo(MFFileHandle file_handle, std::int32_t ver
     }
 }
 
-extern std::int32_t save_a_multi_prim(char *name, std::int32_t multi);
-void KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk, std::int32_t save_all) {
-    Anim *next_anim;
+extern std::int32_t save_a_multi_prim(char* name, std::int32_t multi);
+void KeyFrameEditor::SaveAllAnims(KeyFrameChunk* the_chunk, std::int32_t save_all) {
+    Anim* next_anim;
     MFFileHandle file_handle;
     std::int32_t version = -1;
 
@@ -5171,7 +5171,7 @@ void KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk, std::int32_t save_al
                 file_name[c0 + 4] = 0;
             }
 
-            extern std::int32_t save_anim_system(struct GameKeyFrameChunk * game_chunk, char *name);
+            extern std::int32_t save_anim_system(struct GameKeyFrameChunk * game_chunk, char* name);
 
             save_anim_system(&game_chunk[0], file_name);
             free_game_chunk(&game_chunk[0]);
@@ -5181,7 +5181,7 @@ void KeyFrameEditor::SaveAllAnims(KeyFrameChunk *the_chunk, std::int32_t save_al
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::LoadAnim(MFFileHandle file_handle, Anim *the_anim) {
+void KeyFrameEditor::LoadAnim(MFFileHandle file_handle, Anim* the_anim) {
     char anim_name[ANIM_NAME_SIZE];
     std::int32_t anim_flags,
         c0,
@@ -5231,7 +5231,7 @@ void KeyFrameEditor::LoadAnim(MFFileHandle file_handle, Anim *the_anim) {
             //			LogText(" fight count load = %d \n",count);
 
             for (c0 = 0; c0 < count; c0++) {
-                fcol = (struct FightCol *) MemAlloc(sizeof(struct FightCol));
+                fcol = (struct FightCol*) MemAlloc(sizeof(struct FightCol));
                 if (fcol) {
                     FileRead(file_handle, fcol, sizeof(struct FightCol));
                     fcol->Next = 0;
@@ -5254,11 +5254,11 @@ void KeyFrameEditor::LoadAnim(MFFileHandle file_handle, Anim *the_anim) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::SaveAnim(MFFileHandle file_handle, Anim *the_anim) {
+void KeyFrameEditor::SaveAnim(MFFileHandle file_handle, Anim* the_anim) {
     std::uint32_t anim_flags;
     std::int32_t c0,
         frame_count;
-    KeyFrame *frame_list;
+    KeyFrame* frame_list;
     char version = 4;
     std::uint8_t speed;
 
@@ -5274,7 +5274,7 @@ void KeyFrameEditor::SaveAnim(MFFileHandle file_handle, Anim *the_anim) {
     FileWrite(file_handle, &speed, 1);
     for (c0 = 0; c0 < frame_count; c0++) {
         std::int32_t count = 0;
-        struct FightCol *fcol;
+        struct FightCol* fcol;
         FileWrite(file_handle, &frame_list->ChunkID, sizeof(frame_list->ChunkID));
         FileWrite(file_handle, &frame_list->FrameID, sizeof(frame_list->FrameID));
         FileWrite(file_handle, &frame_list->TweenStep, sizeof(frame_list->TweenStep));
@@ -5336,14 +5336,14 @@ void KeyFrameEditor::LoadKeyFrameChunks(void) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::SaveChunkTextureInfo(KeyFrameChunk *the_chunk) {
+void KeyFrameEditor::SaveChunkTextureInfo(KeyFrameChunk* the_chunk) {
     char file_name[64];
     std::int32_t c0 = 0,
                  c1, c2;
     MFFileHandle file_handle;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
-    struct PrimObject *p_obj;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
+    struct PrimObject* p_obj;
     std::int32_t save_type = 1;
     std::int32_t count = 0;
     std::int32_t multi;
@@ -5411,7 +5411,7 @@ void KeyFrameEditor::SaveChunkTextureInfo(KeyFrameChunk *the_chunk) {
 
 //---------------------------------------------------------------
 
-void KeyFrameEditor::LoadChunkTextureInfo(KeyFrameChunk *the_chunk) {
+void KeyFrameEditor::LoadChunkTextureInfo(KeyFrameChunk* the_chunk) {
     //
     // this is in edutils.cpp
     //

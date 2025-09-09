@@ -86,7 +86,7 @@ std::int32_t ED_create(
     std::int32_t blue) {
     std::int32_t ans;
 
-    ED_Light *el;
+    ED_Light* el;
 
     if (!ED_light_free) {
         return 0;
@@ -147,7 +147,7 @@ void ED_light_move(
     std::int32_t x,
     std::int32_t y,
     std::int32_t z) {
-    ED_Light *el;
+    ED_Light* el;
 
     ASSERT(WITHIN(light, 1, ED_MAX_LIGHTS - 1));
 
@@ -200,7 +200,7 @@ void ED_light_change(
     std::int32_t red,
     std::int32_t green,
     std::int32_t blue) {
-    ED_Light *el;
+    ED_Light* el;
 
     ASSERT(WITHIN(light, 1, ED_MAX_LIGHTS - 1));
 
@@ -249,9 +249,9 @@ void ED_light_change(
 }
 
 void ED_amb_get(
-    std::int32_t *red,
-    std::int32_t *green,
-    std::int32_t *blue) {
+    std::int32_t* red,
+    std::int32_t* green,
+    std::int32_t* blue) {
     //
     // This is insider information!
     //
@@ -333,10 +333,10 @@ void ED_darken_bottoms_on_set(std::int32_t b) {
 }
 
 void ED_lampost_get(
-    std::int32_t *range,
-    std::int32_t *red,
-    std::int32_t *green,
-    std::int32_t *blue) {
+    std::int32_t* range,
+    std::int32_t* red,
+    std::int32_t* green,
+    std::int32_t* blue) {
     *range = NIGHT_lampost_radius;
     *red = NIGHT_lampost_red;
     *green = NIGHT_lampost_green;
@@ -367,9 +367,9 @@ void ED_lampost_set(
 //
 
 void ED_sky_get(
-    std::int32_t *red,
-    std::int32_t *green,
-    std::int32_t *blue) {
+    std::int32_t* red,
+    std::int32_t* green,
+    std::int32_t* blue) {
     *red = NIGHT_sky_colour.red;
     *green = NIGHT_sky_colour.green;
     *blue = NIGHT_sky_colour.blue;
@@ -388,7 +388,7 @@ void ED_sky_set(
 // Fills out the given undo structure with the current state.
 //
 
-void ED_undo_create(ED_Undo *eu) {
+void ED_undo_create(ED_Undo* eu) {
     memcpy(eu->ed_light, ED_light, sizeof(ED_light));
 
     eu->ed_light_free = ED_light_free;
@@ -409,7 +409,7 @@ void ED_undo_create(ED_Undo *eu) {
 // Restores the lighting state from the given undo structure.
 //
 
-void ED_undo_restore(ED_Undo *eu) {
+void ED_undo_restore(ED_Undo* eu) {
     std::int32_t i;
 
     memcpy(ED_light, eu->ed_light, sizeof(ED_light));
@@ -456,7 +456,7 @@ void ED_undo_restore(ED_Undo *eu) {
 }
 
 void ED_undo_store() {
-    ED_Undo *eu;
+    ED_Undo* eu;
 
     ED_undo_stage = ED_undo_stage + 1;
     ED_undo_top = ED_undo_stage;
@@ -524,7 +524,7 @@ typedef struct
 
 } ED_Header;
 
-std::int32_t ED_load(char *name) {
+std::int32_t ED_load(char* name) {
     std::int32_t i, data_left;
     std::uint8_t version = 0;
 
@@ -638,13 +638,13 @@ std::int32_t ED_load(char *name) {
     return false;
 }
 
-std::int32_t ED_save(char *name) {
+std::int32_t ED_save(char* name) {
     std::int32_t version = 1;
     std::int32_t c0;
 
     ED_Header eh;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(name, "wb");
 
@@ -706,7 +706,7 @@ std::int32_t ED_save(char *name) {
 void ED_delete(std::int32_t light) {
     ASSERT(WITHIN(light, 0, ED_MAX_LIGHTS - 1));
 
-    ED_Light *el = &ED_light[light];
+    ED_Light* el = &ED_light[light];
 
     ASSERT(el->used);
 

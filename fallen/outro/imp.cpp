@@ -32,9 +32,9 @@ std::int32_t IMP_norm_similar(
 //
 
 void IMP_normalise_vector(
-    float *vx,
-    float *vy,
-    float *vz) {
+    float* vx,
+    float* vy,
+    float* vz) {
     float len = sqrt(*vx * *vx + *vy * *vy + *vz * *vz);
 
     if (len < 0.00001F) {
@@ -55,7 +55,7 @@ void IMP_normalise_vector(
 // allocate memory. (Yeah right!)
 //
 
-std::int32_t IMP_add_line(IMP_Mesh *im, std::int32_t *max_lines, std::uint16_t v1, std::uint16_t v2) {
+std::int32_t IMP_add_line(IMP_Mesh* im, std::int32_t* max_lines, std::uint16_t v1, std::uint16_t v2) {
     std::int32_t i;
 
     //
@@ -80,7 +80,7 @@ std::int32_t IMP_add_line(IMP_Mesh *im, std::int32_t *max_lines, std::uint16_t v
     if (im->num_lines >= *max_lines) {
         *max_lines *= 2;
 
-        im->line = (IMP_Line *) realloc(im->line, sizeof(IMP_Line) * *max_lines);
+        im->line = (IMP_Line*) realloc(im->line, sizeof(IMP_Line) * *max_lines);
 
         if (!im->line) {
             return false;
@@ -95,7 +95,7 @@ std::int32_t IMP_add_line(IMP_Mesh *im, std::int32_t *max_lines, std::uint16_t v
     return true;
 }
 
-IMP_Mesh IMP_load(char *fname, float scale) {
+IMP_Mesh IMP_load(char* fname, float scale) {
     std::int32_t i;
     std::int32_t j;
     std::int32_t k;
@@ -168,21 +168,21 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
     IMP_Svert fs[3];
 
-    IMP_Mat *im;
-    IMP_Vert *iv;
-    IMP_Tvert *it;
-    IMP_Face *ic;
-    IMP_Face *ico;
-    IMP_Svert *is;
-    IMP_Quad *iq;
-    IMP_Edge *ie;
-    IMP_Line *il;
+    IMP_Mat* im;
+    IMP_Vert* iv;
+    IMP_Tvert* it;
+    IMP_Face* ic;
+    IMP_Face* ico;
+    IMP_Svert* is;
+    IMP_Quad* iq;
+    IMP_Edge* ie;
+    IMP_Line* il;
 
     IMP_Mesh ans;
     char line[256];
     char oname[32];
 
-    FILE *handle;
+    FILE* handle;
 
     //
     // Initialise the mesh.
@@ -199,14 +199,14 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
     memset(&ans, 0, sizeof(ans));
 
-    ans.mat = (IMP_Mat *) malloc(sizeof(IMP_Mat) * max_mats);
-    ans.vert = (IMP_Vert *) malloc(sizeof(IMP_Vert) * max_verts);
-    ans.tvert = (IMP_Tvert *) malloc(sizeof(IMP_Tvert) * max_tverts);
-    ans.face = (IMP_Face *) malloc(sizeof(IMP_Face) * max_faces);
-    ans.svert = (IMP_Svert *) malloc(sizeof(IMP_Svert) * max_sverts);
-    ans.quad = (IMP_Quad *) malloc(sizeof(IMP_Quad) * max_quads);
-    ans.edge = (IMP_Edge *) malloc(sizeof(IMP_Edge) * max_edges);
-    ans.line = (IMP_Line *) malloc(sizeof(IMP_Line) * max_lines);
+    ans.mat = (IMP_Mat*) malloc(sizeof(IMP_Mat) * max_mats);
+    ans.vert = (IMP_Vert*) malloc(sizeof(IMP_Vert) * max_verts);
+    ans.tvert = (IMP_Tvert*) malloc(sizeof(IMP_Tvert) * max_tverts);
+    ans.face = (IMP_Face*) malloc(sizeof(IMP_Face) * max_faces);
+    ans.svert = (IMP_Svert*) malloc(sizeof(IMP_Svert) * max_sverts);
+    ans.quad = (IMP_Quad*) malloc(sizeof(IMP_Quad) * max_quads);
+    ans.edge = (IMP_Edge*) malloc(sizeof(IMP_Edge) * max_edges);
+    ans.line = (IMP_Line*) malloc(sizeof(IMP_Line) * max_lines);
 
     if (ans.mat == nullptr ||
         ans.vert == nullptr ||
@@ -297,7 +297,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
                 max_mats *= 2;
 
-                ans.mat = (IMP_Mat *) realloc(ans.mat, sizeof(IMP_Mat) * max_mats);
+                ans.mat = (IMP_Mat*) realloc(ans.mat, sizeof(IMP_Mat) * max_mats);
 
                 if (!ans.mat) {
                     goto file_error;
@@ -344,7 +344,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
                 max_verts *= 2;
 
-                ans.vert = (IMP_Vert *) realloc(ans.vert, sizeof(IMP_Vert) * max_verts);
+                ans.vert = (IMP_Vert*) realloc(ans.vert, sizeof(IMP_Vert) * max_verts);
 
                 if (!ans.vert) {
                     goto file_error;
@@ -374,7 +374,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
                 max_tverts *= 2;
 
-                ans.tvert = (IMP_Tvert *) realloc(ans.tvert, sizeof(IMP_Tvert) * max_tverts);
+                ans.tvert = (IMP_Tvert*) realloc(ans.tvert, sizeof(IMP_Tvert) * max_tverts);
 
                 if (!ans.tvert) {
                     goto file_error;
@@ -404,7 +404,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
                 max_faces *= 2;
 
-                ans.face = (IMP_Face *) realloc(ans.face, sizeof(IMP_Face) * max_faces);
+                ans.face = (IMP_Face*) realloc(ans.face, sizeof(IMP_Face) * max_faces);
 
                 if (!ans.face) {
                     goto file_error;
@@ -474,9 +474,9 @@ IMP_Mesh IMP_load(char *fname, float scale) {
             //
 
             {
-                IMP_Vert *v1 = &ans.vert[p1];
-                IMP_Vert *v2 = &ans.vert[p2];
-                IMP_Vert *v3 = &ans.vert[p3];
+                IMP_Vert* v1 = &ans.vert[p1];
+                IMP_Vert* v2 = &ans.vert[p2];
+                IMP_Vert* v3 = &ans.vert[p3];
 
                 float ax = v2->x - v1->x;
                 float ay = v2->y - v1->y;
@@ -505,13 +505,13 @@ IMP_Mesh IMP_load(char *fname, float scale) {
             //
 
             {
-                IMP_Vert *iv1 = &ans.vert[ic->v[0]];
-                IMP_Vert *iv2 = &ans.vert[ic->v[1]];
-                IMP_Vert *iv3 = &ans.vert[ic->v[2]];
+                IMP_Vert* iv1 = &ans.vert[ic->v[0]];
+                IMP_Vert* iv2 = &ans.vert[ic->v[1]];
+                IMP_Vert* iv3 = &ans.vert[ic->v[2]];
 
-                IMP_Tvert *it1 = &ans.tvert[ic->t[0]];
-                IMP_Tvert *it2 = &ans.tvert[ic->t[1]];
-                IMP_Tvert *it3 = &ans.tvert[ic->t[2]];
+                IMP_Tvert* it1 = &ans.tvert[ic->t[0]];
+                IMP_Tvert* it2 = &ans.tvert[ic->t[1]];
+                IMP_Tvert* it3 = &ans.tvert[ic->t[2]];
 
                 float x1 = iv2->x - iv1->x;
                 float y1 = iv2->y - iv1->y;
@@ -777,7 +777,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
 
                 max_sverts *= 2;
 
-                ans.svert = (IMP_Svert *) realloc(ans.svert, sizeof(IMP_Svert) * max_sverts);
+                ans.svert = (IMP_Svert*) realloc(ans.svert, sizeof(IMP_Svert) * max_sverts);
 
                 if (!ans.svert) {
                     goto file_error;
@@ -911,7 +911,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
                                 if (ans.num_quads >= max_quads) {
                                     max_quads *= 2;
 
-                                    ans.quad = (IMP_Quad *) realloc(ans.quad, sizeof(IMP_Quad) * max_quads);
+                                    ans.quad = (IMP_Quad*) realloc(ans.quad, sizeof(IMP_Quad) * max_quads);
 
                                     if (!ans.quad) {
                                         goto file_error;
@@ -997,7 +997,7 @@ IMP_Mesh IMP_load(char *fname, float scale) {
             if (ans.num_edges >= max_edges) {
                 max_edges *= 2;
 
-                ans.edge = (IMP_Edge *) realloc(ans.edge, sizeof(IMP_Edge) * max_edges);
+                ans.edge = (IMP_Edge*) realloc(ans.edge, sizeof(IMP_Edge) * max_edges);
 
                 if (!ans.edge) {
                     goto file_error;
@@ -1086,7 +1086,7 @@ file_error:;
     return ans;
 }
 
-void IMP_free(IMP_Mesh *im) {
+void IMP_free(IMP_Mesh* im) {
     if (im->mat) {
         free(im->mat);
         im->mat = nullptr;
@@ -1121,8 +1121,8 @@ void IMP_free(IMP_Mesh *im) {
     }
 }
 
-std::int32_t IMP_binary_save(char *fname, IMP_Mesh *im) {
-    FILE *handle = fopen(fname, "wb");
+std::int32_t IMP_binary_save(char* fname, IMP_Mesh* im) {
+    FILE* handle = fopen(fname, "wb");
 
     if (!handle) {
         return false;
@@ -1171,12 +1171,12 @@ file_error:;
     return false;
 }
 
-IMP_Mesh IMP_binary_load(char *fname) {
+IMP_Mesh IMP_binary_load(char* fname) {
     IMP_Mesh ans;
 
     memset(&ans, 0, sizeof(ans));
 
-    FILE *handle = fopen(fname, "rb");
+    FILE* handle = fopen(fname, "rb");
 
     if (!handle) {
         return ans;
@@ -1210,14 +1210,14 @@ IMP_Mesh IMP_binary_load(char *fname) {
     // Allocate memory.
     //
 
-    ans.mat = (IMP_Mat *) malloc(sizeof(IMP_Mat) * ans.num_mats);
-    ans.vert = (IMP_Vert *) malloc(sizeof(IMP_Vert) * ans.num_verts);
-    ans.tvert = (IMP_Tvert *) malloc(sizeof(IMP_Tvert) * ans.num_tverts);
-    ans.face = (IMP_Face *) malloc(sizeof(IMP_Face) * ans.num_faces);
-    ans.svert = (IMP_Svert *) malloc(sizeof(IMP_Svert) * ans.num_sverts);
-    ans.quad = (IMP_Quad *) malloc(sizeof(IMP_Quad) * ans.num_quads);
-    ans.edge = (IMP_Edge *) malloc(sizeof(IMP_Edge) * ans.num_edges);
-    ans.line = (IMP_Line *) malloc(sizeof(IMP_Line) * ans.num_lines);
+    ans.mat = (IMP_Mat*) malloc(sizeof(IMP_Mat) * ans.num_mats);
+    ans.vert = (IMP_Vert*) malloc(sizeof(IMP_Vert) * ans.num_verts);
+    ans.tvert = (IMP_Tvert*) malloc(sizeof(IMP_Tvert) * ans.num_tverts);
+    ans.face = (IMP_Face*) malloc(sizeof(IMP_Face) * ans.num_faces);
+    ans.svert = (IMP_Svert*) malloc(sizeof(IMP_Svert) * ans.num_sverts);
+    ans.quad = (IMP_Quad*) malloc(sizeof(IMP_Quad) * ans.num_quads);
+    ans.edge = (IMP_Edge*) malloc(sizeof(IMP_Edge) * ans.num_edges);
+    ans.line = (IMP_Line*) malloc(sizeof(IMP_Line) * ans.num_lines);
 
     if (ans.mat == nullptr ||
         ans.vert == nullptr ||

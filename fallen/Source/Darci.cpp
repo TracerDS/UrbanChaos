@@ -39,14 +39,14 @@ struct SVector
 
 std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
-void fn_darci_init(Thing *t_thing);
+void fn_darci_init(Entity* t_thing);
 
 #define GRAVITY ((4 << 8))
 
 // extern std::int32_t	calc_height_on_face(std::int32_t x,std::int32_t z,std::int32_t face);
-extern std::int32_t set_person_kick_off_wall(Thing *p_person, std::int32_t col, std::int32_t set_pos);
-extern void add_damage_value_thing(Thing *p_thing, std::int32_t value);
-extern void locked_anim_change(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
+extern std::int32_t set_person_kick_off_wall(Entity* p_person, std::int32_t col, std::int32_t set_pos);
+extern void add_damage_value_thing(Entity* p_thing, std::int32_t value);
+extern void locked_anim_change(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
 
 /*
  Tables we need
@@ -77,8 +77,8 @@ extern void locked_anim_change(Thing *p_person, std::uint16_t locked_object, std
 */
 
 //---------------------------------------------------------------
-extern void fn_person_moveing(Thing *p_person);
-extern void fn_person_idle(Thing *p_person);
+extern void fn_person_moveing(Entity* p_person);
+extern void fn_person_idle(Entity* p_person);
 
 StateFunction darci_states[] =
     {
@@ -93,7 +93,7 @@ StateFunction darci_states[] =
 
 //---------------------------------------------------------------
 
-void fn_darci_init(Thing *t_thing) {
+void fn_darci_init(Entity* t_thing) {
     //
     // Angle set already when the person was created.
     // OnFace set when person created too.
@@ -117,9 +117,9 @@ void fn_darci_init(Thing *t_thing) {
 }
 
 //---------------------------------------------------------------
-void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2);
+void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2);
 
-KeyFrame *advance_keyframe(KeyFrame *frame, std::int32_t count) {
+KeyFrame* advance_keyframe(KeyFrame* frame, std::int32_t count) {
     LogText(" advance to frame %d \n", count);
     //	return(frame);
     while (count && frame->NextFrame) {
@@ -134,13 +134,13 @@ KeyFrame *advance_keyframe(KeyFrame *frame, std::int32_t count) {
 #define DIR_LEFT (1 << 2)
 #define DIR_RIGHT (1 << 3)
 
-std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing *p_thing);
+std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing* p_thing);
 static std::int32_t air_walking = 0;
 
 static THING_INDEX history_thing[100];
 static std::int16_t history = 0;
 
-std::int32_t do_floor_collide(Thing *p_thing, std::int16_t pelvis, std::int32_t *new_y, std::int32_t *foot_y, std::int32_t max_range) {
+std::int32_t do_floor_collide(Entity* p_thing, std::int16_t pelvis, std::int32_t* new_y, std::int32_t* foot_y, std::int32_t max_range) {
     std::int32_t x, y, z;
     std::int32_t floor_y;
 
@@ -174,7 +174,7 @@ std::int32_t do_floor_collide(Thing *p_thing, std::int16_t pelvis, std::int32_t 
         return (0);
 }
 
-std::int32_t predict_collision_with_floor(Thing *p_thing, std::int16_t pelvis, std::int32_t *new_y, std::int32_t *foot_y) {
+std::int32_t predict_collision_with_floor(Entity* p_thing, std::int16_t pelvis, std::int32_t* new_y, std::int32_t* foot_y) {
     std::int32_t ret;
     GameCoord temp_pos;
     std::int32_t temp_velocity, temp_dy;
@@ -223,10 +223,10 @@ std::int32_t predict_collision_with_floor(Thing *p_thing, std::int16_t pelvis, s
     return (ret);
 }
 
-extern std::int32_t find_face_near_y(MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t ignore_faces_of_this_building, Thing *p_person, std::int32_t neg_dy, std::int32_t pos_dy, std::int32_t *ret_y);
-extern std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z);
+extern std::int32_t find_face_near_y(MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t ignore_faces_of_this_building, Entity* p_person, std::int32_t neg_dy, std::int32_t pos_dy, std::int32_t* ret_y);
+extern std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z);
 
-std::int32_t predict_collision_with_face(Thing *p_thing, std::int32_t wx, std::int32_t wy, std::int32_t wz, std::int16_t pelvis, std::int32_t *new_y, std::int32_t *foot_y) {
+std::int32_t predict_collision_with_face(Entity* p_thing, std::int32_t wx, std::int32_t wy, std::int32_t wz, std::int16_t pelvis, std::int32_t* new_y, std::int32_t* foot_y) {
     std::int32_t ret;
     GameCoord temp_pos;
     std::int32_t temp_velocity, temp_dy;
@@ -331,7 +331,7 @@ std::int32_t col_is_fence(std::int32_t col) {
         return (0);
 }
 
-inline bool MagicFrameCheck(Thing *p_person, std::uint8_t frameindex) {
+inline bool MagicFrameCheck(Entity* p_person, std::uint8_t frameindex) {
     if (p_person->Draw.Tweened->FrameIndex >= frameindex) {
         if (!(p_person->Genus.Person->Flags2 & FLAG2_SYNC_SOUNDFX)) {
             p_person->Genus.Person->Flags2 |= FLAG2_SYNC_SOUNDFX;
@@ -343,7 +343,7 @@ inline bool MagicFrameCheck(Thing *p_person, std::uint8_t frameindex) {
     return false;
 }
 
-void set_person_in_building_through_roof(Thing *p_person, std::int32_t face) {
+void set_person_in_building_through_roof(Entity* p_person, std::int32_t face) {
     std::int32_t building, storey, wall, best_storey = 0;
 #ifdef POO
     wall = prim_faces4[face].ThingIndex;
@@ -382,7 +382,7 @@ void set_person_in_building_through_roof(Thing *p_person, std::int32_t face) {
 #endif
 }
 
-std::int32_t damage_person_on_land(Thing *p_thing) {
+std::int32_t damage_person_on_land(Entity* p_thing) {
     std::int32_t sound;
     std::int32_t damage;
 
@@ -461,7 +461,7 @@ std::int32_t damage_person_on_land(Thing *p_thing) {
             // sets us up in the right spot to change anim to dead
             //
 
-            // void locked_anim_change(Thing *p_person,std::uint16_t locked_object,std::uint16_t anim);
+            // void locked_anim_change(Entity *p_person,std::uint16_t locked_object,std::uint16_t anim);
 
             // locked_anim_change(p_thing,SUB_OBJECT_LEFT_FOOT,ANIM_STAND_READY);
 
@@ -484,9 +484,9 @@ extern std::int32_t last_slide_dist;
 
 std::uint8_t just_started_falling_off_backwards;
 
-std::int32_t projectile_move_thing(Thing *p_thing, std::int32_t flag) {
+std::int32_t projectile_move_thing(Entity* p_thing, std::int32_t flag) {
     GameCoord new_position;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     std::int32_t face;
     std::int32_t ret = 0;
     std::int32_t col = 0;
@@ -1006,7 +1006,7 @@ std::int32_t projectile_move_thing(Thing *p_thing, std::int32_t flag) {
 }
 
 // could be logarithmic/ linear/ stepped
-void change_velocity_to(Thing *p_thing, std::int16_t velocity) {
+void change_velocity_to(Entity* p_thing, std::int16_t velocity) {
     std::int32_t dv;
 
     velocity = (velocity * 3) >> 2; // fps required , fps used when setting up these values
@@ -1026,7 +1026,7 @@ void change_velocity_to(Thing *p_thing, std::int16_t velocity) {
     }
 }
 
-void change_velocity_to_slow(Thing *p_thing, std::int16_t velocity) {
+void change_velocity_to_slow(Entity* p_thing, std::int16_t velocity) {
     std::int32_t dv;
 
     velocity = (velocity * 3) >> 2; // fps required , fps used when setting up these values
@@ -1046,7 +1046,7 @@ void change_velocity_to_slow(Thing *p_thing, std::int16_t velocity) {
     }
 }
 
-void trickle_velocity_to(Thing *p_thing, std::int16_t velocity) {
+void trickle_velocity_to(Entity* p_thing, std::int16_t velocity) {
     std::int32_t dv;
 
     velocity = (velocity * 3) >> 2; // fps required , fps used when setting up these values
@@ -1060,7 +1060,7 @@ void trickle_velocity_to(Thing *p_thing, std::int16_t velocity) {
     }
 }
 
-void set_thing_velocity(Thing *t_thing, std::int32_t vel) {
+void set_thing_velocity(Entity* t_thing, std::int32_t vel) {
     vel = (vel * 3) >> 2; // fps required , fps used when setting up these values
 
     t_thing->Velocity = vel;
@@ -1069,14 +1069,14 @@ void set_thing_velocity(Thing *t_thing, std::int32_t vel) {
 #define REQUIRED_DIST_JUMP_GRAB 35
 
 extern std::int32_t dist_to_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b);
-extern void nearest_point_on_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z);
-extern void calc_things_height(struct MapThing *p_thing); // editor\collide.c
+extern void nearest_point_on_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z);
+extern void calc_things_height(struct MapThing* p_thing); // editor\collide.c
 // extern struct	CollisionVect		col_vects[];
 #ifdef DOG_POO
-std::int32_t setup_person_for_jump_grab(Thing *p_thing) {
+std::int32_t setup_person_for_jump_grab(Entity* p_thing) {
     std::int32_t col, dist;
     std::int32_t x, z;
-    struct CollisionVect *p_vect;
+    struct CollisionVect* p_vect;
     GameCoord new_position;
     std::int32_t m_dx, m_dy, m_dz;
     new_position = p_thing->WorldPos;

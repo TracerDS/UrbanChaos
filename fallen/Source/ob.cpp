@@ -20,8 +20,8 @@
 #include "..\ddengine\headers\texture.h"
 #endif
 
-OB_Ob *OB_ob;             //[OB_MAX_OBS];
-OB_workaround *OB_mapwho; //[OB_SIZE][OB_SIZE];
+OB_Ob* OB_ob;             //[OB_MAX_OBS];
+OB_workaround* OB_mapwho; //[OB_SIZE][OB_SIZE];
 
 std::int32_t OB_ob_upto;
 
@@ -60,12 +60,12 @@ void OB_init() {
 
     OB_ob_upto = 1;
 
-    memset((std::uint8_t *) OB_mapwho, 0, sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
-    memset((std::uint8_t *) OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
+    memset((std::uint8_t*) OB_mapwho, 0, sizeof(OB_Mapwho) * OB_SIZE * OB_SIZE);
+    memset((std::uint8_t*) OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
 }
 #else
 void OB_init() {
-    memset((std::uint8_t *) OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
+    memset((std::uint8_t*) OB_hydrant, 0, sizeof(OB_Hydrant) * OB_MAX_HYDRANTS);
 }
 
 #endif
@@ -76,12 +76,12 @@ void OB_compress() {
     std::int32_t x;
     std::int32_t z;
 
-    OB_Mapwho *om;
+    OB_Mapwho* om;
 
-    OB_Ob *comp;
+    OB_Ob* comp;
     std::int32_t comp_upto;
 
-    comp = (OB_Ob *) MemAlloc(sizeof(OB_Ob) * OB_MAX_OBS);
+    comp = (OB_Ob*) MemAlloc(sizeof(OB_Ob) * OB_MAX_OBS);
     comp_upto = 1;
 
     if (comp) {
@@ -137,8 +137,8 @@ void OB_create(
         return;
     }
 
-    OB_Ob *oo;
-    OB_Mapwho *om = &OB_mapwho[mx][mz];
+    OB_Ob* oo;
+    OB_Mapwho* om = &OB_mapwho[mx][mz];
 
     if (om->num >= OB_MAX_PER_SQUARE) {
         //
@@ -217,8 +217,8 @@ void OB_process() {
     std::int32_t dz;
     std::int32_t tick = 16 * TICK_RATIO >> TICK_SHIFT;
 
-    OB_Hydrant *oh;
-    OB_Ob *oo;
+    OB_Hydrant* oh;
+    OB_Ob* oo;
 
     for (i = 0; i < OB_MAX_HYDRANTS; i++) {
         oh = &OB_hydrant[i];
@@ -281,14 +281,14 @@ void OB_process() {
     }
 }
 
-OB_Info *OB_find(std::int32_t x, std::int32_t z) {
-    OB_Info *of;
+OB_Info* OB_find(std::int32_t x, std::int32_t z) {
+    OB_Info* of;
 
     std::int32_t num;
     std::int32_t index;
 
-    OB_Mapwho *om;
-    OB_Ob *oo;
+    OB_Mapwho* om;
+    OB_Ob* oo;
 
     ASSERT(WITHIN(x, 0, OB_SIZE - 1));
     ASSERT(WITHIN(z, 0, OB_SIZE - 1));
@@ -360,14 +360,14 @@ OB_Info *OB_find(std::int32_t x, std::int32_t z) {
     return OB_found;
 }
 #ifndef PSX
-OB_Info *OB_find_inside(std::int32_t x, std::int32_t z, std::int32_t indoors) {
-    OB_Info *of;
+OB_Info* OB_find_inside(std::int32_t x, std::int32_t z, std::int32_t indoors) {
+    OB_Info* of;
 
     std::int32_t num;
     std::int32_t index;
 
-    OB_Mapwho *om;
-    OB_Ob *oo;
+    OB_Mapwho* om;
+    OB_Ob* oo;
 
     ASSERT(WITHIN(x, 0, OB_SIZE - 1));
     ASSERT(WITHIN(z, 0, OB_SIZE - 1));
@@ -443,7 +443,7 @@ std::int32_t OB_avoid(
 
     std::int32_t ob_radius;
 
-    PrimInfo *pi = get_prim_info(ob_prim);
+    PrimInfo* pi = get_prim_info(ob_prim);
 
     x1 >>= 8;
     z1 >>= 8;
@@ -638,7 +638,7 @@ void load_general_prims() {
 }
 
 void set_face_type(std::int32_t prim, std::int32_t type) {
-    PrimObject *po;
+    PrimObject* po;
     std::int32_t j;
 
     //
@@ -720,7 +720,7 @@ void OB_load_needed_prims() {
             std::int32_t mid_y;
             std::int32_t mid_z;
 
-            PrimObject *po;
+            PrimObject* po;
 
             //
             // Shrink the selected prims.
@@ -796,7 +796,7 @@ void envmap_specials() {
 
     for (i = 1; i < SPECIAL_NUM_TYPES; i++) {
         {
-            PrimObject *po;
+            PrimObject* po;
 
             po = &prim_objects[SPECIAL_info[i].prim];
 
@@ -805,7 +805,7 @@ void envmap_specials() {
             //
 
             for (j = po->StartFace3; j < po->EndFace3; j++) {
-                PrimFace3 *p_f3 = &prim_faces3[j];
+                PrimFace3* p_f3 = &prim_faces3[j];
 
                 page = p_f3->UV[0][0] & 0xc0;
                 page <<= 2;
@@ -824,7 +824,7 @@ void envmap_specials() {
             }
 
             for (j = po->StartFace4; j < po->EndFace4; j++) {
-                PrimFace4 *p_f4 = &prim_faces4[j];
+                PrimFace4* p_f4 = &prim_faces4[j];
 
                 page = p_f4->UV[0][0] & 0xc0;
                 page <<= 2;
@@ -851,7 +851,7 @@ void envmap_specials() {
     //
 
     for (i = 1; i < 256; i++) {
-        PrimObject *po;
+        PrimObject* po;
 
         po = &prim_objects[i];
 
@@ -861,7 +861,7 @@ void envmap_specials() {
             //
 
             for (j = po->StartFace3; j < po->EndFace3; j++) {
-                PrimFace3 *p_f3 = &prim_faces3[j];
+                PrimFace3* p_f3 = &prim_faces3[j];
 
                 page = p_f3->UV[0][0] & 0xc0;
                 page <<= 2;
@@ -878,7 +878,7 @@ void envmap_specials() {
             }
 
             for (j = po->StartFace4; j < po->EndFace4; j++) {
-                PrimFace4 *p_f4 = &prim_faces4[j];
+                PrimFace4* p_f4 = &prim_faces4[j];
 
                 page = p_f4->UV[0][0] & 0xc0;
                 page <<= 2;
@@ -947,10 +947,10 @@ void OB_add_walkable_faces() {
     std::int32_t mx;
     std::int32_t mz;
 
-    PrimObject *po;
-    PrimPoint *pp;
-    PrimFace4 *f4;
-    OB_Info *oi;
+    PrimObject* po;
+    PrimPoint* pp;
+    PrimFace4* f4;
+    OB_Info* oi;
 
     std::int32_t matrix[9];
 
@@ -1003,9 +1003,9 @@ void OB_add_walkable_faces() {
                                     py += oi->y;
                                     pz += oi->z;
 
-                                    //
-                                    // Snap the points to mapsquare boundaries.
-                                    //
+                            //
+                            // Snap the points to mapsquare boundaries.
+                            //
 
 #define OB_SNAP_WIDTH 6
 
@@ -1083,14 +1083,14 @@ void OB_add_walkable_faces() {
 #endif
 #endif
 
-void OB_remove(OB_Info *oi) {
+void OB_remove(OB_Info* oi) {
     std::int32_t lo_map_x = oi->x >> PAP_SHIFT_LO;
     std::int32_t lo_map_z = oi->z >> PAP_SHIFT_LO;
 
     ASSERT(WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1));
     ASSERT(WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1));
 
-    OB_Mapwho *om = &OB_mapwho[lo_map_x][lo_map_z];
+    OB_Mapwho* om = &OB_mapwho[lo_map_x][lo_map_z];
 
     //
     // Make sure the OB_ob with this index is indeed on this
@@ -1111,7 +1111,7 @@ void OB_remove(OB_Info *oi) {
 
     std::int32_t i;
 
-    PrimFace4 *f4;
+    PrimFace4* f4;
 
     for (i = 1; i < next_prim_face4; i++) {
         f4 = &prim_faces4[i];
@@ -1130,7 +1130,7 @@ void OB_remove(OB_Info *oi) {
     }
 }
 
-std::int32_t special_object_flag(OB_Info *ob, std::int32_t flags) {
+std::int32_t special_object_flag(OB_Info* ob, std::int32_t flags) {
     if (flags & FIND_OB_TRIPWIRE) {
         if (ob->prim == PRIM_OBJ_TRIPWIRE) {
             return true;
@@ -1165,12 +1165,12 @@ std::int32_t OB_find_type(
     std::int32_t mid_z,
     std::int32_t max_range,
     std::uint32_t prim_flags,
-    std::int32_t *ob_x,
-    std::int32_t *ob_y,
-    std::int32_t *ob_z,
-    std::int32_t *ob_yaw,
-    std::int32_t *ob_prim,
-    std::int32_t *ob_index) {
+    std::int32_t* ob_x,
+    std::int32_t* ob_y,
+    std::int32_t* ob_z,
+    std::int32_t* ob_yaw,
+    std::int32_t* ob_prim,
+    std::int32_t* ob_index) {
     std::int32_t mx;
     std::int32_t mz;
 
@@ -1191,7 +1191,7 @@ std::int32_t OB_find_type(
     std::int32_t best_prim;
     std::int32_t best_index;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     mx1 = mid_x - max_range >> PAP_SHIFT_LO;
     mz1 = mid_z - max_range >> PAP_SHIFT_LO;
@@ -1242,7 +1242,7 @@ std::int32_t OB_find_type(
     }
 }
 
-OB_Info *OB_find_index(std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t max_range, std::int32_t must_be_searchable) {
+OB_Info* OB_find_index(std::int32_t mid_x, std::int32_t mid_y, std::int32_t mid_z, std::int32_t max_range, std::int32_t must_be_searchable) {
     std::int32_t mx;
     std::int32_t mz;
 
@@ -1361,10 +1361,10 @@ void OB_damage(
     std::int32_t from_dz,
     std::int32_t x, // The position of this object!
     std::int32_t z,
-    Thing *p_aggressor) {
-    OB_Ob *oo;
-    OB_Hydrant *oh;
-    PrimObject *po;
+    Entity* p_aggressor) {
+    OB_Ob* oo;
+    OB_Hydrant* oh;
+    PrimObject* po;
 
     //
     // Ignore other agreossors... the Balrog for instance!
@@ -1498,7 +1498,7 @@ void OB_convert_dustbins_to_barrels() {
     std::int32_t mx;
     std::int32_t mz;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     for (mx = 0; mx < PAP_SIZE_LO; mx++)
         for (mz = 0; mz < PAP_SIZE_LO; mz++) {
@@ -1542,8 +1542,8 @@ std::int32_t OB_inside_prim(std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t mx2 = x + 0x180 >> 10;
     std::int32_t mz2 = z + 0x180 >> 10;
 
-    OB_Info *oi;
-    PrimInfo *pi;
+    OB_Info* oi;
+    PrimInfo* pi;
 
     for (mx = mx1; mx <= mx2; mx++)
         for (mz = mz1; mz <= mz2; mz++) {
@@ -1574,7 +1574,7 @@ void OB_make_all_the_switches_be_at_the_proper_height() {
     std::int32_t mx;
     std::int32_t mz;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     for (mx = 0; mx < PAP_SIZE_LO; mx++)
         for (mz = 0; mz < PAP_SIZE_LO; mz++) {

@@ -16,7 +16,7 @@
 
 //---------------------------------------------------------------
 
-char *filename;
+char* filename;
 
 //---------------------------------------------------------------
 
@@ -56,10 +56,10 @@ bool CALLBACK mapexit_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam
 
 //---------------------------------------------------------------
 
-void do_mapexit_setup(EventPoint *the_ep) {
-    filename = (char *) the_ep->Data[0];
+void do_mapexit_setup(EventPoint* the_ep) {
+    filename = (char*) the_ep->Data[0];
     if (!filename) {
-        filename = (char *) malloc(_MAX_PATH);
+        filename = (char*) malloc(_MAX_PATH);
         ZeroMemory(filename, _MAX_PATH);
     }
     DialogBox(
@@ -72,10 +72,10 @@ void do_mapexit_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_mapexit_message(EventPoint *ep, char *msg) {
+char* get_mapexit_message(EventPoint* ep, char* msg) {
     if ((!ep) || (!ep->Data[0]))
         strcpy(msg, "Unknown");
     else
-        strcpy(msg, (char *) ep->Data[0]);
+        strcpy(msg, (char*) ep->Data[0]);
     return msg;
 }

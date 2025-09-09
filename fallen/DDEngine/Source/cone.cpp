@@ -154,7 +154,7 @@ void CONE_create(
     float along_a;
     float along_b;
 
-    CONE_Point *cp;
+    CONE_Point* cp;
 
     for (i = 0; i < CONE_point_upto; i++) {
         cp = &CONE_point[i];
@@ -360,8 +360,8 @@ void CONE_clip(
 
     float dprod;
 
-    CONE_Poly *pp;
-    CONE_Point *cp;
+    CONE_Poly* pp;
+    CONE_Point* cp;
 
 #define CONE_MAX_POLY_POINTS 16
 
@@ -405,8 +405,8 @@ void CONE_clip(
     // two vectors from point 0 to point 1 and point 0 to point (num_points - 1).
     //
 
-    CONE_Poly *vp = &p[1];
-    CONE_Poly *wp = &p[num_points - 1];
+    CONE_Poly* vp = &p[1];
+    CONE_Poly* wp = &p[num_points - 1];
 
     float vx = vp->x - p[0].x;
     float vy = vp->y - p[0].y;
@@ -663,7 +663,7 @@ void CONE_clip(
 
                 ASSERT(WITHIN(i, 1, CONE_point_upto));
 
-                CONE_Point *lp = &CONE_point[i - 1];
+                CONE_Point* lp = &CONE_point[i - 1];
 
                 dx = lp->x - CONE_origin_x;
                 dy = lp->y - CONE_origin_y;
@@ -736,20 +736,20 @@ void CONE_intersect_square(
     std::int32_t w_list;
     std::int32_t w_face;
 
-    PrimFace4 *p_f4;
-    PrimPoint *pp;
+    PrimFace4* p_f4;
+    PrimPoint* pp;
 
     std::int32_t f_list;
     std::int32_t exit;
     std::int32_t facet;
     std::int32_t build;
 
-    DFacet *df;
+    DFacet* df;
 
     std::int32_t face_height;
     std::uint8_t face_order[4] = {0, 1, 3, 2};
 
-    Thing *p_fthing;
+    Entity* p_fthing;
 
     CONE_Poly poly[4];
 
@@ -758,7 +758,7 @@ void CONE_intersect_square(
         return;
     }
 
-    PAP_Lo *pl = &PAP_2LO(mx, mz);
+    PAP_Lo* pl = &PAP_2LO(mx, mz);
 
     f_list = pl->ColVectHead;
 
@@ -1036,11 +1036,11 @@ void CONE_draw() {
 
     POLY_Point ppo;
 
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
-    CONE_Point *cp;
-    CONE_Point *cp1;
-    CONE_Point *cp2;
+    CONE_Point* cp;
+    CONE_Point* cp1;
+    CONE_Point* cp2;
 
     //
     // Rotate the origin of the cone.

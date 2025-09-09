@@ -140,7 +140,7 @@ static void ScribbleCheck()
 #endif
 
 void AENG_draw_far_facets();
-void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out);
+void AENG_draw_box_around_recessed_door(DFacet* df, std::int32_t inside_out);
 void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen);
 void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_room, std::uint8_t fade);
 
@@ -234,7 +234,7 @@ void calc_global_cloud(std::int32_t x, std::int32_t y, std::int32_t z) {
 //
 // use pre-calced shadow value
 //
-void use_global_cloud(std::uint32_t *col) {
+void use_global_cloud(std::uint32_t* col) {
     std::int32_t r, g, b;
     std::int32_t in = global_b;
 
@@ -277,7 +277,7 @@ void use_global_cloud(std::uint32_t *col) {
 // and darken the colour accordingly
 
 #define MIN_CLOUD 48
-inline void apply_cloud(std::int32_t x, std::int32_t y, std::int32_t z, D3DCOLOR *col) {
+inline void apply_cloud(std::int32_t x, std::int32_t y, std::int32_t z, D3DCOLOR* col) {
     return;
 
     if (!aeng_draw_cloud_flag) return;
@@ -382,7 +382,7 @@ void init_clouds(void) {
 // returns a std::uint8_t -> std::uint16_t table for mapping
 // from the shadow buffer to the shadow texture surface
 
-std::uint16_t *GetShadowPixelMapping() {
+std::uint16_t* GetShadowPixelMapping() {
     static std::uint16_t mapping[256];
     static int mapping_state = -1;
 
@@ -534,7 +534,7 @@ std::int32_t AENG_sewer_page[SEWER_PAGE_NUMBER] =
 
 #define SWAP_FRAME(a, b)   \
     {                      \
-        COMP_Frame *spare; \
+        COMP_Frame* spare; \
         spare = (a);       \
         (a) = (b);         \
         (b) = spare;       \
@@ -553,11 +553,11 @@ std::int32_t AENG_sewer_page[SEWER_PAGE_NUMBER] =
 #endif
 
 std::uint8_t AENG_movie_data[AENG_MAX_MOVIE_DATA];
-std::uint8_t *AENG_movie_upto;
+std::uint8_t* AENG_movie_upto;
 COMP_Frame AENG_frame_one;
 COMP_Frame AENG_frame_two;
-COMP_Frame *AENG_frame_last = &AENG_frame_one;
-COMP_Frame *AENG_frame_next = &AENG_frame_two;
+COMP_Frame* AENG_frame_last = &AENG_frame_one;
+COMP_Frame* AENG_frame_next = &AENG_frame_two;
 std::int32_t AENG_frame_count;
 std::int32_t AENG_frame_tick;
 std::int32_t AENG_frame_number;
@@ -569,7 +569,7 @@ std::int32_t AENG_frame_number;
 void AENG_movie_init() {
     std::int32_t bytes_read;
 
-    FILE *handle;
+    FILE* handle;
 
     //
     // Load the movie in.
@@ -618,7 +618,7 @@ void AENG_movie_update() {
         return;
     }
 
-    COMP_Delta *cd;
+    COMP_Delta* cd;
 
     AENG_frame_tick += TICK_RATIO >> 1;
 
@@ -645,7 +645,7 @@ void AENG_movie_update() {
         // Load in the new frame.
         //
 
-        cd = (COMP_Delta *) AENG_movie_upto;
+        cd = (COMP_Delta*) AENG_movie_upto;
 
         COMP_decomp(
             AENG_frame_last,
@@ -664,10 +664,10 @@ void AENG_movie_update() {
             std::int32_t x;
             std::int32_t y;
 
-            std::uint16_t *data;
+            std::uint16_t* data;
             std::uint16_t pixel;
 
-            TGA_Pixel *tp;
+            TGA_Pixel* tp;
 
             for (y = 0; y < TEXTURE_VIDEO_SIZE; y++) {
                 tp = &AENG_frame_next->p[y][0];
@@ -1426,15 +1426,15 @@ void AENG_calc_gamut_lo_only(
 #endif
 
 #if 1
-    AENG_gamut_lo_xmin = (std::int32_t)(gamut_lo_xmin);
-    AENG_gamut_lo_xmax = (std::int32_t)(gamut_lo_xmax);
-    AENG_gamut_lo_zmin = (std::int32_t)(gamut_lo_zmin);
-    AENG_gamut_lo_zmax = (std::int32_t)(gamut_lo_zmax);
+    AENG_gamut_lo_xmin = (std::int32_t) (gamut_lo_xmin);
+    AENG_gamut_lo_xmax = (std::int32_t) (gamut_lo_xmax);
+    AENG_gamut_lo_zmin = (std::int32_t) (gamut_lo_zmin);
+    AENG_gamut_lo_zmax = (std::int32_t) (gamut_lo_zmax);
 #else
-    AENG_gamut_lo_xmin = (std::int32_t)(gamut_lo_xmin * 0.25f);
-    AENG_gamut_lo_xmax = (std::int32_t)(gamut_lo_xmax * 0.25f);
-    AENG_gamut_lo_zmin = (std::int32_t)(gamut_lo_zmin * 0.25f);
-    AENG_gamut_lo_zmax = (std::int32_t)(gamut_lo_zmax * 0.25f);
+    AENG_gamut_lo_xmin = (std::int32_t) (gamut_lo_xmin * 0.25f);
+    AENG_gamut_lo_xmax = (std::int32_t) (gamut_lo_xmax * 0.25f);
+    AENG_gamut_lo_zmin = (std::int32_t) (gamut_lo_zmin * 0.25f);
+    AENG_gamut_lo_zmax = (std::int32_t) (gamut_lo_zmax * 0.25f);
 #endif
 
     // Just catch the dodgy edge condition.
@@ -1624,7 +1624,7 @@ void AENG_do_cached_lighting_old(void) {
     std::int32_t z;
     std::int32_t kept = 0, new_squares = 0;
 
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     extern std::int32_t HEAP_max_free(void);
 
@@ -1682,9 +1682,9 @@ void AENG_do_cached_lighting_old(void) {
 
         {
             std::int32_t x, z, floor_y;
-            struct InsideStorey *p_inside;
+            struct InsideStorey* p_inside;
             std::int32_t in_width;
-            std::uint8_t *in_block;
+            std::uint8_t* in_block;
             std::int32_t min_z, max_z;
             std::int32_t min_x, max_x;
 
@@ -1759,7 +1759,7 @@ void AENG_do_cached_lighting_old(void) {
 void AENG_mark_night_squares_as_deleteme(void) {
     std::int32_t i;
 
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     for (i = 1; i < NIGHT_MAX_SQUARES; i++) {
         nq = &NIGHT_square[i];
@@ -1782,7 +1782,7 @@ void AENG_ensure_appropriate_caching(std::int32_t ware) {
     std::int32_t z;
     std::int32_t ok;
 
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
         for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
@@ -1824,7 +1824,7 @@ void AENG_ensure_appropriate_caching(std::int32_t ware) {
 void AENG_get_rid_of_deleteme_squares() {
     std::int32_t i;
 
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     for (i = 1; i < NIGHT_MAX_SQUARES; i++) {
         nq = &NIGHT_square[i];
@@ -1857,10 +1857,10 @@ float AENG_project_fadeout_z;
 
 #define SHADOW_Z_BIAS_BODGE 0.0001f
 
-void AENG_add_projected_shadow_poly(SMAP_Link *sl) {
+void AENG_add_projected_shadow_poly(SMAP_Link* sl) {
     std::int32_t i;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
 
     //
     // Transform all the points into the poly buffer.
@@ -1905,7 +1905,7 @@ void AENG_add_projected_shadow_poly(SMAP_Link *sl) {
     // Add the triangles.
     //
 
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     tri[0] = &POLY_buffer[0];
 
@@ -1919,7 +1919,7 @@ void AENG_add_projected_shadow_poly(SMAP_Link *sl) {
     }
 }
 
-void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl) {
+void AENG_add_projected_fadeout_shadow_poly(SMAP_Link* sl) {
     float dx;
     float dz;
     float dist;
@@ -1927,7 +1927,7 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl) {
     std::int32_t i;
     std::int32_t alpha;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
 
     //
     // Transform all the points into the poly buffer.
@@ -1990,7 +1990,7 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl) {
     // Add the triangles.
     //
 
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     tri[0] = &POLY_buffer[0];
 
@@ -2004,7 +2004,7 @@ void AENG_add_projected_fadeout_shadow_poly(SMAP_Link *sl) {
     }
 }
 
-void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl) {
+void AENG_add_projected_lit_shadow_poly(SMAP_Link* sl) {
     std::int32_t i;
 
     float dx;
@@ -2013,7 +2013,7 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl) {
     float dist;
     float bright;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
 
     //
     // Transform all the points into the poly buffer.
@@ -2087,7 +2087,7 @@ void AENG_add_projected_lit_shadow_poly(SMAP_Link *sl) {
     // Add the triangles.
     //
 
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     tri[0] = &POLY_buffer[0];
 
@@ -2119,7 +2119,7 @@ void AENG_draw_rain_old(float angle) {
     float Z;
 
     POLY_Point pp[3];
-    POLY_Point *tri[3];
+    POLY_Point* tri[3];
 
     tri[0] = &pp[0];
     tri[1] = &pp[1];
@@ -2290,7 +2290,7 @@ void AENG_draw_rain() {
         ASSERT(WITHIN(square, 1, NIGHT_MAX_SQUARES - 1));
         ASSERT(NIGHT_square[square].flag & NIGHT_SQUARE_FLAG_USED);
 
-        NIGHT_Square *nq = &NIGHT_square[square];
+        NIGHT_Square* nq = &NIGHT_square[square];
         D3DCOLOR col, spec;
 
         NIGHT_get_d3d_colour(nq->colour[dx + dz * PAP_BLOCKS], &col, &spec);
@@ -2327,10 +2327,10 @@ void AENG_draw_drips(std::uint8_t puddles_only) {
     float radius;
     std::uint32_t colour;
 
-    DRIP_Info *di;
+    DRIP_Info* di;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     quad[0] = &pp[0];
     quad[1] = &pp[1];
@@ -2402,7 +2402,7 @@ void AENG_draw_bangs() {
 #ifdef DOG_POO
     std::int32_t z;
 
-    BANG_Info *bi;
+    BANG_Info* bi;
 
     for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++) {
         BANG_get_start(
@@ -2473,7 +2473,7 @@ void AENG_draw_cloth(void) {
 
     std::uint8_t cloth;
 
-    CLOTH_Info *ci;
+    CLOTH_Info* ci;
 
     POLY_Point pp[CLOTH_WIDTH * CLOTH_HEIGHT];
 
@@ -2501,7 +2501,7 @@ void AENG_draw_cloth(void) {
     std::int32_t px;
     std::int32_t py;
 
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
         for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
@@ -2579,8 +2579,8 @@ void AENG_draw_cloth(void) {
 void AENG_draw_fire() {
     std::int32_t z;
 
-    FIRE_Info *fi;
-    FIRE_Point *fp;
+    FIRE_Info* fi;
+    FIRE_Point* fp;
 
     for (z = NGAMUT_point_zmin; z <= NGAMUT_point_zmax; z++) {
         FIRE_get_start(
@@ -2593,8 +2593,8 @@ void AENG_draw_fire() {
 void AENG_draw_sparks() {
     std::int32_t z;
 
-    SPARK_Info *si;
-    GLITTER_Info *gi;
+    SPARK_Info* si;
+    GLITTER_Info* gi;
 
     // Internal gubbins.
     POLY_flush_local_rot();
@@ -2748,14 +2748,14 @@ extern std::uint8_t estate;
 #define AENG_MAX_DIRT_INDICES (AENG_MAX_DIRT_LVERTS * 4 / 3)
 
 D3DLVERTEX AENG_dirt_lvert_buffer[AENG_MAX_DIRT_LVERTS + 1];
-D3DLVERTEX *AENG_dirt_lvert;
+D3DLVERTEX* AENG_dirt_lvert;
 std::int32_t AENG_dirt_lvert_upto;
 
 std::uint16_t AENG_dirt_index[AENG_MAX_DIRT_INDICES];
 std::int32_t AENG_dirt_index_upto;
 
 std::uint8_t AENG_dirt_matrix_buffer[sizeof(D3DMATRIX) + 32];
-D3DMATRIX *AENG_dirt_matrix;
+D3DMATRIX* AENG_dirt_matrix;
 
 #define AENG_MAX_DIRT_UVLOOKUP 16
 
@@ -2801,8 +2801,8 @@ void AENG_draw_dirt_PZI() {
     float matrix[9];
     float angle;
     SVector_F temp[4];
-    PolyPage *pp;
-    D3DLVERTEX *lv;
+    PolyPage* pp;
+    D3DLVERTEX* lv;
     std::uint32_t rubbish_colour;
 
     std::uint32_t leaf_colour_choice_rgb[4] =
@@ -2934,8 +2934,8 @@ void AENG_draw_dirt() {
     float matrix[9];
     float angle;
     SVector_F temp[4];
-    PolyPage *pp;
-    D3DLVERTEX *lv;
+    PolyPage* pp;
+    D3DLVERTEX* lv;
     std::uint32_t rubbish_colour;
 
 #ifdef TARGET_DC
@@ -3040,14 +3040,14 @@ void AENG_draw_dirt() {
     AENG_dirt_lvert_upto = 0;
     AENG_dirt_index_upto = 0;
 
-    AENG_dirt_lvert = (D3DLVERTEX *) ((std::int32_t(AENG_dirt_lvert_buffer) + 31) & ~0x1f);
-    AENG_dirt_matrix = (D3DMATRIX *) ((std::int32_t(AENG_dirt_matrix_buffer) + 31) & ~0x1f);
+    AENG_dirt_lvert = (D3DLVERTEX*) ((std::int32_t(AENG_dirt_lvert_buffer) + 31) & ~0x1f);
+    AENG_dirt_matrix = (D3DMATRIX*) ((std::int32_t(AENG_dirt_matrix_buffer) + 31) & ~0x1f);
 
     //
     // Draw the dirt.
     //
 
-    DIRT_Dirt *dd;
+    DIRT_Dirt* dd;
 
 #ifdef DEBUG
     int iDrawnDirtCount = 0;
@@ -3494,7 +3494,7 @@ void AENG_draw_dirt() {
             //
 
             {
-                Thing *p_person = TO_THING(dd->droll); // droll => owner
+                Entity* p_person = TO_THING(dd->droll); // droll => owner
 
                 if (p_person->Genus.Person->InCar) {
                     continue;
@@ -3756,7 +3756,7 @@ void AENG_draw_dirt() {
                 // Transform the points.
                 //
                 POLY_Point pzi_pp[4];
-                POLY_Point *quad[4];
+                POLY_Point* quad[4];
 
                 quad[0] = &pzi_pp[0];
                 quad[1] = &pzi_pp[1];
@@ -3916,7 +3916,7 @@ void AENG_draw_dirt() {
                 //
 
                 POLY_Point pzi2_pp[3];
-                POLY_Point *tri[3];
+                POLY_Point* tri[3];
 
                 tri[0] = &pzi2_pp[0];
                 tri[1] = &pzi2_pp[1];
@@ -4085,7 +4085,7 @@ typedef struct aeng_pow {
     float sz;
     float Z;
 
-    struct aeng_pow *next;
+    struct aeng_pow* next;
 
 } AENG_Pow;
 
@@ -4096,7 +4096,7 @@ std::int32_t AENG_pow_upto;
 
 #define AENG_POW_NUM_BUCKETS 1024
 
-AENG_Pow *AENG_pow_bucket[AENG_POW_NUM_BUCKETS];
+AENG_Pow* AENG_pow_bucket[AENG_POW_NUM_BUCKETS];
 
 //
 // Draws the POWS
@@ -4107,9 +4107,9 @@ void AENG_draw_pows(void) {
     std::int32_t sprite;
     std::int32_t bucket;
 
-    AENG_Pow *ap;
-    POW_Pow *pp;
-    POW_Sprite *ps;
+    AENG_Pow* ap;
+    POW_Pow* pp;
+    POW_Sprite* ps;
 
     POLY_Point pt;
 
@@ -4177,7 +4177,7 @@ void AENG_draw_pows(void) {
 
     {
         POLY_Point ppt[4];
-        POLY_Point *quad[4];
+        POLY_Point* quad[4];
 
         float size;
         float u;
@@ -4263,7 +4263,7 @@ void AENG_draw_pows(void) {
 void AENG_draw_released_balloons(void) {
     std::int32_t i;
 
-    BALLOON_Balloon *bb;
+    BALLOON_Balloon* bb;
 
     for (i = 1; i < BALLOON_balloon_upto; i++) {
         bb = &BALLOON_balloon[i];
@@ -4380,7 +4380,7 @@ void draw_all_boxes(void) {
 void AENG_draw_rect(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t h, std::int32_t col, std::int32_t layer, std::int32_t page) {
     float offset = 0.0;
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     float top, bottom, left, right;
 
     offset = ((float) layer) * 0.0001f;
@@ -4439,8 +4439,8 @@ void AENG_draw_rect(std::int32_t x, std::int32_t y, std::int32_t w, std::int32_t
 void AENG_draw_col_tri(std::int32_t x0, std::int32_t y0, std::int32_t col0, std::int32_t x1, std::int32_t y1, std::int32_t col1, std::int32_t x2, std::int32_t y2, std::int32_t col2, std::int32_t layer) {
     float offset = 0.0;
     POLY_Point pp[4];
-    POLY_Point *tri[4];
-    POLY_Point *quad[4];
+    POLY_Point* tri[4];
+    POLY_Point* quad[4];
 
     float left, right, top, bottom;
 
@@ -4559,7 +4559,7 @@ void show_gamut_hi(std::int32_t x, std::int32_t z) {
 void show_facet(std::int32_t facet) {
     return;
 
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t x1, z1, x2, z2;
     std::int32_t colour = 0xffffff;
 
@@ -4605,7 +4605,7 @@ void AENG_draw_people_messages() {
     std::int32_t z;
 
     std::int32_t t_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
         for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
@@ -4660,8 +4660,8 @@ void AENG_draw_people_messages() {
 void AENG_set_bike_wheel_rotation(std::uint16_t rot, std::uint8_t prim) {
     std::int32_t i;
 
-    PrimObject *po;
-    PrimFace4 *f4;
+    PrimObject* po;
+    PrimFace4* f4;
 
     po = &prim_objects[prim];
 
@@ -5081,11 +5081,11 @@ float AENG_draw_some_polys(bool large, bool blend) {
     }
 
     if (large) {
-        HRESULT res = DRAW_INDEXED_PRIMITIVE(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (D3DTLVERTEX *) vert, 300, ind, 300, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
+        HRESULT res = DRAW_INDEXED_PRIMITIVE(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (D3DTLVERTEX*) vert, 300, ind, 300, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
         // HRESULT res = DRAW_INDEXED_PRIMITIVE(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, vert->GetTLVert(), 300, ind, 300, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
         ASSERT(!FAILED(res));
     } else {
-        HRESULT res = DRAW_INDEXED_PRIMITIVE(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (D3DTLVERTEX *) vert, 30000, ind, 30000, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
+        HRESULT res = DRAW_INDEXED_PRIMITIVE(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, (D3DTLVERTEX*) vert, 30000, ind, 30000, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
         // HRESULT res = DRAW_INDEXED_PRIMITIVE(D3DPT_TRIANGLELIST, D3DFVF_TLVERTEX, vert->GetTLVert(), 30000, ind, 30000, D3DDP_DONOTUPDATEEXTENTS | D3DDP_DONOTLIGHT);
         ASSERT(!FAILED(res));
     }
@@ -5116,7 +5116,7 @@ void AENG_guess_detail_levels() {
     int generation;
 
     // 0 = software or 1-2 for hardware
-    D3DDeviceInfo *dev = the_display.GetDeviceInfo();
+    D3DDeviceInfo* dev = the_display.GetDeviceInfo();
 
     if (!dev->IsHardware()) {
         generation = 0;
@@ -5166,26 +5166,26 @@ void AENG_guess_detail_levels() {
 #ifdef TARGET_DC
 // Fewer things to set.
 void AENG_get_detail_levels( // int* stars,
-    int *shadows,
-    int *puddles,
-    int *dirt,
-    int *mist,
-    int *rain,
-    int *skyline,
-    int *crinkles)
+    int* shadows,
+    int* puddles,
+    int* dirt,
+    int* mist,
+    int* rain,
+    int* skyline,
+    int* crinkles)
 #else
-void AENG_get_detail_levels(int *stars,
-                            int *shadows,
-                            int *moon_reflection,
-                            int *people_reflection,
-                            int *puddles,
-                            int *dirt,
-                            int *mist,
-                            int *rain,
-                            int *skyline,
-                            int *filter,
-                            int *perspective,
-                            int *crinkles)
+void AENG_get_detail_levels(int* stars,
+                            int* shadows,
+                            int* moon_reflection,
+                            int* people_reflection,
+                            int* puddles,
+                            int* dirt,
+                            int* mist,
+                            int* rain,
+                            int* skyline,
+                            int* filter,
+                            int* perspective,
+                            int* crinkles)
 #endif
 {
     //*stars = AENG_detail_stars;
@@ -5247,7 +5247,7 @@ float how_good(void) {
 
     memset(strips, 0, 128 * 2);
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     group_upto = 1;
 
@@ -5348,7 +5348,7 @@ float init_groups2(void) {
     std::int32_t c1, c2;
     std::int32_t c0;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
     /*
             for(c0=0;c0<64*10;c0++)
             {
@@ -5583,12 +5583,12 @@ struct FloorStore {
 
 // 40*12 =480 bytes per row, need 2 rows
 
-inline void cache_a_row(std::int32_t x, std::int32_t z, struct FloorStore *p2, std::int32_t endx) {
+inline void cache_a_row(std::int32_t x, std::int32_t z, struct FloorStore* p2, std::int32_t endx) {
     std::int32_t px, pz, dx, dz;
     std::int32_t square;
     std::int32_t mapz;
-    NIGHT_Square *nq;
-    PAP_Hi *ph;
+    NIGHT_Square* nq;
+    PAP_Hi* ph;
     std::uint32_t spec;
     std::int32_t y;
 
@@ -5640,7 +5640,7 @@ inline void cache_a_row(std::int32_t x, std::int32_t z, struct FloorStore *p2, s
         */
 
         {
-            NIGHT_Colour *col = &nq->colour[dx + dz * PAP_BLOCKS];
+            NIGHT_Colour* col = &nq->colour[dx + dz * PAP_BLOCKS];
 
             std::int32_t r = col->red << 2;
             std::int32_t g = col->green << 2;
@@ -5689,7 +5689,7 @@ float kerb_scalev;
 float kerb_du;
 float kerb_dv;
 
-inline std::int32_t add_kerb(float alt1, float alt2, std::int32_t x, std::int32_t z, std::int32_t dx, std::int32_t dz, D3DLVERTEX *pv, std::uint16_t *p_indicies, std::int32_t count, std::uint32_t c1, std::uint32_t c2, std::int32_t flip) {
+inline std::int32_t add_kerb(float alt1, float alt2, std::int32_t x, std::int32_t z, std::int32_t dx, std::int32_t dz, D3DLVERTEX* pv, std::uint16_t* p_indicies, std::int32_t count, std::uint32_t c1, std::uint32_t c2, std::int32_t flip) {
     //	pv=&p_verts[current_set][vert_count[current_set]];
     //	p_indicies=&indicies[current_set][index_count[current_set]];
 
@@ -5853,7 +5853,7 @@ inline std::int32_t add_kerb(float alt1, float alt2, std::int32_t x, std::int32_
     return TRUE;
 }
 
-inline void draw_i_prim(LPDIRECT3DTEXTURE2 page, D3DLVERTEX *verts, std::uint16_t *indicies, std::int32_t *vert_count, std::int32_t *index_count, D3DMULTIMATRIX *mm_draw_floor) {
+inline void draw_i_prim(LPDIRECT3DTEXTURE2 page, D3DLVERTEX* verts, std::uint16_t* indicies, std::int32_t* vert_count, std::int32_t* index_count, D3DMULTIMATRIX* mm_draw_floor) {
     HRESULT res;
 #ifdef STRIP_STATS
     strip_stats[(*vert_count >> 2) + 1]++;
@@ -5979,7 +5979,7 @@ inline void general_steam(std::int32_t x, std::int32_t z, std::uint16_t texture,
 }
 
 void draw_quick_floor(std::int32_t warehouse) {
-    PAP_Hi *ph;
+    PAP_Hi* ph;
     //	std::uint32_t	colour,specular;
 
     std::int32_t c0;
@@ -5993,18 +5993,18 @@ void draw_quick_floor(std::int32_t warehouse) {
 
     struct GroupInfo group[IPRIM_COUNT];
 
-    PolyPage *pp;
+    PolyPage* pp;
     LPDIRECT3DTEXTURE2 tex_handle;
 
     std::uint16_t kerb_indicies[KERB_INDICIES];
 
-    std::uint16_t *p_indicies;
+    std::uint16_t* p_indicies;
 
-    D3DMATRIX *m_view;
+    D3DMATRIX* m_view;
     D3DLVERTEX *p_verts[IPRIM_COUNT], *pv, *kerb_verts;
 
     std::uint8_t some_data[sizeof(D3DMATRIX) + 32]; // used to 32 byte align the funny fanny thing
-    std::uint8_t *ptr32;
+    std::uint8_t* ptr32;
 
     std::int32_t index_count[IPRIM_COUNT], vert_count[IPRIM_COUNT], age[IPRIM_COUNT], kerb_counti = 0, kerb_countv = 0;
 
@@ -6051,20 +6051,20 @@ void draw_quick_floor(std::int32_t warehouse) {
         init_stats = 0;
     }
 
-    ptr32 = (std::uint8_t *) (((std::uint32_t)(some_data + 32)) & 0xffffffe0);
-    m_view = (D3DMATRIX *) ptr32;
+    ptr32 = (std::uint8_t*) (((std::uint32_t) (some_data + 32)) & 0xffffffe0);
+    m_view = (D3DMATRIX*) ptr32;
 
     mm_draw_floor.lpd3dMatrices = m_view;
     mm_draw_floor.lpvLightDirs = NULL;
     mm_draw_floor.lpLightTable = NULL;
 
-    ptr32 = (std::uint8_t *) (((std::uint32_t)(m_vert_mem_block32 + 32)) & 0xffffffe0);
+    ptr32 = (std::uint8_t*) (((std::uint32_t) (m_vert_mem_block32 + 32)) & 0xffffffe0);
 
-    kerb_verts = (D3DLVERTEX *) ptr32;
+    kerb_verts = (D3DLVERTEX*) ptr32;
     ptr32 += sizeof(D3DLVERTEX) * KERB_VERTS;
 
     for (c0 = 0; c0 < IPRIM_COUNT; c0++) {
-        p_verts[c0] = (D3DLVERTEX *) ptr32;
+        p_verts[c0] = (D3DLVERTEX*) ptr32;
         ptr32 += sizeof(D3DLVERTEX) * MAX_VERTS_FOR_STRIPS;
         index_count[c0] = 0;
         vert_count[c0] = 0;
@@ -6440,7 +6440,7 @@ void draw_quick_floor(std::int32_t warehouse) {
 
 #ifdef DEBUG
 #ifdef TARGET_DC
-                // Colour the vertices.
+            // Colour the vertices.
 #define BUTTON_IS_PRESSED(value) ((value & 0x80) != 0)
                 extern DIJOYSTATE the_state;
                 if (BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_LTRIGGER]) && BUTTON_IS_PRESSED(the_state.rgbButtons[DI_DC_BUTTON_RTRIGGER])) {
@@ -6797,22 +6797,22 @@ void AENG_draw_city() {
     float world_y;
     float world_z;
 
-    POLY_Point *pp;
-    POLY_Point *ppl;
+    POLY_Point* pp;
+    POLY_Point* ppl;
 #ifndef TARGET_DC
-    MapElement *me;
+    MapElement* me;
 #endif
 
-    PAP_Lo *pl;
-    PAP_Hi *ph;
+    PAP_Lo* pl;
+    PAP_Hi* ph;
 
     THING_INDEX t_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     std::int32_t red;
     std::int32_t green;
@@ -6836,7 +6836,7 @@ void AENG_draw_city() {
     std::uint32_t colour;
     std::uint32_t specular;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     LIGHT_Colour pcol;
     static int outside = 1;
@@ -7184,14 +7184,14 @@ void AENG_draw_city() {
 
     struct
     {
-        Thing *p_person;
+        Entity* p_person;
         std::int32_t dist;
 
     } shadow_person[AENG_NUM_SHADOWS];
     std::int32_t shadow_person_upto = 0;
 
     if (AENG_detail_shadows) {
-        Thing *darci = FC_cam[AENG_cur_fc_cam].focus;
+        Entity* darci = FC_cam[AENG_cur_fc_cam].focus;
 
         //
         // How many people do we generate shadows for?
@@ -7285,7 +7285,7 @@ void AENG_draw_city() {
 
             SMAP_person(
                 darci,
-                (std::uint8_t *) AENG_aa_buffer,
+                (std::uint8_t*) AENG_aa_buffer,
                 AENG_AA_BUF_SIZE,
                 AENG_AA_BUF_SIZE,
                 147,
@@ -7309,9 +7309,9 @@ void AENG_draw_city() {
             if (TEXTURE_shadow_lock()) {
                 std::int32_t x;
                 std::int32_t y;
-                std::uint16_t *line;
-                std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
-                std::uint16_t *mapping = GetShadowPixelMapping();
+                std::uint16_t* line;
+                std::uint8_t* buf = (std::uint8_t*) AENG_aa_buffer;
+                std::uint16_t* mapping = GetShadowPixelMapping();
 
                 for (y = 0; y < AENG_AA_BUF_SIZE; y++) {
                     line = &TEXTURE_shadow_bitmap[((y + offset_y) * TEXTURE_shadow_pitch >> 1) + offset_x];
@@ -7363,23 +7363,23 @@ void AENG_draw_city() {
                 std::int32_t mz_lo;
 
 #ifndef TARGET_DC
-                MapElement *me[4];
+                MapElement* me[4];
 #endif
-                PAP_Hi *ph[4];
+                PAP_Hi* ph[4];
 
                 SVector_F poly[4];
-                SMAP_Link *projected;
+                SMAP_Link* projected;
 
                 std::int32_t v_list;
                 std::int32_t i_vect;
 
-                DFacet *df;
+                DFacet* df;
 
                 std::int32_t w_list;
                 std::int32_t w_face;
 
-                PrimFace4 *p_f4;
-                PrimPoint *pp;
+                PrimFace4* p_f4;
+                PrimPoint* pp;
 
                 std::int32_t wall;
                 std::int32_t storey;
@@ -7388,7 +7388,7 @@ void AENG_draw_city() {
                 std::int32_t face_height;
                 std::uint8_t face_order[4] = {0, 1, 3, 2};
 
-                Thing *p_fthing;
+                Entity* p_fthing;
 
                 //
                 // Colvects we have already done.
@@ -7624,7 +7624,7 @@ void AENG_draw_city() {
 
                                     w_face = p_f4->Col2;
                                 } else {
-                                    struct RoofFace4 *rf;
+                                    struct RoofFace4* rf;
                                     rf = &roof_faces4[-w_face];
                                     face_height = rf->Y;
 
@@ -7919,7 +7919,7 @@ void AENG_draw_city() {
     if (AENG_detail_puddles && !(GAME_FLAGS & GF_NO_FLOOR)) {
         std::int32_t i;
 
-        PUDDLE_Info *pi;
+        PUDDLE_Info* pi;
 
         float px1;
         float pz1;
@@ -7944,7 +7944,7 @@ void AENG_draw_city() {
         };
 
         POLY_Point pp[4];
-        POLY_Point *quad[4];
+        POLY_Point* quad[4];
 
         quad[0] = &pp[0];
         quad[1] = &pp[1];
@@ -8177,7 +8177,7 @@ void AENG_draw_city() {
                     //
 
                     if (ph->Flags & PAP_FLAG_ANIM_TMAP) {
-                        struct AnimTmap *p_a;
+                        struct AnimTmap* p_a;
                         std::int32_t cur;
                         p_a = &anim_tmaps[ph->Texture];
                         cur = p_a->Current;
@@ -9016,8 +9016,8 @@ void AENG_draw_city() {
 
         for (z = NGAMUT_lo_zmin; z <= NGAMUT_lo_zmax; z++) {
             for (x = NGAMUT_lo_gamut[z].xmin; x <= NGAMUT_lo_gamut[z].xmax; x++) {
-                OB_Info *oi;
-                NIGHT_Colour *col;
+                OB_Info* oi;
+                NIGHT_Colour* col;
 
                 //
                 // The cached lighting for this low-res mapsquare.
@@ -9155,7 +9155,7 @@ void AENG_draw_city() {
                     if (f_list) {
                         std::int32_t count = 0;
                         while (!exit) {
-                            struct DFacet *p_vect;
+                            struct DFacet* p_vect;
                             facet = facet_links[f_list];
 
                             p_vect = &dfacets[facet];
@@ -9291,7 +9291,7 @@ void AENG_draw_city() {
                         case DT_PRIM:
                             break;
                         case DT_ANIM_PRIM:
-                            extern void ANIM_obj_draw(Thing * p_thing, DrawTween * dt);
+                            extern void ANIM_obj_draw(Entity * p_thing, DrawTween * dt);
                             ANIM_obj_draw(p_thing, p_thing->Draw.Tweened);
 
                             if (p_thing->Class == CLASS_BAT &&
@@ -9360,7 +9360,7 @@ void AENG_draw_city() {
                                 //
 
                                 if (p_thing->SubState == SUB_STATE_RIDING_BIKE) {
-                                    Thing *p_bike = TO_THING(p_thing->Genus.Person->InCar);
+                                    Entity* p_bike = TO_THING(p_thing->Genus.Person->InCar);
 
                                     ASSERT(p_thing->Genus.Person->Flags & FLAG_PERSON_BIKING);
                                     ASSERT(p_thing->Genus.Person->InCar);
@@ -9395,7 +9395,7 @@ void AENG_draw_city() {
 
                                     {
                                         BIKE_Control bc;
-                                        DrawTween *dt = p_thing->Draw.Tweened;
+                                        DrawTween* dt = p_thing->Draw.Tweened;
                                         std::int32_t steer;
 
                                         bc = BIKE_control_get(p_bike);
@@ -9529,7 +9529,7 @@ void AENG_draw_city() {
 
                             if (p_thing->Genus.Person->Balloon) {
                                 std::int32_t balloon;
-                                BALLOON_Balloon *bb;
+                                BALLOON_Balloon* bb;
 
                                 //
                                 // Draw this person's balloon.
@@ -9767,7 +9767,7 @@ void AENG_draw_city() {
 #endif
                             }
 
-                            extern void draw_car(Thing * p_car);
+                            extern void draw_car(Entity * p_car);
 
                             draw_car(p_thing);
 
@@ -9807,7 +9807,7 @@ void AENG_draw_city() {
                             break;
                         case DT_ANIMAL_PRIM:
 #if 1
-                            extern void ANIMAL_draw(Thing * p_thing);
+                            extern void ANIMAL_draw(Entity * p_thing);
                             ANIMAL_draw(p_thing);
 #endif
                             break;
@@ -9994,8 +9994,8 @@ void AENG_draw_city() {
             // Internal gubbins.
             POLY_flush_local_rot();
 
-            POLY_Point *pp;
-            POLY_Point *quad[4];
+            POLY_Point* pp;
+            POLY_Point* quad[4];
 
 #define MAX_MIST_DETAIL 32
 
@@ -10099,7 +10099,7 @@ void AENG_draw_city() {
 
 #if defined(_DEBUG) && defined(FAST_EDDIE) && 0
     POLY_Point tpt[4];
-    POLY_Point *tptp[4];
+    POLY_Point* tptp[4];
 
     tpt[0].X = 0;
     tpt[0].Y = 0;
@@ -10209,7 +10209,7 @@ void AENG_draw_city() {
     ASSERT(!AENG_torch_on);
 #else
     if (AENG_torch_on) {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         float angle;
 
@@ -10289,7 +10289,7 @@ void AENG_draw_city() {
         std::int32_t map_x2;
         std::int32_t map_z2;
 
-        TRIP_Info *ti;
+        TRIP_Info* ti;
 
         // Deal with internal bollocks.
         POLY_flush_local_rot();
@@ -10350,7 +10350,7 @@ void AENG_draw_city() {
     LOG_ENTER(AENG_Draw_Spherematter)
 
     if (!INDOORS_INDEX || outside) {
-        SM_Info *si;
+        SM_Info* si;
 
         SM_get_start();
 
@@ -10577,7 +10577,7 @@ void AENG_draw_far_facets(void) {
                     LOG_ENTER(Skyline_Draw_Facet)
 
                     while (!exit) {
-                        struct DFacet *p_vect;
+                        struct DFacet* p_vect;
                         facet = facet_links[f_list];
 
                         p_vect = &dfacets[facet];
@@ -10693,18 +10693,18 @@ void AENG_draw_warehouse() {
 
     aeng_draw_cloud_flag = FALSE;
 
-    Thing *p_thing;
-    OB_Info *oi;
-    PAP_Hi *ph;
-    NIGHT_Square *nq;
-    NIGHT_Colour *col;
-    NIGHT_Dfcache *ndf;
-    POLY_Point *pp;
-    DFacet *df;
+    Entity* p_thing;
+    OB_Info* oi;
+    PAP_Hi* ph;
+    NIGHT_Square* nq;
+    NIGHT_Colour* col;
+    NIGHT_Dfcache* ndf;
+    POLY_Point* pp;
+    DFacet* df;
 #ifndef TARGET_DC
     // BALLOON_Balloon *bb;
 #endif
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     // POLY_frame_init(FALSE,FALSE);
 
@@ -10832,7 +10832,7 @@ void AENG_draw_warehouse() {
     //
 
     if (AENG_shadows_on) {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         //
         // How many people do we generate shadows for?
@@ -10842,7 +10842,7 @@ void AENG_draw_warehouse() {
 
         struct
         {
-            Thing *p_person;
+            Entity* p_person;
             std::int32_t dist;
 
         } shadow_person[AENG_NUM_SHADOWS];
@@ -10933,7 +10933,7 @@ void AENG_draw_warehouse() {
 
             SMAP_person(
                 darci,
-                (std::uint8_t *) AENG_aa_buffer,
+                (std::uint8_t*) AENG_aa_buffer,
                 AENG_AA_BUF_SIZE,
                 AENG_AA_BUF_SIZE,
                 0,
@@ -10957,9 +10957,9 @@ void AENG_draw_warehouse() {
             if (TEXTURE_shadow_lock()) {
                 std::int32_t x;
                 std::int32_t y;
-                std::uint16_t *line;
-                std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
-                std::uint16_t *mapping = GetShadowPixelMapping();
+                std::uint16_t* line;
+                std::uint8_t* buf = (std::uint8_t*) AENG_aa_buffer;
+                std::uint16_t* mapping = GetShadowPixelMapping();
 
                 for (y = 0; y < AENG_AA_BUF_SIZE; y++) {
                     line = &TEXTURE_shadow_bitmap[((y + offset_y) * TEXTURE_shadow_pitch >> 1) + offset_x];
@@ -11004,23 +11004,23 @@ void AENG_draw_warehouse() {
                 std::int32_t mz_lo;
 
 #ifndef TARGET_DC
-                MapElement *me[4];
+                MapElement* me[4];
 #endif
-                PAP_Hi *ph[4];
+                PAP_Hi* ph[4];
 
                 SVector_F poly[4];
-                SMAP_Link *projected;
+                SMAP_Link* projected;
 
                 std::int32_t v_list;
                 std::int32_t i_vect;
 
-                DFacet *df;
+                DFacet* df;
 
                 std::int32_t w_list;
                 std::int32_t w_face;
 
-                PrimFace4 *p_f4;
-                PrimPoint *pp;
+                PrimFace4* p_f4;
+                PrimPoint* pp;
 
                 std::int32_t wall;
                 std::int32_t storey;
@@ -11029,7 +11029,7 @@ void AENG_draw_warehouse() {
                 std::int32_t face_height;
                 std::uint8_t face_order[4] = {0, 1, 3, 2};
 
-                Thing *p_fthing;
+                Entity* p_fthing;
 
                 //
                 // Colvects we have already done.
@@ -11162,7 +11162,7 @@ void AENG_draw_warehouse() {
 
                                 w_face = p_f4->Col2;
                             } else {
-                                struct RoofFace4 *rf;
+                                struct RoofFace4* rf;
                                 rf = &roof_faces4[-w_face];
                                 face_height = rf->Y;
 
@@ -11722,18 +11722,18 @@ void AENG_draw_ns() {
 
     std::int32_t page;
 
-    NS_Cache *nc;
-    NS_Point *np;
-    NS_Face *nf;
-    NS_Texture *nt;
-    NS_Lo *nl;
-    NS_St *nst;
+    NS_Cache* nc;
+    NS_Point* np;
+    NS_Face* nf;
+    NS_Texture* nt;
+    NS_Lo* nl;
+    NS_St* nst;
 
-    POLY_Point *pp;
-    POLY_Point *quad[4];
+    POLY_Point* pp;
+    POLY_Point* quad[4];
 
     THING_INDEX t_index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     static BOOL bright = FALSE;
 
@@ -11811,7 +11811,7 @@ void AENG_draw_ns() {
     }
 
     if (AENG_shadows_on) {
-        Thing *darci = NET_PERSON(0);
+        Entity* darci = NET_PERSON(0);
 
         //
         // Find the 'AENG_NUM_SHADOWS' nearest people to generate shadows for.
@@ -11819,7 +11819,7 @@ void AENG_draw_ns() {
 
         struct
         {
-            Thing *p_person;
+            Entity* p_person;
             std::int32_t dist;
 
         } shadow_person[AENG_NUM_SHADOWS];
@@ -11918,7 +11918,7 @@ void AENG_draw_ns() {
         std::int32_t offset_x;
         std::int32_t offset_y;
 
-        NS_Lo *nl;
+        NS_Lo* nl;
 
         for (i = 0; i < shadow_person_upto; i++) {
             darci = shadow_person[i].p_person;
@@ -11967,7 +11967,7 @@ void AENG_draw_ns() {
 
             SMAP_person(
                 darci,
-                (std::uint8_t *) AENG_aa_buffer,
+                (std::uint8_t*) AENG_aa_buffer,
                 AENG_AA_BUF_SIZE,
                 AENG_AA_BUF_SIZE,
                 light_dx,
@@ -11991,9 +11991,9 @@ void AENG_draw_ns() {
             if (TEXTURE_shadow_lock()) {
                 std::int32_t x;
                 std::int32_t y;
-                std::uint16_t *line;
-                std::uint8_t *buf = (std::uint8_t *) AENG_aa_buffer;
-                std::uint16_t *mapping = GetShadowPixelMapping();
+                std::uint16_t* line;
+                std::uint8_t* buf = (std::uint8_t*) AENG_aa_buffer;
+                std::uint16_t* mapping = GetShadowPixelMapping();
 
                 for (y = 0; y < AENG_AA_BUF_SIZE; y++) {
                     line = &TEXTURE_shadow_bitmap[((y + offset_y) * TEXTURE_shadow_pitch >> 1) + offset_x];
@@ -12038,19 +12038,19 @@ void AENG_draw_ns() {
                 std::int32_t base_x;
                 std::int32_t base_z;
 
-                NS_Hi *nh;
-                NS_Lo *nl;
-                NS_Cache *nc;
-                NS_Point *np_base;
-                NS_Face *nf_base;
-                NS_Point *np;
-                NS_Face *nf;
+                NS_Hi* nh;
+                NS_Lo* nl;
+                NS_Cache* nc;
+                NS_Point* np_base;
+                NS_Face* nf_base;
+                NS_Point* np;
+                NS_Face* nf;
 
                 std::int32_t face_point;
                 std::uint8_t face_order[4] = {0, 1, 3, 2};
 
                 SVector_F poly[4];
-                SMAP_Link *projected;
+                SMAP_Link* projected;
 
                 mx1 = (darci->WorldPos.X - 0x10000) >> (8 + PAP_SHIFT_LO);
                 mz1 = (darci->WorldPos.Z - 0x10000) >> (8 + PAP_SHIFT_LO);
@@ -12089,8 +12089,8 @@ void AENG_draw_ns() {
                         // Point and face memory.
                         //
 
-                        np_base = (NS_Point *) nc->memory;
-                        nf_base = (NS_Face *) &np_base[nc->num_points];
+                        np_base = (NS_Point*) nc->memory;
+                        nf_base = (NS_Face*) &np_base[nc->num_points];
 
                         for (j = 0, nf = nf_base; j < nc->num_faces; j++, nf++) {
                             for (k = 0; k < 4; k++) {
@@ -12155,7 +12155,7 @@ void AENG_draw_ns() {
                             ASSERT(WITHIN(mx, 0, PAP_SIZE_HI - 1));
                             ASSERT(WITHIN(mz, 0, PAP_SIZE_HI - 1));
 
-                            NS_Hi *nh = &NS_hi[mx][mz];
+                            NS_Hi* nh = &NS_hi[mx][mz];
 
                             if (NS_HI_TYPE(nh) != NS_HI_TYPE_ROCK &&
                                 NS_HI_TYPE(nh) != NS_HI_TYPE_CURVE &&
@@ -12248,9 +12248,9 @@ void AENG_draw_ns() {
             {
                 float water_height;
 
-                AENG_Nswater *answ;
+                AENG_Nswater* answ;
 
-                NS_Hi *nh;
+                NS_Hi* nh;
 
                 //
                 // Mark all the water points as untransformed.
@@ -12427,7 +12427,7 @@ void AENG_draw_ns() {
                 std::int32_t bot;
                 std::int32_t fall;
 
-                NS_Fall *nf;
+                NS_Fall* nf;
 
                 for (fall = nc->fall; fall; fall = nf->next) {
                     ASSERT(WITHIN(fall, 1, NS_MAX_FALLS - 1));
@@ -12501,7 +12501,7 @@ void AENG_draw_ns() {
             //
 
             POLY_buffer_upto = 0;
-            np = (NS_Point *) nc->memory;
+            np = (NS_Point*) nc->memory;
             pp = &POLY_buffer[0];
 
             for (i = 0; i < nc->num_points; i++) {
@@ -12542,7 +12542,7 @@ void AENG_draw_ns() {
             // Create all the faces.
             //
 
-            nf = (NS_Face *) np;
+            nf = (NS_Face*) np;
 
             for (i = 0; i < nc->num_faces; i++) {
                 ASSERT(WITHIN(nf->p[0], 0, nc->num_points - 1));
@@ -12772,7 +12772,7 @@ void AENG_draw_scanner(
 #ifdef DOG_POO
     std::int32_t i;
 
-    AZ_Line *al;
+    AZ_Line* al;
 
     float tx1;
     float tx2;
@@ -12883,7 +12883,7 @@ void AENG_draw_scanner(
 
     {
         THING_INDEX t_index;
-        Thing *p_thing;
+        Entity* p_thing;
 
         std::int32_t dx;
         std::int32_t dz;
@@ -12967,7 +12967,7 @@ void AENG_draw_scanner(
     //
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
 #define AENG_BACKGROUND_COLOUR 0x55888800
 
@@ -13313,8 +13313,8 @@ void AENG_draw_messages() {
 
         std::int32_t dist;
         std::int32_t best_dist = INFINITY;
-        std::int32_t *best_x;
-        std::int32_t *best_y;
+        std::int32_t* best_x;
+        std::int32_t* best_y;
 
         for (i = 0; i < 3; i++) {
             dx = abs(px[i] - mx);
@@ -13341,7 +13341,7 @@ void AENG_draw_messages() {
         memset(AENG_aa_buffer, 0, sizeof(AENG_aa_buffer));
 
         AA_draw(
-            (std::uint8_t *) AENG_aa_buffer,
+            (std::uint8_t*) AENG_aa_buffer,
             AENG_AA_BUF_SIZE,
             AENG_AA_BUF_SIZE,
             AENG_AA_BUF_SIZE,
@@ -13433,7 +13433,7 @@ void AENG_fade_out(std::uint8_t amount) {
     //
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     quad[0] = &pp[0];
     quad[1] = &pp[1];
@@ -13552,7 +13552,7 @@ void AENG_fade_in(std::uint8_t amount) {
     //
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     quad[0] = &pp[0];
     quad[1] = &pp[1];
@@ -13750,7 +13750,7 @@ void AENG_e_draw_3d_mapwho_y(std::int32_t x1, std::int32_t y1, std::int32_t z1) 
 
 //---------------------------------------------------------------
 
-void AENG_demo_attract(std::int32_t x, std::int32_t y, char *text) {
+void AENG_demo_attract(std::int32_t x, std::int32_t y, char* text) {
     /*
 
     static flash = 0;
@@ -13791,9 +13791,9 @@ void AENG_demo_attract(std::int32_t x, std::int32_t y, char *text) {
 std::int32_t AENG_raytraced_position(
     std::int32_t sx,
     std::int32_t sy,
-    std::int32_t *world_x,
-    std::int32_t *world_y,
-    std::int32_t *world_z,
+    std::int32_t* world_x,
+    std::int32_t* world_y,
+    std::int32_t* world_z,
     std::int32_t indoors) {
     std::int32_t i;
 
@@ -14039,10 +14039,10 @@ void AENG_draw_sewer_editor(
     std::int32_t cam_roll,
     std::int32_t mouse_x,
     std::int32_t mouse_y,
-    std::int32_t *mouse_over_valid,
-    std::int32_t *mouse_over_x,
-    std::int32_t *mouse_over_y,
-    std::int32_t *mouse_over_z,
+    std::int32_t* mouse_over_valid,
+    std::int32_t* mouse_over_x,
+    std::int32_t* mouse_over_y,
+    std::int32_t* mouse_over_z,
     std::int32_t draw_prim_at_mouse,
     std::int32_t prim_object,
     std::int32_t prim_yaw) {
@@ -14064,7 +14064,7 @@ void AENG_draw_sewer_editor(
     float along_02;
 
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
     quad[0] = &pp[0];
     quad[1] = &pp[1];
@@ -14090,10 +14090,10 @@ void AENG_draw_sewer_editor(
     pp[3].u = 1.0F;
     pp[3].v = 1.0F;
 
-    ES_Hi *eh;
-    ES_Lo *el;
+    ES_Hi* eh;
+    ES_Lo* el;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     //
     // Clear screen.
@@ -14382,7 +14382,7 @@ void AENG_world_text(
     std::uint8_t blue,
     std::uint8_t green,
     std::uint8_t shadowed_or_not,
-    char *fmt, ...) {
+    char* fmt, ...) {
     POLY_Point pp;
 
     //	return;
@@ -14579,7 +14579,7 @@ void AENG_groundsquare_draw(
     std::uint32_t colour,
     std::uint8_t polyinit) {
     POLY_Point pp[4];
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
     std::int32_t x, y, z, id, diff;
 
     quad[0] = &pp[0];
@@ -14698,7 +14698,7 @@ void AENG_draw(std::int32_t draw_3d) {
     std::int32_t i;
     std::int32_t warehouse;
 
-    FC_Cam *fc;
+    FC_Cam* fc;
 
 #if 0
 	// set CurDrawDistance
@@ -15088,7 +15088,7 @@ void AENG_read_detail_levels() {
 // Draws a small inside of the warehouse.
 //
 
-void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
+void AENG_draw_box_around_recessed_door(DFacet* df, std::int32_t inside_out) {
     std::int32_t i;
 
     std::int32_t x;
@@ -15120,7 +15120,7 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
 
     sky_specular |= 0xff000000;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     float wx;
     float wy;
@@ -15131,8 +15131,8 @@ void AENG_draw_box_around_recessed_door(DFacet *df, std::int32_t inside_out) {
     POLY_Point lower[MAX_DOOR_LENGTH][2];
     POLY_Point upper[MAX_DOOR_LENGTH][2];
 
-    POLY_Point *pp;
-    POLY_Point *quad[4];
+    POLY_Point* pp;
+    POLY_Point* quad[4];
 
     if (inside_out) {
         SWAP(df->x[0], df->x[1]);
@@ -15349,7 +15349,7 @@ void AENG_get_rid_of_unused_dfcache_lighting(std::int32_t splitscreen) // Splits
     std::int32_t dfcache;
     std::int32_t next;
 
-    NIGHT_Dfcache *ndf;
+    NIGHT_Dfcache* ndf;
 
     for (dfcache = NIGHT_dfcache_used; dfcache; dfcache = next) {
         ASSERT(WITHIN(dfcache, 1, NIGHT_MAX_DFCACHES - 1));
@@ -15401,17 +15401,17 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
 
     POLY_Point pp[4];
 #ifndef TARGET_DC
-    MapElement *me;
+    MapElement* me;
 #endif
 
-    PAP_Lo *pl;
-    PAP_Hi *ph;
+    PAP_Lo* pl;
+    PAP_Hi* ph;
 
-    POLY_Point *quad[4];
+    POLY_Point* quad[4];
 
-    struct InsideStorey *p_inside;
+    struct InsideStorey* p_inside;
     std::int32_t in_width;
-    std::uint8_t *in_block;
+    std::uint8_t* in_block;
     std::int32_t min_z, max_z;
     std::int32_t c0;
     std::int32_t floor_type;
@@ -15482,7 +15482,7 @@ void AENG_draw_inside_floor(std::uint16_t inside_index, std::uint16_t inside_roo
             if ((PAP_2HI(x, z).Flags & (PAP_FLAG_HIDDEN))) {
                 std::int32_t room_id;
                 std::int32_t px, pz, dx, dz, square;
-                NIGHT_Square *nq;
+                NIGHT_Square* nq;
 
                 room_id = in_block[(x - p_inside->MinX) + (z - p_inside->MinZ) * in_width] & (0xf | 0x80 | 0x40);
                 if (!(room_id & 0xc0)) {

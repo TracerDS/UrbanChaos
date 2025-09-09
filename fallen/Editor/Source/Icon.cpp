@@ -37,7 +37,7 @@ void WinBarIcon::DrawIcons() {
         }
     }
 }
-void WinBarIcon::HandleIconClick(std::uint8_t flags, MFPoint *clicked_point) {
+void WinBarIcon::HandleIconClick(std::uint8_t flags, MFPoint* clicked_point) {
     EdRect box_it;
     std::int32_t c0 = 0;
     std::int32_t x;
@@ -62,7 +62,7 @@ void WinBarIcon::HandleIconClick(std::uint8_t flags, MFPoint *clicked_point) {
     }
 }
 
-void WinBarIcon::InitIcons(struct AWindowIcon *p_icons) {
+void WinBarIcon::InitIcons(struct AWindowIcon* p_icons) {
     WindowIcons = p_icons;
 }
 

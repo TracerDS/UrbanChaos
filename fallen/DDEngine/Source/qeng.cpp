@@ -90,7 +90,7 @@ void QENG_world_line(
     }
 }
 
-void QENG_draw(QMAP_Draw *qd) {
+void QENG_draw(QMAP_Draw* qd) {
     std::int32_t i;
 
     std::uint16_t point;
@@ -99,11 +99,11 @@ void QENG_draw(QMAP_Draw *qd) {
     std::int32_t mx;
     std::int32_t mz;
 
-    QMAP_Point *qp;
-    QMAP_Face *qf;
+    QMAP_Point* qp;
+    QMAP_Face* qf;
 
-    POLY_Point *pp;
-    POLY_Point *quad[4];
+    POLY_Point* pp;
+    POLY_Point* quad[4];
 
     ASSERT(QMAP_MAX_POINTS <= POLY_BUFFER_SIZE);
 

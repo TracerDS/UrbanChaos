@@ -92,8 +92,8 @@ extern ControllerPacket PAD_Input1, PAD_Input2;
 
 #endif
 
-extern std::int32_t am_i_a_thug(Thing *p_person);
-extern void drop_current_gun(Thing *p_person, std::int32_t change_anim);
+extern std::int32_t am_i_a_thug(Entity* p_person);
+extern void drop_current_gun(Entity* p_person, std::int32_t change_anim);
 extern std::int32_t analogue;
 
 #ifndef TARGET_DC
@@ -166,12 +166,12 @@ std::uint8_t InkeyToAsciiShift[] =
 
 #ifndef PSX
 
-char *cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose", "s", "l", "restart", "ambient", "analogue", "world", "fade", "roper", "darci", "crinkles", "bangunsnotgames", "boo", nullptr};
+char* cmd_list[] = {"cam", "echo", "tels", "telr", "telw", "break", "wpt", "vtx", "alpha", "gamma", "bangunsnotgames", "cctv", "win", "lose", "s", "l", "restart", "ambient", "analogue", "world", "fade", "roper", "darci", "crinkles", "bangunsnotgames", "boo", nullptr};
 
-EWAY_Way *eway_find(std::int32_t id) {
+EWAY_Way* eway_find(std::int32_t id) {
     std::int32_t i;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         ew = &EWAY_way[i];
@@ -181,10 +181,10 @@ EWAY_Way *eway_find(std::int32_t id) {
     return nullptr;
 }
 
-EWAY_Way *eway_find_near(GameCoord pos) {
+EWAY_Way* eway_find_near(GameCoord pos) {
     std::uint32_t i, d = 512, d2;
     std::int32_t dx, dy, dz, r = -1;
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     pos.X >>= 8;
     pos.Y >>= 8;
@@ -228,15 +228,15 @@ bool allow_debug_keys = 0;
 
 bool dkeys_have_been_used;
 
-void parse_console(char *str) {
+void parse_console(char* str) {
     char cmd[20];
     char *ptr = str, *pt2 = cmd;
     std::uint16_t i;
-    Thing *darci = NET_PERSON(0);
+    Entity* darci = NET_PERSON(0);
 
     // special stuff to do with the commands themselves
     static GameCoord stored_pos = {-1, -1, -1};
-    EWAY_Way *way;
+    EWAY_Way* way;
 
     memset(cmd, 0, 20);
     while ((*ptr) && (*ptr != 32) && (ptr - str < 20)) {
@@ -266,7 +266,7 @@ void parse_console(char *str) {
                 set_person_idle(NET_PERSON(0));
                 move_thing_on_map(NET_PERSON(0), &stored_pos);
                 FC_force_camera_behind(0);
-                std::int32_t plant_feet(Thing * p_person);
+                std::int32_t plant_feet(Entity * p_person);
                 plant_feet(NET_PERSON(0));
                 NET_PERSON(0)->Genus.Person->Flags &= ~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
                 CONSOLE_text("restored.", 5000);
@@ -279,7 +279,7 @@ void parse_console(char *str) {
                     set_person_idle(NET_PERSON(0));
                     move_thing_on_map(NET_PERSON(0), &pos);
                     FC_force_camera_behind(0);
-                    std::int32_t plant_feet(Thing * p_person);
+                    std::int32_t plant_feet(Entity * p_person);
                     plant_feet(NET_PERSON(0));
                     NET_PERSON(0)->Genus.Person->Flags &= ~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
                     CONSOLE_text("z-z-zap.", 5000);
@@ -303,7 +303,7 @@ void parse_console(char *str) {
 #ifdef TARGET_DC
                 CONSOLE_text("Shan't dump VB info - you can't make me.");
 #else
-                FILE *fd = MF_Fopen("C:\\VertexBufferInfo.txt", "w");
+                FILE* fd = MF_Fopen("C:\\VertexBufferInfo.txt", "w");
                 if (fd) {
                     TheVPool->DumpInfo(fd);
                     MF_Fclose(fd);
@@ -479,7 +479,7 @@ void tga_dump() {
 
     char fname[32];
 
-    FILE *handle;
+    FILE* handle;
 
     //
     // Find the first available file.
@@ -566,8 +566,8 @@ void plan_view_shot() {
 
     std::int32_t shadow;
 
-    RoofFace4 *rf;
-    DFacet *df;
+    RoofFace4* rf;
+    DFacet* df;
 
     std::uint8_t shad[8][9] =
         {
@@ -731,7 +731,7 @@ void plan_view_shot() {
     std::uint8_t dot_do;
     std::uint8_t dot_size;
 
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (i = 1; i < EWAY_way_upto; i++) {
         ew = &EWAY_way[i];
@@ -778,7 +778,7 @@ void plan_view_shot() {
                 // Don't show wandering civs...
                 //
 
-                EWAY_Edef *ee;
+                EWAY_Edef* ee;
 
                 ASSERT(WITHIN(ew->index, 1, EWAY_edef_upto - 1));
 
@@ -857,8 +857,8 @@ void plan_view_shot() {
 
     {
         char fname[256];
-        char *mapname;
-        char *ch;
+        char* mapname;
+        char* ch;
 
         if (ELEV_fname_level[0]) {
             mapname = ELEV_fname_level;
@@ -917,7 +917,7 @@ std::int32_t yomp_speed = 40;
 std::int32_t sprint_speed = 70;
 
 extern std::uint8_t aeng_draw_cloud_flag;
-std::int32_t can_i_draw_this_special(Thing *p_special) {
+std::int32_t can_i_draw_this_special(Entity* p_special) {
     if (SPECIAL_info[p_special->Genus.Special->SpecialType].group == SPECIAL_GROUP_ONEHANDED_WEAPON ||
         SPECIAL_info[p_special->Genus.Special->SpecialType].group == SPECIAL_GROUP_TWOHANDED_WEAPON ||
         p_special->Genus.Special->SpecialType == SPECIAL_EXPLOSIVES ||
@@ -928,8 +928,8 @@ std::int32_t can_i_draw_this_special(Thing *p_special) {
     }
 }
 
-void CONTROLS_set_inventory(Thing *darci, Thing *player, std::int32_t count) {
-    Thing *p_special = nullptr;
+void CONTROLS_set_inventory(Entity* darci, Entity* player, std::int32_t count) {
+    Entity* p_special = nullptr;
     //	std::int8_t count;
 
     if (darci->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
@@ -991,11 +991,11 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player, std::int32_t count) {
 
 #ifndef PSX
 
-Form *test_form;
-Widget *widget_text;
-Widget *widget_ok;
+Form* test_form;
+Widget* widget_text;
+Widget* widget_ok;
 
-bool form_proc(Form *form, Widget *widget, std::int32_t message) {
+bool form_proc(Form* form, Widget* widget, std::int32_t message) {
     if (widget && widget->methods == &BUTTON_Methods && message == WBN_PUSH) {
         form->returncode = true;
 
@@ -1007,9 +1007,9 @@ bool form_proc(Form *form, Widget *widget, std::int32_t message) {
 
 #define INVENTORY_FADE_SPEED (32)
 
-std::int8_t CONTROLS_get_selected_item(Thing *darci, Thing *player) {
+std::int8_t CONTROLS_get_selected_item(Entity* darci, Entity* player) {
     std::int8_t count = 1; // 0 is fist
-    Thing *p_special = nullptr;
+    Entity* p_special = nullptr;
     std::int8_t current_item = 0;
 
     if (darci->Genus.Person->SpecialList) {
@@ -1051,9 +1051,9 @@ std::int8_t CONTROLS_get_selected_item(Thing *darci, Thing *player) {
 #define BAT_SCORE 2
 #define GRENADE_SCORE 1
 
-std::int8_t CONTROLS_get_best_item(Thing *darci, Thing *player) {
+std::int8_t CONTROLS_get_best_item(Entity* darci, Entity* player) {
     std::int8_t count = 1; // 0 is fist
-    Thing *p_special = nullptr;
+    Entity* p_special = nullptr;
     std::int8_t current_item = 0, current_score = 0;
 
     if (darci->Genus.Person->SpecialList) {
@@ -1125,7 +1125,7 @@ std::int8_t CONTROLS_get_best_item(Thing *darci, Thing *player) {
 //
 // does the panel fade in, and if no item is focus it finds if you have a current weapon and sets that as focus
 //
-std::int32_t CONTROLS_new_inventory(Thing *darci, Thing *player) {
+std::int32_t CONTROLS_new_inventory(Entity* darci, Entity* player) {
     std::uint16_t temp = player->Genus.Player->PopupFade;
     if (!temp)
         player->Genus.Player->ItemFocus = -1;
@@ -1160,9 +1160,9 @@ std::int32_t CONTROLS_new_inventory(Thing *darci, Thing *player) {
     return (0);
 }
 
-// void	CONTROLS_set_inventory(Thing *darci, Thing *player);
+// void	CONTROLS_set_inventory(Entity *darci, Entity *player);
 
-void CONTROLS_rot_inventory(Thing *darci, Thing *player, std::int8_t dir, std::int32_t pull_it_out_ooooerrr) {
+void CONTROLS_rot_inventory(Entity* darci, Entity* player, std::int8_t dir, std::int32_t pull_it_out_ooooerrr) {
     player->Genus.Player->ItemFocus += dir;
     if (player->Genus.Player->ItemFocus == -1)
         player->Genus.Player->ItemFocus = player->Genus.Player->ItemCount - 1;
@@ -1175,8 +1175,8 @@ void CONTROLS_rot_inventory(Thing *darci, Thing *player, std::int8_t dir, std::i
 }
 
 /*
-void CONTROLS_set_inventory(Thing *darci, Thing *player) {
-        Thing *p_special = nullptr;
+void CONTROLS_set_inventory(Entity *darci, Entity *player) {
+        Entity *p_special = nullptr;
         std::int8_t count;
 
 
@@ -1252,12 +1252,12 @@ void CONTROLS_set_inventory(Thing *darci, Thing *player) {
 //
 // PC VERSION
 //
-extern std::uint16_t count_gang(Thing *p_target);
+extern std::uint16_t count_gang(Entity* p_target);
 
 // new cleaner version
 void context_music() {
     std::uint8_t mode = 0;
-    Thing *darci;
+    Entity* darci;
     static std::int32_t danger = 0;
     static enum Waves danger_lookup[] = {S_NULL, S_TUNE_DANGER_RED, S_NULL, S_TUNE_DANGER_GREEN};
     std::uint8_t new_danger;
@@ -1312,12 +1312,12 @@ void context_music() {
 
     if (WARE_ware[darci->Genus.Person->Ware].ambience == 4)
         return;
-        //		mode=0; // we're inside the nightclub, so don't play context music.
+    //		mode=0; // we're inside the nightclub, so don't play context music.
 
-        // Just for dreamcast MikeD aug 2000
-        //	if (WARE_ware[darci->Genus.Person->Ware].ambience)
-        //		mode=13+WARE_ware[darci->Genus.Person->Ware].ambience;
-        // return; // we're inside the nightclub, so don't play context music.
+    // Just for dreamcast MikeD aug 2000
+    //	if (WARE_ware[darci->Genus.Person->Ware].ambience)
+    //		mode=13+WARE_ware[darci->Genus.Person->Ware].ambience;
+    // return; // we're inside the nightclub, so don't play context music.
 
 #ifndef PSX
     MUSIC_mode(mode);
@@ -1332,7 +1332,7 @@ void context_music() {
 void context_music()
 {
 	std::int32_t	music=0;
-	Thing	*darci;
+	Entity	*darci;
 	static	std::uint8_t danger_music=0,drive=0;
 	std::uint8_t	new_danger_music;
 	std::int32_t	wave;
@@ -1556,15 +1556,15 @@ void set_danger_level() {
     std::int32_t best_dist = INFINITY;
     std::int32_t best_person = 0;
 
-    Thing *p_found;
+    Entity* p_found;
 
     //
     // Work out how far each player is from danger.
     //
 
     for (i = 0; i < NO_PLAYERS; i++) {
-        Thing *p_person = NET_PERSON(i);
-        Thing *p_player = NET_PLAYER(i);
+        Entity* p_person = NET_PERSON(i);
+        Entity* p_player = NET_PLAYER(i);
 
         if (!p_person) {
             continue;
@@ -1652,7 +1652,7 @@ void process_controls() {
     std::int32_t x;
     std::int32_t z;
 
-    Thing *darci = NET_PERSON(0);
+    Entity* darci = NET_PERSON(0);
 
     /*
 
@@ -1694,7 +1694,7 @@ void process_controls() {
 
         std::int32_t list;
         std::int32_t num_mibs = 0;
-        Thing *p_thing;
+        Entity* p_thing;
 
         for (list = thing_class_head[CLASS_PERSON]; list; list = p_thing->NextLink) {
             p_thing = TO_THING(list);
@@ -1727,7 +1727,7 @@ void process_controls() {
     if (Keys[KB_D]) {
         Keys[KB_D] = 0;
 
-        std::int32_t is_there_room_behind_person(Thing * p_person, std::int32_t hit_from_behind);
+        std::int32_t is_there_room_behind_person(Entity * p_person, std::int32_t hit_from_behind);
 
         if (is_there_room_behind_person(darci, false)) {
             PANEL_new_text(nullptr, 400, "There is room behind Darci");
@@ -1886,7 +1886,7 @@ void process_controls() {
 #ifndef TARGET_DC
     if (allow_debug_keys) {
         static std::int32_t index_cam = 0;
-        Thing *p_thing;
+        Entity* p_thing;
 
         if (Keys[KB_RBRACE]) {
             Keys[KB_RBRACE] = 0;
@@ -1931,7 +1931,7 @@ void process_controls() {
             }
         }
 #ifndef NDEBUG
-        std::int32_t is_there_room_behind_person(Thing * p_person, std::int32_t hit_from_behind);
+        std::int32_t is_there_room_behind_person(Entity * p_person, std::int32_t hit_from_behind);
 
         if (Keys[KB_U]) {
             Keys[KB_U] = 0;
@@ -2067,7 +2067,7 @@ void process_controls() {
 
     */
     /*
-    std::int32_t is_person_crouching(Thing *p_person);
+    std::int32_t is_person_crouching(Entity *p_person);
 
             if (is_person_crouching(darci))
             {
@@ -2108,14 +2108,14 @@ void process_controls() {
 #endif
 
     GameCoord position;
-    Thing *t_thing;
+    Entity* t_thing;
 
     // console processing
 
     static bool is_inputing = 0;
     extern std::uint8_t InkeyToAscii[];
     extern std::uint8_t InkeyToAsciiShift[];
-    extern void CONSOLE_status(char *msg);
+    extern void CONSOLE_status(char* msg);
 
     if (is_inputing) {
         static char input_text[MAX_PATH] = "] ";
@@ -2161,11 +2161,11 @@ void process_controls() {
     // Do keyboard inventory.
     //
 
-    extern Form *form_leave_map;
-    extern std::int32_t can_darci_change_weapon(Thing * p_person);
+    extern Form* form_leave_map;
+    extern std::int32_t can_darci_change_weapon(Entity * p_person);
 
     if ((!(GAME_FLAGS & GF_PAUSED) && !form_leave_map) && can_darci_change_weapon(darci)) {
-        Thing *the_player = NET_PLAYER(0);
+        Entity* the_player = NET_PLAYER(0);
 
         //		if (can_darci_change_weapon(darci))
         {
@@ -2203,7 +2203,7 @@ void process_controls() {
                 if (CONTROLS_inventory_mode < 0)
                     CONTROLS_inventory_mode = 0;
 
-                Thing *p_special = nullptr;
+                Entity* p_special = nullptr;
 
                 if (!ShiftFlag) {
                     //
@@ -2276,8 +2276,8 @@ void process_controls() {
     }
 
     if (Keys[KB_F3]) {
-        void save_whole_game(char *gamename);
-        void load_whole_game(char *gamename);
+        void save_whole_game(char* gamename);
+        void load_whole_game(char* gamename);
 
         Keys[KB_F3] = 0;
         if (ShiftFlag) {
@@ -2343,7 +2343,7 @@ void process_controls() {
     // Mark's stuff.
     //
 
-    //	Thing *darci = NET_PERSON(0);
+    //	Entity *darci = NET_PERSON(0);
 
     /*
 
@@ -2385,10 +2385,10 @@ void process_controls() {
 
     */
 
-    void set_person_idle(Thing * p_person);
+    void set_person_idle(Entity * p_person);
 
     if (Keys[KB_P]) {
-        void save_whole_game(char *gamename);
+        void save_whole_game(char* gamename);
         save_whole_game("save.me");
     }
 
@@ -2655,7 +2655,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
         //			else
         create_chopper = 0;
         if (create_chopper == 1) {
-            Thing *chopper;
+            Entity* chopper;
             GameCoord posn;
 
             Keys[KB_O] = 0;
@@ -3096,7 +3096,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
         GameCoord posn;
 
         if (Keys[KB_P7]) {
-            char *names[] = {"flicker", "ribbon", "explosion", "sparklies", "bonfire", "immolate", "testrib", "firewall", "new sploje", "new dome", "whoomph"};
+            char* names[] = {"flicker", "ribbon", "explosion", "sparklies", "bonfire", "immolate", "testrib", "firewall", "new sploje", "new dome", "whoomph"};
             Keys[KB_P7] = 0;
             which_pyro++;
             if (which_pyro == (sizeof(names) >> 2)) which_pyro = 0;
@@ -3106,7 +3106,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
         if (Keys[KB_P5]) {
             static std::uint8_t line = 0;
             static GameCoord oldposn = {0, 0, 0};
-            Thing *pyro;
+            Entity* pyro;
 
             Keys[KB_P5] = 0;
             posn.X = darci->WorldPos.X;
@@ -3157,7 +3157,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
             case 6:
                 posn.X -= 32000;
                 pyro = PYRO_create(posn, PYRO_FLICKER);
-                extern void PYRO_fn_init(Thing * thing);
+                extern void PYRO_fn_init(Entity * thing);
                 PYRO_fn_init(pyro); // heh heh heh
                 pyro->Genus.Pyro->radii[0] = 128;
                 pyro->Genus.Pyro->radii[1] = 400;
@@ -3404,7 +3404,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
         // this is to test immolation of a thing
         Keys[KB_P2] = 0;
         if (TO_CHOPPER(1)->ChopperType != CHOPPER_NONE) {
-            Thing *pyro;
+            Entity* pyro;
             GameCoord anyoldposn; // dont care, updated by thing
 
             pyro = PYRO_create(anyoldposn, PYRO_IMMOLATE);
@@ -3416,7 +3416,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
     if (Keys[KB_P3]) {
         static std::uint8_t line = 0;
         static GameCoord oldposn = {0, 0, 0};
-        Thing *pyro;
+        Entity* pyro;
         GameCoord posn;
 
         Keys[KB_P3] = 0;
@@ -3585,7 +3585,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
                 darci->WorldPos.Z - (128 << 8) + ((Random() & 0xff) << 11),
                 0, 0);
 
-            extern void PCOM_set_person_ai_kill_person(Thing * p_person, Thing * p_target, std::int32_t alert_gang);
+            extern void PCOM_set_person_ai_kill_person(Entity * p_person, Entity * p_target, std::int32_t alert_gang);
             PCOM_set_person_ai_kill_person(TO_THING(index), NET_PERSON(0), 0);
 
             skill += 2;
@@ -3653,7 +3653,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
                         {
                                 Keys[KB_X] = 0;
 
-        void set_person_mav_to_xz(Thing *p_person,std::int32_t x,std::int32_t z);
+        void set_person_mav_to_xz(Entity *p_person,std::int32_t x,std::int32_t z);
                                 set_person_mav_to_xz(darci,nav_x<<8,nav_z<<8);
 
                                 ma_valid = true;
@@ -4147,7 +4147,7 @@ void FC_look_at(std::int32_t cam, std::uint16_t thing_index);
                         }
         */
         if (Keys[KB_O]) {
-            Thing *chopper;
+            Entity* chopper;
             GameCoord posn;
 
             Keys[KB_O] = 0;
@@ -4443,7 +4443,7 @@ extern std::int32_t	FC_cam_height;
                 set_person_idle(darci);
                 move_thing_on_map(darci, &teleport);
 
-                std::int32_t plant_feet(Thing * p_person);
+                std::int32_t plant_feet(Entity * p_person);
                 plant_feet(darci);
                 darci->Genus.Person->Flags &= ~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
             }
@@ -4595,9 +4595,9 @@ int PSX_inv_timer = 0;
 
 #define INVENTORY_FADE_SPEED (16)
 
-std::int8_t CONTROLS_get_selected_item(Thing *darci, Thing *player) {
+std::int8_t CONTROLS_get_selected_item(Entity* darci, Entity* player) {
     std::int8_t count = 1; // 0 is fist
-    Thing *p_special = nullptr;
+    Entity* p_special = nullptr;
     std::int8_t current_item = 0;
 
     if (darci->Genus.Person->SpecialList) {
@@ -4628,7 +4628,7 @@ std::int8_t CONTROLS_get_selected_item(Thing *darci, Thing *player) {
     return current_item;
 }
 
-void CONTROLS_new_inventory(Thing *darci, Thing *player) {
+void CONTROLS_new_inventory(Entity* darci, Entity* player) {
     PSX_inv_open = 1;
     PSX_inv_focus = CONTROLS_get_selected_item(darci, player);
     /*
@@ -4646,7 +4646,7 @@ void CONTROLS_new_inventory(Thing *darci, Thing *player) {
     */
 }
 
-void CONTROLS_rot_inventory(Thing *darci, Thing *player, std::int8_t dir) {
+void CONTROLS_rot_inventory(Entity* darci, Entity* player, std::int8_t dir) {
     PSX_inv_timer = 3;
     PSX_inv_focus += dir;
     if (PSX_inv_focus < 0)
@@ -4655,8 +4655,8 @@ void CONTROLS_rot_inventory(Thing *darci, Thing *player, std::int8_t dir) {
         PSX_inv_focus = 0;
 }
 /*
-void CONTROLS_set_inventory(Thing *darci, Thing *player) {
-        Thing *p_special = nullptr;
+void CONTROLS_set_inventory(Entity *darci, Entity *player) {
+        Entity *p_special = nullptr;
         std::int8_t count;
 
 
@@ -4736,13 +4736,13 @@ void process_controls() {
     std::int32_t z;
 
     GameCoord position;
-    Thing *t_thing;
+    Entity* t_thing;
 
     //
     // Mark's stuff.
     //
 
-    Thing *darci = NET_PERSON(0);
+    Entity* darci = NET_PERSON(0);
 
     if ((GAME_TURN & 0x0f) == 0)
         set_danger_level();
@@ -4788,7 +4788,7 @@ void process_controls() {
     //	SNIPE_process();
 
     if (!(GAME_FLAGS & GF_PAUSED)) {
-        Thing *the_player = NET_PLAYER(0);
+        Entity* the_player = NET_PLAYER(0);
         //		if (NET_PLAYER(0)->Genus.Player->Pressed & INPUT_MASK_SELECT)
         if ((PACKET_DATA(0) & INPUT_MASK_SELECT) && !EWAY_stop_player_moving()) {
             if ((darci->SubState == SUB_STATE_WALKING) || (darci->SubState == SUB_STATE_RUNNING) || (darci->SubState == SUB_STATE_WALKING_BACKWARDS) || (darci->State == STATE_IDLE) || (darci->State == STATE_FIGHT) || (darci->State == STATE_GUN && darci->SubState != SUB_STATE_SHOOT_GUN)) {

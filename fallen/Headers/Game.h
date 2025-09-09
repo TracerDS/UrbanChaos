@@ -122,7 +122,7 @@ extern struct MemTable save_table[];
 //---------------------------------------------------------------
 #define MAX_RADIUS (24)
 
-// Thing classes.
+// Entity classes.
 #define CLASS_NONE 0
 #define CLASS_PLAYER 1
 #define CLASS_CAMERA 2
@@ -243,7 +243,7 @@ struct Game {
     MapElement Map[MAP_SIZE];
 #endif
 
-    // Thing members.
+    // Entity members.
     Vehicle* Vehicles;       // [MAX_VEHICLES];
     Furniture* Furnitures;   // [MAX_FURNITURE];
     Person* People;          // [MAX_PEOPLE];
@@ -255,7 +255,7 @@ struct Game {
     Special* Specials;       // [MAX_SPECIALS];
     Switch* Switches;        // [MAX_SWITCHES];
     Bat* Bats;               // [BAT_MAX_BATS];
-    Thing* Things;           // [MAX_THINGS];
+    Entity* Things;           // [MAX_THINGS];
 
     //
     // The gourad palette
@@ -268,8 +268,8 @@ struct Game {
 
     THING_INDEX UsedPrimaryThings, UnusedPrimaryThings, UsedSecondaryThings, UnusedSecondaryThings;
 
-    Thing** net_persons; // [10];
-    Thing** net_players; // [10];
+    Entity** net_persons; // [10];
+    Entity** net_players; // [10];
 
     std::int32_t indoors_height_floor; // The heights of the storey you are in.
     std::int32_t indoors_height_ceiling;

@@ -16,7 +16,7 @@
 // The result of code generation.
 //
 
-char *CG_output;
+char* CG_output;
 std::int32_t CG_num_errors;
 std::int32_t CG_num_warnings;
 
@@ -41,7 +41,7 @@ std::int32_t CG_generating_line;
 
 typedef struct
 {
-    char *name;              // The function name...
+    char* name;              // The function name...
     std::int32_t debug_name; // Index into the debug data.
     std::int32_t num_args;
     std::int32_t arg_upto;
@@ -138,7 +138,7 @@ std::int32_t CG_mif_upto;
 typedef struct
 {
     std::int32_t type;
-    PARSE_Node *lvalue;     // The lvalue that this FOR-NEXT loop is acting on
+    PARSE_Node* lvalue;     // The lvalue that this FOR-NEXT loop is acting on
     std::int32_t loopto;    // The instruction that corresponding NEXT statements should jump to.
     std::int32_t overstep;  // The instruction which should contain the address of the instruction after the STEP statement.
     std::int32_t forcode;   // The unique code identifying this FOR loop.
@@ -188,7 +188,7 @@ std::int32_t CG_field_id_upto;
 //
 
 std::int32_t CG_data_table_max;
-std::uint8_t *CG_data_table;
+std::uint8_t* CG_data_table;
 std::int32_t CG_data_table_upto;
 
 //
@@ -287,7 +287,7 @@ std::int32_t CG_debug_data_upto;
 // an index to it.
 //
 
-std::int32_t CG_add_string_to_debug_data(char *string) {
+std::int32_t CG_add_string_to_debug_data(char* string) {
     std::int32_t length = strlen(string) + 1; // + 1 to include the terminating nullptr
 
     if (CG_debug_data_upto + length > CG_MAX_DEBUG_DATA) {
@@ -312,17 +312,17 @@ std::int32_t CG_add_string_to_debug_data(char *string) {
 // into the string table for where it was stored.
 //
 
-std::int32_t CG_add_string(char *string) {
+std::int32_t CG_add_string(char* string) {
     std::int32_t length = strlen(string) + 1; // + 1 to include the terminating nullptr.
 
     if (CG_data_table_upto + length > CG_data_table_max) {
         CG_data_table_max *= 2;
-        CG_data_table = (std::uint8_t *) realloc(CG_data_table, sizeof(std::uint8_t) * CG_data_table_max);
+        CG_data_table = (std::uint8_t*) realloc(CG_data_table, sizeof(std::uint8_t) * CG_data_table_max);
     }
 
     std::int32_t ans = CG_data_table_upto;
 
-    strcpy(((char *) CG_data_table) + CG_data_table_upto, string);
+    strcpy(((char*) CG_data_table) + CG_data_table_upto, string);
 
     CG_data_table_upto += length;
 
@@ -334,7 +334,7 @@ std::int32_t CG_add_string(char *string) {
 // symbol table.
 //
 
-std::int32_t CG_callback_add_labels_and_variables(PARSE_Node *pn) {
+std::int32_t CG_callback_add_labels_and_variables(PARSE_Node* pn) {
     switch (pn->type) {
     case PARSE_NODE_TYPE_LABEL:
 
@@ -572,7 +572,7 @@ std::int32_t CG_callback_add_labels_and_variables(PARSE_Node *pn) {
 // The code generation callback function.
 //
 
-std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
+std::int32_t CG_callback_generate_code(PARSE_Node* pn) {
     //
     // Always make sure we have 3 SLONGS worth of instructions spare.
     //
@@ -626,7 +626,7 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
     case PARSE_NODE_TYPE_FLUMBER:
         CG_instruction[CG_instruction_upto++] = ML_DO_PUSH_CONSTANT;
         CG_instruction[CG_instruction_upto++] = ML_TYPE_FLUMBER;
-        ((float *) CG_instruction)[CG_instruction_upto++] = pn->flumber;
+        ((float*) CG_instruction)[CG_instruction_upto++] = pn->flumber;
         break;
 
     case PARSE_NODE_TYPE_STRING:
@@ -2029,17 +2029,17 @@ std::int32_t CG_callback_generate_code(PARSE_Node *pn) {
     return true;
 }
 
-std::int32_t CG_do(char *fname, std::int32_t output) {
+std::int32_t CG_do(char* fname, std::int32_t output) {
     std::int32_t i;
 
-    PARSE_Node *pn;
-    FILE *handle;
+    PARSE_Node* pn;
+    FILE* handle;
     ML_Header mh;
     LINK_Header lh;
-    CG_Func *cf;
-    LINK_Global *lg;
+    CG_Func* cf;
+    LINK_Global* lg;
     LINK_Function lf;
-    LINK_Field *ld;
+    LINK_Field* ld;
 
     char export_string[LEX_MAX_STRING_LENGTH + 2];
     char local_string[LEX_MAX_STRING_LENGTH + 2];
@@ -2108,7 +2108,7 @@ std::int32_t CG_do(char *fname, std::int32_t output) {
     //
 
     CG_data_table_max = 512;
-    CG_data_table = (std::uint8_t *) malloc(sizeof(std::uint8_t) * CG_data_table_max);
+    CG_data_table = (std::uint8_t*) malloc(sizeof(std::uint8_t) * CG_data_table_max);
     CG_data_table_upto = 0;
 
     //
@@ -2325,7 +2325,7 @@ std::int32_t CG_do(char *fname, std::int32_t output) {
         //
 
         {
-            lg = (LINK_Global *) malloc(sizeof(LINK_Global) * CG_global_upto);
+            lg = (LINK_Global*) malloc(sizeof(LINK_Global) * CG_global_upto);
 
 #ifdef _DEBUG
             globals_found = 0;
@@ -2465,7 +2465,7 @@ std::int32_t CG_do(char *fname, std::int32_t output) {
         //
 
         {
-            ld = (LINK_Field *) malloc(sizeof(LINK_Field) * CG_field_id_upto);
+            ld = (LINK_Field*) malloc(sizeof(LINK_Field) * CG_field_id_upto);
 
 #ifdef _DEBUG
             fields_found = 0;

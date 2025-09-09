@@ -23,8 +23,8 @@ extern volatile HWND hDDLibWindow;
  */
 
 // Why is this global? Because sound sources need access to it too.
-IA3d4 *a3droot;
-IA3dGeom *a3dgeom = nullptr;
+IA3d4* a3droot;
+IA3dGeom* a3dgeom = nullptr;
 A3DManager the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D);
 
 void Decode(std::int32_t hr) {
@@ -99,9 +99,9 @@ void A3D_Check_Init(void) {
 // =============================================================*/
 
 static void RegDBSetKeyValue(
-    char *szKey,   /* in, key string */
-    char *szName,  /* in, name string nullptr == Default */
-    char *szValue) /* in, value string */
+    char* szKey,   /* in, key string */
+    char* szName,  /* in, name string nullptr == Default */
+    char* szValue) /* in, value string */
 {
     DWORD dwOptions = REG_OPTION_NON_VOLATILE;
     REGSAM samDesired = KEY_ALL_ACCESS;
@@ -123,12 +123,12 @@ static void RegDBSetKeyValue(
 
     /* Just write to it. */
     RegSetValueExA(
-        hKey,                   /* handle of key to set value for  */
-        szName,                 /* address of value to set */
-        0,                      /* reserved */
-        REG_SZ,                 /* flag for value type */
-        (CONST BYTE *) szValue, /* address of value data */
-        strlen(szValue)         /* length of value buffer */
+        hKey,                  /* handle of key to set value for  */
+        szName,                /* address of value to set */
+        0,                     /* reserved */
+        REG_SZ,                /* flag for value type */
+        (CONST BYTE*) szValue, /* address of value data */
+        strlen(szValue)        /* length of value buffer */
     );
 
     /* close the key. */
@@ -192,11 +192,11 @@ void A3DManager::Init(std::int32_t features) {
 
     CoInitialize(nullptr);
     hr = CoCreateInstance(CLSID_A3dApi, nullptr, CLSCTX_INPROC_SERVER,
-                          IID_IA3d4, (void **) &a3droot);
+                          IID_IA3d4, (void**) &a3droot);
     if (FAILED(hr)) return;
 
     //---
-    hr = a3droot->QueryInterface(IID_IA3dGeom, (void **) &a3dgeom);
+    hr = a3droot->QueryInterface(IID_IA3dGeom, (void**) &a3dgeom);
     if (FAILED(hr)) return;
     //---
 
@@ -215,7 +215,7 @@ void A3DManager::Init(std::int32_t features) {
 
     // Use it to acquire a listener
 
-    hr = a3droot->QueryInterface(IID_IA3dListener, (void **) &a3dlis);
+    hr = a3droot->QueryInterface(IID_IA3dListener, (void**) &a3dlis);
     if (FAILED(hr)) return;
 
     // Enable the resource manager
@@ -269,7 +269,7 @@ A3DManager::A3DManager(std::int32_t features) {
     a3droot = nullptr;
     a3dlis = nullptr;
     a3dgeom = nullptr;
-    memset(mat_lib, 0, A3D_MAT_COUNT * sizeof(IA3dMaterial *));
+    memset(mat_lib, 0, A3D_MAT_COUNT * sizeof(IA3dMaterial*));
     // Init(features);
 }
 
@@ -315,7 +315,7 @@ A3DManager::~A3DManager() {
 // Channel Play
 //
 
-A3DSource *A3DManager::Play(A3DData *Original, A3DSource *Channel, std::uint8_t flags) {
+A3DSource* A3DManager::Play(A3DData* Original, A3DSource* Channel, std::uint8_t flags) {
     if (!Channel) {
         //		TRACE("Creating\n");
         Channel = new A3DSource(Original);
@@ -337,33 +337,33 @@ A3DSource *A3DManager::Play(A3DData *Original, A3DSource *Channel, std::uint8_t 
 // Channel Check
 //
 
-bool A3DManager::Valid(A3DBase *item) {
-    A3DBase *temp;
+bool A3DManager::Valid(A3DBase* item) {
+    A3DBase* temp;
 
     try {
-        temp = dynamic_cast<A3DBase *>(item);
+        temp = dynamic_cast<A3DBase*>(item);
         return true; // always returns true coz a failed dynamic_cast<> returns nullptr, not an exception
     } catch (...) {
         return false;
     }
 }
 
-A3DSource *A3DManager::ValidChannel(A3DBase *item) {
-    A3DSource *temp;
+A3DSource* A3DManager::ValidChannel(A3DBase* item) {
+    A3DSource* temp;
 
     try {
-        temp = dynamic_cast<A3DSource *>(item);
+        temp = dynamic_cast<A3DSource*>(item);
         return temp;
     } catch (...) {
         return nullptr; // redundant
     }
 }
 
-A3DBase *A3DManager::ValidWave(A3DBase *item) {
-    A3DBase *temp;
+A3DBase* A3DManager::ValidWave(A3DBase* item) {
+    A3DBase* temp;
 
     try {
-        temp = dynamic_cast<A3DBase *>(item);
+        temp = dynamic_cast<A3DBase*>(item);
         return temp;
     } catch (...) {
         return nullptr; // redundant
@@ -380,8 +380,8 @@ void A3DManager::BindMaterial(std::int32_t material) {
  *
  */
 
-A3DSource::A3DSource(char *fn) {
-    A3DBase *data = nullptr;
+A3DSource::A3DSource(char* fn) {
+    A3DBase* data = nullptr;
 
     if (fn) {
         data = the_a3d_manager.datalist.Find(fn);
@@ -392,7 +392,7 @@ A3DSource::A3DSource(char *fn) {
     DupeConstruct(data);
 }
 
-A3DSource::A3DSource(A3DBase *original) {
+A3DSource::A3DSource(A3DBase* original) {
     DupeConstruct(original);
 }
 
@@ -404,7 +404,7 @@ void A3DSource::SetupParams() {
     a3dsrc->SetDistanceModelScale(0.002);
 }
 
-void A3DSource::DupeConstruct(A3DBase *original) {
+void A3DSource::DupeConstruct(A3DBase* original) {
     std::int32_t hr;
     the_a3d_manager.srclist += this;
     rendermode = 0;
@@ -462,7 +462,7 @@ void A3DSource::Set3D(std::uint8_t is3d) {
     */
 }
 
-void A3DSource::DoChange(A3DBase *original) {
+void A3DSource::DoChange(A3DBase* original) {
     std::int32_t hr;
 
     FreeWave();
@@ -478,12 +478,12 @@ void A3DSource::DoChange(A3DBase *original) {
     }
 }
 
-void A3DSource::Change(A3DBase *original) {
+void A3DSource::Change(A3DBase* original) {
     QueueFlush();
     DoChange(original);
 }
 
-void A3DSource::Queue(A3DBase *original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {
+void A3DSource::Queue(A3DBase* original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {
     if (queuepos == MAX_QUEUE_LENGTH) return;
     queue[queuepos].original = original;
     queue[queuepos].x = x;
@@ -547,7 +547,7 @@ void A3DSource::Rewind() {
  *
  */
 
-A3DData::A3DData(char *fn, std::uint8_t ntype) {
+A3DData::A3DData(char* fn, std::uint8_t ntype) {
     HRESULT hr;
 
     the_a3d_manager.datalist += this;
@@ -599,7 +599,7 @@ void A3DList::Clear() {
     while (list) delete list;
 }
 
-void A3DList::Add(A3DBase *item) {
+void A3DList::Add(A3DBase* item) {
     item->last = tail;
     if (tail) tail->next = item;
     tail = item;
@@ -607,7 +607,7 @@ void A3DList::Add(A3DBase *item) {
     count++;
 };
 
-void A3DList::Del(A3DBase *item) {
+void A3DList::Del(A3DBase* item) {
     if (tail == item) tail = item->last;
     if (item->last)
         item->last->next = item->next;
@@ -617,15 +617,15 @@ void A3DList::Del(A3DBase *item) {
     count--;
 };
 
-A3DBase *A3DList::Index(std::int32_t index) {
-    A3DBase *walk = list;
+A3DBase* A3DList::Index(std::int32_t index) {
+    A3DBase* walk = list;
 
     while ((--index) && walk) walk = walk->next;
     return walk;
 };
 
-A3DBase *A3DList::Find(char *want) {
-    A3DBase *walk = list;
+A3DBase* A3DList::Find(char* want) {
+    A3DBase* walk = list;
 
     while (walk && stricmp(want, walk->GetTitle())) walk = walk->next;
     return walk;
@@ -708,8 +708,8 @@ bool A3DBase::HasEnded(std::uint8_t early_out) {
 #include "snd_type.h"
 // #include "A3DPlay.h"
 
-IA3d4 *a3droot;
-IA3dGeom *a3dgeom = nullptr;
+IA3d4* a3droot;
+IA3dGeom* a3dgeom = nullptr;
 A3DManager the_a3d_manager(A3D_1ST_REFLECTIONS | A3D_OCCLUSIONS | A3D_DIRECT_PATH_A3D);
 
 void Decode(std::int32_t hr) {
@@ -722,9 +722,9 @@ bool Failed(std::int32_t hr) {
 void A3D_Check_Init(void) {
 }
 static void RegDBSetKeyValue(
-    char *szKey,   /* in, key string */
-    char *szName,  /* in, name string nullptr == Default */
-    char *szValue) /* in, value string */
+    char* szKey,   /* in, key string */
+    char* szName,  /* in, name string nullptr == Default */
+    char* szValue) /* in, value string */
 {
 }
 
@@ -741,27 +741,27 @@ void A3DManager::Fini(void) {
 }
 A3DManager::~A3DManager() {
 }
-A3DSource *A3DManager::Play(A3DData *Original, A3DSource *Channel, std::uint8_t flags) {
+A3DSource* A3DManager::Play(A3DData* Original, A3DSource* Channel, std::uint8_t flags) {
     return nullptr;
 }
-bool A3DManager::Valid(A3DBase *item) {
+bool A3DManager::Valid(A3DBase* item) {
     return true;
 }
-A3DSource *A3DManager::ValidChannel(A3DBase *item) {
+A3DSource* A3DManager::ValidChannel(A3DBase* item) {
     return nullptr;
 }
-A3DBase *A3DManager::ValidWave(A3DBase *item) {
+A3DBase* A3DManager::ValidWave(A3DBase* item) {
     return nullptr;
 }
 void A3DManager::BindMaterial(std::int32_t material) {
 }
-A3DSource::A3DSource(char *fn) {
+A3DSource::A3DSource(char* fn) {
 }
-A3DSource::A3DSource(A3DBase *original) {
+A3DSource::A3DSource(A3DBase* original) {
 }
 void A3DSource::SetupParams() {
 }
-void A3DSource::DupeConstruct(A3DBase *original) {
+void A3DSource::DupeConstruct(A3DBase* original) {
 }
 A3DSource::~A3DSource() {
 }
@@ -769,11 +769,11 @@ void A3DSource::SetMute(std::uint8_t mute) {
 }
 void A3DSource::Set3D(std::uint8_t is3d) {
 }
-void A3DSource::DoChange(A3DBase *original) {
+void A3DSource::DoChange(A3DBase* original) {
 }
-void A3DSource::Change(A3DBase *original) {
+void A3DSource::Change(A3DBase* original) {
 }
-void A3DSource::Queue(A3DBase *original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {
+void A3DSource::Queue(A3DBase* original, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {
 }
 std::uint8_t A3DSource::CBEnded() {
     return 0;
@@ -784,7 +784,7 @@ void A3DSource::Stop() {
 }
 void A3DSource::Rewind() {
 }
-A3DData::A3DData(char *fn, std::uint8_t ntype) {
+A3DData::A3DData(char* fn, std::uint8_t ntype) {
 }
 A3DData::~A3DData() {
 }
@@ -792,14 +792,14 @@ A3DList::~A3DList() {
 }
 void A3DList::Clear() {
 }
-void A3DList::Add(A3DBase *item) {
+void A3DList::Add(A3DBase* item) {
 }
-void A3DList::Del(A3DBase *item) {
+void A3DList::Del(A3DBase* item) {
 }
-A3DBase *A3DList::Index(std::int32_t index) {
+A3DBase* A3DList::Index(std::int32_t index) {
     return nullptr;
 }
-A3DBase *A3DList::Find(char *want) {
+A3DBase* A3DList::Find(char* want) {
     return nullptr;
 }
 void A3DBase::FreeWave() {

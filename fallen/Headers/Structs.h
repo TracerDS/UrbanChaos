@@ -55,13 +55,13 @@ typedef struct
 
 //---------------------------------------------------------------
 
-struct Thing;       //	Prototype the 'Thing' structure.
+struct Entity;       //	Prototype the 'Entity' structure.
 struct CommandList; //	Prototype 'CommandList' structure.
 
 #define COMMON(TYPE)      \
     std::uint8_t TYPE;    \
     std::uint8_t padding; \
-    THING_INDEX Thing;    \
+    THING_INDEX Entity;    \
     std::uint32_t Flags;
 
 /*
@@ -73,7 +73,7 @@ struct CommandList; //	Prototype 'CommandList' structure.
                                                 std::uint32_t			Flags;			\
                                                 std::int32_t			Timer;			\
                                                 CommandList		*ComList;		\
-                                                THING_INDEX		Thing,padding;
+                                                THING_INDEX		Entity,padding;
 */
 
 //---------------------------------------------------------------

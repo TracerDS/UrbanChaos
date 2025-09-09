@@ -28,8 +28,8 @@
 // Where we store the lverts.
 //
 
-D3DLVERTEX *FARFACET_lvert_buffer; // Unaligned buffer FARFACET_lvert_max elements + 31bytes long.
-D3DLVERTEX *FARFACET_lvert;        // Aligned to 32 bytes
+D3DLVERTEX* FARFACET_lvert_buffer; // Unaligned buffer FARFACET_lvert_max elements + 31bytes long.
+D3DLVERTEX* FARFACET_lvert;        // Aligned to 32 bytes
 std::int32_t FARFACET_lvert_max;
 std::int32_t FARFACET_lvert_upto;
 
@@ -37,7 +37,7 @@ std::int32_t FARFACET_lvert_upto;
 // Index storage.
 //
 
-std::uint16_t *FARFACET_index;
+std::uint16_t* FARFACET_index;
 std::int32_t FARFACET_index_max; // The number of elements in the FARFACET_index[] array.
 std::int32_t FARFACET_index_upto;
 
@@ -75,7 +75,7 @@ typedef struct
 
 #define FARFACET_MAX_OUTLINES (8192 / ((32 / FARFACET_RATIO) * (32 / FARFACET_RATIO)) + 256)
 
-FARFACET_Outline *FARFACET_outline;
+FARFACET_Outline* FARFACET_outline;
 std::int32_t FARFACET_outline_upto;
 
 //
@@ -90,21 +90,21 @@ RenderState FARFACET_default_renderstate;
 //
 
 std::uint8_t FARFACET_matrix_buffer[sizeof(D3DMATRIX) + 32];
-D3DMATRIX *FARFACET_matrix;
+D3DMATRIX* FARFACET_matrix;
 
 //
 // Looks for a vertex at (x,y,z) for the given square. If found
 // it returns that vertex index, otherwise it creates one.
 //
 
-std::uint16_t FARFACET_find_vertex(FARFACET_Square *fs, std::uint8_t map_x, std::int8_t map_y, std::uint8_t map_z) {
+std::uint16_t FARFACET_find_vertex(FARFACET_Square* fs, std::uint8_t map_x, std::int8_t map_y, std::uint8_t map_z) {
     std::int32_t i;
 
     float x = float(map_x << 8);
     float y = float(map_y << 6);
     float z = float(map_z << 8);
 
-    D3DLVERTEX *lv;
+    D3DLVERTEX* lv;
 
     for (i = 0; i < fs->lvertcount; i++) {
         ASSERT(WITHIN(fs->lvert + i, 0, FARFACET_lvert_upto - 1));
@@ -130,16 +130,16 @@ std::uint16_t FARFACET_find_vertex(FARFACET_Square *fs, std::uint8_t map_x, std:
         // How much is FARFACET_lvert offset into the FARFACET_lvert_buffer?
         //
 
-        old_offset = ((std::uint8_t *) FARFACET_lvert) - ((std::uint8_t *) FARFACET_lvert_buffer);
+        old_offset = ((std::uint8_t*) FARFACET_lvert) - ((std::uint8_t*) FARFACET_lvert_buffer);
 
         //
         // Double the length of the array.
         //
 
         FARFACET_lvert_max *= 2;
-        FARFACET_lvert_buffer = (D3DLVERTEX *) realloc(FARFACET_lvert_buffer, sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
+        FARFACET_lvert_buffer = (D3DLVERTEX*) realloc(FARFACET_lvert_buffer, sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
         ASSERT(FARFACET_lvert_buffer != nullptr);
-        FARFACET_lvert = (D3DLVERTEX *) ((std::int32_t(FARFACET_lvert_buffer) + 31) & ~0x1f);
+        FARFACET_lvert = (D3DLVERTEX*) ((std::int32_t(FARFACET_lvert_buffer) + 31) & ~0x1f);
 
         ASSERT(FARFACET_lvert_upto < FARFACET_lvert_max);
 
@@ -147,14 +147,14 @@ std::uint16_t FARFACET_find_vertex(FARFACET_Square *fs, std::uint8_t map_x, std:
         // What is the new offset into the FARFACET_lvert_buffer?
         //
 
-        new_offset = ((std::uint8_t *) FARFACET_lvert) - ((std::uint8_t *) FARFACET_lvert_buffer);
+        new_offset = ((std::uint8_t*) FARFACET_lvert) - ((std::uint8_t*) FARFACET_lvert_buffer);
 
         //
         // If the offsets are different then we have to move the data around.
         //
 
         if (new_offset != old_offset) {
-            memmove(((std::uint8_t *) FARFACET_lvert_buffer) + new_offset, ((std::uint8_t *) FARFACET_lvert_buffer) + old_offset, sizeof(D3DLVERTEX) * FARFACET_lvert_upto);
+            memmove(((std::uint8_t*) FARFACET_lvert_buffer) + new_offset, ((std::uint8_t*) FARFACET_lvert_buffer) + old_offset, sizeof(D3DLVERTEX) * FARFACET_lvert_upto);
         }
     }
 
@@ -183,10 +183,10 @@ std::uint16_t FARFACET_find_vertex(FARFACET_Square *fs, std::uint8_t map_x, std:
 // Adds an index to the given square.
 //
 
-void FARFACET_add_index(FARFACET_Square *fs, std::uint16_t index) {
+void FARFACET_add_index(FARFACET_Square* fs, std::uint16_t index) {
     if (FARFACET_index_upto >= FARFACET_index_max) {
         FARFACET_index_max *= 2;
-        FARFACET_index = (std::uint16_t *) realloc(FARFACET_index, sizeof(std::uint16_t) * FARFACET_index_max);
+        FARFACET_index = (std::uint16_t*) realloc(FARFACET_index, sizeof(std::uint16_t) * FARFACET_index_max);
     }
 
     ASSERT(FARFACET_index_upto == fs->index + fs->indexcount);
@@ -220,11 +220,11 @@ void FARFACET_create_square(std::int32_t square_x, std::int32_t square_z) {
     std::int32_t dx2;
     std::int32_t dz2;
 
-    FARFACET_Outline *fo;
-    FARFACET_Outline *fo1;
-    FARFACET_Outline *fo2;
-    DFacet *df;
-    FARFACET_Square *fs;
+    FARFACET_Outline* fo;
+    FARFACET_Outline* fo1;
+    FARFACET_Outline* fo2;
+    DFacet* df;
+    FARFACET_Square* fs;
 
     ASSERT(WITHIN(square_x, 0, FARFACET_SIZE - 1));
     ASSERT(WITHIN(square_z, 0, FARFACET_SIZE - 1));
@@ -689,8 +689,8 @@ void FARFACET_init() {
 
     FARFACET_lvert_max = 1024;
     FARFACET_lvert_upto = 0;
-    FARFACET_lvert_buffer = (D3DLVERTEX *) malloc(sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
-    FARFACET_lvert = (D3DLVERTEX *) ((std::int32_t(FARFACET_lvert_buffer) + 31) & ~0x1f);
+    FARFACET_lvert_buffer = (D3DLVERTEX*) malloc(sizeof(D3DLVERTEX) * FARFACET_lvert_max + 31);
+    FARFACET_lvert = (D3DLVERTEX*) ((std::int32_t(FARFACET_lvert_buffer) + 31) & ~0x1f);
 
 #if FARFACET_USE_INDEXED_LISTS
     FARFACET_index_max = FARFACET_lvert_max * 5 / 4;
@@ -698,9 +698,9 @@ void FARFACET_init() {
     FARFACET_index_max = FARFACET_lvert_max * 6 / 4;
 #endif
     FARFACET_index_upto = 0;
-    FARFACET_index = (std::uint16_t *) malloc(sizeof(std::uint16_t) * FARFACET_index_max);
+    FARFACET_index = (std::uint16_t*) malloc(sizeof(std::uint16_t) * FARFACET_index_max);
 
-    FARFACET_outline = (FARFACET_Outline *) malloc(sizeof(FARFACET_Outline) * FARFACET_MAX_OUTLINES);
+    FARFACET_outline = (FARFACET_Outline*) malloc(sizeof(FARFACET_Outline) * FARFACET_MAX_OUTLINES);
     FARFACET_outline_upto = 0;
 
     memset(FARFACET_square, 0, sizeof(FARFACET_square));
@@ -708,7 +708,7 @@ void FARFACET_init() {
     memset(FARFACET_index, 0, sizeof(std::uint16_t) * FARFACET_index_max);
     memset(FARFACET_outline, 0, sizeof(FARFACET_Outline) * FARFACET_MAX_OUTLINES);
 
-    FARFACET_matrix = (D3DMATRIX *) ((std::int32_t(FARFACET_matrix_buffer) + 31) & ~0x1f);
+    FARFACET_matrix = (D3DMATRIX*) ((std::int32_t(FARFACET_matrix_buffer) + 31) & ~0x1f);
 
     //
     // Calculate the FARFACET squares.
@@ -975,7 +975,7 @@ void FARFACET_draw(
     float dist;
     float dprod;
 
-    FARFACET_Square *fs;
+    FARFACET_Square* fs;
 
     for (square_x = square_min_x; square_x <= square_max_x; square_x++)
         for (square_z = square_min_z; square_z <= square_max_z; square_z++) {
@@ -1050,14 +1050,14 @@ void FARFACET_draw(
                     fs->lvertcount,
                     FARFACET_index + fs->index,
                     fs->indexcount);
-                // TRACE ( "F2" );
+            // TRACE ( "F2" );
 #endif
             }
         }
 
-        //
-        // Revert to default renderstate.
-        //
+    //
+    // Revert to default renderstate.
+    //
 
 #ifdef DEBUG
     the_display.SetRenderState(D3DRENDERSTATE_FOGENABLE, true);

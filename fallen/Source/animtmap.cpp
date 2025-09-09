@@ -13,15 +13,15 @@ struct AnimTmap anim_tmaps[MAX_ANIM_TMAPS]; // 2656 bytes
 #define FILE_OPEN_ERROR (-1)
 #define SEEK_MODE_CURRENT (1)
 
-extern std::int32_t SpecialOpen(char *name);
-extern std::int32_t SpecialRead(std::int32_t handle, std::uint8_t *ptr, std::int32_t s1);
+extern std::int32_t SpecialOpen(char* name);
+extern std::int32_t SpecialRead(std::int32_t handle, std::uint8_t* ptr, std::int32_t s1);
 extern std::int32_t SpecialSeek(std::int32_t handle, std::int32_t mode, std::int32_t size);
 extern std::int32_t SpecialClose(std::int32_t handle);
 
 #define FileOpen(x) SpecialOpen(x)
 #define FileClose(x) SpecialClose(x)
 // #define	FileCreate(x,y)	FileOpen(x)
-#define FileRead(h, a, s) SpecialRead(h, (std::uint8_t *) a, s)
+#define FileRead(h, a, s) SpecialRead(h, (std::uint8_t*) a, s)
 // #define	FileWrite(h,a,s) FileWrite(
 #define FileSeek(h, m, o) SpecialSeek(h, m, o)
 
@@ -29,7 +29,7 @@ extern std::int32_t SpecialClose(std::int32_t handle);
 
 void sync_animtmaps() {
     std::int32_t c0;
-    struct AnimTmap *p_anim;
+    struct AnimTmap* p_anim;
     p_anim = &anim_tmaps[1];
     for (c0 = 1; c0 < MAX_ANIM_TMAPS; c0++) {
         if (p_anim->Flags) {
@@ -42,7 +42,7 @@ void sync_animtmaps() {
 
 void animate_texture_maps() {
     std::int32_t c0;
-    struct AnimTmap *p_anim;
+    struct AnimTmap* p_anim;
     p_anim = &anim_tmaps[1];
     for (c0 = 1; c0 < MAX_ANIM_TMAPS; c0++) {
         if (p_anim->Flags) {
@@ -66,11 +66,11 @@ void load_animtmaps() {
 
     handle = FileOpen("data/tmap.ani");
     if (handle != FILE_OPEN_ERROR) {
-        FileRead(handle, (std::uint8_t *) &save_type, 4);
-        FileRead(handle, (std::uint8_t *) &how_many, 4);
+        FileRead(handle, (std::uint8_t*) &save_type, 4);
+        FileRead(handle, (std::uint8_t*) &how_many, 4);
         if (how_many >= MAX_ANIM_TMAPS)
             how_many = MAX_ANIM_TMAPS - 1;
-        FileRead(handle, (std::uint8_t *) &anim_tmaps[0], sizeof(struct AnimTmap) * how_many);
+        FileRead(handle, (std::uint8_t*) &anim_tmaps[0], sizeof(struct AnimTmap) * how_many);
         FileClose(handle);
     }
     sync_animtmaps();
@@ -83,9 +83,9 @@ void save_animtmaps() {
 
     handle = FileCreate("data/tmap.ani", 1);
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) &save_type, 4);
-        FileWrite(handle, (std::uint8_t *) &how_many, 4);
-        FileWrite(handle, (std::uint8_t *) &anim_tmaps[0], sizeof(struct AnimTmap) * how_many);
+        FileWrite(handle, (std::uint8_t*) &save_type, 4);
+        FileWrite(handle, (std::uint8_t*) &how_many, 4);
+        FileWrite(handle, (std::uint8_t*) &anim_tmaps[0], sizeof(struct AnimTmap) * how_many);
         FileClose(handle);
     }
 }

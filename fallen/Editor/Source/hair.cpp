@@ -36,7 +36,7 @@ void offset_strand(std::int32_t c0, std::int32_t c1, std::int32_t dx, std::int32
     }
 }
 
-inline std::int32_t normalise_xy(std::int32_t *dx, std::int32_t *dy, std::int32_t size) {
+inline std::int32_t normalise_xy(std::int32_t* dx, std::int32_t* dy, std::int32_t size) {
     std::int32_t dist;
     std::int32_t tx, ty;
 

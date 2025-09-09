@@ -83,7 +83,7 @@ bool CALLBACK acts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_activate_setup(EventPoint *the_ep) {
+void do_activate_setup(EventPoint* the_ep) {
     if (!the_ep) return;
     //	Set the dialog.
     prim_type = the_ep->Data[0];
@@ -103,7 +103,7 @@ void do_activate_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_activate_message(EventPoint *ep, char *msg) {
+char* get_activate_message(EventPoint* ep, char* msg) {
     if (!ep)
         strcpy(msg, "Unknown");
     else

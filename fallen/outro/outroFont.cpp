@@ -74,7 +74,7 @@ char FONT_punct[] =
 // apart from the texture!
 //
 
-OS_Texture *FONT_ot;
+OS_Texture* FONT_ot;
 TGA_Pixel FONT_data[256][256];
 
 //
@@ -116,7 +116,7 @@ void FONT_init() {
     std::int32_t x;
     std::int32_t line;
 
-    FONT_Letter *fl;
+    FONT_Letter* fl;
 
     //
     // Load the texture.
@@ -219,7 +219,7 @@ std::int32_t FONT_get_index(char chr) {
 
         letter = FONT_PUNCT_PLING;
 
-        for (char *ch = FONT_punct; *ch && *ch != chr; ch++, letter++);
+        for (char* ch = FONT_punct; *ch && *ch != chr; ch++, letter++);
     }
 
     if (!WITHIN(letter, 0, FONT_NUM_LETTERS - 1)) {
@@ -252,7 +252,7 @@ float FONT_get_letter_width(char chr) {
 }
 
 float FONT_draw_letter(
-    OS_Buffer *ob,
+    OS_Buffer* ob,
     char chr,
     float x,
     float y,
@@ -264,7 +264,7 @@ float FONT_draw_letter(
     float width;
     float lean;
 
-    FONT_Letter *fl;
+    FONT_Letter* fl;
 
     //
     // How much the character leans...
@@ -380,17 +380,17 @@ float FONT_draw_letter(
 // Returns the width of the given string.
 //
 
-float FONT_get_width(char *str, float scale) {
+float FONT_get_width(char* str, float scale) {
     float ans = 0.0F;
 
-    for (char *ch = str; *ch; ch++) {
+    for (char* ch = str; *ch; ch++) {
         ans += FONT_get_letter_width(*ch) * scale;
     }
 
     return ans;
 }
 
-void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t colour, float scale, std::int32_t cursor, float shimmer, char *fmt, ...) {
+void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t colour, float scale, std::int32_t cursor, float shimmer, char* fmt, ...) {
     char message[4096];
     va_list ap;
 
@@ -412,7 +412,7 @@ void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t co
     // The buffer we use to hold the sprites.
     //
 
-    OS_Buffer *ob = OS_buffer_new();
+    OS_Buffer* ob = OS_buffer_new();
 
     //
     // Make sure the colour component has alpha- otherwise the
@@ -435,7 +435,7 @@ void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t co
         x -= FONT_get_width(message, scale);
     }
 
-    char *ch = message;
+    char* ch = message;
 
     while (*ch) {
         if (*ch == '\n') {
@@ -448,7 +448,7 @@ void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t co
                 //
 
                 {
-                    OS_Buffer *ob = OS_buffer_new();
+                    OS_Buffer* ob = OS_buffer_new();
 
                     OS_buffer_add_sprite(
                         ob,
@@ -474,7 +474,7 @@ void FONT_draw(std::int32_t flag, float start_x, float start_y, std::uint32_t co
         //
 
         {
-            OS_Buffer *ob = OS_buffer_new();
+            OS_Buffer* ob = OS_buffer_new();
 
             OS_buffer_add_sprite(
                 ob,

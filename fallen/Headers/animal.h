@@ -7,7 +7,7 @@
 
 struct Animal
 {
-    Thing *target;               // chasing, barking
+    Entity *target;               // chasing, barking
     std::uint16_t counter;       // random delays etc
     std::uint16_t dist;          // generically useful when pathfinding, chasing, etc
     std::uint16_t starty;        // initial height? remove?
@@ -23,8 +23,8 @@ struct Animal
 };
 
 void init_animals();
-struct Thing *alloc_animal(std::uint8_t type);
-void free_animal(struct Thing *animal_thing);
+struct Entity *alloc_animal(std::uint8_t type);
+void free_animal(struct Entity *animal_thing);
 
 //
 // The animal state functions.
@@ -44,32 +44,32 @@ GameKeyFrameChunk *ANIMAL_register(char *filename);
 // given position on the mapwho and puts it into state STATE_INIT.
 //
 
-Thing *ANIMAL_create(GameCoord pos, std::uint8_t type);
+Entity *ANIMAL_create(GameCoord pos, std::uint8_t type);
 
 //
 // Animates the animal, returns 1 if the anim is finished
 //
 
-std::uint8_t ANIMAL_animate(Thing *animal);
+std::uint8_t ANIMAL_animate(Entity *animal);
 
 //
 // Changes the animation
 //
 
-void ANIMAL_set_anim(Thing *thing, std::int32_t anim);
+void ANIMAL_set_anim(Entity *thing, std::int32_t anim);
 
 //
 // Draw the animal -- provided for AENG...
 //
 
-void ANIMAL_draw(Thing *p_thing);
+void ANIMAL_draw(Entity *p_thing);
 
 //
 // Returns the Animal structure associated with the given animal thing.
 // Returns the DrawMesh structure associted with the given animal thing.
 //
 
-Animal *ANIMAL_get_animal(Thing *animal_thing);
+Animal *ANIMAL_get_animal(Entity *animal_thing);
 // DrawTween *ANIMAL_get_drawtween(Animal *animal);
 // std::int32_t ANIMAL_body_size(Animal *animal);
 

@@ -81,7 +81,7 @@ extern std::int32_t find_grab_face(
     std::int32_t ignore_faces_from_this_building,
     std::int32_t trench,
     std::int32_t *type,
-    Thing *p_person);
+    Entity *p_person);
 
 #if !defined(PSX) && !defined(TARGET_DC)
 extern std::int32_t find_grab_face_in_sewers(
@@ -97,8 +97,8 @@ extern std::int32_t find_grab_face_in_sewers(
     std::int32_t *grab_angle);
 #endif
 
-extern void calc_sub_objects_position(Thing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z);
-extern void calc_sub_objects_position_keys(Thing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z, struct GameKeyFrame *frame1, struct GameKeyFrame *frame2);
+extern void calc_sub_objects_position(Entity *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z);
+extern void calc_sub_objects_position_keys(Entity *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z, struct GameKeyFrame *frame1, struct GameKeyFrame *frame2);
 extern void calc_sub_objects_position_global(GameKeyFrame *cur_frame, GameKeyFrame *next_frame, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z);
 
 //

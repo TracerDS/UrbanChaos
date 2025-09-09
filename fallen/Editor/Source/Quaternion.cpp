@@ -10,7 +10,7 @@
 
 #define DELTA 0.05f //! guess????????????
 
-void QuatSlerp(CQuaternion *from, CQuaternion *to, float t, CQuaternion *res) {
+void QuatSlerp(CQuaternion* from, CQuaternion* to, float t, CQuaternion* res) {
     float to1[4];
 #ifdef TARGET_DC
     // Why the PC guys need doubles, I'll never know...
@@ -61,7 +61,7 @@ void QuatSlerp(CQuaternion *from, CQuaternion *to, float t, CQuaternion *res) {
 }
 
 //***************************************************************************************************
-void QuatMul(CQuaternion *q1, CQuaternion *q2, CQuaternion *res) {
+void QuatMul(CQuaternion* q1, CQuaternion* q2, CQuaternion* res) {
     float A, B, C, D, E, F, G, H;
 
     A = (q1->w + q1->x) * (q2->w + q2->x);
@@ -80,7 +80,7 @@ void QuatMul(CQuaternion *q1, CQuaternion *q2, CQuaternion *res) {
 }
 
 //***************************************************************************************************
-void EulerToQuat(float roll, float pitch, float yaw, CQuaternion *quat) {
+void EulerToQuat(float roll, float pitch, float yaw, CQuaternion* quat) {
     float cr, cp, cy, sr, sp, sy, cpcy, spsy;
 
     // calculate trig identities
@@ -102,7 +102,7 @@ void EulerToQuat(float roll, float pitch, float yaw, CQuaternion *quat) {
 }
 
 //***************************************************************************************************
-void QuatToMatrix(CQuaternion *quat, FloatMatrix *fm) {
+void QuatToMatrix(CQuaternion* quat, FloatMatrix* fm) {
     float wx, wy, wz, xx, yy, yz, xy, xz, zz, x2, y2, z2;
 
     // calculate coefficients
@@ -133,7 +133,7 @@ void QuatToMatrix(CQuaternion *quat, FloatMatrix *fm) {
 }
 
 //***************************************************************************************************
-void MatrixToQuat(FloatMatrix *fm, CQuaternion *quat) {
+void MatrixToQuat(FloatMatrix* fm, CQuaternion* quat) {
     float tr, s, q[4];
     int i, j, k;
 
@@ -179,7 +179,7 @@ void MatrixToQuat(FloatMatrix *fm, CQuaternion *quat) {
 
 // temporary matrix conversion stuff
 
-void cmat_to_fmat(CMatrix33 *cm, FloatMatrix *fm) {
+void cmat_to_fmat(CMatrix33* cm, FloatMatrix* fm) {
     fm->M[0][0] = float(((cm->M[0] & CMAT0_MASK) >> 20)) / 512.f;
     fm->M[0][1] = float(((cm->M[0] & CMAT1_MASK) >> 10)) / 512.f;
     fm->M[0][2] = float(((cm->M[0] & CMAT2_MASK) >> 00)) / 512.f;
@@ -205,7 +205,7 @@ void cmat_to_fmat(CMatrix33 *cm, FloatMatrix *fm) {
 }
 
 //***************************************************************************************************
-void fmat_to_mat(FloatMatrix *fm, Matrix33 *m) {
+void fmat_to_mat(FloatMatrix* fm, Matrix33* m) {
     m->M[0][0] = std::int32_t(fm->M[0][0] * 32768.f);
     m->M[0][1] = std::int32_t(fm->M[0][1] * 32768.f);
     m->M[0][2] = std::int32_t(fm->M[0][2] * 32768.f);
@@ -222,11 +222,11 @@ void fmat_to_mat(FloatMatrix *fm, Matrix33 *m) {
 //***************************************************************************************************
 //***************************************************************************************************
 
-void build_tween_matrix(struct Matrix33 *mat, struct CMatrix33 *cmat1, struct CMatrix33 *cmat2, std::int32_t tween);
+void build_tween_matrix(struct Matrix33* mat, struct CMatrix33* cmat1, struct CMatrix33* cmat2, std::int32_t tween);
 
 // external stuff
 
-void CQuaternion::BuildTween(struct Matrix33 *dest, struct CMatrix33 *m1, struct CMatrix33 *m2, std::int32_t tween) {
+void CQuaternion::BuildTween(struct Matrix33* dest, struct CMatrix33* m1, struct CMatrix33* m2, std::int32_t tween) {
     // 1st attempt - (slow)
     //	* construct the quaternions from the compressed integer matrices
     //  * SLERP the quaternions using the tween value

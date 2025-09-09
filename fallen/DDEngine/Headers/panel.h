@@ -15,7 +15,7 @@ extern void	PANEL_draw_angelic_status(std::int32_t x, std::int32_t y, std::int32
 extern void	PANEL_draw_press_button(std::int32_t x, std::int32_t y, std::int32_t size, std::int32_t frame);	// Even/odd frame
 #endif
 extern void PANEL_finish();
-extern void PANEL_inventory(Thing* darci, Thing* player);
+extern void PANEL_inventory(Entity* darci, Entity* player);
 
 //
 // The new funky panel!
@@ -34,7 +34,7 @@ void PANEL_new_text_init();
 // The new funky messages-from-people system.
 //
 
-void PANEL_new_text(Thing* who, std::int32_t delay, char* fmt, ...);
+void PANEL_new_text(Entity* who, std::int32_t delay, char* fmt, ...);
 
 //
 // Help system messages.

@@ -26,7 +26,7 @@
 extern std::int32_t CAM_lens;
 
 void CAM_set_mode(std::int32_t mode);
-void CAM_set_focus(Thing *focus);
+void CAM_set_focus(Entity *focus);
 void CAM_set_zoom(std::int32_t zoom);
 void CAM_set_collision(std::int32_t boolean);
 void CAM_set_behind_up(std::int32_t behind_up);
@@ -142,7 +142,7 @@ void CAM_set_dpos(
 // person climb out of the sewers.
 //
 
-void CAM_set_to_leave_sewers_position(Thing *);
+void CAM_set_to_leave_sewers_position(Entity *);
 
 //
 // Sets the camera to look at the focus thing.

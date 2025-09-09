@@ -19,10 +19,9 @@
 // Custom types
 //
 
-GenusFunctions ANIMAL_functions[ANIMAL_NUMBER] =
-    {
-        {ANIMAL_NONE,  nullptr             },
-        {ANIMAL_CANID, CANID_state_function}
+GenusFunctions ANIMAL_functions[ANIMAL_NUMBER] = {
+    {ANIMAL_NONE,  nullptr             },
+    {ANIMAL_CANID, CANID_state_function}
 };
 /*
 struct AnimalBody {
@@ -50,7 +49,7 @@ extern GameKeyFrameChunk game_chunk[MAX_GAME_CHUNKS];
 // Prototypes
 //
 
-std::int32_t load_anim_system(GameKeyFrameChunk *game_chunk, char *name, std::int32_t peep = 0);
+std::int32_t load_anim_system(GameKeyFrameChunk* game_chunk, char* name, std::int32_t peep = 0);
 
 //--------------------------------------------------------------------------
 // Body part registration scheme...
@@ -94,7 +93,7 @@ void init_body_parts(std::int32_t animaltype, RegisterFn fn) {
 //
 
 void init_animals() {
-    memset((std::uint8_t *) ANIMALS, 0, sizeof(ANIMALS));
+    memset((std::uint8_t*) ANIMALS, 0, sizeof(ANIMALS));
 
     ANIMAL_COUNT = 0;
     //	body_counter=0;
@@ -110,9 +109,9 @@ void init_animals() {
 // Sets up the drawtween for a specific bodypart
 //
 
-DrawTween *alloc_tween(std::int32_t type, std::int32_t part) {
+DrawTween* alloc_tween(std::int32_t type, std::int32_t part) {
     std::int32_t chunk;
-    DrawTween *dt;
+    DrawTween* dt;
 
     ASSERT(0); // better add an extra game_chunk if your going to put animals in
     return (0);
@@ -154,12 +153,12 @@ DrawTween *alloc_tween(std::int32_t type, std::int32_t part) {
 // Creates a new animal of the given type.
 //
 
-Thing *alloc_animal(std::uint8_t type) {
+Entity* alloc_animal(std::uint8_t type) {
     std::int32_t i;
 
-    Thing *p_thing;
-    Animal *p_animal;
-    DrawTween *dt;
+    Entity* p_thing;
+    Animal* p_animal;
+    DrawTween* dt;
 
     THING_INDEX t_index;
     std::int32_t a_index;
@@ -242,9 +241,9 @@ found_animal:
     }
 }
 
-void free_animal(Thing *p_thing) {
+void free_animal(Entity* p_thing) {
     std::int32_t i;
-    Animal *animal = ANIMAL_get_animal(p_thing);
+    Animal* animal = ANIMAL_get_animal(p_thing);
     ASSERT(0);
     return;
 
@@ -266,8 +265,8 @@ void free_animal(Thing *p_thing) {
     free_thing(p_thing);
 }
 
-Thing *ANIMAL_create(GameCoord pos, std::uint8_t type) {
-    Thing *p_thing = alloc_animal(type);
+Entity* ANIMAL_create(GameCoord pos, std::uint8_t type) {
+    Entity* p_thing = alloc_animal(type);
     return (0);
 
     if (p_thing) {
@@ -289,7 +288,7 @@ Thing *ANIMAL_create(GameCoord pos, std::uint8_t type) {
 //  do animation
 //
 
-std::uint8_t ANIMAL_animatetween(DrawTween *draw_info) {
+std::uint8_t ANIMAL_animatetween(DrawTween* draw_info) {
     std::int32_t tween_step;
     ASSERT(0);
 
@@ -311,7 +310,7 @@ std::uint8_t ANIMAL_animatetween(DrawTween *draw_info) {
     return 0;
 }
 
-std::uint8_t ANIMAL_animate(Thing *animal) {
+std::uint8_t ANIMAL_animate(Entity* animal) {
     std::uint8_t i, j = 0;
     ASSERT(0);
     //	for (i=0;i<animal_bodies[animal->Genus.Animal->AnimalType].size;i++)
@@ -325,11 +324,11 @@ std::uint8_t ANIMAL_animate(Thing *animal) {
 // Change the animation
 //
 
-void ANIMAL_set_anim(Thing *thing, std::int32_t anim) {
-    Animal *animal = ANIMAL_get_animal(thing);
+void ANIMAL_set_anim(Entity* thing, std::int32_t anim) {
+    Animal* animal = ANIMAL_get_animal(thing);
     std::uint8_t i;
     std::int32_t chunk;
-    DrawTween *dt;
+    DrawTween* dt;
     ASSERT(0);
     return;
 
@@ -354,8 +353,8 @@ void ANIMAL_set_anim(Thing *thing, std::int32_t anim) {
     }
 }
 
-Animal *ANIMAL_get_animal(struct Thing *animal_thing) {
-    Animal *animal;
+Animal* ANIMAL_get_animal(struct Entity* animal_thing) {
+    Animal* animal;
 
     ASSERT(WITHIN(animal_thing, TO_THING(1), TO_THING(MAX_THINGS)));
     ASSERT(animal_thing->Class == CLASS_ANIMAL);
@@ -382,7 +381,7 @@ extern void FIGURE_rotate_obj(std::int32_t xangle,std::int32_t yangle,std::int32
 extern void FIGURE_draw_prim_tween(std::int32_t prim, std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t tween, struct GameKeyFrameElement *anim_info, struct GameKeyFrameElement *anim_info_next, struct Matrix33 *rot_mat,
                 std::int32_t off_dx, std::int32_t off_dy, std::int32_t off_dz, std::uint32_t colour, std::uint32_t specular);
 -> jcl <- don't use FIGURE_draw_prim_tween() here - it's changed...
-void ANIM_obj_draw_diddled(Thing *p_thing,DrawTween *dt,float xd,float yd,float zd)
+void ANIM_obj_draw_diddled(Entity *p_thing,DrawTween *dt,float xd,float yd,float zd)
 {
         std::int32_t dx;
         std::int32_t dy;

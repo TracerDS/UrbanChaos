@@ -88,8 +88,8 @@ typedef struct
     std::int32_t num_points;
     std::int32_t num_faces;
 
-    CRINKLE_Point *point;
-    CRINKLE_Face *face;
+    CRINKLE_Point* point;
+    CRINKLE_Face* face;
 
 } CRINKLE_Crinkle;
 
@@ -114,7 +114,7 @@ void CRINKLE_init() {
 
 #define CRINKLE_MAX_LINE 256
 
-CRINKLE_Handle CRINKLE_load(char *asc_filename) {
+CRINKLE_Handle CRINKLE_load(char* asc_filename) {
     std::int32_t i;
 
     std::int32_t o;
@@ -145,9 +145,9 @@ CRINKLE_Handle CRINKLE_load(char *asc_filename) {
     char line[CRINKLE_MAX_LINE];
 
     CRINKLE_Handle ans;
-    CRINKLE_Crinkle *cc;
+    CRINKLE_Crinkle* cc;
 
-    FILE *handle;
+    FILE* handle;
 
     //
     // Open the file.
@@ -346,16 +346,16 @@ CRINKLE_Handle CRINKLE_load(char *asc_filename) {
     return ans;
 }
 
-CRINKLE_Handle CRINKLE_read_bin(FileClump *tclump, int id) {
+CRINKLE_Handle CRINKLE_read_bin(FileClump* tclump, int id) {
     int ii;
 
     // read data
 
-    std::uint8_t *buffer = tclump->Read(id);
+    std::uint8_t* buffer = tclump->Read(id);
     if (!buffer)
         return 0;
 
-    std::uint8_t *bptr = buffer;
+    std::uint8_t* bptr = buffer;
 
     ASSERT(WITHIN(CRINKLE_crinkle_upto, 1, CRINKLE_MAX_CRINKLES - 1));
 
@@ -364,15 +364,15 @@ CRINKLE_Handle CRINKLE_read_bin(FileClump *tclump, int id) {
     //
 
     CRINKLE_Handle ans = CRINKLE_crinkle_upto;
-    CRINKLE_Crinkle *cc = &CRINKLE_crinkle[CRINKLE_crinkle_upto];
+    CRINKLE_Crinkle* cc = &CRINKLE_crinkle[CRINKLE_crinkle_upto];
     CRINKLE_crinkle_upto++;
 
     // do the header
     memcpy(cc, bptr, sizeof(*cc));
     bptr += sizeof(*cc);
 
-    CRINKLE_Point *cp = &CRINKLE_point[CRINKLE_point_upto];
-    CRINKLE_Face *cf = &CRINKLE_face[CRINKLE_face_upto];
+    CRINKLE_Point* cp = &CRINKLE_point[CRINKLE_point_upto];
+    CRINKLE_Face* cf = &CRINKLE_face[CRINKLE_face_upto];
 
     cc->point = cp;
     cc->face = cf;
@@ -396,20 +396,20 @@ CRINKLE_Handle CRINKLE_read_bin(FileClump *tclump, int id) {
 }
 
 #ifndef TARGET_DC
-void CRINKLE_write_bin(FileClump *tclump, CRINKLE_Handle hnd, int id) {
-    CRINKLE_Crinkle *cc = &CRINKLE_crinkle[hnd];
+void CRINKLE_write_bin(FileClump* tclump, CRINKLE_Handle hnd, int id) {
+    CRINKLE_Crinkle* cc = &CRINKLE_crinkle[hnd];
 
     int size = sizeof(CRINKLE_Crinkle) + cc->num_points * sizeof(CRINKLE_Point) + cc->num_faces * sizeof(CRINKLE_Face);
 
-    std::uint8_t *buffer = new std::uint8_t[size];
+    std::uint8_t* buffer = new std::uint8_t[size];
     ASSERT(buffer);
-    std::uint8_t *bptr = buffer;
+    std::uint8_t* bptr = buffer;
 
     memcpy(bptr, cc, sizeof(*cc));
     bptr += sizeof(*cc);
 
-    CRINKLE_Point *cp = cc->point;
-    CRINKLE_Face *cf = cc->face;
+    CRINKLE_Point* cp = cc->point;
+    CRINKLE_Face* cf = cc->face;
 
     for (int ii = 0; ii < cc->num_points; ii++) {
         memcpy(bptr, cp, sizeof(*cp));
@@ -468,11 +468,11 @@ void CRINKLE_do(
     CRINKLE_Handle crinkle,
     std::int32_t page,
     float extrude,
-    POLY_Point *pp[4],
+    POLY_Point* pp[4],
     std::int32_t flip) {
     std::int32_t i;
 
-    CRINKLE_Crinkle *cc;
+    CRINKLE_Crinkle* cc;
 
     ASSERT(WITHIN(crinkle, 0, CRINKLE_crinkle_upto - 1));
 
@@ -487,7 +487,7 @@ void CRINKLE_do(
     if (flip) {
 #define PPSWAP(a, b)                \
     {                               \
-        POLY_Point *pp_spare = (a); \
+        POLY_Point* pp_spare = (a); \
         (a) = (b);                  \
         (b) = pp_spare;             \
     }
@@ -594,8 +594,8 @@ void CRINKLE_do(
     std::int32_t b;
     std::int32_t a;
 
-    CRINKLE_Point *cp;
-    POLY_Point *pt;
+    CRINKLE_Point* cp;
+    POLY_Point* pt;
 
     ASSERT(WITHIN(cc->num_points, 4, CRINKLE_MAX_POINTS_PER_CRINKLE));
 
@@ -639,8 +639,8 @@ void CRINKLE_do(
     // The faces.
     //
 
-    POLY_Point *tri[3];
-    CRINKLE_Face *cf;
+    POLY_Point* tri[3];
+    CRINKLE_Face* cf;
 
     for (i = 0; i < cc->num_faces; i++) {
         cf = &cc->face[i];
@@ -790,7 +790,7 @@ void CRINKLE_project(
     std::int32_t flip) {
     std::int32_t i;
 
-    CRINKLE_Crinkle *cc;
+    CRINKLE_Crinkle* cc;
 
     ASSERT(WITHIN(crinkle, 0, CRINKLE_crinkle_upto - 1));
 
@@ -866,8 +866,8 @@ void CRINKLE_project(
     std::int32_t b;
     std::int32_t a;
 
-    CRINKLE_Point *cp;
-    POLY_Point *pt;
+    CRINKLE_Point* cp;
+    POLY_Point* pt;
 
     ASSERT(WITHIN(cc->num_points, 4, CRINKLE_MAX_POINTS_PER_CRINKLE));
 
@@ -884,8 +884,8 @@ void CRINKLE_project(
     // The faces.
     //
 
-    POLY_Point *tri[3];
-    CRINKLE_Face *cf;
+    POLY_Point* tri[3];
+    CRINKLE_Face* cf;
 
     for (i = 0; i < cc->num_faces; i++) {
         cf = &cc->face[i];

@@ -29,7 +29,7 @@ typedef struct
     // Where we store strings.
     //
 
-    char *buffer;
+    char* buffer;
     std::int32_t buffer_upto;
     std::int32_t buffer_max;
 
@@ -37,7 +37,7 @@ typedef struct
     // Where we store symbols.
     //
 
-    ST_Symbol *symbol;
+    ST_Symbol* symbol;
     std::int32_t symbol_upto;
     std::int32_t symbol_max;
 
@@ -57,11 +57,11 @@ ST_Table ST_table[ST_TABLE_NUMBER];
 // Computes the hash value of a string.
 //
 
-std::uint32_t ST_hash_value(char *string) {
+std::uint32_t ST_hash_value(char* string) {
     std::uint32_t ans = 0;
     std::int32_t rot = 0;
 
-    char *ch;
+    char* ch;
 
     for (ch = string; *ch; ch++) {
         ans ^= _lrotl(*ch, rot);
@@ -77,7 +77,7 @@ std::uint32_t ST_hash_value(char *string) {
 void ST_init() {
     std::int32_t i;
 
-    ST_Table *st;
+    ST_Table* st;
 
     //
     // Clear all data.
@@ -94,17 +94,17 @@ void ST_init() {
 
         st->buffer_max = 8192;
         st->buffer_upto = 0;
-        st->buffer = (char *) malloc(sizeof(char) * st->buffer_max);
+        st->buffer = (char*) malloc(sizeof(char) * st->buffer_max);
 
         st->symbol_max = 1024;
         st->symbol_upto = 1; // The 0th element is the nullptr index...
-        st->symbol = (ST_Symbol *) malloc(sizeof(ST_Symbol) * st->symbol_max);
+        st->symbol = (ST_Symbol*) malloc(sizeof(ST_Symbol) * st->symbol_max);
     }
 }
 
-void ST_add(std::int32_t table, char *string, std::int32_t value, std::int32_t flag) {
-    ST_Table *st;
-    ST_Symbol *ss;
+void ST_add(std::int32_t table, char* string, std::int32_t value, std::int32_t flag) {
+    ST_Table* st;
+    ST_Symbol* ss;
 
     std::int32_t symbol;
 
@@ -132,7 +132,7 @@ void ST_add(std::int32_t table, char *string, std::int32_t value, std::int32_t f
 
     if (st->symbol_upto >= st->symbol_max) {
         st->symbol_max *= 2;
-        st->symbol = (ST_Symbol *) realloc(st->symbol, sizeof(ST_Symbol) * st->symbol_max);
+        st->symbol = (ST_Symbol*) realloc(st->symbol, sizeof(ST_Symbol) * st->symbol_max);
     }
 
     //
@@ -165,7 +165,7 @@ void ST_add(std::int32_t table, char *string, std::int32_t value, std::int32_t f
         //
 
         st->buffer_max *= 2;
-        st->buffer = (char *) realloc(st->buffer, sizeof(char) * st->buffer_max);
+        st->buffer = (char*) realloc(st->buffer, sizeof(char) * st->buffer_max);
     }
 
     //
@@ -193,12 +193,12 @@ void ST_add(std::int32_t table, char *string, std::int32_t value, std::int32_t f
 std::int32_t ST_found_table;
 std::int32_t ST_found_value;
 std::int32_t ST_found_flag;
-char *ST_found_string;
-ST_Symbol *ST_found_ss;
+char* ST_found_string;
+ST_Symbol* ST_found_ss;
 
-std::int32_t ST_find_in_table(std::int32_t table, char *string) {
-    ST_Table *st;
-    ST_Symbol *ss;
+std::int32_t ST_find_in_table(std::int32_t table, char* string) {
+    ST_Table* st;
+    ST_Symbol* ss;
 
     std::int32_t symbol;
 
@@ -241,7 +241,7 @@ std::int32_t ST_find_in_table(std::int32_t table, char *string) {
     return false;
 }
 
-std::int32_t ST_find(char *string) {
+std::int32_t ST_find(char* string) {
     std::int32_t table;
 
     //
@@ -259,7 +259,7 @@ std::int32_t ST_find(char *string) {
     return false;
 }
 
-void ST_update_flag(char *string, std::int32_t new_flag) {
+void ST_update_flag(char* string, std::int32_t new_flag) {
     std::int32_t table;
 
     //
@@ -294,8 +294,8 @@ void ST_find_all_start() {
 }
 
 std::int32_t ST_find_all_next() {
-    ST_Table *st;
-    ST_Symbol *ss;
+    ST_Table* st;
+    ST_Symbol* ss;
 
     while (1) {
         ASSERT(WITHIN(ST_find_all_table, 0, ST_TABLE_NUMBER - 1));
@@ -327,7 +327,7 @@ std::int32_t ST_find_all_next() {
 }
 
 void ST_clear(std::int32_t table) {
-    ST_Table *st;
+    ST_Table* st;
 
     ASSERT(WITHIN(table, 0, ST_TABLE_NUMBER - 1));
 

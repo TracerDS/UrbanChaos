@@ -55,8 +55,8 @@ void ES_init() {
     std::int32_t x;
     std::int32_t z;
 
-    ES_Hi *eh;
-    ES_Lo *el;
+    ES_Hi* eh;
+    ES_Lo* el;
 
     //
     // All things are unused.
@@ -132,7 +132,7 @@ void ES_change_height(
     std::int32_t match;
     std::int32_t count;
 
-    ES_Hi *eh;
+    ES_Hi* eh;
 
     ASSERT(WITHIN(map_x, 0, PAP_SIZE_HI - 1));
     ASSERT(WITHIN(map_z, 0, PAP_SIZE_HI - 1));
@@ -157,8 +157,8 @@ void ES_change_height(
     std::int32_t queue_start = 0; // Access MOD QUEUE_SIZE
     std::int32_t queue_end = 0;
 
-    Queue *qs;
-    Queue *qe;
+    Queue* qs;
+    Queue* qe;
 
     queue[0].x = map_x;
     queue[0].z = map_z;
@@ -239,7 +239,7 @@ void ES_city_water_build() {
     std::int32_t x;
     std::int32_t z;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     //
     // Clear the maps of all old water.
@@ -342,15 +342,15 @@ void ES_build_sewers() {
     std::int32_t mx;
     std::int32_t mz;
 
-    ES_Hi *eh;
-    NS_Hi *nh;
+    ES_Hi* eh;
+    NS_Hi* nh;
 
-    ES_Lo *el;
-    NS_Lo *nl;
+    ES_Lo* el;
+    NS_Lo* nl;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
-    PAP_Lo *pl;
+    PAP_Lo* pl;
 
     std::int32_t nh_type;
     std::int32_t nh_flag;
@@ -684,7 +684,7 @@ void ES_build_sewers() {
 // Fills out the given undo structure with the current state.
 //
 
-void ES_undo_create(ES_Undo *eu) {
+void ES_undo_create(ES_Undo* eu) {
     memcpy(eu->es_hi, ES_hi, sizeof(ES_hi));
     memcpy(eu->es_lo, ES_lo, sizeof(ES_lo));
     memcpy(eu->es_thing, ES_thing, sizeof(ES_thing));
@@ -696,7 +696,7 @@ void ES_undo_create(ES_Undo *eu) {
 // Restores the editor state from the given undo structure.
 //
 
-void ES_undo_restore(ES_Undo *eu) {
+void ES_undo_restore(ES_Undo* eu) {
     memcpy(ES_hi, eu->es_hi, sizeof(ES_hi));
     memcpy(ES_lo, eu->es_lo, sizeof(ES_lo));
     memcpy(ES_thing, eu->es_thing, sizeof(ES_thing));
@@ -705,7 +705,7 @@ void ES_undo_restore(ES_Undo *eu) {
 }
 
 void ES_undo_store() {
-    ES_Undo *eu;
+    ES_Undo* eu;
 
     ES_undo_stage = ES_undo_stage + 1;
     ES_undo_top = ES_undo_stage;
@@ -776,10 +776,10 @@ typedef struct
 
 } ES_Header;
 
-std::int32_t ES_save(char *filename) {
+std::int32_t ES_save(char* filename) {
     ES_Header ed;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(filename, "wb");
 
@@ -826,10 +826,10 @@ file_error:;
     return false;
 }
 
-std::int32_t ES_load(char *filename) {
+std::int32_t ES_load(char* filename) {
     ES_Header ed;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(filename, "rb");
 
@@ -902,10 +902,10 @@ void ES_draw_editor(
     std::int32_t cam_roll,
     std::int32_t mouse_x,
     std::int32_t mouse_y,
-    std::int32_t *mouse_over_valid,
-    std::int32_t *mouse_over_x,
-    std::int32_t *mouse_over_y,
-    std::int32_t *mouse_over_z,
+    std::int32_t* mouse_over_valid,
+    std::int32_t* mouse_over_x,
+    std::int32_t* mouse_over_y,
+    std::int32_t* mouse_over_z,
     std::int32_t draw_prim_at_mouse,
     std::int32_t prim_object,
     std::int32_t prim_yaw) {
@@ -1039,7 +1039,7 @@ void ES_ladder_create(
     std::int32_t map_x = ax >> PAP_SHIFT_HI;
     std::int32_t map_z = az >> PAP_SHIFT_HI;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
         !WITHIN(map_z, 0, PAP_SIZE_HI - 1)) {
@@ -1147,7 +1147,7 @@ void ES_ladder_dheight(
     std::int32_t best_thing = 0;
     std::int32_t best_dist = INFINITY;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     x >>= PAP_SHIFT_HI;
     z >>= PAP_SHIFT_HI;
@@ -1205,7 +1205,7 @@ void ES_ladder_delete(
     x >>= PAP_SHIFT_HI;
     z >>= PAP_SHIFT_HI;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     for (i = 0; i < ES_MAX_THINGS; i++) {
         et = &ES_thing[i];
@@ -1257,7 +1257,7 @@ void ES_sewer_water_dheight(std::int32_t x, std::int32_t z, std::int32_t dheight
     std::int32_t nx;
     std::int32_t nz;
 
-    ES_Hi *eh;
+    ES_Hi* eh;
 
     std::int32_t map_x = x >> PAP_SHIFT_HI;
     std::int32_t map_z = z >> PAP_SHIFT_HI;
@@ -1295,8 +1295,8 @@ void ES_sewer_water_dheight(std::int32_t x, std::int32_t z, std::int32_t dheight
     std::int32_t queue_start = 0; // Access MOD QUEUE_SIZE
     std::int32_t queue_end = 0;
 
-    Queue *qs;
-    Queue *qe;
+    Queue* qs;
+    Queue* qe;
 
     queue[0].x = map_x;
     queue[0].z = map_z;
@@ -1536,7 +1536,7 @@ void ES_prim_create(
     std::int32_t map_x = x >> PAP_SHIFT_HI;
     std::int32_t map_z = z >> PAP_SHIFT_HI;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     if (!WITHIN(map_x, 0, PAP_SIZE_HI - 1) ||
         !WITHIN(map_z, 0, PAP_SIZE_HI - 1)) {
@@ -1586,7 +1586,7 @@ void ES_prim_delete(
     x >>= PAP_SHIFT_HI;
     z >>= PAP_SHIFT_HI;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     for (i = 0; i < ES_MAX_THINGS; i++) {
         et = &ES_thing[i];
@@ -1636,7 +1636,7 @@ void ES_prim_dheight(
     x >>= PAP_SHIFT_HI;
     z >>= PAP_SHIFT_HI;
 
-    ES_Thing *et;
+    ES_Thing* et;
 
     for (i = 0; i < ES_MAX_THINGS; i++) {
         et = &ES_thing[i];

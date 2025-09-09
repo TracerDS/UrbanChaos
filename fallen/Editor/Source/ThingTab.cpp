@@ -28,8 +28,8 @@
 
 //---------------------------------------------------------------
 
-extern char *class_text[];
-extern char *genus_text[][10];
+extern char* class_text[];
+extern char* genus_text[][10];
 
 //---------------------------------------------------------------
 
@@ -69,7 +69,7 @@ void ThingTab::DrawTabContent(void) {
         break;
     case THING_MODE_SELECT_THING:
         message_height = QTStringHeight() + 12;
-        message_width = QTStringWidth("Select A Thing") + 12;
+        message_width = QTStringWidth("Select A Entity") + 12;
         message_rect.SetRect(
             150 - (message_width >> 1),
             220 - (message_height >> 1),
@@ -80,7 +80,7 @@ void ThingTab::DrawTabContent(void) {
         QuickTextC(
             message_rect.GetLeft() + 6,
             message_rect.GetTop() + 6,
-            "Select A Thing",
+            "Select A Entity",
             0);
         break;
     case THING_MODE_SELECT_SWITCH:
@@ -123,7 +123,7 @@ void ThingTab::UpdateTab(std::uint8_t update_level) {
 
 //---------------------------------------------------------------
 
-std::uint16_t ThingTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_point) {
+std::uint16_t ThingTab::HandleTabClick(std::uint8_t flags, MFPoint* clicked_point) {
     std::uint8_t update = UPDATE_NONE;
     std::uint32_t control_id = 0;
     MFPoint local_point;
@@ -167,7 +167,7 @@ std::uint16_t ThingTab::HandleTabClick(std::uint8_t flags, MFPoint *clicked_poin
 
 //---------------------------------------------------------------
 
-void ThingTab::HandleTab(MFPoint *current_point) {
+void ThingTab::HandleTab(MFPoint* current_point) {
     std::uint8_t update = UPDATE_NONE;
     static bool cleanup = false;
 
@@ -221,7 +221,7 @@ void ThingTab::HandleControl(std::uint16_t control_id) {
 //---------------------------------------------------------------
 
 void ThingTab::HandleClassControl(std::uint16_t control_id) {
-    EditComList *the_list;
+    EditComList* the_list;
 
     if (control_id) {
         switch (control_id & 0xff) {
@@ -251,7 +251,7 @@ void ThingTab::HandleClassControl(std::uint16_t control_id) {
             case CLASS_PERSON:
                 the_list = SelectCommandList();
                 if (the_list) {
-                    map_things[CurrentThing].Data[0] = (std::int32_t)(the_list - edit_comlists);
+                    map_things[CurrentThing].Data[0] = (std::int32_t) (the_list - edit_comlists);
                 }
                 break;
             case CLASS_SWITCH:
@@ -268,7 +268,7 @@ void ThingTab::HandleClassControl(std::uint16_t control_id) {
 
                 the_list = SelectCommandList();
                 if (the_list) {
-                    map_things[CurrentThing].Data[0] = (std::int32_t)(the_list - edit_comlists);
+                    map_things[CurrentThing].Data[0] = (std::int32_t) (the_list - edit_comlists);
                 }
                 break;
             case CLASS_SPECIAL:
@@ -285,7 +285,7 @@ void ThingTab::HandleClassControl(std::uint16_t control_id) {
 //---------------------------------------------------------------
 
 void ThingTab::HandleBuildingControl(std::uint16_t control_id) {
-    MapThing *t_mthing;
+    MapThing* t_mthing;
 
     if (control_id) {
         t_mthing = TO_MTHING(CurrentThing);
@@ -300,7 +300,7 @@ void ThingTab::HandleBuildingControl(std::uint16_t control_id) {
             break;
         case 3:
             TabMode = THING_MODE_SELECT_SWITCH;
-            DataPtr = (std::int32_t *) &map_things[CurrentThing].EditorData;
+            DataPtr = (std::int32_t*) &map_things[CurrentThing].EditorData;
             break;
         }
     }
@@ -308,7 +308,7 @@ void ThingTab::HandleBuildingControl(std::uint16_t control_id) {
 
 //---------------------------------------------------------------
 
-EditComList *ThingTab::SelectCommandList(void) {
+EditComList* ThingTab::SelectCommandList(void) {
     bool exit = false;
     std::uint8_t update = 2;
     std::uint16_t select_pos;
@@ -331,9 +331,9 @@ EditComList *ThingTab::SelectCommandList(void) {
     select_set.ControlSetBounds(&bounds_rect);
     select_set.InitControlSet(select_command_def);
     if (ed_comlist_count > MAX_VIEW_LISTS) {
-        ((CVSlider *) select_set.GetControlPtr(1))->SetValueRange(0, ed_comlist_count - MAX_VIEW_LISTS);
+        ((CVSlider*) select_set.GetControlPtr(1))->SetValueRange(0, ed_comlist_count - MAX_VIEW_LISTS);
     }
-    ((CVSlider *) select_set.GetControlPtr(1))->SetCurrentValue(0);
+    ((CVSlider*) select_set.GetControlPtr(1))->SetCurrentValue(0);
 
     while (SHELL_ACTIVE && !exit) {
         SetWorkWindowBounds(0, 0, WorkScreenPixelWidth, WorkScreenHeight);
@@ -396,7 +396,7 @@ EditComList *ThingTab::SelectCommandList(void) {
 
                     // Skip the beginning of the list to match the slider bar position.
                     current_list = comlists;
-                    c0 = ((CVSlider *) select_set.GetControlPtr(1))->GetCurrentValue();
+                    c0 = ((CVSlider*) select_set.GetControlPtr(1))->GetCurrentValue();
                     while (current_list && c0) {
                         c0--;
                         current_list = current_list->Next;
@@ -460,9 +460,9 @@ void ThingTab::DrawClassSet(void) {
 //---------------------------------------------------------------
 
 void ThingTab::UpdateTabInfo(void) {
-    MapThing *t_mthing;
+    MapThing* t_mthing;
 
-    ((CStaticText *) GetControlPtr(CTRL_CLASS_TEXT))->SetString1(class_text[CurrentClass]);
+    ((CStaticText*) GetControlPtr(CTRL_CLASS_TEXT))->SetString1(class_text[CurrentClass]);
 
     CurrentSet.InitControlSet(class_defs[CurrentClass]);
 
@@ -478,14 +478,14 @@ void ThingTab::UpdateTabInfo(void) {
 
 void ThingTab::UpdateClassInfo(void) {
     char text[64];
-    MapThing *t_mthing;
+    MapThing* t_mthing;
 
     if (CurrentClass == CLASS_BUILDING && CurrentThing) {
         t_mthing = TO_MTHING(CurrentThing);
 
         //	Show the building ID.
         sprintf(text, "%ld", t_mthing->BuildingList);
-        ((CStaticText *) CurrentSet.GetControlPtr(1))->SetString1(text);
+        ((CStaticText*) CurrentSet.GetControlPtr(1))->SetString1(text);
 
         //	Set the 'Locked' check box state
         CurrentSet.SetControlState(2, (t_mthing->EditorFlags & 0x01 ? CTRL_SELECTED : CTRL_DESELECTED));
@@ -495,13 +495,13 @@ void ThingTab::UpdateClassInfo(void) {
             sprintf(text, "%ld", t_mthing->EditorData);
         else
             sprintf(text, "None");
-        ((CStaticText *) CurrentSet.GetControlPtr(4))->SetString1(text);
+        ((CStaticText*) CurrentSet.GetControlPtr(4))->SetString1(text);
     } else if (CurrentClass == CLASS_SWITCH) {
         class_defs[CLASS_SWITCH] = switch_defs[CurrentGenus];
         UpdateTabInfo();
-        ((CStaticText *) CurrentSet.GetControlPtr(CTRL_GENUS_TEXT))->SetString1(genus_text[CurrentClass][CurrentGenus]);
+        ((CStaticText*) CurrentSet.GetControlPtr(CTRL_GENUS_TEXT))->SetString1(genus_text[CurrentClass][CurrentGenus]);
     } else if (CurrentThing)
-        ((CStaticText *) CurrentSet.GetControlPtr(CTRL_GENUS_TEXT))->SetString1(genus_text[CurrentClass][CurrentGenus]);
+        ((CStaticText*) CurrentSet.GetControlPtr(CTRL_GENUS_TEXT))->SetString1(genus_text[CurrentClass][CurrentGenus]);
 
     switch (CurrentClass) {
     case CLASS_PLAYER:
@@ -520,7 +520,7 @@ void ThingTab::UpdateClassInfo(void) {
                 CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
                 sprintf(text, "None");
             }
-            ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
+            ((CStaticText*) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
         }
         break;
     case CLASS_SWITCH:
@@ -538,7 +538,7 @@ void ThingTab::UpdateClassInfo(void) {
                     CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
                     sprintf(text, "0");
                 }
-                ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
+                ((CStaticText*) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
             }
             break;
         case SWITCH_GROUP:
@@ -557,7 +557,7 @@ void ThingTab::UpdateClassInfo(void) {
                 CurrentSet.SetControlState(CTRL_ITEM_3, CTRL_INACTIVE);
                 sprintf(text, "None");
             }
-            ((CStaticText *) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
+            ((CStaticText*) CurrentSet.GetControlPtr(CTRL_ITEM_4))->SetString1(text);
         }
 
         break;

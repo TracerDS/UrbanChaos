@@ -22,12 +22,12 @@
 // The maps.
 //
 
-MEM_PAP_Lo *PAP_lo; //[PAP_SIZE_LO][PAP_SIZE_LO];
-MEM_PAP_Hi *PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
+MEM_PAP_Lo* PAP_lo; //[PAP_SIZE_LO][PAP_SIZE_LO];
+MEM_PAP_Hi* PAP_hi; //[PAP_SIZE_HI][PAP_SIZE_HI];
 
 void PAP_clear() {
-    memset((std::uint8_t *) &PAP_lo[0][0], 0, sizeof(PAP_Lo) * PAP_SIZE_LO * PAP_SIZE_LO);
-    memset((std::uint8_t *) &PAP_hi[0][0], 0, sizeof(PAP_Hi) * PAP_SIZE_HI * PAP_SIZE_HI);
+    memset((std::uint8_t*) &PAP_lo[0][0], 0, sizeof(PAP_Lo) * PAP_SIZE_LO * PAP_SIZE_LO);
+    memset((std::uint8_t*) &PAP_hi[0][0], 0, sizeof(PAP_Hi) * PAP_SIZE_HI * PAP_SIZE_HI);
 }
 
 #ifndef PSX
@@ -84,7 +84,7 @@ std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z) {
 
     std::int32_t answer;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     if (GAME_FLAGS & GF_NO_FLOOR) {
         return -32767;
@@ -148,7 +148,7 @@ std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z) {
 //
 // Things sometimes like to think the map is at a strange height
 //
-std::int32_t PAP_calc_height_at_thing(Thing *p_thing, std::int32_t x, std::int32_t z) {
+std::int32_t PAP_calc_height_at_thing(Entity* p_thing, std::int32_t x, std::int32_t z) {
     switch (p_thing->Class) {
     case CLASS_PERSON:
 
@@ -203,7 +203,7 @@ std::int32_t PAP_calc_map_height_at(std::int32_t x, std::int32_t z) {
 
     std::int32_t answer;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     std::int32_t mx = x >> PAP_SHIFT_HI;
     std::int32_t mz = z >> PAP_SHIFT_HI;
@@ -326,7 +326,7 @@ std::int32_t PAP_calc_height_noroads(std::int32_t x, std::int32_t z) {
 
     std::int32_t answer;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     std::int32_t mx = x >> PAP_SHIFT_HI;
     std::int32_t mz = z >> PAP_SHIFT_HI;
@@ -400,7 +400,7 @@ std::int32_t PAP_calc_map_height_near(std::int32_t x, std::int32_t z) {
 }
 #endif
 
-std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t *angle) {
+std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t* angle) {
     std::int32_t h0;
     std::int32_t h1;
     std::int32_t h2;
@@ -411,7 +411,7 @@ std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t *angle) {
 
     std::int32_t answer;
 
-    PAP_Hi *ph;
+    PAP_Hi* ph;
 
     std::int32_t mx = x >> PAP_SHIFT_HI;
     std::int32_t mz = z >> PAP_SHIFT_HI;

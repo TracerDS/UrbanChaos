@@ -73,7 +73,7 @@ bool CALLBACK camts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 //---------------------------------------------------------------
 
-void do_camtarget_setup(EventPoint *the_ep) {
+void do_camtarget_setup(EventPoint* the_ep) {
     target_move = the_ep->Data[0];
     target_type = the_ep->Data[1];
     target_speed = the_ep->Data[2];
@@ -98,7 +98,7 @@ void do_camtarget_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_camtarget_message(EventPoint *ep, char *msg) {
+char* get_camtarget_message(EventPoint* ep, char* msg) {
     if ((!ep) || (!ep->Data[0]) || (!ep->Data[1]))
         strcpy(msg, "Unknown");
     else

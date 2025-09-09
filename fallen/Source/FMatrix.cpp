@@ -137,7 +137,7 @@ void FMATRIX_vector(std::int32_t vector[3], std::int32_t yaw, std::int32_t pitch
     vector[2] = MUL64(cy, cp);
 }
 
-void init_matrix33(struct Matrix33 *mat) {
+void init_matrix33(struct Matrix33* mat) {
     mat->M[0][0] = (1 << 15);
     mat->M[0][1] = 0;
     mat->M[0][2] = 0;
@@ -148,7 +148,7 @@ void init_matrix33(struct Matrix33 *mat) {
     mat->M[2][1] = 0;
     mat->M[2][2] = (1 << 15);
 }
-void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2) {
+void matrix_transformZMY(Matrix31* result, Matrix33* trans, Matrix31* mat2) {
     //	ASSERT(SIGN(mat2->M[0] * trans->M[0][0])==SIGN(mat2->M[0])*SIGN(trans->M[0][0]));
     //	ASSERT(SIGN(mat2->M[1] * trans->M[1][1])==SIGN(mat2->M[1])*SIGN(trans->M[1][1]));
     //	ASSERT(SIGN(mat2->M[2] * trans->M[2][2])==SIGN(mat2->M[2])*SIGN(trans->M[2][2]));
@@ -161,7 +161,7 @@ void matrix_transformZMY(Matrix31 *result, Matrix33 *trans, Matrix31 *mat2) {
 }
 
 #ifndef PSX
-void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Matrix31 *mat2) {
+void matrix_transform(struct Matrix31* result, struct Matrix33* trans, struct Matrix31* mat2) {
     // LogText(" draw-a len before %d \n",SDIST3(mat2->M[0],mat2->M[1],mat2->M[2]));
     ASSERT(SIGN(mat2->M[0] * trans->M[0][0]) == SIGN(mat2->M[0]) * SIGN(trans->M[0][0]));
     ASSERT(SIGN(mat2->M[1] * trans->M[1][1]) == SIGN(mat2->M[1]) * SIGN(trans->M[1][1]));
@@ -172,7 +172,7 @@ void matrix_transform(struct Matrix31 *result, struct Matrix33 *trans, struct Ma
     // LogText(" draw-a len after %d \n",SDIST3(result->M[0],result->M[1],result->M[2]));
 }
 
-void matrix_transform_small(struct Matrix31 *result, struct Matrix33 *trans, struct SMatrix31 *mat2) {
+void matrix_transform_small(struct Matrix31* result, struct Matrix33* trans, struct SMatrix31* mat2) {
     // LogText(" draw-a len before %d \n",SDIST3(mat2->M[0],mat2->M[1],mat2->M[2]));
     ASSERT(SIGN(mat2->M[0] * trans->M[0][0]) == SIGN(mat2->M[0]) * SIGN(trans->M[0][0]));
     ASSERT(SIGN(mat2->M[1] * trans->M[1][1]) == SIGN(mat2->M[1]) * SIGN(trans->M[1][1]));
@@ -183,7 +183,7 @@ void matrix_transform_small(struct Matrix31 *result, struct Matrix33 *trans, str
     // LogText(" draw-a len after %d \n",SDIST3(result->M[0],result->M[1],result->M[2]));
 }
 
-void normalise_matrix(struct Matrix33 *mat) {
+void normalise_matrix(struct Matrix33* mat) {
     std::int32_t c0;
 
     for (c0 = 0; c0 < 3; c0++) {
@@ -201,7 +201,7 @@ void normalise_matrix(struct Matrix33 *mat) {
 }
 
 // JCL - use *this* one to normalise a linearly interpolated rotation matrix...
-void normalise_matrix_rows(struct Matrix33 *mat) {
+void normalise_matrix_rows(struct Matrix33* mat) {
     std::int32_t c0;
 
     for (c0 = 0; c0 < 3; c0++) {
@@ -222,7 +222,7 @@ void normalise_matrix_rows(struct Matrix33 *mat) {
 #define MAT_SHIFT (6)
 #define MAT_SHIFTD (8 - MAT_SHIFT)
 
-void build_tween_matrix(struct Matrix33 *mat, struct CMatrix33 *cmat1, struct CMatrix33 *cmat2, std::int32_t tween) {
+void build_tween_matrix(struct Matrix33* mat, struct CMatrix33* cmat1, struct CMatrix33* cmat2, std::int32_t tween) {
     std::int32_t v, w;
 
     v = ((cmat1->M[0] & CMAT0_MASK) << 2) >> 22;
@@ -273,7 +273,7 @@ void build_tween_matrix(struct Matrix33 *mat, struct CMatrix33 *cmat1, struct CM
 #ifdef PSX
 #endif
 
-void FMATRIX_find_angles(std::int32_t *matrix, std::int32_t *yaw, std::int32_t *pitch, std::int32_t *roll) {
+void FMATRIX_find_angles(std::int32_t* matrix, std::int32_t* yaw, std::int32_t* pitch, std::int32_t* roll) {
     std::int32_t x;
     std::int32_t y;
     std::int32_t z;

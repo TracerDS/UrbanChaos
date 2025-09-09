@@ -7,7 +7,7 @@
 #ifdef DOGPOO
 //---------------------------------------------------------------
 
-std::int32_t get_distance(Coord *position1, Coord *position2) {
+std::int32_t get_distance(Coord* position1, Coord* position2) {
     /*
             return	(
                                     Hypotenuse	(
@@ -24,13 +24,13 @@ std::int32_t get_distance(Coord *position1, Coord *position2) {
 
 //---------------------------------------------------------------
 
-std::int32_t get_approx_distance(Coord *position1, Coord *position2) {
+std::int32_t get_approx_distance(Coord* position1, Coord* position2) {
     return 0;
 }
 
 //---------------------------------------------------------------
 
-std::int32_t get_distance_xz(Coord *position1, Coord *position2) {
+std::int32_t get_distance_xz(Coord* position1, Coord* position2) {
     /*
             return	(
                                     Hypotenuse	(
@@ -44,14 +44,14 @@ std::int32_t get_distance_xz(Coord *position1, Coord *position2) {
 
 //---------------------------------------------------------------
 
-std::int32_t get_angle_xz(Coord *position1, Coord *position2) {
+std::int32_t get_angle_xz(Coord* position1, Coord* position2) {
     //	return(Arctan(position2->X-position1->X,position2->Z-position1->Z));
     return 0;
 }
 
 //---------------------------------------------------------------
 
-std::int32_t get_angle_yz(Coord *position1, Coord *position2) {
+std::int32_t get_angle_yz(Coord* position1, Coord* position2) {
     //	return(Arctan(position2->Y-position1->Y,-get_distance_xz(position1,position2)));
     return 0;
 }

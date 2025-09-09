@@ -30,14 +30,14 @@
 // into this array.
 //
 
-MAV_Opt *MAV_opt;
+MAV_Opt* MAV_opt;
 std::int32_t MAV_opt_upto;
 
 //
 // How you can move out of each square.
 //
 
-std::uint16_t *MAV_nav;
+std::uint16_t* MAV_nav;
 std::int32_t MAV_nav_pitch = 128;
 
 void MAV_init() {
@@ -67,7 +67,7 @@ void MAV_init() {
     MAV_opt_upto = 16;
 }
 
-static void StoreMavOpts(std::int32_t x, std::int32_t z, std::uint8_t *opt) {
+static void StoreMavOpts(std::int32_t x, std::int32_t z, std::uint8_t* opt) {
     for (std::int32_t ii = 0; ii < MAV_opt_upto; ii++) {
         if ((MAV_opt[ii].opt[0] == opt[0]) &&
             (MAV_opt[ii].opt[1] == opt[1]) &&
@@ -114,11 +114,11 @@ void MAV_calc_height_array(std::int32_t ignore_warehouses) {
     std::int32_t height;
     std::int32_t walk;
 
-    DBuilding *db;
-    PrimFace4 *p_f4;
-    RoofFace4 *rf;
-    DWalkable *dw;
-    PAP_Hi *ph;
+    DBuilding* db;
+    PrimFace4* p_f4;
+    RoofFace4* rf;
+    DWalkable* dw;
+    PAP_Hi* ph;
 
     //
     // Work out the MAV_height array.
@@ -558,7 +558,7 @@ void MAV_precalculate() {
 
     std::int32_t both_ground;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     struct
     {
@@ -598,7 +598,7 @@ void MAV_precalculate() {
                         // Find which mapsquare the middle of this prim is over.
                         //
 
-                        PrimInfo *pi = get_prim_info(oi->prim);
+                        PrimInfo* pi = get_prim_info(oi->prim);
 
                         std::int32_t mx = pi->minx + pi->maxx >> 1;
                         std::int32_t mz = pi->minz + pi->maxz >> 1;
@@ -721,7 +721,7 @@ void MAV_precalculate() {
                                 // If there is a fence in the way, then we can scale the fence.
                                 //
 
-                                DFacet *df = &dfacets[los_failure_dfacet];
+                                DFacet* df = &dfacets[los_failure_dfacet];
 
                                 if (df->FacetType == STOREY_TYPE_FENCE_FLAT) {
                                     if (df->FacetFlags & FACET_FLAG_UNCLIMBABLE) {
@@ -771,7 +771,7 @@ void MAV_precalculate() {
                             }
 
                             if (ladder) {
-                                DFacet *df_ladder;
+                                DFacet* df_ladder;
 
                                 ASSERT(WITHIN(ladder, 1, next_dfacet - 1));
 
@@ -832,7 +832,7 @@ void MAV_precalculate() {
                             // If there is a fence in the way, then we can scale the fence.
                             //
 
-                            DFacet *df = &dfacets[los_failure_dfacet];
+                            DFacet* df = &dfacets[los_failure_dfacet];
 
                             if (df->FacetType == STOREY_TYPE_FENCE_FLAT) {
                                 if (df->FacetFlags & FACET_FLAG_UNCLIMBABLE) {
@@ -958,7 +958,7 @@ void MAV_precalculate() {
                         // Find which mapsquare the middle of this prim is over.
                         //
 
-                        PrimInfo *pi = get_prim_info(oi->prim);
+                        PrimInfo* pi = get_prim_info(oi->prim);
 
                         std::int32_t mx = pi->minx + pi->maxx >> 1;
                         std::int32_t mz = pi->minz + pi->maxz >> 1;
@@ -1120,7 +1120,7 @@ void MAV_precalculate() {
         }
 
     {
-        extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t * angle);
+        extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t* angle);
 
         //
         // Take all slippy squares out of the mav.
@@ -1173,7 +1173,7 @@ void MAV_precalculate() {
 
     THING_INDEX t_index;
 
-    Thing *p_thing;
+    Entity *p_thing;
     t_index = PRIMARY_USED;
 
     while(t_index)
@@ -1314,7 +1314,7 @@ void MAV_draw(
     std::int32_t lx;
     std::int32_t lz;
 
-    MAV_Opt *mo;
+    MAV_Opt* mo;
 
     struct
     {
@@ -1453,7 +1453,7 @@ std::int32_t MAV_can_i_walk(
     std::int32_t mx;
     std::int32_t mz;
 
-    MAV_Opt *mo;
+    MAV_Opt* mo;
 
     ASSERT(WITHIN(ax, 0, MAP_WIDTH - 1));
     ASSERT(WITHIN(az, 0, MAP_HEIGHT - 1));
@@ -1669,7 +1669,7 @@ void MAV_clear_bbox(
     std::int32_t z;
     std::int32_t len;
     std::int32_t count;
-    std::int32_t *zero;
+    std::int32_t* zero;
 
     //
     // Round x1 down and x2 up to the nearest 4 byte boundary.
@@ -1691,7 +1691,7 @@ void MAV_clear_bbox(
     len = x2 - x1 >> 3;
 
     for (z = z1; z < z2; z++) {
-        zero = (std::int32_t *) (&MAV_flag[z][x1 >> 1]);
+        zero = (std::int32_t*) (&MAV_flag[z][x1 >> 1]);
         count = len;
 
         while (count--) {
@@ -1839,7 +1839,7 @@ typedef struct
 
 #define PQ_HEAP_MAX_SIZE 256
 
-std::int32_t PQ_better(PQ_Type *a, PQ_Type *b) {
+std::int32_t PQ_better(PQ_Type* a, PQ_Type* b) {
     return a->score < b->score;
 }
 
@@ -1893,7 +1893,7 @@ MAV_Action MAV_do(
     std::int32_t best_score;
     MAV_Action ans;
 
-    MAV_Opt *mo;
+    MAV_Opt* mo;
 
     PQ_Type start;
     PQ_Type best;
@@ -2324,8 +2324,8 @@ std::int32_t MAV_find_building_entrance(
     std::int32_t near_to_x,
     std::int32_t near_to_y,
     std::int32_t near_to_z,
-    std::int32_t *door_x,
-    std::int32_t *door_z) {
+    std::int32_t* door_x,
+    std::int32_t* door_z) {
     std::int32_t facet;
     std::int32_t score;
     std::int32_t x1;
@@ -2340,8 +2340,8 @@ std::int32_t MAV_find_building_entrance(
     std::int32_t best_z;
     std::int32_t best_score;
 
-    DBuilding *db = &dbuildings[building];
-    DFacet *df;
+    DBuilding* db = &dbuildings[building];
+    DFacet* df;
 
     best_x = 0;
     best_z = 0;
@@ -2454,13 +2454,13 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
 
     std::uint8_t opt[4];
 
-    WARE_Ware *ww = &WARE_ware[ware];
+    WARE_Ware* ww = &WARE_ware[ware];
 
     //
     // Remember the old MAV_nav array.
     //
 
-    std::uint16_t *old_mav_nav = MAV_nav;
+    std::uint16_t* old_mav_nav = MAV_nav;
     std::int32_t old_mav_nav_pitch = MAV_nav_pitch;
 
     //
@@ -2474,7 +2474,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
     // Make the staircase prims change the MAV_height array
     //
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     for (x = 0; x < PAP_SIZE_LO; x++)
         for (z = 0; z < PAP_SIZE_LO; z++) {
@@ -2488,7 +2488,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                     // Find which mapsquare the middle of this prim is over.
                     //
 
-                    PrimInfo *pi = get_prim_info(oi->prim);
+                    PrimInfo* pi = get_prim_info(oi->prim);
 
                     std::int32_t mx = pi->minx + pi->maxx >> 1;
                     std::int32_t mz = pi->minz + pi->maxz >> 1;
@@ -2627,7 +2627,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                             // If there is a fence in the way, then we can scale the fence.
                             //
 
-                            DFacet *df = &dfacets[los_failure_dfacet];
+                            DFacet* df = &dfacets[los_failure_dfacet];
 
                             if (df->FacetType == STOREY_TYPE_FENCE_FLAT) {
                                 if (df->FacetFlags & FACET_FLAG_UNCLIMBABLE) {
@@ -2653,7 +2653,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                         }
 
                         if (ladder) {
-                            DFacet *df_ladder;
+                            DFacet* df_ladder;
 
                             ASSERT(WITHIN(ladder, 1, next_dfacet - 1));
 
@@ -2708,7 +2708,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                         // If there is a fence in the way, then we can scale the fence.
                         //
 
-                        DFacet *df = &dfacets[los_failure_dfacet];
+                        DFacet* df = &dfacets[los_failure_dfacet];
 
                         if (df->FacetType == STOREY_TYPE_FENCE_FLAT) {
                             if (df->FacetFlags & FACET_FLAG_UNCLIMBABLE) {
@@ -2827,7 +2827,7 @@ void MAV_precalculate_warehouse_nav(std::uint8_t ware) {
                         // Find which mapsquare the middle of this prim is over.
                         //
 
-                        PrimInfo *pi = get_prim_info(oi->prim);
+                        PrimInfo* pi = get_prim_info(oi->prim);
 
                         std::int32_t mx = pi->minx + pi->maxx >> 1;
                         std::int32_t mz = pi->minz + pi->maxz >> 1;
@@ -2951,7 +2951,7 @@ std::uint8_t MAV_get_caps(
     std::uint8_t dir) {
     std::uint8_t ans;
 
-    MAV_Opt *mo;
+    MAV_Opt* mo;
 
     if (WITHIN(x, 0, MAV_nav_pitch - 1) &&
         WITHIN(z, 0, MAV_nav_pitch - 1)) {

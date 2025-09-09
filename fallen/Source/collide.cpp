@@ -44,15 +44,15 @@ struct CollisionVect col_vects[MAX_COL_VECT];                // 300K
 
 void highlight_quad(std::int32_t face, std::int32_t face_x, std::int32_t face_y, std::int32_t face_z);
 void add_debug_line(std::int32_t x1, std::int32_t my_y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t colour);
-void sweep_feet(Thing *p_person, Thing *p_aggressor, std::int32_t death_type); // people.cpp
+void sweep_feet(Entity* p_person, Entity* p_aggressor, std::int32_t death_type); // people.cpp
 
-std::int32_t collide_with_circle(std::int32_t cx, std::int32_t cz, std::int32_t cradius, std::int32_t *x2, std::int32_t *z2);
-std::int32_t get_fence_hole(struct DFacet *p_facet);
-std::int32_t get_fence_hole_next(struct DFacet *p_facet, std::int32_t along);
+std::int32_t collide_with_circle(std::int32_t cx, std::int32_t cz, std::int32_t cradius, std::int32_t* x2, std::int32_t* z2);
+std::int32_t get_fence_hole(struct DFacet* p_facet);
+std::int32_t get_fence_hole_next(struct DFacet* p_facet, std::int32_t along);
 
 extern bool allow_debug_keys;
 
-inline std::int32_t slide_around_box_lowstack(std::int32_t box_mid_x, std::int32_t box_mid_z, std::int32_t box_min_x, std::int32_t box_min_z, std::int32_t box_max_x, std::int32_t box_max_z, std::int32_t box_yaw, std::int32_t radius, std::int32_t x1, std::int32_t z1, std::int32_t *x2, std::int32_t *z2);
+inline std::int32_t slide_around_box_lowstack(std::int32_t box_mid_x, std::int32_t box_mid_z, std::int32_t box_min_x, std::int32_t box_min_z, std::int32_t box_max_x, std::int32_t box_max_z, std::int32_t box_yaw, std::int32_t radius, std::int32_t x1, std::int32_t z1, std::int32_t* x2, std::int32_t* z2);
 
 //
 // These are defined in person.cpp- I couldn't bear a complete rebuild.
@@ -115,13 +115,13 @@ extern void e_draw_3d_mapwho_y(std::int32_t x1, std::int32_t my_y1, std::int32_t
  *                                                            *
  **************************************************************/
 
-#define SAME_SIGNS(a, b) (((std::int32_t)((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
+#define SAME_SIGNS(a, b) (((std::int32_t) ((std::uint32_t) a ^ (std::uint32_t) b)) >= 0)
 
 //
 // Lines that share a point count as intersecting.
 //
 #ifdef UNUSED
-std::int32_t lines_intersect(std::int32_t x1, std::int32_t my_y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4, std::int32_t *x, std::int32_t *y) {
+std::int32_t lines_intersect(std::int32_t x1, std::int32_t my_y1, std::int32_t x2, std::int32_t y2, std::int32_t x3, std::int32_t y3, std::int32_t x4, std::int32_t y4, std::int32_t* x, std::int32_t* y) {
     long a1, a2, b1, b2, c1, c2;
     long r1, r2, r3, r4;
     long denom, offset, num;
@@ -243,8 +243,8 @@ void clear_all_col_info() {
     for (dx = 0; dx < EDIT_MAP_WIDTH; dx++)
         for (dy = 0; dy < EDIT_MAP_HEIGHT; dy++)
             edit_map[dx][dy].ColVectHead = 0;
-    memset((std::uint8_t *) col_vects, 0, sizeof(struct CollisionVect) * MAX_COL_VECT);
-    memset((std::uint8_t *) col_vects_links, 0, sizeof(struct CollisionVectLink) * MAX_COL_VECT_LINK);
+    memset((std::uint8_t*) col_vects, 0, sizeof(struct CollisionVect) * MAX_COL_VECT);
+    memset((std::uint8_t*) col_vects_links, 0, sizeof(struct CollisionVectLink) * MAX_COL_VECT_LINK);
     next_col_vect = 1;
     next_col_vect_link = 1;
 #endif
@@ -253,7 +253,7 @@ void clear_all_col_info() {
 
 #ifndef PSX
 #ifndef TARGET_DC
-std::int32_t get_height_along_vect(std::int32_t ax, std::int32_t az, struct CollisionVect *p_vect) {
+std::int32_t get_height_along_vect(std::int32_t ax, std::int32_t az, struct CollisionVect* p_vect) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -302,7 +302,7 @@ std::int32_t get_height_along_vect(std::int32_t ax, std::int32_t az, struct Coll
     return y;
 }
 
-std::int32_t get_height_along_facet(std::int32_t ax, std::int32_t az, struct DFacet *p_facet) {
+std::int32_t get_height_along_facet(std::int32_t ax, std::int32_t az, struct DFacet* p_facet) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -385,7 +385,7 @@ std::uint32_t add_collision_to_single_cell(std::uint16_t index, std::int32_t x, 
 //
 
 std::uint32_t remove_collision_from_single_cell(std::uint16_t index, std::int32_t x, std::int32_t z) {
-    std::uint16_t *prev;
+    std::uint16_t* prev;
     std::uint16_t next;
 
     if (x < 0 || z < 0 || x >= MAP_WIDTH || z >= MAP_HEIGHT) {
@@ -759,7 +759,7 @@ std::int32_t which_side(
     return cprod;
 }
 
-std::int32_t calc_along_vect(std::int32_t ax, std::int32_t az, struct DFacet *p_vect) {
+std::int32_t calc_along_vect(std::int32_t ax, std::int32_t az, struct DFacet* p_vect) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -816,10 +816,10 @@ void signed_dist_to_line_with_normal(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2,
     std::int32_t a, std::int32_t b,
-    std::int32_t *dist,
-    std::int32_t *vec_x,
-    std::int32_t *vec_z,
-    std::int32_t *on) {
+    std::int32_t* dist,
+    std::int32_t* vec_x,
+    std::int32_t* vec_z,
+    std::int32_t* on) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -927,10 +927,10 @@ void signed_dist_to_line_with_normal_mark(
     std::int32_t x1, std::int32_t z1,
     std::int32_t x2, std::int32_t z2,
     std::int32_t a, std::int32_t b,
-    std::int32_t *dist,
-    std::int32_t *vec_x,
-    std::int32_t *vec_z,
-    std::int32_t *on) {
+    std::int32_t* dist,
+    std::int32_t* vec_x,
+    std::int32_t* vec_z,
+    std::int32_t* on) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -1036,7 +1036,7 @@ void signed_dist_to_line_with_normal_mark(
 #endif
 #endif
 
-void nearest_point_on_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z) {
+void nearest_point_on_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z) {
     std::int32_t dx, dz;
     std::int32_t da, db;
     //	std::int32_t dprod;
@@ -1118,7 +1118,7 @@ void nearest_point_on_line(std::int32_t x1, std::int32_t z1, std::int32_t x2, st
 
 std::int32_t global_on = 0;
 
-std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z) {
+std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z) {
     std::int32_t dx, dz;
     std::int32_t da, db;
     //	std::int32_t dprod;
@@ -1215,7 +1215,7 @@ std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, st
     return (dist);
 }
 
-std::int32_t nearest_point_on_line_and_dist_calc_y(std::int32_t x1, std::int32_t my_y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_y, std::int32_t *ret_z) {
+std::int32_t nearest_point_on_line_and_dist_calc_y(std::int32_t x1, std::int32_t my_y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_y, std::int32_t* ret_z) {
     std::int32_t dx, dz, dy;
     std::int32_t da, db;
     //	std::int32_t dprod;
@@ -1330,7 +1330,7 @@ std::int32_t distance_to_line(
     return dist;
 }
 
-std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t *ret_along) {
+std::int32_t nearest_point_on_line_and_dist_and_along(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z, std::int32_t* ret_along) {
     std::int32_t dx, dz;
     std::int32_t da, db;
     //	std::int32_t dprod;
@@ -1659,7 +1659,7 @@ std::int32_t collision_storey(std::int32_t type) {
 #ifdef DOG_POO
 std::int32_t do_move_collide(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t cell_dx, std::int32_t cell_dz, std::int32_t scale_move) {
     std::int32_t vect;
-    struct CollisionVect *p_vect;
+    struct CollisionVect* p_vect;
     std::int32_t mx, mz;
 
     y += 50; // middle of body?
@@ -1700,7 +1700,7 @@ std::int32_t do_move_collide(std::int32_t x, std::int32_t y, std::int32_t z, std
 
 std::int32_t do_move_collide_circle(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t len, std::int32_t cell_dx, std::int32_t cell_dz) {
     std::int32_t vect;
-    struct CollisionVect *p_vect;
+    struct CollisionVect* p_vect;
     std::int32_t mx, mz;
 
     mx = ((x) >> ELE_SHIFT) + cell_dx;
@@ -1730,8 +1730,8 @@ std::int32_t do_move_collide_circle(std::int32_t x, std::int32_t y, std::int32_t
 // new_dist away from col vect,
 //
 
-std::int32_t get_point_dist_from_col_vect(std::int32_t vect, std::int32_t x, std::int32_t z, std::int32_t *ret_x, std::int32_t *ret_z, std::int32_t new_dist) {
-    struct CollisionVect *p_vect;
+std::int32_t get_point_dist_from_col_vect(std::int32_t vect, std::int32_t x, std::int32_t z, std::int32_t* ret_x, std::int32_t* ret_z, std::int32_t new_dist) {
+    struct CollisionVect* p_vect;
     std::int32_t near_x, near_z;
     std::int32_t dx, dz;
     std::int32_t dist;
@@ -1787,7 +1787,7 @@ std::int32_t get_point_dist_from_col_vect(std::int32_t vect, std::int32_t x, std
 // check to see if movement vector intersects a col vect
 //
 
-std::int32_t check_vect_vect(MAPCO16 m_dx, MAPCO16 m_dy, MAPCO16 m_dz, Thing *p_thing, std::int32_t scale) {
+std::int32_t check_vect_vect(MAPCO16 m_dx, MAPCO16 m_dy, MAPCO16 m_dz, Entity* p_thing, std::int32_t scale) {
     std::int32_t cell_dx, cell_dz;
     std::uint32_t col;
     //	std::int32_t	len;
@@ -1836,7 +1836,7 @@ std::int32_t check_vect_vect(MAPCO16 m_dx, MAPCO16 m_dy, MAPCO16 m_dz, Thing *p_
     return (col);
 }
 
-std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Thing *p_thing, std::int32_t radius) {
+std::int32_t check_vect_circle(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, Entity* p_thing, std::int32_t radius) {
     std::int32_t x, y, z;
     std::int32_t dx, dz;
     std::int32_t cell_radius;
@@ -1883,7 +1883,7 @@ void highlight_face(std::int32_t face) {
                                 else
                                 {
                                         std::int32_t  thing;
-                                        Thing *p_thing;
+                                        Entity *p_thing;
 
                                         thing   = building_list[building].ThingIndex;
                                         p_thing = TO_THING(thing);
@@ -1895,7 +1895,7 @@ void highlight_face(std::int32_t face) {
                         }
                         else
                         {
-                                        Thing *p_thing;
+                                        Entity *p_thing;
                                         p_thing = TO_THING(wall);
 
                                         face_x=p_thing->WorldPos.X >> 8;
@@ -1984,7 +1984,7 @@ std::int32_t vect_intersect_wall(std::int32_t x1, std::int32_t my_y1, std::int32
 
 /*
 #define	PERSON_RADIUS	(50)
-std::int32_t check_vect(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t scale)
+std::int32_t check_vect(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Entity *p_thing,std::int32_t scale)
 {
         std::int32_t	cell_dx,cell_dz;
         std::uint32_t	col;
@@ -2024,7 +2024,7 @@ std::int32_t check_vect(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Th
         return(col);
 }
 
-std::int32_t check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Thing *p_thing,std::int32_t radius)
+std::int32_t check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t m_dz,Entity *p_thing,std::int32_t radius)
 {
         std::int32_t	x,y,z;
         std::int32_t	dx,dz;
@@ -2049,9 +2049,9 @@ std::int32_t check_vect_circle(std::int32_t m_dx,std::int32_t m_dy,std::int32_t 
 }
 */
 
-extern void set_tween_for_dy(Thing *p_person, std::int32_t dy);
+extern void set_tween_for_dy(Entity* p_person, std::int32_t dy);
 
-std::int32_t find_face_near_y(MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t ignore_faces_of_this_building, Thing *p_person, std::int32_t neg_dy, std::int32_t pos_dy, std::int32_t *ret_y) {
+std::int32_t find_face_near_y(MAPCO16 x, MAPCO16 y, MAPCO16 z, std::int32_t ignore_faces_of_this_building, Entity* p_person, std::int32_t neg_dy, std::int32_t pos_dy, std::int32_t* ret_y) {
     std::int32_t mx, mz;
     std::int32_t index;
     std::int32_t check_face;
@@ -2237,7 +2237,7 @@ std::int32_t find_alt_for_this_pos(std::int32_t x, std::int32_t z) {
 }
 #endif
 #endif
-void correct_pos_for_ladder(struct DFacet *p_facet, std::int32_t *px, std::int32_t *pz, std::int32_t *angle, std::int32_t scale) {
+void correct_pos_for_ladder(struct DFacet* p_facet, std::int32_t* px, std::int32_t* pz, std::int32_t* angle, std::int32_t scale) {
     std::int32_t x1, z1, x2, z2, dx, dz;
 
     x1 = p_facet->x[0] << 8;
@@ -2265,7 +2265,7 @@ void correct_pos_for_ladder(struct DFacet *p_facet, std::int32_t *px, std::int32
     *pz -= (dx * scale) >> 10;
 }
 
-std::int32_t ok_to_mount_ladder(struct Thing *p_thing, struct DFacet *p_facet) {
+std::int32_t ok_to_mount_ladder(struct Entity* p_thing, struct DFacet* p_facet) {
     std::int32_t dx, dz, px, pz, angle;
 
     correct_pos_for_ladder(p_facet, &px, &pz, &angle, 256);
@@ -2280,7 +2280,7 @@ std::int32_t ok_to_mount_ladder(struct Thing *p_thing, struct DFacet *p_facet) {
     }
 }
 
-std::int32_t mount_ladder(Thing *p_thing, std::int32_t facet) {
+std::int32_t mount_ladder(Entity* p_thing, std::int32_t facet) {
     //	std::int16_t	storey,wall;
 
     if (ok_to_mount_ladder(p_thing, &dfacets[facet])) {
@@ -2296,9 +2296,9 @@ std::int32_t mount_ladder(Thing *p_thing, std::int32_t facet) {
     return false;
 }
 
-extern void locked_anim_change_end_type(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type);
+extern void locked_anim_change_end_type(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type);
 
-std::int32_t set_person_climb_down_onto_ladder(Thing *p_person, std::int32_t colvect) {
+std::int32_t set_person_climb_down_onto_ladder(Entity* p_person, std::int32_t colvect) {
     std::int32_t x, z, dx, dz, angle;
     std::int32_t dist = 64;
     GameCoord new_position;
@@ -2376,7 +2376,7 @@ std::int32_t find_nearby_ladder_colvect_radius(
     std::int32_t best_dist = INFINITY;
     std::int32_t best_vect = 0;
 
-    DFacet *p_vect;
+    DFacet* p_vect;
 
     minx = mid_x - radius >> PAP_SHIFT_LO;
     minz = mid_z - radius >> PAP_SHIFT_LO;
@@ -2424,7 +2424,7 @@ std::int32_t find_nearby_ladder_colvect_radius(
 // Looks for a nearby ladder col-vect.
 //
 
-std::int32_t find_nearby_ladder_colvect(Thing *p_thing) {
+std::int32_t find_nearby_ladder_colvect(Entity* p_thing) {
     std::int32_t mid_x;
     std::int32_t mid_z;
 
@@ -2440,7 +2440,7 @@ std::int32_t find_nearby_ladder_colvect(Thing *p_thing) {
     return ladder;
 }
 
-void set_feet_to_y(Thing *p_person, std::int32_t new_y) {
+void set_feet_to_y(Entity* p_person, std::int32_t new_y) {
     std::int32_t x, y, z;
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, SUB_OBJECT_LEFT_FOOT, &x, &y, &z);
     MSG_add(" set feet to y %d, foot y %d \n", new_y, y);
@@ -2450,9 +2450,9 @@ void set_feet_to_y(Thing *p_person, std::int32_t new_y) {
     p_person->WorldPos.Y = (new_y) << 8; //+4 ?
 }
 
-extern void person_splash(Thing *p_person, std::int32_t limb); // limb == -1 => splash on center not at limb.
+extern void person_splash(Entity* p_person, std::int32_t limb); // limb == -1 => splash on center not at limb.
 
-std::int32_t height_above_anything(Thing *p_person, std::int32_t body_part, std::int16_t *onface) {
+std::int32_t height_above_anything(Entity* p_person, std::int32_t body_part, std::int16_t* onface) {
     std::int32_t on_face;
     std::int32_t fx, fy, fz, new_y;
 
@@ -2503,7 +2503,7 @@ std::int32_t height_above_anything(Thing *p_person, std::int32_t body_part, std:
 //
 // For a person in 3d space, find either a face to stand on, or the floor to stand on, and setup height/onface ...
 //
-std::int32_t plant_feet(Thing *p_person) {
+std::int32_t plant_feet(Entity* p_person) {
     std::int32_t on_face;
     std::int32_t fx, fy, fz, new_y;
 
@@ -2645,7 +2645,7 @@ std::int32_t get_person_radius2(std::int32_t type) {
 // Obsolete nowadays...
 //
 
-std::int32_t bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
+std::int32_t bump_someone(Entity *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
 {
         std::int32_t	x,y,z;
         std::int32_t	dx,dz;
@@ -2671,7 +2671,7 @@ std::int32_t bump_someone(Thing *p_thing,MAPCO24 mdx,MAPCO24 mdy,MAPCO24 mdz)
                 while(index)
                 {
                         std::int32_t	dist,ddx,ddy,ddz;
-                        Thing	*p_bumped;
+                        Entity	*p_bumped;
                         std::int32_t	bump_radius;
 
                         p_bumped=TO_THING(index);
@@ -2733,7 +2733,7 @@ std::int32_t get_fence_height(std::int32_t h) {
 #ifndef TARGET_DC
 
 // side_required     0 is the other side or 1 is this side
-void step_back_along_vect(std::int32_t x1, std::int32_t z1, std::int32_t *x2, std::int32_t *z2, std::int32_t vx1, std::int32_t vz1, std::int32_t vx2, std::int32_t vz2, std::int32_t side_required) {
+void step_back_along_vect(std::int32_t x1, std::int32_t z1, std::int32_t* x2, std::int32_t* z2, std::int32_t vx1, std::int32_t vz1, std::int32_t vx2, std::int32_t vz2, std::int32_t side_required) {
     //	std::int32_t	mx,mz,prev_mx,prev_mz;
     std::int32_t dx, dz;
     std::int32_t side;
@@ -3613,7 +3613,7 @@ std::uint16_t fence_colvect = 0;
 
 std::int32_t slide_along(
     std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2,
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2,
     std::int32_t extra_wall_height,
     std::int32_t radius,
     std::uint32_t flags) {
@@ -3646,7 +3646,7 @@ std::int32_t slide_along(
     //	std::int32_t overndist;
     std::uint16_t last_slide;
 
-    DFacet *df;
+    DFacet* df;
     std::uint8_t exit;
     std::uint8_t fence = 0;
     std::uint8_t reverse;
@@ -4420,7 +4420,7 @@ std::int32_t cross_door(std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
     //	std::int32_t old_end_z = z2;
 
     //	CollisionVect *p_vect;
-    DFacet *p_vect;
+    DFacet* p_vect;
     //	std::int32_t ans = 0;
     //	std::int32_t	same_again=0;
     //
@@ -4631,9 +4631,9 @@ std::int32_t cross_door(std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
 #endif
 #ifndef PSX
 #ifndef TARGET_DC
-std::int32_t bump_person(Thing *p_person, THING_INDEX index, std::int32_t x1, std::int32_t my_y1, std::int32_t z1, std::int32_t *x2, std::int32_t *y2, std::int32_t *z2) {
+std::int32_t bump_person(Entity* p_person, THING_INDEX index, std::int32_t x1, std::int32_t my_y1, std::int32_t z1, std::int32_t* x2, std::int32_t* y2, std::int32_t* z2) {
     std::int32_t bump_radius, my_radius;
-    Thing *p_bumped;
+    Entity* p_bumped;
 
     std::int32_t ddx, ddy, ddz, dist;
 
@@ -4726,7 +4726,7 @@ std::int32_t bump_person(Thing *p_person, THING_INDEX index, std::int32_t x1, st
 void slide_along_edges(
     std::int32_t face4,
     std::int32_t x1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *z2) {
+    std::int32_t* x2, std::int32_t* z2) {
     std::int32_t i;
     std::int32_t p1;
     std::int32_t p2;
@@ -4749,7 +4749,7 @@ void slide_along_edges(
 
     ASSERT(WITHIN(face4, 1, next_prim_face4));
 
-    PrimFace4 *f4 = &prim_faces4[face4];
+    PrimFace4* f4 = &prim_faces4[face4];
 
     ox = 0; // p_thing->WorldPos.X >> 8;
     oz = 0; // p_thing->WorldPos.Z >> 8;
@@ -4812,7 +4812,7 @@ void slide_along_edges(
 void slide_along_redges(
     std::int32_t face4,
     std::int32_t x1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *z2) {
+    std::int32_t* x2, std::int32_t* z2) {
     std::int32_t i;
 
     std::int32_t mx;
@@ -4823,7 +4823,7 @@ void slide_along_redges(
 
     std::int32_t hard_edge;
 
-    RoofFace4 *f4;
+    RoofFace4* f4;
 
     if (IS_ROOF_HIDDEN_FACE(-face4)) {
         f4 = nullptr;
@@ -5070,7 +5070,7 @@ void slide_along_redges(
 
 */
 
-std::uint32_t move_thing_quick(std::int32_t dx, std::int32_t dy, std::int32_t dz, Thing *p_thing) {
+std::uint32_t move_thing_quick(std::int32_t dx, std::int32_t dy, std::int32_t dz, Entity* p_thing) {
     GameCoord new_position;
 
     new_position.X = p_thing->WorldPos.X + dx;
@@ -5087,11 +5087,11 @@ std::uint32_t move_thing_quick(std::int32_t dx, std::int32_t dy, std::int32_t dz
 //
 
 std::int32_t collide_against_objects(
-    Thing *p_thing,
+    Entity* p_thing,
     std::int32_t radius,
     std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2) {
-    OB_Info *oi;
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2) {
+    OB_Info* oi;
 
     std::int32_t old_x2;
     std::int32_t old_y2;
@@ -5107,7 +5107,7 @@ std::int32_t collide_against_objects(
 
     std::int32_t ans;
 
-    PrimInfo *pi;
+    PrimInfo* pi;
 
     ans = false;
 
@@ -5354,7 +5354,7 @@ std::int32_t collide_against_objects(
 //
 
 #ifdef ANIM_PRIM
-std::int32_t should_i_collide_against_this_anim_prim(Thing *p_aprim) {
+std::int32_t should_i_collide_against_this_anim_prim(Entity* p_aprim) {
     std::int32_t collide_or_not = false;
 
     switch (get_anim_prim_type(p_aprim->Index)) {
@@ -5402,14 +5402,14 @@ std::int32_t should_i_collide_against_this_anim_prim(Thing *p_aprim) {
 THING_INDEX col_with_things[MAX_COL_WITH];
 
 std::int32_t collide_against_things(
-    Thing *p_thing,
+    Entity* p_thing,
     std::int32_t radius,
     std::int32_t x1, std::int32_t my_y1, std::int32_t z1,
-    std::int32_t *x2, std::int32_t *y2, std::int32_t *z2) {
+    std::int32_t* x2, std::int32_t* y2, std::int32_t* z2) {
     std::uint8_t i;
     std::uint8_t col_with_upto;
     //	std::uint8_t collide_or_not;
-    Thing *col_thing;
+    Entity* col_thing;
     std::uint32_t collide_types;
     std::int32_t ans;
 
@@ -5612,7 +5612,7 @@ std::int32_t collide_against_things(
                         if (col_thing->Velocity > 200) {
                             /*
 
-                            Thing *p_driver = get_vehicle_driver(col_thing);
+                            Entity *p_driver = get_vehicle_driver(col_thing);
 
                             //
                             // Run this person over.
@@ -5683,7 +5683,7 @@ std::int32_t collide_against_things(
                 // We have to collide. What is the bounding box of this anim_prim?
                 //
 
-                AnimPrimBbox *apb = &anim_prim_bbox[col_thing->Index];
+                AnimPrimBbox* apb = &anim_prim_bbox[col_thing->Index];
 
                 if (!slide_around_box_lowstack(
                         col_thing->WorldPos.X >> 8,
@@ -5740,7 +5740,7 @@ std::int32_t collide_against_things(
                                     //
 
                                     extern void PCOM_set_person_ai_flee_place(
-                                        Thing * p_person,
+                                        Entity * p_person,
                                         std::int32_t scary_x,
                                         std::int32_t scary_z);
 
@@ -5836,11 +5836,11 @@ std::int32_t collide_against_things(
     return ans;
 }
 
-void drop_on_heads(Thing *p_thing) {
+void drop_on_heads(Entity* p_thing) {
     std::uint8_t i;
     std::uint8_t col_with_upto;
     std::uint8_t collide_or_not;
-    Thing *col_thing;
+    Entity* col_thing;
     std::uint32_t collide_types;
     std::int32_t fx, fy, fz, hx, hy, hz;
 
@@ -5892,7 +5892,7 @@ void drop_on_heads(Thing *p_thing) {
         //
         // calc position of head
         //
-        extern std::int32_t people_allowed_to_hit_each_other(Thing * p_victim, Thing * p_agressor);
+        extern std::int32_t people_allowed_to_hit_each_other(Entity * p_victim, Entity * p_agressor);
 
         if (col_thing != p_thing) {
             if (col_thing->Genus.Person->Flags2 & FLAG2_PERSON_INVULNERABLE) {
@@ -5940,7 +5940,7 @@ void drop_on_heads(Thing *p_thing) {
                                     // behind and high
                                     //
 
-                                    extern std::int32_t is_there_room_behind_person(Thing * p_person, std::int32_t hit_from_behind);
+                                    extern std::int32_t is_there_room_behind_person(Entity * p_person, std::int32_t hit_from_behind);
 
                                     std::int32_t behind = (Random() & 0x1);
 
@@ -5969,7 +5969,7 @@ std::uint32_t move_thing(
     std::int32_t dx,
     std::int32_t dy,
     std::int32_t dz,
-    Thing *p_thing) {
+    Entity* p_thing) {
     std::int32_t col;
     std::int32_t radius;
     std::int32_t new_y;
@@ -6149,8 +6149,8 @@ extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
         //		if((PAP_2HI(x2>>16,z2>>16).Height<<3)>y2)
         //			ASSERT(0);
 
-        void slide_along_edges(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t * x2, std::int32_t * z2);
-        void slide_along_edgesr(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t * x2, std::int32_t * z2);
+        void slide_along_edges(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t* x2, std::int32_t* z2);
+        void slide_along_edgesr(std::int32_t face4, std::int32_t x1, std::int32_t z1, std::int32_t* x2, std::int32_t* z2);
 
         //
         // Should we slide along the edges?
@@ -6646,33 +6646,33 @@ extern void	set_player_visited(std::uint8_t x,std::uint8_t z);
 
 #if MARKS_EXTRA_DEBUG
 
-            /*
+    /*
 
-            if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
+    if (!(p_thing->Genus.Person->Flags & FLAG_PERSON_WAREHOUSE))
+    {
+            //
+            // If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
+            //
+
+            std::int32_t ground = PAP_calc_map_height_at(
+                                                    p_thing->WorldPos.X >> 8,
+                                                    p_thing->WorldPos.Z >> 8) << 8;
+
+            if (p_thing->WorldPos.Y < ground - 0x4000)
             {
                     //
-                    // If you're not in a warehouse then you should never be beneath the (MAVHEIGHT)
+                    // Oh dear!
                     //
 
-                    std::int32_t ground = PAP_calc_map_height_at(
-                                                            p_thing->WorldPos.X >> 8,
-                                                            p_thing->WorldPos.Z >> 8) << 8;
+                    ASSERT(0);
 
-                    if (p_thing->WorldPos.Y < ground - 0x4000)
-                    {
-                            //
-                            // Oh dear!
-                            //
+                    p_thing->WorldPos.Y = ground + 0x1000;
 
-                            ASSERT(0);
-
-                            p_thing->WorldPos.Y = ground + 0x1000;
-
-                            plant_feet(p_thing);
-                    }
+                    plant_feet(p_thing);
             }
+    }
 
-            */
+    */
 
 #endif
 
@@ -6743,8 +6743,8 @@ std::int32_t check_vector_against_mapsquare(
     std::int32_t zmin;
     std::int32_t zmax;
 
-    DFacet *df;
-    PAP_Lo *pl;
+    DFacet* df;
+    PAP_Lo* pl;
 
     /*
 
@@ -6989,8 +6989,8 @@ std::int32_t check_vector_against_mapsquare_objects(
     std::int32_t along;
 
     {
-        OB_Info *oi;
-        PrimInfo *pi;
+        OB_Info* oi;
+        PrimInfo* pi;
 
         for (oi = OB_find(map_x, map_z); oi->prim; oi++) {
             if (prim_objects[oi->prim].damage & PRIM_DAMAGE_NOLOS) {
@@ -7037,7 +7037,7 @@ std::int32_t check_vector_against_mapsquare_objects(
 
     {
         std::int32_t t_index;
-        Thing *p_thing;
+        Entity* p_thing;
 
         t_index = PAP_2LO(map_x, map_z).MapWho;
 
@@ -7109,7 +7109,7 @@ std::int32_t los_v_mz;
 std::int32_t los_v_end_mx;
 std::int32_t los_v_end_mz;
 
-std::int32_t there_is_a_los_things(Thing *p_person_a, Thing *p_person_b, std::int32_t los_flags) {
+std::int32_t there_is_a_los_things(Entity* p_person_a, Entity* p_person_b, std::int32_t los_flags) {
     return (there_is_a_los(
         (p_person_a->WorldPos.X >> 8),
         (p_person_a->WorldPos.Y >> 8) + 100,
@@ -7414,7 +7414,7 @@ std::int32_t there_is_a_los_mav(
     std::int32_t xfrac;
     std::int32_t zfrac;
 
-    MAV_Opt *mo;
+    MAV_Opt* mo;
 
 #ifndef NDEBUG
     std::int32_t count = 0;
@@ -8270,7 +8270,7 @@ std::int32_t collide_box(
     std::int32_t v_list;
     std::int32_t i_vect;
 
-    CollisionVect *p_vect;
+    CollisionVect* p_vect;
 
     std::int32_t tx1;
     std::int32_t tz1;
@@ -8514,8 +8514,8 @@ std::int32_t slide_around_circle(
 
     std::int32_t x1,
     std::int32_t z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -8561,8 +8561,8 @@ std::int32_t collide_with_circle(
     std::int32_t cz,
     std::int32_t cradius,
 
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -8626,8 +8626,8 @@ THING_INDEX find_nearby_person(
     std::int32_t best_dist;
     THING_INDEX best_thing;
 
-    Thing *p_me = TO_THING(me);
-    Thing *p_near;
+    Entity* p_me = TO_THING(me);
+    Entity* p_near;
 
     std::int32_t nearby_upto;
 
@@ -8842,8 +8842,8 @@ std::int32_t collide_against_sausage(
     std::int32_t vx1, std::int32_t vz1,
     std::int32_t vx2, std::int32_t vz2,
 
-    std::int32_t *slide_x,
-    std::int32_t *slide_z) {
+    std::int32_t* slide_x,
+    std::int32_t* slide_z) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -8992,8 +8992,8 @@ std::int32_t slide_around_sausage(
 
     std::int32_t x1,
     std::int32_t z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t dist;
     std::int32_t vec_x;
     std::int32_t vec_z;
@@ -9078,8 +9078,8 @@ std::int32_t stop_movement_between(
             std::int32_t height1 = PAP_calc_height_at(midx1, midz1);
             std::int32_t height2 = PAP_calc_height_at(midx2, midz2);
     */
-    PAP_Hi *ph1 = &PAP_2HI(mx1, mz1);
-    PAP_Hi *ph2 = &PAP_2HI(mx2, mz2);
+    PAP_Hi* ph1 = &PAP_2HI(mx1, mz1);
+    PAP_Hi* ph2 = &PAP_2HI(mx2, mz2);
 
     std::int32_t normal = true;
 
@@ -9160,7 +9160,7 @@ void create_just_collision_facet(
 
     std::int32_t dfacet = next_dfacet++;
 
-    DFacet *df = &dfacets[dfacet];
+    DFacet* df = &dfacets[dfacet];
 
     df->FacetType = STOREY_TYPE_JUST_COLLISION;
     df->Height = 4;
@@ -9391,8 +9391,8 @@ std::int32_t slide_around_box(
 
     std::int32_t x1,
     std::int32_t z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t tx1;
     std::int32_t tz1;
     std::int32_t tx2;
@@ -9552,10 +9552,10 @@ std::int32_t slide_around_box(
                 }
             }
 
-            //
-            // We have to un-rotate the points. The inverse of the
-            // matrix is its transpose.
-            //
+        //
+        // We have to un-rotate the points. The inverse of the
+        // matrix is its transpose.
+        //
 
 #ifndef PSX
 
@@ -9592,8 +9592,8 @@ inline std::int32_t slide_around_box_lowstack(
 
     std::int32_t x1,
     std::int32_t z1,
-    std::int32_t *x2,
-    std::int32_t *z2) {
+    std::int32_t* x2,
+    std::int32_t* z2) {
     std::int32_t tx1;
     std::int32_t tz1;
     std::int32_t tx2;
@@ -9915,7 +9915,7 @@ void create_shockwave(
     std::int32_t z,
     std::int32_t radius,
     std::int32_t maxdamage,
-    Thing *p_aggressor, std::uint32_t just_people) {
+    Entity* p_aggressor, std::uint32_t just_people) {
     std::int32_t i;
     std::int32_t dx;
     std::int32_t dy;
@@ -9928,7 +9928,7 @@ void create_shockwave(
     std::uint16_t found[SHOCKWAVE_FIND];
     std::int32_t num;
 
-    Thing *p_found;
+    Entity* p_found;
     std::uint32_t classes;
 
     //
@@ -9961,7 +9961,7 @@ void create_shockwave(
 
         dist = QDIST3(dx, dy, dz);
 
-        extern std::int32_t is_person_ko(Thing * p_person);
+        extern std::int32_t is_person_ko(Entity * p_person);
 
         {
             if (p_found->Class == CLASS_PERSON && !is_person_ko(p_found)) {
@@ -10035,8 +10035,8 @@ void create_shockwave(
                 hitpoints <<= 1;
 
                 extern void VEH_reduce_health(
-                    Thing * p_car,
-                    Thing * p_person,
+                    Entity * p_car,
+                    Entity * p_person,
                     std::int32_t damage);
 
                 VEH_reduce_health(
@@ -10093,7 +10093,7 @@ void create_shockwave(
         std::int32_t dz;
         std::int32_t dist;
 
-        OB_Info *oi;
+        OB_Info* oi;
 
         mx1 = x - radius >> PAP_SHIFT_LO;
         mz1 = z - radius >> PAP_SHIFT_LO;
@@ -10147,7 +10147,7 @@ void create_shockwave(
 void COLLIDE_find_seethrough_fences() {
     std::int32_t i;
 
-    DFacet *df;
+    DFacet* df;
 
     for (i = 1; i < next_dfacet; i++) {
         df = &dfacets[i];
@@ -10174,7 +10174,7 @@ void COLLIDE_find_seethrough_fences() {
 // The fastnav bits array.
 //
 
-COLLIDE_Fastnavrow *COLLIDE_fastnav;
+COLLIDE_Fastnavrow* COLLIDE_fastnav;
 
 //
 // Calculate the fastnav bits array.
@@ -10204,7 +10204,7 @@ void COLLIDE_calc_fastnav_bits() {
     std::int32_t mz;
     std::int32_t len;
 
-    DFacet *df;
+    DFacet* df;
 
     for (i = 1; i < next_dfacet; i++) {
         df = &dfacets[i];
@@ -10381,7 +10381,7 @@ void box_circle_early_out(
 std::uint16_t next_cut_hole = 0;
 std::uint8_t hole_pos[8];
 
-std::int32_t get_fence_hole(struct DFacet *p_facet) {
+std::int32_t get_fence_hole(struct DFacet* p_facet) {
     std::int32_t c0;
     std::uint16_t flags;
     std::int32_t best = 999;
@@ -10401,7 +10401,7 @@ std::int32_t get_fence_hole(struct DFacet *p_facet) {
     return (0);
 }
 
-std::int32_t get_fence_hole_next(struct DFacet *p_facet, std::int32_t along) {
+std::int32_t get_fence_hole_next(struct DFacet* p_facet, std::int32_t along) {
     std::int32_t c0;
     std::uint16_t flags;
     std::int32_t best = 999;
@@ -10423,7 +10423,7 @@ std::int32_t get_fence_hole_next(struct DFacet *p_facet, std::int32_t along) {
     return (0);
 }
 
-void set_fence_hole(struct DFacet *p_facet, std::int32_t pos) {
+void set_fence_hole(struct DFacet* p_facet, std::int32_t pos) {
     if (next_cut_hole < 8) {
         p_facet->CutHole |= 1 << (next_cut_hole);
         hole_pos[next_cut_hole] = pos;

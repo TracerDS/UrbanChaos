@@ -6,10 +6,10 @@
 #include "tga.h"
 
 TGA_Info TGA_load(
-    const char *file,
+    const char* file,
     std::int32_t max_width,
     std::int32_t max_height,
-    TGA_Pixel *data) {
+    TGA_Pixel* data) {
     std::int32_t i;
     std::int32_t j;
 
@@ -27,7 +27,7 @@ TGA_Info TGA_load(
     std::uint8_t rubbish;
     std::uint8_t no_alpha;
 
-    FILE *handle;
+    FILE* handle;
 
     TGA_Info ans;
 
@@ -210,10 +210,10 @@ std::uint8_t TGA_header[18] =
         0};
 
 void TGA_save(
-    const char *file,
+    const char* file,
     std::int32_t width,
     std::int32_t height,
-    TGA_Pixel *data,
+    TGA_Pixel* data,
     std::int32_t contains_alpha) {
     std::int32_t x;
     std::int32_t y;
@@ -222,7 +222,7 @@ void TGA_save(
     std::uint8_t header[18];
     std::int32_t bpp;
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen(file, "wb");
 

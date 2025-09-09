@@ -8,8 +8,8 @@
 
 extern StateFunction roper_states[];
 
-void fn_roper_init(Thing *t_thing);
-void fn_roper_normal(Thing *t_thing);
+void fn_roper_init(Entity *t_thing);
+void fn_roper_normal(Entity *t_thing);
 
 //---------------------------------------------------------------
 

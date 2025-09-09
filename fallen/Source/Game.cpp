@@ -277,12 +277,12 @@ void game_startup() {
 #ifdef TARGET_DC
     // Load up the VMU screens needed.
 
-    extern VMU_Screen *pvmuscreenAmmo;
-    extern VMU_Screen *pvmuscreenMFLogo;
-    extern VMU_Screen *pvmuscreenPressStart;
-    extern VMU_Screen *pvmuscreenSaved;
-    extern VMU_Screen *pvmuscreenUCLogo;
-    extern VMU_Screen *pvmuscreenWait;
+    extern VMU_Screen* pvmuscreenAmmo;
+    extern VMU_Screen* pvmuscreenMFLogo;
+    extern VMU_Screen* pvmuscreenPressStart;
+    extern VMU_Screen* pvmuscreenSaved;
+    extern VMU_Screen* pvmuscreenUCLogo;
+    extern VMU_Screen* pvmuscreenWait;
 
 #define LOAD_VMU_SCREEN(myname, filename) \
     if (pvmuscreen##myname == nullptr) CreateVMUScreenFromTGA(filename, &(pvmuscreen##myname));
@@ -386,10 +386,10 @@ void game_shutdown() {
 //
 
 // extern char       *playback_name = "Data\\Game.pkt";
-extern char *playback_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.pkt";
+extern char* playback_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.pkt";
 extern MFFileHandle playback_file;
 
-extern char *verifier_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.tst";
+extern char* verifier_name = "C:\\Windows\\Desktop\\UrbanChaosRecordedGame.tst";
 extern MFFileHandle verifier_file;
 
 #endif
@@ -426,7 +426,7 @@ extern DIJOYSTATE the_state;
 
 #define PAUSE_MENU_SIZE 2
 
-char *pause_menu[PAUSE_MENU_SIZE] =
+char* pause_menu[PAUSE_MENU_SIZE] =
     {
         "CONTINUE GAME",
         "EXIT",
@@ -438,8 +438,8 @@ std::int8_t game_paused_highlight;
 extern bool text_fudge;
 extern std::uint32_t text_colour;
 #ifndef PSX
-extern void draw_centre_text_at(float x, float y, char *message, std::int32_t font_id, std::int32_t flag);
-extern void draw_text_at(float x, float y, char *message, std::int32_t font_id);
+extern void draw_centre_text_at(float x, float y, char* message, std::int32_t font_id, std::int32_t flag);
+extern void draw_text_at(float x, float y, char* message, std::int32_t font_id);
 #else
 extern void draw_centre_text_at(std::int32_t x, std::int32_t y, char* message, std::int32_t font_id, std::int32_t flag);
 extern void draw_text_at(std::int32_t x, std::int32_t y, char* message, std::int32_t font_id);
@@ -451,7 +451,7 @@ extern void draw_text_at(std::int32_t x, std::int32_t y, char* message, std::int
 #if !defined(PSX) && !defined(TARGET_DC)
 #define NUM_BULLETS 15
 
-char *bullet_point[NUM_BULLETS] =
+char* bullet_point[NUM_BULLETS] =
     {
         "A - Punch : B - Kick : C - Jump\n",
         "Try running over a coke can...\n",
@@ -672,7 +672,7 @@ bool game_init() {
                 extern char ELEV_fname_level[];
                 process_things(0);
 
-                extern void save_whole_game(char *gamename);
+                extern void save_whole_game(char* gamename);
 
                 change_extension(ELEV_fname_level, "wad", save_wad);
                 save_whole_game(save_wad);
@@ -697,7 +697,7 @@ bool game_init() {
 
 #ifndef PSX
 #ifndef TARGET_DC
-bool game_create_psx(char *mission_name) {
+bool game_create_psx(char* mission_name) {
     std::int32_t ret;
     DebugText("PSX create psx mission %s\n", mission_name);
 
@@ -764,7 +764,7 @@ bool game_create_psx(char *mission_name) {
             extern char ELEV_fname_level[];
             process_things(0);
 
-            extern void save_whole_game(char *gamename);
+            extern void save_whole_game(char* gamename);
 
             change_extension(mission_name, "wad", save_wad);
             DebugText("PSX create nad %s\n world %d", save_wad, TEXTURE_SET);
@@ -777,7 +777,7 @@ bool game_create_psx(char *mission_name) {
     return (ret);
 }
 
-bool make_texture_clumps(char *mission_name) {
+bool make_texture_clumps(char* mission_name) {
 #ifdef TARGET_DC
     ASSERT(false);
 #endif
@@ -1096,7 +1096,7 @@ void game() {
 #ifndef PSX
 #ifndef TARGET_DC
 void GAME_map_draw_old() {
-    Thing *darci = NET_PERSON(0);
+    Entity* darci = NET_PERSON(0);
 
     std::int32_t x, z, dx, dz, ndx, ndz, angle;
 
@@ -1139,7 +1139,7 @@ extern void plan_view_shot(std::int32_t wx,std::int32_t wz,std::int32_t pixelw,s
 
 void GAME_map_draw()
 {
-        Thing *darci = NET_PERSON(0);
+        Entity *darci = NET_PERSON(0);
 
         DrawSync(0);
         ClearOTag(the_display.CurrentDisplayBuffer->ot, OTSIZE);
@@ -1155,7 +1155,7 @@ void GAME_map_draw()
 std::uint8_t screen_mem[640 * 3][480];
 
 void GAME_map_draw() {
-    Thing* darci = NET_PERSON(0);
+    Entity* darci = NET_PERSON(0);
 
     plan_view_shot(darci->WorldPos.X >> 8, darci->WorldPos.Z >> 8, 1 + (MouseY >> 4), 77, 78, 401, 328, (std::uint8_t*) screen_mem);
     overlay_beacons();
@@ -1199,7 +1199,7 @@ extern void PANEL_draw_timer_do(std::int32_t time, std::int32_t x, std::int32_t 
 std::int32_t already_warned_about_leaving_map;
 std::uint8_t draw_map_screen = 0;
 std::uint8_t single_step = 0;
-Form *form_leave_map = nullptr;
+Form* form_leave_map = nullptr;
 std::int32_t form_left_map = 0;
 
 //****************************************************************
@@ -1265,7 +1265,7 @@ void edge_map_warning(std::int32_t flag)
 	Widget *widget_no;
 	std::int32_t  dx;
 	std::int32_t  dz;
-	Thing *darci = NET_PERSON(0);
+	Entity *darci = NET_PERSON(0);
 
 	dx = darci->WorldPos.X >> 16;
 	dz = darci->WorldPos.Z >> 16;
@@ -1383,10 +1383,10 @@ void do_leave_map_form() {
         }
 
         {
-            Thing *darci = NET_PERSON(0);
+            Entity* darci = NET_PERSON(0);
 
             if (darci->Genus.Person->Flags & FLAG_PERSON_DRIVING) {
-                Thing *p_vehicle = TO_THING(darci->Genus.Person->InCar);
+                Entity* p_vehicle = TO_THING(darci->Genus.Person->InCar);
 
                 ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
@@ -1399,7 +1399,7 @@ void do_leave_map_form() {
 #ifdef BIKE
 
             if (darci->Genus.Person->Flags & FLAG_PERSON_BIKING) {
-                Thing *p_bike = TO_THING(darci->Genus.Person->InCar);
+                Entity* p_bike = TO_THING(darci->Genus.Person->InCar);
 
                 ASSERT(p_bike->Class == CLASS_BIKE);
 
@@ -2009,7 +2009,7 @@ round_again:;
                 // Exit out of the last mission straight away.
                 //
 
-                extern std::int32_t playing_level(const char *name);
+                extern std::int32_t playing_level(const char* name);
 
                 if (playing_level("Finale1.ucm")) {
                     GAME_STATE = GS_LEVEL_WON;
@@ -2120,7 +2120,7 @@ round_again:;
             /*
             if (darci_dlight)
             {
-                    Thing *darci = NET_PERSON(0);
+                    Entity *darci = NET_PERSON(0);
 
                     NIGHT_dlight_move(
                             darci_dlight,
@@ -2248,7 +2248,7 @@ round_again:;
             // #ifndef FINAL
             if (!(GAME_FLAGS & GF_PAUSED))
                 CONSOLE_draw();
-                // #endif
+            // #endif
 
 #ifndef PSX
             GAMEMENU_draw();
@@ -2368,11 +2368,11 @@ round_again:;
                 // g_bGoToCreditsPleaseGameHasFinished = true;
 
                 // Get the background loaded.
-                void FRONTEND_scr_img_load_into_screenfull(char *name, CompressedBackground *screen);
+                void FRONTEND_scr_img_load_into_screenfull(char* name, CompressedBackground* screen);
                 FRONTEND_scr_img_load_into_screenfull("title_blood1.tga", &(the_display.lp_DD_Background));
                 extern LPDIRECTDRAWSURFACE4 lpBackgroundCache;
                 ASSERT(lpBackgroundCache != nullptr);
-                UnpackBackground((BYTE *) (the_display.lp_DD_Background), lpBackgroundCache);
+                UnpackBackground((BYTE*) (the_display.lp_DD_Background), lpBackgroundCache);
 
                 MUSIC_mode(MUSIC_MODE_FRONTEND);
                 MUSIC_mode_process();
@@ -2388,7 +2388,7 @@ round_again:;
 
                 if ((NETPERSON != nullptr) && (NET_PERSON(0) != nullptr) && (NET_PERSON(0)->Genus.Person->PersonType == PERSON_DARCI)) {
                 if (NET_PLAYER(0)->Genus.Player->RedMarks > 1) {
-                    char *mess;
+                    char* mess;
 
                     InitBackImage("deadcivs.tga");
 

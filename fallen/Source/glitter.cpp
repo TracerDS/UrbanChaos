@@ -101,7 +101,7 @@ std::uint8_t GLITTER_create(
     std::uint32_t colour) {
     std::int32_t i;
 
-    GLITTER_Glitter *gg;
+    GLITTER_Glitter* gg;
 
     if (!WITHIN(map_z, 0, GLITTER_MAPWHO - 1)) {
         //
@@ -184,7 +184,7 @@ void GLITTER_add(
     // The glitter we are adding the spark to.
     //
 
-    GLITTER_Glitter *gg;
+    GLITTER_Glitter* gg;
 
     ASSERT(WITHIN(glitter, 1, GLITTER_MAX_GLITTER - 1));
 
@@ -194,7 +194,7 @@ void GLITTER_add(
     // The new spark.
     //
 
-    GLITTER_Spark *gs;
+    GLITTER_Spark* gs;
 
     ASSERT(WITHIN(GLITTER_spark_free, 1, GLITTER_MAX_SPARKS - 1));
 
@@ -264,10 +264,10 @@ void GLITTER_process() {
 
     std::uint8_t spark;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    GLITTER_Glitter *gg;
-    GLITTER_Spark *gs;
+    GLITTER_Glitter* gg;
+    GLITTER_Spark* gs;
 
     for (i = 1; i < GLITTER_MAX_GLITTER; i++) {
         gg = &GLITTER_glitter[i];
@@ -413,9 +413,9 @@ void GLITTER_get_start(std::uint8_t xmin, std::uint8_t xmax, std::uint8_t z) {
     }
 }
 
-GLITTER_Info *GLITTER_get_next() {
-    GLITTER_Glitter *gg;
-    GLITTER_Spark *gs;
+GLITTER_Info* GLITTER_get_next() {
+    GLITTER_Glitter* gg;
+    GLITTER_Spark* gs;
 
 tail_recurse:;
 

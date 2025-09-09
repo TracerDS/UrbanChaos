@@ -13,7 +13,7 @@
 PARSE_Node PARSE_node[PARSE_MAX_NODES];
 std::int32_t PARSE_node_upto;
 
-PARSE_Node *PARSE_get_node() {
+PARSE_Node* PARSE_get_node() {
     ASSERT(WITHIN(PARSE_node_upto, 0, PARSE_MAX_NODES - 1));
 
     return &PARSE_node[PARSE_node_upto++];
@@ -27,11 +27,11 @@ PARSE_Node *PARSE_get_node() {
 #define PARSE_MAX_STRING_TABLE_SIZE 65536
 #define PARSE_MAX_ERRORS 256
 
-PARSE_Node *PARSE_line[PARSE_MAX_LINES]; // nullptr value means that line was blank.
+PARSE_Node* PARSE_line[PARSE_MAX_LINES]; // nullptr value means that line was blank.
 std::int32_t PARSE_line_upto;
 char PARSE_string_table[PARSE_MAX_STRING_TABLE_SIZE];
 std::int32_t PARSE_string_table_upto;
-char *PARSE_error[PARSE_MAX_ERRORS];
+char* PARSE_error[PARSE_MAX_ERRORS];
 std::int32_t PARSE_error_upto;
 std::int32_t PARSE_ifcode;    // This gets incremented every time we parse an IF    statement...
 std::int32_t PARSE_forcode;   // This gets incremented every time we parse a  FOR   statement...
@@ -51,7 +51,7 @@ std::int32_t PARSE_errbuf_upto;
 // returns false.
 //
 
-std::int32_t PARSE_add_error(char *fmt, ...) {
+std::int32_t PARSE_add_error(char* fmt, ...) {
     if (PARSE_error_upto >= PARSE_MAX_ERRORS) {
         return false;
     }
@@ -97,13 +97,13 @@ jmp_buf PARSE_error_jmp;
 // The reason the parser jumped to PARSE_error_jmp;
 //
 
-char *PARSE_error_type;
+char* PARSE_error_type;
 
 //
 // Throws up an error.
 //
 
-void PARSE_throw(char *error = "Parse error") {
+void PARSE_throw(char* error = "Parse error") {
     PARSE_error_type = error;
 
     longjmp(PARSE_error_jmp, 1);
@@ -114,7 +114,7 @@ void PARSE_throw(char *error = "Parse error") {
 // where it was copied.
 //
 
-char *PARSE_add_string(char *string) {
+char* PARSE_add_string(char* string) {
     std::int32_t length = strlen(string) + 1; // + 1 to include the terminating nullptr
 
     if (PARSE_string_table_upto + length > PARSE_MAX_STRING_TABLE_SIZE) {
@@ -125,7 +125,7 @@ char *PARSE_add_string(char *string) {
         PARSE_throw("No more string constant memory");
     }
 
-    char *ans = PARSE_string_table + PARSE_string_table_upto;
+    char* ans = PARSE_string_table + PARSE_string_table_upto;
 
     strcpy(ans, string);
 
@@ -138,7 +138,7 @@ char *PARSE_add_string(char *string) {
 // Sets the PARSE_NODE_FLAG_CONDITIONAL flag in the given node.
 //
 
-std::int32_t PARSE_set_conditional_flag(PARSE_Node *pn) {
+std::int32_t PARSE_set_conditional_flag(PARSE_Node* pn) {
     pn->flag |= PARSE_NODE_FLAG_CONDITIONAL;
 
     return true;
@@ -148,7 +148,7 @@ std::int32_t PARSE_set_conditional_flag(PARSE_Node *pn) {
 // Sets the PARSE_NODE_FLAG_EXPRESSION flag in the given node.
 //
 
-std::int32_t PARSE_set_expression_flag(PARSE_Node *pn) {
+std::int32_t PARSE_set_expression_flag(PARSE_Node* pn) {
     pn->flag |= PARSE_NODE_FLAG_EXPRESSION;
 
     return true;
@@ -159,7 +159,7 @@ std::int32_t PARSE_set_expression_flag(PARSE_Node *pn) {
 // a BOOLEAN value.
 //
 
-std::int32_t PARSE_expression_is_boolean(PARSE_Node *exp) {
+std::int32_t PARSE_expression_is_boolean(PARSE_Node* exp) {
     switch (exp->type) {
     case PARSE_NODE_TYPE_EQUALS:
     case PARSE_NODE_TYPE_GT:
@@ -258,8 +258,8 @@ std::int32_t PARSE_expression_is_boolean(PARSE_Node *exp) {
 // Returns a copy of the parse tree.
 //
 
-PARSE_Node *PARSE_copy_tree(PARSE_Node *tree) {
-    PARSE_Node *ans = PARSE_get_node();
+PARSE_Node* PARSE_copy_tree(PARSE_Node* tree) {
+    PARSE_Node* ans = PARSE_get_node();
 
     *ans = *tree;
 
@@ -280,8 +280,8 @@ PARSE_Node *PARSE_copy_tree(PARSE_Node *tree) {
 // Converts an lvalue to an rvalue.
 //
 
-PARSE_Node *PARSE_convert_lvalue_to_rvalue(PARSE_Node *lv) {
-    PARSE_Node *ans = PARSE_get_node();
+PARSE_Node* PARSE_convert_lvalue_to_rvalue(PARSE_Node* lv) {
+    PARSE_Node* ans = PARSE_get_node();
 
     *ans = *lv;
 
@@ -329,7 +329,7 @@ PARSE_Node *PARSE_convert_lvalue_to_rvalue(PARSE_Node *lv) {
 // Converts an rvalue to an lvalue. Only work on certain nodes... of course!
 //
 
-void PARSE_convert_rvalue_to_lvalue(PARSE_Node *rv) {
+void PARSE_convert_rvalue_to_lvalue(PARSE_Node* rv) {
     switch (rv->type) {
     case PARSE_NODE_TYPE_VAR_VALUE:
         rv->type = PARSE_NODE_TYPE_VAR_ADDRESS;
@@ -363,7 +363,7 @@ void PARSE_convert_rvalue_to_lvalue(PARSE_Node *rv) {
 // passed by reference.
 //
 
-void PARSE_convert_rvalue_to_argument(PARSE_Node *arg) {
+void PARSE_convert_rvalue_to_argument(PARSE_Node* arg) {
     //
     // Sometimes we must change the type of the node's children.
     //
@@ -380,7 +380,7 @@ void PARSE_convert_rvalue_to_argument(PARSE_Node *arg) {
     }
 }
 
-std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2) {
+std::int32_t PARSE_trees_the_same(PARSE_Node* tree1, PARSE_Node* tree2) {
     //
     // Make sure both tree have the same type.
     //
@@ -532,31 +532,31 @@ std::int32_t PARSE_trees_the_same(PARSE_Node *tree1, PARSE_Node *tree2) {
 // Our parsing functions........
 //
 
-PARSE_Node *PARSE_labelled_statement_list();
-PARSE_Node *PARSE_statement_list();
-PARSE_Node *PARSE_statement();
-PARSE_Node *PARSE_expression();
-PARSE_Node *PARSE_expression_list();
-PARSE_Node *PARSE_p1exp();
-PARSE_Node *PARSE_p2exp();
-PARSE_Node *PARSE_p3exp();
-PARSE_Node *PARSE_p4exp();
-PARSE_Node *PARSE_p5exp();
-PARSE_Node *PARSE_primary();
-PARSE_Node *PARSE_function_call();
-PARSE_Node *PARSE_lvalue();
-PARSE_Node *PARSE_var();
-PARSE_Node *PARSE_struct();
-PARSE_Node *PARSE_argument_definition();
+PARSE_Node* PARSE_labelled_statement_list();
+PARSE_Node* PARSE_statement_list();
+PARSE_Node* PARSE_statement();
+PARSE_Node* PARSE_expression();
+PARSE_Node* PARSE_expression_list();
+PARSE_Node* PARSE_p1exp();
+PARSE_Node* PARSE_p2exp();
+PARSE_Node* PARSE_p3exp();
+PARSE_Node* PARSE_p4exp();
+PARSE_Node* PARSE_p5exp();
+PARSE_Node* PARSE_primary();
+PARSE_Node* PARSE_function_call();
+PARSE_Node* PARSE_lvalue();
+PARSE_Node* PARSE_var();
+PARSE_Node* PARSE_struct();
+PARSE_Node* PARSE_argument_definition();
 
-std::int32_t PARSE_expression_list_depth(PARSE_Node *explist);
+std::int32_t PARSE_expression_list_depth(PARSE_Node* explist);
 
 //
 // Recursive descent parsing...
 //
 
-PARSE_Node *PARSE_function_call() {
-    PARSE_Node *ans;
+PARSE_Node* PARSE_function_call() {
+    PARSE_Node* ans;
 
     LEX_Token lt;
 
@@ -645,7 +645,7 @@ PARSE_Node *PARSE_function_call() {
     // Descend the expression list and convert each rvalue to an arguement.
     //
 
-    PARSE_Node *arg = ans->child1;
+    PARSE_Node* arg = ans->child1;
 
     while (1) {
         if (arg->type == PARSE_NODE_TYPE_EXP_LIST) {
@@ -662,8 +662,8 @@ PARSE_Node *PARSE_function_call() {
     return ans;
 }
 
-PARSE_Node *PARSE_primary() {
-    PARSE_Node *ans;
+PARSE_Node* PARSE_primary() {
+    PARSE_Node* ans;
 
     LEX_Token lt = LEX_get();
 
@@ -708,7 +708,7 @@ PARSE_Node *PARSE_primary() {
     case LEX_TOKEN_TYPE_VARIABLE:
 
     {
-        char *varname = PARSE_add_string(lt.variable);
+        char* varname = PARSE_add_string(lt.variable);
 
         //
         // This could be a function call.
@@ -1416,12 +1416,12 @@ PARSE_Node *PARSE_primary() {
     }
 }
 
-PARSE_Node *PARSE_p6exp() {
+PARSE_Node* PARSE_p6exp() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_primary();
 
@@ -1496,12 +1496,12 @@ PARSE_Node *PARSE_p6exp() {
     }
 }
 
-PARSE_Node *PARSE_p5exp() {
+PARSE_Node* PARSE_p5exp() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_p6exp();
 
@@ -1551,12 +1551,12 @@ PARSE_Node *PARSE_p5exp() {
     }
 }
 
-PARSE_Node *PARSE_p4exp() {
+PARSE_Node* PARSE_p4exp() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_p5exp();
 
@@ -1603,12 +1603,12 @@ PARSE_Node *PARSE_p4exp() {
     }
 }
 
-PARSE_Node *PARSE_p3exp() {
+PARSE_Node* PARSE_p3exp() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_p4exp();
 
@@ -1659,12 +1659,12 @@ PARSE_Node *PARSE_p3exp() {
     }
 }
 
-PARSE_Node *PARSE_p2exp() {
+PARSE_Node* PARSE_p2exp() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_p3exp();
 
@@ -1711,12 +1711,12 @@ PARSE_Node *PARSE_p2exp() {
     }
 }
 
-PARSE_Node *PARSE_p1exp() {
+PARSE_Node* PARSE_p1exp() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_p2exp();
 
@@ -1754,12 +1754,12 @@ PARSE_Node *PARSE_p1exp() {
     }
 }
 
-PARSE_Node *PARSE_expression() {
+PARSE_Node* PARSE_expression() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_p1exp();
 
@@ -1813,11 +1813,11 @@ PARSE_Node *PARSE_expression() {
     }
 }
 
-PARSE_Node *PARSE_expression_list() {
+PARSE_Node* PARSE_expression_list() {
     LEX_Token lt;
 
-    PARSE_Node *exp;
-    PARSE_Node *ans;
+    PARSE_Node* exp;
+    PARSE_Node* ans;
 
     exp = PARSE_expression();
 
@@ -1842,7 +1842,7 @@ PARSE_Node *PARSE_expression_list() {
 // Returns the depth of an expressionlist.
 //
 
-std::int32_t PARSE_expression_list_depth(PARSE_Node *explist) {
+std::int32_t PARSE_expression_list_depth(PARSE_Node* explist) {
     if (explist->type != PARSE_NODE_TYPE_EXP_LIST) {
         return 1;
     } else {
@@ -1850,12 +1850,12 @@ std::int32_t PARSE_expression_list_depth(PARSE_Node *explist) {
     }
 }
 
-PARSE_Node *PARSE_var() {
+PARSE_Node* PARSE_var() {
     //
     // No arrays for now!
     //
 
-    PARSE_Node *ans;
+    PARSE_Node* ans;
 
     LEX_Token lt = LEX_get();
 
@@ -1879,12 +1879,12 @@ PARSE_Node *PARSE_var() {
     return nullptr;
 }
 
-PARSE_Node *PARSE_struct() {
+PARSE_Node* PARSE_struct() {
     //
     // No arrays for now!
     //
 
-    PARSE_Node *ans;
+    PARSE_Node* ans;
 
     LEX_Token lt = LEX_get();
 
@@ -1919,12 +1919,12 @@ PARSE_Node *PARSE_struct() {
     return nullptr;
 }
 
-PARSE_Node *PARSE_lvalue() {
+PARSE_Node* PARSE_lvalue() {
     LEX_Token lt;
 
-    PARSE_Node *lhs;
-    PARSE_Node *rhs;
-    PARSE_Node *ans;
+    PARSE_Node* lhs;
+    PARSE_Node* rhs;
+    PARSE_Node* ans;
 
     lhs = PARSE_var();
 
@@ -1999,16 +1999,16 @@ PARSE_Node *PARSE_lvalue() {
     }
 }
 
-PARSE_Node *PARSE_argument_definition() {
+PARSE_Node* PARSE_argument_definition() {
     LEX_Token lt;
 
     //
     // Initailise our answer.
     //
 
-    PARSE_Node *ans = nullptr;
-    PARSE_Node *arg = nullptr;
-    PARSE_Node *last = nullptr;
+    PARSE_Node* ans = nullptr;
+    PARSE_Node* arg = nullptr;
+    PARSE_Node* last = nullptr;
 
     lt = LEX_get();
 
@@ -2115,8 +2115,8 @@ PARSE_Node *PARSE_argument_definition() {
     }
 }
 
-PARSE_Node *PARSE_statement() {
-    PARSE_Node *ans;
+PARSE_Node* PARSE_statement() {
+    PARSE_Node* ans;
 
     LEX_Token lt = LEX_get();
 
@@ -2159,7 +2159,7 @@ PARSE_Node *PARSE_statement() {
             LEX_pop();
 
             char label[32];
-            char *ch;
+            char* ch;
 
             itoa(lt.slumber, label, 10);
 
@@ -2188,7 +2188,7 @@ PARSE_Node *PARSE_statement() {
     case LEX_TOKEN_TYPE_VARIABLE:
 
     {
-        char *varname = PARSE_add_string(lt.variable);
+        char* varname = PARSE_add_string(lt.variable);
 
         //
         // This could be a function call.
@@ -2377,7 +2377,7 @@ PARSE_Node *PARSE_statement() {
         //
 
         {
-            PARSE_Node *init;
+            PARSE_Node* init;
 
             if (ans->child1->type == PARSE_NODE_TYPE_STATEMENT_LIST) {
                 init = ans->child1->child1;
@@ -2424,7 +2424,7 @@ PARSE_Node *PARSE_statement() {
                 PARSE_throw("Cannot establish a condition for terminating the FOR loop. Try making the TO part of the FOR loop a BOOLEAN expression");
             }
 
-            PARSE_Node *cond = PARSE_get_node();
+            PARSE_Node* cond = PARSE_get_node();
 
             cond->type = PARSE_NODE_TYPE_GT;
             cond->child1 = PARSE_convert_lvalue_to_rvalue(ans->lvalue);
@@ -2448,11 +2448,11 @@ PARSE_Node *PARSE_statement() {
             // Build a parse tree to increment this variable.
             //
 
-            PARSE_Node *assign;
-            PARSE_Node *varaddress;
-            PARSE_Node *varvalue;
-            PARSE_Node *one;
-            PARSE_Node *add;
+            PARSE_Node* assign;
+            PARSE_Node* varaddress;
+            PARSE_Node* varvalue;
+            PARSE_Node* one;
+            PARSE_Node* add;
 
             varaddress = PARSE_copy_tree(ans->lvalue);
             varvalue = PARSE_convert_lvalue_to_rvalue(ans->lvalue);
@@ -2926,8 +2926,8 @@ PARSE_Node *PARSE_statement() {
         ans->variable = PARSE_add_string(lt.variable);
 
         {
-            PARSE_Node *higher = ans;
-            PARSE_Node *lower;
+            PARSE_Node* higher = ans;
+            PARSE_Node* lower;
 
             //
             // We can have a whole long list of exports.
@@ -2994,8 +2994,8 @@ PARSE_Node *PARSE_statement() {
         ans->variable = PARSE_add_string(lt.variable);
 
         {
-            PARSE_Node *higher = ans;
-            PARSE_Node *lower;
+            PARSE_Node* higher = ans;
+            PARSE_Node* lower;
 
             //
             // We can have a whole long list of locals.
@@ -3049,10 +3049,10 @@ PARSE_Node *PARSE_statement() {
     }
 }
 
-PARSE_Node *PARSE_statement_list() {
+PARSE_Node* PARSE_statement_list() {
     LEX_Token lt;
 
-    PARSE_Node *statement;
+    PARSE_Node* statement;
 
     statement = PARSE_statement();
 
@@ -3104,7 +3104,7 @@ PARSE_Node *PARSE_statement_list() {
     }
 
     if (another_statement) {
-        PARSE_Node *ans;
+        PARSE_Node* ans;
 
         ans = PARSE_get_node();
 
@@ -3118,8 +3118,8 @@ PARSE_Node *PARSE_statement_list() {
     return statement;
 }
 
-PARSE_Node *PARSE_labelled_statement_list() {
-    PARSE_Node *ans;
+PARSE_Node* PARSE_labelled_statement_list() {
+    PARSE_Node* ans;
 
     LEX_Token lt = LEX_get();
 
@@ -3143,7 +3143,7 @@ PARSE_Node *PARSE_labelled_statement_list() {
         ans->type = PARSE_NODE_TYPE_LABEL;
 
         char label[32];
-        char *ch;
+        char* ch;
 
         itoa(lt.slumber, label, 10);
 
@@ -3191,15 +3191,15 @@ PARSE_Node *PARSE_labelled_statement_list() {
 // The maximum length of a source file in bytes. This is pants!
 //
 
-char *PARSE_program;
+char* PARSE_program;
 std::int32_t PARSE_program_upto;
 std::int32_t PARSE_program_max;
 
-void PARSE_do(char *fname) {
+void PARSE_do(char* fname) {
     std::int32_t want_to_read;
     std::int32_t bytes_read;
     LEX_Token lt;
-    PARSE_Node *nop;
+    PARSE_Node* nop;
 
     //
     // Initialise...
@@ -3219,7 +3219,7 @@ void PARSE_do(char *fname) {
         //
 
         PARSE_program_max = 16;
-        PARSE_program = (char *) malloc(sizeof(char) * PARSE_program_max);
+        PARSE_program = (char*) malloc(sizeof(char) * PARSE_program_max);
 
         memset(PARSE_program, 0, sizeof(char) * PARSE_program_max);
     }
@@ -3228,7 +3228,7 @@ void PARSE_do(char *fname) {
     // Load the file.
     //
 
-    FILE *handle = fopen(fname, "rb");
+    FILE* handle = fopen(fname, "rb");
 
     if (!handle) {
         PARSE_add_error("Could not open source file \"%s\"", fname);
@@ -3263,7 +3263,7 @@ void PARSE_do(char *fname) {
             //
 
             PARSE_program_max *= 2;
-            PARSE_program = (char *) realloc(PARSE_program, sizeof(char) * PARSE_program_max);
+            PARSE_program = (char*) realloc(PARSE_program, sizeof(char) * PARSE_program_max);
 
             //
             // Zero out newly allocated memory.
@@ -3351,7 +3351,7 @@ void PARSE_do(char *fname) {
     }
 }
 
-void PARSE_traverse_do(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn)) {
+void PARSE_traverse_do(PARSE_Node* pn, std::int32_t (*user_function)(PARSE_Node* pn)) {
     switch (pn->type) {
     case PARSE_NODE_TYPE_NOP:
     case PARSE_NODE_TYPE_SLUMBER:
@@ -3685,7 +3685,7 @@ void PARSE_traverse_do(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node 
     return;
 }
 
-void PARSE_traverse(PARSE_Node *pn, std::int32_t (*user_function)(PARSE_Node *pn)) {
+void PARSE_traverse(PARSE_Node* pn, std::int32_t (*user_function)(PARSE_Node* pn)) {
     //
     // Store stack info...
     //

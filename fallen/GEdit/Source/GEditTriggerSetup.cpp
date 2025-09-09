@@ -22,7 +22,7 @@ std::int32_t action_off,
     trigger_radius,
     trigger_depend,
     trigger_type;
-EventPoint *current_ep;
+EventPoint* current_ep;
 
 //---------------------------------------------------------------
 
@@ -90,7 +90,7 @@ bool CALLBACK ts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     std::int32_t c0 = 0;
     HWND the_ctrl;
     LPTSTR lbitem_str;
-    NM_UPDOWN *lp_ntfy;
+    NM_UPDOWN* lp_ntfy;
 
     switch (message) {
     case WM_INITDIALOG:
@@ -190,7 +190,7 @@ bool CALLBACK ts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
         break;
 
     case WM_NOTIFY:
-        lp_ntfy = (NM_UPDOWN *) lParam;
+        lp_ntfy = (NM_UPDOWN*) lParam;
 
         //	Make the 'radius' spin go up/down in steps of 32.
         if (lp_ntfy->hdr.idFrom == IDC_SPIN2 && lp_ntfy->hdr.code == UDN_DELTAPOS) {
@@ -243,7 +243,7 @@ bool CALLBACK ts_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_trigger_setup(EventPoint *the_ep) {
+void do_trigger_setup(EventPoint* the_ep) {
     //	Set the dialog.
     triggered_by = the_ep->TriggeredBy;
     trigger_radius = the_ep->Radius;
@@ -268,7 +268,7 @@ void do_trigger_setup(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-char *get_trigger_message(EventPoint *ep, char *msg) {
+char* get_trigger_message(EventPoint* ep, char* msg) {
     if ((!ep) || (!ep->Data[0]))
         strcpy(msg, "Unknown");
     else

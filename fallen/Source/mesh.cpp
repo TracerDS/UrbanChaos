@@ -22,13 +22,13 @@
 #define POLY_FLAG_DOUBLESIDED (1 << 6)
 #define POLY_FLAG_CLIPPED (1 << 7)
 
-NIGHT_Colour *MESH_draw_guts(
+NIGHT_Colour* MESH_draw_guts(
     std::int32_t prim,
     MAPCO16 at_x,
     MAPCO16 at_y,
     MAPCO16 at_z,
     float matrix[9],
-    NIGHT_Colour *lpc) {
+    NIGHT_Colour* lpc) {
     std::int32_t i;
 
     std::int32_t sp;
@@ -41,14 +41,14 @@ NIGHT_Colour *MESH_draw_guts(
 
     std::int32_t page;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     POLY_set_local_rotation(
         float(at_x),
@@ -122,7 +122,7 @@ NIGHT_Colour *MESH_draw_guts(
         if (POLY_valid_quad(quad)) {
             if (p_f4->DrawFlags & POLY_FLAG_TEXTURED) {
                 if (p_f4->FaceFlags & FACE_FLAG_ANIMATE) {
-                    struct AnimTmap *p_a;
+                    struct AnimTmap* p_a;
                     std::int32_t cur;
                     p_a = &anim_tmaps[p_f4->TexturePage];
                     cur = p_a->Current;
@@ -264,7 +264,7 @@ NIGHT_Colour *MESH_draw_guts(
     return lpc;
 }
 
-NIGHT_Colour *MESH_draw_poly(
+NIGHT_Colour* MESH_draw_poly(
     std::int32_t prim,
     MAPCO16 at_x,
     MAPCO16 at_y,
@@ -272,7 +272,7 @@ NIGHT_Colour *MESH_draw_poly(
     std::int32_t i_yaw,
     std::int32_t i_pitch,
     std::int32_t i_roll,
-    NIGHT_Colour *lpc) {
+    NIGHT_Colour* lpc) {
     float matrix[9];
     float yaw;
     float pitch;
@@ -299,7 +299,7 @@ NIGHT_Colour *MESH_draw_poly(
     return MESH_draw_guts(prim, at_x, at_y, at_z, matrix, lpc);
 }
 
-NIGHT_Colour *MESH_draw_poly_inv_matrix(
+NIGHT_Colour* MESH_draw_poly_inv_matrix(
     std::int32_t prim,
     MAPCO16 at_x,
     MAPCO16 at_y,
@@ -307,7 +307,7 @@ NIGHT_Colour *MESH_draw_poly_inv_matrix(
     std::int32_t i_yaw,
     std::int32_t i_pitch,
     std::int32_t i_roll,
-    NIGHT_Colour *lpc) {
+    NIGHT_Colour* lpc) {
     float matrix[9];
     float yaw;
     float pitch;
@@ -578,7 +578,7 @@ void MESH_draw_morph(
     std::int32_t i_yaw,
     std::int32_t i_pitch,
     std::int32_t i_roll,
-    NIGHT_Colour *lpc) {
+    NIGHT_Colour* lpc) {
     std::int32_t i;
     //	std::int32_t j;
 
@@ -602,20 +602,20 @@ void MESH_draw_morph(
 
     std::int32_t page;
 
-    PrimFace4 *p_f4;
-    PrimFace3 *p_f3;
-    PrimObject *p_obj;
+    PrimFace4* p_f4;
+    PrimFace3* p_f3;
+    PrimObject* p_obj;
 
-    MORPH_Point *mp1 = MORPH_get_points(morph1);
-    MORPH_Point *mp2 = MORPH_get_points(morph2);
+    MORPH_Point* mp1 = MORPH_get_points(morph1);
+    MORPH_Point* mp2 = MORPH_get_points(morph2);
 
     std::int32_t num_points;
 
-    POLY_Point *pp;
+    POLY_Point* pp;
     //	POLY_Point *ps;
 
-    POLY_Point *tri[3];
-    POLY_Point *quad[4];
+    POLY_Point* tri[3];
+    POLY_Point* quad[4];
 
     float matrix[9];
     float yaw;
@@ -724,7 +724,7 @@ void MESH_draw_morph(
         if (POLY_valid_quad(quad)) {
             if (p_f4->DrawFlags & POLY_FLAG_TEXTURED) {
                 if (p_f4->FaceFlags & FACE_FLAG_ANIMATE) {
-                    struct AnimTmap *p_a;
+                    struct AnimTmap* p_a;
                     std::int32_t cur;
                     p_a = &anim_tmaps[p_f4->TexturePage];
                     cur = p_a->Current;
@@ -845,8 +845,8 @@ typedef struct
     std::int32_t num_points;
     std::int32_t num_faces;
 
-    MESH_Point *mp;
-    MESH_Face *mf;
+    MESH_Point* mp;
+    MESH_Face* mf;
 
 } MESH_Reflection;
 
@@ -857,7 +857,7 @@ MESH_Reflection MESH_reflection[MESH_MAX_REFLECTIONS];
 void MESH_init_reflections() {
     std::int32_t i;
 
-    MESH_Reflection *mr;
+    MESH_Reflection* mr;
 
     for (i = 0; i < MESH_MAX_REFLECTIONS; i++) {
         mr = &MESH_reflection[i];
@@ -881,14 +881,14 @@ void MESH_init_reflections() {
 // Grows the points or faces arrays.
 //
 
-void MESH_grow_points(MESH_Reflection *mr) {
+void MESH_grow_points(MESH_Reflection* mr) {
     mr->max_points *= 2;
-    mr->mp = (MESH_Point *) realloc(mr->mp, sizeof(MESH_Point) * mr->max_points);
+    mr->mp = (MESH_Point*) realloc(mr->mp, sizeof(MESH_Point) * mr->max_points);
 }
 
-void MESH_grow_faces(MESH_Reflection *mr) {
+void MESH_grow_faces(MESH_Reflection* mr) {
     mr->max_faces *= 2;
-    mr->mf = (MESH_Face *) realloc(mr->mf, sizeof(MESH_Face) * mr->max_faces);
+    mr->mf = (MESH_Face*) realloc(mr->mf, sizeof(MESH_Face) * mr->max_faces);
 }
 
 //
@@ -896,7 +896,7 @@ void MESH_grow_faces(MESH_Reflection *mr) {
 //
 
 std::int32_t MESH_add_point(
-    MESH_Reflection *mr,
+    MESH_Reflection* mr,
     float x,
     float y,
     float z,
@@ -951,7 +951,7 @@ std::int32_t MESH_add_point(
 //
 
 void MESH_add_face(
-    MESH_Reflection *mr,
+    MESH_Reflection* mr,
     std::int32_t p1,
     float u1,
     float v1,
@@ -1005,7 +1005,7 @@ typedef struct
 MESH_Add MESH_add[MESH_MAX_ADD];
 std::int32_t MESH_add_upto;
 
-void MESH_add_poly(MESH_Reflection *mr, MESH_Add poly[], std::int32_t num_points, std::int32_t page) {
+void MESH_add_poly(MESH_Reflection* mr, MESH_Add poly[], std::int32_t num_points, std::int32_t page) {
     std::int32_t i;
     std::int32_t bot;
     std::int32_t top;
@@ -1032,10 +1032,10 @@ void MESH_add_poly(MESH_Reflection *mr, MESH_Add poly[], std::int32_t num_points
     float fade;
     float mul;
 
-    MESH_Add *ma;
-    MESH_Add *mp1;
-    MESH_Add *mp2;
-    MESH_Add *mpl;
+    MESH_Add* ma;
+    MESH_Add* mp1;
+    MESH_Add* mp2;
+    MESH_Add* mpl;
 
     ASSERT(num_points > 2);
 
@@ -1227,11 +1227,11 @@ void MESH_create_reflection(std::int32_t prim) {
     float fade;
     float reflect_height;
 
-    PrimInfo *pi;
-    PrimObject *po;
-    PrimFace3 *f3;
-    PrimFace4 *f4;
-    MESH_Reflection *mr;
+    PrimInfo* pi;
+    PrimObject* po;
+    PrimFace3* f3;
+    PrimFace4* f4;
+    MESH_Reflection* mr;
 
     MESH_Add ma[4];
 
@@ -1254,8 +1254,8 @@ void MESH_create_reflection(std::int32_t prim) {
     mr->num_points = 0;
     mr->num_faces = 0;
 
-    mr->mp = (MESH_Point *) MemAlloc(mr->max_points * sizeof(MESH_Point));
-    mr->mf = (MESH_Face *) MemAlloc(mr->max_faces * sizeof(MESH_Face));
+    mr->mp = (MESH_Point*) MemAlloc(mr->max_points * sizeof(MESH_Point));
+    mr->mf = (MESH_Face*) MemAlloc(mr->max_faces * sizeof(MESH_Face));
 
     //
     // The height about which the reflection takes place.
@@ -1356,7 +1356,7 @@ void MESH_draw_reflection(
     std::int32_t at_y,
     std::int32_t at_z,
     std::int32_t yaw,
-    NIGHT_Colour *lpc) {
+    NIGHT_Colour* lpc) {
     std::int32_t i;
     //	std::int32_t j;
     std::int32_t fog;
@@ -1367,10 +1367,10 @@ void MESH_draw_reflection(
 
     float matrix[9];
 
-    POLY_Point *pp;
-    POLY_Point *tri[3];
-    MESH_Face *mf;
-    MESH_Reflection *mr;
+    POLY_Point* pp;
+    POLY_Point* tri[3];
+    MESH_Face* mf;
+    MESH_Reflection* mr;
 
     if (prim == 83) {
         return;

@@ -10,7 +10,7 @@
 
 extern void do_quad_clip_list(std::int16_t face, std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3); // prim.cpp
 extern void do_tri_clip_list(std::int16_t face, std::int32_t p0, std::int32_t p1, std::int32_t p2);                   // prim.cpp
-extern std::uint16_t calc_lights(std::int32_t x, std::int32_t y, std::int32_t z, struct SVECTOR *p_vect);
+extern std::uint16_t calc_lights(std::int32_t x, std::int32_t y, std::int32_t z, struct SVECTOR* p_vect);
 
 extern struct SVECTOR global_res[]; // max points per object?
 extern std::int32_t global_flags[];
@@ -24,9 +24,9 @@ extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 extern void insert_collision_vect(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t x2, std::int32_t y2, std::int32_t z2, std::uint8_t prim, std::uint8_t prim_extra, std::int16_t face);
 extern std::int32_t dist_between_vertex_and_vector(std::int32_t x1, std::int32_t y1, std::int32_t x2, std::int32_t y2, std::int32_t px, std::int32_t py);
 
-struct PrimFace4 *create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_t p3, std::uint16_t p2, std::int16_t texture_style, std::int16_t texture_piece);
-void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture);
-struct PrimFace3 *create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t p0, std::int16_t texture_id, std::int16_t texture_piece);
+struct PrimFace4* create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_t p3, std::uint16_t p2, std::int16_t texture_style, std::int16_t texture_piece);
+void build_face_texture_info(struct PrimFace4* p_f4, std::uint16_t texture);
+struct PrimFace3* create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t p0, std::int16_t texture_id, std::int16_t texture_piece);
 
 struct BuildingFacet building_facets[MAX_BUILDING_FACETS];
 struct BuildingObject building_objects[MAX_BUILDING_OBJECTS];
@@ -82,7 +82,7 @@ void scan_walk_triangle(std::int32_t x0, std::int32_t y0, std::int32_t z0, std::
     std::int32_t c0;
     std::int32_t s, t, step_s, step_t;
     std::int32_t vx, vy, vz, wx, wy, wz;
-    struct DepthStrip *me;
+    struct DepthStrip* me;
     std::int32_t prev_x, prev_z;
     std::int32_t quad;
     std::int32_t len;
@@ -140,7 +140,7 @@ void scan_walk_triangle(std::int32_t x0, std::int32_t y0, std::int32_t z0, std::
 void add_quad_to_walkable_list(std::int16_t face) {
     std::int32_t x[4], y[4], z[4];
     std::int32_t c0, p0;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
     p_f4 = &prim_faces4[face];
 
     for (c0 = 0; c0 < 4; c0++) {
@@ -156,7 +156,7 @@ void add_quad_to_walkable_list(std::int16_t face) {
 void add_tri_to_walkable_list(std::int16_t face) {
     std::int32_t x, z;
     std::int32_t p0;
-    struct PrimFace3 *p_f3;
+    struct PrimFace3* p_f3;
 
     p_f3 = &prim_faces3[face];
     // for now just take one corner and add it to map at that corner
@@ -168,7 +168,7 @@ void add_tri_to_walkable_list(std::int16_t face) {
 
 std::int32_t place_building_at(std::uint16_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::uint16_t map_thing;
-    struct MapThing *p_mthing;
+    struct MapThing* p_mthing;
 
     // y=0;
     // LogText(" place building prim %d x %d y %d z %d \n",prim,x,y,z);
@@ -367,12 +367,12 @@ struct Edge {
     std::int16_t Prev;
 };
 
-struct Edge *edge_pool_ptr;
-static std::uint16_t *edge_heads_ptr;
+struct Edge* edge_pool_ptr;
+static std::uint16_t* edge_heads_ptr;
 static std::uint32_t next_edge;
 static std::uint32_t edge_min_z;
-static std::uint16_t *flag_blocks;
-static std::uint16_t *cut_blocks;
+static std::uint16_t* flag_blocks;
+static std::uint16_t* cut_blocks;
 static std::int32_t global_y;
 #define MAX_BOUND_SIZE (200)
 
@@ -636,10 +636,10 @@ void build_edge_list(std::int32_t storey, std::int32_t flag) {
     std::int32_t px, pz;
 
     next_edge = 1;
-    edge_pool_ptr = (struct Edge *) MemAlloc(sizeof(struct Edge) * MAX_BOUND_SIZE * 5);
-    edge_heads_ptr = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * MAX_BOUND_SIZE);
-    flag_blocks = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * MAX_BOUND_SIZE * MAX_BOUND_SIZE);
-    cut_blocks = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * MAX_BOUND_SIZE * MAX_BOUND_SIZE * 4);
+    edge_pool_ptr = (struct Edge*) MemAlloc(sizeof(struct Edge) * MAX_BOUND_SIZE * 5);
+    edge_heads_ptr = (std::uint16_t*) MemAlloc(sizeof(std::uint16_t) * MAX_BOUND_SIZE);
+    flag_blocks = (std::uint16_t*) MemAlloc(sizeof(std::uint16_t) * MAX_BOUND_SIZE * MAX_BOUND_SIZE);
+    cut_blocks = (std::uint16_t*) MemAlloc(sizeof(std::uint16_t) * MAX_BOUND_SIZE * MAX_BOUND_SIZE * 4);
 
     memset(edge_heads_ptr, 0, sizeof(std::uint16_t) * MAX_BOUND_SIZE);
     memset(flag_blocks, 0, sizeof(std::uint16_t) * MAX_BOUND_SIZE * MAX_BOUND_SIZE);
@@ -714,10 +714,10 @@ void build_bottom_edge_list(std::int32_t storey, std::int32_t y) {
 }
 
 void bin_edge_list() {
-    MemFree((std::uint8_t *) edge_pool_ptr);
-    MemFree((std::uint8_t *) edge_heads_ptr);
-    MemFree((std::uint8_t *) flag_blocks);
-    MemFree((std::uint8_t *) cut_blocks);
+    MemFree((std::uint8_t*) edge_pool_ptr);
+    MemFree((std::uint8_t*) edge_heads_ptr);
+    MemFree((std::uint8_t*) flag_blocks);
+    MemFree((std::uint8_t*) cut_blocks);
 }
 
 #define BOUNDS(x, z)          \
@@ -834,7 +834,7 @@ void show_grid(std::int32_t width, std::int32_t depth, std::int32_t min_x) {
     UV[3][1] = (y2);
 
 // mx,mz are map co_ords 0..MAP_WIDTH
-void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::int32_t mz) {
+void build_free_tri_texture_info(struct PrimFace3* p_f3, std::int32_t mx, std::int32_t mz) {
     std::uint8_t tx, ty, page;
     std::int32_t tsize;
     std::int32_t rot;
@@ -847,11 +847,11 @@ void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::i
 
     texture = edit_map[mx][mz].Texture;
 
-    tx = ((struct MiniTextureBits *) (&texture))->X << 5;
-    ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
-    tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
-    rot = ((struct MiniTextureBits *) (&texture))->Rot;
+    tx = ((struct MiniTextureBits*) (&texture))->X << 5;
+    ty = ((struct MiniTextureBits*) (&texture))->Y << 5;
+    page = (std::uint8_t) (((struct MiniTextureBits*) (&texture))->Page);
+    tsize = floor_texture_sizes[((struct MiniTextureBits*) (&texture))->Size] - 1;
+    rot = ((struct MiniTextureBits*) (&texture))->Rot;
     //	rot=(rot3)&3;
     switch (rot) {
     case 0:
@@ -911,7 +911,7 @@ void build_free_tri_texture_info(struct PrimFace3 *p_f3, std::int32_t mx, std::i
     }
 }
 
-void build_free_quad_texture_info(struct PrimFace4 *p_f4, std::int32_t mx, std::int32_t mz) {
+void build_free_quad_texture_info(struct PrimFace4* p_f4, std::int32_t mx, std::int32_t mz) {
     std::uint8_t tx, ty, page;
     std::int32_t tsize;
     std::int32_t rot;
@@ -924,11 +924,11 @@ void build_free_quad_texture_info(struct PrimFace4 *p_f4, std::int32_t mx, std::
 
     texture = edit_map[mx][mz].Texture;
 
-    tx = ((struct MiniTextureBits *) (&texture))->X << 5;
-    ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
-    tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
-    rot = ((struct MiniTextureBits *) (&texture))->Rot;
+    tx = ((struct MiniTextureBits*) (&texture))->X << 5;
+    ty = ((struct MiniTextureBits*) (&texture))->Y << 5;
+    page = (std::uint8_t) (((struct MiniTextureBits*) (&texture))->Page);
+    tsize = floor_texture_sizes[((struct MiniTextureBits*) (&texture))->Size] - 1;
+    rot = ((struct MiniTextureBits*) (&texture))->Rot;
     //	rot=(rot3)&3;
     switch (rot) {
     case 0:
@@ -995,7 +995,7 @@ void scan_45(std::int32_t x1, std::int32_t z1, std::int32_t dx, std::int32_t dz)
     std::uint8_t type = 0;
     std::int32_t count;
     std::int32_t pp, p0, p1, p2, p3;
-    struct PrimFace3 *p_f3;
+    struct PrimFace3* p_f3;
 
     count = abs(dx) >> ELE_SHIFT;
     x1 = x1 >> ELE_SHIFT;
@@ -1065,8 +1065,8 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
     std::int32_t x, z;
 
     std::int32_t wall;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t face_wall;
     // return;
     face_wall = -storey_list[storey].WallHead;
@@ -1124,7 +1124,7 @@ void build_roof_grid(std::int32_t storey, std::int32_t y) {
                     polarity++;
                     // if(polarity&1)
                     {
-                        struct DepthStrip *me;
+                        struct DepthStrip* me;
 
                         // me=&edit_map[(x>>ELE_SHIFT)][(z+(edge_min_z>>ELE_SHIFT))];
                         // me->Flags|=FLOOR_HIDDEN;
@@ -1752,7 +1752,7 @@ void set_floor_hidden(std::int32_t storey) {
             while (!done && edge) {
                 if (x < edge_pool_ptr[edge].X) {
                     if (polarity & 1) {
-                        struct DepthStrip *me;
+                        struct DepthStrip* me;
 
                         me = &edit_map[(x >> ELE_SHIFT)][(z + (edge_min_z >> ELE_SHIFT))];
                         me->Flags |= FLOOR_HIDDEN;
@@ -1763,7 +1763,7 @@ void set_floor_hidden(std::int32_t storey) {
                     // grid[][]
                     polarity++;
                     if (polarity & 1) {
-                        struct DepthStrip *me;
+                        struct DepthStrip* me;
 
                         me = &edit_map[(x >> ELE_SHIFT)][(z + (edge_min_z >> ELE_SHIFT))];
                         me->Flags |= FLOOR_HIDDEN;
@@ -2502,16 +2502,16 @@ struct TextureInfo texture_info[] =
     p_f4->UV[3][1] = (y3);                                  \
     p_f4->TexturePage = page;
 
-void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture) {
+void build_face_texture_info(struct PrimFace4* p_f4, std::uint16_t texture) {
     std::uint8_t tx, ty, page;
     std::int32_t tsize;
     std::int32_t rot;
 
-    tx = ((struct MiniTextureBits *) (&texture))->X << 5;
-    ty = ((struct MiniTextureBits *) (&texture))->Y << 5;
-    page = (std::uint8_t)(((struct MiniTextureBits *) (&texture))->Page);
-    tsize = floor_texture_sizes[((struct MiniTextureBits *) (&texture))->Size] - 1;
-    rot = ((struct MiniTextureBits *) (&texture))->Rot;
+    tx = ((struct MiniTextureBits*) (&texture))->X << 5;
+    ty = ((struct MiniTextureBits*) (&texture))->Y << 5;
+    page = (std::uint8_t) (((struct MiniTextureBits*) (&texture))->Page);
+    tsize = floor_texture_sizes[((struct MiniTextureBits*) (&texture))->Size] - 1;
+    rot = ((struct MiniTextureBits*) (&texture))->Rot;
     rot = (rot + 3) & 3;
     switch (rot) {
     case 0:
@@ -2530,8 +2530,8 @@ void build_face_texture_info(struct PrimFace4 *p_f4, std::uint16_t texture) {
     }
 }
 
-struct PrimFace4 *create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_t p3, std::uint16_t p2, std::int16_t texture_style, std::int16_t texture_piece) {
-    struct PrimFace4 *p4;
+struct PrimFace4* create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_t p3, std::uint16_t p2, std::int16_t texture_style, std::int16_t texture_piece) {
+    struct PrimFace4* p4;
     std::int32_t tx, ty;
 
     p4 = &prim_faces4[next_prim_face4];
@@ -2626,8 +2626,8 @@ struct PrimFace4 *create_a_quad(std::uint16_t p1, std::uint16_t p0, std::uint16_
     return (p4);
 }
 
-struct PrimFace3 *create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t p0, std::int16_t texture_id, std::int16_t texture_piece) {
-    struct PrimFace3 *p3;
+struct PrimFace3* create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t p0, std::int16_t texture_id, std::int16_t texture_piece) {
+    struct PrimFace3* p3;
     std::int32_t tx, ty;
     texture_id = texture_id;
     p3 = &prim_faces3[next_prim_face3];
@@ -2657,7 +2657,7 @@ struct PrimFace3 *create_a_tri(std::uint16_t p2, std::uint16_t p1, std::uint16_t
     return (p3);
 }
 
-void set_texture_fe(struct PrimFace4 *p4, std::int32_t xw, std::int32_t xh, std::int32_t type) {
+void set_texture_fe(struct PrimFace4* p4, std::int32_t xw, std::int32_t xh, std::int32_t type) {
     std::int32_t tx, ty;
     switch (type) {
     case 0:
@@ -2787,7 +2787,7 @@ void build_firescape(std::int32_t storey) {
     std::int32_t y = 0;
     std::int32_t count = 0;
     std::int32_t sp[20];
-    struct PrimFace4 *p4;
+    struct PrimFace4* p4;
     std::int32_t wall;
 
     wall = -storey_list[storey].WallHead;
@@ -2925,7 +2925,7 @@ std::int32_t calc_sin_from_cos(std::int32_t sin) {
     return (cos);
 }
 
-void calc_new_corner_point(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t x3, std::int32_t z3, std::int32_t width, std::int32_t *res_x, std::int32_t *res_z) {
+void calc_new_corner_point(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t x3, std::int32_t z3, std::int32_t width, std::int32_t* res_x, std::int32_t* res_z) {
     std::int32_t vx, vz, dist;
     std::int32_t wx, wz;
     std::int32_t ax, az;
@@ -3082,7 +3082,7 @@ void build_fence_points_and_faces(std::int32_t y1, std::int32_t y2, std::int32_t
     std::int32_t wcount, wwidth, dx, dz, dist;
     std::int32_t start_point;
     std::int32_t texture, texture_style;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
     std::int32_t px, pz;
 
     texture_style = wall_list[wall].TextureStyle;
@@ -3205,7 +3205,7 @@ void append_wall_prim(std::int32_t x, std::int32_t y, std::int32_t z, std::int32
     std::int32_t sp[10];
     //	std::int32_t	sf4[10];
     std::int32_t texture, texture_style;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
 
     set_build_seed(x * z * storey * wall + x + z + y);
 
@@ -3350,7 +3350,7 @@ void scan_triangle(std::int32_t x0, std::int32_t y0, std::int32_t z0, std::int32
     std::int32_t c0;
     std::int32_t s, t, step_s, step_t;
     std::int32_t vx, vy, vz, wx, wy, wz;
-    struct DepthStrip *me;
+    struct DepthStrip* me;
     std::int32_t quad;
     std::int32_t len;
     char str[100];
@@ -3678,7 +3678,7 @@ std::int32_t area_of_quad(std::int32_t p0, std::int32_t p1, std::int32_t p2, std
 void create_split_quad_into_4(std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t wall, std::int32_t y) {
     std::int32_t p01, p13, p32, p20, p03;
     std::int32_t x, z;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
 
     std::int16_t texture_style;
     texture_style = wall_list[wall].TextureStyle;
@@ -3728,7 +3728,7 @@ void create_split_quad_into_4(std::int32_t p0, std::int32_t p1, std::int32_t p2,
 void create_split_quad_into_16(std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t wall, std::int32_t y) {
     std::int32_t p01, p13, p32, p20, p03;
     std::int32_t x, z;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
 
     p01 = next_prim_point;
     x = (prim_points[p1].X + prim_points[p0].X) >> 1;
@@ -3764,7 +3764,7 @@ void create_split_quad_into_16(std::int32_t p0, std::int32_t p1, std::int32_t p2
 void create_split_quad_into_48(std::int32_t p0, std::int32_t p1, std::int32_t p2, std::int32_t p3, std::int32_t wall, std::int32_t y) {
     std::int32_t p01, p13, p32, p20, p03;
     std::int32_t x, z;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
 
     p01 = next_prim_point;
     x = (prim_points[p1].X + prim_points[p0].X) >> 1;
@@ -3807,7 +3807,7 @@ void build_roof_quad(std::uint16_t storey, std::int32_t y) {
     //	std::int32_t	rx,rz;
     std::int32_t count = 0;
     std::int32_t roof_height = 0; // BLOCK_SIZE*3;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
     std::int16_t texture_style;
 
     if (storey_list[storey].WallHead && storey_list[storey].Roof) {
@@ -3882,7 +3882,7 @@ void center_object(std::int32_t sp, std::int32_t ep) {
 }
 
 std::int32_t build_facet(std::int32_t sp, std::int32_t mp, std::int32_t sf3, std::int32_t sf4, std::int32_t mf4, std::int32_t prev_facet, std::uint16_t flags) {
-    struct BuildingFacet *p_obj;
+    struct BuildingFacet* p_obj;
     p_obj = &building_facets[next_building_facet];
     next_building_facet++;
 
@@ -3903,7 +3903,7 @@ std::int32_t build_facet(std::int32_t sp, std::int32_t mp, std::int32_t sf3, std
 }
 
 std::int32_t build_building(std::int32_t sp, std::int32_t sf3, std::int32_t sf4, std::int32_t prev_facet) {
-    struct BuildingObject *p_bobj;
+    struct BuildingObject* p_bobj;
     p_bobj = &building_objects[next_building_object];
     next_building_object++;
 
@@ -3929,7 +3929,7 @@ std::int32_t build_building(std::int32_t sp, std::int32_t sf3, std::int32_t sf4,
 }
 
 std::int32_t build_prim_object(std::int32_t sp, std::int32_t sf3, std::int32_t sf4) {
-    struct PrimObject *p_obj;
+    struct PrimObject* p_obj;
     p_obj = &prim_objects[next_prim_object];
     next_prim_object++;
 
@@ -3945,7 +3945,7 @@ std::int32_t build_prim_object(std::int32_t sp, std::int32_t sf3, std::int32_t s
     return (next_prim_object - 1);
 }
 
-void find_next_last_coord(std::int16_t wall, std::int32_t *x, std::int32_t *z) {
+void find_next_last_coord(std::int16_t wall, std::int32_t* x, std::int32_t* z) {
     std::int32_t next_wall;
     LogText(" find next to last wall %d ", wall);
     while (wall) {
@@ -3967,12 +3967,12 @@ struct LedgeInfo {
     std::int32_t X1, Z1, X2, Z2, X3, Z3, X4, Z4;
 };
 
-void build_single_ledge(struct LedgeInfo *p_ledge) {
+void build_single_ledge(struct LedgeInfo* p_ledge) {
     std::int32_t sp[4], count = 0;
     std::int32_t rx, rz, rx2, rz2;
 
     std::int32_t y, height;
-    struct PrimFace4 *p4;
+    struct PrimFace4* p4;
 
     //	LogText(" build ledge (%d,%d) (%d,%d) (%d,%d) (%d,%d)  storey %d wall %d \n",p_ledge->X1,p_ledge->Z1,p_ledge->X2,p_ledge->Z2,p_ledge->X3,p_ledge->Z3,p_ledge->X4,p_ledge->Z4,p_ledge->Storey,p_ledge->Wall);
 
@@ -4045,7 +4045,7 @@ void build_staircase(std::int32_t storey) {
     std::int32_t row = 0;
     std::int32_t c0, c1;
     std::int32_t y, start_y = 0;
-    struct PrimFace4 *p4;
+    struct PrimFace4* p4;
     std::int32_t step_pos_old;
     std::int32_t last;
 
@@ -4182,7 +4182,7 @@ void build_staircase(std::int32_t storey) {
 #define CONE_MULT 5
 std::int32_t create_suspended_light(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t flags) {
     std::int32_t p1, p2;
-    struct PrimFace3 *p_f3;
+    struct PrimFace3* p_f3;
 
     flags = flags;
     p1 = next_prim_point;
@@ -4227,7 +4227,7 @@ void build_cable(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t
     std::int32_t p1;
     std::uint16_t start_point;
     std::uint16_t start_face3, start_face4;
-    struct PrimFace4 *p_f4;
+    struct PrimFace4* p_f4;
     std::int32_t prim;
     std::int32_t len, dx, dy, dz, count;
     std::int32_t px, py, pz;
@@ -4416,7 +4416,7 @@ void clear_storey_flags(std::uint16_t building) {
     }
 }
 
-std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t *connect_storey, std::int32_t storey) {
+std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t* connect_storey, std::int32_t storey) {
     std::int32_t found = 0;
     std::int32_t wall;
     std::int32_t fx1, fz1, fx2, fz2;
@@ -4461,7 +4461,7 @@ std::int32_t find_connect_wall(std::int32_t x1, std::int32_t z1, std::int32_t x2
 
 
 */
-std::int32_t create_building_prim(std::uint16_t building, std::int32_t *small_y) {
+std::int32_t create_building_prim(std::uint16_t building, std::int32_t* small_y) {
     std::uint8_t pass2 = 0;
     std::int32_t storey;
     std::int32_t wall;
@@ -4658,7 +4658,7 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
             wall_index[c0] = wall;
 
             if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
-                struct LedgeInfo *p_ledge;
+                struct LedgeInfo* p_ledge;
                 p_ledge = &ledge_info[ledge_count];
                 p_ledge->Storey = storey;
                 p_ledge->Wall = 0;
@@ -4748,7 +4748,7 @@ std::int32_t create_building_prim_old(std::uint16_t building) {
 
                 if (next_wall)
                     if (storey_list[storey].StoreyFlags & FLAG_STOREY_LEDGE) {
-                        struct LedgeInfo *p_ledge;
+                        struct LedgeInfo* p_ledge;
                         p_ledge = &ledge_info[ledge_count];
                         p_ledge->Storey = storey;
                         p_ledge->Wall = wall;
@@ -4979,7 +4979,7 @@ void clear_map2() {
         case MAP_THING_TYPE_LIGHT:
             break;
         default:
-            memset((std::uint8_t *) &map_things[c0], 0, sizeof(struct MapThing));
+            memset((std::uint8_t*) &map_things[c0], 0, sizeof(struct MapThing));
             break;
         }
     }
@@ -5005,10 +5005,10 @@ void wibble_floor() {
 void clip_building_prim(std::int32_t prim, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t index;
     std::int32_t best_z = -999999, az;
-    struct BuildingFacet *p_facet;
+    struct BuildingFacet* p_facet;
     std::int32_t sp, ep;
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::int32_t c0;
 
     //	LogText(" draw a building %d at %d %d %d\n",building,x,y,z);
@@ -5237,14 +5237,14 @@ std::uint16_t is_it_clockwise(std::int32_t p0, std::int32_t p1, std::int32_t p2)
 }
 
 // problems getting the top face under the fires escape to be a facet member
-extern std::int32_t calc_shadow_co_ord(struct SVECTOR *input, struct SVECTOR *output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z);
+extern std::int32_t calc_shadow_co_ord(struct SVECTOR* input, struct SVECTOR* output, std::int32_t l_x, std::int32_t l_y, std::int32_t l_z);
 
 std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y, std::int32_t z) {
-    struct PrimFace4 *p_f4;
-    struct PrimFace3 *p_f3;
+    struct PrimFace4* p_f4;
+    struct PrimFace3* p_f3;
     std::uint32_t flag_and, flag_or;
     std::int32_t c0;
-    struct BuildingFacet *p_facet;
+    struct BuildingFacet* p_facet;
     std::int32_t sp, mp, ep;
     std::int32_t az;
     std::int32_t col = 0, cor = 0, cob = 0, cot = 0, total = 0;
@@ -5282,12 +5282,12 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
         // transform all points for this Object
 
         if (shadow) {
-            calc_shadow_co_ord((struct SVECTOR *) &prim_points[c0], &temp_shadow, 9000 * 2, 4000, 8000 * 2); // light co_ord
-            flags_shadow[c0 - sp] = rotate_point_gte((struct SVECTOR *) &temp_shadow, &res_shadow[c0 - sp]);
+            calc_shadow_co_ord((struct SVECTOR*) &prim_points[c0], &temp_shadow, 9000 * 2, 4000, 8000 * 2); // light co_ord
+            flags_shadow[c0 - sp] = rotate_point_gte((struct SVECTOR*) &temp_shadow, &res_shadow[c0 - sp]);
         }
 
-        global_flags[c0 - sp] = rotate_point_gte((struct SVECTOR *) &prim_points[c0], &global_res[c0 - sp]);
-        global_bright[c0 - sp] = calc_lights(x, y, z, (struct SVECTOR *) &prim_points[c0]);
+        global_flags[c0 - sp] = rotate_point_gte((struct SVECTOR*) &prim_points[c0], &global_res[c0 - sp]);
+        global_bright[c0 - sp] = calc_lights(x, y, z, (struct SVECTOR*) &prim_points[c0]);
         if (ControlFlag) {
             char str[100];
             sprintf(str, "%d", global_res[c0 - sp].Z);
@@ -5305,8 +5305,8 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
     for (c0 = mp; c0 < ep; c0++) {
         // transform all points for this Object
 
-        global_flags[c0 - sp] = rotate_point_gte((struct SVECTOR *) &prim_points[c0], &global_res[c0 - sp]);
-        global_bright[c0 - sp] = calc_lights(x, y, z, (struct SVECTOR *) &prim_points[c0]);
+        global_flags[c0 - sp] = rotate_point_gte((struct SVECTOR*) &prim_points[c0], &global_res[c0 - sp]);
+        global_bright[c0 - sp] = calc_lights(x, y, z, (struct SVECTOR*) &prim_points[c0]);
     }
     engine.X += x << 8;
     engine.Y += y << 8;
@@ -5339,21 +5339,21 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
                             POLY_F);
 
                         setCol4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             0);
 
                         setXY4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             res_shadow[p0].X, res_shadow[p0].Y,
                             res_shadow[p1].X, res_shadow[p1].Y,
                             res_shadow[p2].X, res_shadow[p2].Y,
                             res_shadow[p3].X, res_shadow[p3].Y);
 
-                        setZ4((struct BucketQuad *) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z, -res_shadow[p3].Z);
-                        ((struct BucketQuad *) current_bucket_pool)->DebugInfo = c0;
-                        ((struct BucketQuad *) current_bucket_pool)->DebugFlags = 0;
+                        setZ4((struct BucketQuad*) current_bucket_pool, -res_shadow[p0].Z, -res_shadow[p1].Z, -res_shadow[p2].Z, -res_shadow[p3].Z);
+                        ((struct BucketQuad*) current_bucket_pool)->DebugInfo = c0;
+                        ((struct BucketQuad*) current_bucket_pool)->DebugFlags = 0;
 
-                        add_bucket((void *) current_bucket_pool, az);
+                        add_bucket((void*) current_bucket_pool, az);
 
                         current_bucket_pool += sizeof(struct BucketQuad);
                     }
@@ -5445,11 +5445,11 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
                             p_f4->DrawFlags);
 
                         setCol4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             ((std::uint8_t) p_f4->Col));
 
                         setXY4(
-                            (struct BucketQuad *) current_bucket_pool,
+                            (struct BucketQuad*) current_bucket_pool,
                             global_res[p0].X, global_res[p0].Y,
                             global_res[p1].X, global_res[p1].Y,
                             global_res[p2].X, global_res[p2].Y,
@@ -5461,7 +5461,7 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
                         // RUD
                         if (p_f4->DrawFlags & POLY_FLAG_TEXTURED) {
                             setUV4(
-                                (struct BucketQuad *) current_bucket_pool,
+                                (struct BucketQuad*) current_bucket_pool,
                                 p_f4->UV[0][0], p_f4->UV[0][1],
                                 p_f4->UV[1][0], p_f4->UV[1][1],
                                 p_f4->UV[2][0], p_f4->UV[2][1],
@@ -5469,17 +5469,17 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
                                 (std::uint8_t) p_f4->TexturePage);
                         }
 
-                        setZ4((struct BucketQuad *) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z, global_res[p3].Z);
+                        setZ4((struct BucketQuad*) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z, global_res[p3].Z);
 
-                        setShade4((struct BucketQuad *) current_bucket_pool,
+                        setShade4((struct BucketQuad*) current_bucket_pool,
                                   CLIP256(p_f4->Bright[0] + global_bright[p0]),
                                   CLIP256(p_f4->Bright[1] + global_bright[p1]),
                                   CLIP256(p_f4->Bright[2] + global_bright[p2]),
                                   CLIP256(p_f4->Bright[3] + global_bright[p3]));
-                        ((struct BucketQuad *) current_bucket_pool)->DebugInfo = az; // c0;
-                        ((struct BucketQuad *) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
+                        ((struct BucketQuad*) current_bucket_pool)->DebugInfo = az; // c0;
+                        ((struct BucketQuad*) current_bucket_pool)->DebugFlags = p_f4->FaceFlags;
 
-                        add_bucket((void *) current_bucket_pool, az);
+                        add_bucket((void*) current_bucket_pool, az);
 
                         if (check_mouse_over_prim_quad(global_res, p0, p1, p2, p3, c0)) {
                             selected_prim_xyz.X = x;
@@ -5536,11 +5536,11 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
                         p_f3->DrawFlags);
 
                     setCol3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         p_f3->Col);
 
                     setXY3(
-                        (struct BucketTri *) current_bucket_pool,
+                        (struct BucketTri*) current_bucket_pool,
                         global_res[p0].X, global_res[p0].Y,
                         global_res[p1].X, global_res[p1].Y,
                         global_res[p2].X, global_res[p2].Y);
@@ -5551,24 +5551,24 @@ std::int32_t draw_a_facet_at(std::uint16_t facet, std::int32_t x, std::int32_t y
                     // RUD
                     if (p_f3->DrawFlags & POLY_FLAG_TEXTURED) {
                         setUV3(
-                            (struct BucketTri *) current_bucket_pool,
+                            (struct BucketTri*) current_bucket_pool,
                             p_f3->UV[0][0], p_f3->UV[0][1],
                             p_f3->UV[1][0], p_f3->UV[1][1],
                             p_f3->UV[2][0], p_f3->UV[2][1],
                             p_f3->TexturePage);
                     }
 
-                    setShade3((struct BucketTri *) current_bucket_pool,
+                    setShade3((struct BucketTri*) current_bucket_pool,
                               CLIP256(p_f3->Bright[0] + global_bright[p0]),
                               CLIP256(p_f3->Bright[1] + global_bright[p1]),
                               CLIP256(p_f3->Bright[2] + global_bright[p2]));
 
-                    setZ3((struct BucketQuad *) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z);
+                    setZ3((struct BucketQuad*) current_bucket_pool, global_res[p0].Z, global_res[p1].Z, global_res[p2].Z);
 
-                    ((struct BucketTri *) current_bucket_pool)->DebugInfo = c0;
-                    ((struct BucketTri *) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
+                    ((struct BucketTri*) current_bucket_pool)->DebugInfo = c0;
+                    ((struct BucketTri*) current_bucket_pool)->DebugFlags = p_f3->FaceFlags;
 
-                    add_bucket((void *) current_bucket_pool, az);
+                    add_bucket((void*) current_bucket_pool, az);
 
                     if (check_mouse_over_prim_tri(global_res, p0, p1, p2, c0)) {
                         selected_prim_xyz.X = x;

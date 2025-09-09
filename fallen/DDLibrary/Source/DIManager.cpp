@@ -17,7 +17,7 @@ DIJOYSTATE the_state;
 
 #ifdef TARGET_DC // This whole file is just for Dreamcast now...
 
-DIDeviceInfo *primary_device = nullptr;
+DIDeviceInfo* primary_device = nullptr;
 DIDriverManager the_input_manager;
 
 std::uint8_t last_type;
@@ -135,7 +135,7 @@ bool GetInputDevice(std::uint8_t type, std::uint8_t sub_type, bool bActuallyGetO
         ASSERT(false);
 #endif
 
-        DIDeviceInfo *the_device;
+        DIDeviceInfo* the_device;
         ZeroMemory(&the_state, sizeof(the_state));
         the_device = the_input_manager.FindDevice(type, sub_type, nullptr);
         if (the_device != nullptr) {
@@ -277,8 +277,8 @@ bool ReadInputDevice() {
 bool CALLBACK DIDeviceEnumCallback(
     LPCDIDEVICEINSTANCE lpDIDevice,
     LPVOID lpExtra) {
-    CallbackInfo *the_info;
-    DIDeviceInfo *new_device;
+    CallbackInfo* the_info;
+    DIDeviceInfo* new_device;
     HRESULT result;
 
     // SHARON ( "DIDeviceEnumCallback\n" );
@@ -288,10 +288,10 @@ bool CALLBACK DIDeviceEnumCallback(
         return DIENUM_STOP;
     }
 
-    the_info = (CallbackInfo *) lpExtra;
+    the_info = (CallbackInfo*) lpExtra;
 
     // See if we already have this device.
-    DIDeviceInfo *pCurDev = the_input_manager.DeviceList;
+    DIDeviceInfo* pCurDev = the_input_manager.DeviceList;
     while (pCurDev != nullptr) {
         if (IsEqualGUID(pCurDev->guidInstance, lpDIDevice->guidInstance)) {
             // Already got this one - skip it.
@@ -411,7 +411,7 @@ HRESULT DIDeviceInfo::Create(LPCDIDEVICEINSTANCE lpDIDevice) {
     if (FAILED(result))
         return result;
 
-    result = lp_di_device->QueryInterface(IID_IDirectInputDevice2, (LPVOID *) &lpdiInputDevice);
+    result = lp_di_device->QueryInterface(IID_IDirectInputDevice2, (LPVOID*) &lpdiInputDevice);
     di_error(result);
     if (SUCCEEDED(result))
         ValidOn();
@@ -511,7 +511,7 @@ bool DIDeviceInfo::DIEnumDeviceObjectsProc(LPCDIDEVICEOBJECTINSTANCE pDIDOI) {
 // Useful stub to convert from a callback to something more sane.
 bool CALLBACK
 DIEnumDeviceObjectsProcStub(LPCDIDEVICEOBJECTINSTANCE pDIDOI, LPVOID pvContext) {
-    DIDeviceInfo *pDevice = (DIDeviceInfo *) pvContext;
+    DIDeviceInfo* pDevice = (DIDeviceInfo*) pvContext;
     return (pDevice->DIEnumDeviceObjectsProc(pDIDOI));
 }
 
@@ -667,7 +667,7 @@ HRESULT DIDriverManager::Init() {
             nullptr,
             CLSCTX_INPROC_SERVER,
             IID_IDirectInput8W,
-            (void **) &lp_DI);
+            (void**) &lp_DI);
 
         result = lp_DI->Initialize(hGlobalThisInst, DIRECTINPUT_VERSION);
 
@@ -735,7 +735,7 @@ HRESULT DIDriverManager::Fini() {
 // Can be called multiple times - will find any new devices and add them, but retain any existing ones.
 // If pbChanged is non-nullptr, it will be set to true if there are any new devices.
 // Note - DC - it WILL bin any VMU devices and remake them.
-HRESULT DIDriverManager::LoadDevices(bool *pbChanged) {
+HRESULT DIDriverManager::LoadDevices(bool* pbChanged) {
     // SHARON ( "DIDriverManager::LoadDevices\n" );
 
     CallbackInfo callback_info;
@@ -744,12 +744,12 @@ HRESULT DIDriverManager::LoadDevices(bool *pbChanged) {
     // Initialize all valid drivers in system
     callback_info.Result = true;
     callback_info.Count = 0L;
-    callback_info.Extra = (void *) nullptr;
+    callback_info.Extra = (void*) nullptr;
 
     int iOldDeviceCount = DeviceCount;
 
     // First set all the devices to invalid - the enum rout will set them to valid.
-    DIDeviceInfo *pCurDev = the_input_manager.DeviceList;
+    DIDeviceInfo* pCurDev = the_input_manager.DeviceList;
     while (pCurDev != nullptr) {
         pCurDev->ValidOff();
         pCurDev = pCurDev->Next;
@@ -828,10 +828,10 @@ HRESULT DIDriverManager::DestroyAllDevices() {
 
 //---------------------------------------------------------------
 
-HRESULT DIDriverManager::DestroyDevice(DIDeviceInfo *the_device) {
+HRESULT DIDriverManager::DestroyDevice(DIDeviceInfo* the_device) {
     SHARON("DIDriverManager::DestroyDevices\n");
 
-    DIDeviceInfo *current_device;
+    DIDeviceInfo* current_device;
 
     current_device = DeviceList;
     while (current_device) {
@@ -865,7 +865,7 @@ HRESULT DIDriverManager::DestroyDevice(DIDeviceInfo *the_device) {
 
 //---------------------------------------------------------------
 
-HRESULT DIDriverManager::AddDevice(DIDeviceInfo *the_device) {
+HRESULT DIDriverManager::AddDevice(DIDeviceInfo* the_device) {
     SHARON("DIDriverManager::AddDevice\n");
 
     if (!the_device) {
@@ -893,10 +893,10 @@ HRESULT DIDriverManager::AddDevice(DIDeviceInfo *the_device) {
 
 //---------------------------------------------------------------
 
-DIDeviceInfo *DIDriverManager::FindDevice(std::uint8_t type, std::uint8_t sub_type, DIDeviceInfo **next_best, DIDeviceInfo *start_device) {
+DIDeviceInfo* DIDriverManager::FindDevice(std::uint8_t type, std::uint8_t sub_type, DIDeviceInfo** next_best, DIDeviceInfo* start_device) {
     SHARON("DIDriverManager::FindDevice\n");
 
-    DIDeviceInfo *current_device;
+    DIDeviceInfo* current_device;
 
     // Get Start node
     if (!start_device)
@@ -936,8 +936,8 @@ static DWORD dwLastTimeWeSentPicciesToVMUs = 0;
 // Sega says I have to.
 #define LOOK_FOR_START_NOT_JUST_ANY_BUTTON 1
 
-DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std::uint8_t sub_type) {
-    DIDeviceInfo *current_device;
+DIDeviceInfo* DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std::uint8_t sub_type) {
+    DIDeviceInfo* current_device;
 
     // Scan for new devices.
     LoadDevices();
@@ -945,12 +945,12 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
     if ((timeGetTime() - dwLastTimeWeSentPicciesToVMUs) > SEND_VMU_PICCIE_EVERY) {
         if (bVMUScreenUpdatesEnabled) {
             // Send the "press any button" bitmap to the screens of all the devices.
-            DIDeviceInfo *current_device = the_input_manager.DeviceList;
+            DIDeviceInfo* current_device = the_input_manager.DeviceList;
             while (current_device != nullptr) {
-                MapleVMU *pVMU = current_device->pFirstVMU;
+                MapleVMU* pVMU = current_device->pFirstVMU;
                 while (pVMU != nullptr) {
                     if (pVMU->type == MDT_LCD) {
-                        extern VMU_Screen *pvmuscreenPressStart;
+                        extern VMU_Screen* pvmuscreenPressStart;
                         pVMU->Lcd_WriteScreen(pvmuscreenPressStart, true);
                     }
                     pVMU = pVMU->pNextVMU;
@@ -1013,7 +1013,7 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
                     // OK, maybe it hasn't been set up.
                     if (!current_device->GetThisDevice(last_type)) {
                         // Nope - really stuffed. Right - bin this device - probably doesn't exist any more.
-                        DIDeviceInfo *next_device = current_device->Next;
+                        DIDeviceInfo* next_device = current_device->Next;
                         SHARON("FFWBP:Device 0x%x is toast - destroying it\n", current_device);
                         SHARON("FFWBP:Device said it was a <%s>\n", current_device->Product);
                         DestroyDevice(current_device);
@@ -1044,10 +1044,10 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
                             {
                                 // Dump out the full controller/VMU info.
                                 SHARON("Controller/VMU dump.\n");
-                                DIDeviceInfo *curdev = DeviceList;
+                                DIDeviceInfo* curdev = DeviceList;
                                 while (curdev) {
                                     SHARON("Port %i: device <%s>, %i axis, %i buttons.\n", curdev->PortNumber, curdev->Product, curdev->NumAxis, curdev->NumButtons);
-                                    MapleVMU *pVMU = curdev->pFirstVMU;
+                                    MapleVMU* pVMU = curdev->pFirstVMU;
                                     while (pVMU != nullptr) {
                                         SHARON("  Maple device number %i, type <", pVMU->iEnumNumber);
 
@@ -1074,15 +1074,15 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
 
                             // Clear all VMU screens, apart from the ones on the device we are using.
                             // On that, put the standard logo.
-                            DIDeviceInfo *curdev = DeviceList;
+                            DIDeviceInfo* curdev = DeviceList;
                             while (curdev != nullptr) {
-                                MapleVMU *pVMU = curdev->pFirstVMU;
+                                MapleVMU* pVMU = curdev->pFirstVMU;
                                 while (pVMU != nullptr) {
                                     if (pVMU->type == MDT_LCD) {
                                         BYTE bTest[192];
                                         if (curdev == current_device) {
                                             // Display the UC logo.
-                                            extern VMU_Screen *pvmuscreenUCLogo;
+                                            extern VMU_Screen* pvmuscreenUCLogo;
                                             pVMU->Lcd_WriteScreen(pvmuscreenUCLogo, true);
                                         } else {
                                             // Blank all the other screens.
@@ -1115,14 +1115,14 @@ DIDeviceInfo *DIDriverManager::FindFirstWithButtonPressed(std::uint8_t type, std
 
 bool CALLBACK FlashEnumProc(LPCMAPLEDEVICEINSTANCE pmdi, LPVOID pvContext) {
     DWORD dwPort = pmdi->dwPort;
-    DIDriverManager *pthis = (DIDriverManager *) pvContext;
+    DIDriverManager* pthis = (DIDriverManager*) pvContext;
 
     bool bAdded = false;
-    DIDeviceInfo *current_device = pthis->DeviceList;
+    DIDeviceInfo* current_device = pthis->DeviceList;
     while (current_device) {
         if (current_device->PortNumber == dwPort) {
             // Add this device to the controller.
-            MapleVMU *pVMU = MFnew<MapleVMU>();
+            MapleVMU* pVMU = MFnew<MapleVMU>();
             ASSERT(pVMU != nullptr);
 
             pVMU->type = pmdi->devType;
@@ -1160,10 +1160,10 @@ bool CALLBACK FlashEnumProc(LPCMAPLEDEVICEINSTANCE pmdi, LPVOID pvContext) {
 int DIDriverManager::ScanForVMUs() {
     // Clean out the Maple devices.
     m_iNumMapleDevices = 0;
-    DIDeviceInfo *current_device = DeviceList;
+    DIDeviceInfo* current_device = DeviceList;
     while (current_device) {
         while (current_device->pFirstVMU != nullptr) {
-            MapleVMU *pVMU = current_device->pFirstVMU;
+            MapleVMU* pVMU = current_device->pFirstVMU;
             current_device->pFirstVMU = pVMU->pNextVMU;
 
             MFdelete(pVMU);
@@ -1171,7 +1171,7 @@ int DIDriverManager::ScanForVMUs() {
         current_device = current_device->Next;
     }
 
-    MapleEnumerateDevices(MDT_ALLDEVICES, FlashEnumProc, (void *) this, 0);
+    MapleEnumerateDevices(MDT_ALLDEVICES, FlashEnumProc, (void*) this, 0);
 
     return (m_iNumMapleDevices);
 }
@@ -1186,16 +1186,16 @@ void MapleVMU::EnsureDevicePtr() {
     HRESULT hres;
     switch (type) {
     case MDT_STORAGE:
-        hres = MapleCreateDevice(&guid, (IUnknown **) &pFlash);
+        hres = MapleCreateDevice(&guid, (IUnknown**) &pFlash);
         break;
     case MDT_LCD:
-        hres = MapleCreateDevice(&guid, (IUnknown **) &pLcd);
+        hres = MapleCreateDevice(&guid, (IUnknown**) &pLcd);
         break;
     case MDT_TIMER:
-        hres = MapleCreateDevice(&guid, (IUnknown **) &pTimer);
+        hres = MapleCreateDevice(&guid, (IUnknown**) &pTimer);
         break;
     case MDT_VIBRATION:
-        hres = MapleCreateDevice(&guid, (IUnknown **) &pVib);
+        hres = MapleCreateDevice(&guid, (IUnknown**) &pVib);
         break;
     case MDT_CONTROLLER:
     case MDT_AUDIO_IN:
@@ -1223,7 +1223,7 @@ void MapleVMU::EnsureDevicePtr() {
 // If the LCD screen is not a standard type, then it does its best,
 //	or fails and returns false.
 
-bool MapleVMU::Lcd_WriteScreen(void *pvData, bool bQueue) {
+bool MapleVMU::Lcd_WriteScreen(void* pvData, bool bQueue) {
     ASSERT(type == MDT_LCD);
     EnsureDevicePtr();
 
@@ -1254,18 +1254,18 @@ bool MapleVMU::Lcd_WriteScreen(void *pvData, bool bQueue) {
 }
 
 // Same, but with a VMU_Screen argument.
-bool MapleVMU::Lcd_WriteScreen(VMU_Screen *pvmuScreen, bool bQueue) {
+bool MapleVMU::Lcd_WriteScreen(VMU_Screen* pvmuScreen, bool bQueue) {
     ASSERT(type == MDT_LCD);
     EnsureDevicePtr();
 
     ASSERT(pvmuScreen != nullptr);
     RotateVMUScreen(bUpsideDown, pvmuScreen);
 
-    return Lcd_WriteScreen((void *) (pvmuScreen->bData), bQueue);
+    return Lcd_WriteScreen((void*) (pvmuScreen->bData), bQueue);
 }
 
 // Checks to see if the VMU has been formatted.
-bool Flash_CheckVMUOK(MapleVMU *pthis) {
+bool Flash_CheckVMUOK(MapleVMU* pthis) {
     ASSERT(pthis->type == MDT_STORAGE);
     if ((pthis == nullptr) || (pthis->pFlash == nullptr)) {
         return false;
@@ -1285,10 +1285,10 @@ bool Flash_CheckVMUOK(MapleVMU *pthis) {
 
 int m_iNumDirectoryFiles;
 char m_szDir[MAX_DIRECTORY_ENTRIES + 1][MAX_DIRECTORY_LENGTH + 1];
-char *m_pszDirectory[MAX_DIRECTORY_ENTRIES + 1];
+char* m_pszDirectory[MAX_DIRECTORY_ENTRIES + 1];
 
 // The directory callback.
-bool Flash_GetDirectoryCallback(LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, LPCFSFILEDESC lpcfsfiledesc, void *pvContext) {
+bool Flash_GetDirectoryCallback(LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, LPCFSFILEDESC lpcfsfiledesc, void* pvContext) {
     // When called by FastEnumFlashFiles, only the filename is valid in lpcfsfiledesc.
     if (m_iNumDirectoryFiles < MAX_DIRECTORY_ENTRIES) {
         if (strlen(lpcfsfiledesc->szFileName) < MAX_DIRECTORY_LENGTH - 1) {
@@ -1313,7 +1313,7 @@ bool Flash_GetDirectoryCallback(LPFLASHDEVICE pIFlashDevice, FSFILEID fsfileid, 
 // YOU DO NOT OWN THIS ARRAY. If you want to use it or store it,
 // copy it. The array may change/move next time you do any Maple call.
 // A return value of nullptr indicates an error.
-char **MapleVMU::Flash_GetDirectory() {
+char** MapleVMU::Flash_GetDirectory() {
     ASSERT(type == MDT_STORAGE);
     EnsureDevicePtr();
     if (!Flash_CheckVMUOK(this)) {
@@ -1354,7 +1354,7 @@ int MapleVMU::Flash_GetFreeBlocks() {
 
 // Opens the given flash file.
 // nullptr if it failed.
-LPFLASHFILE OpenVMUFile(MapleVMU *pthis, char *pName) {
+LPFLASHFILE OpenVMUFile(MapleVMU* pthis, char* pName) {
     LPFLASHFILE pFile;
 
     if ((pthis == nullptr) || (pthis->pFlash == nullptr)) {
@@ -1369,7 +1369,7 @@ LPFLASHFILE OpenVMUFile(MapleVMU *pthis, char *pName) {
 }
 
 // Get the size of the given file. If it doesn't exist, the result is -1.
-DWORD MapleVMU::Flash_GetFileSize(char *pcFilename) {
+DWORD MapleVMU::Flash_GetFileSize(char* pcFilename) {
     ASSERT(type == MDT_STORAGE);
     EnsureDevicePtr();
     if (!Flash_CheckVMUOK(this)) {
@@ -1403,7 +1403,7 @@ DWORD MapleVMU::Flash_GetFileSize(char *pcFilename) {
 
 // Reads the given file into pvData, which is of size dwSizeOfData.
 // Return is true on success, false on failure.
-bool MapleVMU::Flash_ReadFile(char *pcFilename, void *pvData, DWORD dwSizeOfData) {
+bool MapleVMU::Flash_ReadFile(char* pcFilename, void* pvData, DWORD dwSizeOfData) {
     ASSERT(type == MDT_STORAGE);
     EnsureDevicePtr();
     if (!Flash_CheckVMUOK(this)) {
@@ -1430,7 +1430,7 @@ bool MapleVMU::Flash_ReadFile(char *pcFilename, void *pvData, DWORD dwSizeOfData
         // ASSERT ( false );
         return false;
     } else {
-        HRESULT hres = pFile->Read(0, dwSizeOfData, (BYTE *) pvData);
+        HRESULT hres = pFile->Read(0, dwSizeOfData, (BYTE*) pvData);
         if (FAILED(hres)) {
             pFile->Release();
             return false;
@@ -1447,8 +1447,8 @@ bool MapleVMU::Flash_ReadFile(char *pcFilename, void *pvData, DWORD dwSizeOfData
 // If the file already exists, it is deleted.
 // If there is not enough space on the device, the call will fail.
 // Return is true on success, false on failure.
-bool MapleVMU::Flash_WriteFile(char *pcFilename, char *pcGameName, char *pcComment, void *pvData, DWORD dwSizeOfData,
-                               char *pcIconPalette, char *pcIconData) {
+bool MapleVMU::Flash_WriteFile(char* pcFilename, char* pcGameName, char* pcComment, void* pvData, DWORD dwSizeOfData,
+                               char* pcIconPalette, char* pcIconData) {
     ASSERT(type == MDT_STORAGE);
     EnsureDevicePtr();
     if (!Flash_CheckVMUOK(this)) {
@@ -1552,7 +1552,7 @@ bool MapleVMU::Flash_WriteFile(char *pcFilename, char *pcGameName, char *pcComme
 
     // If we got here, the file was crated successfully.
     ASSERT(pFile != nullptr);
-    hres = pFile->Write(0, dwSizeOfData, (BYTE *) pvData);
+    hres = pFile->Write(0, dwSizeOfData, (BYTE*) pvData);
     if (FAILED(hres)) {
         pFile->Release();
         return false;
@@ -1579,9 +1579,9 @@ void SetVMUScreenUpdateEnable(bool bEnable) {
 
 // Gets the first VMU on the primary controller. If it can't find it,
 // it takes the first VMU on the first controller it finds.
-MapleVMU *FindFirstVMUOnCurrentController() {
+MapleVMU* FindFirstVMUOnCurrentController() {
     if (primary_device != nullptr) {
-        MapleVMU *pVMU = primary_device->pFirstVMU;
+        MapleVMU* pVMU = primary_device->pFirstVMU;
         while (pVMU != nullptr) {
             if (pVMU->type == MDT_STORAGE) {
                 return pVMU;
@@ -1591,9 +1591,9 @@ MapleVMU *FindFirstVMUOnCurrentController() {
     }
 
     // Not found on primary, or no primary.
-    DIDeviceInfo *curdev = the_input_manager.DeviceList;
+    DIDeviceInfo* curdev = the_input_manager.DeviceList;
     while (curdev != nullptr) {
-        MapleVMU *pVMU = curdev->pFirstVMU;
+        MapleVMU* pVMU = curdev->pFirstVMU;
         while (pVMU != nullptr) {
             if (pVMU->type == MDT_STORAGE) {
                 return pVMU;
@@ -1609,12 +1609,12 @@ MapleVMU *FindFirstVMUOnCurrentController() {
 
 // Tries to find a memory VMU at slot iVMUNum on controller iCtrlNum.
 // If not, returns nullptr. Controllers are numbered 0-3, VMU numbers 0-1.
-MapleVMU *FindMemoryVMUAt(int iCtrlNum, int iVMUNum) {
+MapleVMU* FindMemoryVMUAt(int iCtrlNum, int iVMUNum) {
     // Not found on primary, or no primary.
-    DIDeviceInfo *curdev = the_input_manager.DeviceList;
+    DIDeviceInfo* curdev = the_input_manager.DeviceList;
     while (curdev != nullptr) {
         if (curdev->PortNumber == iCtrlNum) {
-            MapleVMU *pVMU = curdev->pFirstVMU;
+            MapleVMU* pVMU = curdev->pFirstVMU;
             while (pVMU != nullptr) {
                 if (pVMU->type == MDT_STORAGE) {
                     if (pVMU->iEnumNumber == iVMUNum) {
@@ -1656,13 +1656,13 @@ static BYTE bFlipNibble[16] =
         0xf, // 1111 -> 1111
     };
 
-void RotateVMUScreen(bool bRotated, VMU_Screen *pvmuScreen) {
+void RotateVMUScreen(bool bRotated, VMU_Screen* pvmuScreen) {
     if (bRotated != pvmuScreen->bRotated) {
         pvmuScreen->bRotated = bRotated;
 
         // OK, they're really both sources and both dests. Sue me.
-        BYTE *pbSrc = &(pvmuScreen->bData[0]);
-        BYTE *pbDst = &(pvmuScreen->bData[32 * 6 - 1]);
+        BYTE* pbSrc = &(pvmuScreen->bData[0]);
+        BYTE* pbDst = &(pvmuScreen->bData[32 * 6 - 1]);
         for (int i = 0; i < 32 * 3; i++) {
             // Reverse the bits
             BYTE bData1 = *pbSrc;
@@ -1682,13 +1682,13 @@ void RotateVMUScreen(bool bRotated, VMU_Screen *pvmuScreen) {
 }
 
 // A routine for converting a TGA to a VMU screen bitmap.
-bool CreateVMUScreenFromTGA(char *pchName, VMU_Screen **ppvmuScreen) {
+bool CreateVMUScreenFromTGA(char* pchName, VMU_Screen** ppvmuScreen) {
     TGA_Pixel pPixelData[32 * 48];
 
     ASSERT(*ppvmuScreen == nullptr);
 
     // Load the savegame icon from disk.
-    extern TGA_Info TGA_load_from_file(const char *file, std::int32_t max_width, std::int32_t max_height, TGA_Pixel *data, bool bCanShrink);
+    extern TGA_Info TGA_load_from_file(const char* file, std::int32_t max_width, std::int32_t max_height, TGA_Pixel* data, bool bCanShrink);
     TGA_Info tga_info = TGA_load_from_file(pchName, 48, 32, pPixelData, false);
     if (tga_info.valid) {
         // Create the screen.
@@ -1696,8 +1696,8 @@ bool CreateVMUScreenFromTGA(char *pchName, VMU_Screen **ppvmuScreen) {
         ASSERT(*ppvmuScreen != nullptr);
 
         // Convert to black and while.
-        std::uint8_t *pbDst = (**ppvmuScreen).bData;
-        TGA_Pixel *pcSrc = pPixelData;
+        std::uint8_t* pbDst = (**ppvmuScreen).bData;
+        TGA_Pixel* pcSrc = pPixelData;
         for (int iY = 0; iY < 32; iY++) {
             for (int iX1 = 0; iX1 < 6; iX1++) {
                 std::uint8_t bThisByte = 0;
@@ -1725,12 +1725,12 @@ bool CreateVMUScreenFromTGA(char *pchName, VMU_Screen **ppvmuScreen) {
 // Displays the given screen on all the screen devices on the current controller.
 // This is what you call to display an image.
 // If there is no primary, it doesn't do anything - the "press any key" screen should be up.
-bool WriteLCDScreenToCurrentController(VMU_Screen *pvmuScreen) {
+bool WriteLCDScreenToCurrentController(VMU_Screen* pvmuScreen) {
     if (primary_device == nullptr) {
         return false;
     }
 
-    MapleVMU *pVMU = primary_device->pFirstVMU;
+    MapleVMU* pVMU = primary_device->pFirstVMU;
     while (pVMU != nullptr) {
         if (pVMU->type == MDT_LCD) {
             pVMU->Lcd_WriteScreen(pvmuScreen, true);
@@ -1747,12 +1747,12 @@ GUID m_guidCurrentVMU = GUID_NULL;
 // bFindNextBest is true, it tries to find the first one on the
 // primary, and then tries to find the first one on anything.
 // If bFindNextBest is false, it just returns nullptr.
-MapleVMU *FindCurrentStorageVMU(bool bFindNextBest) {
+MapleVMU* FindCurrentStorageVMU(bool bFindNextBest) {
     if (!IsEqualGUID(m_guidCurrentVMU, GUID_NULL)) {
         // Look for the current one.
-        DIDeviceInfo *curdev = the_input_manager.DeviceList;
+        DIDeviceInfo* curdev = the_input_manager.DeviceList;
         while (curdev != nullptr) {
-            MapleVMU *pVMU = curdev->pFirstVMU;
+            MapleVMU* pVMU = curdev->pFirstVMU;
             while (pVMU != nullptr) {
                 if (pVMU->type == MDT_STORAGE) {
                     if (pVMU->guid == m_guidCurrentVMU) {
@@ -1769,7 +1769,7 @@ MapleVMU *FindCurrentStorageVMU(bool bFindNextBest) {
     if (bFindNextBest) {
         // Find the first on the primary.
         if (primary_device != nullptr) {
-            MapleVMU *pVMU = primary_device->pFirstVMU;
+            MapleVMU* pVMU = primary_device->pFirstVMU;
             while (pVMU != nullptr) {
                 if (pVMU->type == MDT_STORAGE) {
                     return pVMU;
@@ -1779,9 +1779,9 @@ MapleVMU *FindCurrentStorageVMU(bool bFindNextBest) {
         }
 
         // OK, well try all the other devices.
-        DIDeviceInfo *curdev = the_input_manager.DeviceList;
+        DIDeviceInfo* curdev = the_input_manager.DeviceList;
         while (curdev != nullptr) {
-            MapleVMU *pVMU = curdev->pFirstVMU;
+            MapleVMU* pVMU = curdev->pFirstVMU;
             while (pVMU != nullptr) {
                 if (pVMU->type == MDT_STORAGE) {
                     return pVMU;
@@ -1796,7 +1796,7 @@ MapleVMU *FindCurrentStorageVMU(bool bFindNextBest) {
 }
 
 // Sets the current storage VMU. If nullptr, there will be no current VMU.
-void SetCurrentStorageVMU(MapleVMU *pVMU) {
+void SetCurrentStorageVMU(MapleVMU* pVMU) {
     if (pVMU == nullptr) {
         m_guidCurrentVMU = GUID_NULL;
     } else {
@@ -1808,9 +1808,9 @@ void SetCurrentStorageVMU(MapleVMU *pVMU) {
 // Tries to find a vibration VMU on the primary. If there are two (unlikely),
 // it retruns the first one. If there are none, it returns nullptr.
 // Yes, I know they're not actually VMUs that vibrate.
-MapleVMU *FindFirstVibratorOnCurrentController() {
+MapleVMU* FindFirstVibratorOnCurrentController() {
     if (primary_device != nullptr) {
-        MapleVMU *pVMU = primary_device->pFirstVMU;
+        MapleVMU* pVMU = primary_device->pFirstVMU;
         while (pVMU != nullptr) {
             if (pVMU->type == MDT_VIBRATION) {
                 // Found one!
@@ -1842,7 +1842,7 @@ bool Vibrate(float fFrequency, float fStartPower, float fShrinkTime, bool bEnsur
         return false;
     }
 
-    MapleVMU *pVib = FindFirstVibratorOnCurrentController();
+    MapleVMU* pVib = FindFirstVibratorOnCurrentController();
     if (pVib != nullptr) {
         ASSERT(pVib->type == MDT_VIBRATION);
         pVib->EnsureDevicePtr();
@@ -1983,9 +1983,9 @@ bool Vibrate(float fFrequency, float fStartPower, float fShrinkTime, bool bEnsur
 //
 // ========================================================
 
-IDirectInput *OS_joy_direct_input;
-IDirectInputDevice *OS_joy_input_device;
-IDirectInputDevice2 *OS_joy_input_device2; // We need this newer interface to poll the joystick.
+IDirectInput* OS_joy_direct_input;
+IDirectInputDevice* OS_joy_input_device;
+IDirectInputDevice2* OS_joy_input_device2; // We need this newer interface to poll the joystick.
 
 std::int32_t OS_joy_x_range_min;
 std::int32_t OS_joy_x_range_max;
@@ -2029,7 +2029,7 @@ BOOL CALLBACK OS_joy_enum(
 
     OS_joy_input_device->QueryInterface(
         IID_IDirectInputDevice2,
-        (LPVOID *) &OS_joy_input_device2);
+        (LPVOID*) &OS_joy_input_device2);
 
     //
     // No need to find another joystick!
@@ -2066,7 +2066,7 @@ void OS_joy_init() {
         nullptr,
         CLSCTX_INPROC_SERVER,
         IID_IDirectInput8W,
-        (void **) &OS_joy_direct_input);
+        (void**) &OS_joy_direct_input);
 
     extern HINSTANCE hGlobalThisInst;
 

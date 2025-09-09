@@ -40,7 +40,7 @@ struct Track {
 
     std::int32_t dx, dy, dz;
     std::int32_t page, colour;
-    THING_INDEX thing; // Thing*	thing; //miked did this
+    THING_INDEX thing; // Entity*	thing; //miked did this
     std::int16_t sx, sz;
     std::uint16_t padtolong;
     std::uint8_t flip;
@@ -60,7 +60,7 @@ extern std::uint16_t track_head, track_tail, track_eob;
 void TRACKS_InitOnce(std::int16_t size = TRACK_BUFFER_LENGTH);
 void TRACKS_Reset(std::int16_t size = TRACK_BUFFER_LENGTH);
 void TRACKS_Draw();
-void TRACKS_DrawTrack(Thing *p_thing);
+void TRACKS_DrawTrack(Entity *p_thing);
 
 // Figure out the offsets given the width
 void TRACKS_CalcDiffs(Track &track, std::uint8_t width);
@@ -78,7 +78,7 @@ std::uint16_t TRACKS_Add(std::int32_t x, std::int32_t y, std::int32_t z, std::in
 std::int32_t TRACKS_GroundAtXZ(std::int32_t X, std::int32_t Z);
 
 // Make something bleed
-void TRACKS_Bleed(Thing *bleeder);
-void TRACKS_Bloodpool(Thing *bleeder);
+void TRACKS_Bleed(Entity *bleeder);
+void TRACKS_Bloodpool(Entity *bleeder);
 
 #endif

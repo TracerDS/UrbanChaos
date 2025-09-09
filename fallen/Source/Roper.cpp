@@ -11,11 +11,11 @@
 
 #include "..\Editor\Headers\Thing.h"
 
-std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing *p_thing);
+std::uint32_t move_thing(std::int32_t m_dx, std::int32_t m_dy, std::int32_t m_dz, struct MapThing* p_thing);
 
 std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
 
-extern Thing *darci_thing;
+extern Entity* darci_thing;
 
 //---------------------------------------------------------------
 
@@ -30,7 +30,7 @@ StateFunction roper_states[] =
 
 //---------------------------------------------------------------
 
-void fn_roper_init(Thing *t_thing) {
+void fn_roper_init(Entity* t_thing) {
     //	t_thing->WorldPos.X	=	16896;
     //	t_thing->WorldPos.Y	=	0;
     //	t_thing->WorldPos.Z	=	16896;
@@ -45,7 +45,7 @@ void fn_roper_init(Thing *t_thing) {
     //	t_thing->Draw.Tweened->AnimElements		=	t_thing->Draw.Tweened->CurrentFrame->FirstElement;
     //	t_thing->Draw.Tweened->NextAnimElements	=	t_thing->Draw.Tweened->AnimElements;
 
-    //	t_thing->StateFn				=	(void(*)(Thing*))process_enemy2;
+    //	t_thing->StateFn				=	(void(*)(Entity*))process_enemy2;
 
     t_thing->Genus.Person->Health = health[t_thing->Genus.Person->PersonType];
 
@@ -55,7 +55,7 @@ void fn_roper_init(Thing *t_thing) {
 
 //---------------------------------------------------------------
 
-void fn_roper_normal(Thing *t_thing) {
+void fn_roper_normal(Entity* t_thing) {
     return;
 }
 

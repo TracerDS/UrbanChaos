@@ -10,8 +10,8 @@
 
 // assume anti clockwise
 
-std::uint16_t *tmaps[50];
-std::uint8_t *pals[50];
+std::uint16_t* tmaps[50];
+std::uint8_t* pals[50];
 
 // std::uint8_t	tmap[256*256];
 // std::uint8_t	tmap2[256*256];
@@ -35,9 +35,9 @@ std::uint8_t filter_age[64];
 
 static std::int32_t ASMstep_tx, ASMstep_ty, ASMstep_shade;
 static std::int32_t ASMtx, ASMty, ASMshade;
-static std::uint16_t *ASMtext_page;
-static std::uint16_t *ASMpal_address;
-static std::uint16_t *ASMfade_page;
+static std::uint16_t* ASMtext_page;
+static std::uint16_t* ASMpal_address;
+static std::uint16_t* ASMfade_page;
 static std::int32_t ASMCol;
 struct PolyInfo poly_info;
 
@@ -79,12 +79,12 @@ struct Boint {
     std::int32_t RightTX;
     std::int32_t RightTY;
     std::int32_t RightShade;
-    struct Boint *PNext;
+    struct Boint* PNext;
     std::int32_t DrawFlags;
     //	std::int32_t	Y;
 };
 
-struct Boint *z_spans[1000];
+struct Boint* z_spans[1000];
 //
 // z_buffer off
 //
@@ -92,12 +92,12 @@ struct Boint *z_spans[1000];
 
 struct Boint boint_pool[MAX_BOINT];
 std::uint16_t next_boint = 1;
-struct Boint *current_boint = &boint_pool[0];
+struct Boint* current_boint = &boint_pool[0];
 
 std::int32_t debug_y = 200;
 std::int32_t count_find = 0, count_insert = 0, count_chop_lhs = 0, count_chop_rhs = 0;
 
-inline std::uint32_t span_overlaps(struct Boint *new_span, struct Boint *old_span) {
+inline std::uint32_t span_overlaps(struct Boint* new_span, struct Boint* old_span) {
     //	if(new_span->LeftX==old_span->LeftX&&new_span->RightX==old_span->RightX)
     //		return(2);
 
@@ -116,7 +116,7 @@ inline std::uint32_t span_overlaps(struct Boint *new_span, struct Boint *old_spa
     */
 }
 
-inline std::int32_t spans_might_intersect(struct Boint *new_span, struct Boint *old_span) {
+inline std::int32_t spans_might_intersect(struct Boint* new_span, struct Boint* old_span) {
     /*
             if(new_span->LeftZ<old_span->RightZ)
                     return(1); //new behind old
@@ -134,7 +134,7 @@ inline std::int32_t spans_might_intersect(struct Boint *new_span, struct Boint *
     return (0);
 }
 
-inline std::int32_t calc_intersection(struct Boint *new_span, struct Boint *old_span) {
+inline std::int32_t calc_intersection(struct Boint* new_span, struct Boint* old_span) {
     std::int32_t r, s;
     std::int32_t div;
 
@@ -153,7 +153,7 @@ inline std::int32_t calc_intersection(struct Boint *new_span, struct Boint *old_
         return (-1);
 }
 
-inline void clip_lhs_span(struct Boint *chopee, std::int32_t x) {
+inline void clip_lhs_span(struct Boint* chopee, std::int32_t x) {
     std::int32_t ratio;
     count_chop_lhs++;
     //	if(debug_y==chopee->Y)
@@ -180,7 +180,7 @@ inline void clip_lhs_span(struct Boint *chopee, std::int32_t x) {
     chopee->LeftX = x;
 }
 
-inline void clip_rhs_span(struct Boint *chopee, std::int32_t x) {
+inline void clip_rhs_span(struct Boint* chopee, std::int32_t x) {
     std::int32_t ratio;
     count_chop_rhs++;
     //	if(debug_y==chopee->Y)
@@ -204,7 +204,7 @@ inline void clip_rhs_span(struct Boint *chopee, std::int32_t x) {
     chopee->RightX = x;
 }
 
-extern void insert_span(struct Boint *span, struct Boint **head);
+extern void insert_span(struct Boint* span, struct Boint** head);
 
 void do_nowt(void) {
 }
@@ -214,7 +214,7 @@ void do_nowt(void) {
     }
 // {check_spans2(x);do_nowt();}
 
-std::uint32_t check_spans2(struct Boint **head) {
+std::uint32_t check_spans2(struct Boint** head) {
     /*
             struct	Boint	*p=*head;
             struct	Boint	*prev=0;
@@ -236,15 +236,15 @@ std::uint32_t check_spans2(struct Boint **head) {
     */
     return (0);
 }
-inline void delete_span(struct Boint *span, struct Boint **head, struct Boint *prev) {
+inline void delete_span(struct Boint* span, struct Boint** head, struct Boint* prev) {
     if (prev) {
         prev->PNext = span->PNext;
     } else
         *head = span->PNext;
 }
 
-inline void sort_add_span(struct Boint *span, struct Boint **head, struct Boint *prev) {
-    struct Boint *p = *head;
+inline void sort_add_span(struct Boint* span, struct Boint** head, struct Boint* prev) {
+    struct Boint* p = *head;
     //	struct	Boint	*prev=0;
     //	if(debug_y==span->Y)
     //		LogText(" Sort Add Span x %d %d z %d %d \n",span->LeftX,span->RightX,span->LeftZ,span->RightZ);
@@ -280,7 +280,7 @@ inline void sort_add_span(struct Boint *span, struct Boint **head, struct Boint 
     }
 }
 
-inline std::uint32_t chop_span(struct Boint **head, struct Boint *prev, struct Boint *chopee, struct Boint *choper, std::uint8_t chop_new) {
+inline std::uint32_t chop_span(struct Boint** head, struct Boint* prev, struct Boint* chopee, struct Boint* choper, std::uint8_t chop_new) {
     if (choper->RightX >= chopee->RightX) {
         if (choper->LeftX <= chopee->LeftX) {
 //			remove chopee span from link list
@@ -373,8 +373,8 @@ inline std::uint32_t chop_span(struct Boint **head, struct Boint *prev, struct B
     return (0);
 }
 
-std::uint32_t span_exists(struct Boint *span, struct Boint **head) {
-    struct Boint *p;
+std::uint32_t span_exists(struct Boint* span, struct Boint** head) {
+    struct Boint* p;
     std::int32_t count;
     p = *head;
     count = 0;
@@ -388,8 +388,8 @@ std::uint32_t span_exists(struct Boint *span, struct Boint **head) {
     return (0);
 }
 
-void show_line(struct Boint **head, char *str) {
-    struct Boint *p;
+void show_line(struct Boint** head, char* str) {
+    struct Boint* p;
     p = *head;
     LogText("%s\n", str);
     while (p) {
@@ -398,10 +398,10 @@ void show_line(struct Boint **head, char *str) {
     }
 }
 
-void insert_span(struct Boint *span, struct Boint **head) {
+void insert_span(struct Boint* span, struct Boint** head) {
     struct Boint *p, *prev = 0;
     std::int32_t count;
-    struct Boint *insert_here = 0;
+    struct Boint* insert_here = 0;
 
     span->PNext = 0;
     /*
@@ -528,11 +528,11 @@ exit:;
     //	*head=span;
 }
 
-std::int32_t FileSaveAt(char *name, std::uint8_t *ptr, std::uint32_t size) {
+std::int32_t FileSaveAt(char* name, std::uint8_t* ptr, std::uint32_t size) {
     MFFileHandle handle = FILE_OPEN_ERROR;
     handle = FileCreate(name, 1);
     if (handle != FILE_OPEN_ERROR) {
-        FileWrite(handle, (std::uint8_t *) ptr, size);
+        FileWrite(handle, (std::uint8_t*) ptr, size);
         FileClose(handle);
         return (0);
     }
@@ -545,7 +545,7 @@ void make_555_table(void) {
     std::uint8_t pal_no;
     std::int32_t col, bright;
     std::int32_t r, g, b;
-    std::uint8_t *pal;
+    std::uint8_t* pal;
     //	pal=palette;
 
     for (pal_no = 0; pal_no < 8; pal_no++) {
@@ -586,7 +586,7 @@ void draw_fader(void) {
     std::uint16_t *ptr, *ptr2;
     std::int32_t x, y;
 
-    ptr = (std::uint16_t *) WorkScreen;
+    ptr = (std::uint16_t*) WorkScreen;
     for (x = 0; x < 256; x++)
         for (y = 0; y < 64; y++) {
             ptr[y * 320 + x] = yc_to_555[0][x + y * 256];
@@ -613,7 +613,7 @@ void init_tmap(void) {
     */
 }
 
-extern std::int32_t find_colour(std::uint8_t *pal, std::int32_t r, std::int32_t g, std::int32_t b);
+extern std::int32_t find_colour(std::uint8_t* pal, std::int32_t r, std::int32_t g, std::int32_t b);
 /*
 std::int32_t	find_colour(std::uint8_t *pal,std::int32_t r,std::int32_t g,std::int32_t b)
 {
@@ -640,7 +640,7 @@ std::int32_t	find_colour(std::uint8_t *pal,std::int32_t r,std::int32_t g,std::in
         return(found);
 }
 */
-void make_mix_map(std::uint8_t *pal) {
+void make_mix_map(std::uint8_t* pal) {
     std::int32_t col1, col2, r, g, b, r1, g1, b1;
     std::uint8_t *p1, *p2;
 
@@ -673,9 +673,9 @@ void make_mix_map(std::uint8_t *pal) {
     }
 }
 
-void make_fade_table(std::uint8_t *pal) {
+void make_fade_table(std::uint8_t* pal) {
     std::int32_t col, bright, r, g, b, temp_bright;
-    std::uint8_t *p;
+    std::uint8_t* p;
     if (FileExists("data/fade.dat")) {
         FileLoadAt("data/fade.dat", fade_tables);
     } else {
@@ -711,7 +711,7 @@ void make_fade_table(std::uint8_t *pal) {
     }
 }
 
-std::uint16_t is_it_clockwise(const struct MfEnginePoint *point1, const struct MfEnginePoint *point2, const struct MfEnginePoint *point3) {
+std::uint16_t is_it_clockwise(const struct MfEnginePoint* point1, const struct MfEnginePoint* point2, const struct MfEnginePoint* point3) {
     std::int32_t z;
     std::int32_t vx, vy, wx, wy;
 
@@ -737,10 +737,10 @@ std::uint16_t is_it_clockwise(const struct MfEnginePoint *point1, const struct M
 //		ASMtx=start_text_x;
 
 #ifdef _MSC_VER
-void RENDER_SETUP(std::uint8_t *, std::int32_t, std::int32_t, std::int32_t, std::int32_t) {
+void RENDER_SETUP(std::uint8_t*, std::int32_t, std::int32_t, std::int32_t, std::int32_t) {
 }
 #else
-void RENDER_SETUP(std::uint8_t *, std::int32_t, std::int32_t, std::int32_t, std::int32_t);
+void RENDER_SETUP(std::uint8_t*, std::int32_t, std::int32_t, std::int32_t, std::int32_t);
 #pragma aux RENDER_SETUP =   \
     "	rol	eax,16"            \
     "	rol	ebx,16"            \
@@ -775,7 +775,7 @@ void RENDER_SETUP2(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_GT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_GT(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -871,7 +871,7 @@ void RENDER_GO_COL(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_G(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade) {
+void RENDER_MSC_G(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -915,7 +915,7 @@ lp:
     }
 }
 
-void RENDER_MSC_G16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade) {
+void RENDER_MSC_G16(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -974,7 +974,7 @@ std::int32_t RENDER_GO_G(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_50F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
+void RENDER_MSC_50F(std::uint8_t* param_ptr_screen, std::int32_t param_width) {
     __asm {
 		push	edi
 		push	esi
@@ -989,7 +989,7 @@ void RENDER_MSC_50F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
 lp:
 		inc edi
 		mov ch,[edi]
-        //		mov [edi],cl
+               //		mov [edi],cl
 		mov dl,mix_map[ecx]
 		mov [edi],dl
 		dec eax
@@ -1009,7 +1009,7 @@ std::int32_t RENDER_GO_50F(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_F(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
+void RENDER_MSC_F(std::uint8_t* param_ptr_screen, std::int32_t param_width) {
     __asm {
 		push	edi
 		push	esi
@@ -1031,7 +1031,7 @@ lp:
 
     }
 }
-void RENDER_MSC_F16(std::uint8_t *param_ptr_screen, std::int32_t param_width) {
+void RENDER_MSC_F16(std::uint8_t* param_ptr_screen, std::int32_t param_width) {
     __asm {
 		push	edi
 		push	esi
@@ -1064,7 +1064,7 @@ std::int32_t RENDER_GO_F(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_T16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_T16(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1112,11 +1112,11 @@ lp:
 		mov dl,cl
 		mov dx,[ebp+edx*2]
 		add edi,2
-        //		mov dh,0
-        // mov dh,bl
-        // mov dl,fade_tables[edx]
-        //		mov	ebp,ASMpal_address
-        //		mov dx,[ebp+edx*2]
+               //		mov dh,0
+               // mov dh,bl
+               // mov dl,fade_tables[edx]
+               //		mov	ebp,ASMpal_address
+               //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1133,7 +1133,7 @@ std::int32_t RENDER_GO_T16(void) {
 
 #ifdef _MSC_VER
 
-void RENDER_MSC_GT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_GT16(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1180,9 +1180,9 @@ lp:
 		mov dl,cl
 		mov dx,[ebp+edx*2]
 		add edi,2
-        //		mov dh,bl
-        //		mov	ebp,ASMfade_page
-        //		mov dx,[ebp+edx*2]
+               //		mov dh,bl
+               //		mov	ebp,ASMfade_page
+               //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1193,7 +1193,7 @@ lp:
     }
 }
 
-void RENDER_MSC_TGT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_TGT16(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1241,10 +1241,10 @@ lp:
 		and	edx,0x1f1f
 		mov dx,[ebp+edx*2]
 		add edi,2
-        //		mov dh,bl
-        //		mov dx,yc_to_555[edx*2]
-        //		mov	ebp,ASMfade_page
-        //		mov dx,[ebp+edx*2]
+                   //		mov dh,bl
+                   //		mov dx,yc_to_555[edx*2]
+                   //		mov	ebp,ASMfade_page
+                   //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 		dec esi
 		jnz  lp
@@ -1359,7 +1359,7 @@ std::int32_t RENDER_GO_TT(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_50GT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_50GT(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1446,7 +1446,7 @@ std::int32_t RENDER_GO_50GT(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_50T(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_50T(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1559,7 +1559,7 @@ std::int32_t RENDER_GO_50MGT(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_MGT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_MGT(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1621,7 +1621,7 @@ skip:
     }
 }
 
-void RENDER_MSC_MGT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_MGT16(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_shade, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1669,23 +1669,23 @@ lp:
 
 		mov dx,[ebp+edx*2]
 		add edi,2
-            //		mov dh,bl
+                   //		mov dh,bl
 		or	dx,dx
 		jz	skip
-                //		mov dx,yc_to_555[edx*2]
-                //		mov	ebp,ASMfade_page
-                //		mov dx,[ebp+edx*2]
+                   //		mov dx,yc_to_555[edx*2]
+                   //		mov	ebp,ASMfade_page
+                   //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 
-            /*
-                            mov dl,[ebp+edx]
-                            add edi,2
-                            or	dl,dl
-                            jz	skip
-                            mov dh,bl
-                            mov dx,yc_to_555[edx*2]
-                            mov [edi],dx
-            */
+                   /*
+                                   mov dl,[ebp+edx]
+                                   add edi,2
+                                   or	dl,dl
+                                   jz	skip
+                                   mov dh,bl
+                                   mov dx,yc_to_555[edx*2]
+                                   mov [edi],dx
+                   */
 skip:
 		dec esi
 		jnz  lp
@@ -1721,7 +1721,7 @@ std::int32_t RENDER_GO_MGT(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_MT(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_MT(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1781,7 +1781,7 @@ skip:
     }
 }
 
-void RENDER_MSC_MT16(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_MT16(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1832,10 +1832,10 @@ lp:
 		add edi,2
 		or	dx,dx
 		jz	skip
-                //		mov dh,0
+                   //		mov dh,0
 
-                //		mov	ebp,ASMpal_address
-                //		mov dx,[ebp+edx*2]
+                   //		mov	ebp,ASMpal_address
+                   //		mov dx,[ebp+edx*2]
 		mov [edi],dx
 
 
@@ -1871,7 +1871,7 @@ std::int32_t RENDER_GO_MT(void);
 #endif
 
 #ifdef _MSC_VER
-void RENDER_MSC_T(std::uint8_t *param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
+void RENDER_MSC_T(std::uint8_t* param_ptr_screen, std::int32_t param_width, std::int32_t param_step_texx, std::int32_t param_step_texy) {
     //	RENDER_SETUP(ptr_screen-1,width,poly->StepShade,poly->StepTextX,poly->StepTextY);
     __asm {
 		push	edi
@@ -1918,8 +1918,8 @@ lp:
 		mov dl,cl
 		mov dl,[ebp+edx]
 		inc edi
-            // mov dh,bl
-            // mov dl,fade_tables[edx]
+                                                                                                       // mov dh,bl
+                                                                                                       // mov dl,fade_tables[edx]
 		mov [edi],dl
 		dec esi
 		jnz  lp
@@ -2010,8 +2010,8 @@ std::int32_t RENDER_GO_AT(void);
 // const std::int32_t y,std::int32_t lx,std::int32_t rx,std::int32_t s1,std::int32_t shade_step,std::int32_t tx1,std::int32_t textx_step,std::int32_t ty1,std::int32_t texty_step)
 #define POLY_TEXT_SHIFT 7
 
-void PSCAN_LINE_GT(struct FloatPolyParameters *poly) {
-    std::uint8_t *ptr;
+void PSCAN_LINE_GT(struct FloatPolyParameters* poly) {
+    std::uint8_t* ptr;
     std::int32_t width;
     struct FloatPolyParameters lpoly;
 
@@ -2055,8 +2055,8 @@ void PSCAN_LINE_GT(struct FloatPolyParameters *poly) {
         std::uint8_t col;
         while (width) {
             std::int32_t tx, ty;
-            tx = (std::int32_t)(lpoly.FLeftTextX / lpoly.Q);
-            ty = (std::int32_t)(lpoly.FLeftTextY / lpoly.Q);
+            tx = (std::int32_t) (lpoly.FLeftTextX / lpoly.Q);
+            ty = (std::int32_t) (lpoly.FLeftTextY / lpoly.Q);
             if (tx < 0 || tx > 255 || ty < 0 || ty > 255)
                 tx = ty = 0;
 
@@ -2072,8 +2072,8 @@ void PSCAN_LINE_GT(struct FloatPolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_GT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_GT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2132,8 +2132,8 @@ void SCAN_LINE_GT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_TGT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_TGT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2178,8 +2178,8 @@ void SCAN_LINE_TGT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_50GT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_50GT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2228,8 +2228,8 @@ void SCAN_LINE_50GT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_50MGT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_50MGT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2274,8 +2274,8 @@ void SCAN_LINE_50MGT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_MGT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_MGT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2324,8 +2324,8 @@ void SCAN_LINE_MGT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_MT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_MT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2371,8 +2371,8 @@ void SCAN_LINE_MT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_T(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_T(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2418,8 +2418,8 @@ void SCAN_LINE_T(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_50T(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_50T(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2465,8 +2465,8 @@ void SCAN_LINE_50T(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_AT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_AT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2508,8 +2508,8 @@ void SCAN_LINE_AT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_AMT(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_AMT(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2551,8 +2551,8 @@ void SCAN_LINE_AMT(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_G(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_G(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2589,8 +2589,8 @@ void SCAN_LINE_G(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_AG(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_AG(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2628,8 +2628,8 @@ void SCAN_LINE_AG(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_50G(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_50G(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2668,8 +2668,8 @@ void SCAN_LINE_50G(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_F(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_F(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
 
@@ -2703,8 +2703,8 @@ void SCAN_LINE_F(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_50F(struct PolyParameters *poly) {
-    std::uint8_t *ptr_screen;
+void SCAN_LINE_50F(struct PolyParameters* poly) {
+    std::uint8_t* ptr_screen;
     std::int32_t width;
     struct PolyParameters lpoly;
     std::int32_t col;
@@ -2740,7 +2740,7 @@ void SCAN_LINE_50F(struct PolyParameters *poly) {
     }
 }
 
-void SCAN_LINE_NULL(struct PolyParameters *poly) {
+void SCAN_LINE_NULL(struct PolyParameters* poly) {
     poly_info.Col = (MouseX + MouseY) & 255;
     SCAN_LINE_G(poly);
 }
@@ -2839,7 +2839,7 @@ void	SCAN_LINE_GT(struct	PolyParameter *p)
 */
 
 #define DITHER_WIDTH 256
-void build_dither_tmap(std::int32_t tx, std::int32_t ty, std::uint8_t *dest) {
+void build_dither_tmap(std::int32_t tx, std::int32_t ty, std::uint8_t* dest) {
     std::uint8_t *ptr_s, *ptr_d;
     std::int32_t x, y;
     /*
@@ -2877,7 +2877,7 @@ void build_dither_tmap(std::int32_t tx, std::int32_t ty, std::uint8_t *dest) {
     */
 }
 
-std::int32_t find_and_use_block(std::int32_t *dx, std::int32_t *dy, std::int32_t id) {
+std::int32_t find_and_use_block(std::int32_t* dx, std::int32_t* dy, std::int32_t id) {
     std::int32_t best = -1, best_age = 2;
     std::int32_t c0;
     for (c0 = 0; c0 < 16; c0++) {
@@ -2905,7 +2905,7 @@ early_out:;
 }
 
 static std::int32_t local_edit_turn = -1;
-inline std::int32_t filter_poly_tmap(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, std::int32_t *dx, std::int32_t *dy) {
+inline std::int32_t filter_poly_tmap(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, std::int32_t* dx, std::int32_t* dy) {
     std::int32_t tx, ty, use_x, use_y;
     std::int32_t id;
     /*
@@ -2961,7 +2961,7 @@ inline std::int32_t filter_poly_tmap(struct MfEnginePoint *p1, struct MfEnginePo
     return (1);
 }
 
-inline std::int32_t filter_poly_tmap4(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4, std::int32_t *dx, std::int32_t *dy) {
+inline std::int32_t filter_poly_tmap4(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4, std::int32_t* dx, std::int32_t* dy) {
     std::int32_t tx, ty, use_x, use_y;
     std::int32_t id;
 
@@ -3024,7 +3024,7 @@ inline std::int32_t filter_poly_tmap4(struct MfEnginePoint *p1, struct MfEngineP
     return (1);
 }
 
-inline std::int32_t allready_filtered(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, std::int32_t *dx, std::int32_t *dy) {
+inline std::int32_t allready_filtered(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, std::int32_t* dx, std::int32_t* dy) {
     std::int32_t c0;
     std::int32_t tx, ty;
     std::int32_t id;
@@ -3059,7 +3059,7 @@ inline std::int32_t allready_filtered(struct MfEnginePoint *p1, struct MfEngineP
     return (0);
 }
 
-inline std::int32_t allready_filtered4(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4, std::int32_t *dx, std::int32_t *dy) {
+inline std::int32_t allready_filtered4(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4, std::int32_t* dx, std::int32_t* dy) {
     /*
             std::int32_t	c0;
             std::int32_t	tx,ty;
@@ -3097,7 +3097,7 @@ inline std::int32_t allready_filtered4(struct MfEnginePoint *p1, struct MfEngine
 }
 
 struct FPointer {
-    void (*FunctionPointer)(struct PolyParameters *);
+    void (*FunctionPointer)(struct PolyParameters*);
 };
 
 struct FPointer p_functions[] =
@@ -3173,13 +3173,13 @@ struct FPointer p_functions[] =
 
 #define PSWAP(x, y)              \
     {                            \
-        struct MfEnginePoint *t; \
+        struct MfEnginePoint* t; \
         t = x;                   \
         x = y;                   \
         y = t;                   \
     }
 
-inline void bodge_textures(std::int32_t *dtx, std::int32_t *dty) {
+inline void bodge_textures(std::int32_t* dtx, std::int32_t* dty) {
     if (*dtx > 1 << 16)
         *dtx -= 1 << 15;
     else if (*dtx < -1 << 16)
@@ -3192,7 +3192,7 @@ inline void bodge_textures(std::int32_t *dtx, std::int32_t *dty) {
 }
 
 // p1 is top p2 is p1->p2 is left hand side  p1->p3 is right hand side
-void calc_steps_for_tri(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, std::int32_t dy_lhs, std::int32_t dy_rhs, struct PolyParameters *poly) {
+void calc_steps_for_tri(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, std::int32_t dy_lhs, std::int32_t dy_rhs, struct PolyParameters* poly) {
     std::int32_t length, ratio;
     std::int32_t dtx, dty;
 
@@ -3300,7 +3300,7 @@ std::int32_t	can_texture_be_filtered4(struct MfEnginePoint *p1,struct MfEnginePo
 }
 */
 
-std::uint32_t calc_texture_offset(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3) {
+std::uint32_t calc_texture_offset(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3) {
     std::int32_t tx, ty;
     tx = p1->TX;
     ty = p1->TY;
@@ -3320,7 +3320,7 @@ std::uint32_t calc_texture_offset(struct MfEnginePoint *p1, struct MfEnginePoint
 
     return (tx + (ty << 8));
 }
-std::uint32_t calc_texture_offset4(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4) {
+std::uint32_t calc_texture_offset4(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4) {
     std::int32_t tx, ty;
     tx = p1->TX;
     ty = p1->TY;
@@ -3345,7 +3345,7 @@ std::uint32_t calc_texture_offset4(struct MfEnginePoint *p1, struct MfEnginePoin
 }
 // #define	FILTERING_ON	1
 
-void my_trig(struct MfEnginePoint *p3, struct MfEnginePoint *p2, struct MfEnginePoint *p1) {
+void my_trig(struct MfEnginePoint* p3, struct MfEnginePoint* p2, struct MfEnginePoint* p1) {
     std::int32_t dx_lhs, dy_lhs, dx_rhs, dy_rhs, dx2, dy2;
 
     // shades
@@ -3682,7 +3682,7 @@ clip_out:;
 }
 
 // p1 is top p2 is p1->p2 is left hand side  p1->p3 is right hand side
-void pcalc_steps_for_tri(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, std::int32_t dy_lhs, std::int32_t dy_rhs, struct FloatPolyParameters *poly) {
+void pcalc_steps_for_tri(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, std::int32_t dy_lhs, std::int32_t dy_rhs, struct FloatPolyParameters* poly) {
     std::int32_t length, ratio;
     float dtx, dty, dq, q1, q2, q3;
     q1 = 1.0 / (float) p1->Z3d;
@@ -3769,7 +3769,7 @@ void pcalc_steps_for_tri(struct MfEnginePoint *p1, struct MfEnginePoint *p2, str
 }
 #undef FILTERING_ON
 
-void my_trigp(struct MfEnginePoint *p3, struct MfEnginePoint *p2, struct MfEnginePoint *p1) {
+void my_trigp(struct MfEnginePoint* p3, struct MfEnginePoint* p2, struct MfEnginePoint* p1) {
     std::int32_t dx_lhs, dy_lhs, dx_rhs, dy_rhs, dx2, dy2;
 
     // shades
@@ -4117,7 +4117,7 @@ clip_out:;
     //		p1->Shade=128;
 }
 
-void rotate_a_point(struct MfEnginePoint *p1, std::int32_t cx, std::int32_t cy, std::int32_t a) {
+void rotate_a_point(struct MfEnginePoint* p1, std::int32_t cx, std::int32_t cy, std::int32_t a) {
     std::int32_t dx, dy;
 
     dx = p1->X - cx;
@@ -4132,9 +4132,9 @@ void rotate_a_point(struct MfEnginePoint *p1, std::int32_t cx, std::int32_t cy, 
 
 struct Boint span_info[1024];
 
-void (*render_span)(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t draw_flags);
+void (*render_span)(struct Boint* p_b, std::uint8_t* ptr_screen, std::int32_t draw_flags);
 
-void render_span8(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t draw_flags) {
+void render_span8(struct Boint* p_b, std::uint8_t* ptr_screen, std::int32_t draw_flags) {
     std::int32_t width;
     std::int32_t step_shade, step_tx, step_ty;
 
@@ -4281,7 +4281,7 @@ void render_span8(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t draw
     //	*(ptr_screen+(width)-1)=255;
 }
 
-void render_span16(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t draw_flags) {
+void render_span16(struct Boint* p_b, std::uint8_t* ptr_screen, std::int32_t draw_flags) {
     std::int32_t width;
     std::int32_t step_shade, step_tx, step_ty;
 
@@ -4374,7 +4374,7 @@ void render_span16(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t dra
     }
 }
 
-void render_span32(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t draw_flags) {
+void render_span32(struct Boint* p_b, std::uint8_t* ptr_screen, std::int32_t draw_flags) {
     std::int32_t width;
     std::int32_t step_shade, step_tx, step_ty;
 
@@ -4431,7 +4431,7 @@ void render_span32(struct Boint *p_b, std::uint8_t *ptr_screen, std::int32_t dra
 
 #define FILTERING_ON 1
 
-inline void average_points(struct MfEnginePoint *mid, struct MfEnginePoint *p1, struct MfEnginePoint *p2) {
+inline void average_points(struct MfEnginePoint* mid, struct MfEnginePoint* p1, struct MfEnginePoint* p2) {
     mid->X = (p1->X + p2->X) >> 1;
     mid->Y = (p1->Y + p2->Y) >> 1;
     mid->TX = (p1->TX + p2->TX) >> 1;
@@ -4439,7 +4439,7 @@ inline void average_points(struct MfEnginePoint *mid, struct MfEnginePoint *p1, 
     mid->Shade = (p1->Shade + p2->Shade) >> 1;
 }
 
-inline void pers_average_points(struct MfEnginePoint *mid, struct MfEnginePoint *p1, struct MfEnginePoint *p2) {
+inline void pers_average_points(struct MfEnginePoint* mid, struct MfEnginePoint* p1, struct MfEnginePoint* p2) {
     float as, at, aq;
     float az, atx, aty;
 
@@ -4462,13 +4462,13 @@ inline void pers_average_points(struct MfEnginePoint *mid, struct MfEnginePoint 
 
     mid->X = (p1->X + p2->X) >> 1;
     mid->Y = (p1->Y + p2->Y) >> 1;
-    mid->TX = (std::int32_t)(as / aq);
-    mid->TY = (std::int32_t)(at / aq);
+    mid->TX = (std::int32_t) (as / aq);
+    mid->TY = (std::int32_t) (at / aq);
     mid->Shade = (p1->Shade + p2->Shade) >> 1;
     mid->Z3d = (p1->Z3d + p2->Z3d) >> 1;
 }
 
-inline void pers_average_points4(struct MfEnginePoint *mid, struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4) {
+inline void pers_average_points4(struct MfEnginePoint* mid, struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4) {
     float as, at, aq;
     float az, atx, aty;
 
@@ -4488,13 +4488,13 @@ inline void pers_average_points4(struct MfEnginePoint *mid, struct MfEnginePoint
 
     mid->X = (p1->X + p2->X + p3->X + p4->X) >> 2;
     mid->Y = (p1->Y + p2->Y + p3->Y + p4->Y) >> 2;
-    mid->TX = (std::int32_t)(as / aq);
-    mid->TY = (std::int32_t)(at / aq);
+    mid->TX = (std::int32_t) (as / aq);
+    mid->TY = (std::int32_t) (at / aq);
     mid->Shade = (p1->Shade + p2->Shade + p3->Shade + p4->Shade) >> 2;
     mid->Z3d = (p1->Z3d + p2->Z3d + p3->Z3d + p4->Z3d) >> 2;
 }
 
-inline void average_points4(struct MfEnginePoint *mid, struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4) {
+inline void average_points4(struct MfEnginePoint* mid, struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4) {
     mid->X = (p1->X + p2->X + p3->X + p4->X) >> 2;
     mid->Y = (p1->Y + p2->Y + p3->Y + p4->Y) >> 2;
     mid->TX = (p1->TX + p2->TX + p3->TX + p4->TX) >> 2;
@@ -4503,12 +4503,12 @@ inline void average_points4(struct MfEnginePoint *mid, struct MfEnginePoint *p1,
 }
 
 // scan from p1 to p2 filling in the span info
-inline void scan_a_line_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2) {
+inline void scan_a_line_noz(struct MfEnginePoint* p1, struct MfEnginePoint* p2) {
     std::int32_t dx, dy, cx, cy;
     std::int32_t tx, ty, dtx, dty;
     std::int32_t shade, d_shade;
     std::int32_t side = 0;
-    struct Boint *ptr_side;
+    struct Boint* ptr_side;
     {
         /*
                         char	str[100];
@@ -4522,7 +4522,7 @@ inline void scan_a_line_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2) 
         */
     }
     if (p1->Y > p2->Y) {
-        struct MfEnginePoint *ptemp;
+        struct MfEnginePoint* ptemp;
         ptemp = p2;
         p2 = p1;
         p1 = ptemp;
@@ -4622,11 +4622,11 @@ inline void scan_a_line_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2) 
             p4   	  p7		 p3
 */
 
-void my_quad_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3, struct MfEnginePoint *p4) {
+void my_quad_noz(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3, struct MfEnginePoint* p4) {
     std::int32_t top, bottom;
     std::int32_t left, right;
-    struct Boint *p_span;
-    std::uint8_t *ptr_screen;
+    struct Boint* p_span;
+    std::uint8_t* ptr_screen;
 
 #ifdef FILTERING_ON
     std::int32_t f_dx = 0, f_dy = 0;
@@ -4726,11 +4726,11 @@ void my_quad_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEn
 #endif
 }
 
-void my_trig_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p3) {
+void my_trig_noz(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p3) {
     std::int32_t top, bottom;
     std::int32_t left, right;
-    struct Boint *p_span;
-    std::uint8_t *ptr_screen;
+    struct Boint* p_span;
+    std::uint8_t* ptr_screen;
 
 #ifdef FILTERING_ON
     std::int32_t f_dx = 0, f_dy = 0;
@@ -4811,11 +4811,11 @@ void my_trig_noz(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEn
 
 std::uint32_t poly_def;
 // scan from p1 to p2 filling in the span info
-inline void scan_a_line(struct Boint *p_b, std::int32_t top, struct MfEnginePoint *p1, struct MfEnginePoint *p2) {
+inline void scan_a_line(struct Boint* p_b, std::int32_t top, struct MfEnginePoint* p1, struct MfEnginePoint* p2) {
     std::int32_t dx, dy, cx, cy, dz, cz;
     std::int32_t tx, ty, dtx, dty;
     std::int32_t shade, d_shade;
-    struct Boint *ptr_side;
+    struct Boint* ptr_side;
 
     dz = p2->Z3d - p1->Z3d;
     dy = p2->Y - p1->Y;
@@ -4947,11 +4947,11 @@ inline void scan_a_line(struct Boint *p_b, std::int32_t top, struct MfEnginePoin
 */
 
 #undef FILTERING_ON
-void my_quad(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEnginePoint *p4, struct MfEnginePoint *p3) {
+void my_quad(struct MfEnginePoint* p1, struct MfEnginePoint* p2, struct MfEnginePoint* p4, struct MfEnginePoint* p3) {
     std::int32_t top, bottom;
     std::int32_t left, right;
-    struct Boint *p_span;
-    std::uint8_t *ptr_screen;
+    struct Boint* p_span;
+    std::uint8_t* ptr_screen;
 
 #ifdef FILTERING_ON
     std::int32_t f_dx = 0, f_dy = 0;
@@ -5009,7 +5009,7 @@ void my_quad(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEngine
     scan_a_line(current_boint, top, p4, p1);
 
     {
-        struct Boint **p_head;
+        struct Boint** p_head;
         p_head = &z_spans[top];
         p_span = current_boint; //[top];
         current_boint += (bottom - top) + 1;
@@ -5039,13 +5039,13 @@ void my_quad(struct MfEnginePoint *p1, struct MfEnginePoint *p2, struct MfEngine
 #endif
 }
 
-void draw_a_single_span(std::uint8_t *p_screen, struct Boint p_b) {
+void draw_a_single_span(std::uint8_t* p_screen, struct Boint p_b) {
 }
 void draw_all_spans(void) {
     std::int32_t c0;
     std::int32_t count;
     struct Boint **b, *p_c;
-    std::uint8_t *p_screen;
+    std::uint8_t* p_screen;
     std::uint32_t dont_draw = 0, dump = 0;
     std::int32_t y = 0;
     if (Keys[KB_A])

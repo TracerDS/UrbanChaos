@@ -7,7 +7,7 @@
 #include <cstdint>
 
 // #include	"game.h" //really requires thing.h but thing.h required game.h so lets cut it off at the pass#
-struct Thing;
+struct Entity;
 
 //
 // The size of the map and the number of blocks per map square.
@@ -154,7 +154,7 @@ void PAP_assert_if_off_map_hi(std::int32_t x, std::int32_t z);
 
 std::int32_t PAP_calc_height_at_point(std::int32_t map_x, std::int32_t map_z);
 std::int32_t PAP_calc_height_at(std::int32_t x, std::int32_t z);
-std::int32_t PAP_calc_height_at_thing(Thing *p_thing, std::int32_t x, std::int32_t z);
+std::int32_t PAP_calc_height_at_thing(Entity *p_thing, std::int32_t x, std::int32_t z);
 std::int32_t PAP_calc_map_height_at(std::int32_t x, std::int32_t z);
 
 //

@@ -17,7 +17,7 @@
 // #define FASTPRIM_PERFORMANCE
 
 #ifdef FASTPRIM_PERFORMANCE
-FILE *FASTPRIM_handle;
+FILE* FASTPRIM_handle;
 std::int32_t FASTPRIM_num_freed;
 std::int32_t FASTPRIM_num_cached;
 std::int32_t FASTPRIM_num_already_cached;
@@ -28,14 +28,14 @@ std::int32_t FASTPRIM_num_drawn;
 // The D3D vertices and indices passed to DrawIndexedPrimitive
 //
 
-D3DLVERTEX *FASTPRIM_lvert_buffer;
-D3DLVERTEX *FASTPRIM_lvert;
+D3DLVERTEX* FASTPRIM_lvert_buffer;
+D3DLVERTEX* FASTPRIM_lvert;
 std::int32_t FASTPRIM_lvert_max;
 std::int32_t FASTPRIM_lvert_upto;
 std::int32_t FASTPRIM_lvert_free_end;    // The end of the free range of lverts.
 std::int32_t FASTPRIM_lvert_free_unused; // From this lvert to the end of the array is unused.
 
-std::uint16_t *FASTPRIM_index;
+std::uint16_t* FASTPRIM_index;
 std::int32_t FASTPRIM_index_max;
 std::int32_t FASTPRIM_index_upto;
 std::int32_t FASTPRIM_index_free_end;    // The end of the free range of indices
@@ -46,7 +46,7 @@ std::int32_t FASTPRIM_index_free_unused; // From this index to the end of the ar
 //
 
 std::uint8_t FASTPRIM_matrix_buffer[sizeof(D3DMATRIX) + 32];
-D3DMATRIX *FASTPRIM_matrix;
+D3DMATRIX* FASTPRIM_matrix;
 
 //
 // Each DrawIndexedPrim call has one of these structures.
@@ -114,14 +114,14 @@ std::int32_t FASTPRIM_queue_end;
 LPDIRECT3DTEXTURE2 FASTPRIM_find_texture_from_page(std::int32_t page) {
     std::int32_t i;
 
-    PolyPage *pp = &POLY_Page[page];
+    PolyPage* pp = &POLY_Page[page];
 
     return pp->RS.GetTexture();
 }
 
 #ifdef DEBUG
-void *pvJustChecking1 = nullptr;
-void *pvJustChecking2 = nullptr;
+void* pvJustChecking1 = nullptr;
+void* pvJustChecking2 = nullptr;
 #endif
 
 void FASTPRIM_init() {
@@ -133,28 +133,28 @@ void FASTPRIM_init() {
     // FASTPRIM_lvert_max         = 256;
 
 #ifdef DEBUG
-    FASTPRIM_lvert_buffer = (D3DLVERTEX *) MemAlloc(sizeof(D3DLVERTEX) * FASTPRIM_lvert_max + 31 + 32);
-    FASTPRIM_lvert = (D3DLVERTEX *) ((((std::int32_t) FASTPRIM_lvert_buffer) + 31) & ~0x1f);
+    FASTPRIM_lvert_buffer = (D3DLVERTEX*) MemAlloc(sizeof(D3DLVERTEX) * FASTPRIM_lvert_max + 31 + 32);
+    FASTPRIM_lvert = (D3DLVERTEX*) ((((std::int32_t) FASTPRIM_lvert_buffer) + 31) & ~0x1f);
     // And write magic numbers just afterwards to check for scribbles.
-    char *pcTemp = (char *) ((std::int32_t) FASTPRIM_lvert + sizeof(D3DLVERTEX) * FASTPRIM_lvert_max);
+    char* pcTemp = (char*) ((std::int32_t) FASTPRIM_lvert + sizeof(D3DLVERTEX) * FASTPRIM_lvert_max);
     strcpy(pcTemp, "ThisIsAMagicString901234567890");
 #else
-    FASTPRIM_lvert_buffer = (D3DLVERTEX *) MemAlloc(sizeof(D3DLVERTEX) * FASTPRIM_lvert_max + 31);
-    FASTPRIM_lvert = (D3DLVERTEX *) ((((std::int32_t) FASTPRIM_lvert_buffer) + 31) & ~0x1f);
+    FASTPRIM_lvert_buffer = (D3DLVERTEX*) MemAlloc(sizeof(D3DLVERTEX) * FASTPRIM_lvert_max + 31);
+    FASTPRIM_lvert = (D3DLVERTEX*) ((((std::int32_t) FASTPRIM_lvert_buffer) + 31) & ~0x1f);
 #endif
     FASTPRIM_lvert_upto = 0;
     FASTPRIM_lvert_free_end = FASTPRIM_lvert_max;
     FASTPRIM_lvert_free_unused = FASTPRIM_lvert_max;
 
     FASTPRIM_index_max = FASTPRIM_lvert_max * 3; // Not * 5 / 4 because we may have some extra sharing...
-    FASTPRIM_index = (std::uint16_t *) MemAlloc(sizeof(std::uint16_t) * FASTPRIM_index_max);
+    FASTPRIM_index = (std::uint16_t*) MemAlloc(sizeof(std::uint16_t) * FASTPRIM_index_max);
     FASTPRIM_index_upto = 0;
     FASTPRIM_index_free_end = FASTPRIM_index_max;
     FASTPRIM_index_free_unused = FASTPRIM_index_max;
 
 #ifdef DEBUG
-    pvJustChecking1 = (void *) FASTPRIM_lvert_buffer;
-    pvJustChecking2 = (void *) FASTPRIM_index;
+    pvJustChecking1 = (void*) FASTPRIM_lvert_buffer;
+    pvJustChecking2 = (void*) FASTPRIM_index;
 #endif
 
     FASTPRIM_call_upto = 0;
@@ -168,7 +168,7 @@ void FASTPRIM_init() {
     memset(FASTPRIM_prim, 0, sizeof(FASTPRIM_prim));
     memset(FASTPRIM_queue, 0, sizeof(FASTPRIM_queue));
 
-    FASTPRIM_matrix = (D3DMATRIX *) ((std::int32_t(FASTPRIM_matrix_buffer) + 31) & ~0x1f);
+    FASTPRIM_matrix = (D3DMATRIX*) ((std::int32_t(FASTPRIM_matrix_buffer) + 31) & ~0x1f);
 
     //
     // Don't convert car wheels because their texture coordinates rotate!
@@ -194,8 +194,8 @@ void FASTPRIM_init() {
 void FASTPRIM_free_cached_prim(std::int32_t prim) {
     std::int32_t i;
 
-    FASTPRIM_Call *fc;
-    FASTPRIM_Prim *fp;
+    FASTPRIM_Call* fc;
+    FASTPRIM_Prim* fp;
 
     ASSERT(WITHIN(prim, 0, FASTPRIM_MAX_PRIMS - 1));
 
@@ -241,7 +241,7 @@ void FASTPRIM_free_cached_prim(std::int32_t prim) {
 // to grow. It may move all the data in the call!
 //
 
-void FASTPRIM_free_queue_for_call(FASTPRIM_Call *fc) {
+void FASTPRIM_free_queue_for_call(FASTPRIM_Call* fc) {
     std::int32_t duplicates = 0;
 
     std::int32_t old_lvert_free_end;
@@ -309,10 +309,10 @@ void FASTPRIM_free_queue_for_call(FASTPRIM_Call *fc) {
 // the given texture.
 //
 
-void FASTPRIM_create_call(FASTPRIM_Prim *fp, LPDIRECT3DTEXTURE2 texture, std::uint16_t type) {
+void FASTPRIM_create_call(FASTPRIM_Prim* fp, LPDIRECT3DTEXTURE2 texture, std::uint16_t type) {
     std::int32_t i;
 
-    FASTPRIM_Call *fc;
+    FASTPRIM_Call* fc;
 
     //
     // Do we already have a call structure for this texture?
@@ -356,7 +356,7 @@ void FASTPRIM_create_call(FASTPRIM_Prim *fp, LPDIRECT3DTEXTURE2 texture, std::ui
 //
 
 std::uint16_t FASTPRIM_add_point_to_call(
-    FASTPRIM_Call *fc,
+    FASTPRIM_Call* fc,
     float x,
     float y,
     float z,
@@ -366,7 +366,7 @@ std::uint16_t FASTPRIM_add_point_to_call(
     std::uint32_t specular) {
     std::int32_t i;
 
-    D3DLVERTEX *lv;
+    D3DLVERTEX* lv;
 
     //
     // Does this point already exist?
@@ -423,7 +423,7 @@ std::uint16_t FASTPRIM_add_point_to_call(
     return fc->lvertcount++;
 }
 
-void FASTPRIM_ensure_room_for_indices(FASTPRIM_Call *fc) {
+void FASTPRIM_ensure_room_for_indices(FASTPRIM_Call* fc) {
     if (FASTPRIM_index_upto + 8 >= FASTPRIM_index_free_end) {
 #ifdef FASTPRIM_PERFORMANCE
         fprintf(FASTPRIM_handle, "No indices...\n");
@@ -440,7 +440,7 @@ std::int32_t FASTPRIM_draw(
     float y,
     float z,
     float matrix[9],
-    NIGHT_Colour *lpc) {
+    NIGHT_Colour* lpc) {
 #ifndef TARGET_DC
 
     if (!Keys[KB_R]) {
@@ -465,12 +465,12 @@ std::int32_t FASTPRIM_draw(
     D3DCOLOR pcolour;
     D3DCOLOR pspecular;
 
-    FASTPRIM_Prim *fp;
-    PrimObject *po;
-    PrimFace4 *f4;
-    PrimFace3 *f3;
-    FASTPRIM_Call *fc;
-    PolyPage *pp;
+    FASTPRIM_Prim* fp;
+    PrimObject* po;
+    PrimFace4* f4;
+    PrimFace3* f3;
+    FASTPRIM_Call* fc;
+    PolyPage* pp;
 
     LPDIRECT3DTEXTURE2 texture;
 
@@ -482,7 +482,7 @@ std::int32_t FASTPRIM_draw(
     //
 
     {
-        PrimInfo *pi = get_prim_info(prim);
+        PrimInfo* pi = get_prim_info(prim);
 
         extern float AENG_cam_x;
         extern float AENG_cam_z;
@@ -1069,7 +1069,7 @@ std::int32_t FASTPRIM_draw(
             extern float AENG_cam_pitch;
             extern float AENG_cam_roll;
 
-            D3DLVERTEX *lv;
+            D3DLVERTEX* lv;
 
             MATRIX_calc(cam_matrix, AENG_cam_yaw, AENG_cam_pitch, AENG_cam_roll);
             MATRIX_3x3mul(comb, cam_matrix, matrix);
@@ -1111,7 +1111,7 @@ std::int32_t FASTPRIM_draw(
             // Relight then AND out the colours...
             //
 
-            D3DLVERTEX *lv;
+            D3DLVERTEX* lv;
 
             for (j = 0; j < fc->lvertcount; j++) {
                 ASSERT(WITHIN(fc->lvert + j, 0, FASTPRIM_lvert_max - 1));
@@ -1127,7 +1127,7 @@ std::int32_t FASTPRIM_draw(
                 // Relight from the cached lighting.
                 //
 
-                D3DLVERTEX *lv;
+                D3DLVERTEX* lv;
 
                 for (j = 0; j < fc->lvertcount; j++) {
                     ASSERT(WITHIN(fc->lvert + j, 0, FASTPRIM_lvert_max - 1));
@@ -1152,7 +1152,7 @@ std::int32_t FASTPRIM_draw(
                     &default_colour,
                     &default_specular);
 
-                D3DLVERTEX *lv;
+                D3DLVERTEX* lv;
 
                 for (j = 0; j < fc->lvertcount; j++) {
                     ASSERT(WITHIN(fc->lvert + j, 0, FASTPRIM_lvert_max - 1));
@@ -1242,10 +1242,10 @@ void FASTPRIM_fini() {
 #ifdef DEBUG
     ASSERT(FASTPRIM_lvert_buffer != nullptr);
     ASSERT(FASTPRIM_index != nullptr);
-    ASSERT(FASTPRIM_lvert_buffer == (void *) pvJustChecking1);
-    ASSERT(FASTPRIM_index == (void *) pvJustChecking2);
+    ASSERT(FASTPRIM_lvert_buffer == (void*) pvJustChecking1);
+    ASSERT(FASTPRIM_index == (void*) pvJustChecking2);
 
-    char *pcTemp = (char *) ((std::int32_t) FASTPRIM_lvert + sizeof(D3DLVERTEX) * FASTPRIM_lvert_max);
+    char* pcTemp = (char*) ((std::int32_t) FASTPRIM_lvert + sizeof(D3DLVERTEX) * FASTPRIM_lvert_max);
     ASSERT(0 == strcmp(pcTemp, "ThisIsAMagicString901234567890"));
 
 #endif

@@ -67,7 +67,7 @@ char WaypointUses[TT_NUMBER] =
         WPU_TIME,                 // the other crime rate...
         WPU_DEPEND,               // Person is murderer
         WPU_DEPEND | WPU_BOOLEAN, // Person in vehicle
-        WPU_DEPEND | WPU_RADIUS,  // Thing radius dir
+        WPU_DEPEND | WPU_RADIUS,  // Entity radius dir
         WPU_DEPEND,               // Player carries person
         WPU_DEPEND,               // Specific item held
         WPU_DEPEND,               // Random,
@@ -151,9 +151,9 @@ void free_mission(std::uint16_t mission) {
 
 //---------------------------------------------------------------
 
-void init_mission(std::uint16_t mission_ref, char *mission_name) {
+void init_mission(std::uint16_t mission_ref, char* mission_name) {
     std::uint16_t c0;
-    Mission *the_mission;
+    Mission* the_mission;
 
     //	Init the mission name.
     the_mission = &mission_pool[mission_ref];
@@ -173,7 +173,7 @@ void init_mission(std::uint16_t mission_ref, char *mission_name) {
 
 //---------------------------------------------------------------
 
-void ResetFreepoint(Mission *mission) {
+void ResetFreepoint(Mission* mission) {
     EventPoint *ep_base, *the_ep;
 
     ep_base = mission->EventPoints;
@@ -183,7 +183,7 @@ void ResetFreepoint(Mission *mission) {
     mission->FreeEPoints = EVENTPOINT_NUMBER(ep_base, the_ep);
 }
 
-void ResetUsedpoint(Mission *mission) {
+void ResetUsedpoint(Mission* mission) {
     EventPoint *ep_base, *the_ep;
 
     ep_base = mission->EventPoints;
@@ -193,7 +193,7 @@ void ResetUsedpoint(Mission *mission) {
     mission->UsedEPoints = EVENTPOINT_NUMBER(ep_base, the_ep);
 }
 
-void ResetFreelist(Mission *mission) {
+void ResetFreelist(Mission* mission) {
     // sheesh
     std::int32_t prv = 0, c0;
     EventPoint *last = NULL, *curr = NULL;
@@ -211,7 +211,7 @@ void ResetFreelist(Mission *mission) {
     }
 }
 
-void ResetUsedlist(Mission *mission) {
+void ResetUsedlist(Mission* mission) {
     // sheesh
     std::int32_t prv = 0, c0;
     EventPoint *last = NULL, *curr;
@@ -229,8 +229,8 @@ void ResetUsedlist(Mission *mission) {
     }
 }
 
-void ResetLink(EventPoint *ep_base, EventPoint *the_ep, bool used) {
-    EventPoint *ep_joint;
+void ResetLink(EventPoint* ep_base, EventPoint* the_ep, bool used) {
+    EventPoint* ep_joint;
     std::int32_t the_point, the_joint;
 
     the_point = EVENTPOINT_NUMBER(ep_base, the_ep);
@@ -263,7 +263,7 @@ void ResetLink(EventPoint *ep_base, EventPoint *the_ep, bool used) {
     ep_joint->Prev = the_point;
 }
 
-void BreakLink(EventPoint *ep_base, EventPoint *the_ep) {
+void BreakLink(EventPoint* ep_base, EventPoint* the_ep) {
     if (the_ep->Prev)
         TO_EVENTPOINT(ep_base, the_ep->Prev)->Next = the_ep->Next;
     if (the_ep->Next)
@@ -273,7 +273,7 @@ void BreakLink(EventPoint *ep_base, EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-EventPoint *alloc_eventpoint() {
+EventPoint* alloc_eventpoint() {
     std::uint16_t new_epoint;
     EventPoint *ep_base,
         *the_epoint,
@@ -362,7 +362,7 @@ EventPoint *alloc_eventpoint() {
 
 //---------------------------------------------------------------
 
-void free_eventpoint(EventPoint *the_ep) {
+void free_eventpoint(EventPoint* the_ep) {
     EventPoint *ep_base, *ep_joint;
     std::int32_t the_point, ins_point;
 
@@ -370,7 +370,7 @@ void free_eventpoint(EventPoint *the_ep) {
     if (current_mission && the_ep) {
         if ((the_ep->TriggeredBy == TT_SHOUT_ALL) || (the_ep->TriggeredBy == TT_SHOUT_ANY)) {
             if (the_ep->Radius)
-                free((void *) the_ep->Radius);
+                free((void*) the_ep->Radius);
         }
         switch (the_ep->WaypointType) {
         case WPT_MESSAGE:
@@ -380,13 +380,13 @@ void free_eventpoint(EventPoint *the_ep) {
         case WPT_BONUS_POINTS:
         case WPT_CONVERSATION:
             if (the_ep->Data[0]) {
-                free((void *) the_ep->Data[0]);
+                free((void*) the_ep->Data[0]);
                 the_ep->Data[0] = 0;
             }
             break;
         case WPT_CUT_SCENE:
             if (the_ep->Data[0])
-                CUTSCENE_data_free((CSData *) the_ep->Data[0]);
+                CUTSCENE_data_free((CSData*) the_ep->Data[0]);
             the_ep->Data[0] = 0;
             break;
         }
@@ -425,7 +425,7 @@ void free_eventpoint(EventPoint *the_ep) {
 
 //---------------------------------------------------------------
 
-void write_event_extra(FILE *file_handle, EventPoint *ep) {
+void write_event_extra(FILE* file_handle, EventPoint* ep) {
     std::int32_t l;
     std::uint8_t u;
 
@@ -443,15 +443,15 @@ void write_event_extra(FILE *file_handle, EventPoint *ep) {
                 l = 0;
                 fwrite(&l, 4, 1, file_handle);
             } else {
-                l = strlen((char *) ep->Data[0]);
+                l = strlen((char*) ep->Data[0]);
                 fwrite(&l, 4, 1, file_handle);
-                fwrite((void *) ep->Data[0], l, 1, file_handle);
+                fwrite((void*) ep->Data[0], l, 1, file_handle);
             }
             break;
         case WPT_CUT_SCENE:
             u = 2;
             fwrite(&u, 1, 1, file_handle);
-            CUTSCENE_write(file_handle, (CSData *) ep->Data[0]);
+            CUTSCENE_write(file_handle, (CSData*) ep->Data[0]);
             break;
         }
         switch (ep->TriggeredBy) {
@@ -463,9 +463,9 @@ void write_event_extra(FILE *file_handle, EventPoint *ep) {
                 l = 0;
                 fwrite(&l, 4, 1, file_handle);
             } else {
-                l = strlen((char *) ep->Radius);
+                l = strlen((char*) ep->Radius);
                 fwrite(&l, 4, 1, file_handle);
-                fwrite((void *) ep->Radius, l, 1, file_handle);
+                fwrite((void*) ep->Radius, l, 1, file_handle);
             }
             break;
         }
@@ -474,9 +474,9 @@ void write_event_extra(FILE *file_handle, EventPoint *ep) {
 
 //---------------------------------------------------------------
 
-void read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, std::int32_t ver) {
+void read_event_extra(FILE* file_handle, EventPoint* ep, EventPoint* base, std::int32_t ver) {
     std::int32_t l; //,m;
-    std::uint16_t *pt;
+    std::uint16_t* pt;
     std::uint8_t u;
 
     if (ep->Used) {
@@ -506,15 +506,15 @@ void read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, std::
                 l = _MAX_PATH;
             if (l) {
                 ep->Data[0] = (std::int32_t) malloc(l + 1);
-                ZeroMemory((char *) ep->Data[0], l + 1);
-                fread((void *) ep->Data[0], l, 1, file_handle);
+                ZeroMemory((char*) ep->Data[0], l + 1);
+                fread((void*) ep->Data[0], l, 1, file_handle);
             } else
                 ep->Data[0] = 0;
             break;
         case WPT_CUT_SCENE:
             if (ver > 7) // has a byte-code indicating what it is
                 fread(&u, 1, 1, file_handle);
-            CUTSCENE_read(file_handle, (CSData **) &ep->Data[0]);
+            CUTSCENE_read(file_handle, (CSData**) &ep->Data[0]);
             break;
         }
         switch (ep->TriggeredBy) {
@@ -528,8 +528,8 @@ void read_event_extra(FILE *file_handle, EventPoint *ep, EventPoint *base, std::
                 l = _MAX_PATH;
             if (l) {
                 ep->Radius = (std::int32_t) malloc(l + 1);
-                ZeroMemory((char *) ep->Radius, l + 1);
-                fread((void *) ep->Radius, l, 1, file_handle);
+                ZeroMemory((char*) ep->Radius, l + 1);
+                fread((void*) ep->Radius, l, 1, file_handle);
             } else
                 ep->Radius = 0;
             break;
@@ -550,10 +550,10 @@ bool export_mission() {
         current_ep;
     EventPoint *ep_base,
         *ep_ptr;
-    FILE *file_handle;
+    FILE* file_handle;
     OPENFILENAME save_mission;
 
-    Mission *temp_mission;
+    Mission* temp_mission;
 
     if (!valid_mission()) {
         MessageBox(0, "The mission is invalid. Check the list of waypoints for warning symbols, fix the mistakes, and try again.", "Error", MB_ICONEXCLAMATION | MB_OK);
@@ -609,7 +609,7 @@ bool export_mission() {
                 {
                     std::int32_t i;
 
-                    EventPoint *ep;
+                    EventPoint* ep;
 
                     //
                     // Mark all event points as unreferenced.
@@ -868,7 +868,7 @@ bool export_mission() {
                     }
                 }
 
-                fwrite((void *) temp_mission, sizeof(Mission), 1, file_handle);
+                fwrite((void*) temp_mission, sizeof(Mission), 1, file_handle);
 
                 delete temp_mission;
 
@@ -876,7 +876,7 @@ bool export_mission() {
                 for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
                     write_event_extra(file_handle, &current_mission->EventPoints[c0]);
 
-                fwrite((void *) MissionZones[current_mission - mission_pool], 128 * 128, 1, file_handle);
+                fwrite((void*) MissionZones[current_mission - mission_pool], 128 * 128, 1, file_handle);
 
                 fclose(file_handle);
             }
@@ -891,7 +891,7 @@ void import_mission() {
     std::uint16_t new_mission;
     OPENFILENAME open_mission;
     char curr_dir[_MAX_PATH];
-    FILE *file_handle;
+    FILE* file_handle;
     std::uint32_t m_vers;
     HTREEITEM map_handle;
     TV_ITEM map_item;
@@ -899,7 +899,7 @@ void import_mission() {
     WSElement *map_element,
         *new_element;
     std::int32_t c0;
-    Mission *the_mission;
+    Mission* the_mission;
 
     sprintf(map_default_dir, "c:\\Fallen\\Levels", curr_dir);
 
@@ -921,7 +921,7 @@ void import_mission() {
     map_item.hItem = map_handle;
     map_item.mask = TVIF_PARAM;
     TreeView_GetItem(ws_tree, &map_item);
-    map_element = (WSElement *) map_item.lParam;
+    map_element = (WSElement*) map_item.lParam;
 
     if (GetOpenFileName(&open_mission)) {
         //...
@@ -937,10 +937,10 @@ void import_mission() {
                 the_mission = &mission_pool[new_mission];
                 // Read the mission data
                 if (m_vers > 8)
-                    fread((void *) the_mission, sizeof(Mission), 1, file_handle);
+                    fread((void*) the_mission, sizeof(Mission), 1, file_handle);
                 else if (m_vers > 5) {
                     OldMissionB temp;
-                    fread((void *) &temp, sizeof(OldMissionB), 1, file_handle);
+                    fread((void*) &temp, sizeof(OldMissionB), 1, file_handle);
                     ZeroMemory(the_mission, sizeof(Mission));
                     memcpy(the_mission, &temp, sizeof(OldMissionB));
                     /*						the_mission->CarsRate=0;
@@ -948,7 +948,7 @@ void import_mission() {
                                                                     memcpy(the_mission->SkillLevels,temp.SkillLevels,255);*/
                 } else {
                     OldMission temp;
-                    fread((void *) &temp, sizeof(OldMission), 1, file_handle);
+                    fread((void*) &temp, sizeof(OldMission), 1, file_handle);
                     ZeroMemory(the_mission, sizeof(Mission));
                     memcpy(the_mission, &temp, sizeof(OldMission));
                 }
@@ -958,7 +958,7 @@ void import_mission() {
                 for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
                     read_event_extra(file_handle, &the_mission->EventPoints[c0], the_mission->EventPoints, m_vers);
 
-                fread((void *) MissionZones[the_mission - mission_pool], 128 * 128, 1, file_handle);
+                fread((void*) MissionZones[the_mission - mission_pool], 128 * 128, 1, file_handle);
 
                 strcpy(the_mission->MissionName, InputBox("Import Mission", "Enter new name for mission:", the_mission->MissionName));
                 the_mission->MapIndex = map_element->MapRef;
@@ -998,7 +998,7 @@ void refresh_mission() {
     //	std::uint16_t				new_mission;
     OPENFILENAME open_mission;
     char file_name[_MAX_PATH], *chr, msg[_MAX_PATH + 200];
-    FILE *file_handle;
+    FILE* file_handle;
     std::uint32_t m_vers;
     std::int32_t temp_map;
     //	HTREEITEM			map_handle;
@@ -1046,15 +1046,15 @@ void refresh_mission() {
 
     // Read the mission data
     if (m_vers > 8)
-        fread((void *) current_mission, sizeof(Mission), 1, file_handle);
+        fread((void*) current_mission, sizeof(Mission), 1, file_handle);
     else if (m_vers > 5) {
         OldMissionB temp;
-        fread((void *) &temp, sizeof(OldMissionB), 1, file_handle);
+        fread((void*) &temp, sizeof(OldMissionB), 1, file_handle);
         ZeroMemory(current_mission, sizeof(Mission));
         memcpy(current_mission, &temp, sizeof(OldMissionB));
     } else {
         OldMission temp;
-        fread((void *) &temp, sizeof(OldMission), 1, file_handle);
+        fread((void*) &temp, sizeof(OldMission), 1, file_handle);
         ZeroMemory(current_mission, sizeof(Mission));
         memcpy(current_mission, &temp, sizeof(OldMission));
     }
@@ -1064,7 +1064,7 @@ void refresh_mission() {
     for (c0 = 0; c0 < MAX_EVENTPOINTS; c0++)
         read_event_extra(file_handle, &current_mission->EventPoints[c0], current_mission->EventPoints, m_vers);
 
-    fread((void *) MissionZones[current_mission - mission_pool], 128 * 128, 1, file_handle);
+    fread((void*) MissionZones[current_mission - mission_pool], 128 * 128, 1, file_handle);
 
     current_mission->MapIndex = temp_map; // MAP_NUMBER(current_map);
 
@@ -1104,8 +1104,8 @@ void refresh_mission() {
 
 //---------------------------------------------------------------
 
-bool NoWaypointsFor(EventPoint *ep) {
-    EventPoint *scan;
+bool NoWaypointsFor(EventPoint* ep) {
+    EventPoint* scan;
     std::int32_t c0;
 
     scan = current_mission->EventPoints;
@@ -1119,7 +1119,7 @@ bool NoWaypointsFor(EventPoint *ep) {
 
 //---------------------------------------------------------------
 
-bool HasText(EventPoint *ep) {
+bool HasText(EventPoint* ep) {
     switch (ep->WaypointType) {
     case WPT_MESSAGE:
     case WPT_CREATE_MAP_EXIT:
@@ -1133,14 +1133,14 @@ bool HasText(EventPoint *ep) {
     }
 }
 
-std::uint16_t GetEPTextID(EventPoint *ep) {
+std::uint16_t GetEPTextID(EventPoint* ep) {
     if ((!ep->Used) || (!HasText(ep))) return 0;
     return (std::uint16_t) ep->Data[9];
 }
 
-void SetEPTextID(EventPoint *ep, std::int32_t value) {
+void SetEPTextID(EventPoint* ep, std::int32_t value) {
     if (value == -1) { // fetch it
-        EventPoint *scan;
+        EventPoint* scan;
         std::int32_t c0, tid;
 
         scan = current_mission->EventPoints;
@@ -1154,9 +1154,9 @@ void SetEPTextID(EventPoint *ep, std::int32_t value) {
     ep->Data[9] = value;
 }
 
-char *GetEPText(EventPoint *ep) {
+char* GetEPText(EventPoint* ep) {
     if (!ep->Data[0]) return 0;
-    return (char *) (ep->Data[0]);
+    return (char*) (ep->Data[0]);
 }
 
 //---------------------------------------------------------------
@@ -1174,7 +1174,7 @@ bool SingleFlagCheck(std::int32_t test) {
     return (bool) gotone;
 }
 
-bool valid_ep(EventPoint *ep) {
+bool valid_ep(EventPoint* ep) {
     if ((WaypointUses[ep->TriggeredBy] & WPU_DEPEND) && !ep->EPRef) return false;
 
     if ((WaypointUses[ep->TriggeredBy] & WPU_BOOLEAN) && !ep->EPRefBool) {
@@ -1546,7 +1546,7 @@ bool valid_ep(EventPoint *ep) {
 
 bool valid_mission() {
     std::int32_t c0;
-    EventPoint *ep;
+    EventPoint* ep;
     bool miss_valid = 1;
 
     if (!current_mission) return false;
@@ -1575,9 +1575,9 @@ bool valid_mission() {
     // street names when they are not.
     //
 
-    char *title = "Is this message a street or place name?";
+    char* title = "Is this message a street or place name?";
 
-    FILE *handle;
+    FILE* handle;
 
     handle = fopen("c:\\quats.txt", "rb");
 
@@ -1603,7 +1603,7 @@ bool valid_mission() {
 
             if (ep->WaypointType == WPT_MESSAGE) {
                 if (ep->Data[0]) {
-                    extern std::int32_t is_street_name(char *str_in);
+                    extern std::int32_t is_street_name(char* str_in);
 
                     if (ep->Data[2] == 0xffff) {
                         //
@@ -1613,7 +1613,7 @@ bool valid_mission() {
                         //
                         // This is a message from someone... so it can't be a street name.
                         //
-                    } else if (is_street_name((char *) ep->Data[0])) {
+                    } else if (is_street_name((char*) ep->Data[0])) {
                         char mess[512];
 
                         sprintf(mess, "%s\n\n\"%s\"\n\n(Tell Mark if it misses out a street name or mistakes a normal message for one.)", title, ep->Data[0]);

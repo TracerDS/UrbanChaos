@@ -9,7 +9,7 @@
 //---------------------------------------------------------------
 
 void DrawBox8(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint32_t colour) {
-    std::uint8_t *ptr;
+    std::uint8_t* ptr;
     std::uint32_t big_col,
         *ptr_big,
         w2;
@@ -34,11 +34,11 @@ void DrawBox8(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t h
                 *ptr++ = (std::uint8_t) colour;
             }
             w2 = temp_width - (x & 3);
-            ptr_big = (std::uint32_t *) ptr;
+            ptr_big = (std::uint32_t*) ptr;
             for (width = w2 >> 2; width > 0; width--) {
                 *ptr_big++ = big_col;
             }
-            ptr = (std::uint8_t *) ptr_big;
+            ptr = (std::uint8_t*) ptr_big;
             for (width = w2 & 3; width > 0; width--) {
                 *ptr++ = (std::uint8_t) colour;
             }
@@ -48,13 +48,13 @@ void DrawBox8(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t h
 }
 
 void DrawBox16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint32_t colour) {
-    std::uint16_t *ptr;
+    std::uint16_t* ptr;
     std::uint32_t big_col,
         *ptr_big,
         w2;
     std::int32_t temp_width;
 
-    ptr = (std::uint16_t *) WorkWindow + x + (y * WorkScreenWidth >> 1); // have to use window
+    ptr = (std::uint16_t*) WorkWindow + x + (y * WorkScreenWidth >> 1); // have to use window
     temp_width = width;
     if (width <= 2) {
         // Thin rectangles.
@@ -73,11 +73,11 @@ void DrawBox16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t 
                 *ptr++ = (std::uint16_t) colour;
             }
             w2 = temp_width - (x & 1);
-            ptr_big = (std::uint32_t *) ptr;
+            ptr_big = (std::uint32_t*) ptr;
             for (width = w2 >> 1; width > 0; width--) {
                 *ptr_big++ = big_col;
             }
-            ptr = (std::uint16_t *) ptr_big;
+            ptr = (std::uint16_t*) ptr_big;
             for (width = w2 & 1; width > 0; width--) {
                 *ptr++ = (std::uint8_t) colour;
             }
@@ -87,10 +87,10 @@ void DrawBox16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t 
 }
 
 void DrawBox32(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint32_t colour) {
-    std::uint32_t *ptr;
+    std::uint32_t* ptr;
     std::int32_t temp_width;
 
-    ptr = (std::uint32_t *) WorkWindow + x + (y * WorkScreenWidth >> 2); // have to use window
+    ptr = (std::uint32_t*) WorkWindow + x + (y * WorkScreenWidth >> 2); // have to use window
     temp_width = width;
     {
         // Thin rectangles.
@@ -106,7 +106,7 @@ void DrawBox32(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t 
 //---------------------------------------------------------------
 
 void DrawBoxC8(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint32_t colour) {
-    std::uint8_t *ptr;
+    std::uint8_t* ptr;
     std::uint32_t big_col,
         *ptr_big,
         w2;
@@ -152,11 +152,11 @@ void DrawBoxC8(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t 
                 *ptr++ = (std::uint8_t) colour;
             }
             w2 = temp_width - (x & 3);
-            ptr_big = (std::uint32_t *) ptr;
+            ptr_big = (std::uint32_t*) ptr;
             for (width = w2 >> 2; width > 0; width--) {
                 *ptr_big++ = big_col;
             }
-            ptr = (std::uint8_t *) ptr_big;
+            ptr = (std::uint8_t*) ptr_big;
             for (width = w2 & 3; width > 0; width--) {
                 *ptr++ = (std::uint8_t) colour;
             }
@@ -166,7 +166,7 @@ void DrawBoxC8(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t 
 }
 
 void DrawBoxC16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint32_t colour) {
-    std::uint16_t *ptr;
+    std::uint16_t* ptr;
     std::uint32_t big_col,
         *ptr_big,
         w2;
@@ -193,7 +193,7 @@ void DrawBoxC16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t
     if (width <= 0 || height <= 0)
         return;
 
-    ptr = (std::uint16_t *) WorkWindow + x + (y * WorkScreenWidth >> 1); // have to use window
+    ptr = (std::uint16_t*) WorkWindow + x + (y * WorkScreenWidth >> 1); // have to use window
     temp_width = width;
     if (width <= 2) {
         // Thin rectangles.
@@ -212,11 +212,11 @@ void DrawBoxC16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t
                 *ptr++ = (std::uint16_t) colour;
             }
             w2 = temp_width - (x & 1);
-            ptr_big = (std::uint32_t *) ptr;
+            ptr_big = (std::uint32_t*) ptr;
             for (width = w2 >> 1; width > 0; width--) {
                 *ptr_big++ = big_col;
             }
-            ptr = (std::uint16_t *) ptr_big;
+            ptr = (std::uint16_t*) ptr_big;
             for (width = w2 & 1; width > 0; width--) {
                 *ptr++ = (std::uint16_t) colour;
             }
@@ -226,7 +226,7 @@ void DrawBoxC16(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t
 }
 
 void DrawBoxC32(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height, std::uint32_t colour) {
-    std::uint32_t *ptr;
+    std::uint32_t* ptr;
     std::int32_t temp_width;
 
     if (x >= WorkWindowWidth || y >= WorkWindowHeight)
@@ -250,7 +250,7 @@ void DrawBoxC32(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t
     if (width <= 0 || height <= 0)
         return;
 
-    ptr = (std::uint32_t *) WorkWindow + (x) + (y * WorkScreenWidth >> 2); // have to use window
+    ptr = (std::uint32_t*) WorkWindow + (x) + (y * WorkScreenWidth >> 2); // have to use window
     temp_width = width;
 
     for (; height; height--) {

@@ -19,9 +19,9 @@
 
 #ifndef PSX
 
-FILE *SAVE_handle;
+FILE* SAVE_handle;
 
-std::int32_t SAVE_out_data(void *data, std::uint32_t num_bytes) {
+std::int32_t SAVE_out_data(void* data, std::uint32_t num_bytes) {
     if (fwrite(data, 1, num_bytes, SAVE_handle) != num_bytes) {
         return false;
     } else {
@@ -29,7 +29,7 @@ std::int32_t SAVE_out_data(void *data, std::uint32_t num_bytes) {
     }
 }
 
-std::int32_t LOAD_in_data(void *data, std::uint32_t num_bytes) {
+std::int32_t LOAD_in_data(void* data, std::uint32_t num_bytes) {
     DebugText(" read <%d> \n", num_bytes);
     if (fread(data, 1, num_bytes, SAVE_handle) != num_bytes) {
         return false;
@@ -38,10 +38,10 @@ std::int32_t LOAD_in_data(void *data, std::uint32_t num_bytes) {
     }
 }
 
-FILE *LOAD_open() {
+FILE* LOAD_open() {
     return MF_Fopen("ingame.sav", "rb");
 }
-FILE *SAVE_open() {
+FILE* SAVE_open() {
     return MF_Fopen("ingame.sav", "wb");
 }
 
@@ -57,11 +57,11 @@ std::int32_t LOAD_open() {
     return 0;
 }
 
-std::int32_t SAVE_out_data(void *data, std::uint32_t num_bytes) {
+std::int32_t SAVE_out_data(void* data, std::uint32_t num_bytes) {
     //	Compress_Compress(data,num_bytes);
 }
 
-std::int32_t LOAD_in_data(void *data, std::uint32_t num_bytes) {
+std::int32_t LOAD_in_data(void* data, std::uint32_t num_bytes) {
     //	Compress_Decompress(data,num_bytes);
 }
 
@@ -112,7 +112,7 @@ typedef struct
 {
     std::uint8_t Type;
     std::uint8_t Person;
-    std::uint16_t Thing;
+    std::uint16_t Entity;
     std::uint16_t DrawTween;
 
 } SAVE_Person_extra;
@@ -121,7 +121,7 @@ typedef struct
 {
     std::uint8_t Type;
     std::uint8_t Pad;
-    std::uint16_t Thing;
+    std::uint16_t Entity;
     std::uint16_t Special;
     std::uint16_t DrawMesh;
 
@@ -131,7 +131,7 @@ typedef struct
 {
     std::uint8_t Type;
     std::uint8_t Yaw;
-    std::uint16_t Thing;
+    std::uint16_t Entity;
     std::uint16_t x;
     std::int16_t y;
     std::uint16_t z;
@@ -144,7 +144,7 @@ typedef struct
 {
     std::uint8_t Type;
     std::uint8_t Pad;
-    std::uint16_t Thing;
+    std::uint16_t Entity;
     std::uint16_t Vehicle;
     std::uint16_t DrawMesh;
 
@@ -154,27 +154,27 @@ typedef struct
 // Saves out a person thing structure. Returns false on failure.
 //
 
-std::int32_t SAVE_special(Thing *p_special) {
+std::int32_t SAVE_special(Entity* p_special) {
     std::int32_t ret = 1;
 
     SAVE_Special_extra extra;
 
     extra.Type = SAVE_SPECIAL_TYPE_FULL;
 
-    extra.Thing = THING_NUMBER(p_special);
+    extra.Entity = THING_NUMBER(p_special);
 
     extra.Special = SPECIAL_NUMBER(p_special->Genus.Special);
 
     ret &= SAVE_out_data(&extra, sizeof(extra));
     ret &= SAVE_out_data(p_special->Genus.Special, sizeof(Special));
     ret &= SAVE_out_data(p_special->Draw.Mesh, sizeof(DrawMesh));
-    ret &= SAVE_out_data(p_special, sizeof(Thing));
+    ret &= SAVE_out_data(p_special, sizeof(Entity));
 
     return (ret);
 }
 
-std::int32_t SAVE_vehicle(Thing *p_vehicle) {
-    Thing *p_driver;
+std::int32_t SAVE_vehicle(Entity* p_vehicle) {
+    Entity* p_driver;
     std::int32_t ret = 1;
     SAVE_Vehicle_extra extra;
 
@@ -197,7 +197,7 @@ std::int32_t SAVE_vehicle(Thing *p_vehicle) {
 
                                                             extrav.Type=SAVE_VEHICLE_TYPE_HALF;
                                                             extrav.Yaw =(p_vehicle->Genus.Vehicle->Angle&2047)>>3;
-                                                            extrav.Thing = THING_NUMBER(p_vehicle);
+                                                            extrav.Entity = THING_NUMBER(p_vehicle);
                                                             extrav.x=p_vehicle->WorldPos.X>>8;
                                                             extrav.y=p_vehicle->WorldPos.Y>>8;
                                                             extrav.z=p_vehicle->WorldPos.Z>>8;
@@ -213,18 +213,18 @@ std::int32_t SAVE_vehicle(Thing *p_vehicle) {
 
     extra.Type = SAVE_VEHICLE_TYPE_FULL;
 
-    extra.Thing = THING_NUMBER(p_vehicle);
+    extra.Entity = THING_NUMBER(p_vehicle);
 
     extra.Vehicle = VEHICLE_NUMBER(p_vehicle->Genus.Vehicle);
 
     ret &= SAVE_out_data(&extra, sizeof(extra));
     ret &= SAVE_out_data(p_vehicle->Genus.Vehicle, sizeof(Vehicle));
-    ret &= SAVE_out_data(p_vehicle, sizeof(Thing));
+    ret &= SAVE_out_data(p_vehicle, sizeof(Entity));
 
     return (ret);
 }
 
-std::int32_t SAVE_person(Thing *p_person) {
+std::int32_t SAVE_person(Entity* p_person) {
     SAVE_Person sp;
     std::int32_t ret;
 
@@ -303,7 +303,7 @@ std::int32_t SAVE_person(Thing *p_person) {
 
         extra.Type = SAVE_PERSON_TYPE_FULL;
 
-        extra.Thing = THING_NUMBER(p_person);
+        extra.Entity = THING_NUMBER(p_person);
 
         extra.Person = PERSON_NUMBER(p_person->Genus.Person);
         extra.DrawTween = DRAW_TWEEN_NUMBER(p_person->Draw.Tweened);
@@ -311,7 +311,7 @@ std::int32_t SAVE_person(Thing *p_person) {
         ret &= SAVE_out_data(&extra, sizeof(SAVE_Person_extra));
         ret &= SAVE_out_data(p_person->Draw.Tweened, sizeof(DrawTween));
         ret &= SAVE_out_data(p_person->Genus.Person, sizeof(Person));
-        ret &= SAVE_out_data(p_person, sizeof(Thing));
+        ret &= SAVE_out_data(p_person, sizeof(Entity));
         if (ret == 0)
             return (false);
     }
@@ -320,7 +320,7 @@ std::int32_t SAVE_person(Thing *p_person) {
 
 std::int32_t SAVE_things() {
     std::int32_t index;
-    Thing *p_thing;
+    Entity* p_thing;
 
     for (index = 0; index < MAX_THINGS; index++) {
         p_thing = TO_THING(index);
@@ -359,7 +359,7 @@ std::int32_t SAVE_things() {
 std::int32_t SAVE_eways() {
     std::uint8_t marker = SAVE_GAME_EWAY;
     std::int32_t c0, res = 1;
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     if (!SAVE_out_data(&marker, sizeof(marker))) {
         return false;
@@ -382,7 +382,7 @@ std::int32_t SAVE_eways() {
     return true;
 }
 
-std::int32_t SAVE_ingame(char *fname) {
+std::int32_t SAVE_ingame(char* fname) {
     std::int32_t ret = 1;
 
 #ifndef PSX
@@ -408,7 +408,7 @@ std::int32_t SAVE_ingame(char *fname) {
 
 std::int32_t LOAD_eways() {
     std::int32_t c0, res = 1;
-    EWAY_Way *ew;
+    EWAY_Way* ew;
 
     for (c0 = 0; c0 < EWAY_way_upto; c0++) {
         ew = &EWAY_way[c0];
@@ -424,7 +424,7 @@ std::int32_t LOAD_eways() {
     return (res);
 }
 
-void set_person_default_data(Thing *p_person, SAVE_Person *sp) {
+void set_person_default_data(Entity* p_person, SAVE_Person* sp) {
     p_person->WorldPos.X = sp->x << 8;
     p_person->WorldPos.Y = sp->y << 8;
     p_person->WorldPos.Z = sp->z << 8;
@@ -435,7 +435,7 @@ void set_person_default_data(Thing *p_person, SAVE_Person *sp) {
     p_person->OnFace = sp->onface;
 }
 
-void LOAD_person_dead(Thing *p_person) {
+void LOAD_person_dead(Entity* p_person) {
     SAVE_Person sp;
 
     ASSERT(p_person->Class == CLASS_PERSON);
@@ -464,7 +464,7 @@ void LOAD_person_dead(Thing *p_person) {
     add_thing_to_map(p_person);
 }
 
-void LOAD_person_arrested(Thing *p_person) {
+void LOAD_person_arrested(Entity* p_person) {
     SAVE_Person sp;
 
     ASSERT(p_person->Class == CLASS_PERSON);
@@ -493,7 +493,7 @@ void LOAD_person_arrested(Thing *p_person) {
     add_thing_to_map(p_person);
 }
 
-void LOAD_person_full(Thing *p_person) {
+void LOAD_person_full(Entity* p_person) {
     SAVE_Person_extra extra;
 
     ASSERT(p_person->Class == CLASS_PERSON);
@@ -504,13 +504,13 @@ void LOAD_person_full(Thing *p_person) {
     DebugText(" load person full %d ", THING_NUMBER(p_person));
     LOAD_in_data((&extra.Person), sizeof(extra) - 1);
 
-    ASSERT(extra.Thing == THING_NUMBER(p_person));
+    ASSERT(extra.Entity == THING_NUMBER(p_person));
     ASSERT(extra.Person == PERSON_NUMBER(p_person->Genus.Person));
     ASSERT(extra.DrawTween == DRAW_TWEEN_NUMBER(p_person->Draw.Tweened));
 
     LOAD_in_data(p_person->Draw.Tweened, sizeof(DrawTween));
     LOAD_in_data(p_person->Genus.Person, sizeof(Person));
-    LOAD_in_data(p_person, sizeof(Thing));
+    LOAD_in_data(p_person, sizeof(Entity));
 
     if (p_person->Flags & FLAGS_ON_MAPWHO) {
         p_person->Flags &= ~FLAGS_ON_MAPWHO;
@@ -520,9 +520,9 @@ void LOAD_person_full(Thing *p_person) {
     }
 }
 
-void LOAD_special_full(Thing *p_special) {
-    DrawMesh *draw_mesh;
-    Special *special;
+void LOAD_special_full(Entity* p_special) {
+    DrawMesh* draw_mesh;
+    Special* special;
 
     if (p_special->Flags & FLAGS_ON_MAPWHO) // Does thing currently exist on map?
         remove_thing_from_map(p_special);
@@ -531,13 +531,13 @@ void LOAD_special_full(Thing *p_special) {
     DebugText(" loadspecialfull %d ", THING_NUMBER(p_special));
     LOAD_in_data((&extra.Pad), sizeof(extra) - 1);
     //	ASSERT(extra.Special==SPECIAL_NUMBER(p_special->Genus.Special));
-    //	ASSERT(extra.Thing==THING_NUMBER(p_special));
+    //	ASSERT(extra.Entity==THING_NUMBER(p_special));
 
     //	ASSERT(p_special->Class==CLASS_SPECIAL);
 
     if (p_special->Class != CLASS_SPECIAL) {
         std::int32_t index;
-        DrawMesh *dm;
+        DrawMesh* dm;
 
         extern std::int32_t find_empty_special();
         index = find_empty_special();
@@ -555,7 +555,7 @@ void LOAD_special_full(Thing *p_special) {
     special = p_special->Genus.Special;
     draw_mesh = p_special->Draw.Mesh;
 
-    LOAD_in_data(p_special, sizeof(Thing));
+    LOAD_in_data(p_special, sizeof(Entity));
     p_special->Genus.Special = special;
     p_special->Draw.Mesh = draw_mesh;
 
@@ -567,7 +567,7 @@ void LOAD_special_full(Thing *p_special) {
     }
 }
 
-void LOAD_vehicle_full(Thing *p_vehicle) {
+void LOAD_vehicle_full(Entity* p_vehicle) {
     SAVE_Vehicle_extra extra;
 
     ASSERT(p_vehicle->Class == CLASS_VEHICLE);
@@ -578,11 +578,11 @@ void LOAD_vehicle_full(Thing *p_vehicle) {
     DebugText(" loadvehiclefull %d ", THING_NUMBER(p_vehicle));
     LOAD_in_data((&extra.Pad), sizeof(extra) - 1);
 
-    ASSERT(extra.Thing == THING_NUMBER(p_vehicle));
+    ASSERT(extra.Entity == THING_NUMBER(p_vehicle));
     ASSERT(extra.Vehicle == VEHICLE_NUMBER(p_vehicle->Genus.Vehicle));
 
     LOAD_in_data(p_vehicle->Genus.Vehicle, sizeof(Vehicle));
-    LOAD_in_data(p_vehicle, sizeof(Thing));
+    LOAD_in_data(p_vehicle, sizeof(Entity));
 
     if (p_vehicle->Flags & FLAGS_ON_MAPWHO) {
         p_vehicle->Flags &= ~FLAGS_ON_MAPWHO;
@@ -595,7 +595,7 @@ void LOAD_vehicle_full(Thing *p_vehicle) {
 std::int32_t LOAD_types() {
     std::uint8_t type;
     std::uint16_t thing = 0;
-    Thing *p_thing;
+    Entity* p_thing;
 
     std::int32_t special = 0, person = 0, car = 0;
 
@@ -652,7 +652,7 @@ std::int32_t LOAD_types() {
                 break;
 
             case CLASS_SPECIAL:
-                void free_special(Thing * special_thing);
+                void free_special(Entity * special_thing);
                 free_special(p_thing);
                 break;
             case CLASS_TRACK:
@@ -678,11 +678,11 @@ std::int32_t LOAD_types() {
     return 0;
 }
 
-extern std::uint16_t *thing_class_head;
+extern std::uint16_t* thing_class_head;
 
 void fix_thing_lists() {
     std::int32_t c0;
-    Thing *p_thing;
+    Entity* p_thing;
 
     PRIMARY_USED = 0;
     PRIMARY_UNUSED = 0;
@@ -713,11 +713,11 @@ void fix_thing_lists() {
         }
     }
 }
-extern void free_special(Thing *s_thing);
+extern void free_special(Entity* s_thing);
 
 void remove_specials() {
     std::int32_t index, next;
-    Thing *p_special;
+    Entity* p_special;
 
     index = thing_class_head[CLASS_SPECIAL];
 
@@ -728,7 +728,7 @@ void remove_specials() {
         index = next;
     }
 }
-std::int32_t LOAD_ingame(char *fname) {
+std::int32_t LOAD_ingame(char* fname) {
     std::int32_t ret = 1;
 
     TRACKS_Reset();

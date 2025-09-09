@@ -31,21 +31,21 @@ extern void TEXTURE_choose_set(std::int32_t number);
 #define FILE_OPEN_ERROR (-1)
 #define SEEK_MODE_CURRENT (1)
 
-extern std::int32_t SpecialOpen(char *name);
-extern std::int32_t SpecialRead(std::int32_t handle, std::uint8_t *ptr, std::int32_t s1);
+extern std::int32_t SpecialOpen(char* name);
+extern std::int32_t SpecialRead(std::int32_t handle, std::uint8_t* ptr, std::int32_t s1);
 extern std::int32_t SpecialSeek(std::int32_t handle, std::int32_t mode, std::int32_t size);
 extern std::int32_t SpecialClose(std::int32_t handle);
 
 #define FileOpen(x) SpecialOpen(x)
 #define FileClose(x) SpecialClose(x)
 #define FileCreate(x, y) ASSERT(0)
-#define FileRead(h, a, s) SpecialRead(h, (std::uint8_t *) a, s)
+#define FileRead(h, a, s) SpecialRead(h, (std::uint8_t*) a, s)
 #define FileWrite(h, a, s) ASSERT(0)
 #define FileSeek(h, m, o) SpecialSeek(h, m, o)
 
 #define MF_Fopen(x, y) SpecialOpen(x)
 #define MF_Fclose(x) SpecialClose(x)
-#define fread(a, s1, s2, h) SpecialRead(h, (std::uint8_t *) a, s1 *s2)
+#define fread(a, s1, s2, h) SpecialRead(h, (std::uint8_t*) a, s1* s2)
 
 //
 // The static lights.
@@ -65,7 +65,7 @@ typedef struct
 */
 // #define NIGHT_MAX_SLIGHTS 128
 
-NIGHT_Slight *NIGHT_slight; //[NIGHT_MAX_SLIGHTS];
+NIGHT_Slight* NIGHT_slight; //[NIGHT_MAX_SLIGHTS];
 std::int32_t NIGHT_slight_upto;
 
 //
@@ -81,7 +81,7 @@ typedef struct
 */
 // typedef NIGHT_Smap NIGHT_smap_2d[PAP_SIZE_LO];//[PAP_SIZE_LO];
 
-NIGHT_Smap_2d *NIGHT_smap;
+NIGHT_Smap_2d* NIGHT_smap;
 
 std::uint16_t floor_psx_col[PAP_SIZE_HI][PAP_SIZE_HI];
 std::uint8_t floor_lum[32][32];
@@ -108,7 +108,7 @@ typedef struct
 */
 #define NIGHT_MAX_DLIGHTS 64
 
-NIGHT_Dlight *NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
+NIGHT_Dlight* NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
 std::uint8_t NIGHT_dlight_free;
 std::uint8_t NIGHT_dlight_used;
 
@@ -235,12 +235,12 @@ void NIGHT_slight_compress() {
     std::int32_t x;
     std::int32_t z;
 
-    NIGHT_Smap *ns;
+    NIGHT_Smap* ns;
 
-    NIGHT_Slight *comp;
+    NIGHT_Slight* comp;
     std::int32_t comp_upto;
 
-    comp = (NIGHT_Slight *) MemAlloc(sizeof(NIGHT_slight));
+    comp = (NIGHT_Slight*) MemAlloc(sizeof(NIGHT_slight));
     comp_upto = 0;
 
     if (comp) {
@@ -268,7 +268,7 @@ void NIGHT_slight_compress() {
 }
 #endif
 void NIGHT_slight_init() {
-    memset((std::uint8_t *) NIGHT_smap, 0, sizeof(NIGHT_smap));
+    memset((std::uint8_t*) NIGHT_smap, 0, sizeof(NIGHT_smap));
 
     NIGHT_slight_upto = 0;
 }
@@ -281,8 +281,8 @@ std::int32_t NIGHT_slight_create(
     std::int8_t red,
     std::int8_t green,
     std::int8_t blue) {
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     std::int32_t map_x = x >> PAP_SHIFT_LO;
     std::int32_t map_z = z >> PAP_SHIFT_LO;
@@ -374,8 +374,8 @@ void NIGHT_slight_delete(
     std::int32_t lx;
     std::int32_t lz;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     mx = x >> PAP_SHIFT_LO;
     mz = z >> PAP_SHIFT_LO;
@@ -422,7 +422,7 @@ void NIGHT_slight_delete(
 }
 
 void NIGHT_slight_delete_all() {
-    memset((std::uint8_t *) NIGHT_smap, 0, sizeof(NIGHT_smap));
+    memset((std::uint8_t*) NIGHT_smap, 0, sizeof(NIGHT_smap));
 
     NIGHT_slight_upto = 0;
 }
@@ -458,7 +458,7 @@ typedef struct
 
 } NIGHT_Precalc;
 
-void NIGHT_get_lampost(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t *r, std::int32_t *g, std::int32_t *b);
+void NIGHT_get_lampost(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t* r, std::int32_t* g, std::int32_t* b);
 
 void NIGHT_light_the_map() {
     std::int32_t lo_map_x;
@@ -516,8 +516,8 @@ void NIGHT_light_the_map() {
     std::int32_t dprod;
     std::int32_t bright;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     //
     // Allocate a 2d array on the scratchpad.
@@ -972,7 +972,7 @@ void NIGHT_light_prim(
     std::int32_t prim_yaw,
     std::int32_t prim_pitch,
     std::int32_t prim_roll,
-    NIGHT_Colour *colour) {
+    NIGHT_Colour* colour) {
     std::int32_t i;
     std::int32_t j;
 
@@ -1014,14 +1014,14 @@ void NIGHT_light_prim(
     std::int32_t matrix[9];
     std::int32_t rotate;
 
-    PrimObject *p_obj = &prim_objects[prim];
-    PrimInfo *p_info = get_prim_info(prim);
+    PrimObject* p_obj = &prim_objects[prim];
+    PrimInfo* p_info = get_prim_info(prim);
 
-    NIGHT_Point *np;
-    NIGHT_Point *np_base = (NIGHT_Point *) HEAP_pad;
+    NIGHT_Point* np;
+    NIGHT_Point* np_base = (NIGHT_Point*) HEAP_pad;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     //
     // Quite a few prims won't have any rotation to them... I expect.
@@ -1318,7 +1318,7 @@ std::uint8_t NIGHT_dlight_create(
     std::uint8_t red,
     std::uint8_t green,
     std::uint8_t blue) {
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
     std::uint8_t ans;
 
     if (NIGHT_dlight_free == 0)
@@ -1340,7 +1340,7 @@ std::uint8_t NIGHT_dlight_create(
 }
 
 void NIGHT_dlight_move(std::uint8_t dlight_index, std::int32_t x, std::int32_t y, std::int32_t z) {
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
     if (dlight_index) {
         ASSERT(WITHIN(dlight_index, 1, NIGHT_MAX_DLIGHTS - 1));
 
@@ -1369,9 +1369,9 @@ void NIGHT_dlight_colour(std::uint8_t dlight_index, std::uint8_t red, std::uint8
 void NIGHT_dlight_destroy(std::uint8_t dlight_index) {
     std::int32_t map;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
     if (dlight_index == 0)
         return;
 
@@ -1423,7 +1423,7 @@ extern std::int32_t NGAMUT_zmin;
 extern std::int32_t NGAMUT_xmin;
 
 void NIGHT_dlight_render() {
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     lum_off_x = NGAMUT_xmin;
     SATURATE(lum_off_x, 0, 96);
@@ -1436,8 +1436,8 @@ void NIGHT_dlight_render() {
         // I don't trust memset to be as efficient as this following code MikeD
         //
         std::int32_t c0;
-        std::uint32_t *ptr;
-        ptr = (std::uint32_t *) floor_lum;
+        std::uint32_t* ptr;
+        ptr = (std::uint32_t*) floor_lum;
         for (c0 = 0; c0 < 32 * 8; c0++) {
             *ptr++ = 0; // no point optimising the loop as the memory write is the slow thing
         }
@@ -1512,7 +1512,7 @@ void NIGHT_cache_init() {
     // Clear the cache entries.
     //
 
-    memset((std::uint8_t *) NIGHT_cache, 0, sizeof(NIGHT_cache));
+    memset((std::uint8_t*) NIGHT_cache, 0, sizeof(NIGHT_cache));
 #endif
 }
 
@@ -1546,7 +1546,7 @@ void NIGHT_cache_recalc() {
 
 void NIGHT_cache_destroy(std::uint8_t square_index) {
 #ifndef PSX
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     ASSERT(WITHIN(square_index, 0, NIGHT_MAX_SQUARES - 1));
 
@@ -1691,8 +1691,8 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     std::int32_t dlz;
 
 #ifndef NDEBUG
-    void *min_address;
-    void *max_address;
+    void* min_address;
+    void* max_address;
 #endif
 
     // Moved from here. ^ ^ ^ ^
@@ -1710,22 +1710,22 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     std::int32_t bright;
 
     std::int32_t shadow_shift;
-    std::uint8_t *shadow_byte;
+    std::uint8_t* shadow_byte;
     std::uint8_t shadow;
 
     std::uint8_t dfcache_index;
     std::uint8_t darken;
 
-    NIGHT_Dfcache *nd;
-    NIGHT_Colour *nc;
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Dfcache* nd;
+    NIGHT_Colour* nc;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
 #define NIGHT_MAX_SLIGHTS_PER_FACET 16
 
     std::int32_t slight_upto = 0;
 
-    DFacet *df;
+    DFacet* df;
 
     ASSERT(WITHIN(dfacet_index, 1, next_dfacet - 1));
 
@@ -1787,7 +1787,7 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     dfcache_index = NIGHT_dfcache_free;
     nd = &NIGHT_dfcache[dfcache_index];
 
-    nd->colour = (NIGHT_Colour *) HEAP_get(num_bytes);
+    nd->colour = (NIGHT_Colour*) HEAP_get(num_bytes);
     if (nd->colour == 0) {
         nd->dfacet = 0;
         return (0);
@@ -1816,7 +1816,7 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
 
 #ifndef NDEBUG
     min_address = nd->colour;
-    max_address = ((std::uint8_t *) nd->colour) + (num_bytes - 1);
+    max_address = ((std::uint8_t*) nd->colour) + (num_bytes - 1);
 #endif
 
     //
@@ -2119,7 +2119,7 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
 }
 
 void NIGHT_dfcache_destroy(std::uint8_t dfcache_index) {
-    NIGHT_Dfcache *nd;
+    NIGHT_Dfcache* nd;
 
     ASSERT(WITHIN(dfcache_index, 1, NIGHT_MAX_DFCACHES - 1));
 
@@ -2128,7 +2128,7 @@ void NIGHT_dfcache_destroy(std::uint8_t dfcache_index) {
     //
 
     std::uint8_t next = NIGHT_dfcache_used;
-    std::uint8_t *prev = &NIGHT_dfcache_used;
+    std::uint8_t* prev = &NIGHT_dfcache_used;
 
     while (1) {
         if (next == NULL) {
@@ -2192,7 +2192,7 @@ NIGHT_Colour NIGHT_get_light_at(std::int32_t x, std::int32_t y, std::int32_t z) 
     return ans;
 }
 
-void NIGHT_get_lampost(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t *r, std::int32_t *g, std::int32_t *b) {
+void NIGHT_get_lampost(std::int32_t x, std::int32_t y, std::int32_t z, std::int32_t* r, std::int32_t* g, std::int32_t* b) {
     std::int32_t mx;
     std::int32_t mz;
 
@@ -2227,7 +2227,7 @@ void NIGHT_get_lampost(std::int32_t x, std::int32_t y, std::int32_t z, std::int3
 
     NIGHT_Colour ans;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     //
     // Look for static lights effecting this point.
@@ -2342,12 +2342,12 @@ NIGHT_Colour NIGHT_get_light_at(
 
     std::int32_t vector[3];
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     NIGHT_Colour ans;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     //
     // Initialise to the ambient light.
@@ -2482,7 +2482,7 @@ NIGHT_Colour NIGHT_get_light_at(
 
 void NIGHT_lum_init() {
     lum_off_x = lum_off_z = 0;
-    memset((void *) floor_lum, 0, sizeof(floor_lum));
+    memset((void*) floor_lum, 0, sizeof(floor_lum));
 }
 
 void NIGHT_init() {
@@ -2730,7 +2730,7 @@ void NIGHT_destroy_all_cached_info() {
 }
 
 #ifndef PSX
-std::int32_t NIGHT_load_ed_file(char *name) {
+std::int32_t NIGHT_load_ed_file(char* name) {
     // #ifndef	PSX
     std::int32_t i;
 

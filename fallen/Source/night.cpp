@@ -18,16 +18,16 @@
 
 #define NIGHT_FLAG_INSIDE (1 << 0)
 
-NIGHT_Slight *NIGHT_slight; //[NIGHT_MAX_SLIGHTS];
+NIGHT_Slight* NIGHT_slight; //[NIGHT_MAX_SLIGHTS];
 std::int32_t NIGHT_slight_upto;
 
 //
 // The mapwho for static lights.
 //
 
-NIGHT_Smap_2d *NIGHT_smap; //[PAP_SIZE_LO][PAP_SIZE_LO];
+NIGHT_Smap_2d* NIGHT_smap; //[PAP_SIZE_LO][PAP_SIZE_LO];
 
-NIGHT_Dlight *NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
+NIGHT_Dlight* NIGHT_dlight; //[NIGHT_MAX_DLIGHTS];
 std::uint8_t NIGHT_dlight_free;
 std::uint8_t NIGHT_dlight_used;
 
@@ -129,12 +129,12 @@ void NIGHT_slight_compress() {
     std::int32_t x;
     std::int32_t z;
 
-    NIGHT_Smap *ns;
+    NIGHT_Smap* ns;
 
-    NIGHT_Slight *comp;
+    NIGHT_Slight* comp;
     std::int32_t comp_upto;
 
-    comp = (NIGHT_Slight *) MemAlloc(sizeof(NIGHT_Slight) * NIGHT_MAX_SLIGHTS);
+    comp = (NIGHT_Slight*) MemAlloc(sizeof(NIGHT_Slight) * NIGHT_MAX_SLIGHTS);
     comp_upto = 0;
 
     if (comp) {
@@ -162,7 +162,7 @@ void NIGHT_slight_compress() {
 }
 
 void NIGHT_slight_init() {
-    memset((std::uint8_t *) NIGHT_smap, 0, sizeof(std::uint16_t) * PAP_SIZE_LO * PAP_SIZE_LO);
+    memset((std::uint8_t*) NIGHT_smap, 0, sizeof(std::uint16_t) * PAP_SIZE_LO * PAP_SIZE_LO);
 
     NIGHT_slight_upto = 0;
 }
@@ -175,8 +175,8 @@ std::int32_t NIGHT_slight_create(
     std::int8_t red,
     std::int8_t green,
     std::int8_t blue) {
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     std::int32_t map_x = x >> PAP_SHIFT_LO;
     std::int32_t map_z = z >> PAP_SHIFT_LO;
@@ -251,7 +251,7 @@ std::int32_t NIGHT_slight_create(
     nsl->blue &= 0xfe;
 
     {
-        std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t * room);
+        std::uint16_t calc_inside_for_xyz(std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t* room);
 
         std::uint16_t room;
 
@@ -295,8 +295,8 @@ void NIGHT_slight_delete(
     std::int32_t lx;
     std::int32_t lz;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     mx = x >> PAP_SHIFT_LO;
     mz = z >> PAP_SHIFT_LO;
@@ -343,7 +343,7 @@ void NIGHT_slight_delete(
 }
 
 void NIGHT_slight_delete_all() {
-    memset((std::uint8_t *) NIGHT_smap, 0, sizeof(std::uint8_t) * PAP_SIZE_LO * PAP_SIZE_LO);
+    memset((std::uint8_t*) NIGHT_smap, 0, sizeof(std::uint8_t) * PAP_SIZE_LO * PAP_SIZE_LO);
 
     NIGHT_slight_upto = 0;
 }
@@ -381,7 +381,7 @@ typedef struct
 
 typedef NIGHT_Precalc NIGHT_Preblock[PAP_BLOCKS];
 
-void NIGHT_light_mapsquare(std::int32_t lo_map_x, std::int32_t lo_map_z, NIGHT_Colour *colour, std::int32_t floor_y, std::int32_t inside) {
+void NIGHT_light_mapsquare(std::int32_t lo_map_x, std::int32_t lo_map_z, NIGHT_Colour* colour, std::int32_t floor_y, std::int32_t inside) {
     std::int32_t i;
 
     std::int32_t x;
@@ -435,9 +435,9 @@ void NIGHT_light_mapsquare(std::int32_t lo_map_x, std::int32_t lo_map_z, NIGHT_C
     std::int32_t dprod;
     std::int32_t bright;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
-    NIGHT_Colour *col_upto;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
+    NIGHT_Colour* col_upto;
 
     if (WARE_in) {
         //
@@ -452,11 +452,11 @@ void NIGHT_light_mapsquare(std::int32_t lo_map_x, std::int32_t lo_map_z, NIGHT_C
     // Allocate a 2d array on the scratchpad.
     //
 
-    NIGHT_Preblock *precalc;
+    NIGHT_Preblock* precalc;
 
     ASSERT(HEAP_PAD_SIZE >= sizeof(NIGHT_Preblock) * PAP_BLOCKS);
 
-    precalc = (NIGHT_Preblock *) HEAP_pad;
+    precalc = (NIGHT_Preblock*) HEAP_pad;
 
     //
     // Random lighting fluctuations over the map...
@@ -931,13 +931,13 @@ void NIGHT_light_mapsquare(std::int32_t lo_map_x, std::int32_t lo_map_z, NIGHT_C
 
 void NIGHT_get_facet_info(
     std::uint16_t dfacet_index,
-    std::int32_t *length,
-    std::int32_t *height,
-    std::int32_t *dx,
-    std::int32_t *dy,
-    std::int32_t *dz,
-    std::uint32_t *flags) {
-    DFacet *df;
+    std::int32_t* length,
+    std::int32_t* height,
+    std::int32_t* dx,
+    std::int32_t* dy,
+    std::int32_t* dz,
+    std::uint32_t* flags) {
+    DFacet* df;
     std::uint32_t flag = 0;
 
     ASSERT(WITHIN(dfacet_index, 1, next_dfacet - 1));
@@ -1016,7 +1016,7 @@ void NIGHT_light_prim(
     std::int32_t prim_pitch,
     std::int32_t prim_roll,
     std::int32_t prim_inside,
-    NIGHT_Colour *colour) {
+    NIGHT_Colour* colour) {
     std::int32_t i;
     std::int32_t j;
 
@@ -1058,14 +1058,14 @@ void NIGHT_light_prim(
     std::int32_t matrix[9];
     std::int32_t rotate;
 
-    PrimObject *p_obj = &prim_objects[prim];
-    PrimInfo *p_info = get_prim_info(prim);
+    PrimObject* p_obj = &prim_objects[prim];
+    PrimInfo* p_info = get_prim_info(prim);
 
-    NIGHT_Point *np;
-    NIGHT_Point *np_base = (NIGHT_Point *) HEAP_pad;
+    NIGHT_Point* np;
+    NIGHT_Point* np_base = (NIGHT_Point*) HEAP_pad;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     //
     // Quite a few prims won't have any rotation to them... I expect.
@@ -1381,7 +1381,7 @@ std::uint8_t NIGHT_dlight_create(
     std::uint8_t red,
     std::uint8_t green,
     std::uint8_t blue) {
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     std::uint8_t ans;
 
@@ -1430,9 +1430,9 @@ std::uint8_t NIGHT_dlight_create(
 void NIGHT_dlight_destroy(std::uint8_t dlight_index) {
     std::int32_t map;
     std::uint8_t next;
-    std::uint8_t *prev;
+    std::uint8_t* prev;
 
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     ASSERT(WITHIN(dlight_index, 1, NIGHT_MAX_DLIGHTS - 1));
 
@@ -1481,7 +1481,7 @@ void NIGHT_dlight_destroy(std::uint8_t dlight_index) {
 }
 
 void NIGHT_dlight_move(std::uint8_t dlight_index, std::int32_t x, std::int32_t y, std::int32_t z) {
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     ASSERT(WITHIN(dlight_index, 1, NIGHT_MAX_DLIGHTS - 1));
 
@@ -1493,7 +1493,7 @@ void NIGHT_dlight_move(std::uint8_t dlight_index, std::int32_t x, std::int32_t y
 }
 
 void NIGHT_dlight_colour(std::uint8_t dlight_index, std::uint8_t red, std::uint8_t green, std::uint8_t blue) {
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     ASSERT(WITHIN(dlight_index, 1, NIGHT_MAX_DLIGHTS - 1));
 
@@ -1551,11 +1551,11 @@ void NIGHT_dlight_squares_do(std::int32_t subtract) {
     std::int32_t hi_map_x;
     std::int32_t hi_map_z;
 
-    NIGHT_Dlight *ndl;
-    NIGHT_Square *nq;
-    DFacet *df;
-    NIGHT_Dfcache *ndf;
-    NIGHT_Colour *nc;
+    NIGHT_Dlight* ndl;
+    NIGHT_Square* nq;
+    DFacet* df;
+    NIGHT_Dfcache* ndf;
+    NIGHT_Colour* nc;
     std::uint32_t flags;
 
     //
@@ -1838,7 +1838,7 @@ void NIGHT_dlight_squares_up() {
 void NIGHT_dlight_squares_down() {
     std::int32_t next;
 
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     NIGHT_dlight_squares_do(true);
 
@@ -1884,7 +1884,7 @@ void NIGHT_cache_init() {
     // Clear the cache entries.
     //
 
-    memset((std::uint8_t *) NIGHT_cache, 0, sizeof(NIGHT_cache));
+    memset((std::uint8_t*) NIGHT_cache, 0, sizeof(NIGHT_cache));
 }
 
 void NIGHT_cache_recalc() {
@@ -1921,12 +1921,12 @@ void NIGHT_cache_create(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std::uint8
     std::int32_t square;
     std::int32_t vector[3];
 
-    OB_Info *ofound;
-    OB_Info *oi;
-    NIGHT_Square *nq;
-    NIGHT_Colour *nc;
+    OB_Info* ofound;
+    OB_Info* oi;
+    NIGHT_Square* nq;
+    NIGHT_Colour* nc;
 
-    PrimObject *p_obj;
+    PrimObject* p_obj;
 
     ASSERT(WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1));
     ASSERT(WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1));
@@ -2040,7 +2040,7 @@ void NIGHT_cache_create(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std::uint8
     // Try to get the memory.
     //
 
-    nq->colour = (NIGHT_Colour *) HEAP_get(memory);
+    nq->colour = (NIGHT_Colour*) HEAP_get(memory);
     nq->sizeof_colour = memory;
 
     ASSERT(nq->colour);
@@ -2058,10 +2058,10 @@ void NIGHT_cache_create(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std::uint8
     // Light all the prims.
     //
 
-    std::uint8_t debug1 = (((std::uint8_t *) (nq->colour)) + memory)[0];
-    std::uint8_t debug2 = (((std::uint8_t *) (nq->colour)) + memory)[1];
-    std::uint8_t debug3 = (((std::uint8_t *) (nq->colour)) + memory)[2];
-    std::uint8_t debug4 = (((std::uint8_t *) (nq->colour)) + memory)[3];
+    std::uint8_t debug1 = (((std::uint8_t*) (nq->colour)) + memory)[0];
+    std::uint8_t debug2 = (((std::uint8_t*) (nq->colour)) + memory)[1];
+    std::uint8_t debug3 = (((std::uint8_t*) (nq->colour)) + memory)[2];
+    std::uint8_t debug4 = (((std::uint8_t*) (nq->colour)) + memory)[3];
 
     nc = nq->colour + (PAP_BLOCKS * PAP_BLOCKS);
 
@@ -2093,10 +2093,10 @@ void NIGHT_cache_create(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std::uint8
         nc += num_points;
     }
 
-    ASSERT(debug1 == (((std::uint8_t *) (nq->colour)) + memory)[0]);
-    ASSERT(debug2 == (((std::uint8_t *) (nq->colour)) + memory)[1]);
-    ASSERT(debug3 == (((std::uint8_t *) (nq->colour)) + memory)[2]);
-    ASSERT(debug4 == (((std::uint8_t *) (nq->colour)) + memory)[3]);
+    ASSERT(debug1 == (((std::uint8_t*) (nq->colour)) + memory)[0]);
+    ASSERT(debug2 == (((std::uint8_t*) (nq->colour)) + memory)[1]);
+    ASSERT(debug3 == (((std::uint8_t*) (nq->colour)) + memory)[2]);
+    ASSERT(debug4 == (((std::uint8_t*) (nq->colour)) + memory)[3]);
 
     //
     // Link this square to the cache mapwho.
@@ -2127,12 +2127,12 @@ void NIGHT_cache_create_inside(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std
     std::int32_t square;
     std::int32_t vector[3];
 
-    OB_Info *ofound;
-    OB_Info *oi;
-    NIGHT_Square *nq;
-    NIGHT_Colour *nc;
+    OB_Info* ofound;
+    OB_Info* oi;
+    NIGHT_Square* nq;
+    NIGHT_Colour* nc;
 
-    PrimObject *p_obj;
+    PrimObject* p_obj;
 
     ASSERT(WITHIN(lo_map_x, 0, PAP_SIZE_LO - 1));
     ASSERT(WITHIN(lo_map_z, 0, PAP_SIZE_LO - 1));
@@ -2173,7 +2173,7 @@ void NIGHT_cache_create_inside(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std
     // Try to get the memory.
     //
 
-    nq->colour = (NIGHT_Colour *) HEAP_get(memory);
+    nq->colour = (NIGHT_Colour*) HEAP_get(memory);
     nq->sizeof_colour = memory;
 
     ASSERT(nq->colour);
@@ -2188,10 +2188,10 @@ void NIGHT_cache_create_inside(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std
     // Light all the prims.
     //
 
-    std::uint8_t debug1 = (((std::uint8_t *) (nq->colour)) + memory)[0];
-    std::uint8_t debug2 = (((std::uint8_t *) (nq->colour)) + memory)[1];
-    std::uint8_t debug3 = (((std::uint8_t *) (nq->colour)) + memory)[2];
-    std::uint8_t debug4 = (((std::uint8_t *) (nq->colour)) + memory)[3];
+    std::uint8_t debug1 = (((std::uint8_t*) (nq->colour)) + memory)[0];
+    std::uint8_t debug2 = (((std::uint8_t*) (nq->colour)) + memory)[1];
+    std::uint8_t debug3 = (((std::uint8_t*) (nq->colour)) + memory)[2];
+    std::uint8_t debug4 = (((std::uint8_t*) (nq->colour)) + memory)[3];
 
     nc = nq->colour + (PAP_BLOCKS * PAP_BLOCKS);
 
@@ -2214,10 +2214,10 @@ void NIGHT_cache_create_inside(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std
         nc += num_points;
     }
 
-    ASSERT(debug1 == (((std::uint8_t *) (nq->colour)) + memory)[0]);
-    ASSERT(debug2 == (((std::uint8_t *) (nq->colour)) + memory)[1]);
-    ASSERT(debug3 == (((std::uint8_t *) (nq->colour)) + memory)[2]);
-    ASSERT(debug4 == (((std::uint8_t *) (nq->colour)) + memory)[3]);
+    ASSERT(debug1 == (((std::uint8_t*) (nq->colour)) + memory)[0]);
+    ASSERT(debug2 == (((std::uint8_t*) (nq->colour)) + memory)[1]);
+    ASSERT(debug3 == (((std::uint8_t*) (nq->colour)) + memory)[2]);
+    ASSERT(debug4 == (((std::uint8_t*) (nq->colour)) + memory)[3]);
 
     //
     // Link this square to the cache mapwho.
@@ -2229,7 +2229,7 @@ void NIGHT_cache_create_inside(std::uint8_t lo_map_x, std::uint8_t lo_map_z, std
 }
 
 void NIGHT_cache_destroy(std::uint8_t square_index) {
-    NIGHT_Square *nq;
+    NIGHT_Square* nq;
 
     ASSERT(WITHIN(square_index, 0, NIGHT_MAX_SQUARES - 1));
 
@@ -2355,8 +2355,8 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     std::int32_t dlz;
 
 #ifndef NDEBUG
-    void *min_address;
-    void *max_address;
+    void* min_address;
+    void* max_address;
 #endif
 
     std::int32_t dprod;
@@ -2380,10 +2380,10 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     std::uint8_t dfcache_index;
     std::uint8_t darken;
 
-    NIGHT_Dfcache *nd;
-    NIGHT_Colour *nc;
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Dfcache* nd;
+    NIGHT_Colour* nc;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     std::uint8_t inside = 0;
     std::uint32_t flags;
@@ -2400,7 +2400,7 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     } slight[16];
     std::int32_t slight_upto = 0;
 
-    DFacet *df;
+    DFacet* df;
 
     ASSERT(WITHIN(dfacet_index, 1, next_dfacet - 1));
 
@@ -2457,14 +2457,14 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
     num_bytes = num_points * sizeof(NIGHT_Colour);
     num_bytes += num_faces + 3 >> 2;
 
-    nd->colour = (NIGHT_Colour *) HEAP_get(num_bytes);
+    nd->colour = (NIGHT_Colour*) HEAP_get(num_bytes);
     nd->sizeof_colour = num_bytes;
 
     ASSERT(nd->colour != NULL);
 
 #ifndef NDEBUG
     min_address = nd->colour;
-    max_address = ((std::uint8_t *) nd->colour) + (num_bytes - 1);
+    max_address = ((std::uint8_t*) nd->colour) + (num_bytes - 1);
 #endif
 
     //
@@ -2681,7 +2681,7 @@ std::uint8_t NIGHT_dfcache_create(std::uint16_t dfacet_index) {
 }
 
 void NIGHT_dfcache_destroy(std::uint8_t dfcache_index) {
-    NIGHT_Dfcache *nd;
+    NIGHT_Dfcache* nd;
 
     ASSERT(WITHIN(dfcache_index, 1, NIGHT_MAX_DFCACHES - 1));
 
@@ -2690,7 +2690,7 @@ void NIGHT_dfcache_destroy(std::uint8_t dfcache_index) {
     //
 
     std::uint8_t next = NIGHT_dfcache_used;
-    std::uint8_t *prev = &NIGHT_dfcache_used;
+    std::uint8_t* prev = &NIGHT_dfcache_used;
 
     while (1) {
         if (next == NULL) {
@@ -2780,12 +2780,12 @@ NIGHT_Colour NIGHT_get_light_at(
 
     std::int32_t vector[3];
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     NIGHT_Colour ans;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     //
     // Initialise to the ambient light.
@@ -2972,12 +2972,12 @@ void NIGHT_find(std::int32_t x, std::int32_t y, std::int32_t z) {
 
     std::int32_t vector[3];
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     NIGHT_Colour ans;
 
-    OB_Info *oi;
+    OB_Info* oi;
 
     //
     // Clear the array with a red light!
@@ -3135,7 +3135,7 @@ void NIGHT_find(std::int32_t x, std::int32_t y, std::int32_t z) {
     // The dynamic lights...
     //
 
-    NIGHT_Dlight *ndl;
+    NIGHT_Dlight* ndl;
 
     for (i = NIGHT_dlight_used; i; i = ndl->next) {
         ASSERT(WITHIN(i, 1, NIGHT_MAX_DLIGHTS - 1));
@@ -3244,7 +3244,7 @@ std::int32_t NIGHT_check_index(std::int32_t walkable_prim_point_index) {
 NIGHT_Colour NIGHT_roof_walkable[MAX_ROOF_FACE4 * 4];
 std::uint16_t hidden_roof_index[128][128];
 
-void calc_lighting__for_point(std::int32_t prim_x, std::int32_t prim_y, std::int32_t prim_z, NIGHT_Colour *nc) {
+void calc_lighting__for_point(std::int32_t prim_x, std::int32_t prim_y, std::int32_t prim_z, NIGHT_Colour* nc) {
     std::int32_t i;
     std::int32_t j;
     std::int32_t b;
@@ -3258,8 +3258,8 @@ void calc_lighting__for_point(std::int32_t prim_x, std::int32_t prim_y, std::int
     std::int32_t dprod;
     std::int32_t bright;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
 
     std::int32_t map_x;
     std::int32_t map_z;
@@ -3410,12 +3410,12 @@ void NIGHT_generate_roof_walkable() {
     std::int32_t green;
     std::int32_t blue;
 
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
-    NIGHT_Colour *nc;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
+    NIGHT_Colour* nc;
 
-    DBuilding *db;
-    DWalkable *dw;
+    DBuilding* db;
+    DWalkable* dw;
     std::int32_t max_face = 0;
 
     //
@@ -3453,7 +3453,7 @@ void NIGHT_generate_roof_walkable() {
             dw = &dwalkables[walk];
 
             for (i = dw->StartFace4; i < dw->EndFace4; i++) {
-                struct RoofFace4 *rf;
+                struct RoofFace4* rf;
                 std::int32_t prim_x, prim_y, prim_z, point;
                 std::int32_t mx, mz;
                 std::int32_t roof_face_x, roof_face_z;
@@ -3602,10 +3602,10 @@ void NIGHT_generate_walkable_lighting() {
     std::int32_t green;
     std::int32_t blue;
 
-    PrimPoint *pp;
-    NIGHT_Smap *ns;
-    NIGHT_Slight *nsl;
-    NIGHT_Colour *nc;
+    PrimPoint* pp;
+    NIGHT_Smap* ns;
+    NIGHT_Slight* nsl;
+    NIGHT_Colour* nc;
 
     //
     // generate the roof walkable face lighting
@@ -3752,7 +3752,7 @@ void NIGHT_destroy_all_cached_info() {
     NIGHT_dfcache_init();
 }
 
-std::int32_t NIGHT_load_ed_file(char *name) {
+std::int32_t NIGHT_load_ed_file(char* name) {
     // #ifndef	PSX
     std::int32_t i;
 

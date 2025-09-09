@@ -16,11 +16,11 @@
 
 //---------------------------------------------------------------
 
-char *converse_text;
+char* converse_text;
 std::int32_t converse_p1, converse_p2;
 std::int32_t converse_grab_camera;
 
-extern char *WaypointExtra(EventPoint *ep, char *msg);
+extern char* WaypointExtra(EventPoint* ep, char* msg);
 
 //---------------------------------------------------------------
 
@@ -87,7 +87,7 @@ bool CALLBACK cv_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
                   0, 0) +
               1;
         if (converse_text) free(converse_text);
-        converse_text = (char *) malloc(len);
+        converse_text = (char*) malloc(len);
         ZeroMemory(converse_text, len);
 
         SendMessage(
@@ -130,14 +130,14 @@ bool CALLBACK cv_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------
 
-void do_converse_setup(EventPoint *the_ep) {
+void do_converse_setup(EventPoint* the_ep) {
     //	Set the dialog.
-    converse_text = (char *) the_ep->Data[0];
+    converse_text = (char*) the_ep->Data[0];
     converse_p1 = the_ep->Data[1];
     converse_p2 = the_ep->Data[2];
     converse_grab_camera = the_ep->Data[3];
     if (!converse_text) {
-        converse_text = (char *) malloc(STR_LEN);
+        converse_text = (char*) malloc(STR_LEN);
         ZeroMemory(converse_text, STR_LEN);
         SetEPTextID(the_ep);
     }

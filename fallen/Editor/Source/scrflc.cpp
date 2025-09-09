@@ -24,7 +24,7 @@ std::int32_t anim_record() {
             // sprintf(file_name, DIR_FLICS"game%04d.flc", anim_number);
 
             // AW180595
-            sprintf((char *) file_name, "anim.flc", anim_number);
+            sprintf((char*) file_name, "anim.flc", anim_number);
 
             //			if ((fpz = FileCreate((char* )file_name,1) !=FILE_OPEN_ERROR)
             {
@@ -39,7 +39,7 @@ std::int32_t anim_record() {
     return (0);
 }
 
-std::int32_t anim_record_frame(std::uint8_t *screen, std::uint8_t *palette) {
+std::int32_t anim_record_frame(std::uint8_t* screen, std::uint8_t* palette) {
     if ((animation->PlaybackMode & PLAYBACK_MODE_RECORD)) {
         return (anim_make_next_frame(screen, palette));
     }
@@ -52,15 +52,15 @@ std::int32_t anim_stop() {
 
 //**************************************|************************************
 
-std::int32_t anim_open(std::int8_t *file_name, std::int16_t xpos, std::int16_t ypos, std::int16_t width, std::int16_t height, std::int8_t *postage_stamp, std::int32_t playback) {
+std::int32_t anim_open(std::int8_t* file_name, std::int16_t xpos, std::int16_t ypos, std::int16_t width, std::int16_t height, std::int8_t* postage_stamp, std::int32_t playback) {
     if ((animation->PlaybackMode & playback) == 0) {
         if (playback & PLAYBACK_MODE_RECORD) {
             memset(animation, 0, sizeof(struct Animation));
             animation->PlaybackMode |= playback;
 
-            animation->LastFrame = (std::uint8_t *) MemAlloc(ScreenWidth * ScreenHeight * 2);
-            animation->NextFrameBuffer = (std::uint8_t *) MemAlloc(ScreenWidth * ScreenHeight * 2);
-            animation->RecordFileHandle = FileCreate((char *) file_name, 1);
+            animation->LastFrame = (std::uint8_t*) MemAlloc(ScreenWidth * ScreenHeight * 2);
+            animation->NextFrameBuffer = (std::uint8_t*) MemAlloc(ScreenWidth * ScreenHeight * 2);
+            animation->RecordFileHandle = FileCreate((char*) file_name, 1);
 
             if (animation->LastFrame == 0 || animation->NextFrameBuffer == 0 || animation->RecordFileHandle == 0)
                 return (0);
@@ -88,7 +88,7 @@ std::int32_t anim_open(std::int8_t *file_name, std::int16_t xpos, std::int16_t y
             animation->Xpos = xpos;
             animation->Xpos = ypos;
 
-            if (anim_write_data((std::uint8_t *) &animation->FLCFileHeader, sizeof(struct FLCFileHeader)) == 0) {
+            if (anim_write_data((std::uint8_t*) &animation->FLCFileHeader, sizeof(struct FLCFileHeader)) == 0) {
                 FileClose(animation->RecordFileHandle);
                 return (0);
             }
@@ -142,7 +142,7 @@ std::int32_t anim_close(std::int32_t playback) {
     if ((animation->PlaybackMode & playback) && animation->RecordFileHandle != 0) {
         FileSeek(animation->RecordFileHandle, SEEK_MODE_BEGINNING, 0);
         animation->FLCFileHeader.NumberOfFrames--;
-        FileWrite(animation->RecordFileHandle, (std::uint8_t *) &animation->FLCFileHeader, sizeof(struct FLCFileHeader));
+        FileWrite(animation->RecordFileHandle, (std::uint8_t*) &animation->FLCFileHeader, sizeof(struct FLCFileHeader));
         FileClose(animation->RecordFileHandle);
 
         animation->RecordFileHandle = 0;
@@ -160,11 +160,11 @@ std::int32_t anim_close(std::int32_t playback) {
 
 //**************************************|************************************
 
-std::int32_t anim_make_next_frame(std::uint8_t *screen, std::uint8_t *palette) {
-    struct FLCFrameChunk *FLCFrameChunk;
-    struct FLCFrameDataChunk *FLCFrameDataChunk;
+std::int32_t anim_make_next_frame(std::uint8_t* screen, std::uint8_t* palette) {
+    struct FLCFrameChunk* FLCFrameChunk;
+    struct FLCFrameDataChunk* FLCFrameDataChunk;
     std::int32_t index;
-    std::uint8_t *NextFrameBufferPointer;
+    std::uint8_t* NextFrameBufferPointer;
     std::int32_t FLI_BRUN_size;
     std::int32_t FLI_SS2_size;
     std::int32_t FLI_LC_size;
@@ -178,13 +178,13 @@ std::int32_t anim_make_next_frame(std::uint8_t *screen, std::uint8_t *palette) {
     memset(&animation->FLCFrameChunk.Reserved_0, 0, sizeof(animation->FLCFrameChunk.Reserved_0));
 
     FLCFrameChunk = animation->NextFrameBufferPointer.FLCFrameChunk;
-    anim_store_data((std::uint8_t *) &animation->FLCFrameChunk, sizeof(struct FLCFrameChunk));
+    anim_store_data((std::uint8_t*) &animation->FLCFrameChunk, sizeof(struct FLCFrameChunk));
 
     animation->FLCFrameDataChunk.Size = 0;
     animation->FLCFrameDataChunk.Type = 0;
 
     FLCFrameDataChunk = animation->NextFrameBufferPointer.FLCFrameDataChunk;
-    anim_store_data((std::uint8_t *) &animation->FLCFrameDataChunk, sizeof(struct FLCFrameDataChunk));
+    anim_store_data((std::uint8_t*) &animation->FLCFrameDataChunk, sizeof(struct FLCFrameDataChunk));
 
     if (animation->FrameNumber == 0) {
         animation->FLCFileHeader.OFrame1 = animation->FLCFileHeader.Size;
@@ -195,12 +195,12 @@ std::int32_t anim_make_next_frame(std::uint8_t *screen, std::uint8_t *palette) {
     if (anim_make_FLI_COLOUR256(palette)) {
         FLCFrameChunk->Chunks++;
         FLCFrameDataChunk->Type = FLI_COLOUR256;
-        FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+        FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
 
         animation->FLCFrameDataChunk.Size = 0;
         animation->FLCFrameDataChunk.Type = 0;
         FLCFrameDataChunk = animation->NextFrameBufferPointer.FLCFrameDataChunk;
-        anim_store_data((std::uint8_t *) &animation->FLCFrameDataChunk, sizeof(struct FLCFrameDataChunk));
+        anim_store_data((std::uint8_t*) &animation->FLCFrameDataChunk, sizeof(struct FLCFrameDataChunk));
     }
 
     if (animation->FrameNumber == 0) {
@@ -208,12 +208,12 @@ std::int32_t anim_make_next_frame(std::uint8_t *screen, std::uint8_t *palette) {
             if (anim_make_FLI_COPY(screen)) {
                 FLCFrameChunk->Chunks++;
                 FLCFrameDataChunk->Type = FLI_COPY;
-                FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+                FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
             }
         } else {
             FLCFrameChunk->Chunks++;
             FLCFrameDataChunk->Type = FLI_BRUN;
-            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
         }
     } else {
         NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
@@ -228,28 +228,28 @@ std::int32_t anim_make_next_frame(std::uint8_t *screen, std::uint8_t *palette) {
         if (FLI_LC_size < FLI_SS2_size && FLI_LC_size < FLI_BRUN_size) {
             FLCFrameChunk->Chunks++;
             FLCFrameDataChunk->Type = FLI_LC;
-            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
         } else if (FLI_SS2_size < FLI_BRUN_size) {
             memset(NextFrameBufferPointer, 0, FLI_LC_size);
             animation->NextFrameBufferPointer.UByte = NextFrameBufferPointer;
             anim_make_FLI_SS2(screen, animation->LastFrame);
             FLCFrameChunk->Chunks++;
             FLCFrameDataChunk->Type = FLI_SS2;
-            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
         } else if (FLI_BRUN_size < animation->FLCFileHeader.Width * animation->FLCFileHeader.Height + sizeof(struct FLCFrameChunk)) {
             memset(NextFrameBufferPointer, 0, FLI_LC_size);
             animation->NextFrameBufferPointer.UByte = NextFrameBufferPointer;
             anim_make_FLI_BRUN(screen);
             FLCFrameChunk->Chunks++;
             FLCFrameDataChunk->Type = FLI_BRUN;
-            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
         } else {
             memset(NextFrameBufferPointer, 0, FLI_LC_size);
             animation->NextFrameBufferPointer.UByte = NextFrameBufferPointer;
             anim_make_FLI_COPY(screen);
             FLCFrameChunk->Chunks++;
             FLCFrameDataChunk->Type = FLI_COPY;
-            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t *) FLCFrameDataChunk;
+            FLCFrameDataChunk->Size = animation->NextFrameBufferPointer.UByte - (std::uint8_t*) FLCFrameDataChunk;
         }
     }
 
@@ -276,9 +276,9 @@ std::int32_t anim_make_FLI_PSTAMP() {
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_COLOUR256(std::uint8_t *palette) {
-    std::uint16_t *packet_count;
-    std::uint8_t *colour_count;
+std::int32_t anim_make_FLI_COLOUR256(std::uint8_t* palette) {
+    std::uint16_t* packet_count;
+    std::uint8_t* colour_count;
     std::uint8_t palette_skip = 0;
     std::int16_t colour_changed = 0;
     std::int16_t palette_step;
@@ -316,13 +316,13 @@ std::int32_t anim_make_FLI_COLOUR256(std::uint8_t *palette) {
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_COLOUR(std::uint8_t *palette) {
-    std::uint16_t *packet_count;
-    std::uint8_t *colour_count;
+std::int32_t anim_make_FLI_COLOUR(std::uint8_t* palette) {
+    std::uint16_t* packet_count;
+    std::uint8_t* colour_count;
     std::uint8_t palette_skip = 0;
     std::int16_t colour_changed = 0;
     std::int16_t palette_step;
-    std::uint8_t *NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
+    std::uint8_t* NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
 
     if (memcmp(palette, animation->Palette, 256 * 3) != 0) {
         packet_count = animation->NextFrameBufferPointer.UWord++;
@@ -357,19 +357,19 @@ std::int32_t anim_make_FLI_COLOUR(std::uint8_t *palette) {
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_SS2(std::uint8_t *wscreen, std::uint8_t *last_screen) {
+std::int32_t anim_make_FLI_SS2(std::uint8_t* wscreen, std::uint8_t* last_screen) {
     union MultiPointer screen;
     union MultiPointer back_screen;
     union MultiPointer lscreen;
     union MultiPointer back_lscreen;
     std::int16_t line_count;
     std::int16_t line_skip;
-    std::uint16_t *number_of_packets;
-    std::int16_t *packet_type;
+    std::uint16_t* number_of_packets;
+    std::int16_t* packet_type;
     std::int16_t same_count;
     std::int16_t width_count;
     std::int16_t screen_offset;
-    std::uint8_t *NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
+    std::uint8_t* NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
 
     number_of_packets = animation->NextFrameBufferPointer.UWord++;
 
@@ -469,28 +469,28 @@ std::int32_t anim_make_FLI_SS2(std::uint8_t *wscreen, std::uint8_t *last_screen)
         (*number_of_packets)--;
     }
 
-    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t)((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
+    animation->NextFrameBufferPointer.UByte = (std::uint8_t*) ((std::uint32_t) ((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
     return (animation->NextFrameBufferPointer.UByte - NextFrameBufferPointer);
 }
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_LC(std::uint8_t *wscreen, std::uint8_t *last_screen) {
+std::int32_t anim_make_FLI_LC(std::uint8_t* wscreen, std::uint8_t* last_screen) {
     union MultiPointer screen;
     union MultiPointer back_screen;
     union MultiPointer lscreen;
     union MultiPointer back_lscreen;
     std::int16_t line_count;
     std::int16_t line_skip;
-    std::uint16_t *number_of_packets;
+    std::uint16_t* number_of_packets;
     std::uint16_t number_of_lines;
-    std::int16_t *packet_type;
-    std::uint8_t *packet_count;
+    std::int16_t* packet_type;
+    std::uint8_t* packet_count;
     std::int16_t same_count;
     std::int16_t width_count;
     std::int16_t screen_offset;
-    std::uint16_t *y_line_skip;
-    std::uint8_t *NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
+    std::uint16_t* y_line_skip;
+    std::uint8_t* NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
 
     for (line_count = animation->FLCFileHeader.Height, back_screen.UByte = wscreen, back_lscreen.UByte = last_screen; line_count; line_count--, back_screen.UByte += ScreenWidth, back_lscreen.UByte += ScreenWidth) {
         screen.UByte = back_screen.UByte;
@@ -602,26 +602,26 @@ std::int32_t anim_make_FLI_LC(std::uint8_t *wscreen, std::uint8_t *last_screen) 
         *animation->NextFrameBufferPointer.UByte++ = 0;
     }
 
-    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t)((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
+    animation->NextFrameBufferPointer.UByte = (std::uint8_t*) ((std::uint32_t) ((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
     return (animation->NextFrameBufferPointer.UByte - NextFrameBufferPointer);
 }
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_BLACK(std::uint8_t *wscreen) {
+std::int32_t anim_make_FLI_BLACK(std::uint8_t* wscreen) {
     return (0);
 }
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_BRUN(std::uint8_t *wscreen) {
+std::int32_t anim_make_FLI_BRUN(std::uint8_t* wscreen) {
     union MultiPointer screen;
     union MultiPointer back_screen;
     std::uint16_t line_count;
     std::int16_t same_count;
     std::int16_t width_count;
     std::int16_t screen_offset;
-    std::uint8_t *NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
+    std::uint8_t* NextFrameBufferPointer = animation->NextFrameBufferPointer.UByte;
 
     for (line_count = animation->FLCFileHeader.Height, screen.UByte = wscreen; line_count; line_count--) {
         animation->NextFrameBufferPointer.SByte++; // unused
@@ -659,13 +659,13 @@ std::int32_t anim_make_FLI_BRUN(std::uint8_t *wscreen) {
             }
         }
     }
-    animation->NextFrameBufferPointer.UByte = (std::uint8_t *) ((std::uint32_t)((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
+    animation->NextFrameBufferPointer.UByte = (std::uint8_t*) ((std::uint32_t) ((animation->NextFrameBufferPointer.UByte + 1)) & (~1));
     return (animation->NextFrameBufferPointer.UByte - NextFrameBufferPointer);
 }
 
 //**************************************|************************************
 
-std::int32_t anim_make_FLI_COPY(std::uint8_t *wscreen) {
+std::int32_t anim_make_FLI_COPY(std::uint8_t* wscreen) {
     memcpy(animation->NextFrameBufferPointer.UByte, wscreen, animation->FLCFileHeader.Width * animation->FLCFileHeader.Height);
     animation->NextFrameBufferPointer.UByte += animation->FLCFileHeader.Width * animation->FLCFileHeader.Height;
 
@@ -674,7 +674,7 @@ std::int32_t anim_make_FLI_COPY(std::uint8_t *wscreen) {
 
 //**************************************|************************************
 
-std::int32_t anim_write_data(std::uint8_t *data, std::int32_t size) {
+std::int32_t anim_write_data(std::uint8_t* data, std::int32_t size) {
     if (FileWrite(animation->RecordFileHandle, data, size) != size) {
         return (0);
     }
@@ -683,7 +683,7 @@ std::int32_t anim_write_data(std::uint8_t *data, std::int32_t size) {
 
 //**************************************|************************************
 
-std::int32_t anim_store_data(std::uint8_t *data, std::int32_t size) {
+std::int32_t anim_store_data(std::uint8_t* data, std::int32_t size) {
     memcpy(animation->NextFrameBufferPointer.UByte, data, size);
     animation->NextFrameBufferPointer.UByte += size;
     return (1);
@@ -692,7 +692,7 @@ std::int32_t anim_store_data(std::uint8_t *data, std::int32_t size) {
 //**************************************|************************************
 
 std::int32_t anim_show_next_frame() {
-    struct FLCFrameDataChunk *FLCFrameDataChunk;
+    struct FLCFrameDataChunk* FLCFrameDataChunk;
     std::uint8_t last_palette[256 * 3];
     std::uint8_t set_palette;
     std::int32_t data_chunk_count;
@@ -702,8 +702,8 @@ std::int32_t anim_show_next_frame() {
         set_palette = 0;
 
         animation->NextFrameBufferPointer.UByte = animation->NextFrameBuffer;
-        anim_read_data((std::uint8_t *) &animation->FLCFrameChunk, sizeof(struct FLCFrameChunk));
-        anim_read_data((std::uint8_t *) animation->NextFrameBuffer, animation->FLCFrameChunk.Size - sizeof(struct FLCFrameChunk));
+        anim_read_data((std::uint8_t*) &animation->FLCFrameChunk, sizeof(struct FLCFrameChunk));
+        anim_read_data((std::uint8_t*) animation->NextFrameBuffer, animation->FLCFrameChunk.Size - sizeof(struct FLCFrameChunk));
 
         if (animation->FLCFrameChunk.Type == 0xF1FA) {
             for (data_chunk_count = 0; data_chunk_count < animation->FLCFrameChunk.Chunks; data_chunk_count++) {
@@ -753,7 +753,7 @@ std::int32_t anim_show_next_frame() {
                     anim_show_FLI_PSTAMP();
                     break;
                 }
-                animation->NextFrameBufferPointer.UByte = (std::uint8_t *) (FLCFrameDataChunk) + FLCFrameDataChunk->Size;
+                animation->NextFrameBufferPointer.UByte = (std::uint8_t*) (FLCFrameDataChunk) + FLCFrameDataChunk->Size;
             }
         }
         animation->FrameNumber++;
@@ -771,7 +771,7 @@ std::int32_t anim_show_FLI_PSTAMP() {
 //**************************************|************************************
 
 std::int32_t anim_show_FLI_COLOUR256() {
-    std::uint8_t *palette = animation->Palette;
+    std::uint8_t* palette = animation->Palette;
     std::uint16_t number_of_packets;
     std::uint16_t packet_count;
     std::uint16_t colour_count;
@@ -793,7 +793,7 @@ std::int32_t anim_show_FLI_COLOUR256() {
 //**************************************|************************************
 
 std::int32_t anim_show_FLI_COLOUR() {
-    std::uint8_t *palette = animation->Palette;
+    std::uint8_t* palette = animation->Palette;
     std::uint16_t number_of_packets;
     std::uint16_t packet_count;
     std::uint16_t colour_count;
@@ -922,7 +922,7 @@ std::int32_t anim_show_FLI_COPY() {
 
 //**************************************|************************************
 
-std::int32_t anim_read_data(std::uint8_t *data, std::int32_t size) {
+std::int32_t anim_read_data(std::uint8_t* data, std::int32_t size) {
     if (data == 0) {
         FileSeek(animation->PlayFileHandle, SEEK_MODE_CURRENT, size);
     } else if (FileRead(animation->PlayFileHandle, data, size) != size) {

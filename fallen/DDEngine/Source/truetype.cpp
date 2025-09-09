@@ -486,7 +486,7 @@ static void DoTextCommand(TextCommand* tcmd) {
         ASSERT(chars);
         if (!chars) return;
 
-            // get width
+        // get width
 #ifdef TARGET_DC
         GetTextExtentExPoint(hDC, cTempString, chars, 0, nullptr, nullptr, &size);
 #else

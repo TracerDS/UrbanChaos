@@ -8,27 +8,27 @@
 #include "animate.h"
 
 extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
-extern std::int32_t person_normal_animate(Thing *p_person);
-extern void change_velocity_to(Thing *p_person, std::int16_t velocity);
-extern void person_normal_move(Thing *p_person);
-extern void fn_cop_fight(Thing *p_person);
+extern std::int32_t person_normal_animate(Entity* p_person);
+extern void change_velocity_to(Entity* p_person, std::int16_t velocity);
+extern void person_normal_move(Entity* p_person);
+extern void fn_cop_fight(Entity* p_person);
 
-void fn_person_moveing(Thing *p_person);
-void fn_person_idle(Thing *p_person);
-void fn_person_jumping(Thing *p_person);
-void fn_person_dangling(Thing *p_person);
-void fn_person_laddering(Thing *p_person);
-void fn_person_climbing(Thing *p_person);
-void fn_person_fighting(Thing *p_person);
-void fn_person_recoil(Thing *p_person);
-void fn_person_dying(Thing *p_person);
-void fn_person_dead(Thing *p_person);
-void fn_person_gun(Thing *p_person);
-void fn_person_wait(Thing *p_person);
-void fn_person_navigate(Thing *p_person);
-void fn_person_fight(Thing *p_person);
-void fn_person_stand_up(Thing *p_person);
-void fn_person_mavigate(Thing *p_person);
+void fn_person_moveing(Entity* p_person);
+void fn_person_idle(Entity* p_person);
+void fn_person_jumping(Entity* p_person);
+void fn_person_dangling(Entity* p_person);
+void fn_person_laddering(Entity* p_person);
+void fn_person_climbing(Entity* p_person);
+void fn_person_fighting(Entity* p_person);
+void fn_person_recoil(Entity* p_person);
+void fn_person_dying(Entity* p_person);
+void fn_person_dead(Entity* p_person);
+void fn_person_gun(Entity* p_person);
+void fn_person_wait(Entity* p_person);
+void fn_person_navigate(Entity* p_person);
+void fn_person_fight(Entity* p_person);
+void fn_person_stand_up(Entity* p_person);
+void fn_person_mavigate(Entity* p_person);
 
 #define COP_IDLE 1
 
@@ -84,7 +84,7 @@ StateFunction cop_states[]	=
 */
 //---------------------------------------------------------------
 
-void fn_cop_init(Thing *t_thing) {
+void fn_cop_init(Entity* t_thing) {
     t_thing->DrawType = DT_ROT_MULTI;
     // Angle already set when the person was created.
     t_thing->Draw.Tweened->Roll = 0;
@@ -130,7 +130,7 @@ void fn_cop_init(Thing *t_thing) {
 //---------------------------------------------------------------
 
 //
-void fn_cop_normal(Thing *t_thing) {
+void fn_cop_normal(Entity* t_thing) {
 #if 0
 
 	std::int16_t			angle_diff;
@@ -245,9 +245,9 @@ void fn_cop_normal(Thing *t_thing) {
 #endif
 }
 
-void fn_cop_fight(Thing *p_person) {
+void fn_cop_fight(Entity* p_person) {
     /*
-            Thing	*p_target;
+            Entity	*p_target;
             std::int32_t	dist;
             std::int32_t	end;
 

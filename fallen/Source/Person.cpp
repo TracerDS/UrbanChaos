@@ -71,8 +71,8 @@ extern std::int32_t save_psx;
 
 #define MAX_COL_WITH 16
 
-extern Thing *is_person_under_attack_low_level(
-    Thing *p_person,
+extern Entity* is_person_under_attack_low_level(
+    Entity* p_person,
     std::int32_t any_state,
     std::int32_t radius);
 
@@ -92,7 +92,7 @@ extern Thing *is_person_under_attack_low_level(
   // the sound system will have to handle this stuff internally
   //
 
-MF_sfx_play_thing(std::uint16_t id,Thing *p,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
+MF_sfx_play_thing(std::uint16_t id,Entity *p,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
 MF_sfx_play_pos(std::uint16_t id,std::int32_t x,std::int32_t y,SLONg z,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
 MF_sfx_play_wpos(std::uint16_t id,struct WorldPos *pos,std::uint16_t sample,std::uint16_t pitch,std::uint32_t flags)
 MF_sfx_play(std::uint16_t id,std::uint16_t sample,std::uint16_t vol,std::uint16_t pitch,std::uint32_t flags);
@@ -179,32 +179,32 @@ MF_sfx_stop_all();
 extern bool allow_debug_keys;
 #endif
 
-extern std::int32_t person_holding_2handed(Thing *p_person);
-extern std::int32_t continue_dir(Thing *p_person, std::int32_t dir);
-extern std::int32_t should_i_sneak(Thing *p_person);
-extern void change_velocity_to(Thing *p_person, std::int16_t velocity);
-extern void change_velocity_to_slow(Thing *p_person, std::int16_t velocity);
-extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t *angle);
-extern std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, std::int32_t *angle);
-extern void process_gang_attack(Thing *p_person, Thing *p_target);
-extern void reset_gang_attack(Thing *p_target);
-extern void drop_on_heads(Thing *p_thing);
-extern std::uint16_t count_gang(Thing *p_target);
-extern void person_enter_fight_mode(Thing *p_person);
-extern std::uint16_t get_any_gang_member(Thing *p_target);
-extern void add_damage_value_thing(Thing *p_thing, std::int32_t value);
-extern void set_person_locked_idle_ready(Thing *p_person);
-extern std::int32_t remove_from_gang_attack(Thing *p_person, Thing *p_target);
-extern std::int32_t continue_pressing_action(Thing *p_person);
-extern void set_action_used(Thing *p_person);
-extern void carry_running(Thing *p_person);
-extern void set_person_stand_carry(Thing *p_person);
+extern std::int32_t person_holding_2handed(Entity* p_person);
+extern std::int32_t continue_dir(Entity* p_person, std::int32_t dir);
+extern std::int32_t should_i_sneak(Entity* p_person);
+extern void change_velocity_to(Entity* p_person, std::int16_t velocity);
+extern void change_velocity_to_slow(Entity* p_person, std::int16_t velocity);
+extern std::int32_t PAP_on_slope(std::int32_t x, std::int32_t z, std::int32_t* angle);
+extern std::int32_t RFACE_on_slope(std::int32_t face, std::int32_t x, std::int32_t z, std::int32_t* angle);
+extern void process_gang_attack(Entity* p_person, Entity* p_target);
+extern void reset_gang_attack(Entity* p_target);
+extern void drop_on_heads(Entity* p_thing);
+extern std::uint16_t count_gang(Entity* p_target);
+extern void person_enter_fight_mode(Entity* p_person);
+extern std::uint16_t get_any_gang_member(Entity* p_target);
+extern void add_damage_value_thing(Entity* p_thing, std::int32_t value);
+extern void set_person_locked_idle_ready(Entity* p_person);
+extern std::int32_t remove_from_gang_attack(Entity* p_person, Entity* p_target);
+extern std::int32_t continue_pressing_action(Entity* p_person);
+extern void set_action_used(Entity* p_person);
+extern void carry_running(Entity* p_person);
+extern void set_person_stand_carry(Entity* p_person);
 
 extern std::uint8_t stealth_debug;
 
-extern std::int32_t plant_feet(Thing *p_person);
+extern std::int32_t plant_feet(Entity* p_person);
 extern std::int32_t calc_angle(std::int32_t dx, std::int32_t dz);
-extern std::int32_t set_person_sidle(struct Thing *p_person);
+extern std::int32_t set_person_sidle(struct Entity* p_person);
 extern std::int32_t slide_ladder;
 
 extern std::int32_t yomp_speed;
@@ -212,81 +212,81 @@ extern std::int32_t sprint_speed;
 
 std::uint16_t player_dlight = 0;
 
-void aim_at_victim(Thing *p_person, std::int32_t count = 1);
-void set_anim_idle(Thing *p_person);
-std::int32_t dist_to_target_pelvis(Thing *p_person_a, Thing *p_person_b);
-std::uint16_t find_arrestee(Thing *p_person);
-void set_person_fight_idle(Thing *p_person);
-std::int32_t set_person_pos_for_fence_vault(Thing *p_person, std::int32_t col);
+void aim_at_victim(Entity* p_person, std::int32_t count = 1);
+void set_anim_idle(Entity* p_person);
+std::int32_t dist_to_target_pelvis(Entity* p_person_a, Entity* p_person_b);
+std::uint16_t find_arrestee(Entity* p_person);
+void set_person_fight_idle(Entity* p_person);
+std::int32_t set_person_pos_for_fence_vault(Entity* p_person, std::int32_t col);
 
-std::int32_t check_near_facet(Thing *p_person, std::int32_t max_dist, std::int32_t max_end_dist, std::int32_t px, std::int32_t pz);
+std::int32_t check_near_facet(Entity* p_person, std::int32_t max_dist, std::int32_t max_end_dist, std::int32_t px, std::int32_t pz);
 
-std::int32_t find_idle_fight_stance(Thing *p_person);
-std::int32_t person_holding_special(Thing *p_person, std::uint8_t special);
-std::int32_t person_holding_bat(Thing *p_person) {
+std::int32_t find_idle_fight_stance(Entity* p_person);
+std::int32_t person_holding_special(Entity* p_person, std::uint8_t special);
+std::int32_t person_holding_bat(Entity* p_person) {
     return person_holding_special(p_person, SPECIAL_BASEBALLBAT);
 }
-void set_person_running(Thing *p_person);
+void set_person_running(Entity* p_person);
 
-void fn_person_moveing(Thing *p_person);
-void fn_person_idle(Thing *p_person);
-void fn_person_jumping(Thing *p_person);
-void fn_person_dangling(Thing *p_person);
-void fn_person_laddering(Thing *p_person);
-void fn_person_climbing(Thing *p_person);
-void fn_person_fighting(Thing *p_person);
-void fn_person_recoil(Thing *p_person);
-void fn_person_dying(Thing *p_person);
-void fn_person_dead(Thing *p_person);
-void fn_person_gun(Thing *p_person);
-void fn_person_wait(Thing *p_person);
-void fn_person_navigate(Thing *p_person);
-void fn_person_fight(Thing *p_person);
-void fn_person_stand_up(Thing *p_person);
-void fn_person_mavigate(Thing *p_person);
-void fn_person_grapple(Thing *p_person);
-void fn_person_goto(Thing *p_person);
-void fn_person_can(Thing *p_person);
-void fn_person_circle(Thing *p_person);
-void fn_person_hug_wall(Thing *p_person);
-void fn_person_search(Thing *p_person);
-void fn_person_carry(Thing *p_person);
-void fn_person_float(Thing *p_person);
+void fn_person_moveing(Entity* p_person);
+void fn_person_idle(Entity* p_person);
+void fn_person_jumping(Entity* p_person);
+void fn_person_dangling(Entity* p_person);
+void fn_person_laddering(Entity* p_person);
+void fn_person_climbing(Entity* p_person);
+void fn_person_fighting(Entity* p_person);
+void fn_person_recoil(Entity* p_person);
+void fn_person_dying(Entity* p_person);
+void fn_person_dead(Entity* p_person);
+void fn_person_gun(Entity* p_person);
+void fn_person_wait(Entity* p_person);
+void fn_person_navigate(Entity* p_person);
+void fn_person_fight(Entity* p_person);
+void fn_person_stand_up(Entity* p_person);
+void fn_person_mavigate(Entity* p_person);
+void fn_person_grapple(Entity* p_person);
+void fn_person_goto(Entity* p_person);
+void fn_person_can(Entity* p_person);
+void fn_person_circle(Entity* p_person);
+void fn_person_hug_wall(Entity* p_person);
+void fn_person_search(Entity* p_person);
+void fn_person_carry(Entity* p_person);
+void fn_person_float(Entity* p_person);
 
 std::int32_t find_anim_fall_dir(std::int32_t anim);
 
-std::int32_t set_person_pos_for_fence(Thing *p_person, std::int32_t col, std::int32_t set_pos, std::int32_t req_dist);
-void locked_anim_change(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
-void do_person_on_cable(Thing *p_person);
-std::int32_t fight_any_gang_attacker(Thing *p_person);
+std::int32_t set_person_pos_for_fence(Entity* p_person, std::int32_t col, std::int32_t set_pos, std::int32_t req_dist);
+void locked_anim_change(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle = 0);
+void do_person_on_cable(Entity* p_person);
+std::int32_t fight_any_gang_attacker(Entity* p_person);
 
-extern std::int32_t projectile_move_thing(Thing *p_thing, std::int32_t flag);
+extern std::int32_t projectile_move_thing(Entity* p_thing, std::int32_t flag);
 extern std::int32_t calc_height_at(std::int32_t x, std::int32_t z);
-extern std::int32_t find_best_grapple(Thing *p_person);
+extern std::int32_t find_best_grapple(Entity* p_person);
 
-std::int32_t set_person_pos_for_half_step(Thing *p_person, std::int32_t col);
-void set_person_sneaking(Thing *p_person);
-void set_person_mav_to_xz(Thing *p_person, std::int32_t x, std::int32_t z);
-std::int32_t turn_to_face_thing(Thing *p_person, Thing *p_target, std::int32_t slow);
-std::int32_t set_face_thing(Thing *p_person, Thing *p_target);
-void set_person_mav_to_thing(Thing *p_person, Thing *p_target);
-std::int32_t get_pitch_to_thing_quick(Thing *p_person, Thing *p_target);
-void turn_to_face_thing_quick(Thing *p_person, Thing *p_target);
-std::int32_t get_yomp_anim(Thing *p_person);
-std::int32_t person_holding_2handed(Thing *p_person);
-void drop_all_items(Thing *p_person, std::uint8_t is_being_searched);
-void set_person_croutch(Thing *p_person);
-void drop_current_gun(Thing *p_person, std::int32_t change_anim);
-std::int32_t player_running_aim_gun(Thing *p_person);
-std::int32_t might_i_be_a_villain(Thing *p_person);
-void highlight_gun_target(Thing *p_person, Thing *p_target);
-void locked_anim_change_of_type(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type);
-void set_anim_running(Thing *p_person);
+std::int32_t set_person_pos_for_half_step(Entity* p_person, std::int32_t col);
+void set_person_sneaking(Entity* p_person);
+void set_person_mav_to_xz(Entity* p_person, std::int32_t x, std::int32_t z);
+std::int32_t turn_to_face_thing(Entity* p_person, Entity* p_target, std::int32_t slow);
+std::int32_t set_face_thing(Entity* p_person, Entity* p_target);
+void set_person_mav_to_thing(Entity* p_person, Entity* p_target);
+std::int32_t get_pitch_to_thing_quick(Entity* p_person, Entity* p_target);
+void turn_to_face_thing_quick(Entity* p_person, Entity* p_target);
+std::int32_t get_yomp_anim(Entity* p_person);
+std::int32_t person_holding_2handed(Entity* p_person);
+void drop_all_items(Entity* p_person, std::uint8_t is_being_searched);
+void set_person_croutch(Entity* p_person);
+void drop_current_gun(Entity* p_person, std::int32_t change_anim);
+std::int32_t player_running_aim_gun(Entity* p_person);
+std::int32_t might_i_be_a_villain(Entity* p_person);
+void highlight_gun_target(Entity* p_person, Entity* p_target);
+void locked_anim_change_of_type(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type);
+void set_anim_running(Entity* p_person);
 
-extern void move_thing_on_map_dxdydz(Thing *t_thing, std::int32_t dx, std::int32_t dy, std::int32_t dz);
+extern void move_thing_on_map_dxdydz(Entity* t_thing, std::int32_t dx, std::int32_t dy, std::int32_t dz);
 
 #if !defined(PSX) && !defined(TARGET_DC)
-std::int32_t person_is_on_sewer(Thing *p_person);
+std::int32_t person_is_on_sewer(Entity* p_person);
 #endif
 
 GenusFunctions people_functions[] =
@@ -352,7 +352,7 @@ StateFunction generic_people_functions[] =
         {0,                     NULL               }
 };
 
-char *PERSON_mode_name[PERSON_MODE_NUMBER] =
+char* PERSON_mode_name[PERSON_MODE_NUMBER] =
     {
         "Run",
         "Walk",
@@ -461,7 +461,7 @@ void set_player_visited(std::uint8_t x, std::uint8_t z) {
 }
 #endif
 
-inline bool MagicFrameCheck(Thing *p_person, std::uint8_t frameindex) {
+inline bool MagicFrameCheck(Entity* p_person, std::uint8_t frameindex) {
     if (p_person->Draw.Tweened->FrameIndex >= frameindex) {
         if (!(p_person->Genus.Person->Flags2 & FLAG2_SYNC_SOUNDFX)) {
             p_person->Genus.Person->Flags2 |= FLAG2_SYNC_SOUNDFX;
@@ -473,13 +473,13 @@ inline bool MagicFrameCheck(Thing *p_person, std::uint8_t frameindex) {
     return false;
 }
 
-bool PersonIsMIB(Thing *p_person) {
+bool PersonIsMIB(Entity* p_person) {
     return (p_person->Genus.Person->PersonType == PERSON_MIB1 ||
             p_person->Genus.Person->PersonType == PERSON_MIB2 ||
             p_person->Genus.Person->PersonType == PERSON_MIB3);
 }
 
-void SlideSoundCheck(Thing *p_person, bool force = 0) {
+void SlideSoundCheck(Entity* p_person, bool force = 0) {
     if (p_person->Genus.Person->Flags & FLAG_PERSON_SLIDING) {
         MFX_stop(THING_NUMBER(p_person), S_SEARCH_END);
         if (force || !((p_person->State == STATE_MOVEING) && (p_person->SubState == SUB_STATE_RUNNING_SKID_STOP))) {
@@ -503,7 +503,7 @@ void SlideSoundCheck(Thing *p_person, bool force = 0) {
 #ifndef PSX
 void init_persons() {
     std::int32_t c0;
-    memset((std::uint8_t *) PEOPLE, 0, sizeof(Person) * MAX_PEOPLE);
+    memset((std::uint8_t*) PEOPLE, 0, sizeof(Person) * MAX_PEOPLE);
     for (c0 = 0; c0 < MAX_PEOPLE; c0++) {
         PEOPLE[c0].AnimType = PERSON_NONE;
     }
@@ -513,10 +513,10 @@ void init_persons() {
 
 //---------------------------------------------------------------
 
-Thing *alloc_person(std::uint8_t type, std::uint8_t random_number) {
+Entity* alloc_person(std::uint8_t type, std::uint8_t random_number) {
     std::int32_t c0;
-    Person *new_person;
-    Thing *person_thing = NULL;
+    Person* new_person;
+    Entity* person_thing = NULL;
 
     //	if(type==1)
     //		type=4;
@@ -530,7 +530,7 @@ Thing *alloc_person(std::uint8_t type, std::uint8_t random_number) {
                 new_person->PersonType = type;
 
                 new_person->AnimType = anim_type[type];
-                new_person->Thing = THING_NUMBER(person_thing);
+                new_person->Entity = THING_NUMBER(person_thing);
                 new_person->PlayerID = 0;
                 new_person->Ammo = 15;
                 new_person->SpecialList = 0;
@@ -665,7 +665,7 @@ Thing *alloc_person(std::uint8_t type, std::uint8_t random_number) {
 
 //---------------------------------------------------------------
 
-void free_person(Thing *person_thing) {
+void free_person(Entity* person_thing) {
     // Set the person type to none & free the thing.
     person_thing->Genus.Person->AnimType = PERSON_NONE;
     free_draw_tween(person_thing->Draw.Tweened);
@@ -684,7 +684,7 @@ THING_INDEX create_person(
     std::int32_t x,
     std::int32_t y,
     std::int32_t z) {
-    Thing *p_person = alloc_person(type, random_number);
+    Entity* p_person = alloc_person(type, random_number);
     global_person++;
 
     if (p_person) {
@@ -783,7 +783,7 @@ THING_INDEX create_person(
 // Returns true if there is enough room in front of the given person.
 //
 
-std::int32_t is_there_room_in_front_of_me(Thing *p_person, std::int32_t how_much_room) {
+std::int32_t is_there_room_in_front_of_me(Entity* p_person, std::int32_t how_much_room) {
     std::int32_t x1;
     std::int32_t y1;
     std::int32_t z1;
@@ -828,10 +828,10 @@ std::int32_t is_there_room_in_front_of_me(Thing *p_person, std::int32_t how_much
 //---------------------------------------------------------------
 extern THING_INDEX col_with[];
 
-std::int32_t find_searchable_person(Thing *p_person) {
+std::int32_t find_searchable_person(Entity* p_person) {
     std::int32_t col_with_upto;
     std::int32_t collide_types = (1 << CLASS_PERSON);
-    Thing *col_thing;
+    Entity* col_thing;
     std::int32_t i;
     std::int32_t best_dist = INFINITY, best_index = 0, dist;
 
@@ -863,7 +863,7 @@ std::int32_t find_searchable_person(Thing *p_person) {
         return (0);
 }
 
-std::int32_t set_person_search(Thing *p_person, std::int32_t ob_index, std::int32_t ox, std::int32_t oy, std::int32_t oz) {
+std::int32_t set_person_search(Entity* p_person, std::int32_t ob_index, std::int32_t ox, std::int32_t oy, std::int32_t oz) {
     std::int32_t dx, dz, angle, dangle;
 
     dx = (p_person->WorldPos.X >> 8) - ox;
@@ -887,7 +887,7 @@ std::int32_t set_person_search(Thing *p_person, std::int32_t ob_index, std::int3
         return (0);
 }
 
-std::int32_t set_person_search_corpse(Thing *p_person, Thing *p_dead) {
+std::int32_t set_person_search_corpse(Entity* p_person, Entity* p_dead) {
     //	set_person_locked_idle_ready(p_person);
 
     set_anim(p_person, ANIM_CROUTCH_DOWN);
@@ -908,9 +908,9 @@ std::int32_t set_person_search_corpse(Thing *p_person, Thing *p_dead) {
     return (1);
 }
 
-void release_searched_item(Thing *p_person) {
+void release_searched_item(Entity* p_person) {
     std::int32_t index;
-    Thing *p_thing;
+    Entity* p_thing;
     std::int32_t ob_index;
 
     MFX_stop(THING_NUMBER(p_person), S_SEARCH_END);
@@ -953,10 +953,10 @@ void release_searched_item(Thing *p_person) {
 //
 
 void find_nice_place_near_person(
-    Thing *p_person,
-    std::int32_t *nice_x, // 8-bits per mapsquare
-    std::int32_t *nice_y,
-    std::int32_t *nice_z) {
+    Entity* p_person,
+    std::int32_t* nice_x, // 8-bits per mapsquare
+    std::int32_t* nice_y,
+    std::int32_t* nice_z) {
     std::int32_t gx;
     std::int32_t gy;
     std::int32_t gz;
@@ -1008,7 +1008,7 @@ void find_nice_place_near_person(
 //	SUB_STATE_DYING_KNOCK_DOWN	- means they play a get up animation after their current animation is over and don't die.
 //
 
-void set_person_dying(Thing *p_person, std::uint8_t substate) {
+void set_person_dying(Entity* p_person, std::uint8_t substate) {
     //
     // Valid substate?
     //
@@ -1060,7 +1060,7 @@ void set_person_dying(Thing *p_person, std::uint8_t substate) {
 #define PERSON_ON_HIS_BACK 1
 #define PERSON_ON_HIS_SOMETHING 2
 
-std::int32_t person_is_lying_on_what(Thing *p_person) {
+std::int32_t person_is_lying_on_what(Entity* p_person) {
     ASSERT(p_person->Class == CLASS_PERSON);
 
     switch (p_person->Draw.Tweened->CurrentAnim) {
@@ -1096,7 +1096,7 @@ std::int32_t person_is_lying_on_what(Thing *p_person) {
     }
 }
 
-std::int32_t footstep_wave(Thing *p_person) {
+std::int32_t footstep_wave(Entity* p_person) {
     //
     // Which one out of a choice of sounds we play.
     //
@@ -1192,7 +1192,7 @@ std::int32_t footstep_wave(Thing *p_person) {
 // Returns the relative angle of the target from the person.
 //
 
-std::int32_t get_dangle(Thing *p_person, Thing *p_target) {
+std::int32_t get_dangle(Entity* p_person, Entity* p_target) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t angle;
@@ -1256,7 +1256,7 @@ std::int32_t get_fence_top(std::int32_t x, std::int32_t z, std::int32_t col) {
 //
 
 void person_splash(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t limb) // -1 => Splash at the centre of the person.
 {
 #ifndef PSX
@@ -1403,8 +1403,8 @@ void person_splash(
 // to see if they have a gun/item in use etc...
 //
 
-void set_persons_personid(Thing *p_person) {
-    Thing *p_special;
+void set_persons_personid(Entity* p_person) {
+    Entity* p_special;
 
     if (p_person->Genus.Person->PersonType == PERSON_CIV)
         return;
@@ -1486,7 +1486,7 @@ inline void ShowAnimNumber(std::int32_t anim) {
 #endif
 }
 
-void queue_anim(Thing *p_person, std::int32_t anim) {
+void queue_anim(Entity* p_person, std::int32_t anim) {
     ASSERT(anim != 1);
     //	ASSERT(anim!=54);
     ASSERT(((std::uint32_t) global_anim_array[p_person->Genus.Person->AnimType][anim]) > 1000);
@@ -1506,7 +1506,7 @@ void queue_anim(Thing *p_person, std::int32_t anim) {
     ShowAnimNumber(anim);
 }
 
-void tween_to_anim(Thing *p_person, std::int32_t anim) {
+void tween_to_anim(Entity* p_person, std::int32_t anim) {
     //	ASSERT(anim!=54);
     p_person->Genus.Person->Flags2 &= ~FLAG2_SYNC_SOUNDFX;
     if (p_person->Genus.Person->Flags & FLAG_PERSON_LOCK_ANIM_CHANGE) {
@@ -1526,7 +1526,7 @@ void tween_to_anim(Thing *p_person, std::int32_t anim) {
     ShowAnimNumber(anim);
 }
 
-void set_anim(Thing *p_person, std::int32_t anim) {
+void set_anim(Entity* p_person, std::int32_t anim) {
     ASSERT(anim != 1);
     //	ASSERT(anim!=54);
     /*
@@ -1557,7 +1557,7 @@ void set_anim(Thing *p_person, std::int32_t anim) {
     ShowAnimNumber(anim);
 }
 //				set_anim_of_type(p_person,CIV_M_ANIM_WALK,ANIM_TYPE_CIV);
-void set_anim_of_type(Thing *p_person, std::int32_t anim, std::int32_t type) {
+void set_anim_of_type(Entity* p_person, std::int32_t anim, std::int32_t type) {
     ASSERT(anim != 1);
     //	ASSERT(anim!=54);
     /*
@@ -1594,7 +1594,7 @@ void set_anim_of_type(Thing *p_person, std::int32_t anim, std::int32_t type) {
     ShowAnimNumber(anim);
 }
 
-void set_locked_anim(Thing *p_person, std::int32_t anim, std::int32_t sub_object) {
+void set_locked_anim(Entity* p_person, std::int32_t anim, std::int32_t sub_object) {
     ASSERT(anim != 1);
     ASSERT(anim);
     //	ASSERT(anim!=54);
@@ -1609,7 +1609,7 @@ void set_locked_anim(Thing *p_person, std::int32_t anim, std::int32_t sub_object
 
     ShowAnimNumber(anim);
 }
-void set_locked_anim_angle(Thing *p_person, std::int32_t anim, std::int32_t sub_object, std::int32_t dangle) {
+void set_locked_anim_angle(Entity* p_person, std::int32_t anim, std::int32_t sub_object, std::int32_t dangle) {
     ASSERT(anim != 1);
     ASSERT(anim);
     //	ASSERT(anim!=54);
@@ -1624,7 +1624,7 @@ void set_locked_anim_angle(Thing *p_person, std::int32_t anim, std::int32_t sub_
 
     ShowAnimNumber(anim);
 }
-void set_locked_anim_of_type(Thing *p_person, std::int32_t anim, std::int32_t sub_object) {
+void set_locked_anim_of_type(Entity* p_person, std::int32_t anim, std::int32_t sub_object) {
     ASSERT(anim != 1);
     ASSERT(anim);
     //	ASSERT(anim!=54);
@@ -1649,7 +1649,7 @@ std::int32_t get_cable_sdist_from_end(std::int32_t facet, std::int32_t ax, std::
 
     std::int32_t d1;
 
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     p_facet = &dfacets[facet];
 
@@ -1674,7 +1674,7 @@ std::int32_t get_cable_sdist_from_end(std::int32_t facet, std::int32_t ax, std::
     return (d1);
 }
 
-void person_death_slide(Thing *p_person) {
+void person_death_slide(Entity* p_person) {
     std::int32_t dx, dy = 0, dz;
     std::int32_t along;
     std::int32_t dist, sdist;
@@ -1730,7 +1730,7 @@ void person_death_slide(Thing *p_person) {
 //
 // big drop
 //
-void set_person_dead_land(Thing *p_thing)
+void set_person_dead_land(Entity *p_thing)
 {
         DrawTween	*draw_info;
         WaveParams	die;
@@ -1769,10 +1769,10 @@ void set_person_dead_land(Thing *p_thing)
 
 */
 
-void emergency_uncarry(Thing *p_person);
-std::int32_t people_allowed_to_hit_each_other(Thing *p_victim, Thing *p_agressor);
+void emergency_uncarry(Entity* p_person);
+std::int32_t people_allowed_to_hit_each_other(Entity* p_victim, Entity* p_agressor);
 
-void sweep_feet(Thing *p_person, Thing *p_aggressor, std::int32_t death_type) {
+void sweep_feet(Entity* p_person, Entity* p_aggressor, std::int32_t death_type) {
     SlideSoundCheck(p_person, 1);
 
     if (p_person->State == STATE_JUMPING) {
@@ -1899,7 +1899,7 @@ void sweep_feet(Thing *p_person, Thing *p_aggressor, std::int32_t death_type) {
 // in the given direction.
 //
 
-std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_behind) {
+std::int32_t is_there_room_behind_person(Entity* p_person, std::int32_t hit_from_behind) {
     std::uint32_t los_flag;
 
     //
@@ -1980,11 +1980,11 @@ std::int32_t is_there_room_behind_person(Thing *p_person, std::int32_t hit_from_
     return true;
 }
 
-extern std::int32_t slide_along(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t *x2, std::int32_t *y2, std::int32_t *z2, std::int32_t extra_wall_height, std::int32_t radius, std::uint32_t flags);
-void set_fence_hole(struct DFacet *p_facet, std::int32_t pos);
+extern std::int32_t slide_along(std::int32_t x1, std::int32_t y1, std::int32_t z1, std::int32_t* x2, std::int32_t* y2, std::int32_t* z2, std::int32_t extra_wall_height, std::int32_t radius, std::uint32_t flags);
+void set_fence_hole(struct DFacet* p_facet, std::int32_t pos);
 
 std::int32_t get_along_facet(std::int32_t x, std::int32_t z, std::int32_t colvect) {
-    DFacet *p_facet;
+    DFacet* p_facet;
     std::int32_t dx, dz;
     std::int32_t along;
 
@@ -2005,7 +2005,7 @@ std::int32_t get_along_facet(std::int32_t x, std::int32_t z, std::int32_t colvec
 }
 #ifdef UNUSED_WIRECUTTERS
 extern std::uint16_t fence_colvect;
-std::int32_t set_person_cut_fence(Thing *p_person) {
+std::int32_t set_person_cut_fence(Entity* p_person) {
     std::int32_t x1, y1, z1, x2, y2, z2, dx, dz;
     std::int32_t along;
 
@@ -2037,12 +2037,12 @@ std::int32_t set_person_cut_fence(Thing *p_person) {
 }
 #endif
 void set_person_dead(
-    Thing *p_thing,
-    Thing *p_aggressor,
+    Entity* p_thing,
+    Entity* p_aggressor,
     std::int32_t death_type,
     std::int32_t behind,
     std::int32_t height) {
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     std::int32_t anim;
     std::int32_t substate;
     std::int32_t quick = false;
@@ -2145,7 +2145,7 @@ void set_person_dead(
             remove_from_gang_attack(p_thing, p_aggressor);
             if (p_aggressor->Genus.Person->Target == THING_NUMBER(p_thing)) {
                 // ASSERT(0);
-                extern std::uint16_t find_target_from_gang(Thing * p_target);
+                extern std::uint16_t find_target_from_gang(Entity * p_target);
                 p_aggressor->Genus.Person->Target = find_target_from_gang(p_aggressor);
                 if (p_aggressor->Genus.Person->PlayerID)
                     if (p_aggressor->Genus.Person->Target == 0) {
@@ -2501,7 +2501,7 @@ void set_person_dead(
 //
 // 0 is not guilty, 1 is a bit guilty, 2 is very guilty , 3 is top ten most wanted
 //
-std::int32_t is_person_guilty(Thing *p_person) {
+std::int32_t is_person_guilty(Entity* p_person) {
     if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_GUILTY)
         return (1);
 
@@ -2529,7 +2529,7 @@ std::int32_t is_person_guilty(Thing *p_person) {
     return (0);
 }
 
-std::int32_t person_on_floor(Thing *p_person) {
+std::int32_t person_on_floor(Entity* p_person) {
     if (p_person->SubState == SUB_STATE_RUNNING || p_person->SubState == SUB_STATE_WALKING || p_person->State == STATE_IDLE || p_person->State == STATE_CIRCLING || p_person->State == STATE_GUN || p_person->State == STATE_HIT_RECOIL) {
         return (1);
     } else {
@@ -2540,7 +2540,7 @@ std::int32_t person_on_floor(Thing *p_person) {
     }
 }
 
-std::int32_t really_on_floor(Thing *p_person) {
+std::int32_t really_on_floor(Entity* p_person) {
     std::int32_t foot_x;
     std::int32_t foot_y;
     std::int32_t foot_z;
@@ -2565,14 +2565,14 @@ std::int32_t really_on_floor(Thing *p_person) {
         return (1);
 }
 
-std::int32_t is_person_dead(Thing *p_person) {
+std::int32_t is_person_dead(Entity* p_person) {
     if (p_person->State == STATE_DEAD || (p_person->State == STATE_DYING && (p_person->Genus.Person->Flags & FLAG_PERSON_KO) == 0))
         return (1);
     else
         return (0);
 }
 
-std::int32_t is_person_ko(Thing *p_person) {
+std::int32_t is_person_ko(Entity* p_person) {
     if (p_person->State == STATE_DYING) {
         switch (p_person->SubState) {
         case SUB_STATE_DYING_KNOCK_DOWN_WAIT:
@@ -2584,7 +2584,7 @@ std::int32_t is_person_ko(Thing *p_person) {
     return false;
 }
 
-std::int32_t is_person_ko_and_lay_down(Thing *p_person) {
+std::int32_t is_person_ko_and_lay_down(Entity* p_person) {
     if (p_person->State == STATE_DYING) {
         switch (p_person->SubState) {
         case SUB_STATE_DYING_KNOCK_DOWN_WAIT:
@@ -2596,11 +2596,11 @@ std::int32_t is_person_ko_and_lay_down(Thing *p_person) {
 }
 
 void knock_person_down(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t hitpoints,
     std::int32_t origin_x,
     std::int32_t origin_z,
-    Thing *p_aggressor) {
+    Entity* p_aggressor) {
     std::int32_t death_type;
     std::int32_t behind;
 
@@ -2682,7 +2682,7 @@ void knock_person_down(
         0);
 }
 
-void person_bodge_forward(Thing *p_person, std::int32_t dist) {
+void person_bodge_forward(Entity* p_person, std::int32_t dist) {
     std::int32_t dx, dy = 0, dz;
     GameCoord new_position = p_person->WorldPos;
 
@@ -2717,7 +2717,7 @@ std::int32_t find_an_enemy_within_dist(std::int32_t x,std::int32_t y,std::int32_
                         index=MAP2(mx+dx,mz+dz).MapWho;
                         while(index)
                         {
-                                Thing	*p_thing;
+                                Entity	*p_thing;
                                 p_thing=TO_THING(index);
 
                                 switch(p_thing->Class)
@@ -2739,8 +2739,8 @@ std::int32_t find_an_enemy_within_dist(std::int32_t x,std::int32_t y,std::int32_
 //
 
 std::int32_t los_between_heads(
-    Thing *person_1,
-    Thing *person_2) {
+    Entity* person_1,
+    Entity* person_2) {
     std::int32_t x1 = person_1->WorldPos.X >> 8;
     std::int32_t y1 = person_1->WorldPos.Y >> 8;
     std::int32_t z1 = person_1->WorldPos.Z >> 8;
@@ -2765,10 +2765,10 @@ std::int32_t los_between_heads(
 extern THING_INDEX col_with[];
 
 #ifndef PSX
-void oscilate_tinpanum(std::int32_t x, std::int32_t y, std::int32_t z, Thing *p_thing, std::int32_t vol) {
+void oscilate_tinpanum(std::int32_t x, std::int32_t y, std::int32_t z, Entity* p_thing, std::int32_t vol) {
     std::int32_t col_with_upto;
     std::int32_t collide_types = (1 << CLASS_PERSON);
-    Thing *col_thing;
+    Entity* col_thing;
     std::int32_t i;
 
     col_with_upto = THING_find_sphere(
@@ -2826,7 +2826,7 @@ void oscilate_tinpanum(std::int32_t x, std::int32_t y, std::int32_t z, Thing *p_
 }
 #endif
 
-std::int32_t dist_to_target(Thing *p_person_a, Thing *p_person_b) {
+std::int32_t dist_to_target(Entity* p_person_a, Entity* p_person_b) {
     std::int32_t dx, dz;
 
     dx = abs(p_person_a->WorldPos.X - p_person_b->WorldPos.X) >> 8;
@@ -2834,7 +2834,7 @@ std::int32_t dist_to_target(Thing *p_person_a, Thing *p_person_b) {
     return (QDIST2(dx, dz));
 }
 
-std::int32_t dist_to_target_pelvis(Thing *p_person_a, Thing *p_person_b) {
+std::int32_t dist_to_target_pelvis(Entity* p_person_a, Entity* p_person_b) {
     std::int32_t dx, dz;
     std::int32_t ax, ay, az;
     std::int32_t bx, by, bz;
@@ -2858,7 +2858,7 @@ std::int32_t dist_to_target_pelvis(Thing *p_person_a, Thing *p_person_b) {
 // Returns true if a person is crouching
 //
 
-std::int32_t is_person_crouching(Thing *p_person) {
+std::int32_t is_person_crouching(Entity* p_person) {
     ASSERT(p_person->Class == CLASS_PERSON);
 
     return p_person->SubState == SUB_STATE_CRAWLING ||
@@ -2878,8 +2878,8 @@ std::int32_t is_person_crouching(Thing *p_person) {
 //        >0 clip calculated view distance to this value
 
 std::int32_t can_a_see_b(
-    Thing *p_person_a,
-    Thing *p_person_b, std::int32_t range, std::int32_t no_los) {
+    Entity* p_person_a,
+    Entity* p_person_b, std::int32_t range, std::int32_t no_los) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -3107,7 +3107,7 @@ std::int32_t can_a_see_b(
     return false;
 }
 
-std::int32_t can_i_see_place(Thing *p_person, std::int32_t x, std::int32_t y, std::int32_t z) {
+std::int32_t can_i_see_place(Entity* p_person, std::int32_t x, std::int32_t y, std::int32_t z) {
     std::int32_t dx;
     std::int32_t dy;
     std::int32_t dz;
@@ -3180,7 +3180,7 @@ std::int32_t can_i_see_place(Thing *p_person, std::int32_t x, std::int32_t y, st
     return false;
 }
 
-void set_person_sliding_tackle(Thing *p_person, Thing *p_target) {
+void set_person_sliding_tackle(Entity* p_person, Entity* p_target) {
     if (p_person->SubState != SUB_STATE_RUNNING_SKID_STOP) {
         set_face_thing(p_person, p_target);
         set_generic_person_state_function(p_person, STATE_MOVEING);
@@ -3193,7 +3193,7 @@ void set_person_sliding_tackle(Thing *p_person, Thing *p_target) {
 // Returns true if the person vaults...
 //
 
-std::int32_t set_person_vault(Thing *p_person, std::int32_t facet) {
+std::int32_t set_person_vault(Entity* p_person, std::int32_t facet) {
     if (set_person_pos_for_fence_vault(p_person, facet)) {
         set_anim(p_person, ANIM_VAULT);
         p_person->SubState = SUB_STATE_RUNNING_VAULT;
@@ -3207,7 +3207,7 @@ std::int32_t set_person_vault(Thing *p_person, std::int32_t facet) {
     return false;
 }
 
-std::int32_t set_person_climb_half(Thing *p_person, std::int32_t facet) {
+std::int32_t set_person_climb_half(Entity* p_person, std::int32_t facet) {
     if (set_person_pos_for_half_step(p_person, facet)) {
         set_anim(p_person, ANIM_GET_UP_HALF_BLOCK);
         p_person->SubState = SUB_STATE_RUNNING_HALF_BLOCK;
@@ -3225,7 +3225,7 @@ std::int32_t set_person_climb_half(Thing *p_person, std::int32_t facet) {
 // can person see player
 //
 
-std::int32_t can_i_see_player(Thing *p_person) {
+std::int32_t can_i_see_player(Entity* p_person) {
     //
     // THERE MIGHT BE TWO PLAYERS NOW REMEMBER!
     //
@@ -3233,7 +3233,7 @@ std::int32_t can_i_see_player(Thing *p_person) {
     return can_a_see_b(p_person, NET_PERSON(0));
 }
 
-void do_look_for_enemies(Thing *p_person) {
+void do_look_for_enemies(Entity* p_person) {
     //
     // THERE MIGHT BE TWO PLAYERS NOW REMEMBER!
     //
@@ -3260,7 +3260,7 @@ void do_look_for_enemies(Thing *p_person) {
 // If the person is too far from home or Darci sets of home again.
 //
 #ifdef UNUSED
-void show_me_the_way_to_go_home(Thing *p_person) {
+void show_me_the_way_to_go_home(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -3306,8 +3306,8 @@ void show_me_the_way_to_go_home(Thing *p_person) {
 extern void play_music(std::uint16_t id, std::uint8_t track);
 
 std::uint32_t timer_bored = 0;
-void general_process_player(Thing *p_person) {
-    DrawTween *dt;
+void general_process_player(Entity* p_person) {
+    DrawTween* dt;
 
     if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT) {
         if (p_person->State == STATE_MOVEING &&
@@ -3328,7 +3328,7 @@ void general_process_player(Thing *p_person) {
 #endif
 
     if (p_person->Genus.Person->GangAttack) {
-        extern void check_players_gang(Thing * p_target);
+        extern void check_players_gang(Entity * p_target);
         check_players_gang(p_person);
     }
     /*
@@ -3351,7 +3351,7 @@ void general_process_player(Thing *p_person) {
 
     if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT) {
         if (p_person->Genus.Person->Target) {
-            Thing *p_target;
+            Entity* p_target;
 
             p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -3447,7 +3447,7 @@ void general_process_player(Thing *p_person) {
     }
 }
 
-void person_pick_best_target(Thing *p_person, std::int32_t dir) {
+void person_pick_best_target(Entity* p_person, std::int32_t dir) {
     std::int32_t i;
 
     std::int32_t dx;
@@ -3470,7 +3470,7 @@ void person_pick_best_target(Thing *p_person, std::int32_t dir) {
         1 << CLASS_PERSON);
 
     for (i = 0; i < num_found; i++) {
-        Thing *p_found = TO_THING(THING_array[i]);
+        Entity* p_found = TO_THING(THING_array[i]);
 
         if (p_found == p_person) {
             continue;
@@ -3545,7 +3545,7 @@ void person_pick_best_target(Thing *p_person, std::int32_t dir) {
     /*
 
     std::uint16_t	target;
-extern std::uint16_t	get_nearest_gang_member(Thing *p_target);
+extern std::uint16_t	get_nearest_gang_member(Entity *p_target);
     target=get_nearest_gang_member(p_person);
     if(target)
     {
@@ -3556,7 +3556,7 @@ extern std::uint16_t	get_nearest_gang_member(Thing *p_target);
     */
 }
 
-void general_process_person(Thing *p_person) {
+void general_process_person(Entity* p_person) {
     /*
             if(p_person->State!=STATE_DEAD && p_person->State!=STATE_DYING)
             {
@@ -3651,7 +3651,7 @@ void general_process_person(Thing *p_person) {
     */
     if (ControlFlag)
         if (p_person->Genus.Person->Target) {
-            Thing *p_target;
+            Entity* p_target;
 
             p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -3691,84 +3691,84 @@ void general_process_person(Thing *p_person) {
                 if(!is_person_dead(p_person))
                 if(can_a_see_b(p_person,NET_PERSON(0)))
                 {
-                        Thing	*p_target=NET_PERSON(0);
+                        Entity	*p_target=NET_PERSON(0);
                         AENG_world_line_infinite(p_target->WorldPos.X>>8,p_target->WorldPos.Y>>8,p_target->WorldPos.Z>>8,1,0x00ff00,p_person->WorldPos.X>>8,p_person->WorldPos.Y>>8,p_person->WorldPos.Z>>8,5,0x00ff00,1);
                 }
         }
 */
 #endif
-        /*
-                if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
-                {
-                        DebugText(" %d %d %d \n",p_person->State,p_person->SubState,p_person->Genus.Person->pcom_ai);
-                }
-        */
-        //	p_person->Genus.Person->Flags &=~ FLAG_PERSON_DID_ANIMATE;
-        /*
-                if(p_person->Draw.Tweened->CurrentFrame==p_person->Draw.Tweened->NextFrame)
-                {
-                        AENG_world_line(p_person->WorldPos.X          >> 8,p_person->WorldPos.Y + 0x0000 >> 8,p_person->WorldPos.Z  >> 8,
-                                                        32,0x00ff00,p_person->WorldPos.X >> 8,p_person->WorldPos.Y + 0x1000 >> 8,p_person->WorldPos.Z >> 8,
-                                                        0,
-                                                        0x000000,
-                                                        true);
-                }
-        */
+    /*
+            if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER)
+            {
+                    DebugText(" %d %d %d \n",p_person->State,p_person->SubState,p_person->Genus.Person->pcom_ai);
+            }
+    */
+    //	p_person->Genus.Person->Flags &=~ FLAG_PERSON_DID_ANIMATE;
+    /*
+            if(p_person->Draw.Tweened->CurrentFrame==p_person->Draw.Tweened->NextFrame)
+            {
+                    AENG_world_line(p_person->WorldPos.X          >> 8,p_person->WorldPos.Y + 0x0000 >> 8,p_person->WorldPos.Z  >> 8,
+                                                    32,0x00ff00,p_person->WorldPos.X >> 8,p_person->WorldPos.Y + 0x1000 >> 8,p_person->WorldPos.Z >> 8,
+                                                    0,
+                                                    0x000000,
+                                                    true);
+            }
+    */
 #ifndef NDEBUG
-        /*
-                {
-                        Thing *p_target;
+    /*
+            {
+                    Entity *p_target;
 
-                        if (WITHIN(p_person->Genus.Person->Target, 1, MAX_THINGS - 1))
-                        {
-                                p_target = TO_THING(p_person->Genus.Person->Target);
+                    if (WITHIN(p_person->Genus.Person->Target, 1, MAX_THINGS - 1))
+                    {
+                            p_target = TO_THING(p_person->Genus.Person->Target);
 
-                                if (p_target->Class == CLASS_PERSON)
-                                {
-                                        AENG_world_line(
-                                                p_person->WorldPos.X          >> 8,
-                                                p_person->WorldPos.Y + 0x1000 >> 8,
-                                                p_person->WorldPos.Z          >> 8,
-                                                32,
-                                                0xff0000,
-                                                p_person->WorldPos.X          >> 8,
-                                                p_person->WorldPos.Y + 0x1000 >> 8,
-                                                p_person->WorldPos.Z          >> 8,
-                                                0,
-                                                0x000000,
-                                                true);
-                                }
-                        }
-                }
+                            if (p_target->Class == CLASS_PERSON)
+                            {
+                                    AENG_world_line(
+                                            p_person->WorldPos.X          >> 8,
+                                            p_person->WorldPos.Y + 0x1000 >> 8,
+                                            p_person->WorldPos.Z          >> 8,
+                                            32,
+                                            0xff0000,
+                                            p_person->WorldPos.X          >> 8,
+                                            p_person->WorldPos.Y + 0x1000 >> 8,
+                                            p_person->WorldPos.Z          >> 8,
+                                            0,
+                                            0x000000,
+                                            true);
+                            }
+                    }
+            }
 
-                //
-                // Draw an arrow over helpless people!
-                //
+            //
+            // Draw an arrow over helpless people!
+            //
 
-                if (p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS)
-                {
-                        std::int32_t px;
-                        std::int32_t py;
-                        std::int32_t pz;
+            if (p_person->Genus.Person->Flags & FLAG_PERSON_HELPLESS)
+            {
+                    std::int32_t px;
+                    std::int32_t py;
+                    std::int32_t pz;
 
-                        calc_sub_objects_position(
-                                p_person,
-                                p_person->Draw.Tweened->AnimTween,
-                                SUB_OBJECT_HEAD,
-                           &px,
-                           &py,
-                           &pz);
+                    calc_sub_objects_position(
+                            p_person,
+                            p_person->Draw.Tweened->AnimTween,
+                            SUB_OBJECT_HEAD,
+                       &px,
+                       &py,
+                       &pz);
 
-                        px += p_person->WorldPos.X >> 8;
-                        py += p_person->WorldPos.Y >> 8;
-                        pz += p_person->WorldPos.Z >> 8;
+                    px += p_person->WorldPos.X >> 8;
+                    py += p_person->WorldPos.Y >> 8;
+                    pz += p_person->WorldPos.Z >> 8;
 
-                        AENG_world_line(
-                                px, py, pz, 0, 0xffffff,
-                                px, py + 20, pz, 32, 0xccccff,
-                                false);
-                }
-        */
+                    AENG_world_line(
+                            px, py, pz, 0, 0xffffff,
+                            px, py + 20, pz, 32, 0xccccff,
+                            false);
+            }
+    */
 
 #endif
 
@@ -3778,7 +3778,7 @@ void general_process_person(Thing *p_person) {
     if (p_person->OnFace > 0) {
         ASSERT(WITHIN(p_person->OnFace, 1, next_prim_face4 - 1));
 
-        PrimFace4 *f4 = &prim_faces4[p_person->OnFace];
+        PrimFace4* f4 = &prim_faces4[p_person->OnFace];
 
         ASSERT(f4->FaceFlags & FACE_FLAG_WALKABLE);
 
@@ -3884,8 +3884,8 @@ void general_process_person(Thing *p_person) {
 
     if (p_person->Flags & FLAGS_BURNING) {
         std::int32_t x2, y2, z2, ndx;
-        Thing *thing;
-        Pyro *pyro;
+        Entity* thing;
+        Pyro* pyro;
         TRACE("the pain the pain\n");
 
         ndx = p_person->Genus.Person->BurnIndex;
@@ -3951,9 +3951,9 @@ void general_process_person(Thing *p_person) {
     if (p_person->Genus.Person->BurnIndex && (p_person->Genus.Person->Health > 0))
         p_person->Genus.Person->Health--;
 
-        //
-        // If urinating... then pee!
-        //
+    //
+    // If urinating... then pee!
+    //
 
 #ifndef PSX // save Eidos/Sony the trouble of instructing us to remove this
     if (p_person->Genus.Person->Flags & FLAG_PERSON_PEEING) {
@@ -4254,7 +4254,7 @@ void general_process_person(Thing *p_person) {
     }
 }
 
-std::int32_t check_on_slippy_slope(Thing *p_person) {
+std::int32_t check_on_slippy_slope(Entity* p_person) {
     std::int32_t slope, angle;
     std::int32_t size = 50;
 
@@ -4334,7 +4334,7 @@ std::int32_t check_on_slippy_slope(Thing *p_person) {
     }
     return (0);
 }
-std::int32_t slope_ahead(Thing *p_person, std::int32_t dist) {
+std::int32_t slope_ahead(Entity* p_person, std::int32_t dist) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t slippy;
@@ -4352,7 +4352,7 @@ std::int32_t slope_ahead(Thing *p_person, std::int32_t dist) {
 
     return (slippy);
 }
-void person_normal_move_dxdz(Thing *p_person, std::int32_t dx, std::int32_t dz) {
+void person_normal_move_dxdz(Entity* p_person, std::int32_t dx, std::int32_t dz) {
     //	std::int32_t i;
 
     std::int32_t dy;
@@ -4364,7 +4364,7 @@ void person_normal_move_dxdz(Thing *p_person, std::int32_t dx, std::int32_t dz) 
 
     //	GameCoord new_position;
 
-    //	Thing *col_thing;
+    //	Entity *col_thing;
     slide_ladder = 0;
 
     if (p_person->Draw.Tweened->Locked) {
@@ -4611,7 +4611,7 @@ void person_normal_move_dxdz(Thing *p_person, std::int32_t dx, std::int32_t dz) 
     }
 }
 
-void person_normal_move(Thing *p_person) {
+void person_normal_move(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
 
@@ -4620,7 +4620,7 @@ void person_normal_move(Thing *p_person) {
     person_normal_move_dxdz(p_person, dx, dz);
 }
 
-void person_normal_move_check(Thing *p_person) {
+void person_normal_move_check(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t x, z;
@@ -4636,7 +4636,7 @@ void person_normal_move_check(Thing *p_person) {
     person_normal_move_dxdz(p_person, dx, dz);
 }
 
-std::int32_t advance_keyframe(DrawTween *draw_info) {
+std::int32_t advance_keyframe(DrawTween* draw_info) {
     std::int32_t ret = 0;
     draw_info->CurrentFrame = draw_info->NextFrame;
     if (draw_info->QueuedFrame) {
@@ -4660,7 +4660,7 @@ std::int32_t advance_keyframe(DrawTween *draw_info) {
     return (ret);
 }
 
-std::int32_t retreat_keyframe(DrawTween *draw_info) {
+std::int32_t retreat_keyframe(DrawTween* draw_info) {
     std::int32_t ret = 0;
     draw_info->NextFrame = draw_info->CurrentFrame;
     if (draw_info->QueuedFrame) {
@@ -4678,9 +4678,9 @@ std::int32_t retreat_keyframe(DrawTween *draw_info) {
     }
     return (ret);
 }
-extern void calc_sub_objects_position_fix8(Thing *p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t *x, std::int32_t *y, std::int32_t *z);
+extern void calc_sub_objects_position_fix8(Entity* p_mthing, std::int32_t tween, std::uint16_t object, std::int32_t* x, std::int32_t* y, std::int32_t* z);
 
-void move_locked_tween(Thing *p_person, DrawTween *dt, std::int32_t t1, std::int32_t t2) {
+void move_locked_tween(Entity* p_person, DrawTween* dt, std::int32_t t1, std::int32_t t2) {
     std::int32_t x1, y1, z1;
     std::int32_t x2, y2, z2;
     std::int32_t dx, dy, dz;
@@ -4712,9 +4712,9 @@ void move_locked_tween(Thing *p_person, DrawTween *dt, std::int32_t t1, std::int
     }
 }
 
-std::int32_t person_normal_animate_speed(Thing *p_person, std::int32_t speed) {
+std::int32_t person_normal_animate_speed(Entity* p_person, std::int32_t speed) {
     std::int32_t ret = 0;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     std::int32_t old_tween;
     std::int32_t dx, dy, dz;
     std::int32_t tween1, tween2;
@@ -4829,13 +4829,13 @@ std::int32_t person_normal_animate_speed(Thing *p_person, std::int32_t speed) {
     return (ret);
 }
 
-std::int32_t person_normal_animate(Thing *p_person) {
+std::int32_t person_normal_animate(Entity* p_person) {
     return (person_normal_animate_speed(p_person, 256));
 }
 
-std::int32_t person_backwards_animate(Thing *p_person) {
+std::int32_t person_backwards_animate(Entity* p_person) {
     std::int32_t ret = 0;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     std::int32_t old_tween;
     std::int32_t tween_step;
 
@@ -4909,7 +4909,7 @@ std::int32_t person_backwards_animate(Thing *p_person) {
 void camera_shoot() {
     /*
 
-    Thing *darci;
+    Entity *darci;
 
     std::int32_t map_x;
     std::int32_t map_z;
@@ -4937,7 +4937,7 @@ void camera_shoot() {
 
 void camera_fight() {
     /*
-            Thing *darci;
+            Entity *darci;
 
             std::int32_t map_x;
             std::int32_t map_z;
@@ -4966,7 +4966,7 @@ void camera_fight() {
 void camera_normal() {
     /*
     #ifndef PSX
-            Thing *darci;
+            Entity *darci;
 
             std::int32_t map_x;
             std::int32_t map_z;
@@ -4992,9 +4992,9 @@ void camera_normal() {
     */
 }
 
-void set_person_aim(Thing *p_person, std::int32_t locked = 0) {
+void set_person_aim(Entity* p_person, std::int32_t locked = 0) {
     std::int32_t anim;
-    Thing *p_special;
+    Entity* p_special;
 
     if (p_person->Genus.Person->SpecialUse) {
         //
@@ -5027,12 +5027,12 @@ void set_person_aim(Thing *p_person, std::int32_t locked = 0) {
     //	p_person->Genus.Person->Flags  |=  (FLAG_PERSON_NON_INT_C);
 }
 
-inline std::int32_t weapon_accuracy_at_dist(Thing *p_person, std::int32_t dist) {
+inline std::int32_t weapon_accuracy_at_dist(Entity* p_person, std::int32_t dist) {
     if (dist < 0)
         return (dist);
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         //
         // Using a special.
@@ -5074,9 +5074,9 @@ inline std::int32_t weapon_accuracy_at_dist(Thing *p_person, std::int32_t dist) 
 // A damage of zero means that he missed the person.
 //
 
-std::uint8_t VehicleBelongsToMIB(Thing *p_target) {
-    Vehicle *veh = p_target->Genus.Vehicle;
-    Thing *thing;
+std::uint8_t VehicleBelongsToMIB(Entity* p_target) {
+    Vehicle* veh = p_target->Genus.Vehicle;
+    Entity* thing;
     std::int16_t passenger;
 
     if ((p_target->Class != CLASS_VEHICLE) || !veh) return 0; // it's not even a vehicle, so it can't possibly be...
@@ -5094,7 +5094,7 @@ std::uint8_t VehicleBelongsToMIB(Thing *p_target) {
     return 0; // nope, no MIBs
 }
 
-std::int32_t get_shoot_damage(Thing *p_person, Thing *p_target, std::int32_t *gun_type) {
+std::int32_t get_shoot_damage(Entity* p_person, Entity* p_target, std::int32_t* gun_type) {
     std::int32_t damage;
 
     std::int32_t dx = abs(p_target->WorldPos.X - p_person->WorldPos.X >> 8);
@@ -5256,7 +5256,7 @@ std::int32_t get_shoot_damage(Thing *p_person, Thing *p_target, std::int32_t *gu
         *gun_type = HIT_TYPE_GUN_SHOT_AK47;
         damage = 40; // Rapid fire...
     } else if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         //
         // Using a special.
@@ -5318,7 +5318,7 @@ std::int32_t get_shoot_damage(Thing *p_person, Thing *p_target, std::int32_t *gu
 #define NOT_A_GUN_YOU_SHOOT (-1)
 #define HAD_TO_CHANGE_CLIP (-2)
 
-std::int32_t shoot_get_ammo_sound_anim_time(Thing *p_person, std::int32_t *sound, std::int32_t *anim, std::int32_t *time) {
+std::int32_t shoot_get_ammo_sound_anim_time(Entity* p_person, std::int32_t* sound, std::int32_t* anim, std::int32_t* time) {
     std::int32_t ammo = false;
     std::int32_t ammo_in_clip;
 
@@ -5336,7 +5336,7 @@ std::int32_t shoot_get_ammo_sound_anim_time(Thing *p_person, std::int32_t *sound
     }
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         //
         // All specials use the shotgun sound?
@@ -5483,7 +5483,7 @@ std::int32_t shoot_get_ammo_sound_anim_time(Thing *p_person, std::int32_t *sound
     return ammo;
 }
 
-void actually_fire_gun(Thing *p_person) {
+void actually_fire_gun(Entity* p_person) {
     std::int32_t rico_id;
     //	Set up the wave params.
 
@@ -5542,7 +5542,7 @@ void actually_fire_gun(Thing *p_person) {
         vec.Z += p_person->WorldPos.Z >> 8;
         DIRT_create_brass(vec.X, vec.Y, vec.Z, (p_person->Draw.Tweened->Angle + 512) & 2047);
         if (p_person->Genus.Person->SpecialUse || PersonIsMIB(p_person)) {
-            Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+            Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
             if ((!p_person->Genus.Person->SpecialUse) || (p_special->Genus.Special->SpecialType == SPECIAL_AK47)) {
                 // go OTT with AK...
                 DIRT_create_brass(vec.X, vec.Y, vec.Z, (p_person->Draw.Tweened->Angle + 512) & 2047);
@@ -5559,7 +5559,7 @@ void actually_fire_gun(Thing *p_person) {
 #ifdef TARGET_DC
     if (p_person->Genus.Person->PlayerID) {
         if (p_person->Genus.Person->SpecialUse) {
-            Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+            Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
             switch (p_special->Genus.Special->SpecialType) {
             case SPECIAL_AK47:
                 Vibrate(4.0f, 1.0f, 0.0f);
@@ -5577,7 +5577,7 @@ void actually_fire_gun(Thing *p_person) {
 
     if (p_person->Genus.Person->Target) {
         std::int32_t damage;
-        Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+        Entity* p_target = TO_THING(p_person->Genus.Person->Target);
         GameCoord vec;
         std::int32_t gun_type;
         /*
@@ -5627,7 +5627,7 @@ void actually_fire_gun(Thing *p_person) {
                             skill -= 5;
 
                             if (p_person->Genus.Person->SpecialUse) {
-                                Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+                                Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
                                 if (p_special->Genus.Special->SpecialType == SPECIAL_SHOTGUN) {
                                     skill -= 5; // you have to be at least level 10 to dodge a wide shotgun spread, mike.
                                 }
@@ -5710,7 +5710,7 @@ void actually_fire_gun(Thing *p_person) {
                 // Not another full recompile for me!
                 //
 
-                extern void VEH_reduce_health(Thing * p_car, Thing * p_person, std::int32_t damage);
+                extern void VEH_reduce_health(Entity * p_car, Entity * p_person, std::int32_t damage);
 
                 VEH_reduce_health(
                     p_target,
@@ -5723,7 +5723,7 @@ void actually_fire_gun(Thing *p_person) {
                 // This must be a mine!
                 //
 
-                void special_activate_mine(Thing * p_mine);
+                void special_activate_mine(Entity * p_mine);
 
                 special_activate_mine(p_target);
             } else {
@@ -5761,7 +5761,7 @@ void actually_fire_gun(Thing *p_person) {
                 1 << CLASS_BARREL);
 
             if (b_index) {
-                Thing *p_barrel = TO_THING(b_index);
+                Entity* p_barrel = TO_THING(b_index);
 
                 hitx = p_barrel->WorldPos.X >> 8;
                 hity = p_barrel->WorldPos.Y >> 8;
@@ -5839,7 +5839,7 @@ void actually_fire_gun(Thing *p_person) {
     }
 }
 
-void set_person_running_shoot(Thing *p_person) {
+void set_person_running_shoot(Entity* p_person) {
     std::int32_t ammo, sound, anim, time;
 
     if (p_person->Genus.Person->Timer1) {
@@ -5876,8 +5876,8 @@ void set_person_running_shoot(Thing *p_person) {
 // Returns the best type of special a person has that's got ammo.
 //
 
-std::int32_t get_persons_best_weapon_with_ammo(Thing *p_person) {
-    Thing *p_special;
+std::int32_t get_persons_best_weapon_with_ammo(Entity* p_person) {
+    Entity* p_special;
 
     //
     // The weapon order is:
@@ -5927,7 +5927,7 @@ std::int32_t get_persons_best_weapon_with_ammo(Thing *p_person) {
 // a cutscene playing.
 //
 
-std::int32_t dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target) {
+std::int32_t dont_hurt_target_during_cutscene(Entity* p_person, Entity* p_target) {
     if (!p_person->Genus.Person->PlayerID) {
         if (p_target->Class == CLASS_PERSON) {
             std::int32_t dont_shoot_in_a_cutscene = false;
@@ -5942,7 +5942,7 @@ std::int32_t dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target) 
                 std::uint16_t i_follow = EWAY_get_person(p_person->Genus.Person->pcom_move_follow);
 
                 if (i_follow) {
-                    Thing *p_follow = TO_THING(i_follow);
+                    Entity* p_follow = TO_THING(i_follow);
 
                     if (p_follow->Class == CLASS_PERSON && p_follow->Genus.Person->PlayerID) {
                         dont_shoot_in_a_cutscene = true;
@@ -5963,7 +5963,7 @@ std::int32_t dont_hurt_target_during_cutscene(Thing *p_person, Thing *p_target) 
     return false;
 }
 
-void set_person_shoot(Thing *p_person, std::uint16_t shoot_target) {
+void set_person_shoot(Entity* p_person, std::uint16_t shoot_target) {
     std::int32_t dx, dz;
     std::int32_t anim = ANIM_PISTOL_SHOOT;
     std::int32_t ammo = false;
@@ -5998,7 +5998,7 @@ void set_person_shoot(Thing *p_person, std::uint16_t shoot_target) {
         //
 
         if (p_person->Genus.Person->Target) {
-            Thing *p_target;
+            Entity* p_target;
 
             p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -6047,7 +6047,7 @@ void set_person_shoot(Thing *p_person, std::uint16_t shoot_target) {
         //
 
         if (p_person->Genus.Person->Target) {
-            Thing *p_target;
+            Entity* p_target;
 
             p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -6123,7 +6123,7 @@ void set_person_shoot(Thing *p_person, std::uint16_t shoot_target) {
             // check it's not a cut scene again
             //
             if (p_person->Genus.Person->Target) {
-                Thing *p_target;
+                Entity* p_target;
 
                 p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -6197,7 +6197,7 @@ void set_person_shoot(Thing *p_person, std::uint16_t shoot_target) {
 }
 
 #ifndef PSX
-void set_person_grapple_windup(Thing *p_person) {
+void set_person_grapple_windup(Entity* p_person) {
     //
     // Make sure she has the grappling hook.
     //
@@ -6219,7 +6219,7 @@ void set_person_grapple_windup(Thing *p_person) {
     p_person->SubState = SUB_STATE_GRAPPLING_WINDUP;
 }
 
-void set_person_grappling_hook_release(Thing *p_person) {
+void set_person_grappling_hook_release(Entity* p_person) {
     //
     // Make sure she has the grappling hook.
     //
@@ -6245,7 +6245,7 @@ void set_person_grappling_hook_release(Thing *p_person) {
 // Returns SPECIAL_TYPE if the given person is holding a gun.
 //
 
-std::int32_t person_has_gun_out(Thing *p_person) {
+std::int32_t person_has_gun_out(Entity* p_person) {
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
         return (SPECIAL_GUN);
     }
@@ -6255,7 +6255,7 @@ std::int32_t person_has_gun_out(Thing *p_person) {
     }
 
     {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         if (p_special->Genus.Special->SpecialType == SPECIAL_SHOTGUN ||
             p_special->Genus.Special->SpecialType == SPECIAL_AK47) {
@@ -6266,15 +6266,15 @@ std::int32_t person_has_gun_out(Thing *p_person) {
     return false;
 }
 
-void drop_current_gun(Thing *p_person, std::int32_t change_anim) {
+void drop_current_gun(Entity* p_person, std::int32_t change_anim) {
     std::int32_t gx;
     std::int32_t gy;
     std::int32_t gz;
 
-    Thing *p_special;
+    Entity* p_special;
 
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
-        Thing *p_gun;
+        Entity* p_gun;
 
         //
         // Create a gun on the ground.
@@ -6331,7 +6331,7 @@ void drop_current_gun(Thing *p_person, std::int32_t change_anim) {
     }
 }
 
-void drop_all_items(Thing *p_person, std::uint8_t is_being_searched) {
+void drop_all_items(Entity* p_person, std::uint8_t is_being_searched) {
     std::int32_t gx;
     std::int32_t gy;
     std::int32_t gz;
@@ -6349,7 +6349,7 @@ void drop_all_items(Thing *p_person, std::uint8_t is_being_searched) {
             &gz);
 
         {
-            Thing *p_gun = alloc_special(
+            Entity* p_gun = alloc_special(
                 SPECIAL_GUN,
                 SPECIAL_SUBSTATE_NONE,
                 gx,
@@ -6375,7 +6375,7 @@ void drop_all_items(Thing *p_person, std::uint8_t is_being_searched) {
     //
 
     while (p_person->Genus.Person->SpecialList) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialList);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialList);
 
         if (p_person->Genus.Person->drop == p_special->Genus.Special->SpecialType) {
             //
@@ -6414,7 +6414,7 @@ void drop_all_items(Thing *p_person, std::uint8_t is_being_searched) {
     if (is_being_searched && found_something) MFX_play_ambient(THING_NUMBER(p_person), S_ITEM_REVEALED, 0);
 }
 
-void set_person_idle_uncroutch(Thing *p_person) {
+void set_person_idle_uncroutch(Entity* p_person) {
     std::int32_t anim;
     set_generic_person_state_function(p_person, STATE_IDLE);
     p_person->Genus.Person->Action = ACTION_IDLE;
@@ -6434,7 +6434,7 @@ void set_person_idle_uncroutch(Thing *p_person) {
     return;
 }
 
-void set_person_turn_to_hug_wall(Thing *p_person) {
+void set_person_turn_to_hug_wall(Entity* p_person) {
     std::int32_t anim;
     p_person->Genus.Person->Flags &= ~(FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C);
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
@@ -6450,7 +6450,7 @@ void set_person_turn_to_hug_wall(Thing *p_person) {
     p_person->Genus.Person->Action = ACTION_HUG_WALL;
 }
 
-void set_person_hug_wall_dir(Thing *p_person, std::int32_t dir) {
+void set_person_hug_wall_dir(Entity* p_person, std::int32_t dir) {
     std::int32_t gun;
     std::int32_t anim;
 
@@ -6487,7 +6487,7 @@ void set_person_hug_wall_dir(Thing *p_person, std::int32_t dir) {
         p_person->SubState = SUB_STATE_HUG_WALL_STEP_RIGHT;
     }
 }
-void set_person_hug_wall_look(Thing *p_person, std::int32_t dir) {
+void set_person_hug_wall_look(Entity* p_person, std::int32_t dir) {
     std::int32_t gun;
     std::int32_t anim;
 
@@ -6527,7 +6527,7 @@ void set_person_hug_wall_look(Thing *p_person, std::int32_t dir) {
     }
 }
 
-void set_person_idle(Thing *p_person) {
+void set_person_idle(Entity* p_person) {
     std::int32_t anim;
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_KO;
 
@@ -6545,7 +6545,7 @@ void set_person_idle(Thing *p_person) {
             // You are a player and you're not in fight mode.
             //
 
-            Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
+            Entity* p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
 
             if (p_attacker) {
                 std::int32_t anim;
@@ -6626,7 +6626,7 @@ void set_person_idle(Thing *p_person) {
     /*
             if(p_person->Genus.Person->SpecialUse)
             {
-                    Thing *p_special;
+                    Entity *p_special;
 
                     //
                     // This person might be using the base ball bat. This weapon has
@@ -6664,11 +6664,11 @@ void set_person_idle(Thing *p_person) {
     set_person_sidle(p_person);
 }
 
-void set_person_locked_idle_ready(Thing *p_person) {
+void set_person_locked_idle_ready(Entity* p_person) {
     std::int32_t anim = ANIM_STAND_READY;
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special;
+        Entity* p_special;
 
         //
         // This person might be using the base ball bat. This weapon has
@@ -6751,7 +6751,7 @@ void set_person_locked_idle_ready(Thing *p_person) {
 //	Check if back against a wall, for sneak along mode
 //
 
-std::int32_t set_person_sidle(struct Thing *p_person) {
+std::int32_t set_person_sidle(struct Entity* p_person) {
     std::int32_t dx, dz;
     std::int32_t index, facet;
     std::int32_t dist;
@@ -6838,7 +6838,7 @@ std::int32_t set_person_sidle(struct Thing *p_person) {
 }
 
 /*
-void set_person_idle_ready(Thing *p_person)
+void set_person_idle_ready(Entity *p_person)
 {
         p_person->SubState=0;
         if (p_person->Genus.Person->Flags & FLAG_PERSON_GRAPPLING)
@@ -6870,7 +6870,7 @@ void set_person_idle_ready(Thing *p_person)
 // has an offset from the player, that is rotated by the players angle
 //
 #ifdef UNUSED
-std::int32_t foot_hold_available(Thing *p_person, std::int32_t dx, std::int32_t dy, std::int32_t dz) {
+std::int32_t foot_hold_available(Entity* p_person, std::int32_t dx, std::int32_t dy, std::int32_t dz) {
     std::int32_t rdx, rdz;
     std::int32_t angle;
 
@@ -6893,7 +6893,7 @@ std::int32_t foot_hold_available(Thing *p_person, std::int32_t dx, std::int32_t 
         return (0);
 }
 
-std::int32_t foot_hold_available_obj(Thing *p_person, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t obj) {
+std::int32_t foot_hold_available_obj(Entity* p_person, std::int32_t dx, std::int32_t dy, std::int32_t dz, std::int32_t obj) {
     std::int32_t rdx, rdz;
     std::int32_t angle;
     std::int32_t wx, wy, wz;
@@ -6918,7 +6918,7 @@ std::int32_t foot_hold_available_obj(Thing *p_person, std::int32_t dx, std::int3
         return (0);
 }
 #endif
-void set_person_flip(Thing *p_person, std::int32_t dir) {
+void set_person_flip(Entity* p_person, std::int32_t dir) {
     MSG_add(" start flipping");
     switch (dir) {
     case 0:
@@ -6943,7 +6943,7 @@ void set_person_flip(Thing *p_person, std::int32_t dir) {
     p_person->Genus.Person->Flags |= (FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C);
 }
 
-void set_person_running(Thing *p_person) {
+void set_person_running(Entity* p_person) {
     p_person->Draw.Tweened->Locked = 0;
     p_person->Genus.Person->Timer1 = 0;
 
@@ -6952,7 +6952,7 @@ void set_person_running(Thing *p_person) {
     }
 
     if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING) {
-        Thing *p_target;
+        Entity* p_target;
         p_target = TO_THING(p_person->Genus.Person->Target);
 
         set_anim(p_person, ANIM_START_WALK_CARRY);
@@ -7018,7 +7018,7 @@ void set_person_running(Thing *p_person) {
     }
 }
 
-void set_person_running_frame(Thing *p_person, std::int32_t frame) {
+void set_person_running_frame(Entity* p_person, std::int32_t frame) {
     switch (p_person->Genus.Person->Mode) {
     case 0:
         MSG_add(" start running");
@@ -7043,8 +7043,8 @@ void set_person_running_frame(Thing *p_person, std::int32_t frame) {
     }
 }
 
-void set_person_draw_special(Thing *p_person) {
-    Thing *p_special = NULL;
+void set_person_draw_special(Entity* p_person) {
+    Entity* p_special = NULL;
     /*
             if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
             {
@@ -7107,7 +7107,7 @@ void set_person_draw_special(Thing *p_person) {
         p_person->WorldPos.Z >> 8);
 }
 
-void set_person_draw_gun(Thing *p_person) {
+void set_person_draw_gun(Entity* p_person) {
     if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING) {
         return;
     }
@@ -7153,7 +7153,7 @@ void set_person_draw_gun(Thing *p_person) {
         p_person->WorldPos.Z >> 8);
 }
 
-void set_person_gun_away(Thing *p_person) {
+void set_person_gun_away(Entity* p_person) {
     /*
             if (!(p_person->Flags & FLAGS_HAS_GUN))
             {
@@ -7172,7 +7172,7 @@ void set_person_gun_away(Thing *p_person) {
     }
 }
 
-void set_person_step_left(Thing *p_person) {
+void set_person_step_left(Entity* p_person) {
     MSG_add(" start step_left");
     if (p_person->SubState == SUB_STATE_STEP_LEFT)
         return;
@@ -7187,7 +7187,7 @@ void set_person_step_left(Thing *p_person) {
     //	p_person->Genus.Person->Flags|=FLAG_PERSON_LOCK_ANIM_CHANGE;
 }
 
-void set_person_step_right(Thing *p_person) {
+void set_person_step_right(Entity* p_person) {
     MSG_add(" start step_left");
     if (p_person->SubState == SUB_STATE_STEP_RIGHT)
         return;
@@ -7202,7 +7202,7 @@ void set_person_step_right(Thing *p_person) {
     //	p_person->Genus.Person->Flags|=FLAG_PERSON_LOCK_ANIM_CHANGE;
 }
 
-void set_vehicle_anim(Thing *p_vehicle, std::int32_t anim) {
+void set_vehicle_anim(Entity* p_vehicle, std::int32_t anim) {
     // 1 is still
     // 2 is open/close
     ASSERT(0);
@@ -7217,9 +7217,9 @@ void set_vehicle_anim(Thing *p_vehicle, std::int32_t anim) {
     }
 }
 
-void get_car_enter_xz(Thing *p_vehicle, std::int32_t door, std::int32_t *cx, std::int32_t *cz);
+void get_car_enter_xz(Entity* p_vehicle, std::int32_t door, std::int32_t* cx, std::int32_t* cz);
 
-void position_person_for_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door) {
+void position_person_for_vehicle(Entity* p_person, Entity* p_vehicle, std::int32_t door) {
     std::int32_t ix, iz;
     GameCoord new_position;
 
@@ -7244,7 +7244,7 @@ void position_person_for_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t
     p_person->Draw.Tweened->Angle &= 2047;
 }
 
-void set_person_enter_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door) {
+void set_person_enter_vehicle(Entity* p_person, Entity* p_vehicle, std::int32_t door) {
     ASSERT(door == 0 || door == 1);
 
     if (p_vehicle->Genus.Vehicle->Driver) {
@@ -7322,7 +7322,7 @@ void set_person_enter_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t do
 // the given vehicle.
 //
 
-void add_person_to_passenger_list(Thing *p_person, Thing *p_vehicle) {
+void add_person_to_passenger_list(Entity* p_person, Entity* p_vehicle) {
     ASSERT(p_person->Class == CLASS_PERSON);
     ASSERT(p_vehicle->Class == CLASS_VEHICLE);
 
@@ -7334,8 +7334,8 @@ void add_person_to_passenger_list(Thing *p_person, Thing *p_vehicle) {
 // Removes a person from the passenger list of the given vehicle.
 //
 
-void remove_person_from_passenger_list(Thing *p_person, Thing *p_vehicle) {
-    Thing *p_passenger;
+void remove_person_from_passenger_list(Entity* p_person, Entity* p_vehicle) {
+    Entity* p_passenger;
 
     ASSERT(p_person->Class == CLASS_PERSON);
     ASSERT(p_vehicle->Class == CLASS_VEHICLE);
@@ -7343,7 +7343,7 @@ void remove_person_from_passenger_list(Thing *p_person, Thing *p_vehicle) {
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_PASSENGER);
 
     std::uint16_t next;
-    std::uint16_t *prev;
+    std::uint16_t* prev;
 
     prev = &p_vehicle->Genus.Vehicle->Passenger;
     next = p_vehicle->Genus.Vehicle->Passenger;
@@ -7378,7 +7378,7 @@ void remove_person_from_passenger_list(Thing *p_person, Thing *p_vehicle) {
     }
 }
 
-void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, std::int32_t door) {
+void set_person_passenger_in_vehicle(Entity* p_person, Entity* p_vehicle, std::int32_t door) {
     //
     // No animation. Just pop in!
     //
@@ -7394,8 +7394,8 @@ void set_person_passenger_in_vehicle(Thing *p_person, Thing *p_vehicle, std::int
     p_person->Genus.Person->InCar = THING_NUMBER(p_vehicle);
 }
 
-void set_person_exit_vehicle(Thing *p_person) {
-    Thing *p_vehicle;
+void set_person_exit_vehicle(Entity* p_person) {
+    Entity* p_vehicle;
 
     p_vehicle = TO_THING(p_person->Genus.Person->InCar);
 
@@ -7538,7 +7538,7 @@ try_again:;
 }
 
 #ifdef BIKE
-void position_person_for_mounting_bike(Thing *p_person, Thing *p_bike) {
+void position_person_for_mounting_bike(Entity* p_person, Entity* p_bike) {
     GameCoord newpos;
     std::int32_t vector[3];
 
@@ -7578,7 +7578,7 @@ void position_person_for_mounting_bike(Thing *p_person, Thing *p_bike) {
     p_person->Draw.Tweened->Angle = (p_bike->Draw.Tweened->Angle - 512) & 2047;
 }
 
-void set_person_mount_bike(Thing *p_person, Thing *p_bike) {
+void set_person_mount_bike(Entity* p_person, Entity* p_bike) {
     set_generic_person_state_function(p_person, STATE_MOVEING);
 
     set_anim(p_person, ANIM_BIKE_MOUNT);
@@ -7601,14 +7601,14 @@ void set_person_mount_bike(Thing *p_person, Thing *p_bike) {
     BIKE_set_mounting(p_bike, p_person);
 }
 
-void set_person_dismount_bike(Thing *p_person) {
+void set_person_dismount_bike(Entity* p_person) {
     //
     // Tell the bike to play its dismount anim.
     //
 
-    void BIKE_set_dismounting(Thing * p_bike);
+    void BIKE_set_dismounting(Entity * p_bike);
 
-    Thing *p_bike = TO_THING(p_person->Genus.Person->InCar);
+    Entity* p_bike = TO_THING(p_person->Genus.Person->InCar);
 
     BIKE_set_dismounting(p_bike);
 
@@ -7641,7 +7641,7 @@ void set_person_dismount_bike(Thing *p_person) {
 
 #endif
 
-void set_anim_walking(Thing *p_person) {
+void set_anim_walking(Entity* p_person) {
     std::int32_t anim;
 
     if (person_holding_2handed(p_person)) {
@@ -7679,7 +7679,7 @@ void set_anim_walking(Thing *p_person) {
     }
 }
 
-void set_anim_running(Thing *p_person) {
+void set_anim_running(Entity* p_person) {
     std::int32_t anim;
 
     if (p_person->Genus.Person->PersonType == PERSON_ROPER) {
@@ -7711,7 +7711,7 @@ void set_anim_running(Thing *p_person) {
         }
     }
 }
-void set_anim_idle(Thing *p_person) {
+void set_anim_idle(Entity* p_person) {
     std::int32_t anim;
 
     if (p_person->Genus.Person->Mode == PERSON_MODE_FIGHT) {
@@ -7754,7 +7754,7 @@ void set_anim_idle(Thing *p_person) {
     }
 }
 
-void set_person_walking(Thing *p_person) {
+void set_person_walking(Entity* p_person) {
     set_anim_walking(p_person);
 
     set_thing_velocity(p_person, 5);
@@ -7763,7 +7763,7 @@ void set_person_walking(Thing *p_person) {
     p_person->Genus.Person->Action = ACTION_WALK;
     p_person->Genus.Person->Flags &= ~(FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C);
 }
-void set_person_walk_backwards(Thing *p_person) {
+void set_person_walk_backwards(Entity* p_person) {
     if (person_holding_2handed(p_person)) {
         set_anim(p_person, ANIM_BACK_WALK_AK);
     } else {
@@ -7777,7 +7777,7 @@ void set_person_walk_backwards(Thing *p_person) {
     p_person->Genus.Person->Flags &= ~(FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C);
 }
 
-void set_person_sneaking(Thing *p_person) {
+void set_person_sneaking(Entity* p_person) {
     set_anim(p_person, ANIM_SNEAK);
 
     set_thing_velocity(p_person, 5);
@@ -7787,7 +7787,7 @@ void set_person_sneaking(Thing *p_person) {
     p_person->Genus.Person->Flags &= ~(FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C);
 }
 
-void set_person_hop_back(Thing *p_person) {
+void set_person_hop_back(Entity* p_person) {
     //	p_person->Draw.Tweened->QueuedFrame	=	global_anim_array[p_person->Genus.Person->AnimType][ANIM_WALK];
     //	p_person->Draw.Tweened->CurrentAnim	=	ANIM_WALK;
     set_thing_velocity(p_person, 0);
@@ -7801,11 +7801,11 @@ void set_person_hop_back(Thing *p_person) {
     set_anim(p_person, ANIM_BACK_HOP);
 }
 
-std::int32_t find_idle_fight_stance(Thing *p_person) {
+std::int32_t find_idle_fight_stance(Entity* p_person) {
     std::int32_t anim = ANIM_FIGHT;
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special;
+        Entity* p_special;
 
         //
         // This person is using an item.
@@ -7830,13 +7830,13 @@ std::int32_t find_idle_fight_stance(Thing *p_person) {
     return (anim);
 }
 
-void set_person_fight_idle(Thing *p_person) {
+void set_person_fight_idle(Entity* p_person) {
     std::int32_t anim; //=ANIM_FIGHT;
 
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_KO; // bodge
 
     if (p_person->Genus.Person->PlayerID) {
-        Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
+        Entity* p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
 
         if (p_attacker == NULL) {
             //
@@ -7875,7 +7875,7 @@ void set_person_fight_idle(Thing *p_person) {
     // set_person_sidle(p_person);
 }
 
-void set_person_fight_step(Thing *p_person, std::int32_t dir) {
+void set_person_fight_step(Entity* p_person, std::int32_t dir) {
     std::int32_t anim;
     p_person->Genus.Person->Timer1 = 0;
     if (person_holding_bat(p_person)) {
@@ -7918,7 +7918,7 @@ void set_person_fight_step(Thing *p_person, std::int32_t dir) {
     p_person->Genus.Person->Timer1 = 0;
 }
 
-void set_person_fight_step_forward(Thing *p_person) {
+void set_person_fight_step_forward(Entity* p_person) {
     if (p_person->Draw.Tweened->CurrentAnim != ANIM_FIGHT_STEP_N) {
         set_anim(p_person, ANIM_FIGHT_STEP_N);
         set_generic_person_state_function(p_person, STATE_FIGHTING);
@@ -7927,13 +7927,13 @@ void set_person_fight_step_forward(Thing *p_person) {
     }
 }
 
-void set_person_block(Thing *p_person) {
+void set_person_block(Entity* p_person) {
     std::int32_t anim = ANIM_BLOCK_HIGH;
 
     set_generic_person_state_function(p_person, STATE_FIGHTING);
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special;
+        Entity* p_special;
 
         //
         // This person might be using a weapon with its own special block anim.
@@ -7959,7 +7959,7 @@ void set_person_block(Thing *p_person) {
     }
 }
 
-void set_person_idle_croutch(Thing *p_person) {
+void set_person_idle_croutch(Entity* p_person) {
     std::int32_t anim;
     set_generic_person_state_function(p_person, STATE_IDLE);
     anim = ANIM_IDLE_CROUTCH;
@@ -7982,10 +7982,10 @@ void set_person_idle_croutch(Thing *p_person) {
 // been hit or shot.
 //
 
-void emergency_uncarry(Thing *p_person) {
+void emergency_uncarry(Entity* p_person) {
     ASSERT(p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING);
 
-    Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+    Entity* p_target = TO_THING(p_person->Genus.Person->Target);
 
     //
     // Make the target plunge down.
@@ -8006,8 +8006,8 @@ void emergency_uncarry(Thing *p_person) {
     p_person->Genus.Person->Flags2 &= ~FLAG2_PERSON_CARRYING;
 }
 
-void carry_running(Thing *p_person) {
-    Thing *p_target;
+void carry_running(Entity* p_person) {
+    Entity* p_target;
 
     std::int32_t dx;
     std::int32_t dz;
@@ -8023,8 +8023,8 @@ void carry_running(Thing *p_person) {
     p_target->Draw.Tweened->Angle = p_person->Draw.Tweened->Angle + 1024;
     p_target->Draw.Tweened->Angle &= 2047;
 }
-void set_person_carry(Thing *p_person, std::int32_t s_index) {
-    Thing *p_target;
+void set_person_carry(Entity* p_person, std::int32_t s_index) {
+    Entity* p_target;
     std::int32_t dx;
     std::int32_t dz;
     GameCoord new_position = p_person->WorldPos;
@@ -8055,8 +8055,8 @@ void set_person_carry(Thing *p_person, std::int32_t s_index) {
     }
 }
 
-void set_person_uncarry(Thing *p_person) {
-    Thing *p_target;
+void set_person_uncarry(Entity* p_person) {
+    Entity* p_target;
     GameCoord new_position = p_person->WorldPos;
 
     p_target = TO_THING(p_person->Genus.Person->Target);
@@ -8072,8 +8072,8 @@ void set_person_uncarry(Thing *p_person) {
     //	p_target->Draw.Tweened->Angle=p_person->Draw.Tweened->Angle;
 }
 
-void set_person_stand_carry(Thing *p_person) {
-    Thing *p_target;
+void set_person_stand_carry(Entity* p_person) {
+    Entity* p_target;
     p_target = TO_THING(p_person->Genus.Person->Target);
 
     set_generic_person_state_function(p_person, STATE_CARRY);
@@ -8085,9 +8085,9 @@ void set_person_stand_carry(Thing *p_person) {
     p_target->SubState = SUB_STATE_STAND_CARRY_V;
 }
 
-void fn_person_carry(Thing *p_person) {
+void fn_person_carry(Entity* p_person) {
     std::int32_t end;
-    Thing *p_target;
+    Entity* p_target;
 
     p_target = TO_THING(p_person->Genus.Person->Target);
     switch (p_person->SubState) {
@@ -8120,7 +8120,7 @@ void fn_person_carry(Thing *p_person) {
     }
 }
 
-void set_person_arrest(Thing *p_person, std::int32_t s_index) {
+void set_person_arrest(Entity* p_person, std::int32_t s_index) {
     std::int32_t anim;
     ASSERT(s_index);
 
@@ -8143,7 +8143,7 @@ void set_person_arrest(Thing *p_person, std::int32_t s_index) {
 
     if (s_index) {
         std::int32_t ax, ay, az;
-        Thing *p_target;
+        Entity* p_target;
         std::int32_t dx, dz;
         std::int32_t on_what_side;
         GameCoord new_position;
@@ -8212,7 +8212,7 @@ void set_person_arrest(Thing *p_person, std::int32_t s_index) {
         p_person->Draw.Tweened->Angle = (p_target->Draw.Tweened->Angle + 1024) & 2047;
 
         if (!remove_from_gang_attack(p_target, p_person)) {
-            Thing *p_victim;
+            Entity* p_victim;
             if (p_target->Genus.Person->Target) {
                 p_victim = TO_THING(p_target->Genus.Person->Target);
                 if (p_victim->Class == CLASS_PERSON)
@@ -8262,7 +8262,7 @@ void set_person_arrest(Thing *p_person, std::int32_t s_index) {
     }
 }
 
-void set_person_croutch(Thing *p_person) {
+void set_person_croutch(Entity* p_person) {
     std::int32_t anim;
     std::int32_t index;
 
@@ -8304,7 +8304,7 @@ void set_person_croutch(Thing *p_person) {
     }
 }
 
-void set_person_crawling(Thing *p_person) {
+void set_person_crawling(Entity* p_person) {
     set_generic_person_state_function(p_person, STATE_MOVEING);
 
     if (person_has_gun_out(p_person)) {
@@ -8360,7 +8360,7 @@ void set_person_crawling(Thing *p_person) {
     p_person->Draw.Tweened->Locked = 0; //-SUB_OBJECT_LEFT_FOOT;
 }
 
-std::int32_t set_person_leg_sweep(Thing *p_person) {
+std::int32_t set_person_leg_sweep(Entity* p_person) {
     set_generic_person_state_function(p_person, STATE_FIGHTING);
     set_anim(p_person, ANIM_LEG_SWEEP);
 
@@ -8372,7 +8372,7 @@ std::int32_t set_person_leg_sweep(Thing *p_person) {
 //
 // this should only happen from fight idle or stand idle?
 //
-std::int32_t set_person_punch(Thing *p_person) {
+std::int32_t set_person_punch(Entity* p_person) {
     std::int32_t anim;
     std::int32_t node = 1;
     //	ASSERT(p_person->Genus.Person->PersonType!=PERSON_DARCI);
@@ -8388,7 +8388,7 @@ std::int32_t set_person_punch(Thing *p_person) {
         std::uint16_t i_target = PCOM_person_wants_to_kill(p_person);
 
         if (i_target) {
-            Thing *p_target = TO_THING(i_target);
+            Entity* p_target = TO_THING(i_target);
 
             if (dont_hurt_target_during_cutscene(p_person, p_target)) {
                 //
@@ -8429,7 +8429,7 @@ std::int32_t set_person_punch(Thing *p_person) {
     anim = ANIM_PUNCH_COMBO1;
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special;
+        Entity* p_special;
 
         //
         // This person is using an item.
@@ -8497,7 +8497,7 @@ std::int32_t set_person_punch(Thing *p_person) {
 }
 
 #ifdef UNUSED
-std::int32_t set_person_punch_if_can(Thing *p_person) {
+std::int32_t set_person_punch_if_can(Entity* p_person) {
     std::int32_t anim;
     /*
     if(find_best_grapple(p_person))
@@ -8524,7 +8524,7 @@ std::int32_t set_person_punch_if_can(Thing *p_person) {
     //	PlaySample(6);
 }
 #endif
-std::int32_t set_person_kick_dir(Thing *p_person, std::int32_t dir) {
+std::int32_t set_person_kick_dir(Entity* p_person, std::int32_t dir) {
     std::int32_t anim;
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
 
@@ -8574,7 +8574,7 @@ std::int32_t set_person_kick_dir(Thing *p_person, std::int32_t dir) {
 
     return (anim);
 }
-void set_person_fight_anim(Thing *p_person, std::int32_t anim) {
+void set_person_fight_anim(Entity* p_person, std::int32_t anim) {
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_PUNCH;
 
@@ -8595,7 +8595,7 @@ void set_person_fight_anim(Thing *p_person, std::int32_t anim) {
     }
 }
 /*
-void set_person_alive_alive_o(Thing *p_person)
+void set_person_alive_alive_o(Entity *p_person)
 {
         {
                 std::int32_t ndx=p_person->Genus.Person->BurnIndex;
@@ -8613,14 +8613,14 @@ void set_person_alive_alive_o(Thing *p_person)
                 p_person->Genus.Person->Flags&=~(FLAG_PERSON_KO | FLAG_PERSON_HELPLESS);
                 if(!CNET_network_game)
                 {
-                extern void	FC_unkill_player_cam(Thing *p_thing);
+                extern void	FC_unkill_player_cam(Entity *p_thing);
                         FC_unkill_player_cam(p_person);
                 }
         //	set_anim(p_person,ANIM_STAND_HIP);
         }
 }
 */
-std::int32_t set_person_kick(Thing *p_person) {
+std::int32_t set_person_kick(Entity* p_person) {
     std::int32_t anim;
 
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
@@ -8634,7 +8634,7 @@ std::int32_t set_person_kick(Thing *p_person) {
         std::uint16_t i_target = PCOM_person_wants_to_kill(p_person);
 
         if (i_target) {
-            Thing *p_target = TO_THING(i_target);
+            Entity* p_target = TO_THING(i_target);
 
             if (dont_hurt_target_during_cutscene(p_person, p_target)) {
                 //
@@ -8671,7 +8671,7 @@ std::int32_t set_person_kick(Thing *p_person) {
     return (anim);
 }
 
-std::int32_t set_person_kick_near(Thing *p_person, std::int32_t dist) {
+std::int32_t set_person_kick_near(Entity* p_person, std::int32_t dist) {
     std::int32_t anim;
     std::int32_t not_nad = 0;
 
@@ -8684,7 +8684,7 @@ std::int32_t set_person_kick_near(Thing *p_person, std::int32_t dist) {
     set_generic_person_state_function(p_person, STATE_FIGHTING);
 
     if (p_person->Genus.Person->Target) {
-        Thing *p_victim;
+        Entity* p_victim;
         p_victim = TO_THING(p_person->Genus.Person->Target);
 
         if (p_victim->Draw.Tweened->CurrentAnim == ANIM_KICK_NAD_TAKE || p_victim->Draw.Tweened->CurrentAnim == ANIM_KICK_NAD_STUNNED || p_victim->Draw.Tweened->CurrentAnim == ANIM_KICK_NAD_RECOVER)
@@ -8708,7 +8708,7 @@ std::int32_t set_person_kick_near(Thing *p_person, std::int32_t dist) {
     return (anim);
 }
 
-std::int32_t set_person_stomp(Thing *p_person) {
+std::int32_t set_person_stomp(Entity* p_person) {
     std::int32_t anim;
 
     p_person->Genus.Person->Flags &= ~FLAG_PERSON_REQUEST_KICK;
@@ -8730,7 +8730,7 @@ std::int32_t set_person_stomp(Thing *p_person) {
     return (anim);
 }
 
-void set_person_position_for_ladder(Thing *p_person, std::uint16_t facet) {
+void set_person_position_for_ladder(Entity* p_person, std::uint16_t facet) {
     std::int32_t angle, px, pz;
     GameCoord new_position;
     std::int32_t scale = 256;
@@ -8761,7 +8761,7 @@ void set_person_position_for_ladder(Thing *p_person, std::uint16_t facet) {
     */
 }
 
-inline void play_jump_sound(Thing *p_person) {
+inline void play_jump_sound(Entity* p_person) {
     static std::int32_t jump_chan = 0;
     std::int32_t jump_snd = 0;
 #if !defined(PSX) && !defined(TARGET_DC)
@@ -8781,7 +8781,7 @@ inline void play_jump_sound(Thing *p_person) {
     if (jump_snd) MFX_play_thing(THING_NUMBER(p_person), jump_snd, 0, p_person);
 }
 
-void set_person_climb_ladder(Thing *p_person, std::uint16_t storey) {
+void set_person_climb_ladder(Entity* p_person, std::uint16_t storey) {
     //	MSG_add(" set person climb ladder \n");
     set_generic_person_state_function(p_person, STATE_CLIMB_LADDER);
     if (p_person->Genus.Person->PersonType == PERSON_ROPER) {
@@ -8807,7 +8807,7 @@ void set_person_climb_ladder(Thing *p_person, std::uint16_t storey) {
 
     play_jump_sound(p_person);
 }
-void set_person_on_ladder(Thing *p_person) {
+void set_person_on_ladder(Entity* p_person) {
     //	set_generic_person_state_function(p_person,STATE_CLIMB_LADDER);
     //	MSG_add(" set person ON ladder \n");
     //	set_anim(p_person,ANIM_ON_LADDER);
@@ -8839,7 +8839,7 @@ void set_person_on_ladder(Thing *p_person) {
     p_person->OnFace = NULL;
 }
 
-void set_person_on_fence(Thing *p_person) {
+void set_person_on_fence(Entity* p_person) {
     //	set_generic_person_state_function(p_person,STATE_CLIMB_LADDER);
     //	MSG_add(" set person ON ladder \n");
     set_anim(p_person, ANIM_CLIMB_UP_FENCE);
@@ -8854,7 +8854,7 @@ void set_person_on_fence(Thing *p_person) {
     p_person->OnFace = NULL;
 }
 
-void set_person_standing_jump(Thing *p_person) {
+void set_person_standing_jump(Entity* p_person) {
     std::int32_t anim;
     if (p_person->Genus.Person->InsideIndex)
         return;
@@ -8893,7 +8893,7 @@ void set_person_standing_jump(Thing *p_person) {
                     LOS_FLAG_IGNORE_PRIMS |
                     LOS_FLAG_IGNORE_UNDERGROUND_CHECK)) {
             if (los_failure_dfacet) {
-                DFacet *df;
+                DFacet* df;
 
                 df = &dfacets[los_failure_dfacet];
 
@@ -8933,7 +8933,7 @@ void set_person_standing_jump(Thing *p_person) {
     p_person->OnFace = 0;
 }
 
-void set_person_standing_jump_forwards(Thing *p_person) {
+void set_person_standing_jump_forwards(Entity* p_person) {
     std::int32_t slope;
     std::int32_t angle;
     if (p_person->OnFace < 0) {
@@ -8961,7 +8961,7 @@ void set_person_standing_jump_forwards(Thing *p_person) {
     */
 }
 
-void set_person_standing_jump_backwards(Thing *p_person) {
+void set_person_standing_jump_backwards(Entity* p_person) {
     std::int32_t slope;
     std::int32_t angle;
     if (p_person->OnFace < 0) {
@@ -8988,9 +8988,9 @@ void set_person_standing_jump_backwards(Thing *p_person) {
     p_person->OnFace = 0;
 }
 
-void set_person_running_jump_lr(Thing *p_person, std::int32_t dir);
+void set_person_running_jump_lr(Entity* p_person, std::int32_t dir);
 
-void set_person_running_jump(Thing *p_person) {
+void set_person_running_jump(Entity* p_person) {
     std::int32_t slope;
     std::int32_t angle;
     if (p_person->OnFace < 0) {
@@ -9045,10 +9045,10 @@ void set_person_running_jump(Thing *p_person) {
     play_jump_sound(p_person);
 }
 
-void set_person_running_jump_lr(Thing *p_person, std::int32_t dir) {
+void set_person_running_jump_lr(Entity* p_person, std::int32_t dir) {
 }
 
-std::int32_t traverse_pos(Thing *p_person, std::int32_t right) {
+std::int32_t traverse_pos(Entity* p_person, std::int32_t right) {
     std::int32_t lhx, lhy, lhz;
     //	std::int32_t	rhx,rhy,rhz;
     std::int32_t angle;
@@ -9179,7 +9179,7 @@ std::int32_t traverse_pos(Thing *p_person, std::int32_t right) {
     return (1);
 }
 
-void set_person_traverse(Thing *p_person, std::int32_t right) {
+void set_person_traverse(Entity* p_person, std::int32_t right) {
     if (traverse_pos(p_person, right) == 0)
         return;
 
@@ -9195,7 +9195,7 @@ void set_person_traverse(Thing *p_person, std::int32_t right) {
     }
     p_person->Draw.Tweened->Locked = 0;
 }
-void set_person_pulling_up(Thing *p_person) {
+void set_person_pulling_up(Entity* p_person) {
     //
     // Make sure the person won't pull-up into a nogo zone.
     //
@@ -9243,7 +9243,7 @@ extern void make_cable_flabby(std::int32_t building);
 // Make a person start falling as a projectile...
 //
 
-void set_person_drop_down(Thing *p_person, std::int32_t flag) {
+void set_person_drop_down(Entity* p_person, std::int32_t flag) {
     std::int32_t dv = -2;
     std::int32_t shotgun = 0;
 
@@ -9337,7 +9337,7 @@ void set_person_drop_down(Thing *p_person, std::int32_t flag) {
     p_person->Genus.Person->Flags |= FLAG_PERSON_NON_INT_M;
 }
 
-void set_person_locked_drop_down(Thing *p_person, std::int32_t vely) {
+void set_person_locked_drop_down(Entity* p_person, std::int32_t vely) {
     MSG_add(" set person drop locked");
     set_generic_person_state_function(p_person, STATE_DANGLING);
     p_person->SubState = SUB_STATE_DROP_DOWN;
@@ -9351,10 +9351,10 @@ void set_person_locked_drop_down(Thing *p_person, std::int32_t vely) {
     p_person->Genus.Person->Flags |= FLAG_PERSON_NON_INT_M;
 }
 
-extern std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t *ret_x, std::int32_t *ret_z);
+extern std::int32_t nearest_point_on_line_and_dist(std::int32_t x1, std::int32_t z1, std::int32_t x2, std::int32_t z2, std::int32_t a, std::int32_t b, std::int32_t* ret_x, std::int32_t* ret_z);
 
-std::int32_t is_wall_good_for_bump_and_turn(Thing *p_person, std::int32_t col) {
-    struct DFacet *p_facet;
+std::int32_t is_wall_good_for_bump_and_turn(Entity* p_person, std::int32_t col) {
+    struct DFacet* p_facet;
 
     std::int32_t dist, angle, wy, wx, wz;
     std::int32_t mx, my, mz, dx, dz;
@@ -9389,14 +9389,14 @@ std::int32_t is_wall_good_for_bump_and_turn(Thing *p_person, std::int32_t col) {
 }
 
 // #define	VAULT_DA 128
-std::int32_t am_i_facing_wall(Thing *p_person, std::int32_t col, std::int32_t *wall_angle, std::int32_t vault_da = 128) {
+std::int32_t am_i_facing_wall(Entity* p_person, std::int32_t col, std::int32_t* wall_angle, std::int32_t vault_da = 128) {
     std::int32_t mdx, mdz, dx, dz, len, dist;
     std::int32_t near_x, near_z;
     std::int32_t wx, wy, wz;
     std::int32_t angle;
     GameCoord new_position;
     std::int32_t on, norm_x, norm_z;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t req_dist = 50;
     std::int32_t side;
 
@@ -9450,10 +9450,10 @@ std::int32_t am_i_facing_wall(Thing *p_person, std::int32_t col, std::int32_t *w
 //
 // hopefully this will work with diagonal fences, should they exist
 //
-std::int32_t along_middle_of_facet(Thing *p_person, std::int32_t col) {
+std::int32_t along_middle_of_facet(Entity* p_person, std::int32_t col) {
     std::int32_t wx, wy, wz;
     std::int32_t on, norm_x, norm_z, dist;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     //
     // Along the middle of the facet?
@@ -9481,14 +9481,14 @@ std::int32_t along_middle_of_facet(Thing *p_person, std::int32_t col) {
     }
 }
 
-std::int32_t set_person_pos_for_fence_vault(Thing *p_person, std::int32_t col) {
+std::int32_t set_person_pos_for_fence_vault(Entity* p_person, std::int32_t col) {
     std::int32_t mdx, mdz, dx, dz, len, dist;
     std::int32_t near_x, near_z;
     std::int32_t wx, wy, wz;
     std::int32_t angle;
     GameCoord new_position;
     std::int32_t on, norm_x, norm_z;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t req_dist = 50;
     std::int32_t side;
     std::int32_t bot;
@@ -9642,14 +9642,14 @@ std::int32_t set_person_pos_for_fence_vault(Thing *p_person, std::int32_t col) {
     return (1);
 }
 
-std::int32_t set_person_pos_for_fence(Thing *p_person, std::int32_t col, std::int32_t set_pos, std::int32_t req_dist) {
+std::int32_t set_person_pos_for_fence(Entity* p_person, std::int32_t col, std::int32_t set_pos, std::int32_t req_dist) {
     std::int32_t mdx, mdz, dx, dz, len, dist;
     std::int32_t near_x, near_z;
     std::int32_t wx, wy, wz;
     std::int32_t angle;
     GameCoord new_position;
     std::int32_t on, norm_x, norm_z;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     p_facet = &dfacets[col];
 
@@ -9788,10 +9788,10 @@ std::int32_t set_person_pos_for_fence(Thing *p_person, std::int32_t col, std::in
     return (0);
 }
 
-std::int32_t set_person_pos_for_half_step(Thing *p_person, std::int32_t col) {
+std::int32_t set_person_pos_for_half_step(Entity* p_person, std::int32_t col) {
     std::int32_t dx, dz;
     std::int32_t wall_angle;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     p_facet = &dfacets[col];
     std::int32_t on, norm_x, norm_z;
 
@@ -9888,7 +9888,7 @@ std::int32_t set_person_pos_for_half_step(Thing *p_person, std::int32_t col) {
 }
 
 inline std::int32_t is_facet_vaultable(std::int32_t facet) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     p_facet = &dfacets[facet];
     if (p_facet->FacetType == STOREY_TYPE_FENCE || p_facet->FacetType == STOREY_TYPE_FENCE_FLAT)
@@ -9902,7 +9902,7 @@ inline std::int32_t is_facet_vaultable(std::int32_t facet) {
 }
 
 inline std::int32_t is_facet_half_step(std::int32_t facet) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     p_facet = &dfacets[facet];
 
@@ -9914,7 +9914,7 @@ inline std::int32_t is_facet_half_step(std::int32_t facet) {
     return (0);
 }
 
-std::int32_t set_person_land_on_fence(Thing *p_person, std::int32_t col, std::int32_t set_pos, std::int32_t while_walking) {
+std::int32_t set_person_land_on_fence(Entity* p_person, std::int32_t col, std::int32_t set_pos, std::int32_t while_walking) {
     std::int32_t ret;
     std::int32_t dist = 45;
 
@@ -9977,7 +9977,7 @@ std::int32_t set_person_land_on_fence(Thing *p_person, std::int32_t col, std::in
     return (1);
 }
 
-std::int32_t set_person_kick_off_wall(Thing *p_person, std::int32_t col, std::int32_t set_pos) {
+std::int32_t set_person_kick_off_wall(Entity* p_person, std::int32_t col, std::int32_t set_pos) {
     std::int32_t dist = 100;
     MSG_add(" set person land on fence");
     if (p_person->Genus.Person->PersonType == PERSON_ROPER)
@@ -9999,7 +9999,7 @@ std::int32_t set_person_kick_off_wall(Thing *p_person, std::int32_t col, std::in
     return (1);
 }
 
-std::int32_t fight_any_gang_attacker(Thing *p_person) {
+std::int32_t fight_any_gang_attacker(Entity* p_person) {
     if (p_person->SubState != SUB_STATE_IDLE_CROUTCH_ARREST)
         if (p_person->Genus.Person->GangAttack) {
             std::uint16_t attacker;
@@ -10018,7 +10018,7 @@ std::int32_t fight_any_gang_attacker(Thing *p_person) {
     return (0);
 }
 
-std::uint16_t find_arrestee(Thing *p_person) {
+std::uint16_t find_arrestee(Entity* p_person) {
     std::int32_t i;
     std::int32_t dist;
     std::int32_t score;
@@ -10040,7 +10040,7 @@ std::uint16_t find_arrestee(Thing *p_person) {
         1 << CLASS_PERSON);
 
     for (i = 0; i < col_with_upto; i++) {
-        Thing *p_found = TO_THING(col_with[i]);
+        Entity* p_found = TO_THING(col_with[i]);
 
         if (p_found->Genus.Person->Flags2 & FLAG2_PERSON_INVULNERABLE) {
             //
@@ -10112,8 +10112,8 @@ std::uint16_t find_arrestee(Thing *p_person) {
     /*
 
     std::uint16_t	s_index;
-    Thing	*p_target;
-extern std::int32_t THING_find_nearest_person(Thing *p_person,std::int32_t radius,std::uint32_t classes);
+    Entity	*p_target;
+extern std::int32_t THING_find_nearest_person(Entity *p_person,std::int32_t radius,std::uint32_t classes);
     s_index = THING_find_nearest_person(p_person,256,1<<CLASS_PERSON);
 
     if(s_index)
@@ -10132,10 +10132,10 @@ extern std::int32_t THING_find_nearest_person(Thing *p_person,std::int32_t radiu
     */
 }
 
-std::uint16_t find_corpse(Thing *p_person) {
+std::uint16_t find_corpse(Entity* p_person) {
     std::uint16_t s_index;
-    Thing *p_target;
-    extern std::int32_t THING_find_nearest_person(Thing * p_person, std::int32_t radius, std::uint32_t classes);
+    Entity* p_target;
+    extern std::int32_t THING_find_nearest_person(Entity * p_person, std::int32_t radius, std::uint32_t classes);
     s_index = THING_find_nearest_person(p_person, 256, 1 << CLASS_PERSON);
 
     if (s_index) {
@@ -10150,8 +10150,8 @@ std::uint16_t find_corpse(Thing *p_person) {
     return (0);
 }
 
-std::uint16_t perform_arrest(Thing *p_person, std::uint16_t s_index) {
-    Thing *p_target;
+std::uint16_t perform_arrest(Entity* p_person, std::uint16_t s_index) {
+    Entity* p_target;
 
     p_target = TO_THING(s_index);
 
@@ -10173,9 +10173,9 @@ std::uint16_t perform_arrest(Thing *p_person, std::uint16_t s_index) {
     return (0);
 }
 
-void lock_to_compass(Thing *p_thing);
+void lock_to_compass(Entity* p_thing);
 
-void fn_person_search(Thing *p_person) {
+void fn_person_search(Entity* p_person) {
     std::uint16_t last_timer;
 
     switch (p_person->SubState) {
@@ -10237,7 +10237,7 @@ void fn_person_search(Thing *p_person) {
     }
 }
 
-void set_person_random_idle(Thing *p_person) {
+void set_person_random_idle(Entity* p_person) {
     std::int32_t anim = Random();
 
     if (person_holding_2handed(p_person)) {
@@ -10316,7 +10316,7 @@ void set_person_random_idle(Thing *p_person) {
     }
 }
 
-void fn_person_idle(Thing *p_person) {
+void fn_person_idle(Entity* p_person) {
     std::int32_t end;
 
 #ifndef NDEBUG
@@ -10389,7 +10389,7 @@ void fn_person_idle(Thing *p_person) {
 
             // if(count_gang(p_person)==0)
             {
-                Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
+                Entity* p_attacker = is_person_under_attack_low_level(p_person, false, 0x200);
 
                 if (p_attacker == NULL) {
                     //
@@ -10425,7 +10425,7 @@ void fn_person_idle(Thing *p_person) {
         if (p_person->OnFace > 0) {
             ASSERT(WITHIN(p_person->OnFace, 1, next_prim_face4 - 1));
 
-            PrimFace4 *f4 = &prim_faces4[p_person->OnFace];
+            PrimFace4* f4 = &prim_faces4[p_person->OnFace];
 
             ASSERT(f4->FaceFlags & FACE_FLAG_WALKABLE);
 
@@ -10438,8 +10438,8 @@ void fn_person_idle(Thing *p_person) {
             if (f4->FaceFlags & FACE_FLAG_WMOVE) {
                 std::int32_t wmove_index;
 
-                WMOVE_Face *wf;
-                Thing *p_thing;
+                WMOVE_Face* wf;
+                Entity* p_thing;
 
                 wmove_index = f4->ThingIndex;
 
@@ -10476,7 +10476,7 @@ void fn_person_idle(Thing *p_person) {
             //
 
             if (p_person->SubState != SUB_STATE_IDLE_CROUTCH_ARREST) {
-                Thing *p_attacker = is_person_under_attack_low_level(p_person, false, 0x100);
+                Entity* p_attacker = is_person_under_attack_low_level(p_person, false, 0x100);
 
                 if (p_person->Genus.Person->pcom_colour) {
                     p_person->Genus.Person->pcom_colour--;
@@ -10733,14 +10733,14 @@ void fn_person_idle(Thing *p_person) {
     }
 }
 
-void PCOM_set_person_ai_flee_person(Thing *p_person, Thing *p_scary);
-void PCOM_make_driver_run_away(Thing *p_driver, Thing *p_scary);
+void PCOM_set_person_ai_flee_person(Entity* p_person, Entity* p_scary);
+void PCOM_make_driver_run_away(Entity* p_driver, Entity* p_scary);
 
-void set_person_in_vehicle(Thing *p_person, Thing *p_car) {
+void set_person_in_vehicle(Entity* p_person, Entity* p_car) {
     std::int32_t sample;
 
     if (p_car->Genus.Vehicle->Driver) {
-        Thing *other_driver;
+        Entity* other_driver;
 
         //		ASSERT(0); // lets check it works
         //
@@ -10827,8 +10827,8 @@ void set_person_in_vehicle(Thing *p_person, Thing *p_car) {
     //	set_vehicle_anim(p_car,1);
 }
 
-void set_person_out_of_vehicle(Thing *p_person) {
-    Thing *p_car;
+void set_person_out_of_vehicle(Entity* p_person) {
+    Entity* p_car;
 
     ASSERT(p_person->Genus.Person->InCar);
 
@@ -10857,10 +10857,10 @@ void set_person_out_of_vehicle(Thing *p_person) {
 // keeping a limb in the same place
 //
 
-void locked_anim_change(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle) {
+void locked_anim_change(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t dangle) {
     std::int32_t lock_x1, lock_y1, lock_z1;
     std::int32_t lock_x2, lock_y2, lock_z2;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     GameCoord temp_pos;
 
     ASSERT(anim);
@@ -10896,10 +10896,10 @@ void locked_anim_change(Thing *p_person, std::uint16_t locked_object, std::uint1
 
     move_thing_on_map(p_person, &temp_pos);
 }
-void locked_anim_change_of_type(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type) {
+void locked_anim_change_of_type(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type) {
     std::int32_t lock_x1, lock_y1, lock_z1;
     std::int32_t lock_x2, lock_y2, lock_z2;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     GameCoord temp_pos;
 
     ASSERT(anim);
@@ -10932,10 +10932,10 @@ void locked_anim_change_of_type(Thing *p_person, std::uint16_t locked_object, st
     move_thing_on_map(p_person, &temp_pos);
 }
 
-void locked_anim_change_height_type(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type) {
+void locked_anim_change_height_type(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type) {
     std::int32_t lock_x1, lock_y1, lock_z1;
     std::int32_t lock_x2, lock_y2, lock_z2;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     GameCoord temp_pos;
 
     //	ASSERT(global_anim_array[type][anim]);
@@ -10966,7 +10966,7 @@ void locked_anim_change_height_type(Thing *p_person, std::uint16_t locked_object
     move_thing_on_map(p_person, &temp_pos);
 }
 
-std::int32_t set_limb_to_y(Thing *p_person, std::int32_t obj, std::int32_t y) {
+std::int32_t set_limb_to_y(Entity* p_person, std::int32_t obj, std::int32_t y) {
     std::int32_t x1, y1, z1;
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, obj, &x1, &y1, &z1);
     y1 += (p_person->WorldPos.Y >> 8);
@@ -10977,10 +10977,10 @@ std::int32_t set_limb_to_y(Thing *p_person, std::int32_t obj, std::int32_t y) {
     return (0);
 }
 
-void locked_next_anim_change(Thing *p_person, std::uint16_t locked_object, GameKeyFrame *queued_frame) {
+void locked_next_anim_change(Entity* p_person, std::uint16_t locked_object, GameKeyFrame* queued_frame) {
     std::int32_t lock_x1, lock_y1, lock_z1;
     std::int32_t lock_x2, lock_y2, lock_z2;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     GameCoord temp_pos;
 
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, locked_object, &lock_x1, &lock_y1, &lock_z1);
@@ -11007,10 +11007,10 @@ void locked_next_anim_change(Thing *p_person, std::uint16_t locked_object, GameK
     move_thing_on_map(p_person, &temp_pos);
 }
 
-void locked_anim_change_end_type(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type) {
+void locked_anim_change_end_type(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim, std::int32_t type) {
     std::int32_t lock_x1, lock_y1, lock_z1;
     std::int32_t lock_x2, lock_y2, lock_z2;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     GameCoord temp_pos;
 
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, locked_object, &lock_x1, &lock_y1, &lock_z1);
@@ -11044,10 +11044,10 @@ void locked_anim_change_end_type(Thing *p_person, std::uint16_t locked_object, s
     move_thing_on_map(p_person, &temp_pos);
 }
 
-void locked_anim_change_end(Thing *p_person, std::uint16_t locked_object, std::uint16_t anim) {
+void locked_anim_change_end(Entity* p_person, std::uint16_t locked_object, std::uint16_t anim) {
     std::int32_t lock_x1, lock_y1, lock_z1;
     std::int32_t lock_x2, lock_y2, lock_z2;
-    DrawTween *draw_info;
+    DrawTween* draw_info;
     GameCoord temp_pos;
 
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, locked_object, &lock_x1, &lock_y1, &lock_z1);
@@ -11082,7 +11082,7 @@ void locked_anim_change_end(Thing *p_person, std::uint16_t locked_object, std::u
 }
 
 std::int32_t steep_cable(std::int32_t facet) {
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t dx, dy, dz, len, m;
     p_facet = &dfacets[facet];
 
@@ -11101,8 +11101,8 @@ std::int32_t steep_cable(std::int32_t facet) {
     return (m);
 }
 
-void face_down_cable(Thing *p_person, std::int32_t facet) {
-    struct DFacet *p_facet;
+void face_down_cable(Entity* p_person, std::int32_t facet) {
+    struct DFacet* p_facet;
     std::int32_t dx, dy, dz, len, m;
     p_facet = &dfacets[facet];
 
@@ -11117,8 +11117,8 @@ void face_down_cable(Thing *p_person, std::int32_t facet) {
     }
 }
 
-std::int32_t find_best_cable_angle(Thing *p_person, std::int32_t facet) {
-    struct DFacet *p_facet;
+std::int32_t find_best_cable_angle(Entity* p_person, std::int32_t facet) {
+    struct DFacet* p_facet;
     std::int32_t dx, dy, dz, len, m;
     std::int32_t dangle, cable_angle;
 
@@ -11140,7 +11140,7 @@ std::int32_t find_best_cable_angle(Thing *p_person, std::int32_t facet) {
 //
 // see if persons hands are near to grabbing a ledge
 //
-std::int32_t grab_ledge(Thing *p_person) {
+std::int32_t grab_ledge(Entity* p_person) {
     std::int32_t x, y, z;
     std::int32_t grab_x, grab_y, grab_z, type;
     std::int32_t grab_angle;
@@ -11151,9 +11151,9 @@ std::int32_t grab_ledge(Thing *p_person) {
     if (p_person->Genus.Person->InsideIndex)
         return (0);
 
-        //
-        // While we're grabbing a ledge- try grabbing a balloon!
-        //
+    //
+    // While we're grabbing a ledge- try grabbing a balloon!
+    //
 
 #if !defined(PSX) && !defined(TARGET_DC)
     BALLOON_find_grab(THING_NUMBER(p_person));
@@ -11233,7 +11233,7 @@ std::int32_t grab_ledge(Thing *p_person) {
 
         std::int32_t new_x, new_y, new_z, old_substate;
         GameCoord temp_pos;
-        DrawTween *draw_info;
+        DrawTween* draw_info;
 
         if (type == 2) {
             if (p_person->SubState != SUB_STATE_RUNNING_JUMP_FLY && p_person->SubState != SUB_STATE_DROP_DOWN)
@@ -11465,7 +11465,7 @@ std::int32_t grab_ledge(Thing *p_person) {
     return (0);
 }
 
-void set_tween_for_dy(Thing *p_person, std::int32_t dy) {
+void set_tween_for_dy(Entity* p_person, std::int32_t dy) {
     MSG_add(" tween dy %d \n", dy);
 
     dy -= 28;
@@ -11481,7 +11481,7 @@ void set_tween_for_dy(Thing *p_person, std::int32_t dy) {
     p_person->Draw.Tweened->AnimTween = dy;
 }
 
-void set_tween_for_height(Thing *p_person) {
+void set_tween_for_height(Entity* p_person) {
     std::int32_t x, y, z;
     std::int32_t floor_y, dy;
 
@@ -11504,7 +11504,7 @@ void set_tween_for_height(Thing *p_person) {
     set_tween_for_dy(p_person, 256 + (p_person->DY >> 5));
 }
 
-std::int32_t over_nogo(Thing *p_person) {
+std::int32_t over_nogo(Entity* p_person) {
     std::int32_t mx, mz;
 
     if (p_person->Genus.Person->Ware)
@@ -11519,7 +11519,7 @@ std::int32_t over_nogo(Thing *p_person) {
     return (0);
 }
 
-void fn_person_jumping(Thing *p_person) {
+void fn_person_jumping(Entity* p_person) {
     std::int32_t end = 0,
                  grab = 0,
                  wave_id1,
@@ -11797,7 +11797,7 @@ void fn_person_jumping(Thing *p_person) {
             // face... it depends on whether the p_person's OnFace field is set or not.
             //
 
-            DrawTween *draw_info;
+            DrawTween* draw_info;
 
             draw_info = p_person->Draw.Tweened;
             if (continue_moveing(p_person)) {
@@ -11970,7 +11970,7 @@ void fn_person_jumping(Thing *p_person) {
             // face... it depends on whether the p_person's OnFace field is set or not.
             //
 
-            DrawTween *draw_info;
+            DrawTween* draw_info;
 
             draw_info = p_person->Draw.Tweened;
             {
@@ -12084,10 +12084,10 @@ void fn_person_jumping(Thing *p_person) {
     }
 }
 
-void position_person_at_ladder_top(Thing *p_person, std::int32_t limb) {
+void position_person_at_ladder_top(Entity* p_person, std::int32_t limb) {
     std::int32_t x1, y1, z1;
     std::int32_t x[2], z[2], y, wall;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t top;
 
     p_facet = &dfacets[p_person->Genus.Person->OnFacet];
@@ -12108,10 +12108,10 @@ void position_person_at_ladder_top(Thing *p_person, std::int32_t limb) {
     p_person->WorldPos.Y -= y1 << 8;
 }
 
-void position_person_at_ladder_bot(Thing *p_person, std::int32_t limb) {
+void position_person_at_ladder_bot(Entity* p_person, std::int32_t limb) {
     std::int32_t x1, y1, z1;
     std::int32_t x[2], z[2], y, wall;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t bot;
 
     p_facet = &dfacets[p_person->Genus.Person->OnFacet];
@@ -12142,7 +12142,7 @@ void position_person_at_ladder_bot(Thing *p_person, std::int32_t limb) {
 #define PERSON_LIMB_OFF_TOP (1 << 3)
 #define PERSON_LIMB_OFF_BOT (1 << 4)
 
-std::uint32_t check_limb_pos_on_ladder(Thing *p_person, std::int32_t sub_part, std::int32_t i_am_going_down) {
+std::uint32_t check_limb_pos_on_ladder(Entity* p_person, std::int32_t sub_part, std::int32_t i_am_going_down) {
     std::int32_t x1, y1, z1;
     std::uint16_t facet;
     std::int32_t x[2], z[2], y, wall;
@@ -12150,7 +12150,7 @@ std::uint32_t check_limb_pos_on_ladder(Thing *p_person, std::int32_t sub_part, s
     std::int32_t bot;
     std::uint32_t ans;
 
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
 
     facet = p_person->Genus.Person->OnFacet;
 
@@ -12195,7 +12195,7 @@ std::uint32_t check_limb_pos_on_ladder(Thing *p_person, std::int32_t sub_part, s
     return ans;
 }
 
-std::int32_t check_limb_pos_on_fence(Thing *p_person, std::int32_t sub_part) {
+std::int32_t check_limb_pos_on_fence(Entity* p_person, std::int32_t sub_part) {
     std::int32_t x1, y1, z1;
     std::int32_t col;
     std::int32_t top, bottom;
@@ -12231,14 +12231,14 @@ std::int32_t check_limb_pos_on_fence(Thing *p_person, std::int32_t sub_part) {
     }
 }
 
-std::int32_t check_limb_pos_on_fence_sideways(Thing *p_person, std::int32_t sub_part) {
+std::int32_t check_limb_pos_on_fence_sideways(Entity* p_person, std::int32_t sub_part) {
     std::int32_t x1, y1, z1;
     std::int32_t col;
     std::int32_t along;
 
     col = p_person->Genus.Person->OnFacet;
 
-    std::int32_t calc_along_vect(std::int32_t ax, std::int32_t az, struct DFacet * p_vect);
+    std::int32_t calc_along_vect(std::int32_t ax, std::int32_t az, struct DFacet* p_vect);
 
     calc_sub_objects_position(p_person, p_person->Draw.Tweened->AnimTween, sub_part, &x1, &y1, &z1);
 
@@ -12254,7 +12254,7 @@ std::int32_t check_limb_pos_on_fence_sideways(Thing *p_person, std::int32_t sub_
     }
 }
 
-void fn_person_laddering(Thing *p_person) {
+void fn_person_laddering(Entity* p_person) {
     bool play_it = false;
     std::uint8_t last_frame;
     std::int32_t end = 0, hit,
@@ -12475,7 +12475,7 @@ void fn_person_laddering(Thing *p_person) {
     }
 }
 
-void fn_person_climbing(Thing *p_person) {
+void fn_person_climbing(Entity* p_person) {
     std::int32_t end, hit;
     std::int32_t left_foot, right_foot;
 
@@ -12749,9 +12749,9 @@ void fn_person_climbing(Thing *p_person) {
     }
 }
 
-void set_cable_angle(Thing *p_person) {
+void set_cable_angle(Entity* p_person) {
     std::int32_t dx, dz;
-    struct DFacet *p_facet;
+    struct DFacet* p_facet;
     std::int32_t angle;
 
     ASSERT(p_person->Genus.Person->Flags & FLAG_PERSON_ON_CABLE);
@@ -12767,7 +12767,7 @@ void set_cable_angle(Thing *p_person) {
     p_person->Draw.Tweened->Angle = angle;
 }
 
-void do_person_on_cable(Thing *p_person) {
+void do_person_on_cable(Entity* p_person) {
     std::int32_t along;
     std::int32_t mx, my, mz;
 
@@ -12801,7 +12801,7 @@ void do_person_on_cable(Thing *p_person) {
     }
 }
 
-void fn_person_dangling(Thing *p_person) {
+void fn_person_dangling(Entity* p_person) {
     std::int32_t ignore_building;
     std::int32_t end;
     std::int32_t hit;
@@ -13328,14 +13328,14 @@ void fn_person_dangling(Thing *p_person) {
     }
 }
 
-extern void trickle_velocity_to(Thing *p_thing, std::int16_t velocity);
+extern void trickle_velocity_to(Entity* p_thing, std::int16_t velocity);
 
-void set_person_running_stop(Thing *p_person, std::int32_t leg) {
+void set_person_running_stop(Entity* p_person, std::int32_t leg) {
     //	tween_to_anim(p_person,ANIM_STOP_RUN_L+leg);
     p_person->SubState = SUB_STATE_STOPPING;
 }
 
-std::int32_t should_person_automatically_land_on_fence(Thing *p_person, std::int32_t facet) {
+std::int32_t should_person_automatically_land_on_fence(Entity* p_person, std::int32_t facet) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t da;
@@ -13343,7 +13343,7 @@ std::int32_t should_person_automatically_land_on_fence(Thing *p_person, std::int
     std::int32_t mdz;
     std::int32_t angle;
 
-    DFacet *df;
+    DFacet* df;
 
     df = &dfacets[facet];
 
@@ -13356,7 +13356,7 @@ std::int32_t should_person_automatically_land_on_fence(Thing *p_person, std::int
     }
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         if (p_special->Genus.Special->SpecialType == SPECIAL_WIRE_CUTTER) {
             //
@@ -13411,7 +13411,7 @@ std::int32_t should_person_automatically_land_on_fence(Thing *p_person, std::int
     return false;
 }
 
-void process_a_vaulting_person(Thing *p_person) {
+void process_a_vaulting_person(Entity* p_person) {
     std::int32_t end;
 
     end = person_normal_animate(p_person);
@@ -13451,7 +13451,7 @@ void process_a_vaulting_person(Thing *p_person) {
     }
 }
 
-void set_person_sit_down(Thing *p_person) {
+void set_person_sit_down(Entity* p_person) {
     set_generic_person_state_function(p_person, STATE_MOVEING);
 
     set_person_do_a_simple_anim(p_person, ANIM_SIT_DOWN);
@@ -13468,7 +13468,7 @@ void set_person_sit_down(Thing *p_person) {
     }
 }
 
-void set_person_unsit(Thing *p_person) {
+void set_person_unsit(Entity* p_person) {
     set_generic_person_state_function(p_person, STATE_MOVEING);
 
     set_person_do_a_simple_anim(p_person, ANIM_SIT_TO_STAND);
@@ -13478,9 +13478,9 @@ void set_person_unsit(Thing *p_person) {
     p_person->Genus.Person->Action = ACTION_UNSIT;
 }
 
-std::int32_t person_holding_2handed(Thing *p_person) {
+std::int32_t person_holding_2handed(Entity* p_person) {
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         //
         // The shotgun and ak47 have their own special shotgun yomp.
@@ -13495,20 +13495,20 @@ std::int32_t person_holding_2handed(Thing *p_person) {
     return (0);
 }
 
-std::int32_t person_holding_special(Thing *p_person, std::uint8_t special) {
+std::int32_t person_holding_special(Entity* p_person, std::uint8_t special) {
     if (!p_person->Genus.Person->SpecialUse) return 0;
 
-    Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+    Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
     return (p_special->Genus.Special->SpecialType == special) ? 1 : 0;
 }
 
-std::int32_t get_yomp_anim(Thing *p_person) {
+std::int32_t get_yomp_anim(Entity* p_person) {
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT)
         return (ANIM_PISTOL_JOG);
 
     if (p_person->Genus.Person->SpecialUse) {
-        Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+        Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
         //
         // The shotgun and ak47 have their own special shotgun yomp.
@@ -13529,7 +13529,7 @@ std::int32_t get_yomp_anim(Thing *p_person) {
         return (ANIM_YOMP);
 }
 
-void fn_person_moveing(Thing *p_person) {
+void fn_person_moveing(Entity* p_person) {
     std::uint8_t last_frame;
     std::int32_t end,
         foot_step_wave;
@@ -13695,7 +13695,7 @@ void fn_person_moveing(Thing *p_person) {
                         p_person->Genus.Person->Timer1 = 0;
 
                         if (p_person->Genus.Person->SpecialUse) {
-                            Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+                            Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
                             if (p_special->Genus.Special->SpecialType == SPECIAL_AK47) {
                                 if (continue_firing(p_person)) {
@@ -13741,7 +13741,7 @@ void fn_person_moveing(Thing *p_person) {
 
             break;
             case ANIM_START_WALK_CARRY: {
-                Thing *p_target;
+                Entity* p_target;
                 p_target = TO_THING(p_person->Genus.Person->Target);
                 set_anim(p_target, ANIM_WALK_CARRY_V);
                 set_anim(p_person, ANIM_WALK_CARRY);
@@ -13832,7 +13832,7 @@ void fn_person_moveing(Thing *p_person) {
         last_slide_colvect = 0;
         person_normal_move(p_person);
 
-        // std::int32_t	along_middle_of_facet(Thing *p_person,std::int32_t col)
+        // std::int32_t	along_middle_of_facet(Entity *p_person,std::int32_t col)
         if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING) {
             carry_running(p_person);
         } else {
@@ -14369,7 +14369,7 @@ void fn_person_moveing(Thing *p_person) {
         //			person_normal_animate(p_person);
 
         {
-            Thing *p_bike = TO_THING(p_person->Genus.Person->InCar);
+            Entity* p_bike = TO_THING(p_person->Genus.Person->InCar);
 
             //
             // Move to the same position above the bike.
@@ -14487,7 +14487,7 @@ void fn_person_moveing(Thing *p_person) {
     }
 }
 
-void set_person_ko_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags) {
+void set_person_ko_recoil(Entity* p_person, std::int32_t anim, std::uint8_t flags) {
     if (p_person->Draw.Tweened->CurrentAnim == anim && p_person->Draw.Tweened->FrameIndex < 5) {
         //		if(p_person->Draw.Tweened->CurrentFrame!=p_person->Draw.Tweened->NextFrame)
         if (!(p_person->Draw.Tweened->CurrentFrame->Flags & ANIM_FLAG_LAST_FRAME))
@@ -14519,7 +14519,7 @@ void set_person_ko_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags
     }
 }
 
-void set_person_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags) {
+void set_person_recoil(Entity* p_person, std::int32_t anim, std::uint8_t flags) {
     if (p_person->SubState == SUB_STATE_DRAW_ITEM)
         return;
 
@@ -14600,7 +14600,7 @@ void set_person_recoil(Thing *p_person, std::int32_t anim, std::uint8_t flags) {
     //	p_person->Genus.Person->Flags|=(FLAG_PERSON_NON_INT_M|FLAG_PERSON_NON_INT_C);
 }
 
-void fn_person_recoil(Thing *p_person) {
+void fn_person_recoil(Entity* p_person) {
     std::int32_t end;
 
     SlideSoundCheck(p_person);
@@ -14681,11 +14681,11 @@ std::int32_t find_anim_fall_dir(std::int32_t anim) {
     }
 }
 
-void move_away_from_wall(Thing *p_person) {
+void move_away_from_wall(Entity* p_person) {
     person_normal_move_dxdz(p_person, 1, 1);
 }
 
-void generate_bonus_item(Thing *p_person) {
+void generate_bonus_item(Entity* p_person) {
     if (GET_SKILL(p_person) >= 12 || ((p_person->Genus.Person->pcom_ai != PCOM_AI_CIV) && (p_person->Genus.Person->Flags2 & FLAG2_PERSON_FAKE_WANDER) && (Random() & 0xff) < 34))
     //	if( ((p_person->Genus.Person->pcom_ai!=PCOM_AI_CIV) && (p_person->Genus.Person->Flags2&FLAG2_PERSON_FAKE_WANDER)&& (Random()&0xff)<34))
     {
@@ -14715,7 +14715,7 @@ void generate_bonus_item(Thing *p_person) {
             &gy,
             &gz);
 
-        Thing *p_gun = alloc_special(
+        Entity* p_gun = alloc_special(
             special,
             SPECIAL_SUBSTATE_NONE,
             gx,
@@ -14725,7 +14725,7 @@ void generate_bonus_item(Thing *p_person) {
     }
 }
 
-std::int32_t part_bad(Thing *p_person, std::int32_t part) {
+std::int32_t part_bad(Entity* p_person, std::int32_t part) {
     std::int32_t track_x, track_y, track_z;
     std::int32_t fy, dy;
 
@@ -14754,7 +14754,7 @@ std::int32_t part_bad(Thing *p_person, std::int32_t part) {
     return (0);
 }
 
-void fn_person_dying(Thing *p_person) {
+void fn_person_dying(Entity* p_person) {
     std::int32_t hit;
     std::int32_t end;
     std::int32_t backwards;
@@ -14956,7 +14956,7 @@ void fn_person_dying(Thing *p_person) {
             //
 
             if (p_person->Genus.Person->PersonType == PERSON_COP) {
-                extern std::uint8_t *EWAY_counter;
+                extern std::uint8_t* EWAY_counter;
 
                 if (EWAY_counter[7] < 255) {
                     EWAY_counter[7] += 1;
@@ -15115,7 +15115,7 @@ void fn_person_dying(Thing *p_person) {
             }
 
             if (p_person->Genus.Person->pcom_ai == PCOM_AI_CIV) {
-                void PCOM_set_person_ai_flee_place(Thing * p_person, std::int32_t scary_x, std::int32_t scary_z);
+                void PCOM_set_person_ai_flee_place(Entity * p_person, std::int32_t scary_x, std::int32_t scary_z);
 
                 if (p_person->Genus.Person->pcom_bent & PCOM_BENT_ROBOT) {
                     //
@@ -15214,7 +15214,7 @@ void init_dead_tween() {
     memset(&dead_tween, 0, sizeof(DrawTween));
 }
 
-void fn_person_dead(Thing *p_person) {
+void fn_person_dead(Entity* p_person) {
     std::int32_t end;
     std::uint16_t try_respawn = 0;
     /*
@@ -15270,7 +15270,7 @@ void fn_person_dead(Thing *p_person) {
         }
         break;
     case SUB_STATE_DEAD_RESPAWN:
-        extern std::int32_t PCOM_do_regen(Thing * p_person);
+        extern std::int32_t PCOM_do_regen(Entity * p_person);
         PCOM_do_regen(p_person);
         break;
 
@@ -15521,7 +15521,7 @@ void fn_person_dead(Thing *p_person) {
     }
 }
 
-std::int32_t dist_from_a_to_b(Thing *a, Thing *b) {
+std::int32_t dist_from_a_to_b(Entity* a, Entity* b) {
     std::int32_t dx, dz, dist;
 
     dx = (a->WorldPos.X - b->WorldPos.X) >> 8;
@@ -15534,9 +15534,9 @@ std::int32_t dist_from_a_to_b(Thing *a, Thing *b) {
     return (dist);
 }
 
-void player_aim_at_new_person(Thing *p_person, std::uint16_t new_target) {
+void player_aim_at_new_person(Entity* p_person, std::uint16_t new_target) {
     std::int32_t pitch;
-    Thing *p_target;
+    Entity* p_target;
 
     ASSERT(p_person->Genus.Person->PlayerID);
 
@@ -15556,8 +15556,8 @@ void player_aim_at_new_person(Thing *p_person, std::uint16_t new_target) {
     set_look_pitch(pitch);
 }
 
-std::int32_t get_angle_to_target(Thing *p_person) {
-    Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+std::int32_t get_angle_to_target(Entity* p_person) {
+    Entity* p_target = TO_THING(p_person->Genus.Person->Target);
     std::int32_t dx, dz;
     std::int32_t angle;
 
@@ -15571,10 +15571,10 @@ std::int32_t get_angle_to_target(Thing *p_person) {
     //	return(-1);
 }
 
-std::int32_t player_running_aim_gun(Thing *p_person) {
+std::int32_t player_running_aim_gun(Entity* p_person) {
     std::int32_t old_target = p_person->Genus.Person->Target;
     if (p_person->Genus.Person->Target = find_target_new(p_person)) {
-        Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+        Entity* p_target = TO_THING(p_person->Genus.Person->Target);
 
         highlight_gun_target(p_person, p_target);
 
@@ -15600,12 +15600,12 @@ std::int32_t player_running_aim_gun(Thing *p_person) {
     return (0);
 }
 
-void twist_darci_body_to_angle(Thing *p_person, std::int32_t twist) {
+void twist_darci_body_to_angle(Entity* p_person, std::int32_t twist) {
     std::uint16_t ahead;
     std::uint16_t left;
     std::uint16_t right;
 
-    DrawTween *dt = p_person->Draw.Tweened;
+    DrawTween* dt = p_person->Draw.Tweened;
 
     if (twist > 1024) {
         twist -= 2048;
@@ -15668,7 +15668,7 @@ void twist_darci_body_to_angle(Thing *p_person, std::int32_t twist) {
     }
 }
 
-std::int32_t might_i_be_a_villain(Thing *p_person) {
+std::int32_t might_i_be_a_villain(Entity* p_person) {
     if (p_person->Genus.Person->PersonType == PERSON_DARCI ||
         p_person->Genus.Person->PersonType == PERSON_ROPER ||
         p_person->Genus.Person->PersonType == PERSON_COP ||
@@ -15678,7 +15678,7 @@ std::int32_t might_i_be_a_villain(Thing *p_person) {
         return (1);
 }
 
-std::int32_t am_i_a_thug(Thing *p_person) {
+std::int32_t am_i_a_thug(Entity* p_person) {
     if (p_person->Genus.Person->PersonType == PERSON_THUG_RASTA ||
         p_person->Genus.Person->PersonType == PERSON_THUG_GREY ||
         p_person->Genus.Person->PersonType == PERSON_THUG_RED ||
@@ -15691,7 +15691,7 @@ std::int32_t am_i_a_thug(Thing *p_person) {
 //
 // This needs to take into account the type of weapon, sniper is accurate at a distance etc
 //
-std::int32_t calc_dist_benefit_to_gun(Thing *p_person, std::int32_t dist) {
+std::int32_t calc_dist_benefit_to_gun(Entity* p_person, std::int32_t dist) {
     std::int32_t benefit; // in thousandths of a second
 
     /*
@@ -15745,13 +15745,13 @@ std::int32_t calc_dist_benefit_to_gun(Thing *p_person, std::int32_t dist) {
 }
 
 extern std::int32_t look_pitch;
-void highlight_gun_target(Thing *p_person, Thing *p_target) {
+void highlight_gun_target(Entity* p_person, Entity* p_target) {
     if (p_person->Genus.Person->PlayerID) {
         std::int32_t angle, dx, dy, dz;
 
         if (dist_to_target(p_person, p_target) < (10 << 8))
             track_gun_sight(p_target, 256);
-            //	ASSERT(dist_to_target(p_person,p_target)< (10<<8) );
+        //	ASSERT(dist_to_target(p_person,p_target)< (10<<8) );
 
 #define MAKE_FPM_TRACK_ENEMY 1
 
@@ -15833,7 +15833,7 @@ void highlight_gun_target(Thing *p_person, Thing *p_target) {
     */
 }
 
-void fn_person_gun(Thing *p_person) {
+void fn_person_gun(Entity* p_person) {
     std::int32_t end;
     switch (p_person->SubState) {
     case SUB_STATE_DRAW_GUN:
@@ -15865,7 +15865,7 @@ void fn_person_gun(Thing *p_person) {
             std::int32_t old_target;
 
             if (p_person->Genus.Person->SpecialUse) {
-                Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+                Entity* p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
                 //
                 // Using a special.
@@ -15886,7 +15886,7 @@ void fn_person_gun(Thing *p_person) {
             old_target = p_person->Genus.Person->Target;
 
             if (p_person->Genus.Person->Target = find_target_new(p_person)) {
-                Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+                Entity* p_target = TO_THING(p_person->Genus.Person->Target);
                 if (p_target->SubState == SUB_STATE_DYING_KNOCK_DOWN_WAIT) {
                     if (p_target->Genus.Person->pcom_ai == PCOM_AI_CIV)
                         p_target->Genus.Person->Timer1 = 0;
@@ -15894,7 +15894,7 @@ void fn_person_gun(Thing *p_person) {
 
                 if (old_target != p_person->Genus.Person->Target) {
                     if (p_person->Genus.Person->PersonType == PERSON_DARCI) {
-                        Thing *p_target;
+                        Entity* p_target;
                         p_target = TO_THING(p_person->Genus.Person->Target);
 
                         //								if(p_person->Draw.Tweened->DRoll==0) //not spinning
@@ -15946,7 +15946,7 @@ void fn_person_gun(Thing *p_person) {
         }
 
         if (p_person->Genus.Person->Target) {
-            Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+            Entity* p_target = TO_THING(p_person->Genus.Person->Target);
             highlight_gun_target(p_person, p_target);
         }
 
@@ -15999,7 +15999,7 @@ void fn_person_gun(Thing *p_person) {
 
                 if (p_person->Genus.Person->Target)
                 {
-                        Thing *p_target;
+                        Entity *p_target;
 
                         p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -16135,7 +16135,7 @@ void fn_person_gun(Thing *p_person) {
                 /*
                                                         if (p_person->Genus.Person->SpecialUse)
                                                         {
-                                                                Thing *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
+                                                                Entity *p_special = TO_THING(p_person->Genus.Person->SpecialUse);
 
                                                                 //
                                                                 // Using a special.
@@ -16198,7 +16198,7 @@ void fn_person_gun(Thing *p_person) {
                 return;
             } else {
                 std::int32_t anim;
-                Thing *p_special;
+                Entity* p_special;
 
                 if (p_person->Genus.Person->SpecialUse == 0) {
                     //
@@ -16251,7 +16251,7 @@ void fn_person_gun(Thing *p_person) {
 
 #define COMBO_ACCURACY 300 // Was 190
 
-std::int32_t person_new_combat_node(Thing *p_person) {
+std::int32_t person_new_combat_node(Entity* p_person) {
     std::int8_t node = 0;
     std::uint8_t new_node = 0;
     std::uint16_t anim;
@@ -16336,13 +16336,13 @@ std::int32_t person_new_combat_node(Thing *p_person) {
     }
     return (0);
 }
-extern std::int32_t should_i_block(Thing *p_person, Thing *p_agressor, std::int32_t anim);
+extern std::int32_t should_i_block(Entity* p_person, Entity* p_agressor, std::int32_t anim);
 
-void aim_at_victim(Thing *p_person, std::int32_t count) {
+void aim_at_victim(Entity* p_person, std::int32_t count) {
     if (p_person->Draw.Tweened->CurrentAnim != ANIM_KICK_COMBO3b)
         if (p_person->Draw.Tweened->CurrentAnim != ANIM_FIGHT_STOMP)
             if (p_person->Genus.Person->Target) {
-                Thing *p_target;
+                Entity* p_target;
 
                 p_target = TO_THING(p_person->Genus.Person->Target);
 
@@ -16355,8 +16355,8 @@ void aim_at_victim(Thing *p_person, std::int32_t count) {
 }
 
 std::uint8_t combo_display = 0;
-void fn_person_fighting(Thing *p_person) {
-    Thing *p_target;
+void fn_person_fighting(Entity* p_person) {
+    Entity* p_target;
     std::int32_t end = 0;
     // return;
     //	MSG_add(" fighting substate %d action %d",p_person->SubState,p_person->Genus.Person->Action);
@@ -16385,7 +16385,7 @@ void fn_person_fighting(Thing *p_person) {
             }
 
             if (p_person->Genus.Person->PlayerID) {
-                extern std::int32_t continue_blocking(Thing * p_person);
+                extern std::int32_t continue_blocking(Entity * p_person);
                 if (continue_blocking(p_person)) {
                     goto skip_animate;
                 }
@@ -16404,7 +16404,7 @@ void fn_person_fighting(Thing *p_person) {
     case SUB_STATE_PUNCH:
         //				person_normal_move(p_person);
         // MSG_add(" do punch");
-        Thing *p_target;
+        Entity* p_target;
         if (p_person->Genus.Person->Target) {
             p_target = TO_THING(p_person->Genus.Person->Target);
             aim_at_victim(p_person);
@@ -16563,7 +16563,7 @@ void fn_person_fighting(Thing *p_person) {
         if (last_frame != p_person->Draw.Tweened->FrameIndex) {
             last_frame = p_person->Draw.Tweened->FrameIndex;
 
-            Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+            Entity* p_target = TO_THING(p_person->Genus.Person->Target);
 
             ASSERT(p_target->Class == CLASS_PERSON);
 
@@ -16601,7 +16601,7 @@ void fn_person_fighting(Thing *p_person) {
                         // This is the headbutting frame!
                         //
 
-                        Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+                        Entity* p_target = TO_THING(p_person->Genus.Person->Target);
                         std::int16_t hit_wave;
 
                         ASSERT(p_target->Class == CLASS_PERSON);
@@ -16734,7 +16734,7 @@ void fn_person_fighting(Thing *p_person) {
     {
         ASSERT(p_person->Genus.Person->Target);
 
-        Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+        Entity* p_target = TO_THING(p_person->Genus.Person->Target);
 
         ASSERT(p_target->Class == CLASS_PERSON);
 
@@ -16802,7 +16802,7 @@ void fn_person_fighting(Thing *p_person) {
     case SUB_STATE_GRAPPLE_HELD:
 
     {
-        Thing *p_attacker = TO_THING(p_person->Genus.Person->Target);
+        Entity* p_attacker = TO_THING(p_person->Genus.Person->Target);
 
         if ((p_person->Genus.Person->Flags & (FLAG_PERSON_REQUEST_BLOCK | FLAG_PERSON_REQUEST_KICK | FLAG_PERSON_REQUEST_PUNCH)) || (PTIME(p_person) & 3) == 0) {
             /*
@@ -17004,7 +17004,7 @@ void fn_person_fighting(Thing *p_person) {
     }
 }
 
-void fn_person_wait(Thing *p_person) {
+void fn_person_wait(Entity* p_person) {
     /*
 
     struct	Command	*com;
@@ -17045,7 +17045,7 @@ void fn_person_wait(Thing *p_person) {
     */
 }
 
-std::int32_t turn_to_face_thing(Thing *p_person, Thing *p_target, std::int32_t slow) {
+std::int32_t turn_to_face_thing(Entity* p_person, Entity* p_target, std::int32_t slow) {
     std::int32_t dx, dz;
     std::int32_t angle, pangle;
     std::int32_t angle_diff;
@@ -17097,7 +17097,7 @@ std::int32_t turn_to_face_thing(Thing *p_person, Thing *p_target, std::int32_t s
     return (dist);
 }
 
-void turn_to_face_thing_quick(Thing *p_person, Thing *p_target) {
+void turn_to_face_thing_quick(Entity* p_person, Entity* p_target) {
     std::int32_t dx, dz;
     std::int32_t angle, pangle;
     std::int32_t angle_diff;
@@ -17126,7 +17126,7 @@ void turn_to_face_thing_quick(Thing *p_person, Thing *p_target) {
     }
 }
 
-std::int32_t get_pitch_to_thing_quick(Thing *p_person, Thing *p_target) {
+std::int32_t get_pitch_to_thing_quick(Entity* p_person, Entity* p_target) {
     std::int32_t dx, dy, dz, dxz;
     std::int32_t angle, pangle;
     std::int32_t angle_diff;
@@ -17155,9 +17155,9 @@ std::int32_t get_pitch_to_thing_quick(Thing *p_person, Thing *p_target) {
     return (angle & 2047);
 }
 
-void set_person_draw_item(Thing *p_person, std::int32_t special_type) {
+void set_person_draw_item(Entity* p_person, std::int32_t special_type) {
     std::int32_t anim;
-    Thing *p_special;
+    Entity* p_special;
 
     if (p_person->Genus.Person->Flags2 & FLAG2_PERSON_CARRYING) {
         return;
@@ -17236,7 +17236,7 @@ void set_person_draw_item(Thing *p_person, std::int32_t special_type) {
     //	p_person->Genus.Person->Flags      |=  FLAG_PERSON_LOCK_ANIM_CHANGE;
 }
 
-void set_person_item_away(Thing *p_person) {
+void set_person_item_away(Entity* p_person) {
     //
     // No anim for putting away an item?
     //
@@ -17249,7 +17249,7 @@ void set_person_item_away(Thing *p_person) {
 }
 
 void set_face_pos(
-    Thing *p_person,
+    Entity* p_person,
     std::int32_t world_x,
     std::int32_t world_z) {
     std::int32_t dx = world_x - (p_person->WorldPos.X >> 8);
@@ -17266,7 +17266,7 @@ void set_face_pos(
     return;
 }
 
-std::int32_t set_face_thing(Thing *p_person, Thing *p_target) {
+std::int32_t set_face_thing(Entity* p_person, Entity* p_target) {
     std::int32_t dx, dz;
     std::int32_t angle, pangle;
     std::int32_t angle_diff;
@@ -17283,7 +17283,7 @@ std::int32_t set_face_thing(Thing *p_person, Thing *p_target) {
     return (dist);
 }
 
-void turn_towards_thing(Thing *p_person, Thing *p_target) {
+void turn_towards_thing(Entity* p_person, Entity* p_target) {
     std::int32_t dx, dz;
     std::int32_t angle, dangle;
     std::int32_t angle_diff;
@@ -17305,7 +17305,7 @@ void turn_towards_thing(Thing *p_person, Thing *p_target) {
         p_person->Draw.Tweened->Angle = (p_person->Draw.Tweened->Angle - 32) & 2047;
 }
 
-void fn_person_stand_up(Thing *p_person) {
+void fn_person_stand_up(Entity* p_person) {
     /*
 
     std::int32_t	end;
@@ -17322,8 +17322,8 @@ void fn_person_stand_up(Thing *p_person) {
     }
     */
 }
-void fn_person_fight(Thing *p_person) {
-    Thing *p_target;
+void fn_person_fight(Entity* p_person) {
+    Entity* p_target;
     std::int32_t dist;
     std::int32_t end;
 
@@ -17402,7 +17402,7 @@ void fn_person_fight(Thing *p_person) {
     }
 }
 
-void set_person_goto_xz(Thing *p_person, std::int32_t x, std::int32_t z, std::int32_t speed) {
+void set_person_goto_xz(Entity* p_person, std::int32_t x, std::int32_t z, std::int32_t speed) {
     std::int32_t velocity;
 
     if (p_person->SubState == SUB_STATE_SLIPPING) {
@@ -17604,7 +17604,7 @@ void set_person_goto_xz(Thing *p_person, std::int32_t x, std::int32_t z, std::in
     set_generic_person_state_function(p_person, STATE_GOTOING);
 }
 
-void fn_person_goto(Thing *p_person) {
+void fn_person_goto(Entity* p_person) {
     std::int32_t end;
 
     std::int32_t dx;
@@ -17752,7 +17752,7 @@ void fn_person_goto(Thing *p_person) {
 }
 
 #ifdef UNUSED
-std::int32_t hit_enemy(Thing *p_person, std::int32_t dx, std::int32_t dz) {
+std::int32_t hit_enemy(Entity* p_person, std::int32_t dx, std::int32_t dz) {
     std::int32_t strike;
     //	return(0);
     //	if(GAME_TURN&1)
@@ -17769,27 +17769,27 @@ std::int32_t hit_enemy(Thing *p_person, std::int32_t dx, std::int32_t dz) {
 // Returns true if you've reached your destination.
 //
 
-std::int32_t process_person_goto_xz(Thing *p_person, std::int32_t x, std::int32_t z, std::int32_t dist) {
+std::int32_t process_person_goto_xz(Entity* p_person, std::int32_t x, std::int32_t z, std::int32_t dist) {
     ASSERT(0);
 
     return 0;
 }
 
-void fn_person_navigate(Thing *p_person) {
+void fn_person_navigate(Entity* p_person) {
     ASSERT(0);
 }
 
-void init_person_command(Thing *p_person) {
+void init_person_command(Entity* p_person) {
     ASSERT(0);
 }
 
-std::int32_t mav_arrived(Thing *p_person) {
+std::int32_t mav_arrived(Entity* p_person) {
     ASSERT(0);
 
     return 0;
 }
 
-std::int32_t person_mav_again(Thing *p_person) {
+std::int32_t person_mav_again(Entity* p_person) {
     ASSERT(0);
 
     return 0;
@@ -17802,23 +17802,23 @@ std::uint16_t dir_to_angle[] =
         0,
         1024};
 
-void get_dx_dz_for_dir(std::int32_t dir, std::int32_t *dx, std::int32_t *dz) {
+void get_dx_dz_for_dir(std::int32_t dir, std::int32_t* dx, std::int32_t* dz) {
     ASSERT(0);
 }
 
-void init_new_mav(Thing *p_person) {
+void init_new_mav(Entity* p_person) {
     ASSERT(0);
 }
 
-void fn_person_mavigate_action(Thing *p_person) {
+void fn_person_mavigate_action(Entity* p_person) {
     ASSERT(0);
 }
 
-void fn_person_mavigate(Thing *p_person) {
+void fn_person_mavigate(Entity* p_person) {
     ASSERT(0);
 }
 
-void set_person_grappling_hook_pickup(Thing *p_person) {
+void set_person_grappling_hook_pickup(Entity* p_person) {
     //
     // Do the pickup hook animation.
     //
@@ -17834,7 +17834,7 @@ void set_person_grappling_hook_pickup(Thing *p_person) {
     p_person->SubState = SUB_STATE_GRAPPLING_PICKUP;
 }
 
-void fn_person_grapple(Thing *p_person) {
+void fn_person_grapple(Entity* p_person) {
     std::int32_t end;
 #ifndef PSX
     switch (p_person->SubState) {
@@ -17934,17 +17934,17 @@ void fn_person_grapple(Thing *p_person) {
 #endif
 }
 
-void set_person_mav_to_xz(Thing *p_person, std::int32_t x, std::int32_t z) {
+void set_person_mav_to_xz(Entity* p_person, std::int32_t x, std::int32_t z) {
     ASSERT(0);
 }
 
-void set_person_mav_to_thing(Thing *p_person, Thing *p_target) {
+void set_person_mav_to_thing(Entity* p_person, Entity* p_target) {
     ASSERT(0);
 }
 
 #if !defined(TARGET_DC) && !defined(PSX)
-std::int32_t person_is_on_sewer(Thing *p_person) {
-    NS_Hi *ns;
+std::int32_t person_is_on_sewer(Entity* p_person) {
+    NS_Hi* ns;
     ns = &NS_hi[p_person->WorldPos.X >> (8 + PAP_SHIFT_HI)][p_person->WorldPos.Z >> (8 + PAP_SHIFT_HI)];
     if (ns->packed & NS_HI_FLAG_GRATE) return PERSON_ON_METAL;
     if (ns->water) return PERSON_ON_SEWATER;
@@ -17952,7 +17952,7 @@ std::int32_t person_is_on_sewer(Thing *p_person) {
 }
 #endif
 
-std::int32_t person_is_on(Thing *p_person) {
+std::int32_t person_is_on(Entity* p_person) {
 #if !defined(PSX) && !defined(TARGET_DC)
     if (GAME_FLAGS & GF_SEWERS) {
         if (p_person->Flags & FLAGS_IN_SEWERS) {
@@ -18038,7 +18038,7 @@ std::int32_t person_is_on(Thing *p_person) {
     return PERSON_ON_DUNNO;
 }
 
-void set_person_can_pickup(Thing *p_person) {
+void set_person_can_pickup(Entity* p_person) {
     //
     // Do the pickup can animation.
     //
@@ -18054,8 +18054,8 @@ void set_person_can_pickup(Thing *p_person) {
     p_person->SubState = SUB_STATE_CANNING_PICKUP;
 }
 
-void set_person_can_release(Thing *p_person, std::int32_t power) {
-    Thing *p_special;
+void set_person_can_release(Entity* p_person, std::int32_t power) {
+    Entity* p_special;
 
     if (p_person->Genus.Person->Flags & FLAG_PERSON_CANNING) {
         goto something_to_throw;
@@ -18103,7 +18103,7 @@ something_to_throw:;
 }
 
 /*
-void set_person_barrel_pickup(Thing *p_person)
+void set_person_barrel_pickup(Entity *p_person)
 {
         //
         // Do the pickup barrel animation.
@@ -18121,7 +18121,7 @@ void set_person_barrel_pickup(Thing *p_person)
 }
 */
 
-void set_person_special_pickup(Thing *p_person) {
+void set_person_special_pickup(Entity* p_person) {
     //
     // Do the pickup can animation.
     //
@@ -18137,7 +18137,7 @@ void set_person_special_pickup(Thing *p_person) {
     p_person->SubState = SUB_STATE_CANNING_GET_SPECIAL;
 }
 
-void fn_person_can(Thing *p_person) {
+void fn_person_can(Entity* p_person) {
     std::int32_t end;
 
     switch (p_person->SubState) {
@@ -18208,7 +18208,7 @@ void fn_person_can(Thing *p_person) {
 
                 DIRT_release_can_or_head(p_person, 128);
             } else {
-                Thing *p_special;
+                Entity* p_special;
 
                 //
                 // Throwing a grenade or a mine.
@@ -18339,7 +18339,7 @@ void fn_person_can(Thing *p_person) {
 
         if (p_person->Draw.Tweened->FrameIndex == (3 + p_person->Genus.Person->AnimType)) {
             std::uint16_t s_index;
-            Thing *s_thing;
+            Entity* s_thing;
 
             MFX_play_thing(THING_NUMBER(p_person), S_PICKUP_SWISH, 0, p_person);
             s_index = THING_find_nearest(
@@ -18388,14 +18388,14 @@ void fn_person_can(Thing *p_person) {
     }
 }
 
-void set_person_do_a_simple_anim(Thing *p_person, std::int32_t anim) {
+void set_person_do_a_simple_anim(Entity* p_person, std::int32_t anim) {
     set_anim(p_person, anim);
     set_generic_person_state_function(p_person, STATE_MOVEING);
     p_person->SubState = SUB_STATE_SIMPLE_ANIM;
     p_person->Genus.Person->Flags |= FLAG_PERSON_NON_INT_M | FLAG_PERSON_NON_INT_C;
 }
 
-void set_person_recircle(Thing *p_person) {
+void set_person_recircle(Entity* p_person) {
     std::int32_t anim;
     ASSERT(p_person->Genus.Person->PlayerID == 0);
 
@@ -18431,7 +18431,7 @@ void set_person_recircle(Thing *p_person) {
     p_person->Genus.Person->Mode = PERSON_MODE_FIGHT;
 }
 
-void set_person_circle(Thing *p_person, Thing *p_target) {
+void set_person_circle(Entity* p_person, Entity* p_target) {
     std::int32_t dx, dy, dz;
     std::int32_t anim;
     //
@@ -18469,7 +18469,7 @@ void set_person_circle(Thing *p_person, Thing *p_target) {
     p_person->Genus.Person->Mode = PERSON_MODE_FIGHT;
 }
 
-void set_person_hug_wall_leap_out(Thing *p_person, std::int32_t dir) {
+void set_person_hug_wall_leap_out(Entity* p_person, std::int32_t dir) {
     std::int32_t anim;
     p_person->SubState = SUB_STATE_HUG_WALL_LEAP_OUT;
     if (p_person->Genus.Person->Flags & FLAG_PERSON_GUN_OUT) {
@@ -18485,7 +18485,7 @@ void set_person_hug_wall_leap_out(Thing *p_person, std::int32_t dir) {
     set_anim(p_person, anim);
     p_person->Genus.Person->Action = ACTION_NONE;
 }
-void set_person_hug_wall_stand(Thing *p_person, std::int32_t dangle = 0, std::int32_t locked = 1) {
+void set_person_hug_wall_stand(Entity* p_person, std::int32_t dangle = 0, std::int32_t locked = 1) {
     std::int32_t anim;
     std::int32_t dist, dx, dz;
     p_person->SubState = SUB_STATE_HUG_WALL_STAND;
@@ -18527,11 +18527,11 @@ void set_person_hug_wall_stand(Thing *p_person, std::int32_t dangle = 0, std::in
 //
 extern std::int32_t global_on;
 std::uint16_t near_facet = 0;
-std::int32_t check_near_facet(Thing *p_person, std::int32_t max_dist, std::int32_t max_end_dist, std::int32_t px, std::int32_t pz) {
+std::int32_t check_near_facet(Entity* p_person, std::int32_t max_dist, std::int32_t max_end_dist, std::int32_t px, std::int32_t pz) {
     std::int32_t loop = 4;
     std::int32_t mx, mz;
     std::int32_t c0, exit, f_list, i_facet;
-    struct DFacet *df;
+    struct DFacet* df;
     std::int32_t y_top, y_bot, pers_y;
     std::int32_t best_dist = 99999;
     std::int32_t person_north_south = 0;
@@ -18732,11 +18732,11 @@ std::int32_t check_near_facet(Thing *p_person, std::int32_t max_dist, std::int32
     }
 }
 // return angle+1
-std::int32_t can_i_hug_wall(Thing *p_person) {
+std::int32_t can_i_hug_wall(Entity* p_person) {
     if (p_person->OnFace > 0) {
         ASSERT(WITHIN(p_person->OnFace, 1, next_prim_face4 - 1));
 
-        PrimFace4 *f4 = &prim_faces4[p_person->OnFace];
+        PrimFace4* f4 = &prim_faces4[p_person->OnFace];
 
         ASSERT(f4->FaceFlags & FACE_FLAG_WALKABLE);
 
@@ -18776,7 +18776,7 @@ std::int32_t can_i_hug_wall(Thing *p_person) {
     return (0);
 }
 
-std::int32_t move_ok(Thing *p_person, std::int32_t dx, std::int32_t dz) {
+std::int32_t move_ok(Entity* p_person, std::int32_t dx, std::int32_t dz) {
     std::int32_t y, dy;
     std::int32_t nx, nz;
 
@@ -18802,7 +18802,7 @@ std::int32_t move_ok(Thing *p_person, std::int32_t dx, std::int32_t dz) {
     return (1);
 }
 
-void fn_person_hug_wall(Thing *p_person) {
+void fn_person_hug_wall(Entity* p_person) {
     std::int32_t end;
     std::int32_t dx;
     std::int32_t dz;
@@ -18943,7 +18943,7 @@ void fn_person_hug_wall(Thing *p_person) {
 
 std::int32_t kick_or_punch = 0;
 
-void fn_person_circle(Thing *p_person) {
+void fn_person_circle(Entity* p_person) {
     //
     // start simple orbit the enemy
     //
@@ -18966,7 +18966,7 @@ void fn_person_circle(Thing *p_person) {
 
     bool poo;
 
-    Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+    Entity* p_target = TO_THING(p_person->Genus.Person->Target);
     std::int32_t hit_distance = 140;
     std::int32_t bat = 0;
     std::int32_t stamp = 0;
@@ -19172,7 +19172,7 @@ void fn_person_circle(Thing *p_person) {
         {
             if (p_person->Genus.Person->Timer1++ > 10) {
                 std::int32_t gang;
-                void push_into_attack_group_at_angle(Thing * p_person, std::int32_t gang, std::int32_t reqd_angle);
+                void push_into_attack_group_at_angle(Entity * p_person, std::int32_t gang, std::int32_t reqd_angle);
                 gang = p_target->Genus.Person->GangAttack;
                 if (gang == 0) {
                     // CONSOLE_text(" Circling but have no gang");
@@ -19286,9 +19286,9 @@ void fn_person_circle(Thing *p_person) {
                     // Fight test dummies never throw a punch.
                     //
                 } else {
-                    extern void PCOM_set_person_move_punch(Thing * p_person);
-                    extern void PCOM_set_person_move_kick(Thing * p_person);
-                    extern void PCOM_set_person_move_arrest(Thing * p_person);
+                    extern void PCOM_set_person_move_punch(Entity * p_person);
+                    extern void PCOM_set_person_move_kick(Entity * p_person);
+                    extern void PCOM_set_person_move_arrest(Entity * p_person);
 
                     kick_or_punch++;
                     //					if(p_target->Genus.Person->Flags&FLAG_PERSON_KO)
@@ -19335,7 +19335,7 @@ void fn_person_circle(Thing *p_person) {
 }
 
 #ifndef PSX
-void fn_person_circle_old(Thing *p_person) {
+void fn_person_circle_old(Entity* p_person) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t end;
@@ -19349,7 +19349,7 @@ void fn_person_circle_old(Thing *p_person) {
     std::int32_t vx = 0;
     std::int32_t vz = 0;
 
-    Thing *p_target = TO_THING(p_person->Genus.Person->Target);
+    Entity* p_target = TO_THING(p_person->Genus.Person->Target);
 
     end = person_normal_animate(p_person);
 
@@ -19470,7 +19470,7 @@ void fn_person_circle_old(Thing *p_person) {
 //*************************************************************************************************************
 //** (JCL)  - get person scale
 
-std::int32_t person_get_scale(Thing *t) {
+std::int32_t person_get_scale(Entity* t) {
     // ASSERT( t is actually a person.  probably is, cause this gets called from FIGURE_draw_blah() );
 
     // fixed point 8.  (ie 256 = normal, 512 = double size, 128 = half size.
@@ -19500,7 +19500,7 @@ std::int32_t person_get_scale(Thing *t) {
 //
 #ifndef PSX
 std::int32_t how_long_is_anim(std::int32_t anim) {
-    GameKeyFrame *frame;
+    GameKeyFrame* frame;
     std::int32_t total = 0;
 
     frame = global_anim_array[0][anim];
@@ -19522,7 +19522,7 @@ std::int32_t how_long_is_anim(std::int32_t anim) {
 }
 #endif
 
-std::int32_t person_ok_for_conversation(Thing *p_person) {
+std::int32_t person_ok_for_conversation(Entity* p_person) {
     if (p_person->Class != CLASS_PERSON) {
         return 0;
     }
@@ -19551,7 +19551,7 @@ std::int32_t person_ok_for_conversation(Thing *p_person) {
     return (1);
 }
 
-void set_person_float_up(Thing *p_person) {
+void set_person_float_up(Entity* p_person) {
     set_generic_person_state_function(p_person, STATE_FLOAT);
 
     p_person->SubState = SUB_STATE_FLOAT_UP;
@@ -19559,13 +19559,13 @@ void set_person_float_up(Thing *p_person) {
     //	set_anim(p_person, ANIM_DANCE_HEADBANG);
 }
 
-void set_person_float_down(Thing *p_person) {
+void set_person_float_down(Entity* p_person) {
     ASSERT(p_person->State == STATE_FLOAT);
 
     p_person->SubState = SUB_STATE_FLOAT_DOWN;
 }
 
-void fn_person_float(Thing *p_person) {
+void fn_person_float(Entity* p_person) {
     std::int32_t ground;
 
     ground = PAP_calc_map_height_at(
@@ -19609,7 +19609,7 @@ void fn_person_float(Thing *p_person) {
     }
 }
 
-void set_person_injured(Thing *p_person) {
+void set_person_injured(Entity* p_person) {
     set_generic_person_state_function(p_person, STATE_DEAD);
     set_anim(p_person, ANIM_INJURED_LOOP);
     p_person->SubState = SUB_STATE_DEAD_INJURED;
@@ -19620,7 +19620,7 @@ void set_person_injured(Thing *p_person) {
 // Makes sure that person 'a' is at least half a block from person 'b'.
 //
 
-void push_people_apart(Thing *p_person, Thing *p_avoid) {
+void push_people_apart(Entity* p_person, Entity* p_avoid) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;

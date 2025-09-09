@@ -10,7 +10,7 @@
 // that all the camera stuff has already been set up.
 //
 
-void FIGURE_draw(Thing *person);
+void FIGURE_draw(Entity *person);
 
 extern std::int32_t FIGURE_alpha;
 
@@ -25,7 +25,7 @@ extern std::int32_t FIGURE_reflect_y1;
 extern std::int32_t FIGURE_reflect_x2;
 extern std::int32_t FIGURE_reflect_y2;
 
-void FIGURE_draw_reflection(Thing *person, std::int32_t height);
+void FIGURE_draw_reflection(Entity *person, std::int32_t height);
 
 //
 // What's this doing in figure.h?
@@ -38,6 +38,6 @@ void init_flames();
 // Draws an animating prim.
 //
 
-void ANIM_obj_draw(Thing *p_thing, DrawTween *dt);
+void ANIM_obj_draw(Entity *p_thing, DrawTween *dt);
 
 #endif

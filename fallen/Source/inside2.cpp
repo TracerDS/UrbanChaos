@@ -14,7 +14,7 @@ std::uint16_t next_inside_stair = 1;
 std::int32_t next_inside_block = 1;
 
 std::int32_t find_inside_room(std::int32_t inside, std::int32_t x, std::int32_t z) {
-    std::uint8_t *rooms;
+    std::uint8_t* rooms;
     std::int16_t width;
 
     if (x >= inside_storeys[inside].MaxX || z >= inside_storeys[inside].MaxZ)
@@ -33,7 +33,7 @@ std::int32_t find_inside_room(std::int32_t inside, std::int32_t x, std::int32_t 
 }
 
 std::int32_t find_inside_flags(std::int32_t inside, std::int32_t x, std::int32_t z) {
-    std::uint8_t *rooms;
+    std::uint8_t* rooms;
     std::int16_t width;
 
     if (x >= inside_storeys[inside].MaxX || z >= inside_storeys[inside].MaxZ)
@@ -73,9 +73,9 @@ std::int32_t person_slide_inside(
     std::int32_t x1,
     std::int32_t y1,
     std::int32_t z1,
-    std::int32_t *x2,
-    std::int32_t *y2,
-    std::int32_t *z2) {
+    std::int32_t* x2,
+    std::int32_t* y2,
+    std::int32_t* z2) {
     std::int32_t dx;
     std::int32_t dz;
     std::int32_t dist;
@@ -538,7 +538,7 @@ std::int32_t find_stair_routes(std::uint16_t inside,std::uint8_t x,std::uint8_t 
         return(0);
 }
 */
-std::uint16_t find_stair_in(std::int32_t mx, std::int32_t mz, std::int32_t *rdx, std::int32_t *rdz, std::uint16_t inside) {
+std::uint16_t find_stair_in(std::int32_t mx, std::int32_t mz, std::int32_t* rdx, std::int32_t* rdz, std::uint16_t inside) {
     std::int32_t dx, dz;
     std::int32_t stair;
     std::int32_t x_ok, z_ok;
@@ -614,7 +614,7 @@ std::uint16_t find_stair_in(std::int32_t mx, std::int32_t mz, std::int32_t *rdx,
     return (0);
 }
 
-std::int32_t find_stair_y(Thing *p_person, std::int32_t *y1, std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t *new_floor) {
+std::int32_t find_stair_y(Entity* p_person, std::int32_t* y1, std::int32_t x, std::int32_t y, std::int32_t z, std::uint16_t* new_floor) {
     std::int32_t dx, dz;
     std::int32_t stair;
     std::int32_t off_x, off_z;
@@ -754,7 +754,7 @@ std::int32_t find_stair_y(Thing *p_person, std::int32_t *y1, std::int32_t x, std
     return (can_move);
 }
 /*
-void stair_teleport_bodge(Thing *p_person)
+void stair_teleport_bodge(Entity *p_person)
 {
         std::int32_t	x,z;
         std::uint16_t	up,down;
@@ -1051,7 +1051,7 @@ void INSIDE2_find_doors(std::int32_t building)
 
 
 
-MAV_Action INSIDE2_mav_enter(Thing *p_person, std::int32_t inside, std::uint8_t caps)
+MAV_Action INSIDE2_mav_enter(Entity *p_person, std::int32_t inside, std::uint8_t caps)
 {
 	std::int32_t i;
 
@@ -1117,7 +1117,7 @@ MAV_Action INSIDE2_mav_enter(Thing *p_person, std::int32_t inside, std::uint8_t 
 	return ma;
 }
 
-MAV_Action INSIDE2_mav_inside(Thing *p_person, std::int32_t inside, std::uint8_t x, std::uint8_t z)
+MAV_Action INSIDE2_mav_inside(Entity *p_person, std::int32_t inside, std::uint8_t x, std::uint8_t z)
 {
 	std::int32_t start_x;
 	std::int32_t start_z;
@@ -1150,7 +1150,7 @@ MAV_Action INSIDE2_mav_inside(Thing *p_person, std::int32_t inside, std::uint8_t
 	return ma;
 }
 
-MAV_Action INSIDE2_mav_stair(Thing *p_person, std::int32_t inside, std::int32_t new_inside)
+MAV_Action INSIDE2_mav_stair(Entity *p_person, std::int32_t inside, std::int32_t new_inside)
 {
 	MAV_Action ma;
 
@@ -1162,7 +1162,7 @@ MAV_Action INSIDE2_mav_stair(Thing *p_person, std::int32_t inside, std::int32_t 
 	return ma;
 }
 
-MAV_Action INSIDE2_mav_exit(Thing *p_person, std::int32_t inside)
+MAV_Action INSIDE2_mav_exit(Entity *p_person, std::int32_t inside)
 {
 	MAV_Action ma;
 

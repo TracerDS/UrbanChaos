@@ -48,7 +48,7 @@ void WMOVE_init();
 // Creates a moving walkable face attached to the given thing.
 //
 
-void WMOVE_create(Thing *);
+void WMOVE_create(Entity *);
 
 //
 // Removes all WMOVE_faces belonging to things of the given class.

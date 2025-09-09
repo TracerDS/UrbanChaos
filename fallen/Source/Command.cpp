@@ -19,7 +19,7 @@ Waypoint waypoints[MAX_WAYPOINTS];
 
 void init_waypoints() {
     waypoint_count = 0;
-    memset((std::uint8_t *) waypoints, 0, sizeof(waypoints));
+    memset((std::uint8_t*) waypoints, 0, sizeof(waypoints));
 }
 
 //---------------------------------------------------------------
@@ -72,13 +72,13 @@ ConditionList con_lists[MAX_CLISTS];
 void init_clists() {
     con_list_count = 0;
     //	ZeroMemory(con_lists,sizeof(con_lists));
-    memset((std::uint8_t *) con_lists, 0, sizeof(con_lists));
+    memset((std::uint8_t*) con_lists, 0, sizeof(con_lists));
 
     init_conditions();
 }
 //---------------------------------------------------------------
 
-ConditionList *alloc_clist() {
+ConditionList* alloc_clist() {
     std::uint32_t c0;
 
     for (c0 = 1; c0 < MAX_CLISTS; c0++) {
@@ -100,7 +100,7 @@ ConditionList *alloc_clist() {
 
 //---------------------------------------------------------------
 
-void add_condition(ConditionList *the_list, Condition *the_condition) {
+void add_condition(ConditionList* the_list, Condition* the_condition) {
     if (!the_list || !the_condition) {
         // Error.
         return;
@@ -127,12 +127,12 @@ void add_condition(ConditionList *the_list, Condition *the_condition) {
 void init_conditions() {
     condition_count = 0;
     //	ZeroMemory(conditions,sizeof(conditions));
-    memset((std::uint8_t *) conditions, 0, sizeof(conditions));
+    memset((std::uint8_t*) conditions, 0, sizeof(conditions));
 }
 
 //---------------------------------------------------------------
 
-Condition *alloc_condition() {
+Condition* alloc_condition() {
     std::uint32_t c0;
 
     for (c0 = 1; c0 < MAX_CONDITIONS; c0++) {
@@ -171,13 +171,13 @@ CommandList com_lists[MAX_COMLISTS];
 void init_comlists() {
     com_list_count = 0;
     //	ZeroMemory(com_lists,sizeof(com_lists));
-    memset((std::uint8_t *) com_lists, 0, sizeof(com_lists));
+    memset((std::uint8_t*) com_lists, 0, sizeof(com_lists));
 
     init_commands();
 }
 //---------------------------------------------------------------
 
-CommandList *alloc_comlist() {
+CommandList* alloc_comlist() {
     std::uint32_t c0;
 
     for (c0 = 1; c0 < MAX_COMLISTS; c0++) {
@@ -199,7 +199,7 @@ CommandList *alloc_comlist() {
 
 //---------------------------------------------------------------
 
-void add_command(CommandList *the_list, Command *the_command) {
+void add_command(CommandList* the_list, Command* the_command) {
     if (!the_list || !the_command) {
         // Error.
         return;
@@ -226,12 +226,12 @@ void add_command(CommandList *the_list, Command *the_command) {
 void init_commands() {
     command_count = 0;
     //	ZeroMemory(commands,sizeof(commands));
-    memset((std::uint8_t *) commands, 0, sizeof(commands));
+    memset((std::uint8_t*) commands, 0, sizeof(commands));
 }
 
 //---------------------------------------------------------------
 
-Command *alloc_command() {
+Command* alloc_command() {
     std::uint32_t c0;
 
     for (c0 = 1; c0 < MAX_COMMANDS; c0++) {
@@ -260,11 +260,11 @@ Command *alloc_command() {
 //	Condition processing.
 //---------------------------------------------------------------
 
-bool process_condition(Condition *the_condition) {
+bool process_condition(Condition* the_condition) {
     bool result = false;
     std::int32_t distance;
     GameCoord *start_coord, *end_coord;
-    Switch *the_switch;
+    Switch* the_switch;
 
     switch (the_condition->ConditionType) {
     case CON_NONE:
@@ -366,7 +366,7 @@ bool process_condition(Condition *the_condition) {
 void process_condition_lists() {
     bool list_fulfilled;
     std::uint32_t c0;
-    Condition *the_condition;
+    Condition* the_condition;
 
     for (c0 = 0; c0 < MAX_CLISTS; c0++) {
         if (con_lists[c0].Used) {
@@ -393,13 +393,13 @@ void process_condition_lists() {
 //
 //---------------------------------------------------------------
 //---------------------------------------------------------------
-extern void init_person_command(Thing *p_person);
+extern void init_person_command(Entity* p_person);
 
-void init_person_command_list(Thing *p_person) {
+void init_person_command_list(Entity* p_person) {
     p_person->Genus.Person->Command = 0;
 
     if (p_person->Genus.Person->ComList) {
-        struct Command *com;
+        struct Command* com;
 
         com = p_person->Genus.Person->ComList->TheList;
         p_person->Genus.Person->Command = COMMAND_NUMBER(com);
@@ -409,10 +409,10 @@ void init_person_command_list(Thing *p_person) {
         p_person->Genus.Person->Command = 0;
     }
 }
-extern void set_person_mav_to_xz(Thing *p_person, std::int32_t x, std::int32_t z);
+extern void set_person_mav_to_xz(Entity* p_person, std::int32_t x, std::int32_t z);
 
-void advance_person_command(Thing *p_person) {
-    struct Command *com;
+void advance_person_command(Entity* p_person) {
+    struct Command* com;
 
     //	p_person->Genus.Person->Command=0;
 

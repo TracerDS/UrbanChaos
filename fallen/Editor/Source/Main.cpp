@@ -21,18 +21,18 @@ GameTexture game_textures[NUM_GAME_TEXTURES];
 std::uint16_t page_lookup[64 * 8];
 
 //---------------------------------------------------------------
-std::int32_t load_rect_into_page(std::uint16_t *ptr, std::int32_t xpos, std::int32_t ypos, std::int32_t w, std::int32_t h, char *name) {
+std::int32_t load_rect_into_page(std::uint16_t* ptr, std::int32_t xpos, std::int32_t ypos, std::int32_t w, std::int32_t h, char* name) {
     std::int32_t x, y;
-    TGA_Pixel *tga;
+    TGA_Pixel* tga;
     std::uint16_t col;
     TGA_Info ret;
 
-    tga = (TGA_Pixel *) MemAlloc(4 * 256 * 256);
+    tga = (TGA_Pixel*) MemAlloc(4 * 256 * 256);
     if (!tga)
         return (0);
 
     //	ret=TGA_load(name,256,256,(TGA_Pixel*)tga);
-    ret = TGA_load(name, 256, 256, (TGA_Pixel *) tga, -1);
+    ret = TGA_load(name, 256, 256, (TGA_Pixel*) tga, -1);
 
     if (!ret.valid)
         return (0);
@@ -46,10 +46,10 @@ std::int32_t load_rect_into_page(std::uint16_t *ptr, std::int32_t xpos, std::int
             ptr[(xpos + x) + (ypos + y) * 256] = col;
         }
 
-    MemFree((void *) tga);
+    MemFree((void*) tga);
     return (1);
 }
-void load_splitup_texture_page(std::uint16_t *ptr, char *path, std::uint16_t page) {
+void load_splitup_texture_page(std::uint16_t* ptr, char* path, std::uint16_t page) {
     std::int32_t x, y;
     char name[256];
     std::int32_t index = 0;
@@ -65,18 +65,18 @@ void load_splitup_texture_page(std::uint16_t *ptr, char *path, std::uint16_t pag
         }
 }
 
-extern TGA_Info TGA_load_remap(const char *file, const char *pname, std::int32_t max_width, std::int32_t max_height, TGA_Pixel *data);
+extern TGA_Info TGA_load_remap(const char* file, const char* pname, std::int32_t max_width, std::int32_t max_height, TGA_Pixel* data);
 
-std::int32_t load_rect_into_page_remap(std::uint16_t *ptr, std::int32_t xpos, std::int32_t ypos, std::int32_t w, std::int32_t h, char *name, char *pname) {
+std::int32_t load_rect_into_page_remap(std::uint16_t* ptr, std::int32_t xpos, std::int32_t ypos, std::int32_t w, std::int32_t h, char* name, char* pname) {
     std::int32_t x, y;
-    TGA_Pixel *tga;
+    TGA_Pixel* tga;
     std::uint16_t col;
     TGA_Info ret;
 
-    tga = (TGA_Pixel *) MemAlloc(4 * 256 * 256);
+    tga = (TGA_Pixel*) MemAlloc(4 * 256 * 256);
     if (!tga)
         return (0);
-    ret = TGA_load_remap(name, pname, 256, 256, (TGA_Pixel *) tga);
+    ret = TGA_load_remap(name, pname, 256, 256, (TGA_Pixel*) tga);
     if (!ret.valid)
         return (0);
 
@@ -89,11 +89,11 @@ std::int32_t load_rect_into_page_remap(std::uint16_t *ptr, std::int32_t xpos, st
             ptr[(xpos + x) + (ypos + y) * 256] = col;
         }
 
-    MemFree((void *) tga);
+    MemFree((void*) tga);
     return (1);
 }
 
-void load_splitup_texture_page_remap(std::uint16_t *ptr, char *path, std::uint16_t page) {
+void load_splitup_texture_page_remap(std::uint16_t* ptr, char* path, std::uint16_t page) {
     std::int32_t x, y;
     char name[256];
     char pname[256];
@@ -121,7 +121,7 @@ void load_splitup_texture_page_remap(std::uint16_t *ptr, char *path, std::uint16
 extern void load_game_textures_psx(std::uint8_t flags);
 void load_game_textures(std::uint8_t flags) {
     std::int32_t c0;
-    GameTexture *the_texture;
+    GameTexture* the_texture;
     char dir[128];
     std::uint16_t page;
     std::int32_t i, j, count_pal = 0;
@@ -202,12 +202,12 @@ void load_game_textures(std::uint8_t flags) {
             break;
         }
         the_texture = &game_textures[i];
-        the_texture->TexturePtr = (std::uint16_t *) MemAlloc(TEXTURE_PAGE_SIZE);
+        the_texture->TexturePtr = (std::uint16_t*) MemAlloc(TEXTURE_PAGE_SIZE);
         if (the_texture->TexturePtr == 0)
             ASSERT(0);
         //		ASSERT(i!=16);
 
-        memset((std::uint8_t *) the_texture->TexturePtr, 0, 256 * 256 * 2);
+        memset((std::uint8_t*) the_texture->TexturePtr, 0, 256 * 256 * 2);
         /*
                         if(i==14)
                         {
@@ -223,7 +223,7 @@ void load_game_textures(std::uint8_t flags) {
         load_splitup_texture_page(the_texture->TexturePtr, dir, page);
         //		if(i!=14)
         {
-            the_texture->PalPtr = (std::uint8_t *) MemAlloc(256 * 3);
+            the_texture->PalPtr = (std::uint8_t*) MemAlloc(256 * 3);
             tmaps[i] = the_texture->TexturePtr;
         }
 
@@ -254,7 +254,7 @@ void load_game_textures(std::uint8_t flags) {
 
 void load_game_textures_psx(std::uint8_t flags) {
     std::int32_t c0;
-    GameTexture *the_texture;
+    GameTexture* the_texture;
     char dir[128];
     std::uint16_t page;
     std::int32_t i, j, count_pal = 0;
@@ -318,7 +318,7 @@ void load_game_textures_psx(std::uint8_t flags) {
             break;
         }
         the_texture = &game_textures[i + 25];
-        the_texture->TexturePtr = (std::uint16_t *) MemAlloc(TEXTURE_PAGE_SIZE);
+        the_texture->TexturePtr = (std::uint16_t*) MemAlloc(TEXTURE_PAGE_SIZE);
         if (the_texture->TexturePtr == 0) {
             MessageBox(
                 nullptr,
@@ -327,10 +327,10 @@ void load_game_textures_psx(std::uint8_t flags) {
             ASSERT(0);
         }
 
-        memset((std::uint8_t *) the_texture->TexturePtr, 0, 256 * 256 * 2);
+        memset((std::uint8_t*) the_texture->TexturePtr, 0, 256 * 256 * 2);
 
         load_splitup_texture_page_remap(the_texture->TexturePtr, dir, page);
-        the_texture->PalPtr = (std::uint8_t *) MemAlloc(256 * 3);
+        the_texture->PalPtr = (std::uint8_t*) MemAlloc(256 * 3);
         tmaps[i + 25] = the_texture->TexturePtr;
 
         if (the_texture->PalPtr) {
@@ -439,7 +439,7 @@ void	load_game_textures(void)
 void free_game_textures(std::uint8_t flags) {
     std::int32_t i;
 
-    GameTexture *the_texture;
+    GameTexture* the_texture;
 
     for (i = 0; i < NUM_GAME_TEXTURES; i++) {
         switch (i) {
