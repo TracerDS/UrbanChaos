@@ -1723,7 +1723,7 @@ inline void FillFacetPointsCommon(std::int32_t count, std::uint32_t base_row, st
             // Add crinkle?
             //
             extern int AENG_detail_crinkles;
-            if (AENG_detail_crinkles && (GAME_TURN & 0x20)) {
+            if (AENG_detail_crinkles) {
                 if (page < 64 * 8) {
                     if (TEXTURE_crinkle[page]) {
                         //
