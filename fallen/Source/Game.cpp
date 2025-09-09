@@ -1215,12 +1215,12 @@ std::int32_t form_left_map = 0;
 //
 void lock_frame_rate(std::int32_t fps) {
 #if !defined(PSX) && !defined(TARGET_DC)
-    static std::int32_t tick1 = 0;
-    std::int32_t tick2;
-    std::int32_t timet;
+    static std::uint32_t tick1 = 0;
+    std::uint32_t tick2;
+    std::uint32_t timet;
 
     while (1) {
-        tick2 = GetTickCount();
+        tick2 = GetTickCount64();
         timet = tick2 - tick1;
 
         if (timet > (1000 / fps)) {

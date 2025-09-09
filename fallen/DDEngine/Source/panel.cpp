@@ -1594,14 +1594,14 @@ void PANEL_new_toss(
 //
 
 void PANEL_do_tosses() {
-    std::int32_t i;
+    std::uint32_t i;
 
     POLY_Point pp[4];
     POLY_Point *quad[4];
 
     PANEL_Toss *pt;
 
-    std::uint32_t now = GetTickCount();
+    std::uint32_t now = GetTickCount64();
 
     //
     // Process 20 times a second but no more than 4 times a frame.
@@ -2139,11 +2139,11 @@ found_non_white_space:;
 }
 
 void PANEL_new_text_process() {
-    std::int32_t i;
+    std::uint32_t i;
 
     PANEL_Text *pt;
 
-    std::uint32_t now = GetTickCount();
+    std::uint32_t now = GetTickCount64();
 
     //
     // Process 20 times a second but no more than 4 times a frame.
@@ -3227,7 +3227,7 @@ void PANEL_finish() {
 //
 // ========================================================
 
-std::int32_t PANEL_fadeout_time; // 0 => No fadeout currently active.
+std::uint32_t PANEL_fadeout_time; // 0 => No fadeout currently active.
 
 void PANEL_fadeout_init() {
     PANEL_fadeout_time = 0;
@@ -3235,7 +3235,7 @@ void PANEL_fadeout_init() {
 
 void PANEL_fadeout_start() {
     if (!PANEL_fadeout_time) {
-        PANEL_fadeout_time = GetTickCount();
+        PANEL_fadeout_time = GetTickCount64();
     }
 }
 
@@ -3252,7 +3252,7 @@ void PANEL_fadeout_draw() {
         // Make the fadeout zoom in and turn.
         //
 
-        float angle = float(GetTickCount() - PANEL_fadeout_time) * angle_mul;
+        float angle = float(GetTickCount64() - PANEL_fadeout_time) * angle_mul;
         float zoom = angle * zoom_mul;
 
         float xdu = -(float) cos(angle) * zoom * 1.33F;
@@ -3322,14 +3322,14 @@ void PANEL_fadeout_draw() {
         // Darken the screen at the end.
         //
 
-        if (GetTickCount() > (unsigned) PANEL_fadeout_time + 768) {
+        if (GetTickCount64() > (unsigned) PANEL_fadeout_time + 768) {
             std::int32_t bright;
 
             //
             // Fadeout the colour.
             //
 
-            bright = GetTickCount() - (PANEL_fadeout_time + 768);
+            bright = GetTickCount64() - (PANEL_fadeout_time + 768);
 
             SATURATE(bright, 0, 255);
 
@@ -3366,7 +3366,7 @@ void PANEL_fadeout_draw() {
 
 std::int32_t PANEL_fadeout_finished() {
     if (PANEL_fadeout_time) {
-        if (GetTickCount() > (unsigned) PANEL_fadeout_time + 1024) {
+        if (GetTickCount64() > (unsigned) PANEL_fadeout_time + 1024) {
             return true;
         }
     }
@@ -3655,7 +3655,7 @@ std::int32_t PANEL_sign_flip;
 std::int32_t PANEL_sign_time;
 
 void PANEL_flash_sign(std::int32_t sign, std::int32_t flip) {
-    PANEL_sign_time = GetTickCount();
+    PANEL_sign_time = GetTickCount64();
     PANEL_sign_flip = flip;
     PANEL_sign_which = sign;
 }
@@ -3670,7 +3670,7 @@ void PANEL_new_info_message(char *fmt, ...) {
     vsprintf(PANEL_info_message, fmt, ap);
     va_end(ap);
 
-    PANEL_info_time = GetTickCount();
+    PANEL_info_time = GetTickCount64();
 }
 
 void PANEL_darken_screen(std::int32_t x) {
@@ -4781,7 +4781,7 @@ void PANEL_last() {
 
                     float size = (mb->pad && !is_dot) ? 9.0F : 6.0F;
 
-                    std::int32_t alive = GetTickCount() - mb->ticks;
+                    std::uint32_t alive = GetTickCount64() - mb->ticks;
 
                     if (alive < 4096) {
                         alive &= 0x100;
@@ -5139,7 +5139,7 @@ void PANEL_last() {
     // Draw the signs.
     //
 
-    std::int32_t dtime = GetTickCount() - PANEL_sign_time;
+    std::uint32_t dtime = GetTickCount64() - PANEL_sign_time;
 
     if (dtime < 3000) {
         dtime %= 600;

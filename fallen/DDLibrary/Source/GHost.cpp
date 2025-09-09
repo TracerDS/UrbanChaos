@@ -181,12 +181,12 @@ void ResetHost() {
 void ShellPaused() {
     return;
 
-    std::int32_t timeout;
+    std::uint32_t timeout;
 
     if (PauseFlags & PAUSE) {
         PauseFlags |= PAUSE_ACK; // Send acknowledgement,
                                  // do_pause_check:
-        timeout = GetTickCount();
+        timeout = GetTickCount64();
         while (PauseFlags & PAUSE) // Wait while paused
         {
             if (Keys[KB_L]) {
@@ -210,13 +210,13 @@ void ShellPauseOn() {
     the_display.toGDI();
     return;
 
-    std::int32_t timeout;
+    std::uint32_t timeout;
 
     PauseCount++;
     if (PauseCount == 1) {
         PauseFlags |= PAUSE; // Set pause flag.
                              // do_ack_check:
-        timeout = GetTickCount();
+        timeout = GetTickCount64();
         while (!(PauseFlags & PAUSE_ACK)) // Wait for acknowledgement.
         {
             if (Keys[KB_L]) {
@@ -241,7 +241,7 @@ void ShellPauseOn() {
 void ShellPauseOff() {
     return;
 
-    std::int32_t timeout;
+    std::uint32_t timeout;
 
     if (PauseCount == 0)
         return;
@@ -251,7 +251,7 @@ void ShellPauseOff() {
 
         PauseFlags &= ~PAUSE; // Clear pause flag.
                               // do_ack_check:
-        timeout = GetTickCount();
+        timeout = GetTickCount64();
         while (!(PauseFlags & PAUSE_ACK)) // Wait for acknowledgement.
         {
             if (Keys[KB_L]) {

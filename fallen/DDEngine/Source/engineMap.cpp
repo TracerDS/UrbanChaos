@@ -891,14 +891,14 @@ void MAP_pulse_draw_all() {
 //
 
 void MAP_process_pulses() {
-    std::int32_t i;
+    std::uint32_t i;
 
     MAP_Pulse *mp;
 
-    static std::int32_t now = 0;
-    static std::int32_t last = 0;
+    static std::uint32_t now = 0;
+    static std::uint32_t last = 0;
 
-    now = GetTickCount();
+    now = GetTickCount64();
 
     if (last < now - (1000 / 10)) {
         last = now - (1000 / 10);
@@ -1111,7 +1111,7 @@ void MAP_beacon_init() {
 //
 
 std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t index, std::uint16_t track_thing) {
-    std::int32_t i;
+    std::uint32_t i;
 
     MAP_Beacon *mb;
 
@@ -1128,7 +1128,7 @@ std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t inde
             mb->index = index;
             mb->wx = x >> 0; // float(x) * (1.0F / 256.0F);
             mb->wz = z >> 0; // float(z) * (1.0F / 256.0F);
-            mb->ticks = GetTickCount();
+            mb->ticks = GetTickCount64();
 
             return i;
         }
@@ -1142,14 +1142,14 @@ std::uint8_t MAP_beacon_create(std::int32_t x, std::int32_t z, std::int32_t inde
 //
 
 void MAP_process_beacons() {
-    std::int32_t i;
+    std::uint32_t i;
 
     MAP_Beacon *mb;
 
-    static std::int32_t now = 0;
-    static std::int32_t last = 0;
+    static std::uint32_t now = 0;
+    static std::uint32_t last = 0;
 
-    now = GetTickCount();
+    now = GetTickCount64();
 
     if (last < now - (1000 / 10)) {
         last = now - (1000 / 10);
@@ -1339,7 +1339,7 @@ void MAP_draw_weapons(Thing *p_person) {
     float x;
     float y;
 
-    float yaw = GetTickCount() * 0.004F;
+    float yaw = GetTickCount64() * 0.004F;
 
     std::int32_t index;
 

@@ -94,12 +94,12 @@ static std::int32_t this_tick;
 void CONSOLE_draw() {
 #ifndef TARGET_DC
 
-    std::int32_t i;
+    std::uint32_t i;
 
     CONSOLE_Mess* cm;
 
     last_tick = this_tick;
-    this_tick = GetTickCount();
+    this_tick = GetTickCount64();
     if (this_tick - last_tick > 4000) {
         // it's prolly lying. ish.
         last_tick = this_tick - 1000;
