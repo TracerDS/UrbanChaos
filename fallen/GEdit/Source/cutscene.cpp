@@ -1206,10 +1206,10 @@ void DoHandleShit() {
     RECT src, dst;
     HRESULT result;
     std::int16_t speed;
-    static int lasttick = 0;
+    static unsigned int lasttick = 0;
     std::int32_t ofsX = 0, ofsY = 0, ofsZ = 0;
     std::int32_t matrix[9];
-    int tick = GetTickCount();
+    unsigned int tick = GetTickCount64();
 
     if (tick - lasttick > 40) {
         lasttick = tick;

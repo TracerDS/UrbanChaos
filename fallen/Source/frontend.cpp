@@ -1260,7 +1260,7 @@ void FRONTEND_draw_button(std::int32_t x, std::int32_t y, std::uint8_t which, st
     if (flash) {
         grow = 8;
 
-        if (GetTickCount() & 0x200) {
+        if (GetTickCount64() & 0x200) {
             which = 7;
         }
     } else {
@@ -1442,7 +1442,7 @@ void FRONTEND_DrawKey(MenuData* md) {
     std::int32_t x, y, dy, c0, rgb;
     char key;
     char str[25];
-    rgb = FRONTEND_fix_rgb(fade_rgb, (grabbing_key && ((menu_data + menu_state.selected == md) && ((GetTickCount() & 0x7ff) < 0x3ff))));
+    rgb = FRONTEND_fix_rgb(fade_rgb, (grabbing_key && ((menu_data + menu_state.selected == md) && ((GetTickCount64() & 0x7ff) < 0x3ff))));
     dy = md->Y + menu_state.base - menu_state.scroll;
     /*	switch (md->Data) {
             case KB_LEFT:
@@ -1666,12 +1666,12 @@ void FRONTEND_kibble_process() {
     std::int32_t c0;
     Kibble* k;
 
-    static std::int32_t last = 0;
-    static std::int32_t now = 0;
+    static std::uint32_t last = 0;
+    static std::uint32_t now = 0;
 
     ASSERT(kibble != nullptr);
 
-    now = GetTickCount();
+    now = GetTickCount64();
 
     if (last < now - 250) {
         last = now - 250;
@@ -4493,12 +4493,12 @@ std::uint8_t is_semtex = 0;
 std::int8_t FRONTEND_loop() {
     std::int8_t res;
 
-    static std::int32_t last = 0;
-    static std::int32_t now = 0;
+    static std::uint32_t last = 0;
+    static std::uint32_t now = 0;
 
-    std::int32_t millisecs;
+    std::uint32_t millisecs;
 
-    now = GetTickCount();
+    now = GetTickCount64();
 
     if (last < now - 250) {
         last = now - 250;
