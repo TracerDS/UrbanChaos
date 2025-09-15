@@ -73,41 +73,72 @@ FONT2D_Letter FONT2D_letter[FONT2D_NUM_LETTERS];
 // This is the order the punctuation characters come in.
 //
 
-char FONT2D_punct[] =
-    {
-        "!\"�$%^&*(){}[]<>\\/:;'@#_?-=+.,"
+char FONT2D_punct[] = {
+    0x21, 0x22, 0xA3, 0x24, 0x25, 0x5E, 0x26, 0x2A, 0x28, 0x29,
+    0x7B, 0x7D, 0x5B, 0x5D, 0x3C, 0x3E, 0x5C, 0x2F, 0x3A, 0x3B,
+    0x27, 0x40, 0x23, 0x5F, 0x3F, 0x2D, 0x3D, 0x2B, 0x2E, 0x2C,
 
-        //
-        // German characters in decimal and octal!
-        //
-        // No, Mark, let's do this right.
-        // (a) We can type them in directly and this can be physically matched against the bitmap
-        // (b) We can type them *all* in, instead of missing a few
+	//
+    // German characters in decimal and octal!
+    //
+    // No, Mark, let's do this right.
+    // (a) We can type them in directly and this can be physically matched against the bitmap
+    // (b) We can type them *all* in, instead of missing a few    0xC4, // Ä
+    0xCB, // Ë
+    0xCF, // Ï
+    0xD6, // Ö
+    0xD8, // Ø
+    0xDC, // Ü
+    0xDF, // ß
+    0xEF, // ï
+    0xF6, // ö
+    0xF8, // ø
 
-        "����������"
+	// French characters
+    0xC6, // Æ
+    0xC7, // Ç
+    0xD4, // Ô
+    0xE0, // à
+    0xE2, // â
+    0xE7, // ç
+    0xE8, // è
+    0xE9, // é
+    0xEA, // ê
+    0xEE, // î
+    0xEF, // ï
+    0xF4, // ô
+    0xF8, // ø
+    0xFB, // û
 
-        //
-        // French characters
-        //
+	// Spanish
+    0xA1, // ¡
+    0xBF, // ¿
+    0xD8, // Ø
+    0xE1, // á
+    0xE4, // ä
+    0xE9, // é
+    0xED, // í
+    0xF1, // ñ
+    0xF3, // ó
+    0xF8, // ø
+    0xFA, // ú
 
-        "��������������"
+	// Italian
+    0xC0, // À
+    0xC8, // È
+    0xCC, // Ì
+    0xD2, // Ò
+    0xD9, // Ù
+    0xE0, // à
+    0xEC, // ì
+    0xF2, // ò
+    0xF9, // ù
+    0xFC, // ü
+    0xA9, // ©
+    0xAE, // ®
 
-        //
-        // Spanish
-        //
-        // 161,191,216,225,228,233,237,241,243,248,250
-        //
-
-        "�����������"
-
-        //
-        // Italian
-        //
-        // 192,200,204,210,217,236,242,249
-        //
-        //
-
-        "������������"};
+    0x00 // terminator
+};
 
 // ARGH! Can't get this sodding type right. Do it with a typedef.
 typedef TGA_Pixel MyArrayType[256][256];
@@ -246,7 +277,7 @@ std::int32_t FONT2D_GetIndex(char chr) {
     // Remap certain characters first
     //
 
-    if (chr == '�') chr = 'E';
+    if (chr == 'É') chr = 'E';
 
     //
     // Find our letter index.
@@ -278,8 +309,8 @@ std::int32_t FONT2D_GetIndex(char chr) {
 std::int32_t FONT2D_GetLetterWidth(char chr) {
     std::int32_t letter;
 
-    if ((chr == ' ') || (chr == '�')) {
-        // � is a non-wrapping space.
+    if ((chr == ' ') || (chr == '¬')) {
+        // ¬ is a non-wrapping space.
         return 8;
     }
 
@@ -319,8 +350,8 @@ std::int32_t FONT2D_DrawLetter(char chr, std::int32_t x, std::int32_t y, std::ui
         chr = 39;
     }
 
-    // � is a non-wrapping space.
-    if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || chr == '�') {
+    // ¬ is a non-wrapping space.
+    if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || chr == '¬') {
         return 8 * scale >> 8;
     }
 

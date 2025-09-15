@@ -1125,7 +1125,7 @@ std::int32_t FONT_draw_coloured_char(
         case ';': fc = &FONT_punct[FONT_PUNCT_SCOLON]; break;
         case '\'': fc = &FONT_punct[FONT_PUNCT_APOST]; break;
         case '&': fc = &FONT_punct[FONT_PUNCT_AMPER]; break;
-        case '�': fc = &FONT_punct[FONT_PUNCT_POUND]; break;
+        case '£': fc = &FONT_punct[FONT_PUNCT_POUND]; break;
         case '$': fc = &FONT_punct[FONT_PUNCT_DOLLAR]; break;
         case '<': fc = &FONT_punct[FONT_PUNCT_LT]; break;
         case '>': fc = &FONT_punct[FONT_PUNCT_GT]; break;
