@@ -744,7 +744,7 @@ char* menu_brief_names[] = {"briefing leaves darci.tga", "briefing rain darci.tg
 char* menu_config_names[] = {"config leaves.tga", "config rain.tga",
                              "config snow.tga", "config blood.tga"};
 
-char frontend_fonttable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?����������";
+char frontend_fonttable[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!\":;'#$*-()[]\\/?ÈÀÜÖÄÙÚÓÁÉ";
 
 std::uint32_t FRONTEND_leaf_colours[4] =
     {
