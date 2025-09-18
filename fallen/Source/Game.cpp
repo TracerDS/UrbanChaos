@@ -1626,9 +1626,9 @@ std::int32_t special_keys() {
         playback_game_keys();
     }
 
-    //if (ControlFlag && Keys[KB_Q]) {
-    //    return 1;
-    //}
+    if (ControlFlag && Keys[KB_Q]) {
+        return 1;
+    }
 #ifndef PSX
     if (allow_debug_keys)
         if (Keys[KB_QUOTE]) {
