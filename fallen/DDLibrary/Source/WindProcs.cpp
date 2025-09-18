@@ -80,11 +80,11 @@ LRESULT CALLBACK DDLibShellProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
     case WM_KEYUP:
         KeyboardProc(message, wParam, lParam);
         break;
-    case WM_CLOSE:
-        // normally, we should call DestroyWindow().
-        // instead, let's set flags so the normal quit process goes thru.
-        GAME_STATE = 0;
-        break;
+    //case WM_CLOSE:
+    //    // normally, we should call DestroyWindow().
+    //    // instead, let's set flags so the normal quit process goes thru.
+    //    GAME_STATE = 0;
+    //    break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;

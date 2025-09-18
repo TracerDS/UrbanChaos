@@ -1977,6 +1977,8 @@ void load_super_map(MFFileHandle handle, std::int32_t save_type) {
                         FileSeek(handle,SEEK_MODE_CURRENT,sizeof(OB_Mapwho)*OB_SIZE*OB_SIZE);
         */
         FileRead(handle, (std::uint8_t*) &OB_ob_upto, sizeof(OB_ob_upto));
+        ASSERT((uint32_t)OB_ob_upto < OB_MAX_OBS);
+
         FileRead(handle, (std::uint8_t*) &OB_ob[0], sizeof(OB_Ob) * OB_ob_upto);
 
         //

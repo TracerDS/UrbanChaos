@@ -547,3 +547,11 @@ void stop_all_fx_and_music();
 #define POLY_T (POLY_FLAG_TEXTURED)
 #define POLY_G (POLY_FLAG_GOURAD)
 #define POLY_F (0)
+
+//
+// SkipFE stuff
+//
+void SetSkipFE(bool state);
+bool GetSkipFE();
+void SetSkipFELevel(const char* filename);
+char* GetSkipFELevel();

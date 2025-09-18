@@ -124,6 +124,17 @@ void game_attract_mode() {
     NIGHT_init();
 #endif
 
+    if (GetSkipFE())
+    {
+        GAME_STATE &= ~GS_ATTRACT_MODE;
+        GAME_STATE |= GS_PLAY_GAME;
+        go_into_game = true;
+
+        extern char STARTSCR_mission[_MAX_PATH];
+        strcpy(STARTSCR_mission, GetSkipFELevel());
+        SetSkipFE(false);
+    }
+
     if (auto_advance) {
         go_into_game = true;
         auto_advance = 0;
@@ -324,6 +335,18 @@ reinit_because_of_language_change:
 
                 GAME_STATE |= GS_PLAYBACK;
             }
+        }
+
+        if (ControlFlag && LastKey == KB_O) {
+            LastKey = 0;
+            GAME_STATE &= ~GS_ATTRACT_MODE;
+            GAME_STATE |= GS_PLAY_GAME;
+            go_into_game = true;
+            
+            //extern char STARTSCR_mission[_MAX_PATH];
+            //strcpy(STARTSCR_mission, "levels\\test.ucm");
+
+            //GAME_STATE |= GS_PLAYBACK;
         }
 
 #ifdef TARGET_DC

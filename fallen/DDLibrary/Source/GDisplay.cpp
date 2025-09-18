@@ -258,7 +258,7 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     extern HINSTANCE hGlobalThisInst;
 
     VideoRes = ENV_get_value_number("video_res", -1, "Render");
-    VideoRes = std::max(std::min(VideoRes, 4), 0);
+    //VideoRes = std::max(std::min(VideoRes, 4), 0);
 
     depth = 32;
     switch (VideoRes) {
@@ -289,13 +289,24 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
         // case 5:		width = 1920; height = 1080; break;		// TODO: Investigate modern screen resolutions
     }
 
+    if (VideoRes < -1)
+    {
+        width = ENV_get_value_number("video_width", 1280, "Render");
+        height = ENV_get_value_number("video_height", 720, "Render");
+    }
+
     if (flags & FLAGS_USE_3D)
         the_display.Use3DOn();
 
     if (flags & FLAGS_USE_WORKSCREEN)
         the_display.UseWorkOn();
 
-    the_display.FullScreenOn();
+    //the_display.FullScreenOn();
+
+    if (ENV_get_value_number("fullscreen_mode", -1, "Render") == 0)
+        the_display.FullScreenOff();
+    else
+        the_display.FullScreenOn();
 
     result = SetDisplay(width, height, depth);
 
@@ -795,7 +806,8 @@ HRESULT Display::InitFullscreenMode() {
         // Set window style.
         style = GetWindowStyle(hDDLibWindow);
         style &= ~WS_POPUP;
-        style |= WS_OVERLAPPED | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX;
+        //style |= WS_OVERLAPPED | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZEBOX;
+        style |= WS_OVERLAPPEDWINDOW;
         SetWindowLong(hDDLibWindow, GWL_STYLE, style);
 
         // Save Surface Rectangle.

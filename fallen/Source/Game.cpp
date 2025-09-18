@@ -115,6 +115,34 @@ extern std::int32_t PSX_eog_timer;
 #endif
 
 //
+// SkipFE stuff
+//
+
+bool SkipFE = false;
+char SkipFELevel[MAX_PATH];
+
+void SetSkipFE(bool state)
+{
+    SkipFE = state;
+}
+
+bool GetSkipFE()
+{
+    return SkipFE;
+}
+
+void SetSkipFELevel(const char* filename)
+{
+    strcpy_s(SkipFELevel, filename);
+}
+
+char* GetSkipFELevel()
+{
+    return SkipFELevel;
+}
+
+
+//
 // The editor.
 //
 
@@ -1598,9 +1626,9 @@ std::int32_t special_keys() {
         playback_game_keys();
     }
 
-    if (ControlFlag && Keys[KB_Q]) {
-        return 1;
-    }
+    //if (ControlFlag && Keys[KB_Q]) {
+    //    return 1;
+    //}
 #ifndef PSX
     if (allow_debug_keys)
         if (Keys[KB_QUOTE]) {

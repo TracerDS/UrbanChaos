@@ -231,6 +231,15 @@ std::int32_t main(std::uint16_t argc, TCHAR* argv[]) {
 #endif
 #endif
 
+    if (argc >= 2)
+    {
+        if (FileExists(argv[1]))
+        {
+            SetSkipFELevel(argv[1]);
+            SetSkipFE(true);
+        }
+    }
+
     if (SetupHost(H_CREATE_LOG)) {
         //		mkt_test();
 

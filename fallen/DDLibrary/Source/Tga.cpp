@@ -122,7 +122,19 @@ TGA_Info TGA_load(const char* file, std::int32_t max_width, std::int32_t max_hei
     }
 
     // read compressed
-    return TGA_read_compressed(data, id, max_width, max_height);
+    TGA_Info ret;
+
+    ret = TGA_read_compressed(data, id, max_width, max_height);
+
+    
+    if (!ret.valid)
+    {
+        // try file
+        ret = TGA_load_from_file(file, max_width, max_height, data, bCanShrink);
+    }
+
+    //return TGA_read_compressed(data, id, max_width, max_height);
+    return ret;
 #endif
 }
 

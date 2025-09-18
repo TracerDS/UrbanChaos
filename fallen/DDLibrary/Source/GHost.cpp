@@ -5,6 +5,8 @@
 #include "..\headers\Sound.h"
 #include "mfx.h"
 
+#include <shellapi.h>
+
 #define PAUSE_TIMEOUT 500
 #define PAUSE (1 << 0)
 #define PAUSE_ACK (1 << 1)
@@ -400,6 +402,25 @@ void Time(MFTime* the_time) {
 static std::uint16_t argc;
 static LPTSTR argv[MAX_PATH];
 
+void GetArgs()
+{
+    int argcW = 0;
+    LPWSTR* argvW = CommandLineToArgvW(GetCommandLineW(), &argcW);
+    if (!argvW)
+        return;
+
+    argc = argcW;
+    for (int i = 0; i < argcW; i++) {
+        // Convert wide-char to multibyte (ANSI or system code page)
+        int len = WideCharToMultiByte(CP_ACP, 0, argvW[i], -1, nullptr, 0, nullptr, nullptr);
+        char* arg = (char*)malloc(len);
+        WideCharToMultiByte(CP_ACP, 0, argvW[i], -1, arg, len, nullptr, nullptr);
+        argv[i] = arg;
+    }
+
+    LocalFree(argvW);
+}
+
 #ifdef TARGET_DC
 // Include this again in just one file - this one.
 #include "dtags.h"
@@ -464,6 +485,7 @@ int WINAPI WinMain(HINSTANCE hThisInst, HINSTANCE hPrevInst, LPTSTR lpszArgs, in
     if (GetLastError() != ERROR_ALREADY_EXISTS)
 #endif
     {
+        GetArgs();
         return MF_main(argc, argv);
     }
 

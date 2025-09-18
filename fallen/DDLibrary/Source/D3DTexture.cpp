@@ -3,6 +3,7 @@
 
 #include "DDLib.h"
 #include "tga.h"
+#include <Windows.h>
 
 #ifdef TARGET_DC
 #include "target.h"
@@ -204,8 +205,23 @@ HRESULT D3DTexture::LoadTextureTGA(char* tga_file, std::uint32_t id, bool bCanSh
     result = Reload();
 
     if (FAILED(result)) {
-        DebugText("LoadTextureTGA: unable to load texture\n");
-        return (result);
+        char buf[MAX_PATH];
+
+        if (tga_file[1] != ':')
+        {
+            GetCurrentDirectoryA(MAX_PATH, buf);
+            strcat(buf, "\\");
+        }
+        strcat(buf, tga_file);
+
+        DebugText("LoadTextureTGA: unable to load texture: %s\n", buf);
+
+        if (strcmp(tga_file, "DEFAULTTEXTURE.tga") == 0)
+            return (result);
+
+        DebugText("LoadTextureTGA: falling back to DEFAULTTEXTURE...\n");
+        //return (result);
+        return LoadTextureTGA("DEFAULTTEXTURE.tga", id, bCanShrink);
     }
 
     //
