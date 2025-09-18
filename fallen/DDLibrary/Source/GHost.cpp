@@ -6,6 +6,7 @@
 #include "mfx.h"
 
 #include <shellapi.h>
+#include <string>
 
 #define PAUSE_TIMEOUT 500
 #define PAUSE (1 << 0)
@@ -413,9 +414,10 @@ void GetArgs()
     for (int i = 0; i < argcW; i++) {
         // Convert wide-char to multibyte (ANSI or system code page)
         int len = WideCharToMultiByte(CP_ACP, 0, argvW[i], -1, nullptr, 0, nullptr, nullptr);
-        char* arg = (char*)malloc(len);
-        WideCharToMultiByte(CP_ACP, 0, argvW[i], -1, arg, len, nullptr, nullptr);
-        argv[i] = arg;
+        std::string* arg = new std::string();
+        arg->resize(len);
+        WideCharToMultiByte(CP_ACP, 0, argvW[i], -1, arg->data(), len, nullptr, nullptr);
+        argv[i] = arg->data();
     }
 
     LocalFree(argvW);
