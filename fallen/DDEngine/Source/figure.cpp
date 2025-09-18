@@ -2727,12 +2727,8 @@ void FIGURE_draw_prim_tween(
 
     LOG_ENTER(Figure_Draw_Prim_Tween)
 
-    ASSERT(p_thing)
-
     if (!p_thing)
         return;
-
-    ASSERT(p_thing->Genus.Person)
 
     if (!p_thing->Genus.Person)
         return;
