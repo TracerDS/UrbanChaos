@@ -139,7 +139,7 @@ bool SetupHost(std::uint32_t flags) {
 
     if (hDDLibWindow) {
         // Init the sound manager.  We're not too fussed about the result.
-        MFX_init();
+        //MFX_init();
 
 #ifndef TARGET_DC
         // Load the keyboard accelerators.
