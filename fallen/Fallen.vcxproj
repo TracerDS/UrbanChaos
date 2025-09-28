@@ -122,7 +122,7 @@
       <PrecompiledHeaderOutputFile>.\Debug\Fallen.pch</PrecompiledHeaderOutputFile>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalOptions> /D /NODEFAULTLIB:libcmtd.lib /Zc:__cplusplus </AdditionalOptions>
+      <AdditionalOptions>/Zc:__cplusplus </AdditionalOptions>
       <StructMemberAlignment>Default</StructMemberAlignment>
       <AdditionalIncludeDirectories>.;Headers;sedit\headers;DDLibrary\Headers;gedit\headers;ddengine\headers;..\extern\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
