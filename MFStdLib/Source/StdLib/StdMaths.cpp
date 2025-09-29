@@ -88,8 +88,8 @@ nnyprimary:
 
 //---------------------------------------------------------------
 
-std::int64_t Root(int64_t square) {
-    return static_cast<int64_t>(sqrt(static_cast<long double>(square)));
+std::int64_t Root(std::int64_t square) {
+    return static_cast<std::int64_t>(sqrt(static_cast<long double>(square)));
 }
 
 //---------------------------------------------------------------
