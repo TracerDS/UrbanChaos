@@ -47,8 +47,8 @@ struct MFX_Sample {
     bool loading;
 };
 
-static const int MAX_SAMPLE = 552;
-static const int MAX_SAMPLE_MEM = 64 * 1024 * 1024;
+constexpr int MAX_SAMPLE = 552;
+constexpr int MAX_SAMPLE_MEM = 64 * 1024 * 1024;
 
 // MFX_QWave
 //
@@ -63,8 +63,8 @@ struct MFX_QWave {
     float gain;
 };
 
-static const int MAX_QWAVE = 32; // number of queued wave slots
-static const int MAX_QVOICE = 5; // maximum waves queued per voice
+constexpr int MAX_QWAVE = 32; // number of queued wave slots
+constexpr int MAX_QVOICE = 5; // maximum waves queued per voice
 
 struct MFX_Voice {
     std::uint16_t id; // channel_id for this voice
@@ -82,8 +82,8 @@ struct MFX_Voice {
     float gain;
 };
 
-static const int MAX_VOICE = 64;
-static const int VOICE_MSK = 63; // mask for voice indices
+constexpr int MAX_VOICE = 64;
+constexpr int VOICE_MSK = 63; // mask for voice indices
 
 ALCdevice* alDevice;
 ALCcontext* alContext;
