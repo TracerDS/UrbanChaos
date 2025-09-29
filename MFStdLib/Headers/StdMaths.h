@@ -22,7 +22,7 @@ extern std::int32_t				*CosTable,
 extern std::int32_t				Proportions[];
 
 std::int32_t Arctan(std::int32_t X,std::int32_t Y);
-std::int32_t Root(std::int32_t square);
+std::int64_t Root(std::int64_t square);
 
 static inline std::int32_t Hypotenuse(std::int32_t x, std::int32_t y)	
 {											
