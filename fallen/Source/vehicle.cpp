@@ -3706,8 +3706,9 @@ static void do_car_input(Entity* p_thing) {
 
     if ((veh->VelX || veh->VelZ) && (veh->Skid < SKID_START)) {
         std::int32_t ax, az;     // acceleration
-        std::int32_t vx, vz, vv; // velocity
+        std::int32_t vx, vz; // velocity
         std::int32_t av;         // |v x a|
+        std::int64_t vv;
 
         // get acceleration
         ax = dx - veh->VelX;
@@ -3716,7 +3717,7 @@ static void do_car_input(Entity* p_thing) {
         // get normalized velocity
         vx = veh->VelX;
         vz = veh->VelZ;
-        vv = vx * vx + vz * vz;
+        vv = (int64_t) vx * vx + (int64_t) vz * vz;
         if (vv) {
             // get speed
             vv = Root(vv);

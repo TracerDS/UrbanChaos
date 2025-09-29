@@ -38,7 +38,7 @@ struct MFX_Sample {
 #if ASYNC_FILE_IO
     unsigned char* loadBuffer;
 #endif
-    unsigned int handle;
+    ALuint handle;
     bool is3D;
     int size;
     int usecount;
@@ -47,8 +47,8 @@ struct MFX_Sample {
     bool loading;
 };
 
-#define MAX_SAMPLE 552
-#define MAX_SAMPLE_MEM 64 * 1024 * 1024
+constexpr int MAX_SAMPLE = 552;
+constexpr int MAX_SAMPLE_MEM = 64 * 1024 * 1024;
 
 // MFX_QWave
 //
@@ -63,12 +63,12 @@ struct MFX_QWave {
     float gain;
 };
 
-#define MAX_QWAVE 32 // number of queued wave slots
-#define MAX_QVOICE 5 // maximum waves queued per voice
+constexpr int MAX_QWAVE = 32; // number of queued wave slots
+constexpr int MAX_QVOICE = 5; // maximum waves queued per voice
 
 struct MFX_Voice {
     std::uint16_t id; // channel_id for this voice
-    unsigned int handle;
+    ALuint handle;
     std::uint32_t wave; // sound sample playing on this voice
     std::uint32_t flags;
     bool is3D;
@@ -82,8 +82,8 @@ struct MFX_Voice {
     float gain;
 };
 
-#define MAX_VOICE 64
-#define VOICE_MSK 63 // mask for voice indices
+constexpr int MAX_VOICE = 64;
+constexpr int VOICE_MSK = 63; // mask for voice indices
 
 ALCdevice* alDevice;
 ALCcontext* alContext;
@@ -128,9 +128,27 @@ static void SetVoiceGain(MFX_Voice* vptr, float gain);
 extern char* sound_list[];
 
 void MFX_init() {
-    alDevice = alcOpenDevice(nullptr);
+    alDevice = alcOpenDevice(nullptr); // nullptr = get default device
+    if (!alDevice)
+    {
+        ASSERT(0);
+        return;
+    }
     alContext = alcCreateContext(alDevice, nullptr);
-    alcMakeContextCurrent(alContext);
+    if (!alContext)
+    {
+        alcCloseDevice(alDevice);
+        ASSERT(0);
+        return;
+    }
+    if (!alcMakeContextCurrent(alContext))
+    {
+        alcDestroyContext(alContext);
+        alcCloseDevice(alDevice);
+        ASSERT(0);
+        return;
+    }
+    
 
 #if ASYNC_FILE_IO
     InitAsyncFile();
@@ -143,7 +161,6 @@ void MFX_init() {
     AllocatedRAM = 0;
 
     NumSamples = 0;
-    char buf[_MAX_PATH];
     char** names = sound_list;
     MFX_Sample* sptr = Samples;
 
@@ -281,8 +298,11 @@ static void InitVoices() {
         Voices[ii].queue = nullptr;
         Voices[ii].queuesz = 0;
         Voices[ii].smp = nullptr;
-        Voices[ii].handle = nullptr;
+        Voices[ii].handle = 0;
         Voices[ii].is3D = false;
+        Voices[ii].playing = false;
+        Voices[ii].ratemult = 1.0f;
+        Voices[ii].gain = 1.0f;
     }
 
     for (ii = 0; ii < MAX_QWAVE; ii++) {
@@ -566,7 +586,7 @@ static void PlayVoice(MFX_Voice* vptr) {
 }
 
 static void MoveVoice(MFX_Voice* vptr) {
-    if (vptr->is3D) {
+    if (vptr->is3D && vptr->handle) {
         float x = vptr->x * COORDINATE_UNITS;
         float y = vptr->y * COORDINATE_UNITS;
         float z = vptr->z * COORDINATE_UNITS;
