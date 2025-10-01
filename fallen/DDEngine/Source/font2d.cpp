@@ -83,7 +83,8 @@ char FONT2D_punct[] = {
     //
     // No, Mark, let's do this right.
     // (a) We can type them in directly and this can be physically matched against the bitmap
-    // (b) We can type them *all* in, instead of missing a few    0xC4, // Ä
+    // (b) We can type them *all* in, instead of missing a few
+    0xC4, // Ä
     0xCB, // Ë
     0xCF, // Ï
     0xD6, // Ö
