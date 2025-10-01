@@ -1723,24 +1723,6 @@ void process_controls() {
         */
     }
 
-#ifndef TARGET_DC
-    if (Keys[KB_D]) {
-        Keys[KB_D] = 0;
-
-        std::int32_t is_there_room_behind_person(Entity * p_person, std::int32_t hit_from_behind);
-
-        if (is_there_room_behind_person(darci, false)) {
-            PANEL_new_text(nullptr, 400, "There is room behind Darci");
-        }
-
-        // set_person_recoil(darci, ANIM_HIT_FRONT_HI, 0);
-        // set_person_dead(darci, nullptr, PERSON_DEATH_TYPE_LEG_SWEEP, 0, 0);
-    }
-#endif // #ifndef TARGET_DC
-
-    //	PANEL_new_text(nullptr, 2000, "abcdefghijk lmnopqr stuvwxyz ABCDEFG HIJKLMNO PQRSTUVWXYZ 0123456789 !\"�$%^ &*(){} []<>\\/:;'@ #~?-=+.,");
-    //	PANEL_new_text(nullptr, 2000, "a-b-c-d-e-f-g  h-i-j-k-l-m-n");
-
 #if THIS_IS_A_LOS_TEST
 
     {
