@@ -2049,7 +2049,7 @@ void PANEL_new_text(Entity *who, std::int32_t delay, char *fmt, ...) {
     }
 
     for (ch = fmt; *ch; ch++) {
-        if (!isspace(*ch)) {
+        if (!isspace( (unsigned char) *ch)) {
             goto found_non_white_space;
         }
     }
