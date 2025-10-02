@@ -10084,15 +10084,17 @@ void AENG_draw_city() {
     }
 
 #ifdef _DEBUG
-    if (Keys[KB_N]) {
-        Keys[KB_N] = 0;
+    if (allow_debug_keys) {
+        if (Keys[KB_N]) {
+            Keys[KB_N] = 0;
 
-        if ((NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
-            NIGHT_flag &= ~NIGHT_FLAG_DAYTIME;
-            DETAIL_LEVEL |= DETAIL_RAIN;
-        } else {
-            NIGHT_flag |= NIGHT_FLAG_DAYTIME;
-            DETAIL_LEVEL &= ~DETAIL_RAIN;
+            if ((NIGHT_flag & NIGHT_FLAG_DAYTIME)) {
+                NIGHT_flag &= ~NIGHT_FLAG_DAYTIME;
+                DETAIL_LEVEL |= DETAIL_RAIN;
+            } else {
+                NIGHT_flag |= NIGHT_FLAG_DAYTIME;
+                DETAIL_LEVEL &= ~DETAIL_RAIN;
+            }
         }
     }
 #endif
