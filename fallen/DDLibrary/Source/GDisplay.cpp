@@ -17,8 +17,6 @@
 #include "panel.h"
 #include "..\headers\game.h"
 
-#include <algorithm>
-
 //
 // From mfx_miles.h...
 //
@@ -28,11 +26,13 @@ std::int32_t RealDisplayHeight;
 std::int32_t DisplayBPP;
 Display the_display;
 volatile std::int32_t hDDLibStyle = 0,
-                      hDDLibStyleEx = 0;
+               hDDLibStyleEx = 0;
 volatile HWND hDDLibWindow = nullptr;
 volatile HMENU hDDLibMenu = nullptr;
 
-int VideoRes = -1; // 0 = 320x240, 1 = 512x384, 2= 640x480, 3 = 800x600, 4 = 1024x768, -1 = unknown
+int Video3DMode = -1;         // 0 = primary, 1 = secondary, 2 = software, -1 = unknown
+bool VideoTrueColour = false; // true = 24-bit, false = 16-bit
+int VideoRes = -1;            // 0 = 320x240, 1 = 512x384, 2= 640x480, 3 = 800x600, 4 = 1024x768, -1 = unknown
 
 enumDisplayType eDisplayType;
 
@@ -214,19 +214,18 @@ void InitBackImage(char* name) {
         image_mem = (std::uint8_t*) MemAlloc(640 * 480 * 3);
     }
 
-    if (!image_mem)
-        return;
-
-    image_file = FileOpen(fname);
-    if (image_file != FILE_OPEN_ERROR) {
-        FileSeek(image_file, SEEK_MODE_BEGINNING, 18);
-        image = image_mem + (640 * 479 * 3);
-        for (height = 480; height; height--, image -= (640 * 3)) {
-            FileRead(image_file, image, 640 * 3);
+    if (image_mem) {
+        image_file = FileOpen(fname);
+        if (image_file > 0) {
+            FileSeek(image_file, SEEK_MODE_BEGINNING, 18);
+            image = image_mem + (640 * 479 * 3);
+            for (height = 480; height; height--, image -= (640 * 3)) {
+                FileRead(image_file, image, 640 * 3);
+            }
+            FileClose(image_file);
         }
-        FileClose(image_file);
+        the_display.create_background_surface(image_mem);
     }
-    the_display.create_background_surface(image_mem);
 }
 
 void UseBackSurface(LPDIRECTDRAWSURFACE4 use) {
@@ -256,11 +255,15 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     }
 
     extern HINSTANCE hGlobalThisInst;
+    extern void GraphicsDialog(HINSTANCE hInst, HWND hWnd);
 
-    VideoRes = ENV_get_value_number("video_res", -1, "Render");
-    VideoRes = std::max(std::min(VideoRes, 4), 0);
+    GraphicsDialog(hGlobalThisInst, hDDLibWindow);
 
-    depth = 32;
+    extern int Video3DMode;
+    extern bool VideoTrueColour;
+    extern int VideoRes;
+
+    depth = VideoTrueColour ? 32 : 16;
     switch (VideoRes) {
     case 0:
         width = 320;
@@ -282,11 +285,6 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
         width = 1024;
         height = 768;
         break;
-    default:
-        width = 1280;
-        height = 720;
-        break;
-        // case 5:		width = 1920; height = 1080; break;		// TODO: Investigate modern screen resolutions
     }
 
     if (flags & FLAGS_USE_3D)
@@ -295,7 +293,7 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     if (flags & FLAGS_USE_WORKSCREEN)
         the_display.UseWorkOn();
 
-    the_display.FullScreenOn();
+    the_display.FullScreenOff();
 
     result = SetDisplay(width, height, depth);
 
@@ -318,6 +316,13 @@ std::int32_t SetDisplay(std::uint32_t width, std::uint32_t height, std::uint32_t
     result = the_display.ChangeMode(width, height, depth, 0);
     if (FAILED(result))
         return -1;
+
+    //	Attempt to change the device to hardware.
+    if (!the_display.IsFullScreen()) {
+        result = the_display.ChangeDevice(&the_display.CurrDriver->hardware_guid, nullptr);
+        if (FAILED(result))
+            return -1;
+    }
 
     // tell the polygon engine
     PolyPage::SetScaling(float(width) / float(DisplayWidth), float(height) / float(DisplayHeight));
@@ -413,10 +418,13 @@ Display::Display() {
 
     CreateZBufferOn();
 
+    lp_DD_Clipper = nullptr;
     lp_DD_FrontSurface = nullptr;
     lp_DD_BackSurface = nullptr;
     lp_DD_WorkSurface = nullptr;
     lp_DD_ZBuffer = nullptr;
+    lp_CurrPalette = nullptr;
+    lp_SysPalette = nullptr;
     lp_D3D_Black = nullptr;
     lp_D3D_White = nullptr;
     lp_D3D_User = nullptr;
@@ -456,7 +464,7 @@ HRESULT Display::Init() {
         if (FAILED(result))
             goto cleanup;
 
-        // Create Front Surface.
+        // Create Front Surface & Palette.
         result = InitFront();
         if (FAILED(result))
             goto cleanup;
@@ -564,7 +572,7 @@ HRESULT Display::GenerateDefaults() {
 }
 
 HRESULT Display::InitInterfaces() {
-    GUID* the_guid;
+    GUID *the_guid;
     HRESULT result;
 
     // Do we have a current DD Driver
@@ -778,8 +786,8 @@ void Display::RunCutscene(int which, int language, bool bAllowButtonsToExit) {
 
 HRESULT Display::InitFullscreenMode() {
     std::int32_t flags = 0,
-                 style,
-                 w, h, bpp, refresh;
+          style,
+          w, h, bpp, refresh;
     HRESULT result;
 
     // Check Initialization
@@ -1025,6 +1033,18 @@ HRESULT Display::InitFront() {
         return result;
     }
 
+    // Create and attach palette, if necessary.
+    result = InitPalette();
+    if (FAILED(result))
+        return result;
+
+    if (!the_display.IsFullScreen()) {
+        // Create and attach clipper, if necessary.
+        result = InitClipper();
+        if (FAILED(result))
+            return result;
+    }
+
     // create gamma control
     result = lp_DD_FrontSurface->QueryInterface(IID_IDirectDrawGammaControl, (void**) &lp_DD_GammaControl);
     if (FAILED(result)) {
@@ -1076,6 +1096,12 @@ HRESULT Display::FiniFront() {
     // Mark as Invalid
     TurnValidFrontOff();
 
+    // Cleanup clipper.
+    FiniClipper();
+
+    // Cleanup palette.
+    FiniPalette();
+
     // release gamma control
     if (lp_DD_GammaControl) {
         lp_DD_GammaControl->Release();
@@ -1087,6 +1113,174 @@ HRESULT Display::FiniFront() {
         lp_DD_FrontSurface->Release();
         lp_DD_FrontSurface = nullptr;
     }
+
+    // Success
+    return DD_OK;
+}
+
+HRESULT Display::InitPalette() {
+    std::int32_t c0,
+        flags,
+        pal_mem_size;
+    DDSURFACEDESC2 dd_sd;
+    HDC hdc;
+    HRESULT result;
+
+    // Destroy old palette
+    FiniPalette();
+
+    // Make sure we are properly intialized
+    // for this to work
+    if ((!lp_DD4) || (!lp_DD_FrontSurface)) {
+        // Error, need a valid DD interfac and a primary surface to continue
+        result = DDERR_GENERIC;
+        // Output error.
+        return result;
+    }
+
+    // Get primary surface caps
+    InitStruct(dd_sd);
+
+    result = lp_DD_FrontSurface->GetSurfaceDesc(&dd_sd);
+    if (FAILED(result)) {
+        // Error
+        DebugText("InitPalette: unable to get FrontSurface description");
+        return result;
+    }
+
+    // Make sure it is a palettized surface
+    if (!IsPalettized(&(dd_sd.ddpfPixelFormat))) {
+        return DD_OK;
+    }
+
+    // Create and save System palette
+    hdc = GetDC(nullptr);
+    PaletteSize = GetDeviceCaps(hdc, SIZEPALETTE);
+    if (PaletteSize) {
+        if (PaletteSize > 256)
+            PaletteSize = 256;
+
+        // Get memory for system palette
+        lp_SysPalette = new PALETTEENTRY[PaletteSize];
+        if (!lp_SysPalette) {
+            ReleaseDC(nullptr, hdc);
+
+            // Error, not enough memory
+            result = DDERR_GENERIC;
+            DebugText("InitPalette: not enough memory for storing palette\n");
+            goto cleanup;
+        }
+
+        // Get Memory for current palette
+        lp_CurrPalette = new PALETTEENTRY[PaletteSize];
+        if (!lp_CurrPalette) {
+            ReleaseDC(nullptr, hdc);
+
+            // Error, not enough memory
+            result = DDERR_GENERIC;
+            DebugText("InitPalette: not enough memory for storing palette\n");
+            goto cleanup;
+        }
+
+        // Save system palette
+        GetSystemPaletteEntries(hdc, 0, PaletteSize, lp_SysPalette);
+
+        // Copy system palette to temporary values
+        pal_mem_size = PaletteSize * sizeof(PALETTEENTRY);
+        CopyMemory(lp_CurrPalette, lp_SysPalette, pal_mem_size);
+    }
+    ReleaseDC(nullptr, hdc);
+
+    if (dd_sd.ddpfPixelFormat.dwFlags & DDPF_PALETTEINDEXED1) {
+        flags = DDPCAPS_1BIT;
+
+        // Bagsy the whole palette.
+        for (c0 = 0; c0 < 2; c0++)
+            lp_CurrPalette[c0].peFlags = D3DPAL_FREE | PC_RESERVED;
+    } else if (dd_sd.ddpfPixelFormat.dwFlags & DDPF_PALETTEINDEXED2) {
+        flags = DDPCAPS_2BIT;
+
+        // Bagsy the whole palette.
+        for (c0 = 0; c0 < 4; c0++)
+            lp_CurrPalette[c0].peFlags = D3DPAL_FREE | PC_RESERVED;
+    } else if (dd_sd.ddpfPixelFormat.dwFlags & DDPF_PALETTEINDEXED4) {
+        flags = DDPCAPS_4BIT;
+
+        // Bagsy the whole palette except first & last colours.
+        lp_CurrPalette[0].peFlags = D3DPAL_READONLY;
+        lp_CurrPalette[15].peFlags = D3DPAL_READONLY;
+
+        for (c0 = 1; c0 < 15; c0++)
+            lp_CurrPalette[c0].peFlags = D3DPAL_FREE | PC_RESERVED;
+    } else if (dd_sd.ddpfPixelFormat.dwFlags & DDPF_PALETTEINDEXED8) {
+        flags = DDPCAPS_8BIT;
+
+        // Bagsy the whole palette.
+        lp_CurrPalette[0].peFlags = D3DPAL_READONLY;
+        lp_CurrPalette[255].peFlags = D3DPAL_READONLY;
+
+        for (c0 = 1; c0 < 254; c0++)
+            lp_CurrPalette[c0].peFlags = D3DPAL_FREE | PC_RESERVED;
+    } else {
+        result = DDERR_GENERIC;
+        DebugText("InitPalette:  unknown palette type\n");
+        goto cleanup;
+    }
+
+    // Create Primary Palette
+    result = lp_DD4->CreatePalette(
+        flags,
+        lp_CurrPalette,
+        &lp_DD_Palette,
+        nullptr);
+    if (FAILED(result)) {
+        DebugText("InitPalette: unable to create palette\n");
+        goto cleanup;
+    }
+
+    // Attach palette to primary surface
+    result = lp_DD_FrontSurface->SetPalette(lp_DD_Palette);
+    if (FAILED(result)) {
+        // Error
+        DebugText("InitPalette: unable to attach palette to FrontSurface\n");
+        goto cleanup;
+    }
+
+    // Success
+    return DD_OK;
+
+cleanup:
+
+    // Cleanup
+    FiniPalette();
+    return result;
+}
+
+//---------------------------------------------------------------
+
+HRESULT Display::FiniPalette() {
+    // Clean up DD Palette object.
+    if (lp_DD_Palette) {
+        lp_DD_Palette->Release();
+        lp_DD_Palette = nullptr;
+    }
+
+    // Cleanup Current Palette
+    if (lp_CurrPalette) {
+        delete[] lp_CurrPalette;
+        lp_CurrPalette = nullptr;
+    }
+
+    // Cleanup System Palette
+    if (lp_SysPalette) {
+        // Note:  Should we try and restore system palette here ?!?
+
+        // Destroy system palette
+        delete[] lp_SysPalette;
+        lp_SysPalette = nullptr;
+    }
+
+    PaletteSize = 0;
 
     // Success
     return DD_OK;
@@ -1309,6 +1503,67 @@ HRESULT Display::FiniBack() {
     // Success
     return DD_OK;
 }
+
+HRESULT Display::InitClipper() {
+    HRESULT result;
+
+    // Check Initialization
+    if ((!CurrMode) || (!lp_DD4)) {
+        result = DDERR_GENERIC;
+        DebugText("InitClipper: invalid initialisation\n");
+        return result;
+    }
+
+    result = lp_DD4->CreateClipper(0, &lp_DD_Clipper, nullptr);
+    if (FAILED(result)) {
+        DebugText("InitClipper: unable to create clipper\n");
+        dd_error(result);
+        DebugText("\n");
+        return result;
+    }
+
+    // Set clipper window handle.
+    result = lp_DD_Clipper->SetHWnd(0, hDDLibWindow);
+    if (FAILED(result)) {
+        DebugText("InitClipper: unable to set window handle\n");
+        dd_error(result);
+        DebugText("\n");
+        return result;
+    }
+
+    // Attach clipper to front surface.
+    result = lp_DD_FrontSurface->SetClipper(lp_DD_Clipper);
+    if (FAILED(result)) {
+        DebugText("InitClipper: unable to attach clipper\n");
+        dd_error(result);
+        DebugText("\n");
+        return result;
+    }
+
+    // Mark as Valid
+    TurnValidClipperOn();
+
+    // Success
+    return DD_OK;
+}
+
+//---------------------------------------------------------------
+
+HRESULT Display::FiniClipper() {
+    // Mark as Invalid
+    TurnValidClipperOff();
+
+    // Release Primary Surface Object
+    if (lp_DD_Clipper) {
+        lp_DD_Clipper->Release();
+        lp_DD_Clipper = nullptr;
+    }
+
+    // Success
+    return DD_OK;
+}
+
+//---------------------------------------------------------------
 
 HRESULT Display::InitViewport() {
     D3DMATERIAL material;
@@ -1564,13 +1819,261 @@ HRESULT Display::UpdateViewport() {
     return DD_OK;
 }
 
+HRESULT Display::ChangeDriver(
+    GUID *DD_guid,
+    D3DDeviceInfo *device_hint,
+    DDModeInfo *mode_hint) {
+    std::int32_t w, h, bpp, refresh;
+    D3DDeviceInfo *new_device,
+        *old_device;
+    DDDriverInfo *new_driver,
+        *old_driver;
+    DDModeInfo *new_mode,
+        *old_mode;
+    GUID *D3D_guid;
+    HRESULT result;
+
+    DebugText("\nInto change driver\n");
+
+    // Get New Driver
+    new_driver = ValidateDriver(DD_guid);
+    if (!new_driver) {
+        // Error, invalid DD Guid
+        result = DDERR_GENERIC;
+        DebugText("ChangeDriver: invalid DD GUID\n");
+        return result;
+    }
+
+    // Get requested D3D device
+    if (device_hint)
+        D3D_guid = &(device_hint->guid);
+    else if (CurrDevice)
+        D3D_guid = &(CurrDevice->guid);
+    else
+        D3D_guid = nullptr;
+
+    // Get requested mode
+    if (mode_hint)
+        mode_hint->GetMode(&w, &h, &bpp, &refresh);
+    else {
+        // Default to 640 x 480 x 16
+        w = DEFAULT_WIDTH;
+        h = DEFAULT_HEIGHT;
+        bpp = DEFAULT_DEPTH;
+        refresh = 0;
+    }
+
+    // Get new device and mode compatible with this driver
+    if (!GetFullscreenMode(new_driver, D3D_guid, w, h, bpp, refresh, &new_mode, &new_device)) {
+        result = DDERR_GENERIC;
+        DebugText("ChangeDriver: unable to find a valid D3D device & mode for this driver");
+        return result;
+    }
+
+    // Save old defaults
+    old_driver = CurrDriver;
+    old_mode = CurrMode;
+    old_device = CurrDevice;
+
+    // Destroy almost everything
+    DebugText("Into Fini\n");
+    Fini();
+    DebugText("Out of Fini\n");
+
+    // Set new defaults
+    CurrDriver = new_driver;
+    CurrMode = new_mode;
+    CurrDevice = new_device;
+
+    // Re-create almost everything based on new driver, device, and mode
+    DebugText("Into Init\n");
+    result = Init();
+    DebugText("Out of Init\n");
+    if (FAILED(result)) {
+        // Try to restore old defaults
+        Fini();
+
+        CurrDriver = old_driver;
+        CurrMode = old_mode;
+        CurrDevice = old_device;
+
+        Init();
+        return result;
+    }
+
+    //	// Notify the window of a successful change in Driver
+    //	SendMessage(hWindow, D3DWIN_CHANGED_DRIVER, 0, 0);
+
+    // Notify a display change.
+    DisplayChangedOn();
+
+    // Success
+    return DD_OK;
+}
+
+//---------------------------------------------------------------
+
+HRESULT Display::ChangeDevice(
+    GUID *D3D_guid,
+    DDModeInfo *mode_hint) {
+    std::int32_t w, h, bpp, refresh;
+    D3DDeviceInfo *new_device,
+        *old_device;
+    DDDriverInfo *old_driver;
+    DDModeInfo *new_mode,
+        *old_mode,
+        *next_best_mode;
+    HRESULT result;
+
+    // Check Parameters
+    if (!D3D_guid) {
+        result = DDERR_GENERIC;
+        DebugText("Changedevice: invalid parameters\n");
+        return result;
+    }
+
+    // Check Initialization
+    if (!IsValid() || (!lp_DD_BackSurface)) {
+        result = DDERR_GENERIC;
+        DebugText("Changedevice: invalid initialization\n");
+        return result;
+    }
+
+    // Save Original State
+    old_driver = CurrDriver;
+    old_mode = CurrMode;
+    old_device = CurrDevice;
+
+    // Verify new D3D device belongs to current DD driver
+    new_device = old_driver->FindDevice(D3D_guid, nullptr);
+    if (!new_device) {
+        result = DDERR_GENERIC;
+        // Output error.
+        return result;
+    }
+
+    //
+    //	Step 1. Verify new D3D device is supported with current mode
+    //
+    if (mode_hint)
+        new_mode = mode_hint;
+    else
+        new_mode = old_mode;
+    if (!new_mode->ModeSupported(new_device)) {
+        // We are a full screen app, so we can do what we want
+        // Pick a new mode that is compatible with this device
+        new_mode->GetMode(&w, &h, &bpp, &refresh);
+
+        new_mode = old_driver->FindModeSupportsDevice(w, h, bpp, 0, new_device, &next_best_mode);
+        if (!new_mode) {
+            if (!next_best_mode) {
+                // Error , no compatible mode found!!!
+                result = DDERR_GENERIC;
+                // Output error.
+                return result;
+            }
+            new_mode = next_best_mode;
+        }
+    }
+    if (new_mode == old_mode)
+        new_mode = nullptr;
+
+    //
+    //	Step 2.  Destroy Old D3D Device (and mode)
+    //
+    FiniBack();
+    if (new_mode) {
+        FiniFront();
+    }
+    VB_Term();
+
+    //
+    //	Step 3. Create new D3D Device (new mode optional)
+    //
+
+    // Set new D3D device (and mode)
+    if (new_mode)
+        CurrMode = new_mode;
+    CurrDevice = new_device;
+
+    // Create new mode, if necessary
+    if (new_mode) {
+        // Change Mode
+        result = InitFullscreenMode();
+        if (FAILED(result)) {
+            // Try to restore original mode and device
+            CurrDevice = old_device;
+            CurrMode = old_mode;
+
+            InitFullscreenMode();
+            InitFront();
+            InitBack();
+            VB_Init();
+            TheVPool->Create(lp_D3D, !CurrDevice->IsHardware());
+
+            return result;
+        }
+
+        // Create Primary
+        result = InitFront();
+        if (FAILED(result)) {
+            // Try to restore original mode and device
+            CurrDevice = old_device;
+            CurrMode = old_mode;
+
+            InitFullscreenMode();
+            InitFront();
+            InitBack();
+            VB_Init();
+            TheVPool->Create(lp_D3D, !CurrDevice->IsHardware());
+
+            return result;
+        }
+    }
+
+    // Create new D3D Device
+    result = InitBack();
+    if (FAILED(result)) {
+        // Try to restore original mode and device
+        if (new_mode)
+            CurrMode = old_mode;
+        CurrDevice = old_device;
+
+        if (new_mode) {
+            FiniFront();
+            InitFullscreenMode();
+            InitFront();
+            VB_Init();
+            TheVPool->Create(lp_D3D, !CurrDevice->IsHardware());
+        }
+
+        result = InitBack();
+        if (FAILED(result)) {
+            // Return Error
+            // Output result.
+            return result;
+        }
+    }
+
+    VB_Init();
+    TheVPool->Create(lp_D3D, !CurrDevice->IsHardware());
+
+    // Notify a display change.
+    DisplayChangedOn();
+
+    // Success
+    return DD_OK;
+}
+
+//---------------------------------------------------------------
+
 HRESULT Display::ChangeMode(
     std::int32_t w,
     std::int32_t h,
     std::int32_t bpp,
     std::int32_t refresh) {
     HRESULT result;
-    DDDriverInfo* old_driver;
+    DDDriverInfo *old_driver;
     DDModeInfo *new_mode,
         *old_mode;
     D3DDeviceInfo *new_device,
@@ -1750,7 +2253,7 @@ HRESULT Display::Restore() {
 HRESULT Display::AddLoadedTexture(D3DTexture* the_texture) {
 #ifdef DEBUG
     // Check that this isn't a circular list and that this texture isn't already loaded.
-    D3DTexture* t = TextureList;
+    D3DTexture *t = TextureList;
     int iCountdown = 10000;
     while (t != nullptr) {
         ASSERT(t != the_texture);
@@ -1784,7 +2287,7 @@ HRESULT Display::FreeLoadedTextures() {
         iCountdown--;
         if (iCountdown == 0) {
             // Oh dear - not good.
-            ASSERT(false);
+            ASSERT(FALSE);
             break;
         }
     }
@@ -1795,13 +2298,13 @@ HRESULT Display::FreeLoadedTextures() {
 static char clumpfile[MAX_PATH] = "";
 static size_t clumpsize = 0;
 
-void SetLastClumpfile(char* file, size_t size) {
+void SetLastClumpfile(char *file, size_t size) {
     strcpy(clumpfile, file);
     clumpsize = size;
 }
 
 HRESULT Display::ReloadTextures() {
-    D3DTexture* current_texture;
+    D3DTexture *current_texture;
 
     if (clumpfile[0]) {
         OpenTGAClump(clumpfile, clumpsize, true);
@@ -1809,7 +2312,7 @@ HRESULT Display::ReloadTextures() {
 
     current_texture = TextureList;
     while (current_texture) {
-        D3DTexture* next_texture = current_texture->NextTexture;
+        D3DTexture *next_texture = current_texture->NextTexture;
         current_texture->Reload();
         current_texture = next_texture;
     }
@@ -1848,11 +2351,28 @@ HRESULT Display::fromGDI() {
     return DD_OK;
 }
 
+void Display::MenuOn() {
+    if (IsFullScreen()) {
+        // Set the window style
+        SetMenu(hDDLibWindow, hDDLibMenu);
+        SetWindowLong(hDDLibWindow, GWL_STYLE, hDDLibStyle);
+        SetWindowLong(hDDLibWindow, GWL_EXSTYLE, hDDLibStyleEx);
+    }
+}
+
+void Display::MenuOff() {
+    if (IsFullScreen()) {
+        SetWindowLong(hDDLibWindow, GWL_STYLE, 0);
+        SetWindowLong(hDDLibWindow, GWL_EXSTYLE, 0);
+        SetMenu(hDDLibWindow, nullptr);
+    }
+}
+
 HRESULT Display::ShowWorkScreen() {
     return lp_DD_FrontSurface->Blt(&DisplayRect, lp_DD_WorkSurface, nullptr, DDBLT_WAIT, nullptr);
 }
 
-void* Display::screen_lock() {
+void *Display::screen_lock() {
     if (DisplayFlags & DISPLAY_LOCKED) {
         //
         // Don't do anything if you try to lock the screen twice in a row.
@@ -2015,6 +2535,58 @@ void Display::blit_back_buffer() {
     }
 }
 
+// create a background surface from a 640x480x24 image
+
+void CopyBackground16(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
+    DDSURFACEDESC2 mine;
+    HRESULT res;
+
+    InitStruct(mine);
+    res = surface->Lock(nullptr, &mine, DDLOCK_WAIT, nullptr);
+    if (FAILED(res)) return;
+
+    std::int32_t pitch = mine.lPitch >> 1;
+    std::uint16_t *mem = (std::uint16_t *) mine.lpSurface;
+    std::int32_t width;
+    std::int32_t height;
+
+    // stretch the image
+
+    std::int32_t sdx = 65536 * 640 / mine.dwWidth;
+    std::int32_t sdy = 65536 * 480 / mine.dwHeight;
+
+    std::int32_t lsy = -1;
+    std::int32_t sy = 0;
+    std::uint16_t *lmem = nullptr;
+
+    for (height = 0; (unsigned) height < mine.dwHeight; height++) {
+        std::uint8_t *src = image_data + 640 * 3 * (sy >> 16);
+
+        if ((sy >> 16) == lsy) {
+            // repeat line
+            memcpy(mem, lmem, mine.dwWidth * 2);
+        } else {
+            std::int32_t sx = 0;
+
+            for (width = 0; (unsigned) width < mine.dwWidth; width++) {
+                std::uint8_t *pp = src + 3 * (sx >> 16);
+
+                mem[width] = the_display.GetFormattedPixel(pp[2], pp[1], pp[0]);
+
+                sx += sdx;
+            }
+        }
+
+        lmem = mem;
+        lsy = sy >> 16;
+
+        mem += pitch;
+        sy += sdy;
+    }
+
+    surface->Unlock(nullptr);
+}
+
 void CopyBackground32(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
     DDSURFACEDESC2 mine;
     HRESULT res;
@@ -2024,7 +2596,7 @@ void CopyBackground32(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
     if (FAILED(res)) return;
 
     std::int32_t pitch = mine.lPitch >> 2;
-    std::uint32_t* mem = (std::uint32_t*) mine.lpSurface;
+    std::uint32_t* mem = (std::uint32_t *) mine.lpSurface;
     std::int32_t width;
     std::int32_t height;
 
@@ -2065,8 +2637,263 @@ void CopyBackground32(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
     surface->Unlock(nullptr);
 }
 
-void CopyBackground(std::uint8_t* image_data, IDirectDrawSurface4* surface) {
-    CopyBackground32(image_data, surface);
+// This uses my funky pixel format.
+// This only works to a 640x480,565 format image.
+// Packs surface (640x480,565 pixels - raw data) into image_data.
+// Returns the size of the packed version. You can pass in nullptr for image_data,
+// and it will just return the size, and not try to copy anything.
+int PackBackground(std::uint8_t *image_data, WORD *surface) {
+    // The two line buffers.
+    WORD wLine[2][640];
+    int iCurLineBuffer = 0;
+    int iPrevLineBuffer = 1;
+
+    int iTotalSize = 0;
+
+    for (int iY = 0; iY < 480; iY++) {
+        for (int iX = 0; iX < 640; iX++) {
+            WORD wPixel = surface[iX + 640 * iY];
+
+            WORD wNeighbourPixel[2];
+            // Find left pixel.
+            if (iX > 0) {
+                wNeighbourPixel[0] = wLine[iCurLineBuffer][iX - 1];
+            } else {
+                wNeighbourPixel[0] = 0;
+            }
+
+            // Find above pixel.
+            if (iY > 0) {
+                wNeighbourPixel[1] = wLine[iPrevLineBuffer][iX];
+            } else {
+                wNeighbourPixel[1] = 0;
+            }
+
+            // Now try both to see if they will work.
+            BYTE bData;
+            int iNeighbour;
+            for (iNeighbour = 0; iNeighbour < 2; iNeighbour++) {
+                bData = iNeighbour << 6;
+
+                WORD wMask;
+                WORD wShift;
+                WORD wPrev;
+                WORD wCur;
+
+                // Try the red channel.
+                wMask = 0xf800;
+                wShift = 11;
+                wPrev = (wNeighbourPixel[iNeighbour] & wMask) >> wShift;
+                wCur = (wPixel & wMask) >> wShift;
+                switch (wCur - wPrev) {
+                case 0:
+                case -1:
+                    // Cool. (the -1 is a fudge, but only loses a tiny bit of accuracy).
+                    bData |= (0 << 4);
+                    break;
+                case 1:
+                    // Yep.
+                    bData |= (1 << 4);
+                    break;
+                case 2:
+                    // Yep.
+                    bData |= (2 << 4);
+                    break;
+                case -2:
+                    // Yep.
+                    bData |= (3 << 4);
+                    break;
+                default:
+                    // No - out of range - try the next neighbour.
+                    continue;
+                }
+
+                // Try the green channel.
+                wMask = 0x07e0;
+                wShift = 5;
+                wPrev = (wNeighbourPixel[iNeighbour] & wMask) >> wShift;
+                wCur = (wPixel & wMask) >> wShift;
+                switch (wCur - wPrev) {
+                case 0:
+                case -1:
+                    // Cool. (the -1 is a fudge, but only loses a tiny bit of accuracy).
+                    bData |= (0 << 2);
+                    break;
+                case 1:
+                    // Yep.
+                    bData |= (1 << 2);
+                    break;
+                case 2:
+                    // Yep.
+                    bData |= (2 << 2);
+                    break;
+                case -2:
+                    // Yep.
+                    bData |= (3 << 2);
+                    break;
+                default:
+                    // No - out of range - try the next neighbour.
+                    continue;
+                }
+
+                // Try the blue channel.
+                wMask = 0x001f;
+                wShift = 0;
+                wPrev = (wNeighbourPixel[iNeighbour] & wMask) >> wShift;
+                wCur = (wPixel & wMask) >> wShift;
+                switch (wCur - wPrev) {
+                case 0:
+                case -1:
+                    // Cool. (the -1 is a fudge, but only loses a tiny bit of accuracy).
+                    bData |= (0 << 0);
+                    break;
+                case 1:
+                    // Yep.
+                    bData |= (1 << 0);
+                    break;
+                case 2:
+                    // Yep.
+                    bData |= (2 << 0);
+                    break;
+                case -2:
+                    // Yep.
+                    bData |= (3 << 0);
+                    break;
+                default:
+                    // No - out of range - try the next neighbour.
+                    continue;
+                }
+
+                // OK, that worked - stop looking.
+                break;
+            }
+
+            if (iNeighbour == 2) {
+                // Nope - have to store the pixel raw.
+                // But convert to 555 first.
+                if (image_data != nullptr) {
+                    // Format 565: rrrr rggg gggb bbbb
+                    // Convert to: 0rrr rrgg gggb bbbb
+                    // And set top bit to say it's raw data.
+                    image_data[0] = (wPixel >> 9) | 0x80;
+                    image_data[1] = ((wPixel & 0x01c0) >> 1) | (wPixel & 0x001f);
+                    image_data += 2;
+                }
+                iTotalSize += 2;
+
+                // And remember to put this into the line buffer, remembering to chop off the bottom
+                // bit of green, but we don't actually convert to 555.
+                wLine[iCurLineBuffer][iX] = wPixel & 0xffdf;
+            } else {
+                // Cool - we could do it.
+                if (image_data != nullptr) {
+                    *image_data++ = bData;
+                }
+                iTotalSize += 1;
+
+                // And write back this version into the line buffer.
+
+                WORD wPixel;
+                if (bData & 0x40) {
+                    // d bit is set - use pixel above.
+                    wPixel = wNeighbourPixel[1];
+                } else {
+                    // d bit is clear - use pixel to left.
+                    wPixel = wNeighbourPixel[0];
+                }
+                // Now modify by the two-bit-fields for each colour.
+
+                WORD wMask;
+                WORD wBottomBit;
+                WORD wComponent;
+
+                // Red.
+                wMask = 0xf800;
+                wBottomBit = 0x0800;
+                switch ((bData & 0x30) >> 4) {
+                case 0:
+                    // No change.
+                    break;
+                case 1:
+                    // Plus 1 (with wraparound)
+                    wComponent = (wPixel & wMask) + wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                case 2:
+                    // Plus 2 (with wraparound)
+                    wComponent = (wPixel & wMask) + wBottomBit + wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                case 3:
+                    // Minus 2 (with wraparound)
+                    wComponent = (wPixel & wMask) - wBottomBit - wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                }
+
+                // Green.
+                wMask = 0x07e0;
+                wBottomBit = 0x0020;
+                switch ((bData & 0x0c) >> 2) {
+                case 0:
+                    // No change.
+                    break;
+                case 1:
+                    // Plus 1 (with wraparound)
+                    wComponent = (wPixel & wMask) + wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                case 2:
+                    // Plus 2 (with wraparound)
+                    wComponent = (wPixel & wMask) + wBottomBit + wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                case 3:
+                    // Minus 2 (with wraparound)
+                    wComponent = (wPixel & wMask) - wBottomBit - wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                }
+
+                // Blue.
+                wMask = 0x001f;
+                wBottomBit = 0x0001;
+                switch ((bData & 0x03) >> 0) {
+                case 0:
+                    // No change.
+                    break;
+                case 1:
+                    // Plus 1 (with wraparound)
+                    wComponent = (wPixel & wMask) + wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                case 2:
+                    // Plus 2 (with wraparound)
+                    wComponent = (wPixel & wMask) + wBottomBit + wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                case 3:
+                    // Minus 2 (with wraparound)
+                    wComponent = (wPixel & wMask) - wBottomBit - wBottomBit;
+                    wPixel = (wPixel & ~wMask) | (wComponent & wMask);
+                    break;
+                }
+
+                wLine[iCurLineBuffer][iX] = wPixel;
+            }
+        }
+        iPrevLineBuffer = iCurLineBuffer;
+        iCurLineBuffer = 1 - iCurLineBuffer;
+    }
+
+    return (iTotalSize);
+}
+
+void CopyBackground(std::uint8_t *image_data, IDirectDrawSurface4 *surface) {
+    if (the_display.CurrMode->GetBPP() == 16)
+        CopyBackground16(image_data, surface);
+    else
+        CopyBackground32(image_data, surface);
 }
 
 void PANEL_ResetDepthBodge();
@@ -2216,4 +3043,450 @@ void Display::SetGamma(int black, int white) {
 void Display::GetGamma(int* black, int* white) {
     *black = ENV_get_value_number("BlackPoint", 0, "Gamma");
     *white = ENV_get_value_number("WhitePoint", 256, "Gamma");
+}
+
+//
+// DIALOG BOX
+//
+
+static bool is_primary = false;
+static bool is_secondary = false;
+static DDDriverInfo *primary_driver;
+static DDDriverInfo *secondary_driver;
+
+//
+// Returns TRUE if the current Video3DMode support 16 or 32-bit colour.
+//
+
+#define SUPPORTS_16 (1 << 0)
+#define SUPPORTS_32 (1 << 2)
+
+std::int32_t CurrentVideo3DModeSupports() {
+    std::int32_t ans = 0;
+
+    switch (Video3DMode) {
+    case 0:
+
+        ASSERT(primary_driver);
+
+        if (primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_16BIT) { ans |= SUPPORTS_16; }
+        if (primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT) { ans |= SUPPORTS_32; }
+
+        break;
+
+    case 1:
+
+        ASSERT(secondary_driver);
+
+        if (secondary_driver->DriverFlags & DD_DRIVER_SUPPORTS_16BIT) { ans |= SUPPORTS_16; }
+        if (secondary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT) { ans |= SUPPORTS_32; }
+
+        break;
+
+    case 2:
+
+        if (primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT) {
+            ans = SUPPORTS_32;
+        } else {
+            ans = SUPPORTS_16;
+        }
+
+        break;
+
+    default:
+        ASSERT(0);
+        break;
+    }
+
+    return ans;
+}
+
+static void InitDialog(HWND hWnd) {
+    // centre window
+    RECT winsize;
+    RECT scrsize;
+
+    GetWindowRect(hWnd, &winsize);
+    GetClientRect(GetDesktopWindow(), &scrsize);
+
+    int xoff = ((scrsize.right - scrsize.left) - (winsize.right - winsize.left)) / 2;
+    int yoff = ((scrsize.bottom - scrsize.top) - (winsize.bottom - winsize.top)) / 2;
+
+    SetWindowPos(hWnd, nullptr, xoff, yoff, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
+
+    // localise this bastard
+    char *lang = ENV_get_value_string("language");
+
+    if (!lang) lang = "text\\lang_english.txt";
+    XLAT_load(lang);
+    XLAT_init();
+    SetDlgItemTextA(hWnd, IDC_GRAPHICS_OPTIONS, XLAT_str(X_GRAPHICS));
+    SetDlgItemTextA(hWnd, IDC_STATIC_3DCARD, XLAT_str(X_3DCARD));
+    SetDlgItemTextA(hWnd, IDC_STATIC_BITDEPTH, XLAT_str(X_NUM_COLOURS));
+    SetDlgItemTextA(hWnd, IDC_STATIC_RES, XLAT_str(X_RESOLUTION));
+    SetDlgItemTextA(hWnd, IDC_PRIMARY_3D, XLAT_str(X_USE_PRIMARY));
+    SetDlgItemTextA(hWnd, IDC_SECONDARY_3D, XLAT_str(X_USE_SECONDARY));
+    SetDlgItemTextA(hWnd, IDC_COLOURS_16, XLAT_str(X_16BIT));
+    SetDlgItemTextA(hWnd, IDC_COLOURS_32, XLAT_str(X_24BIT));
+    SetDlgItemTextA(hWnd, IDC_NOSHOW, XLAT_str(X_DO_NOT_SHOW));
+    SetDlgItemTextA(hWnd, IDOK, XLAT_str(X_OKAY));
+    SetDlgItemTextA(hWnd, IDCANCEL, XLAT_str(X_EXIT));
+
+    // get windows
+    HWND primary3D = GetDlgItem(hWnd, IDC_PRIMARY_3D);
+    HWND secondary3D = GetDlgItem(hWnd, IDC_SECONDARY_3D);
+
+    HWND colour16 = GetDlgItem(hWnd, IDC_COLOURS_16);
+    HWND colour32 = GetDlgItem(hWnd, IDC_COLOURS_32);
+
+    HWND res = GetDlgItem(hWnd, IDC_RESOLUTION);
+
+    HWND noshow = GetDlgItem(hWnd, IDC_NOSHOW);
+
+    // set 3D card buttons
+    EnableWindow(primary3D, is_primary);
+    EnableWindow(secondary3D, is_secondary);
+
+    //
+    // Always have software available- just for now.
+    //
+
+    if (Video3DMode == 1 && !is_secondary) {
+        //
+        // Argh! Use primary!
+        //
+
+        Video3DMode = 0;
+    }
+
+    //
+    // Does the card support our bit depth?
+    //
+
+    std::int32_t supports = CurrentVideo3DModeSupports();
+
+    if (VideoTrueColour == 1 && !(supports & SUPPORTS_32)) {
+        VideoTrueColour = 0;
+    }
+
+    if (VideoTrueColour == 0 && !(supports & SUPPORTS_16)) {
+        VideoTrueColour = 1;
+    }
+
+    EnableWindow(colour16, !!(supports & SUPPORTS_16));
+    EnableWindow(colour32, !!(supports & SUPPORTS_32));
+
+    SendMessage(primary3D, BM_SETCHECK, (Video3DMode == 0) ? BST_CHECKED : BST_UNCHECKED, 0);
+    SendMessage(secondary3D, BM_SETCHECK, (Video3DMode == 1) ? BST_CHECKED : BST_UNCHECKED, 0);
+
+    // set colour buttons
+    SendMessage(colour16, BM_SETCHECK, !VideoTrueColour ? BST_CHECKED : BST_UNCHECKED, 0);
+    SendMessage(colour32, BM_SETCHECK, VideoTrueColour ? BST_CHECKED : BST_UNCHECKED, 0);
+
+    // set resolutions
+
+    switch (Video3DMode) {
+    case 0:
+
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "320 x 240");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "512 x 384");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "640 x 480");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "800 x 600");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "1024 x 768");
+
+        break;
+
+    case 1:
+
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "512 x 384");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "640 x 480");
+
+        if (secondary_driver->DriverFlags & DD_DRIVER_MODE_1024) {
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "800 x 600");
+
+            SATURATE(VideoRes, 0, 2);
+        } else {
+            SATURATE(VideoRes, 0, 1);
+        }
+
+        break;
+
+    case 2:
+
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "320 x 240");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "512 x 384");
+
+        SATURATE(VideoRes, 0, 1);
+
+        break;
+    }
+
+    SendMessage(res, CB_SETCURSEL, VideoRes, 0);
+
+    //
+    // Get MFX_MILES.cpp to initialise the sound part of our dialog box.
+    //
+}
+
+static void FinishDialog(HWND hWnd) {
+    // get windows
+    HWND primary3D = GetDlgItem(hWnd, IDC_PRIMARY_3D);
+    HWND secondary3D = GetDlgItem(hWnd, IDC_SECONDARY_3D);
+
+    HWND colour16 = GetDlgItem(hWnd, IDC_COLOURS_16);
+    HWND colour32 = GetDlgItem(hWnd, IDC_COLOURS_32);
+
+    HWND res = GetDlgItem(hWnd, IDC_RESOLUTION);
+
+    // HWND	noshow = GetDlgItem(hWnd, IDC_NOSHOW);
+
+    if (SendMessage(primary3D, BM_GETCHECK, 0, 0))
+        Video3DMode = 0;
+    else if (SendMessage(secondary3D, BM_GETCHECK, 0, 0))
+        Video3DMode = 1;
+    else
+        Video3DMode = 2;
+
+    if (SendMessage(colour16, BM_GETCHECK, 0, 0))
+        VideoTrueColour = false;
+    else
+        VideoTrueColour = true;
+
+    VideoRes = SendMessage(res, CB_GETCURSEL, 0, 0);
+
+    if (Video3DMode == 1) {
+        VideoRes += 1;
+    }
+}
+
+static BOOL CALLBACK dlgproc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    switch (message) {
+    case WM_INITDIALOG:
+        InitDialog(hWnd);
+        return TRUE;
+
+    case WM_COMMAND:
+
+        switch (LOWORD(wParam)) {
+        case IDOK:
+            FinishDialog(hWnd);
+            EndDialog(hWnd, 0);
+            return TRUE;
+
+        case IDCANCEL:
+            //
+            // End everything!
+            //
+
+            extern void MFX_term();
+
+            MFX_term();
+            the_manager.Fini();
+
+            exit(1);
+
+        case IDC_PRIMARY_3D:
+
+        {
+            HWND colour16 = GetDlgItem(hWnd, IDC_COLOURS_16);
+            HWND colour32 = GetDlgItem(hWnd, IDC_COLOURS_32);
+            HWND res = GetDlgItem(hWnd, IDC_RESOLUTION);
+
+            //
+            // Enable diable the colour buttons.
+            //
+
+            EnableWindow(colour16, !!(primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_16BIT));
+            EnableWindow(colour32, !!(primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT));
+
+            if (SendMessage(colour16, BM_GETCHECK, 0, 0)) {
+                if (!(primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_16BIT)) {
+                    SendMessage(colour16, BM_SETCHECK, FALSE, 0);
+                    SendMessage(colour32, BM_SETCHECK, TRUE, 0);
+                }
+            } else {
+                if (!(primary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT)) {
+                    SendMessage(colour16, BM_SETCHECK, TRUE, 0);
+                    SendMessage(colour32, BM_SETCHECK, FALSE, 0);
+                }
+            }
+
+            // set resolutions
+
+            SendMessage(res, CB_RESETCONTENT, 0, 0);
+
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "320 x 240");
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "512 x 384");
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "640 x 480");
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "800 x 600");
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "1024 x 768");
+
+            SendMessage(res, CB_SETCURSEL, VideoRes, 0);
+
+        }
+
+        break;
+
+        case IDC_SECONDARY_3D:
+
+        {
+            HWND colour16 = GetDlgItem(hWnd, IDC_COLOURS_16);
+            HWND colour32 = GetDlgItem(hWnd, IDC_COLOURS_32);
+            HWND res = GetDlgItem(hWnd, IDC_RESOLUTION);
+
+            //
+            // Enable diable the colour buttons.
+            //
+
+            EnableWindow(colour16, !!(secondary_driver->DriverFlags & DD_DRIVER_SUPPORTS_16BIT));
+            EnableWindow(colour32, !!(secondary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT));
+
+            if (SendMessage(colour16, BM_GETCHECK, 0, 0)) {
+                if (!(secondary_driver->DriverFlags & DD_DRIVER_SUPPORTS_16BIT)) {
+                    SendMessage(colour16, BM_SETCHECK, FALSE, 0);
+                    SendMessage(colour32, BM_SETCHECK, TRUE, 0);
+                }
+            } else {
+                if (!(secondary_driver->DriverFlags & DD_DRIVER_SUPPORTS_32BIT)) {
+                    SendMessage(colour16, BM_SETCHECK, TRUE, 0);
+                    SendMessage(colour32, BM_SETCHECK, FALSE, 0);
+                }
+            }
+
+            // set resolutions
+
+            SendMessage(res, CB_RESETCONTENT, 0, 0);
+
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "512 x 384");
+            SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "640 x 480");
+
+            if (secondary_driver->DriverFlags & DD_DRIVER_MODE_1024) {
+                SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "800 x 600");
+
+                SATURATE(VideoRes, 0, 2);
+            } else {
+                SATURATE(VideoRes, 0, 1);
+            }
+
+            SendMessage(res, CB_SETCURSEL, VideoRes, 0);
+
+            break;
+        }
+
+        break;
+        }
+
+        break;
+    }
+
+    return FALSE;
+}
+
+//
+// Returns TRUE if the driver has a harware mode that allowed alpha textures...
+//
+
+std::int32_t valid_driver(DDDriverInfo *drv) {
+    D3DDeviceInfo *d3d;
+
+    if (drv == nullptr) {
+        return FALSE;
+    }
+
+    for (d3d = drv->DeviceList; d3d; d3d = d3d->Next) {
+        if (d3d->IsHardware()) {
+            if (d3d->d3dHalDesc.dpcTriCaps.dwTextureCaps & D3DPTEXTURECAPS_ALPHA) {
+                return TRUE;
+            }
+        }
+    }
+
+    return FALSE;
+}
+
+// GraphicsDialog
+//
+// do the dialog box
+
+void GraphicsDialog(HINSTANCE hInst, HWND hWnd) {
+    // read existing config (if any)
+    Video3DMode = ENV_get_value_number("video_card", -1, "Render");
+    VideoTrueColour = ENV_get_value_number("video_truecolour", 0, "Render") ? true : false;
+    VideoRes = ENV_get_value_number("video_res", -1, "Render");
+
+    is_primary = false;
+    is_secondary = false;
+    primary_driver = nullptr;
+    secondary_driver = nullptr;
+
+    // check for 1ry and 2ry cards
+    DDDriverInfo *drv = the_manager.DriverList;
+
+    while (drv) {
+        if (drv->IsPrimary()) {
+            is_primary = true;
+            primary_driver = drv;
+        } else {
+            is_secondary = true;
+            secondary_driver = drv;
+        }
+
+        drv = drv->Next;
+    }
+
+    //
+    // Ban incompatible drivers?
+    //
+
+    if (!valid_driver(primary_driver)) {
+        is_primary = FALSE;
+        primary_driver = nullptr;
+    }
+    if (!valid_driver(secondary_driver)) {
+        is_secondary = FALSE;
+        secondary_driver = nullptr;
+    }
+
+    // ban illegal settings
+    if ((Video3DMode == 0) && !is_primary) Video3DMode = -1;
+    if ((Video3DMode == 1) && !is_secondary) Video3DMode = -1;
+
+    // set default card
+    if (Video3DMode == -1) {
+        if (is_primary)
+            Video3DMode = 0;
+        else if (is_secondary)
+            Video3DMode = 1;
+        else
+            Video3DMode = 2;
+    }
+
+    // set default res
+    if (VideoRes == -1) {
+        if (Video3DMode < 2)
+            VideoRes = 2;
+        else
+            VideoRes = 0;
+    }
+
+    DialogBox(hInst, MAKEINTRESOURCE(IDD_GRAPHICSDLG), hWnd, (DLGPROC) dlgproc);
+
+    // store config
+    ENV_set_value_number("video_card", Video3DMode, "Render");
+    ENV_set_value_number("video_truecolour", VideoTrueColour ? 1 : 0, "Render");
+    ENV_set_value_number("video_res", VideoRes, "Render");
+
+    // look for illegal shit
+    char *err = nullptr;
+
+    if (err) {
+        MessageBox(nullptr, err, nullptr, MB_ICONEXCLAMATION);
+        exit(1);
+    }
+
+    if (Video3DMode == 0) {
+        the_manager.CurrDriver = primary_driver;
+    } else if (Video3DMode == 1) {
+        the_manager.CurrDriver = secondary_driver;
+    }
 }
