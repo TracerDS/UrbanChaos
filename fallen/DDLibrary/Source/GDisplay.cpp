@@ -285,6 +285,10 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
         width = 1024;
         height = 768;
         break;
+    case 5:
+        width = 1920;
+        height = 1080;
+        break;
     }
 
     if (flags & FLAGS_USE_3D)
@@ -3193,6 +3197,7 @@ static void InitDialog(HWND hWnd) {
         SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "640 x 480");
         SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "800 x 600");
         SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "1024 x 768");
+        SendMessage(res, CB_INSERTSTRING, -1, (LPARAM) "1920 x 1080");
 
         break;
 
