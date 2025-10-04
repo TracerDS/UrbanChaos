@@ -297,8 +297,10 @@ std::int32_t OpenDisplay(std::uint32_t width, std::uint32_t height, std::uint32_
     if (flags & FLAGS_USE_WORKSCREEN)
         the_display.UseWorkOn();
 
-    the_display.FullScreenOff();
-
+    if (ENV_get_value_number("windowed_mode", -1, "Render") == 1)
+        the_display.FullScreenOff();
+    else
+        the_display.FullScreenOn();
     result = SetDisplay(width, height, depth);
 
     return result;
@@ -3231,6 +3233,15 @@ static void InitDialog(HWND hWnd) {
     //
     // Get MFX_MILES.cpp to initialise the sound part of our dialog box.
     //
+
+    if (ENV_get_value_number("windowed_mode", -1, "Render") == 1) 
+    {
+        CheckDlgButton(hWnd, IDC_WINDOWED_MODE, BST_CHECKED);
+    } 
+    else 
+    {
+        CheckDlgButton(hWnd, IDC_WINDOWED_MODE, BST_UNCHECKED);
+    }
 }
 
 static void FinishDialog(HWND hWnd) {
@@ -3261,6 +3272,15 @@ static void FinishDialog(HWND hWnd) {
 
     if (Video3DMode == 1) {
         VideoRes += 1;
+    }
+
+    if (IsDlgButtonChecked(hWnd, IDC_WINDOWED_MODE) == BST_CHECKED)
+    {
+        ENV_set_value_number("windowed_mode", 1, "Render");
+    }
+    else
+    {
+        ENV_set_value_number("windowed_mode", 0, "Render");
     }
 }
 
